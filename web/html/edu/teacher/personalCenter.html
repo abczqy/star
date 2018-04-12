@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../css/layui.css">
+    <title>personalCenter</title>
+    <style type="text/css">
+        body {
+            background-color: rgba(244, 244, 244, 1);
+        }
+
+        header {
+            height: 30px;
+            width: 100%;
+            background-color: rgba(242, 242, 242, 1);
+        }
+
+        header .content {
+            width: 1200px;
+            height: 30px;
+            line-height: 30px;
+            margin: 0 auto;
+        }
+
+        header .content .welcome,
+        header .content .info {
+            display: inline-block;
+        }
+
+        header .content .welcome {
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #666666;
+        }
+
+        header .content .info {
+            float: right;
+        }
+
+        header .content .info a {
+            cursor: pointer;
+        }
+
+        header .content .info .message {
+            width: 19px;
+            height: 19px;
+        }
+
+        header .content .info .setting {
+            width: 25px;
+            height: 25px;
+        }
+
+        header .content .info .switch {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ------------------------------------------- */
+
+        .logoArea {
+            width: 100%;
+            height: 63px;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .logoArea .content {
+            width: 1200px;
+            height: 63px;
+            line-height: 63px;
+            margin: 0 auto;
+        }
+
+        .logoArea .content .logo {
+            width: 171px;
+            height: 27px;
+        }
+
+        .logoArea .content .search {
+            float: right;
+        }
+
+        .logoArea .content .search input {
+            width: 200px;
+            height: 32px;
+            padding-left: 12px;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-size: 12px;
+            color: #A1A1A1;
+            border: 1px solid rgba(215, 215, 215, 1);
+            border-radius: 100px;
+            box-sizing: border-box;
+            box-shadow: none;
+            /* background-color: rgba(255, 255, 255, 1); */
+            background-image: url(../images/extra/search.png);
+        }
+
+        /* --------------------------------------------------- */
+
+        nav {
+            width: 100%;
+            height: 40px;
+            background-color: rgba(24, 144, 255, 1);
+        }
+
+        nav .tab {
+            width: 1200px;
+            height: 40px;
+            line-height: 40px;
+            margin: 0 auto;
+        }
+
+        nav .tab a {
+            width: 84px;
+            height: 40px;
+            text-align: center;
+            margin-right: 6px;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            color: #FFFFFF;
+            transition: all 1s;
+            display: inline-block;
+        }
+
+        nav .tab .active {
+            background-color: rgba(19, 125, 226, 1);
+        }
+
+        nav .tab a:hover {
+            background-color: rgba(19, 125, 226, 1);
+        }
+
+        /* -------------------------------------------------- */
+
+        .own {
+            width: 100%;
+            height: auto;
+        }
+
+        .own .myapp,
+        .own .mycollection {
+            width: 1200px;
+            height: auto;
+            margin: 10px auto;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .own .myapp {
+            margin-top: 20px;
+        }
+
+        .own .info {
+            width: 100%;
+            height: 48px;
+            line-height: 48px;
+            padding-left: 20px;
+            padding-right: 30px;
+            box-sizing: border-box;
+            font-weight: 500;
+            font-style: normal;
+            font-size: 16px;
+            font-family: PingFangSC-Medium, "PingFang SC Medium", "PingFang SC";
+
+        }
+
+        .own .info .operation {
+            float: right;
+            font-family: ArialMT, Arial;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: rgb(51, 51, 51);
+            /* text-align: center;
+            line-height: normal; */
+        }
+
+        .own .info .operation span {
+            cursor: pointer;
+        }
+
+        .own .info .operation img {
+            margin-top: -2px;
+            width: 12px;
+            height: 12px;
+        }
+
+        .own .application,
+        .own .collection {
+            margin: 20px 30px 40px 20px;
+        }
+        .own .collection{
+            margin-bottom: 32px;
+        }
+
+        .own .application .card,
+        .own .mycollection .card {
+            width: 220px;
+            height: 92px;
+            line-height: 92px;
+            border: 1px solid rgba(242, 242, 242, 1);
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+            margin-right: 8px;
+            box-sizing: border-box;
+        }
+        .own .mycollection .card{
+            height: 126px;
+        }
+
+        .own .application .card:nth-of-type(5n),
+        .own .mycollection .card:nth-of-type(5n) {
+            margin-right: 0px;
+        }
+
+        .own .application .card .detail,
+        .own .mycollection .card .detail {
+            width: 100%;
+            margin: 0px;
+            position: relative;
+        }
+
+        .own .application .card img,
+        .own .mycollection .card img {
+            width: 75px;
+            height: 74px;
+            margin-left: 10px;
+        }
+
+        .own .application .card .detail span:nth-child(2),
+        .own .mycollection .card .detail span:nth-child(2) {
+            top: -16px;
+            left: 96px;
+            position: absolute;
+            display: inline-block;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            color: #474747;
+        }
+
+        .own .application .card .detail span:nth-child(3),
+        .own .mycollection .card .detail span:nth-child(3) {
+            top: 10px;
+            left: 96px;
+            position: absolute;
+            display: inline-block;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #999999;
+        }
+
+        .own .application .card .detail img:nth-child(4),
+        .own .mycollection .card .detail img:nth-child(4) {
+            top: 8px;
+            left: 184px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        .own .mycollection .card .down {
+            width: 100%;
+            height: 32px;
+            line-height: 32px;
+            background-color: rgba(250, 250, 250, 1);
+        }
+        .own .mycollection .card .down a,
+        .own .mycollection .card .down img {
+            width: 23px;
+            height: 23px;
+            line-height: 23px;
+            display: inline-block;
+        }
+        .own .mycollection .card .down img{
+            margin-left: 0px;
+        }
+
+        .own .mycollection .card .down .downIcon {
+            background-color: rgba(8, 161, 233, 1);
+            border: none;
+            margin-left:154px; 
+            border-radius: 2px;
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+
+        .own .mycollection .card .down .downText {
+            width: 37px;
+            height: 23px;
+            line-height: 23px;
+            text-align: center;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #FFFFFF;
+            display: inline-block;
+            border: none;
+            border-radius: 2px;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            background-color: rgba(64, 179, 249, 1);
+        }
+
+        /* ------------------------------------------------ */
+
+        footer {
+            width: 100%;
+            height: 65px;
+            padding-top: 10px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 1);
+        }
+
+        footer .content {
+            width: 588px;
+            height: 48px;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #868686;
+            text-align: center;
+            line-height: 24px;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="content">
+            <div class="welcome">
+                <span>欢迎您，xxx</span>
+            </div>
+            <div class="info">
+                <a href="#">
+                    <img src="../../../images/extra/message.png" alt="消息" class="message">
+                    <span class="layui-badge-dot"></span>
+                </a>
+                <a href="#">
+                    <img src="../../../images/extra/setting.png" alt="设置" class="setting">
+                </a>
+                <a href="#">
+                    <img src="../../../images/extra/switch.png" alt="退出" class=switch>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="logoArea">
+        <div class="content">
+            <img src="../../../images/extra/logo.png" alt="logo" class="logo">
+            <div class="search">
+                <input type="text" value="搜索应用名称">
+            </div>
+        </div>
+    </div>
+    <nav>
+        <div class="tab">
+            <a href="#">
+                <span>首页</span>
+            </a>
+            <a href="#">
+                <span>全部应用</span>
+            </a>
+            <a href="#" class="active">
+                <span>个人中心</span>
+            </a>
+        </div>
+    </nav>
+    <div class="own">
+        <div class="myapp">
+            <div class="info">
+                我的应用
+                <div class="operation">
+                    <span>删除</span> &nbsp|&nbsp
+                    <span>展开</span>
+                    <img src="../../../images/extra/u4008.png" alt="open">
+                </div>
+            </div>
+            <hr style="margin-top:0px;" />
+            <div class="application">
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3416.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3416.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="mycollection">
+            <div class="info">
+                我的收藏
+                <div class="operation">
+                    <span>删除</span> &nbsp|&nbsp
+                    <span>展开</span>
+                    <img src="../../../images/extra/u4008.png" alt="open">
+                </div>
+            </div>
+            <hr style="margin-top:0px;" />
+            <div class="collection">
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3416.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                        <div class="down">
+                                <a href="#" class="downIcon">
+                                    <img src="../../../images/extra/u2588.png" alt="">
+                                </a><a href="#" class="downText">下载</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                        <div class="down">
+                                <a href="#" class="downIcon">
+                                    <img src="../../../images/extra/u2588.png" alt="">
+                                </a><a href="#" class="downText">下载</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                        <div class="down">
+                                <a href="#" class="downIcon">
+                                    <img src="../../../images/extra/u2588.png" alt="">
+                                </a><a href="#" class="downText">下载</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3416.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                        <div class="down">
+                                <a href="#" class="downIcon">
+                                    <img src="../../../images/extra/u2588.png" alt="">
+                                </a><a href="#" class="downText">下载</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                        <div class="down">
+                                <a href="#" class="downIcon">
+                                    <img src="../../../images/extra/u2588.png" alt="">
+                                </a><a href="#" class="downText">下载</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="detail">
+                        <img src="../../../images/extra/u3420.png" alt="">
+                        <span>超级教师</span>
+                        <span>超级教师网站结合...</span>
+                        <img src="../../../images/extra/u4019.png" alt="" style="width:16px;height:14px;">
+                        <div class="down">
+                                <a href="#" class="downIcon">
+                                    <img src="../../../images/extra/u2588.png" alt="">
+                                </a><a href="#" class="downText">下载</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="content">
+            <p>
+                <span>福建省教育厅主办 技术运营支持： 福建星云电子股份有限公司 </span>
+            </p>
+            <p>
+                <span>Copyright©2016 www.fjedu.cn All rights reserved 闽ICP备15000147号</span>
+            </p>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../../css/layui.css">
+    <title>accountSetting</title>
+    <style>
+        body {
+            background-color: rgba(244, 244, 244, 1);
+        }
+
+        header {
+            height: 30px;
+            width: 100%;
+            background-color: rgba(242, 242, 242, 1);
+        }
+
+        header .content {
+            width: 1200px;
+            height: 30px;
+            line-height: 30px;
+            margin: 0 auto;
+        }
+
+        header .content .welcome,
+        header .content .info {
+            display: inline-block;
+        }
+
+        header .content .welcome {
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #666666;
+        }
+
+        header .content .info {
+            float: right;
+        }
+
+        header .content .info a {
+            cursor: pointer;
+        }
+
+        header .content .info .message {
+            width: 19px;
+            height: 19px;
+        }
+
+        header .content .info .setting {
+            width: 25px;
+            height: 25px;
+        }
+
+        header .content .info .switch {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* --------------------------------------------- */
+
+        .logoArea {
+            width: 100%;
+            height: 92px;
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 0px 12px 0px rgba(242, 242, 242, 0.6);
+        }
+
+        .logoArea .content {
+            width: 1200px;
+            height: 92px;
+            line-height: 92px;
+            margin: 0 auto;
+        }
+
+        .logoArea .content .logo {
+            width: 171px;
+            height: 27px;
+        }
+
+        /* --------------------------------------------------- */
+
+        .account {
+            width: 1200px;
+            height: 354px;
+            margin: 14px auto;
+            border: 1px solid #e4e4e4;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .account .safety {
+            width: 100%;
+            height: 46px;
+            padding-left: 22px;
+            line-height: 46px;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(228, 228, 228, 1);
+            background-color: #f8f8f8;
+        }
+
+        .account .info {
+            width: 1158px;
+            height: 308px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .info li {
+            height: 77px;
+            line-height: 77px;
+        }
+
+        .info li .warning ,.info li .success{
+            margin-top: -6px;
+            margin-left: 52px;
+            margin-right: 24px;
+        }
+        .info li .warning{
+            width: 28px;
+            height: 28px;
+        }
+        .info li .success{
+            width: 26px;
+            height: 26px;
+        }
+
+        .info li span {
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 20px;
+            margin-right: 42px;
+            color: #666666;
+        }
+
+        .info li .verticalLine{
+            width: 1px;
+            height: 36px;
+            margin-top: -6px;
+            margin-right: 20px;
+        }
+        .info li .caution{
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #CF3A4B;  
+        }
+        .info li .caution span{
+            margin: 0px;
+        }
+        .info li .caution .text{
+            color:#999;
+            font-size:12px;
+        }
+        .info li .caution .numblerText{
+            font-weight:650;
+            color:#666;
+            font-size:14px;
+        }
+        .info li .modify{
+            float: right;
+            margin-right: 174px;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #1890FF;
+        }
+
+        hr {
+            margin: 0px;
+        }
+
+
+        /* ------------------------------------------------ */
+
+        footer {
+            width: 100%;
+            height: 65px;
+            padding-top: 10px;
+            margin-top: 208px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 1);
+        }
+
+        footer .content {
+            width: 588px;
+            height: 48px;
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #868686;
+            text-align: center;
+            line-height: 24px;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="content">
+            <div class="welcome">
+                <span>欢迎您，xxx</span>
+            </div>
+            <div class="info">
+                <a href="#">
+                    <img src="../../../images/extra/message.png" alt="消息" class="message">
+                    <span class="layui-badge-dot"></span>
+                </a>
+                <a href="#">
+                    <img src="../../../images/extra/setting.png" alt="设置" class="setting">
+                </a>
+                <a href="#">
+                    <img src="../../../images/extra/switch.png" alt="退出" class="switch">
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="logoArea">
+        <div class="content">
+            <img src="../../../images/extra/logo.png" alt="logo" class="logo">
+        </div>
+    </div>
+
+    <div class="account">
+        <div class="safety">账号安全</div>
+        <div class="info">
+            <ul>
+                <li>
+                    <img src="../../../images/extra/u5113.png" alt="warning" class="warning">
+                    <span>登录密码</span>
+                    <img src="../../../images/extra/u5115.png" class="verticalLine">
+                    <span class="caution">请设置登录密码</span>
+                    <a href="#" class="modify">修改</a>
+                    <hr />
+                </li>
+                <li>
+                    <img src="../../../images/extra/u5126.png" alt="success" class="success">
+                    <span>手机验证</span>
+                    <img src="../../../images/extra/u5115.png" class="verticalLine">
+                    <span class="caution">
+                        <span class="text">您验证的手机：</span>
+                        <span class="numblerText">188*****980</span>
+                        <span class="text">若已丢失或停用，请立即更换，</span>
+                        避免账户被盗
+                    </span>
+                    <a href="#" class="modify">修改</a>
+                    
+                    <hr />
+                </li>
+                <li>
+                    <img src="../../../images/extra/u5126.png" alt="success" class="success">                    
+                    <span>实名认证</span>
+                    <img src="../../../images/extra/u5115.png" class="verticalLine">
+                    <span class="caution">
+                        <span class="text">您认证的实名信息：</span>
+                        <span class="numblerText">**娟  41**************2102</span>
+                    </span>
+                    <a href="#" class="modify">修改</a>
+                    <hr />
+                </li>
+                <li>
+                    <img src="../../../images/extra/u5126.png" alt="success" class="success">                    
+                    <span>邮箱验证</span>
+                    <img src="../../../images/extra/u5115.png" class="verticalLine">
+                    <span class="caution">
+                        <span class="text">您验证的邮箱：</span>
+                        <span class="numblerText">188*********89@qq.com </span>
+                    </span>
+                    <a href="#" class="modify">修改</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        <div class="content">
+            <p>
+                <span>福建省教育厅主办 技术运营支持： 福建星云电子股份有限公司 </span>
+            </p>
+            <p>
+                <span>Copyright©2016 www.fjedu.cn All rights reserved 闽ICP备15000147号</span>
+            </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
