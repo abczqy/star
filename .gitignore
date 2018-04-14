@@ -42,7 +42,7 @@ log/
 .classpath
 bin/
 # idea ignore
-.idea/
+#.idea/
 *.ipr
 *.iml
 *.iws
