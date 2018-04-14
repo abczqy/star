@@ -1,12 +1,8 @@
-
 ### Example user template template
 # Created by .ignore support plugin (hsz.mobi)
 ### Kotlin template
 # Compiled class file
 *.class
-
-# Log file
-*.log
 
 # BlueJ files
 *.ctxt
@@ -16,10 +12,7 @@
 
 # Package Files #
 #*.jar
-*.war
 *.ear
-*.zip
-*.tar.gz
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -27,12 +20,43 @@ hs_err_pid*
 ### Eclipse template
 
 .metadata
-bin/
 tmp/
-*.tmp
 *.bak
 *.swp
 *~.n
 
+
+# maven ignore
+target/
+log/
+.gitkeep
+# package ignore
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+# eclipse ignore
+.settings/
+.project
+.classpath
+bin/
 # idea ignore
 .idea/
+*.ipr
+*.iml
+*.iws
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+# system ignore
+.DS_Store
+Thumbs.db
+# javascript ignore
+node_modules/
+dist/
+package-lock.json
+.history/
