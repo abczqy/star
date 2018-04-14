@@ -48,3 +48,36 @@ body {
     background-color: #1890FF;
   }
 }
+
+.xingyun-top-bar{
+  .ant-tabs-bar {
+    height: 50px;
+    background: linear-gradient(180deg, rgba(33, 113, 220, 1) 0%, rgba(33, 113, 220, 1) 0%, rgba(32, 81, 146, 1) 100%, rgba(32, 81, 146, 1) 100%);
+    border-bottom: 1px solid #e8e8e8;
+    margin: 0 0 16px 0;
+    outline: none;
+    transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+  .ant-tabs-nav-container {
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.85;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: -1px;
+    transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    zoom: 1;
+  }
+  .ant-tabs-nav .ant-tabs-tab {
+    color: white;
+    display: inline-block;
+    height: 100%;
+    margin: 0 32px 0 0;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    position: relative;
+    transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
