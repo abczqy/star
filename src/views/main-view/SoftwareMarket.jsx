@@ -18,11 +18,11 @@ export default class SoftwareMarket extends React.Component {
   render () {
     return (
       <Layout>
-        <Header className='header'>
-          <div className='logo' />
+        <Header className='xingyun-header'>
+          <div className='xingyun-logo' />
         </Header>
-        <Layout>
-          <Sider width={200} style={{ background: '#001529' }}>
+        <Layout className='sider-bar'>
+          <Sider width={200}>
             <Menu
               mode='inline'
               defaultSelectedKeys={['1']}
@@ -48,7 +48,7 @@ export default class SoftwareMarket extends React.Component {
                 <Menu.Item key='12'>信息公开审核</Menu.Item>
                 <Menu.Item key='13'>平台首页</Menu.Item>
               </SubMenu>
-              <SubMenu key='sub3' title={<span><Icon type='notification' />运营统计</span>}>
+              <SubMenu key='sub4' title={<span><Icon type='notification' />运营统计</span>}>
                 <Menu.Item key='9'>应用统计</Menu.Item>
                 <Menu.Item key='10'>用户统计</Menu.Item>
               </SubMenu>

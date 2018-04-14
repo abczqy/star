@@ -11,3 +11,40 @@ body {
   margin-top: -50px;
   margin-left: -50px;
 }
+
+.xingyun-header{
+  background:white;
+  height: 65px;
+}
+
+.xingyun-logo{
+  width: 172px;
+  height: 27px;
+  margin-top: 16px;
+  background: url("./assets/images/software-market/u49.png") no-repeat center;
+  background-size: 100% 100%;
+}
+.sider-bar{
+  .ant-menu{
+    font-family: "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    color: white;
+    background: #001529;
+    line-height: 0;
+    transition: background .3s, width .2s;
+    zoom: 1;
+  }
+  .ant-menu-item-selected {
+    color: white;
+  }
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #1890FF;
+  }
+}
