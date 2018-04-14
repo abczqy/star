@@ -2,10 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { renderRoutes } from 'react-router-config'
 import { withRouter } from 'react-router-dom'
-// NavLink as Link,
-import './MainView.scss'
-import Header from '../header/Header'
-import Nav from '../nav/Nav'
 
 class MainView extends React.Component {
   constructor (props) {
@@ -14,12 +10,8 @@ class MainView extends React.Component {
   }
   render () {
     return (
-      <div className='main-view'>
-        <Header />
-        <Nav />
-        <div className='view'>
-          {renderRoutes(this.props.route.childRoutes)}
-        </div>
+      <div>
+        {renderRoutes(this.props.route.childRoutes)}
       </div>
     )
   }

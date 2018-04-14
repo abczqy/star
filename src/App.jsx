@@ -7,14 +7,14 @@ import './App.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { login } from '$redux/actions'
-// import * as LoginServices from './services/Login'
-import ReactLoading from 'react-loading'
-// import config from '../config/index'
+// import ReactLoading from 'react-loading'
 
 class App extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+
+    }
   }
   /**
    * 获取登录信息
@@ -26,15 +26,15 @@ class App extends React.Component {
   }
 
   componentWillMount () {
-    this.initLogin()
+    // this.initLogin()
   }
 
   render () {
-    if (this.props.loginLoading) {
+    /* if (this.props.loginLoading) {
       return (
         <ReactLoading type={'bars'} color={'red'} className='bonc-mung-loadding' />
       )
-    }
+    } */
     return (
       <div className='App'>
         <Router>
@@ -48,8 +48,8 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  login: PropTypes.func,
-  loginLoading: PropTypes.bool
+  login: PropTypes.func/*,
+  loginLoading: PropTypes.bool */
 }
 
 const mapStateToProps = state => ({

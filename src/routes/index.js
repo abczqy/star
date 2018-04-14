@@ -1,21 +1,17 @@
-import Imported from 'react-imported-component'
+// import Imported from 'react-imported-component'
 import MainView from 'views/main-view/MainView'
-import SyncView from 'views/sync-view/SyncView'
-
-// To see more options in https://github.com/theKashey/react-imported-component
-const AsyncView = Imported(() =>
-  import('views/async-view/AsyncView'))
+import OperateManage from 'views/main-view/OperateManage'
+import SoftwareMarket from 'views/main-view/SoftwareMarket'
 
 export default [{
   path: '/',
   component: MainView,
   childRoutes: [{
-    path: '/sync',
-    component: SyncView
+    path: '/operate-manage',
+    component: OperateManage
   },
   {
-    path: '/async',
-    component: AsyncView
-  }
-  ]
+    path: '/software-market',
+    component: SoftwareMarket
+  }]
 }]
