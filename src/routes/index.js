@@ -2,6 +2,7 @@
 import LoginHome from 'views/main-view/LoginHome'
 import OperateManage from 'views/main-view/OperateManage'
 import SoftwareMarket from 'views/main-view/SoftwareMarket'
+// import AllApplications from '../pages/AllApplications'
 
 export default [{
   path: '/',

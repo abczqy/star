@@ -78,6 +78,7 @@
     "opn": "^5.1.0",
     "postcss-loader": "^2.0.9",
     "react-hot-loader": "^3.1.3",
+    "react-limited-infinite-scroll": "^2.0.4",
     "sass": "^1.0.0-beta.3",
     "sass-loader": "^6.0.6",
     "semver": "^5.4.1",
