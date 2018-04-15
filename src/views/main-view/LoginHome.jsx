@@ -1,8 +1,11 @@
 /**
- * 游客登陆首页
+ * 游客登陆界面
  */
 import React from 'react'
 import { Layout, Tabs } from 'antd'
+import Home from '../../pages/login-home/Home'
+import News from '../../pages/login-home/News'
+import Info from '../../pages/login-home/Info'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 
@@ -21,9 +24,15 @@ export default class LoginHome extends React.Component {
           </Layout.Header>
           <Layout className='xingyun-top-bar'>
             <Tabs defaultActiveKey='home'>
-              <Tabs.TabPane tab='首页' key='home'>Content of Tab Pane 1</Tabs.TabPane>
-              <Tabs.TabPane tab='教育新闻' key='education-news'>Content of Tab Pane 2</Tabs.TabPane>
-              <Tabs.TabPane tab='信息公开' key='info-public'>Content of Tab Pane 3</Tabs.TabPane>
+              <Tabs.TabPane tab='首页' key='home'>
+                <Home />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab='教育新闻' key='education-news'>
+                <News />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab='信息公开' key='info-public'>
+                <Info />
+              </Tabs.TabPane>
             </Tabs>
           </Layout>
         </Layout>
