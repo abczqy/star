@@ -135,68 +135,7 @@ body {
   }
   
 }
-.login-home-container{
-  .center-banner{
-    width: 100%;
-    height: 160px;
-    background: url("./assets/images/login-home/u376.png") no-repeat center;
-    background-size: 100% 100%;
-  }
-  .bottom-banner{
-    width: 100%;
-    height: 180px;
-    background: url("./assets/images/login-home/u303.png") no-repeat center;
-    background-size: 100% 100%;
-  }
-  .news-info-container{
-    .title{
-      font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
-      font-style: normal;
-      font-size: 16px;
-      color: #333333;
-      span{
-        font-family: 'PingFangSC-Regular', 'PingFang SC';
-        font-weight: 400;
-        font-style: normal;
-        font-size: 12px;
-        color: #C9C9C9;
-      }
-    }
-    
-    .info-list{
-      .avatar-title{
-        width: 60px;
-        height: 60px;
-      //  border: 'rgba(228, 228, 228, 1)';
-      }
-    }
-  }
-  .bottom-header{
-    width: 100%;
-    height: 65px;
-    background-color: rgba(0, 0, 0, 1);
-    background-size: 100% 100%;
-    p:first-child{
-      padding-top: 8px;
-      font-family: 'ArialMT', 'Arial';
-      font-weight: 400;
-      font-style: normal;
-      font-size: 13px;
-      height: 24px;
-      color: #868686;
-      text-align: center;
-    }
-    p:last-child{
-      height: 15px;
-      font-family: 'ArialMT', 'Arial';
-      font-weight: 400;
-      font-style: normal;
-      font-size: 13px;
-      color: #868686;
-      text-align: center;
-    }
-  }
-}
+
 
 .main-banner1{
   width: 100%;

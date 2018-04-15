@@ -3,7 +3,7 @@ import Slider from 'react-slick'
 import { Row, Form, Icon, Input, Button } from 'antd'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import './MainBander.scss'
+import './MainHome.scss'
 
 export default class MainBander extends React.Component {
   render () {

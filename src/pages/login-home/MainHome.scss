@@ -1,0 +1,186 @@
+.main-bander-container{
+  position: relative;
+  .custom-slider{
+    .slick-prev{
+      left: 40px;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      background: url("../../assets/images/login-home/u23.png") no-repeat center;
+      background-size: 100% 100%;
+      transform:rotate(180deg);
+      -ms-transform:rotate(180deg); 	/* IE 9 */
+      -moz-transform:rotate(180deg); 	/* Firefox */
+      -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+      -o-transform:rotate(180deg); 	/* Opera */
+    }
+    .slick-prev:before{
+      color: transparent;
+    }
+    .slick-next{
+      right: 40px;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      background: url("../../assets/images/login-home/u23.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .slick-next:before{
+      color: transparent;
+    }
+  }
+  .login-div-container{
+    position: absolute;
+    width: 300px;
+    height: 370px;
+    float: right;
+    right: 15%;
+    top: 30px;
+    background: rgba(0, 0, 0, 0.549019607843137);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 1);
+    
+    .login-btn{
+      border: 0px;
+      width: 100%; 
+      background: linear-gradient(180deg, rgba(33, 113, 220, 1) 0%, rgba(33, 113, 220, 1) 0%, rgba(32, 81, 146, 1) 100%, rgba(32, 81, 146, 1) 100%);
+    }
+    .login-btn:hover{
+      border: 0px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(32, 81, 146, 1) 0%, rgba(32, 81, 146, 1) 0%, rgba(33, 113, 220, 1) 100%, rgba(33, 113, 220, 1) 100%);
+    }
+    .register-btn{
+      border: 0px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(230, 58, 27, 1) 0%, rgba(230, 58, 27, 1) 0%, rgba(198, 57, 28, 1) 100%, rgba(198, 57, 28, 1) 100%)
+    }
+    .register-btn:hover{
+      border: 0px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(198, 57, 28, 1) 0%, rgba(198, 57, 28, 1) 0%, rgba(230, 58, 27, 1) 100%, rgba(230, 58, 27, 1) 100%)
+    }
+    
+    /*.ant-form-item-control:nth-child(n+2){
+      line-height: 0px;
+      position: relative;
+      zoom: 1;
+    }*/
+    .ant-form-item-control{
+      line-height: 15px;
+      position: relative;
+      zoom: 1;
+    }
+  }
+}
+
+.login-home-container{
+  .center-banner{
+    width: 100%;
+    height: 160px;
+    background: url("../../assets/images/login-home/u376.png") no-repeat center;
+    background-size: 100% 100%;
+  }
+  .bottom-banner{
+    width: 100%;
+    height: 180px;
+    background: url("../../assets/images/login-home/u303.png") no-repeat center;
+    background-size: 100% 100%;
+    clear:both;
+    margin:0 auto;
+    text-align:center;
+    position: relative;
+    .div-wapper{
+      position: relative;
+      p:first-child{
+        position: relative;
+        font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+        font-style: normal;
+        font-size: 40px;
+        color: #FFFFFF;
+        .more{
+          position: absolute;
+          top: -25px;
+          right: 0px;
+        }
+      }
+      .category{
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 150px;
+        height: 36px;
+        background: inherit;
+        background-color: rgba(222, 56, 21, 1);
+        border: none;
+        border-radius: 0px;
+        box-shadow: none;
+        font-family: 'PingFangSC-Regular', 'PingFang SC';
+        font-weight: 400;
+        font-style: normal;
+        font-size: 14px;
+        color: #FFFFFF;
+      }
+      .edu{
+        float: left;
+        
+      }
+      .teach{
+        float: left;
+      }
+      .manage{
+        float: left;
+      }
+    }
+  }
+  .news-info-container{
+    .title{
+      font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+      font-style: normal;
+      font-size: 16px;
+      color: #333333;
+      span{
+        font-family: 'PingFangSC-Regular', 'PingFang SC';
+        font-weight: 400;
+        font-style: normal;
+        font-size: 12px;
+        color: #C9C9C9;
+      }
+    }
+
+    .info-list{
+      .avatar-title{
+        width: 60px;
+        height: 60px;
+        //  border: 'rgba(228, 228, 228, 1)';
+      }
+    }
+  }
+  .bottom-header{
+    width: 100%;
+    height: 65px;
+    background-color: rgba(0, 0, 0, 1);
+    background-size: 100% 100%;
+    p:first-child{
+      padding-top: 8px;
+      font-family: 'ArialMT', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      height: 24px;
+      color: #868686;
+      text-align: center;
+    }
+    p:last-child{
+      height: 15px;
+      font-family: 'ArialMT', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      color: #868686;
+      text-align: center;
+    }
+  }
+}

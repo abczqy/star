@@ -50,7 +50,22 @@ export default class Home extends React.Component {
         </Row>
         <Row>
           <Col span={24}>
-            <div className='bottom-banner' />
+            <div className='bottom-banner'>
+              <div className='div-wapper'>
+                <div className='edu'>
+                  <p>50<span className='more'>+</span></p>
+                  <div className='category'>教育类App(个)</div>
+                </div>
+                <div className='teach'>
+                  <p>80<span className='more'>+</span></p>
+                  <div className='category'>教辅类App(个)</div>
+                </div>
+                <div className='manage'>
+                  <p>70</p>
+                  <div className='category'>管理类App(个)</div>
+                </div>
+              </div>
+            </div>
           </Col>
         </Row>
         <Row>

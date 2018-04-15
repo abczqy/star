@@ -5,13 +5,12 @@ import SoftwareMarket from 'views/main-view/SoftwareMarket'
 
 export default [{
   path: '/',
-  component: LoginHome,
-  childRoutes: [{
-    path: '/operate-manage-home', // 登陆后-运营管理入口
-    component: OperateManage
-  },
-  {
-    path: '/software-market-home', // 登陆后-软件市场入口
-    component: SoftwareMarket
-  }]
+  exact: true,
+  component: LoginHome
+}, {
+  path: '/operate-manage-home', // 登陆后-运营管理入口
+  component: OperateManage
+}, {
+  path: '/software-market-home', // 登陆后-软件市场入口
+  component: SoftwareMarket
 }]
