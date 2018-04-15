@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /**
  * 游客登陆界面
  */
@@ -12,7 +13,15 @@ import Info from '../../pages/login-home/Info'
 export default class LoginHome extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      activeTab: 'home'
+    }
+  }
+
+  handleTabChange (key) {
+    this.setState({
+      activeTab: key
+    })
   }
 
   render () {
@@ -23,7 +32,7 @@ export default class LoginHome extends React.Component {
             <div className='xingyun-logo' style={{marginTop: '30px'}} />
           </Layout.Header>
           <Layout className='xingyun-top-bar'>
-            <Tabs defaultActiveKey='home'>
+            <Tabs defaultActiveKey={this.state.activeTab} onChange={this.handleTabChange.bind(this)}>
               <Tabs.TabPane tab='首页' key='home'>
                 <Home />
               </Tabs.TabPane>
