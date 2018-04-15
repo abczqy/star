@@ -4,6 +4,12 @@
  */
 import React from 'react'
 import { Layout, Menu, Icon } from 'antd'
+import {
+  Businessing,
+  IterationVerify,
+  WaitVerify
+} from './software-market'
+
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
 // import { renderRoutes } from 'react-router-config'
@@ -12,11 +18,61 @@ export default class SoftwareMarket extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-
+      subMenuKey: '1'
     }
   }
 
-  render () {
+  /**
+   * 测试用：把obj转成string -- 有的obj用JSON.stringify转不了
+   * 后面可以作为测试函数放在utils中
+   */
+  Obj2String = (obj) => {
+    let str = '';
+
+    for (let item in obj) {
+      str += `${item}: ${obj[item]} \n`;
+    }
+
+    return str;
+  }
+
+  /**
+   * 暂时：通过修改state触发渲染
+   * 后期：加入redux做状态管理
+   */
+  renderContent = ({item, key, keyPath}) => {
+    // console.log(`item: ${this.Obj2String(item)} \n`);
+    // console.log(`key: ${key} \n keyPath: ${keyPath}`);
+    console.log(`item: ${item} \n key: ${key} keyPath: ${keyPath}`)
+    this.setState({
+      subMenuKey: key
+    })
+  }
+
+  /**
+   * 渲染每一个submenu对应的Content
+   */
+  getContent = () => {
+    let result = null
+    //判断下state.subMenuKey的值 -- 暂时用switch吧 后面可以考虑映射关系的处理 用json对象或者switch单独处理
+    switch (this.state.subMenuKey) {
+      case '1':
+        result = <Businessing />
+        break;
+      case '2':
+        result = <WaitVerify />
+        break;
+      case '3':
+        result = <IterationVerify />
+        break;
+      default:
+       //其他操作
+    }
+
+    return result;  
+  }
+
+  render() {
     return (
       <Layout>
         <Header className='xingyun-header'>
@@ -29,8 +85,11 @@ export default class SoftwareMarket extends React.Component {
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}
+              onClick={ ({item, key, keyPath}) => this.renderContent({item, key, keyPath}) }
             >
-              <SubMenu key='sub1' title={<span><Icon type='user' />软件管理</span>}>
+              <SubMenu 
+                key='sub1'
+                title={<span><Icon type='user' />软件管理</span>} >
                 <Menu.Item key='1'>运营中</Menu.Item>
                 <Menu.Item key='2'>待审核</Menu.Item>
                 <Menu.Item key='3'>迭代审核</Menu.Item>
@@ -57,7 +116,7 @@ export default class SoftwareMarket extends React.Component {
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              Content
+              { this.getContent() }
             </Content>
           </Layout>
         </Layout>
