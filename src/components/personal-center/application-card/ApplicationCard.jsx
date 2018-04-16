@@ -86,7 +86,7 @@ ApplicationCard.defaultProps = {
     description: '超级教师网站结合超级教师网站结合超级教师网站结合超级教师网站结合'
   },
   share: true,
-  update: false,
+  update: true,
   download: true,
   open: false,
   collection: true
