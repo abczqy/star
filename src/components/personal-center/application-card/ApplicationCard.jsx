@@ -5,7 +5,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Badge, Icon } from 'antd'
-import appLogo from '../../../assets/images/appLogo.png'
+import appLogo from '../../../assets/images/personal/appLogo.png'
 import './ApplicationCard.scss'
 
 class ApplicationCard extends Component {
@@ -43,6 +43,13 @@ class ApplicationCard extends Component {
         {
           this.props.download && (
             <div className='download opt-box'>
+              {
+                this.props.collection && (
+                  <span className='collection plr6'>
+                    <Icon type='star-o' />
+                  </span>
+                )
+              }
               <span>
                 <Icon type='download' className='plr6' />
                 <span className='plr6'>下载</span>
@@ -54,6 +61,13 @@ class ApplicationCard extends Component {
         {
           this.props.open && (
             <div className='open opt-box'>
+              {
+                this.props.collection && (
+                  <span className='collection plr6'>
+                    <Icon type='star-o' />
+                  </span>
+                )
+              }
               <span className='plr6' >
                 打开
               </span>
@@ -74,7 +88,8 @@ ApplicationCard.defaultProps = {
   share: true,
   update: false,
   download: true,
-  open: false
+  open: false,
+  collection: true
 }
 
 ApplicationCard.propTypes = {
@@ -82,8 +97,8 @@ ApplicationCard.propTypes = {
   share: PropTypes.bool,
   update: PropTypes.bool,
   download: PropTypes.bool,
-  open: PropTypes.bool
-
+  open: PropTypes.bool,
+  collection: PropTypes.bool
 }
 
 export default ApplicationCard
