@@ -1,11 +1,22 @@
+/* eslint-disable react/prop-types,react/jsx-no-bind */
 import React from 'react'
 import Slider from 'react-slick'
 import { Row, Form, Icon, Input, Button } from 'antd'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
+import { withRouter } from 'react-router'
 
-export default class MainBander extends React.Component {
+class MainBander extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+  handleLogin () {
+    this.props.history.push({
+      pathname: '/operate-manage-home'
+    })
+  }
   render () {
     var settings = {
       dots: false, // 下侧省略号
@@ -16,6 +27,7 @@ export default class MainBander extends React.Component {
       slidesToShow: 1,
       slidesToScroll: 1
     }
+
     return (
       <div className='main-bander-container'>
         <div className='custom-slider'>
@@ -46,7 +58,8 @@ export default class MainBander extends React.Component {
                 <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
               </Form.Item>
               <Form.Item>
-                <Button type='primary' htmlType='submit' className='login-btn'>
+                <Button type='primary' htmlType='submit' className='login-btn'
+                  onClick={this.handleLogin.bind(this)}>
                   立即登录
                 </Button>
               </Form.Item>
@@ -62,3 +75,4 @@ export default class MainBander extends React.Component {
     )
   }
 }
+export default withRouter(MainBander)
