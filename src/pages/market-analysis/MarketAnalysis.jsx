@@ -6,7 +6,8 @@ import { Card, Tabs } from 'antd'
 import axios from 'axios'
 import _ from 'lodash'
 import ajaxUrl from 'config'
-import MarketAnalysisTable from '../../page/marketAnalysis-table/MarketAnalysisTable'
+import MarketAnalysisTable from '../../page/market-analysis/marketAnalysis-table/MarketAnalysisTable'
+import MarketAnalysisWordCloud from '../../page/market-analysis/market-analysis-wordCloud/MarketAnalysisWordCloud'
 import './MarketAnalysis.scss'
 
 const TabPane = Tabs.TabPane
@@ -15,7 +16,8 @@ class MarketAnalysis extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tableDatas: []
+      tableDatas: [],
+      hotSearchDatas: []
     }
   }
 
@@ -23,7 +25,8 @@ class MarketAnalysis extends Component {
     console.log(key)
   }
 
-  componentDidMount () {
+  // 获取表格数据
+  getTableData = () => {
     axios.get(ajaxUrl.MarketAnalysis, {
       params: {}
     }).then(res => {
@@ -34,11 +37,24 @@ class MarketAnalysis extends Component {
           ...item
         }
       ))
-      console.log(datas)
       this.setState({
         tableDatas: datas
       })
     }).catch(e => { console.log(e) })
+  }
+
+  // 获取关键字热搜数据
+  gethotSearch=() => {
+    axios.get(ajaxUrl.hotSearch, {params: {}}).then(res => {
+      this.setState({
+        hotSearchDatas: res.data.data
+      })
+    }).catch(e => { console.log(e) })
+  }
+
+  componentDidMount () {
+    this.getTableData()
+    this.gethotSearch()
   }
 
   render () {
@@ -53,8 +69,12 @@ class MarketAnalysis extends Component {
             <TabPane tab='管理类' key='3'>管理类</TabPane>
           </Tabs>
         </Card>
-        <Card title='关键词搜索' bordered={false} className='ciyuntu' >
-          关键词搜索词云图
+        <Card title='关键词搜索' bordered={false} className='word-cloud' >
+          {
+            _.isEmpty(this.state.hotSearchDatas)
+              ? '暂无数据'
+              : <MarketAnalysisWordCloud dataSource={this.state.hotSearchDatas} />
+          }
         </Card>
       </div>
     )

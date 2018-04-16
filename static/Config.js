@@ -3,6 +3,9 @@ window.mungConfig = {
   API_BASE_URL: 'http://172.16.36.133:10000/cpc',
   LOGIN_URL: '',
   /** *******************************软件市场************************************ */
-  // 市场分析
-  MarketAnalysis: AJAX_HOST + '/MarketAnalysis'
+  // 市场分析-表格
+  MarketAnalysis: AJAX_HOST + '/MarketAnalysis',
+  // 市场分析-词云图
+  hotSearch: AJAX_HOST + '/hotSearch'
+
 }
