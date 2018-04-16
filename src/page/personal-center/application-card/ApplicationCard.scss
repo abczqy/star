@@ -1,0 +1,120 @@
+/*-------------应用卡片--------------*/
+
+.application-card {
+  position: relative;
+  margin: 6px; // padding: 15px;
+  border: 1px solid #EFF0EF;
+  border-radius: 4px;
+  overflow: hidden;
+  /*应用图标*/
+  &:hover {
+    .update {
+      transition: .3s;
+      display: block;
+      z-index: 1;
+      bottom: 0px;
+    }
+  }
+  .ant-badge {
+    .ant-badge-dot {
+      width: 12px;
+      height: 12px;
+    }
+    .appLogo {
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+      margin: 15px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  /*应用信息*/
+  .info {
+    display: inline-block;
+    width: calc(100% - 100px);
+    margin-top: 15px;
+    padding-left: 10px;
+    line-height: 35px;
+    vertical-align: top;
+    .name {
+      font-size: 14px;
+      color: #333;
+    }
+    .description {
+      font-size: 12px;
+      color: #999;
+    }
+  }
+  /*分享*/
+  .share {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 15px;
+    right: 15px;
+    font-size: 16px;
+    color: #BCBCBC;
+    cursor: pointer;
+  }
+  /*更新*/
+  .update {
+    position: absolute;
+    z-index: -1;
+    left: 0px;
+    bottom: -50px; // width: calc(100% - 14px);
+    width: 100%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center; // display: none;
+    button {
+      background: #15DB66;
+      border: none;
+      width: 95px;
+      height: 25 px;
+      line-height: 25px;
+      color: #efefef;
+      font-size: 12px;
+      border-radius: 3px;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+  }
+  /*下载和打开*/
+  .opt-box {
+    background: #FAFAFA;
+    height: 35px;
+    font-size: 12px;
+    &>span{
+      float: right; 
+      line-height: 25px;
+      margin-right: 10px;
+      margin-top: 5px; 
+      color: #efefef;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .plr6{
+      padding: 0 6px;
+    }
+  }
+  /*下载*/
+  .download {
+    &>span {
+      background: #08A1E9;
+      &>span {
+        background: #40B3F9;
+        display: inline-block;
+        height: 100%;
+      }
+    }
+  }
+  /*打开*/
+  .open{
+    &>span {
+      background: #7ED321;
+    }
+  }
+}

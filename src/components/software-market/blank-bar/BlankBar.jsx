@@ -10,11 +10,10 @@ import PropTypes from 'prop-types'
 class BlankBar extends Component {
   getHeight = () => (this.props.height || '25px')
 
-  render() {
+  render () {
     return <div style={{ width: '100%', height: this.getHeight() }} />
   }
 }
-
 
 BlankBar.propTypes = {
   height: PropTypes.string

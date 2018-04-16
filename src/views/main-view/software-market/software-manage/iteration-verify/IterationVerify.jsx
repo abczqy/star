@@ -54,10 +54,10 @@ const columns = [{
       text: ${text} \n
       record: ${record} \n
       index: ${index}
-      `);
+      `)
     return (
       <Switch />
-    );
+    )
   }
 }, {
   title: '缴费状态',
@@ -72,16 +72,16 @@ const columns = [{
       text: ${text} \n
       record: ${record} \n
       index: ${index}
-      `);
+      `)
     return (
       <span>
-        <a href="javascript:void(0)" onClick={ () => alert('续费') }>续费</a>
-        <Divider type="vertical" />
-        <a href="javascript:void(0)" onClick={ () => alert('详情') }>详情</a>
-        <Divider type="vertical" />
-        <a href="javascript:void(0)" onClick={ () => alert('下架') }>下架</a>
+        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
+        <Divider type='vertical' />
+        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
+        <Divider type='vertical' />
+        <a href='javascript:void(0)' onClick={() => alert('下架')}>下架</a>
       </span>
-    );
+    )
   }
 }]
 
@@ -90,8 +90,8 @@ const columns = [{
  * 测试用的函数
  */
 const getTime = () => {
-  const day = new Date();
-  return `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
+  const day = new Date()
+  return `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`
 }
 
 /**
@@ -101,8 +101,8 @@ const getTime = () => {
  * @param {int} length dataSource中数据的条数 默认值是25
  */
 const getDataSourceForTest = (length) => {
-  const count = length || 25;
-  let dataSource = [];
+  const count = length || 25
+  let dataSource = []
   for (let i = 0; i < count; i++) {
     dataSource.push({
       key: i,
@@ -113,14 +113,12 @@ const getDataSourceForTest = (length) => {
       downloadTimes: Math.ceil(Math.random() * 1000),
       changeDate: getTime(),
       payState: <span style={{ color: '#0f0' }}>正常</span>
-    });
+    })
   }
-  return dataSource;
+  return dataSource
 }
 
-
 class IterationVerify extends Component {
-
   /**
    * 表格分页器设置-默认值
    */
@@ -130,14 +128,14 @@ class IterationVerify extends Component {
     showSizeChanger: true
   }
 
-  render() {
+  render () {
     return (
-      <div className="software-manage-wrap">
+      <div className='software-manage-wrap'>
         <SearchBar />
         <BlankBar />
         <Table
-          columns={ columns }
-          dataSource={ getDataSourceForTest() }
+          columns={columns}
+          dataSource={getDataSourceForTest()}
           pagination={{ ...this.pagination }}
         />
       </div>
