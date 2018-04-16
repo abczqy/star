@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import { Table } from 'antd'
 import './MarketAnalysisTable.scss'
 
@@ -60,7 +61,8 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: '上线时间',
-      dataIndex: 'updateDate'
+      dataIndex: 'updateDate',
+      render: date => moment(date).format('YYYY-MM-DD')
       // width: 150
     }]
   }
