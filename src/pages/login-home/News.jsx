@@ -2,6 +2,7 @@
  * 游客登陆-教育新闻
  */
 import React from 'react'
+import NewsList from '../news/newsList'
 
 export default class News extends React.Component {
   constructor (props) {
@@ -11,8 +12,8 @@ export default class News extends React.Component {
 
   render () {
     return (
-      <div>
-        教育新闻
+      <div >
+        <NewsList />
       </div>
     )
   }

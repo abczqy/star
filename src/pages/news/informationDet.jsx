@@ -5,8 +5,9 @@ import './newsList.scss'
 import ul from '../../assets/images/u1427.png'
 import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
+import BottomHeader from '../../components/common/BottomHeader'
 
-class NewsDetails extends React.Component {
+class InformationDet extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -48,65 +49,69 @@ class NewsDetails extends React.Component {
   }
   render () {
     return <div>
-      <Row>
-        <Col span={5}>
-          <Row>
-            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-              <ul className='ul-margin'>
-                {this.state.data.dataP.map((item, index) => {
-                  return <li className='li-hover' key={index} ><span className='span-color'>{item}</span></li>
-                })}
+      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+        <Row>
+          <Col span={5}>
+            <Row><div className='left-downer'>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+                <ul className='ul-margin'>
+                  {this.state.data.dataP.map((item, index) => {
+                    return <li className='li-hover' key={index} ><span className='span-color'>{item}</span></li>
+                  })}
+                </ul>
+              </Card></div>
+            </Row>
+            <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
+          </Col>
+          <Col span={19}>
+            <Row>
+              <ul className='details-li-ul'>
+                <li className='details-li-hover'><span className='span-color'>当前位置: <a onClick={this.position}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>
               </ul>
-            </Card>
-          </Row>
-          <Row><img src={this.state.data.imgT} style={{width: '260px'}} alt='' /></Row>
-        </Col>
-        <Col span={19}>
-          <Row>
-            <ul className='details-li-ul'>
-              <li className='details-li-hover'><span className='span-color'>当前位置: <a onClick={this.position}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>
-            </ul>
-          </Row>
-          <Row>
-            <Col span={14}>
-              <div className='details-right-div'>
-                <p className='details-right-title'>{this.state.dataRight.title}</p>
-                <span className='details-right-time'>发布时间:{this.state.dataRight.time}</span>
-                <div className='details-right-div-div'>
-                  <div style={{marginBottom: '30px'}}>
-                    {this.state.dataRight.paragraph}
+            </Row>
+            <Row>
+              <Col span={14}>
+                <div className='details-right-div'>
+                  <p className='details-right-title'>{this.state.dataRight.title}</p>
+                  <span className='details-right-time'>发布时间:{this.state.dataRight.time}</span>
+                  <div className='details-right-div-div'>
+                    <div style={{marginBottom: '30px'}}>
+                      {this.state.dataRight.paragraph}
+                    </div>
+                    <div style={{width: '700px', alignContent: 'right'}}><span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span></div>
                   </div>
-                  <div style={{width: '700px', alignContent: 'right'}}><span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span></div>
                 </div>
-              </div>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row >
-        <Col span={4} />
-        <Col>
-          <div style={{marginBottom: '18px'}}>分享: <img src={this.state.data.imgFen} style={{width: '217px'}} alt='' /></div>
-        </Col>
-      </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row >
+          <Col span={4} />
+          <Col>
+            <div style={{marginBottom: '18px'}}>分享: <img src={this.state.data.imgFen} style={{width: '217px'}} alt='' /></div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={4} />
+          <Col>
+            <img src={this.state.data.imgZui} style={{width: '739px'}} alt='' />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={4} />
+          <Col span={12}>
+            <ul className='details-li-ul-down'>
+              {this.state.data.dataP.map((item, index) => {
+                return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.data.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
+              })}
+            </ul>
+          </Col>
+        </Row>
+      </div>
       <Row>
-        <Col span={4} />
-        <Col>
-          <img src={this.state.data.imgZui} style={{width: '739px'}} alt='' />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={4} />
-        <Col span={12}>
-          <ul className='details-li-ul-down'>
-            {this.state.data.dataP.map((item, index) => {
-              return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.data.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
-            })}
-          </ul>
-        </Col>
-      </Row>
-    </div>
+        <BottomHeader />
+      </Row></div>
   }
 }
 
-export default NewsDetails
+export default InformationDet

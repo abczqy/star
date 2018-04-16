@@ -1,0 +1,25 @@
+.bottom-header{
+  width: 100%;
+  height: 65px;
+  background-color: rgba(0, 0, 0, 1);
+  background-size: 100% 100%;
+  p:first-child{
+    padding-top: 8px;
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    height: 24px;
+    color: #868686;
+    text-align: center;
+  }
+  p:last-child{
+    height: 15px;
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    color: #868686;
+    text-align: center;
+  }
+}
