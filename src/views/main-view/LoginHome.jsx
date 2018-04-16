@@ -7,6 +7,10 @@ import { Layout, Tabs } from 'antd'
 import Home from '../../pages/login-home/Home'
 import News from '../../pages/login-home/News'
 import Info from '../../pages/login-home/Info'
+import PersonalCenter from '../../pages/personal-center/PersonalCenter'
+import MarketAnalysis from '../../pages/market-analysis/MarketAnalysis'
+import StatisticalAnalysis from '../../pages/statistical-analysis/StatisticalAnalysis'
+import PersonnelManagement from '../../pages/personnel-management/PersonnelManagement'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 
@@ -42,6 +46,19 @@ export default class LoginHome extends React.Component {
               <Tabs.TabPane tab='信息公开' key='info-public'>
                 <Info />
               </Tabs.TabPane>
+              <Tabs.TabPane tab='人员管理' key='personnel-management'>
+                <PersonnelManagement />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab='个人中心' key='personal-center'>
+                <PersonalCenter />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab='统计分析' key='statistical-analysis'>
+                <StatisticalAnalysis />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab='市场分析' key='market-analysis'>
+                <MarketAnalysis />
+              </Tabs.TabPane>
+
             </Tabs>
           </Layout>
         </Layout>
