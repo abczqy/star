@@ -18,7 +18,7 @@ export default class Home extends React.Component {
 
   render () {
     return (
-      <div className='login-home-container' style={{border: '1px solid red', width: '100%', height: '100%'}}>
+      <div className='login-home-container'>
         <Row>
           <Col span={24}>
             <MainBander />

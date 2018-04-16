@@ -2,12 +2,13 @@ import React from 'react'
 import { renderRoutes } from 'react-router-config'
 import { HashRouter as Router } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import routes from 'routes'
 import './App.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { login } from '$redux/actions'
+import routes from 'routes'
 // import ReactLoading from 'react-loading'
+// import LoginHome from './views/main-view/LoginHome'
 
 class App extends React.Component {
   constructor (props) {
@@ -41,6 +42,9 @@ class App extends React.Component {
           {
             renderRoutes(routes)
           }
+          {/* <div>
+            <Route path='/unlogged' component={LoginHome} />
+          </div> */}
         </Router>
       </div>
     )
