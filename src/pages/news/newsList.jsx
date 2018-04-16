@@ -1,7 +1,11 @@
+/*
+无身份区分
+*/
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import './newsList.scss'
+import BottomHeader from '../../components/common/BottomHeader'
 
 class News extends React.Component {
   constructor (props) {
@@ -78,56 +82,60 @@ class News extends React.Component {
 
   render () {
     return <div>
-      <Row>
-        <Col span={5}>
-          <Row><img src={this.state.data.imgO} style={{width: '260px'}} alt='' /></Row>
-          <Row>
-            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 300 }}>
-              <ul className='ul-margin'>
-                {this.state.data.dataP.map((item, index) => {
-                  return <li className='li-hover' key={index} ><span className='span-color'>{item}</span></li>
-                })}
-              </ul>
-            </Card>
-          </Row>
-          <Row><img src={this.state.data.imgT} style={{width: '260px'}} alt='' /></Row>
-        </Col>
-        <Col span={16}>
-          <ul className='ul-top'>
-            {this.state.dataRight.data.map((item, index) => {
-              return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '800px'}} key={index}>
-                <Col span={5}><img src={img} style={{width: '130px'}} alt='' /></Col>
-                <Col span={16}>
-                  <Row>
-                    <Col span={20}><p className='p'><a onClick={this.title}>{item.title}</a></p></Col>
-                    <Col span={4}><span className='span-top'>{item.time}</span></Col>
-                  </Row>
-                  <Row>
-                    <Col span={23}>
-                      <p>{item.paragraph}</p>
-                    </Col>
-                  </Row>
-                </Col>
-              </li>
-            })}
-          </ul>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={10} />
-        <Col >
-          <Pagination
-            size='small'
-            total={this.state.dataRight.total}
-            showSizeChanger
-            showQuickJumper
-            pageSize={this.state.dataRight.pageSize}
-            onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-            onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+        <Row>
+          <Col span={5}>
+            <Row><div className='left-downer' ><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></div></Row>
+            <Row><div className='left-downer'>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+                <ul className='ul-margin'>
+                  {this.state.data.dataP.map((item, index) => {
+                    return <li className='li-hover' key={index} ><span className='span-color'>{item}</span></li>
+                  })}
+                </ul>
+              </Card></div>
+            </Row>
+            <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
+          </Col>
+          <Col span={16}>
+            <ul className='ul-top'>
+              {this.state.dataRight.data.map((item, index) => {
+                return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '800px'}} key={index}>
+                  <Col span={5}><img src={img} style={{width: '130px'}} alt='' /></Col>
+                  <Col span={16}>
+                    <Row>
+                      <Col span={20}><p className='p'><a onClick={this.title}>{item.title}</a></p></Col>
+                      <Col span={4}><span className='span-top'>{item.time}</span></Col>
+                    </Row>
+                    <Row>
+                      <Col span={23}>
+                        <p>{item.paragraph}</p>
+                      </Col>
+                    </Row>
+                  </Col>
+                </li>
+              })}
+            </ul>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={10} />
+          <Col >
+            <Pagination
+              size='small'
+              total={this.state.dataRight.total}
+              showSizeChanger
+              showQuickJumper
+              pageSize={this.state.dataRight.pageSize}
+              onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+              onShowSizeChange={(current, size) => { this.stChange(current, size) }}
             // pageSizeOptions={5}
-          /></Col>
-      </Row>
-    </div>
+            /></Col>
+        </Row>
+      </div>
+      <Row>
+        <BottomHeader />
+      </Row></div>
   }
 }
 

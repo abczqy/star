@@ -2,6 +2,7 @@
  * 页面底部信息栏
  */
 import React from 'react'
+import './bottom.scss'
 
 export default class BottomHeader extends React.Component {
   render () {
