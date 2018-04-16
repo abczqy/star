@@ -6,7 +6,7 @@ import React from 'react'
 import { Layout, Tabs } from 'antd'
 import Home from '../../pages/login-home/Home'
 import News from '../../pages/login-home/News'
-import Info from '../../pages/login-home/Info'
+import Info from '../../pages/login-home/NewsAndInfo'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 
