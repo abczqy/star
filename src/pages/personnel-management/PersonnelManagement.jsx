@@ -3,10 +3,10 @@
  */
 
 import React, { Component } from 'react'
-import { Menu, Input, Button, Row, Col, Table } from 'antd'
-import moment from 'moment'
-import axios from 'axios'
+import { Menu, Input, Button, Row, Col } from 'antd'
+// import axios from 'axios'
 import ajaxUrl from 'config'
+import PersonManageTable from 'page/personnel-management/person-manage-table/PersonManageTable'
 import './PersonnelManagement.scss'
 
 const tableParams = {
@@ -19,77 +19,9 @@ class PersonnelManagement extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tableData: {
-        data: [],
-        total: 0
-      },
       tableParams,
       inputValue: ''
     }
-    this.columns = [{
-      title: '教师姓名',
-      dataIndex: 'name'
-      // width: 150
-    }, {
-      title: '账号',
-      dataIndex: 'username'
-      // width: 150
-    }, {
-      title: '性别',
-      dataIndex: 'sex'
-      // width: 150
-    }, {
-      title: '身份证号码',
-      dataIndex: 'th_idcard'
-      // width: 150
-    }, {
-      title: '教学年级',
-      dataIndex: 'grad'
-      // width: 150
-    }, {
-      title: '执教时间',
-      dataIndex: 'date',
-      render: date => moment(date).format('YYYY-MM-DD')
-      // width: 150
-    }, {
-      title: '行政职务',
-      dataIndex: 'duty'
-      // width: 150
-    }, {
-      title: '联系方式',
-      dataIndex: 'phone'
-      // width: 150
-    }, {
-      title: '操作',
-      dataIndex: 'id',
-      render: id => (
-        <div className='opt-box' >
-          <span className='edit'>编辑</span>
-          <span className='delete'>删除</span>
-        </div>
-      )
-      // width: 150
-    }]
-  }
-
-  // 获取人员列表数据
-  getPeopleDatas = () => {
-    const params = this.state.tableParams
-    axios.get(ajaxUrl.personnelManagement, {
-      params: {
-        pageNum: params.pageNum,
-        pageSize: params.pageSize,
-        text: params.text
-      }
-    }).then(res => {
-      let data = res.data
-      this.setState({
-        tableData: {
-          data: data.data,
-          total: data.total
-        }
-      })
-    }).catch(e => { console.log(e) })
   }
 
   // pageSize 变化的回调
@@ -102,8 +34,6 @@ class PersonnelManagement extends Component {
         pageSize: size
       },
       inputValue: this.state.tableParams.text
-    }, () => {
-      this.getPeopleDatas()
     })
   }
 
@@ -115,8 +45,6 @@ class PersonnelManagement extends Component {
         pageNum: page
       },
       inputValue: this.state.tableParams.text
-    }, () => {
-      this.getPeopleDatas()
     })
   }
 
@@ -136,8 +64,6 @@ class PersonnelManagement extends Component {
         text: this.state.inputValue,
         pageNum: 1
       }
-    }, () => {
-      this.getPeopleDatas()
     })
   }
 
@@ -147,11 +73,10 @@ class PersonnelManagement extends Component {
   }
 
   componentDidMount () {
-    this.getPeopleDatas()
+
   }
 
   render () {
-    const { tableData } = this.state
     return (
       <div className='personnel-management center-view'>
         {/* 侧边导航 */}
@@ -198,21 +123,13 @@ class PersonnelManagement extends Component {
               </Button>
             </Col>
           </Row>
-          <Table
-            rowKey='id'
-            className='data-table'
-            dataSource={tableData.data}
-            columns={this.columns}
-            pagination={{
-              total: tableData.total,
-              showQuickJumper: true,
-              showSizeChanger: true,
-              onShowSizeChange: this.onShowSizeChange,
-              onChange: this.pageNumChange,
-              current: this.state.tableParams.pageNum
-            }}
+          <PersonManageTable
+            tableParams={this.state.tableParams}
+            onShowSizeChange={this.onShowSizeChange}
+            pageNumChange={this.pageNumChange}
           />
         </div>
+        {/* 下载 */}
         <iframe
           frameBorder='0'
           name='download-frame'
