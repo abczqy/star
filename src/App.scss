@@ -57,9 +57,10 @@ body {
  */
 
 .xingyun-iden-top-bar {
-  background: #1890FF !important;
-  height: 40px;
+  min-height: 40px;
+  _height: 40px;
   .header-container{
+    background: #1890FF !important;
     margin: auto;
     width: 80%;
     height: 40px;

@@ -12,6 +12,8 @@ import MarketAnalysis from 'pages/market-analysis/MarketAnalysis'
 import AllApplications from '../pages/edu-all-app/AllApplications'
 import AllApplicationsDetail from '../pages/edu-all-app/AllApplicationsDetail'
 import SelfSupport from '../pages/app-detail/SelfSupport'
+import ThirdPartyAppDetail from '../pages/app-detail/ThirdPartyAppDetail'
+import MyAppDetail from '../pages/app-detail/MyAppDetail'
 
 export default [{
   path: '/unlogged',
@@ -60,6 +62,12 @@ export default [{
   }, {
     path: '/operate-manage-home/all-app-detail',
     component: SelfSupport
+  }, {
+    path: '/operate-manage-home/all-app-detail-third',
+    component: ThirdPartyAppDetail
+  }, {
+    path: '/operate-manage-home/all-app-detail-mine',
+    component: MyAppDetail
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口

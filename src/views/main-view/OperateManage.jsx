@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { renderRoutes } from 'react-router-config'
-import { Layout } from 'antd'
+import { Layout, Row } from 'antd'
 // import AllApplications from '../../pages/edu-all-app/AllApplications'
 // import PropTypes from 'prop-types'
-// import BottomHeader from '../../components/common/BottomHeader'
+import BottomHeader from '../../components/common/BottomHeader'
 // import SelfSupport from '../../pages/app-detail/SelfSupport'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
@@ -42,22 +42,27 @@ export default class OperateManage extends React.Component {
               <div className='xingyun-logo' style={{marginTop: '30px'}} />
             </Layout.Header>
           </div>
+
           <Layout className='xingyun-iden-top-bar'>
-            <div className='header-container'>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/home')}>首页</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/edu')}>教育新闻</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/public')}>信息公开</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/member')}>人员管理</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/center')}>个人中心</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/statis')}>统计分析</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/market')}>市场分析</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app')}>全部应用</a></li>
+            <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
+              <div className='header-container'>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/home')}>首页</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/edu')}>教育新闻</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/public')}>信息公开</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/member')}>人员管理</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/center')}>个人中心</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/statis')}>统计分析</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/market')}>市场分析</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app')}>全部应用</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app-detail-mine')}>我的应用</a></li>
+              </div>
             </div>
             {renderRoutes(this.props.route.childRoutes)}
           </Layout>
-          {/* <Layout.Footer style={{width: '100%', height: 100, marginTop: '30px', backgroundColor: '#000'}}>
+
+          <Row style={{width: '100%', height: 100, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
-          </Layout.Footer> */}
+          </Row>
         </Layout>
       </div>
     )

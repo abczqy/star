@@ -33,13 +33,14 @@
     margin-bottom: 4px;
 }
 .app-detail .header-button {
-    width: 100px;
+    width: 150px;
     color: #fff;
+    margin-right: 30px;
     background: #6DB421;
 }
 .app-detail .header-see-detail {
     float: right;
-    margin-top: 10px;
+    margin-top: -20px;
 }
 .app-detail .see-detail-itema {
     background: #fff;
