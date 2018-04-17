@@ -30,7 +30,7 @@ const devMiddleware = require('webpack-dev-middleware')(compiler, {
 });
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
-    log: () => {}
+    log: () => { }
 });
 
 // enable gzip in development
@@ -59,7 +59,7 @@ app.use(hotMiddleware);
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
 app.use(staticPath, express.static('./static'));
 
-const uri = 'http://localhost:' + port;
+const uri = 'http://localhost:' + port + '/#/unlogged/home';
 const ip = 'http://' + require('ip').address() + ':' + port;
 
 devMiddleware.waitUntilValid(function () {
