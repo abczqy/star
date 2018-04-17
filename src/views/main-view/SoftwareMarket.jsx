@@ -7,7 +7,8 @@ import { Layout, Menu, Icon } from 'antd'
 import {
   Businessing,
   IterationVerify,
-  WaitVerify
+  WaitVerify,
+  Manufacturer
 } from './software-market'
 
 const { SubMenu } = Menu
@@ -43,7 +44,7 @@ export default class SoftwareMarket extends React.Component {
   renderContent = ({item, key, keyPath}) => {
     // console.log(`item: ${this.Obj2String(item)} \n`);
     // console.log(`key: ${key} \n keyPath: ${keyPath}`);
-    console.log(`item: ${item} \n key: ${key} keyPath: ${keyPath}`)
+    // console.log(`item: ${item} \n key: ${key} keyPath: ${keyPath}`)
     this.setState({
       subMenuKey: key
     })
@@ -65,6 +66,9 @@ export default class SoftwareMarket extends React.Component {
       case '3':
         result = <IterationVerify />
         break
+      case '5':
+        result = <Manufacturer />
+        break
       default:
        // 其他操作
     }
@@ -82,6 +86,7 @@ export default class SoftwareMarket extends React.Component {
           <Sider width={200}>
             <Menu
               mode='inline'
+              theme='dark'
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}

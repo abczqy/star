@@ -5,74 +5,77 @@
  * 加载状态时的loading状态
  * 公共函数迁徙到组件class内
  * 可选择/多选
+ * 为了使代码便于移植 尽量使用绝对路径
+ * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
-import {
-  SearchBar,
-  BlankBar
-} from 'components/software-market'
-import 'views/main-view/software-market/software-manage/SoftwareManage.scss'
+import { BlankBar, SearchBar } from 'components/software-market'
+import ajaxUrl from 'config'
+import axios from 'axios'
+import 'views/main-view/software-market/SoftwareMarket.scss'
+
+/**
+   * 表格分页器设置-默认值
+   */
+const pagination = {
+  pageNum: 1,
+  pageSize: 10,
+  showQuickJumper: true,
+  showSizeChanger: true,
+  text: '' // 用来赋空翻页后的search框--需要这样吗
+}
 
 /**
  * 表格的columns -- 后面用json文件配置出去 --参照bdq
  * 做到配置项与组件的分离
  * 组件要用时只需要引入即可
  * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部 父组件也可以调用
+ * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
  */
 const columns = [{
   title: '应用名称',
-  dataIndex: 'appName',
-  key: 'appName'
+  dataIndex: 'sw_name',
+  key: 'sw_name'
 }, {
   title: '所属类型',
-  dataIndex: 'apptype',
-  key: 'apptype'
+  dataIndex: 'sw_type',
+  key: 'sw_type'
 }, {
-  title: '供应商名字',
-  dataIndex: 'supplierName',
-  key: 'supplierName'
+  title: '供应商',
+  dataIndex: 'fa_name',
+  key: 'fa_name'
 }, {
   title: '类型',
-  dataIndex: 'platType',
-  key: 'platType'
+  dataIndex: 'sw_path',
+  key: 'sw_path'
 }, {
   title: '下载次数',
-  dataIndex: 'downloadTimes',
-  key: 'downloadTimes'
+  dataIndex: 'downloads',
+  key: 'downloads'
 }, {
   title: '变更时间',
-  dataIndex: 'changeDate',
-  key: 'changeDate'
+  dataIndex: 'sw_update_time',
+  key: 'sw_update_time '
 }, {
   title: '置顶',
   dataIndex: 'stickTop',
   key: 'stickTop',
   render: (text, record, index) => {
-    console.log(`
-      text: ${text} \n
-      record: ${record} \n
-      index: ${index}
-      `)
     return (
       <Switch />
     )
   }
 }, {
   title: '缴费状态',
-  dataIndex: 'payState',
-  key: 'payState'
+  dataIndex: 'pay_state',
+  key: 'pay_state',
+  render: (text, record, index) => <span className='normal-color' >{text}</span>
 }, {
   title: '操作',
   dataIndex: 'options',
   key: 'options',
   render: (text, record, index) => {
-    console.log(`
-      text: ${text} \n
-      record: ${record} \n
-      index: ${index}
-      `)
     return (
       <span>
         <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
@@ -85,58 +88,123 @@ const columns = [{
   }
 }]
 
-/**
- * getTime 获得当天时间
- * 测试用的函数
- */
-const getTime = () => {
-  const day = new Date()
-  return `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`
-}
+class IterationVerify extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      tableData: {
+        data: [],
+        total: 0
+      },
+      pagination,
+      searchValue: ''
+    }
+  }
 
-/**
- * dataSource -- 可以先用假数据 后期肯定是要用设计专门的函数组合去从数据库导入
- * 这里呢，我们用一个假数据生成器-利用函数的循环能力造出一个datasource来 -- 当然这个是做测试用的
- * 后面也可以抽象到测试用的工具中-utils/testUtils
- * @param {int} length dataSource中数据的条数 默认值是25
- */
-const getDataSourceForTest = (length) => {
-  const count = length || 25
-  let dataSource = []
-  for (let i = 0; i < count; i++) {
-    dataSource.push({
-      key: i,
-      appName: '今日笔记',
-      apptype: '教育类',
-      supplierName: '杭州迅龙科技',
-      platType: 'windows32',
-      downloadTimes: Math.ceil(Math.random() * 1000),
-      changeDate: getTime(),
-      payState: <span style={{ color: '#0f0' }}>正常</span>
+  /**
+   * 获取运营中的应用列表数据
+   */
+  getTableDatas = () => {
+    axios.post(ajaxUrl.Business, {
+      params: {
+        per_info: '10',
+        person_id: '1'
+      }
+    }).then((res) => {
+      const data = res.data
+      this.setState({
+        tableData: {
+          data: data.datasource,
+          total: data.pageCount.pageNumbers
+        }
+      })
+    }).catch((e) => { console.log(e) })
+  }
+
+  /**
+   * 当select的值变化时回调
+   */
+  onSelect = (val) => {
+    console.log('val:' + val)
+    // 需要以val为参数向后台请求表格数据并刷新
+  }
+
+  /**
+   * pageSize 变化时回调
+   */
+  onShowSizeChange = (current, size) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: current,
+        pageSize: size
+      },
+      inputValue: this.state.pagination.text
+    }, () => {
+      this.getTableDatas()
     })
   }
-  return dataSource
-}
 
-class IterationVerify extends Component {
   /**
-   * 表格分页器设置-默认值
+   * 页码变化时回调
    */
-  pagination = {
-    defaultCurrent: 1,
-    showQuickJumper: true,
-    showSizeChanger: true
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      },
+      searchValue: this.state.pagination.text
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  /**
+   * 搜索输入框变化的回调
+   */
+  inputChange = () => {}
+
+  /**
+   * 根据搜索框的值进行搜索
+   * 将搜索到的数据(向后台请求)反映到dataSource中
+   * 搜索框按下回车/搜索时回调
+   */
+  getSearchData = () => {
+    console.log('sudgfg::: ' + this.state.searchValue)
+  }
+
+  inputChange = (e) => {
+    let value = e.target.value
+    this.setState({
+      searchValue: value
+    })
+  }
+
+  componentDidMount () {
+    this.getTableDatas()
   }
 
   render () {
+    const { tableData, pagination } = this.state
     return (
-      <div className='software-manage-wrap'>
-        <SearchBar />
+      <div className='software-wrap'>
+        <SearchBar
+          onSeachChange={this.inputChange}
+          onSearch={this.getSearchData}
+          onBtnClick={this.getSearchData}
+          onSelectChange={this.onSelect}
+        />
         <BlankBar />
         <Table
           columns={columns}
-          dataSource={getDataSourceForTest()}
-          pagination={{ ...this.pagination }}
+          dataSource={tableData.data}
+          pagination={{
+            ...pagination,
+            total: this.state.tableData.total,
+            onShowSizeChange: this.onShowSizeChange,
+            onChange: this.pageNumChange
+          }}
         />
       </div>
     )

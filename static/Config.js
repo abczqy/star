@@ -14,6 +14,9 @@ window.mungConfig = {
   studentManagement: AJAX_HOST + '/studentManagement',
 
   // 人员管理-模板下载
-  templateDownload: AJAX_HOST + '/templateDownload'
+  templateDownload: AJAX_HOST + '/templateDownload',
+
+  // 软件管理-运营中
+  Business: AJAX_HOST + '/Business'
 
 }
