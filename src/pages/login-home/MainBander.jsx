@@ -47,11 +47,11 @@ class MainBander extends React.Component {
           <Row>
             <Form style={{marginLeft: '15px', marginRight: '15px'}}>
               <Form.Item>
-                <Input prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                <Input className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder='请输入用户名' />
               </Form.Item>
               <Form.Item>
-                <Input prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                <Input className='custom-input' prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder='请输入密码' type='password' />
               </Form.Item>
               <Form.Item>

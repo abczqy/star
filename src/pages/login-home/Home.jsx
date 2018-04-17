@@ -22,6 +22,23 @@ export default class Home extends React.Component {
         <Row>
           <Col span={24}>
             <MainBander />
+            <div className='home-title-container'>
+              <div style={{marginBottom: '30px', height: '50px'}}>
+                <div className='title-logo' />
+                <div className='title-split' />
+                <div style={{
+                  float: 'left',
+                  fontFamily: "'PingFangSC-Regular', 'PingFang SC'",
+                  fontWeight: 400,
+                  fontStyle: 'normal',
+                  fontSize: '26px',
+                  color: '#FFFFFF'}}>教育平台</div>
+              </div>
+              <div className='title-hori-split' />
+              <div>
+                <span className='title-content-bottom'>百年大计  教育为本</span>
+              </div>
+            </div>
           </Col>
         </Row>
         <Row style={{background: '#FAFCFF'}}>
