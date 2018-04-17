@@ -9,11 +9,40 @@ import SoftMarket from './SoftMarket'
 import BottomHeader from '../../components/common/BottomHeader'
 import AppCount from './AppCount'
 import NewsAndInfo from './NewsAndInfo'
+import axiosApi from '../../services'
 
 export default class Home extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      webAppData: [],
+      softMarketData: [{
+
+      }],
+      newsAndInfoData: {
+        newsData: [],
+        infoData: []
+      },
+      appCountData: []
+    }
+  }
+
+  componentDidMount () {
+    this.getHomeData()
+  }
+
+  /**
+   * 请求页面初始数据
+   */
+  getHomeData () {
+    axiosApi.getHomeData((response) => {
+      this.setState({
+        webAppData: response.webAppData,
+        softMarketData: response.softMarketData,
+        newsAndInfoData: response.newsAndInfoData,
+        appCountData: response.appCountData
+      })
+    })
   }
 
   render () {
@@ -42,19 +71,24 @@ export default class Home extends React.Component {
           </Col>
         </Row>
         <Row style={{background: '#FAFCFF'}}>
-          <WebApp />
+          <WebApp data={this.state.webAppData} />
         </Row>
         <Row>
-          <SoftMarket />
+          <SoftMarket data={this.state.softMarketData} />
         </Row>
         <Row>
           <Col span={24}>
-            <NewsAndInfo />
+            <div className='center-banner' />
+          </Col>
+        </Row>
+        <Row style={{background: 'white'}}>
+          <Col span={24}>
+            <NewsAndInfo data={this.state.newsAndInfoData} />
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <AppCount />
+            <AppCount data={this.state.appCountData} />
           </Col>
         </Row>
         <Row>

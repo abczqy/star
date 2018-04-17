@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderRoutes } from 'react-router-config'
 import { HashRouter as Router } from 'react-router-dom'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import './App.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -22,7 +22,7 @@ class App extends React.Component {
    */
   initLogin () {
     // LoginServices.registerLogin(()=>{
-    this.props.login()
+    // this.props.login()
     // });
   }
 
@@ -52,8 +52,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  login: PropTypes.func/*,
-  loginLoading: PropTypes.bool */
+  // login: PropTypes.func
 }
 
 const mapStateToProps = state => ({

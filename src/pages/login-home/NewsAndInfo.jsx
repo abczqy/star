@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import { Row, Col, List } from 'antd'
+import PropTypes from 'prop-types'
 
 export default class NewsAndInfo extends React.Component {
   constructor (props) {
@@ -11,26 +12,6 @@ export default class NewsAndInfo extends React.Component {
   }
 
   render () {
-    let data = [
-      {
-        title: '教育部部署做好国家"万人计划"教学名师培养支持工作',
-        description: '教育部部署做好国家"万人计划"教学名师培养支持工作hjshfdkjvfdkvnkfbkf',
-        month: '二月',
-        day: '08'
-      },
-      {
-        title: '教育部部署做好国家"万人计划"教学名师培养支持工作',
-        description: '教育部部署做好国家"万人计划"教学名师培养支持工作hjshfdkjvfdkvnkfbkf',
-        month: '四月',
-        day: '08'
-      },
-      {
-        title: '教育部部署做好国家"万人计划"教学名师培养支持工作',
-        description: '教育部部署做好国家"万人计划"教学名师培养支持工作hjshfdkjvfdkvnkfbkf',
-        month: '六月',
-        day: '08'
-      }
-    ]
     return (
       <div>
         <Row className='news-info-container'>
@@ -39,7 +20,7 @@ export default class NewsAndInfo extends React.Component {
             <List
               className='info-list'
               itemLayout='horizontal'
-              dataSource={data}
+              dataSource={this.props.data.newsData}
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
@@ -61,7 +42,7 @@ export default class NewsAndInfo extends React.Component {
             <List
               className='info-list'
               itemLayout='horizontal'
-              dataSource={data}
+              dataSource={this.props.data.infoData}
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
@@ -82,4 +63,7 @@ export default class NewsAndInfo extends React.Component {
       </div>
     )
   }
+}
+NewsAndInfo.propTypes = {
+  data: PropTypes.object
 }
