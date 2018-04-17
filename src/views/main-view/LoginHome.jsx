@@ -9,6 +9,7 @@ import { renderRoutes } from 'react-router-config'
 class LoginHome extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
     }
   }

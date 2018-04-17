@@ -1,13 +1,13 @@
 .ant-carousel .slick-slide {
     text-align: center;
-    width: 600px;
+    width: 800px;
     height: 150px;
     /* line-height: 150px; */
     /* background: pink; */
     overflow: hidden;
   }
   .all-app-carousel-detail {
-    width: 800px;
+    width: 1000px;
     margin-left: 50px;
   }
   .ant-carousel .slick-slide div {
@@ -19,7 +19,7 @@
   .all-app-carousel {
     position: relative;
     height: 150px;
-    width: 800px;
+    width: 1000px;
     background: #fff;
     margin-top: 10px;
   }
@@ -33,7 +33,7 @@
   }
   .all-app-right-arrow {
     position: absolute;
-    left: 760px;
+    left: 960px;
     top: 40px;
     font-size: 40px;
     z-index: 10;
@@ -48,7 +48,8 @@
     /* background: blue; */
     float: left;
     margin-top: 14px;
-    margin-right: 20px;
+    margin-right: 30px;
+    margin-left: 20px;
   }
   .carousel-detail-item dt {
     width: 70px;

@@ -9,6 +9,9 @@ import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
 import MarketAnalysis from 'pages/market-analysis/MarketAnalysis'
+import AllApplications from '../pages/edu-all-app/AllApplications'
+import AllApplicationsDetail from '../pages/edu-all-app/AllApplicationsDetail'
+import SelfSupport from '../pages/app-detail/SelfSupport'
 
 export default [{
   path: '/unlogged',
@@ -47,6 +50,16 @@ export default [{
   }, {
     path: '/operate-manage-home/market',
     component: MarketAnalysis
+  }, {
+    path: '/operate-manage-home/all-app',
+    component: AllApplications,
+    childRoutes: [{
+      path: '/operate-manage-home/all-app/all-app',
+      component: AllApplicationsDetail
+    }]
+  }, {
+    path: '/operate-manage-home/all-app-detail',
+    component: SelfSupport
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口

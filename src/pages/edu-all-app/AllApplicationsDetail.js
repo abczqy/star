@@ -5,6 +5,7 @@
 import React from 'react'
 import { Carousel, Button, Icon } from 'antd'
 // import Slider from 'react-slick'
+import { Link } from 'react-router-dom'
 import './AllApplicationsDetail.css'
 import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
 // import axiosApi from '../../../api'
@@ -108,18 +109,18 @@ class AllApplicationsDetail extends React.Component {
               <p>{item.detail}</p>
             </dd>
           </dl>
-          <p style={{float: 'right'}}><Icon style={{backgroundColor: '#3399FF', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#6699FF'}} type='primary'>下载</Button><Icon style={{width: 20, height: 20, backgroundColor: '#FFCC00', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
+          <p style={{float: 'right'}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
         </div>
       )
     })
     return (
-      <div style={{ width: 800, position: 'fixed', left: 300 }}>
+      <div style={{ width: 1000, marginLeft: '6%' }}>
         <div>
           <span style={{ fontSize: 20 }}>平台应用</span>
           <div className='all-app-carousel'>
             <div className='all-app-left-arrow' onClick={this.onClickLeft}> &lt; </div>
             <div className='all-app-carousel-detail'>
-              <Carousel style={{width: 600}} afterChange={this.onChange} ref='test'>
+              <Carousel style={{width: 800}} afterChange={this.onChange} ref='test'>
                 <div>
                   <div>
                     { dataa.map((item, index, arr) => {
@@ -130,7 +131,7 @@ class AllApplicationsDetail extends React.Component {
                           </dt>
                           <dd>
                             <span>{item.title}</span>
-                            <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'>开通</Button>
+                            <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'><Link to='/operate-manage-home/all-app-detail'>开通</Link></Button>
                           </dd>
                         </dl>
                       )
@@ -165,9 +166,9 @@ class AllApplicationsDetail extends React.Component {
         <div style={{ marginTop: 10 }}>
           <p>
             <span style={{ fontSize: 20 }}>软件应用</span>
-            <p style={{float: 'right'}}><span style={{cursor: 'pointer'}}>上架时间</span><Icon className='arrowhead-rotation' type='swap' /><span style={{marginLeft: 10, cursor: 'pointer'}}>下载量</span><Icon className='arrowhead-rotation' type='swap' /></p>
+            <p style={{float: 'right', marginTop: '10px'}}><span style={{cursor: 'pointer'}}>上架时间</span><Icon className='arrowhead-rotation' type='swap' /><span style={{marginLeft: 10, cursor: 'pointer'}}>下载量</span><Icon className='arrowhead-rotation' type='swap' /></p>
           </p>
-          <div style={{overflow: 'auto', height: 500, width: 800}}>
+          <div style={{overflow: 'auto', height: 500, width: 1000}}>
             {/* <div className='software-application'>
               <dl>
                 <dt><img src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg' /></dt>
