@@ -41,6 +41,17 @@
     border-width: 1px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 1);
+    .custom-input{
+      .ant-input{
+        color: white;
+        background: transparent!important;
+      }
+      span{
+        i:before{
+          color: #8A8D91;
+        }
+      }
+    }
     
     .login-btn{
       border: 0px;
@@ -62,12 +73,6 @@
       width: 100%;
       background: linear-gradient(180deg, rgba(198, 57, 28, 1) 0%, rgba(198, 57, 28, 1) 0%, rgba(230, 58, 27, 1) 100%, rgba(230, 58, 27, 1) 100%)
     }
-    
-    /*.ant-form-item-control:nth-child(n+2){
-      line-height: 0px;
-      position: relative;
-      zoom: 1;
-    }*/
     .ant-form-item-control{
       line-height: 15px;
       position: relative;
@@ -102,6 +107,52 @@
 .login-home-container{
   width: 100%;
   height: 100%;
+  .home-title-container{
+    width: 30%;
+    position: absolute;
+    top: 125px;
+    left: 20%;
+    .title-logo{
+      float: left;
+      width: 240px;
+      height: 38px;
+      background: url("../../assets/images/login-home/u28.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .title-content-top{
+      float: left;
+      fontFamily: 'PingFangSC-Regular', 'PingFang SC'!important;
+      fontWeight: 400!important;
+      fontStyle: normal!important;
+      fontSize: 26px!important;
+      color: #FFFFFF
+    }
+    .title-split{
+      float: left;
+      width: 2px;
+      height: 39px;
+      background: url("../../assets/images/login-home/u32.png") no-repeat center;
+      background-size: 100% 100%;
+      margin: 0 20px;
+    }
+    .title-hori-split{
+      width: 388px;
+      height: 2px;
+      background: url("../../assets/images/login-home/u30.png") no-repeat center;
+      background-size: 100% 100%;
+      margin: 20px 0px;
+    }
+    .title-content-bottom{
+      margin-top: 30px;
+      font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';
+      font-weight: 200;
+      font-style: normal;
+      font-size: 47px;
+      color: #FFFFFF;
+      line-height: 50px;
+    }
+  }
+  
   .center-banner{
     width: 100%;
     height: 160px;
