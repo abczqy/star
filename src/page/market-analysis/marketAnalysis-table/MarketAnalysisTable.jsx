@@ -69,7 +69,13 @@ class MarketAnalysisTable extends Component {
   render () {
     return (
       <div className='marketAnalysis-table'>
-        <Table rowKey='index' columns={this.columns} dataSource={this.props.dataSource} pagination={false} />
+        <Table
+          className='data-table'
+          rowKey='index'
+          columns={this.columns}
+          dataSource={this.props.dataSource}
+          pagination={false}
+        />
       </div>
     )
   }
