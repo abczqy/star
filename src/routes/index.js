@@ -14,6 +14,7 @@ import AllApplicationsDetail from '../pages/edu-all-app/AllApplicationsDetail'
 import SelfSupport from '../pages/app-detail/SelfSupport'
 import ThirdPartyAppDetail from '../pages/app-detail/ThirdPartyAppDetail'
 import MyAppDetail from '../pages/app-detail/MyAppDetail'
+import MyApp from '../pages/app-detail/MyApp'
 
 export default [{
   path: '/unlogged',
@@ -68,6 +69,9 @@ export default [{
   }, {
     path: '/operate-manage-home/all-app-detail-mine',
     component: MyAppDetail
+  }, {
+    path: '/operate-manage-home/all-app-detail-mineabc',
+    component: MyApp
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口

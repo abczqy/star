@@ -42,10 +42,17 @@
           display: inline-block;
           width: 16px;
           height: 16px;
-          background: url('../../assets/images/personal/teacher.png') no-repeat;
-          background-size: 100%;
           margin-right: 8px;
+          &.teacher{
+            background: url('../../assets/images/personal/teacher-blue.png') no-repeat;
+            background-size: 100%;
+          }
+          &.student{
+            background: url('../../assets/images/personal/student-blue.png') no-repeat;
+            background-size: 100%;
+          }
         }
+        
       }
       .ant-menu-item-selected {
         background: #39f;
@@ -53,6 +60,14 @@
         color: #fff;
         &:hover {
           color: #fff
+        }
+        .icon.teacher{
+          background: url('../../assets/images/personal/teacher-white.png') no-repeat;
+          background-size: 100%;
+        }
+        .icon.student{
+          background: url('../../assets/images/personal/student-white.png') no-repeat;
+          background-size: 100%;
         }
       }
     }
