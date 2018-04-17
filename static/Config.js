@@ -7,8 +7,11 @@ window.mungConfig = {
   MarketAnalysis: AJAX_HOST + '/MarketAnalysis',
   // 市场分析-词云图
   hotSearch: AJAX_HOST + '/hotSearch',
-  // 人员管理
-  personnelManagement: AJAX_HOST + '/personnelManagement',
+  // 人员管理-教师管理列表
+  teacherManagement: AJAX_HOST + '/personnelManagement',
+  // 人员管理-学生管理列表
+  studentManagement: AJAX_HOST + '/studentManagement',
+
   // 人员管理-模板下载
   templateDownload: AJAX_HOST + '/templateDownload'
 

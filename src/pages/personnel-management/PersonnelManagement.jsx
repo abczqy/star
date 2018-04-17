@@ -20,7 +20,8 @@ class PersonnelManagement extends Component {
     super(props)
     this.state = {
       tableParams,
-      inputValue: ''
+      inputValue: '',
+      role: 'teacher'
     }
   }
 
@@ -72,6 +73,15 @@ class PersonnelManagement extends Component {
     this.refs.downloadForm.submit()
   }
 
+  // 切换学生和教师管理
+  roleChange=(obj) => {
+    if (obj.key !== this.state.role) {
+      this.setState({
+        role: obj.key
+      })
+    }
+  }
+
   componentDidMount () {
 
   }
@@ -89,13 +99,14 @@ class PersonnelManagement extends Component {
             defaultSelectedKeys={['teacher']}
             mode='inline'
             theme='dark'
+            onClick={this.roleChange}
           >
             <Menu.Item key='teacher'>
-              <i className='icon' />
+              <i className='icon teacher' />
               <span>教师管理</span>
             </Menu.Item>
             <Menu.Item key='student'>
-              <i className='icon' />
+              <i className='icon student' />
               <span>学生管理</span>
             </Menu.Item>
           </Menu>
@@ -128,6 +139,7 @@ class PersonnelManagement extends Component {
             tableParams={this.state.tableParams}
             onShowSizeChange={this.onShowSizeChange}
             pageNumChange={this.pageNumChange}
+            role={this.state.role}
           />
         </div>
         {/* 下载 */}

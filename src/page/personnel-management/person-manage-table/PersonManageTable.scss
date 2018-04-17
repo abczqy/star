@@ -2,5 +2,14 @@
 .person-manage-table{
   &.data-table{
     margin-top: 20px;
+    .opt-box{
+      span{
+        color: #1890FF;
+        cursor: pointer;
+        &:first-child{
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
