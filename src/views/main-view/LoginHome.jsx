@@ -11,6 +11,7 @@ import apiConfig from '../../config'
 class LoginHome extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
     }
   }

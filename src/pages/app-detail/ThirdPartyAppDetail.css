@@ -1,0 +1,285 @@
+.app-detail {
+    min-height: 1230px;
+    _height: 1200px;
+    background: #fff;
+    padding-top: 50px;
+    padding-left: 70px;
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
+.app-detail .app-detail-header {
+    width: 95%;
+    min-height: 150px;
+    _height: 150px;
+    position: relative;
+}
+.app-detail .app-detail-header img {
+    width: 110px;
+    height: 110px;
+    float: left;
+    margin-right: 20px;
+}
+.app-detail .app-detail-header .app-detail-header-right {
+    width: 100%;
+    padding-top: 14px;
+}
+.app-detail .header-title {
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+.app-detail .header-classification {
+    color: #999;
+    margin-bottom: 4px;
+}
+.app-detail .header-button {
+    width: 150px;
+    color: #fff;
+    margin-right: 30px;
+    background: #6DB421;
+}
+.app-detail .header-see-detail {
+    float: right;
+    margin-top: -20px;
+}
+.app-detail .see-detail-itema {
+    background: #fff;
+    z-index: 10;
+    width: 100%;
+    height: 230px;
+    position: absolute;
+    left: 0;
+    top: 30px;
+    border: 1px solid #D7D7D7;
+    border-radius: 5px;
+    padding-left: 16px;
+    padding-top: 16px;
+    transform: translate(0, 60px);
+    transition: 0.5s;
+}
+.see-detail-itemb {
+    background: #fff;
+    z-index: 10;
+    width: 100%;
+    height: 230px;
+    position: absolute;
+    left: 0;
+    top: 30px;
+    border: 1px solid #D7D7D7;
+    border-radius: 5px;
+    padding-left: 16px;
+    padding-top: 16px;
+    transform: translate(0,130px);
+    transition: 0.5s;
+}
+.app-detail .see-detail-item-jurisdiction {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    float: left;
+}
+.app-detail .see-detail-item-jurisdiction .jurisdiction-title {
+    font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
+    font-weight: 500;
+    font-style: normal;
+    color: #474747;
+    font-size: 14px;
+    float: left;
+}
+.app-detail .see-detail-item-jurisdiction .jurisdiction-list {
+    width: 95%;
+    height: 150px;
+    float: left;
+}
+.app-detail .see-detail-item-jurisdiction .jurisdiction-list .jurisdiction-list-detail {
+    width: 170px;
+    height: 20px;
+    float: left;
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    white-space: nowrap;
+    visibility: inherit;
+    color: #666666;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 140px;
+    margin-bottom: 20px;
+}
+.app-detail .app-detail-exhibition {
+    float: left;
+    width: 100%;
+    height: 550px;
+    margin-top: 60px;
+}
+.app-detail .app-detail-exhibition .exhibition-title {
+    width: 100%;
+    height: 30px;
+}
+.app-detail .app-detail-exhibition .exhibition-title h3 {
+    white-space: nowrap;
+    font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    color: #474747;
+    float: left;
+    margin-right: 40px;
+}
+.app-detail .app-detail-exhibition .exhibition-title div {
+    width: 68px;
+    height: 24px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #666666;
+    border: 1px solid #999;
+    float: left;
+    margin: 4px 10px 0 0;
+}
+.app-detail .app-detail-exhibition .exhibition-outside {
+    width: 100%;
+    height: 510px;
+    float: left;
+    border: 1px solid #D7D7D7;
+    border-radius: 5px;
+    padding: 30px 30px;
+}
+.exhibition-outside .exhibition-inside {
+    width: 100%;
+    height: 100%;
+    background: pink;
+    position: relative;
+}
+.exhibition-outside .exhibition-inside .exhibition-inside-left {
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #999;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 25px;
+    color: #999;
+    position: absolute;
+    left: 30px;
+    top: 200px;
+    cursor:pointer;
+}
+.exhibition-outside .exhibition-inside .exhibition-inside-right {
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #999;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 25px;
+    color: #999;
+    position: absolute;
+    right: 30px;
+    top: 200px;
+    cursor:pointer;
+}
+.exhibition-outside .ant-carousel .slick-slide {
+    text-align: center;
+    height: 448px;
+    line-height: 440px;
+    background: #364d79;
+    overflow: hidden;
+  }
+  
+.exhibition-outside .ant-carousel .slick-slide div {
+    color: #fff;
+}
+.app-detail .app-detail-introduce {
+    width: 100%;
+    height: 200px;
+    float: left;
+    margin-top: 50px;
+}
+.app-detail .app-detail-introduce h3 {
+    font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    color: #474747;
+}
+.app-detail .app-detail-introduce p {
+    margin: 0;
+    font-size: 12px;
+    color: #666666;
+    line-height: 26px;
+}
+.app-detail .app-detail-characteristic {
+    width: 100%;
+    height: 80px;
+    float: left;
+}
+.app-detail .app-detail-characteristic h3 {
+    font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    color: #474747;
+}
+.app-detail .app-detail-characteristic p {
+    margin: 0;
+    font-size: 12px;
+    color: #666666;
+    line-height: 26px;
+}
+.app-detail .app-detail-relevant {
+    width: 100%;
+    height: 110px;
+    background: pink;
+    float: left;
+}
+.app-detail .app-detail-relevant h3 {
+    font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 20px;
+    color: #474747;
+}
+.app-detail .app-detail-relevant dl {
+    width: 300px;
+    height: 70px;
+    float: left;
+    margin-right: 20px;
+}
+.app-detail .app-detail-relevant dl dt {
+    width: 67px;
+    height: 67px;
+    float: left;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.app-detail .app-detail-relevant dl dt img {
+    width: 100%;
+    height: 100%;
+}
+.app-detail .app-detail-relevant dl dd {
+    width: 220px;
+    height: 70px;
+    float: right;
+}
+.app-detail .app-detail-relevant dl dd span {
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    color: #474747;
+    font-size: 14px;
+}
+.app-detail .app-detail-relevant dl dd div {
+    width: 200px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #999999;
+    line-height: 22px;
+}
+.app-detail .app-detail-relevant dl dd .relevant-icon {
+    color: #FFBB45;
+}

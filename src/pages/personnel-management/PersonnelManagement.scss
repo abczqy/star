@@ -1,30 +1,92 @@
 /*-----------------人员管理------------------*/
 
 .personnel-management {
-  height: 800px;
+  min-height: 800px;
   background-color: #fff;
-  .ant-layout-sider {
-    background-color: #fff;
+  /*侧边导航*/
+  .sider {
+    display: inline-block;
     width: 250px !important;
     max-width: 250px !important;
     min-width: 250px !important;
+    background-color: #fff;
     padding: 20px;
-    // background-color: red;
-    .title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #333;
-      margin-right: 10px;
+    vertical-align: top;
+    .sider-header {
+      margin-bottom: 10px;
+      .title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+        margin-right: 10px;
+      }
+      .sub-title {
+        font-size: 12px;
+        color: #BCBCBC;
+      }
     }
-    .sub-title {
-      font-size: 12px;
-      color: #BCBCBC;
+    .ant-menu-dark {
+      background-color: #fff;
+      .ant-menu-item {
+        border-radius: 2px;
+        background-color: #F9F9F9;
+        border: 1px #E9E9E9 solid;
+        color: #666;
+        padding-left: 18px !important;
+        &:hover {
+          color: #39f
+        }
+        .icon {
+          position: relative;
+          top: 3px;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          background: url('../../assets/images/personal/teacher.png') no-repeat;
+          background-size: 100%;
+          margin-right: 8px;
+        }
+      }
+      .ant-menu-item-selected {
+        background: #39f;
+        border-color: #39f;
+        color: #fff;
+        &:hover {
+          color: #fff
+        }
+      }
     }
-    .ant-btn{
-      width: 100%;
-      margin-top: 10px;
-      border-radius: 2px;
-      height: 40px;
+  }
+  /*右侧内容区域*/
+  .content {
+    display: inline-block;
+    width: calc(100% - 250px);
+    vertical-align: top;
+    padding: 20px;
+    padding-left: 0;
+    .per-header {
+      .search {
+        .ant-input {
+          width: calc(100% - 75px)
+        }
+        .ant-btn {
+          float: right
+        }
+      }
+      .opt-box {
+        text-align: right;
+        .link{
+          margin-right: 16px;
+          color: #1890FF;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        .upload-btn{
+          background-color: #3c0;
+          border-color: #3c0;
+        }
+      }
     }
+    
   }
 }

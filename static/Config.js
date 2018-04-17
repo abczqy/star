@@ -7,6 +7,10 @@ window.mungConfig = {
   // 市场分析-表格
   MarketAnalysis: AJAX_HOST + '/MarketAnalysis',
   // 市场分析-词云图
-  hotSearch: AJAX_HOST + '/hotSearch'
+  hotSearch: AJAX_HOST + '/hotSearch',
+  // 人员管理
+  personnelManagement: AJAX_HOST + '/personnelManagement',
+  // 人员管理-模板下载
+  templateDownload: AJAX_HOST + '/templateDownload'
 
 }

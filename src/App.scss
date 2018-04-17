@@ -57,13 +57,15 @@ body {
  */
 
 .xingyun-iden-top-bar {
-  background: #1890FF !important;
-  height: 40px;
-  .header-container {
+  min-height: 40px;
+  _height: 40px;
+  .header-container{
+    background: #1890FF !important;
+    margin: auto;
+    width: 80%;
     height: 40px;
     line-height: 40px;
-    margin-left: 40px;
-    li {
+    li{
       float: left;
       width: 86px;
       list-style: none;
@@ -91,4 +93,29 @@ body {
   height: 450px;
   background: url("./assets/images/login-home/banner2_u21.jpg") no-repeat center;
   background-size: 100% 100%;
+}
+.bottom-header{
+  width: 100%;
+  height: 65px;
+  background-color: rgba(0, 0, 0, 1);
+  background-size: 100% 100%;
+  p:first-child{
+    padding-top: 8px;
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    height: 24px;
+    color: #868686;
+    text-align: center;
+  }
+  p:last-child{
+    height: 15px;
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    color: #868686;
+    text-align: center;
+  }
 }
