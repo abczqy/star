@@ -5,6 +5,8 @@
 import React from 'react'
 import { Layout } from 'antd'
 import { renderRoutes } from 'react-router-config'
+import { connect } from 'react-redux'
+import apiConfig from '../../config'
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -17,7 +19,7 @@ class LoginHome extends React.Component {
     if (link === this.props.location.pathname) {
       window.location.reload()
     }
-    window.location.href = 'http://localhost:8080/#' + link
+    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
 
   render () {
@@ -40,4 +42,15 @@ class LoginHome extends React.Component {
     )
   }
 }
-export default LoginHome
+
+const mapStateToProps = state => ({
+  roleCode: state.role.code
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginHome)

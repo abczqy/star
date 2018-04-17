@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import { Row, Col, List, Avatar } from 'antd'
+import PropTypes from 'prop-types'
 
 export default class SoftMarket extends React.Component {
   constructor (props) {
@@ -10,6 +11,28 @@ export default class SoftMarket extends React.Component {
     this.state = {
 
     }
+  }
+
+  renderItem (item, index) {
+    return (
+      <Col span={7} key={index}>
+        <div className='item'>
+          <List
+            className='soft-market-list-container'
+            dataSource={[item]}
+            renderItem={item => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar className='img' src={item.src} />}
+                  title={<a className='title' href=''>{item.title}</a>}
+                  description={item.description}
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+      </Col>
+    )
   }
 
   render () {
@@ -24,137 +47,18 @@ export default class SoftMarket extends React.Component {
         </div>
         <div className='soft-market-content'>
           <Row type='flex' justify='space-around'>
-            <Col span={6}>
-              <div className='item'>
-                <List
-                  className='soft-market-list-container'
-                  dataSource={[{
-                    src: '/static/images/u143.png',
-                    title: '打字大师',
-                    description: 'hhhhhhhhh'
-                  }]}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar className='img' src={item.src} />}
-                        title={<a className='title' href=''>{item.title}</a>}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </div>
-            </Col>
-            <Col span={6}>
-              <div className='item'>
-                <List
-                  className='soft-market-list-container'
-                  dataSource={[{
-                    src: '/static/images/u143.png',
-                    title: '打字大师',
-                    description: 'hhhhhhhhh'
-                  }]}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar className='img' src={item.src} />}
-                        title={<a className='title' href=''>{item.title}</a>}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </div>
-            </Col>
-            <Col span={6}>
-              <div className='item'>
-                <List
-                  className='soft-market-list-container'
-                  dataSource={[{
-                    src: '/static/images/u143.png',
-                    title: '打字大师',
-                    description: 'hhhhhhhhh'
-                  }]}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar className='img' src={item.src} />}
-                        title={<a className='title' href=''>{item.title}</a>}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </div>
-            </Col>
-          </Row>
-          <Row type='flex' justify='space-around'>
-            <Col span={6}>
-              <div className='item'>
-                <List
-                  className='soft-market-list-container'
-                  dataSource={[{
-                    src: '/static/images/u143.png',
-                    title: '打字大师',
-                    description: 'hhhhhhhhh'
-                  }]}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar className='img' src={item.src} />}
-                        title={<a className='title' href=''>{item.title}</a>}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </div>
-            </Col>
-            <Col span={6}>
-              <div className='item'>
-                <List
-                  className='soft-market-list-container'
-                  dataSource={[{
-                    src: '/static/images/u143.png',
-                    title: '打字大师',
-                    description: 'hhhhhhhhh'
-                  }]}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar className='img' src={item.src} />}
-                        title={<a className='title' href=''>{item.title}</a>}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </div>
-            </Col>
-            <Col span={6}>
-              <div className='item'>
-                <List
-                  className='soft-market-list-container'
-                  dataSource={[{
-                    src: '/static/images/u143.png',
-                    title: '打字大师',
-                    description: 'hhhhhhhhh'
-                  }]}
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={<Avatar className='img' src={item.src} />}
-                        title={<a className='title' href=''>{item.title}</a>}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
-              </div>
-            </Col>
+            {
+              this.props.data.map((item, index, arr) => {
+                return this.renderItem(item, index)
+              })
+            }
           </Row>
         </div>
       </div>
     )
   }
+}
+
+SoftMarket.propTypes = {
+  data: PropTypes.array
 }
