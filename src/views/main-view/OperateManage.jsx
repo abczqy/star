@@ -8,13 +8,14 @@ import React from 'react'
 import { renderRoutes } from 'react-router-config'
 import { Layout, Row } from 'antd'
 // import AllApplications from '../../pages/edu-all-app/AllApplications'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import BottomHeader from '../../components/common/BottomHeader'
 // import SelfSupport from '../../pages/app-detail/SelfSupport'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-export default class OperateManage extends React.Component {
+class OperateManage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -29,7 +30,63 @@ export default class OperateManage extends React.Component {
     window.location.href = 'http://localhost:8080/#' + link
   }
 
+  getTabArr () {
+    let baseTabArr = [{
+      text: '首页',
+      src: '/operate-manage-home/home'
+    }, {
+      text: '全部应用',
+      src: '/operate-manage-home/all-app'
+    }, {
+      text: '个人中心',
+      src: '/operate-manage-home/center'
+    }]
+    if (this.props.roleCode === 'parents') { // 家长
+      return baseTabArr
+    } else if (this.props.roleCode === 'students') { // 学生
+      return baseTabArr
+    } else if (this.props.roleCode === 'teacher') { // 教师
+      return baseTabArr
+    } else if (this.props.roleCode === 'school') { // 学校
+      return [{
+        text: '首页',
+        src: '/operate-manage-home/home'
+      }, {
+        text: '全部应用',
+        src: '/operate-manage-home/all-app'
+      }, {
+        text: '人员管理',
+        src: '/operate-manage-home/member'
+      }, {
+        text: '个人中心',
+        src: '/operate-manage-home/center'
+      }]
+    } else if (this.props.roleCode === 'vendor') { // 厂商
+      return [{
+        text: '首页',
+        src: '/operate-manage-home/home'
+      }, {
+        text: '全部应用',
+        src: '/operate-manage-home/all-app'
+      }, {
+        text: '我的应用',
+        src: '/operate-manage-home/all-app-detail-mine'
+      }, {
+        text: '统计分析',
+        src: '/operate-manage-home/statis'
+      }, {
+        text: '市场分析',
+        src: '/operate-manage-home/market'
+      }]
+    } else if (this.props.roleCode === '') { // 游客
+
+    } else if (this.props.roleCode === 'eduBureau') { // 教育局
+
+    }
+  }
+
   render () {
+    let tabArr = this.getTabArr() || []
     return (
       <div>
         <Layout>
@@ -42,19 +99,14 @@ export default class OperateManage extends React.Component {
               <div className='xingyun-logo' style={{marginTop: '30px'}} />
             </Layout.Header>
           </div>
-
           <Layout className='xingyun-iden-top-bar'>
             <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
               <div className='header-container'>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/home')}>首页</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/edu')}>教育新闻</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/public')}>信息公开</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/member')}>人员管理</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/center')}>个人中心</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/statis')}>统计分析</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/market')}>市场分析</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app')}>全部应用</a></li>
-                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app-detail-mine')}>我的应用</a></li>
+                {
+                  tabArr.map((item, index) => {
+                    return <li><a onClick={this.handleTabChange.bind(this, item.src)}>{item.text}</a></li>
+                  })
+                }
               </div>
             </div>
             {renderRoutes(this.props.route.childRoutes)}
@@ -70,5 +122,16 @@ export default class OperateManage extends React.Component {
 }
 
 OperateManage.propTypes = {
-  // route: PropTypes.arr
+  roleCode: PropTypes.string
 }
+const mapStateToProps = state => ({
+  roleCode: state.role.code
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OperateManage)

@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
 
 class MainBander extends React.Component {
   constructor (props) {
@@ -13,9 +14,16 @@ class MainBander extends React.Component {
     this.state = {}
   }
   handleLogin () {
-    this.props.history.push({
-      pathname: '/operate-manage-home'
-    })
+    // 如果是运营商
+    if (this.props.roleCode === 'operator') {
+      this.props.history.push({
+        pathname: '/software-market-home'
+      })
+    } else {
+      this.props.history.push({
+        pathname: '/operate-manage-home'
+      })
+    }
   }
   render () {
     var settings = {
@@ -75,4 +83,15 @@ class MainBander extends React.Component {
     )
   }
 }
-export default withRouter(MainBander)
+
+const mapStateToProps = state => ({
+  roleCode: state.role.code
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainBander))
