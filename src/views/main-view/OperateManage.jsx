@@ -55,6 +55,7 @@ export default class OperateManage extends React.Component {
                 <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/market')}>市场分析</a></li>
                 <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app')}>全部应用</a></li>
                 <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app-detail-mine')}>我的应用</a></li>
+                <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/all-app-detail-mineabc')}>我应用</a></li>
               </div>
             </div>
             {renderRoutes(this.props.route.childRoutes)}
