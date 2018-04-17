@@ -96,7 +96,7 @@ class PersonManageTable extends Component {
     return (
       <Table
         rowKey='id'
-        className='data-table'
+        className='person-manage-table data-table'
         dataSource={tableData.data}
         columns={this.columns}
         pagination={{

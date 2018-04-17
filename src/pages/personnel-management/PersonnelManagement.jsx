@@ -108,6 +108,7 @@ class PersonnelManagement extends Component {
                 placeholder='请输入员工账号或姓名'
                 value={this.state.inputValue}
                 onChange={this.inputChange}
+                onPressEnter={this.search}
               />
               <Button type='primary' onClick={this.search} >搜索</Button>
             </Col>
