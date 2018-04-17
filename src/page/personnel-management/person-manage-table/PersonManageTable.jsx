@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import axios from 'axios'
 import ajaxUrl from 'config'
-import { Table } from 'antd'
+import { Table, Modal } from 'antd'
 import './PersonManageTable.scss'
 
 class PersonManageTable extends Component {
@@ -15,7 +15,8 @@ class PersonManageTable extends Component {
     super(props)
     this.state = {
       tableData: {},
-      tableColumns: []
+      tableColumns: [],
+      editModalVisible: false
     }
   }
 
@@ -57,10 +58,10 @@ class PersonManageTable extends Component {
       }, {
         title: '操作',
         dataIndex: 'id',
-        render: id => (
+        render: (id, record) => (
           <div className='opt-box' >
-            <span className='edit' >编辑</span>
-            <span className='delete'>删除</span>
+            <span className='edit' onClick={() => { this.openEditModal(record, 'teacher') }} >编辑</span>
+            <span className='delete' onClick={() => { this.delete(id, 'teacher') }}>删除</span>
           </div>
         )
         // width: 150
@@ -100,10 +101,10 @@ class PersonManageTable extends Component {
       }, {
         title: '操作',
         dataIndex: 'id',
-        render: id => (
+        render: (id, record) => (
           <div className='opt-box' >
-            <span className='edit' >编辑</span>
-            <span className='delete'>删除</span>
+            <span className='edit' onClick={() => { this.openEditModal(record, 'student') }} >编辑</span>
+            <span className='delete' onClick={() => { this.delete(id, 'student') }}>删除</span>
           </div>
         )
         // width: 150
@@ -119,7 +120,7 @@ class PersonManageTable extends Component {
   getPeopleDatas = (params, role) => {
     let url = role === 'teacher' ? 'teacherManagement' : 'studentManagement'
     let reqUrl = ajaxUrl[url]
-    console.log(reqUrl)
+    // console.log(reqUrl)
     axios.get(reqUrl, {
       params: {
         pageNum: params.pageNum,
@@ -135,6 +136,26 @@ class PersonManageTable extends Component {
         }
       })
     }).catch(e => { console.log(e) })
+  }
+
+  // 打开编辑弹窗
+  openEditModal=(record, role) => {
+    // console.log(record, role)
+    this.setState({
+      editModalVisible: true
+    })
+  }
+
+  // 取消编辑
+  editCancel=() => {
+    this.setState({
+      editModalVisible: false
+    })
+  }
+
+  // 删除
+  delete=(id, role) => {
+    console.log('删除', id, role)
   }
 
   componentDidMount () {
@@ -155,20 +176,32 @@ class PersonManageTable extends Component {
   render () {
     const { tableData } = this.state
     return (
-      <Table
-        rowKey='id'
-        className='person-manage-table data-table'
-        dataSource={tableData.data}
-        columns={this.state.tableColumns}
-        pagination={{
-          total: tableData.total,
-          showQuickJumper: true,
-          showSizeChanger: true,
-          onShowSizeChange: this.props.onShowSizeChange,
-          onChange: this.props.pageNumChange,
-          current: this.props.tableParams.pageNum
-        }}
-      />
+      <div className='person-manage-table' >
+        <Table
+          rowKey='id'
+          className='data-table'
+          dataSource={tableData.data}
+          columns={this.state.tableColumns}
+          pagination={{
+            total: tableData.total,
+            showQuickJumper: true,
+            showSizeChanger: true,
+            onShowSizeChange: this.props.onShowSizeChange,
+            onChange: this.props.pageNumChange,
+            current: this.props.tableParams.pageNum
+          }}
+        />
+        <Modal
+          title='编辑'
+          visible={this.state.editModalVisible}
+          onOk={this.editOk}
+          onCancel={this.editCancel}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
+      </div>
     )
   }
 }
