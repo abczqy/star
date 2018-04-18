@@ -3,8 +3,18 @@ import LoginHome from 'views/main-view/LoginHome'
 import OperateManage from 'views/main-view/OperateManage'
 import SoftwareMarket from 'views/main-view/SoftwareMarket'
 import Home from 'pages/login-home/Home'
-import Information from 'pages/news/information'
-import NewsList from 'pages/news/newsList'
+
+// import Information from 'pages/news/Information'
+import InformationDet from 'pages/news/InformationDet'
+// import InformationEd from 'pages/news/InformationEd'
+// import NewsList from 'pages/news/NewsList'
+import NewsListEd from 'pages/news/NewsListEd'
+import NewsDetails from 'pages/news/NewsDetails'
+import PlaceInformation from 'pages/news/PlaceInformation'
+import Policy from 'pages/news/Policy'
+import Please from 'pages/news/ShelfPlease'
+import Iteration from 'pages/news/IterationPlease'
+
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
@@ -28,10 +38,18 @@ export default [{
     component: Home
   }, {
     path: '/unlogged/newsList',
-    component: NewsList
+    component: Please,
+    childRoutes: [{
+      path: '/unlogged/newsList/newsDetails',
+      component: NewsDetails
+    }]
   }, {
     path: '/unlogged/information',
-    component: Information
+    component: Iteration,
+    childRoutes: [{
+      path: '/unlogged/information/informationDet',
+      component: InformationDet
+    }]
   }]
 }, {
   path: '/operate-manage-home', // 登陆后-运营管理入口
@@ -41,10 +59,21 @@ export default [{
     component: Home
   }, {
     path: '/operate-manage-home/edu',
-    component: Home
+    component: NewsListEd,
+    childRoutes: [{
+      path: '/operate-manage-home/edu/newsDetails',
+      component: NewsDetails
+    }]
   }, {
     path: '/operate-manage-home/public',
-    component: Home
+    component: PlaceInformation,
+    childRoutes: [{
+      path: '/operate-manage-home/public/informationDet',
+      component: InformationDet
+    }, {
+      path: '/operate-manage-home/public/policy',
+      component: Policy
+    }]
   }, {
     path: '/operate-manage-home/member',
     component: PersonnelManagement

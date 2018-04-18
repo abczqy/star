@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind,react/prop-types */
 /* eslint-disable react/jsx-no-bind */
 /*
-无身份区分的教育新闻列表
+教育局的教育新闻列表
 */
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
@@ -31,7 +31,7 @@ class News extends React.Component {
           imgs: img,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '111为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '1111为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
         },
         {
           imgs: img,
@@ -100,7 +100,7 @@ class News extends React.Component {
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
-    window.location.href = 'localhost:8080/#/unlogged/newsList' + link
+    window.location.href = 'localhost:8080/#/operate-manage-home/edu' + link
   }
   render () {
     return <div>
@@ -125,7 +125,7 @@ class News extends React.Component {
             <Col span={15}>
               <ul className='ul-top'>
                 {this.state.dataRight.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px'}} key={index}>
+                  return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
                     <Col span={5}><img src={img} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
@@ -151,10 +151,11 @@ class News extends React.Component {
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                     onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                    // pageSizeOptions={5}
+                  // pageSizeOptions={5}
                   /></Col>
               </Row>
             </Col>
+
           </div>
         </Row>
 
