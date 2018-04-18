@@ -7,24 +7,45 @@ import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+import axiosApi from '../../services'
+import {setRole} from '../../redux/actions/role'
+import PropTypes from 'prop-types'
 
 class MainBander extends React.Component {
+  static propTypes = {
+    showSureWin: PropTypes.func,
+    handleAfterLogged: PropTypes.func
+  }
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      userName: '', // 用户名密码
+      passWord: '' // 密码
+    }
   }
   handleLogin () {
-    // 如果是运营商
-    if (this.props.roleCode === 'operator') {
-      this.props.history.push({
-        pathname: '/software-market-home'
-      })
-    } else {
-      this.props.history.push({
-        pathname: '/operate-manage-home'
+    if (this.state.userName === '3') {
+      axiosApi.login((response) => {
+        // 如果是首次登陆
+        if (response.isFirstLogged) {
+          // this.props.setRole(response.roleCode)
+          this.props.showSureWin(response.personInfo)
+        } else {
+          this.props.handleAfterLogged()
+        }
       })
     }
   }
+
+  /**
+   *
+   */
+  handleValueChange (e, key) {
+    this.setState({
+      [key]: e.target.value
+    })
+  }
+
   render () {
     var settings = {
       dots: false, // 下侧省略号
@@ -55,14 +76,15 @@ class MainBander extends React.Component {
           <Row>
             <Form style={{marginLeft: '15px', marginRight: '15px'}}>
               <Form.Item>
-                <Input className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                <Input onChange={(e) => { this.handleValueChange(e, 'userName') }} value={this.state.userName} className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder='请输入用户名' />
               </Form.Item>
               <Form.Item>
-                <Input className='custom-input' prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                <Input onChange={(e) => { this.handleValueChange(e, 'passWord') }} value={this.state.passWord} className='custom-input' prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder='请输入密码' type='password' />
               </Form.Item>
               <Form.Item>
+                <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>用户提示</a>
                 <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
               </Form.Item>
               <Form.Item>
@@ -89,6 +111,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  setRole: (code) => {
+    dispatch(setRole(code))
+  }
 })
 
 export default withRouter(connect(

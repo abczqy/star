@@ -1,4 +1,3 @@
-import axiosApi from '../../../api'
 import { SET_ROLE, GET_ROLE } from '../../constants/role'
 
 /**

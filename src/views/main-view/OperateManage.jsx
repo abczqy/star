@@ -104,7 +104,7 @@ class OperateManage extends React.Component {
               <div className='header-container'>
                 {
                   tabArr.map((item, index) => {
-                    return <li><a onClick={this.handleTabChange.bind(this, item.src)}>{item.text}</a></li>
+                    return <li key={index}><a onClick={this.handleTabChange.bind(this, item.src)}>{item.text}</a></li>
                   })
                 }
               </div>

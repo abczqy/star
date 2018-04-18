@@ -32,10 +32,10 @@
   .login-div-container{
     position: absolute;
     width: 300px;
-    height: 370px;
+    height: 340px;
     float: right;
     right: 15%;
-    top: 30px;
+    top: 55px;
     background: rgba(0, 0, 0, 0.549019607843137);
     border-radius: 3px;
     border-width: 1px;
@@ -374,4 +374,18 @@
       }
     }
   }
+}
+.sure-info-item{
+  font-family: 'PingFangSC-Regular', 'PingFang SC';
+  font-weight: 400;
+  font-style: normal;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+.change-ok-tip{
+  width: 60px;
+  height: 60px;
+  background: url("../../assets/images/login-home/u2456.png") no-repeat center;
+  background-size: 100% 100%;
 }

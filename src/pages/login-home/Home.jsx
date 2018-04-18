@@ -10,15 +10,27 @@ import BottomHeader from '../../components/common/BottomHeader'
 import AppCount from './AppCount'
 import NewsAndInfo from './NewsAndInfo'
 import axiosApi from '../../services'
+import SureInfoWin from './SureInfoWin'
+import ChangeInfoWin from './ChangeInfoWin'
+import ChangeInfoOkWin from './ChangeInfoOkWin'
+import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-export default class Home extends React.Component {
+class Home extends React.Component {
+  static propTypes = {
+    roleCode: PropTypes.string,
+    history: PropTypes.object
+  }
   constructor (props) {
     super(props)
     this.state = {
+      sureDate: [],
+      changeInfoOkWinVisible: false,
+      sureInfoWinVisible: false,
+      changeInfoWinVisible: false,
       webAppData: [],
-      softMarketData: [{
-
-      }],
+      softMarketData: [],
       newsAndInfoData: {
         newsData: [],
         infoData: []
@@ -45,12 +57,62 @@ export default class Home extends React.Component {
     })
   }
 
+  handleAfterLogged () {
+    // 如果是运营商
+    if (this.props.roleCode === 'operator') {
+      this.props.history.push({
+        pathname: '/software-market-home'
+      })
+    } else {
+      this.props.history.push({
+        pathname: '/operate-manage-home'
+      })
+    }
+  }
+
+  handleChangeVisible (key, flag) {
+    this.setState({
+      [key]: flag
+    }, () => {
+      this.handleAfterLogged()
+    })
+  }
+
+  showSureWin (data) {
+    this.setState({
+      sureInfoWinVisible: true,
+      sureDate: data || []
+    })
+  }
+
+  handleInfoOk () {
+    this.setState({
+      changeInfoWinVisible: true,
+      sureInfoWinVisible: false
+    })
+  }
+
+  handleChangeInfoOk () {
+    this.setState({
+      changeInfoOkWinVisible: true,
+      changeInfoWinVisible: false
+    })
+  }
+
+  handleBack () {
+    this.setState({
+      changeInfoWinVisible: false,
+      sureInfoWinVisible: true
+    })
+  }
+
   render () {
     return (
       <div className='login-home-container'>
         <Row>
           <Col span={24}>
-            <MainBander />
+            <MainBander showSureWin={(data) => { this.showSureWin(data) }}
+              handleAfterLogged={(key, flag) => { this.handleChangeVisible(key, flag) }} />
             <div className='home-title-container'>
               <div style={{marginBottom: '30px', height: '50px'}}>
                 <div className='title-logo' />
@@ -94,7 +156,32 @@ export default class Home extends React.Component {
         <Row>
           <BottomHeader />
         </Row>
+        <ChangeInfoOkWin visible={this.state.changeInfoOkWinVisible}
+          handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
+          handleClose={() => { this.handleChangeVisible('changeInfoOkWinVisible', false) }}
+        />
+        <SureInfoWin visible={this.state.sureInfoWinVisible} data={this.state.sureDate}
+          handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
+          handleClose={() => { this.handleChangeVisible('sureInfoWinVisible', false) }}
+          handleInfoOk={() => { this.handleInfoOk() }} />
+        <ChangeInfoWin visible={this.state.changeInfoWinVisible}
+          handleClose={() => { this.handleChangeVisible('changeInfoWinVisible', false) }}
+          handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
+          handleBack={() => { this.handleBack() }}
+          handleChangeInfoOk={() => { this.handleChangeInfoOk() }}
+        />
       </div>
     )
   }
 }
+const mapStateToProps = state => ({
+  roleCode: state.role.code
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home))
