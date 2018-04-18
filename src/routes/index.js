@@ -29,6 +29,7 @@ import MessageTopBar from 'views/main-view/message-notice/MessageTopBar'
 import MessageNotice from 'views/main-view/message-notice/MessageNotice'
 import MessageSetting from 'views/main-view/message-notice/MessageSetting'
 import MessageDetail from 'views/main-view/message-notice/MessageDetail'
+import TeacherHome from '../pages/after-logging-home/TeacherHome'
 
 export default [{
   path: '/unlogged',
@@ -56,7 +57,7 @@ export default [{
   component: OperateManage,
   childRoutes: [{
     path: '/operate-manage-home/home',
-    component: Home
+    component: TeacherHome
   }, {
     path: '/operate-manage-home/edu',
     component: NewsListEd,
