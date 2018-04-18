@@ -16,7 +16,10 @@ window.mungConfig = {
   // 人员管理-模板下载
   templateDownload: AJAX_HOST + '/templateDownload',
 
-  // 软件管理-运营中
-  Business: AJAX_HOST + '/Business'
+  // 运营管理/软件管理-运营中
+  Business: AJAX_HOST + '/Business',
+
+  // 运营管理/会员管理-厂商
+  getFactory: AJAX_HOST + '/factoryManage/getFactory'
 
 }

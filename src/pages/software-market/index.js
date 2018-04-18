@@ -5,5 +5,10 @@ export {
 } from './software-manage/index'
 
 export {
-  Manufacturer
+  EducationalServices,
+  Manufacturer,
+  Parent,
+  School,
+  Student,
+  Teacher
 } from './member-manage/index'

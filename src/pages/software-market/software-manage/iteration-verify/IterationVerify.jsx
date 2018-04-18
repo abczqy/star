@@ -13,7 +13,7 @@ import { Table, Switch, Divider } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import ajaxUrl from 'config'
 import axios from 'axios'
-import 'views/main-view/software-market/SoftwareMarket.scss'
+import 'pages/software-market/SoftwareMarket.scss'
 
 /**
    * 表格分页器设置-默认值
@@ -88,7 +88,7 @@ const columns = [{
   }
 }]
 
-class WaitVerify extends Component {
+class IterationVerify extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -211,4 +211,4 @@ class WaitVerify extends Component {
   }
 }
 
-export default WaitVerify
+export default IterationVerify
