@@ -15,6 +15,10 @@ import SelfSupport from '../pages/app-detail/SelfSupport'
 import ThirdPartyAppDetail from '../pages/app-detail/ThirdPartyAppDetail'
 import MyAppDetail from '../pages/app-detail/MyAppDetail'
 import MyApp from '../pages/app-detail/MyApp'
+import MessageTopBar from 'views/main-view/message-notice/MessageTopBar'
+import MessageNotice from 'views/main-view/message-notice/MessageNotice'
+import MessageSetting from 'views/main-view/message-notice/MessageSetting'
+import MessageDetail from 'views/main-view/message-notice/MessageDetail'
 
 export default [{
   path: '/unlogged',
@@ -76,4 +80,17 @@ export default [{
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口
   component: SoftwareMarket
+}, {
+  path: '/topbar-manage', // 新消息通知页面
+  component: MessageTopBar,
+  childRoutes: [{
+    path: '/topbar-manage/notice',
+    component: MessageNotice
+  }, {
+    path: '/topbar-manage/setting',
+    component: MessageSetting
+  }, {
+    path: '/topbar-manage/detail',
+    component: MessageDetail
+  }]
 }]

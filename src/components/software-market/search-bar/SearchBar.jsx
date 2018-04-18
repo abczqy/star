@@ -9,33 +9,49 @@
  */
 import React, { Component } from 'react'
 import { Input, Select, Button, Row, Col } from 'antd'
+import PropsTypes from 'prop-types'
 
 const Search = Input.Search
 const Option = Select.Option
 
 class SearchBar extends Component {
   render () {
+    const { onSearch, onSeachChange, onBtnClick, onSelectChange } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
           <Col span={8}>
             <span className='search-bar-label'>类型: </span>
-            <Select defaultValue='全部' style={{ width: '75%' }}>
+            <Select
+              defaultValue='全部'
+              style={{ width: '75%' }}
+              onChange={onSelectChange}
+            >
               <Option value='全部'>全部</Option>
               <Option value='教育类'>教育类</Option>
               <Option value='教辅类'>教辅类</Option>
             </Select>
           </Col>
           <Col span={6}>
-            <Search />
+            <Search
+              onSearch={onSearch}
+              onChange={onSeachChange}
+            />
           </Col>
           <Col span={4}>
-            <Button type='primary'>搜索</Button>
+            <Button type='primary' onClick={onBtnClick}>搜索</Button>
           </Col>
         </Row>
       </div>
     )
   }
+}
+
+SearchBar.propTypes = {
+  onSearch: PropsTypes.func,
+  onBtnClick: PropsTypes.func,
+  onSeachChange: PropsTypes.func,
+  onSelectChange: PropsTypes.func
 }
 
 export default SearchBar

@@ -88,7 +88,7 @@ const columns = [{
   }
 }]
 
-class WaitVerify extends Component {
+class Manufacturer extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -211,4 +211,4 @@ class WaitVerify extends Component {
   }
 }
 
-export default WaitVerify
+export default Manufacturer

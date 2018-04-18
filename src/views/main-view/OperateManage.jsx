@@ -5,8 +5,8 @@
  * 运营管理入口
  */
 import React from 'react'
+import {Layout, Icon, Badge, Row} from 'antd'
 import { renderRoutes } from 'react-router-config'
-import { Layout, Row } from 'antd'
 // import AllApplications from '../../pages/edu-all-app/AllApplications'
 import PropTypes from 'prop-types'
 import BottomHeader from '../../components/common/BottomHeader'
@@ -14,7 +14,7 @@ import BottomHeader from '../../components/common/BottomHeader'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import './Operateview.scss'
 class OperateManage extends React.Component {
   constructor (props) {
     super(props)
@@ -92,7 +92,13 @@ class OperateManage extends React.Component {
         <Layout>
           <div style={{height: '30px', width: '80%', margin: 'auto'}}>
             <div style={{height: '30px', float: 'left'}}>欢迎你，小姐姐</div>
-            <div style={{height: '30px', float: 'right'}}>欢迎你，小姐姐</div>
+            <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
+              <Badge count={5} >
+                <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
+              </Badge>
+              <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />
+              <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/poweroff')} />
+            </div>
           </div>
           <div style={{height: '92px', width: '100%', backgroundColor: '#fff'}}>
             <Layout.Header className='xingyun-header' style={{height: '92px', width: '80%', margin: 'auto'}}>
