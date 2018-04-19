@@ -103,18 +103,24 @@ class ShelfPlease extends React.Component {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
             <Row>
-              <Col span={1} />
-              <Col span={6}><span><span style={{color: 'red'}}>* </span>软件版本 : </span><Select placeholder='请选择安装包版本' style={{ width: 200 }} >
-                {this.state.dataL.map((item, index) => {
-                  return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-                })}
-              </Select></Col>
-              <Col span={6}>
-                <Upload {...props}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload>
+              <Col span={12}>
+                <Col span={6}><span style={{visibility: 'hidden'}}>*PC无无无</span>
+                  <span style={{color: 'red'}}>* </span>软件版本 :
+                </Col>
+                <Col span={9}>
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                    {this.state.dataL.map((item, index) => {
+                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                    })}
+                  </Select>
+                </Col>
+                <Col span={6}>
+                  <Upload {...props}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                  </Upload>
+                </Col>
               </Col>
             </Row>
           </div>)
@@ -122,19 +128,26 @@ class ShelfPlease extends React.Component {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
             <Row>
-              <Col span={1} />
-              <Col span={6}><span style={{visibility: 'hidden'}}>* 软件版本 : </span><Select placeholder='请选择安装包版本' style={{ width: 200 }} >
-                {this.state.dataL.map((item, index) => {
-                  return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-                })}
-              </Select></Col>
-              <Col span={6}>
-                <Upload {...props}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload>
-              </Col></Row>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC无无无<span style={{color: 'red'}}>* </span>软件版本 :</span>
+                </Col>
+                <Col span={9}>
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                    {this.state.dataL.map((item, index) => {
+                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                    })}
+                  </Select>
+                </Col>
+                <Col span={6}>
+                  <Upload {...props}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                  </Upload>
+                </Col>
+              </Col>
+            </Row>
           </div>)
       }
     }
@@ -260,42 +273,63 @@ class ShelfPlease extends React.Component {
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={12}><span style={{color: 'red'}}>* </span>软件名称 : <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
-            <Col span={11}><span style={{color: 'red'}}>* </span>类型 : <Select placeholder='教育类' style={{ width: 200 }} onChange={(value) => this.type(value)} value={this.state.type} >
-              {data.map((item, index) => {
-                return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-              })}
-            </Select></Col>
+            <Col span={12}>
+              <Col span={6}><span style={{visibility: 'hidden'}}>*PC无无无</span>
+                <span style={{color: 'red'}}>* </span>软件名称 :
+              </Col>
+              <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
+            <Col span={8}>
+              <Col span={4}>
+                <span style={{color: 'red'}}>* </span>类型 :
+              </Col>
+              <Col span={20}>
+                <Select placeholder='教育类' style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
+                  {data.map((item, index) => {
+                    return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                  })}
+                </Select>
+              </Col>
+            </Col>
           </Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={20}><span style={{color: 'red'}}>* </span>软件描述 : <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
+            <Col span={23}>
+              <span style={{visibility: 'hidden'}}>*PC无无无</span>
+              <span><span style={{color: 'red'}}>* </span>软件描述 : </span>
+              <span style={{visibility: 'hidden'}}>无</span>
+              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
+          </Row>
+          <Row className='Wxds'>
+            {this.state.renderEdition.map((item, index) => {
+              return item
+            })}
           </Row>
           <Row className='Wxd'>
-            <Row className='Wxds'>
-              {this.state.renderEdition.map((item, index) => {
-                return item
-              })}
-            </Row>
-            <Row className='Wxd'>
-              <Col span={1} />
+            <Col span={12}>
               <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无无</span>
                 <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
-                <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
               </Col>
-            </Row>
-            <Row className='Wxd'>
-              <Col span={1} />
-              <Col span={10}>
-                <span style={{color: 'red'}}>* </span>软件图标 : <Upload {...propss}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload>
+              <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+            </Col>
+          </Row>
+          <Row className='Wxd'>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                <span style={{color: 'red'}}>* </span>软件图标 :
               </Col>
-              <Col span={8}>
-                <span>期望上架时间 : </span><DatePicker
+              <Upload {...propss}>
+                <Button>
+                  <Icon type='upload' /> 上传文件
+                </Button>
+              </Upload>
+            </Col>
+            <Col span={8}>
+              <Col span={6}>
+                <span>期望上架时间 :</span>
+              </Col>
+              <Col span={17}>
+                <DatePicker
                   style={{width: '280px'}}
                   showTime
                   format='YYYY-MM-DD HH:mm:ss'
@@ -304,67 +338,100 @@ class ShelfPlease extends React.Component {
                   onOk={this.onOk}
                 />
               </Col>
-            </Row>
-            <Row className='Wxd'>
-              <Col span={10}>
-                <Col span={1} />
-                <Col span={6}><span>PC端界面截图 : </span></Col>
-                <Col span={10}><Upload
+            </Col>
+          </Row>
+          <Row className='Wxd'>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>** 无无</span>
+                <span>PC端界面截图 :</span>
+              </Col>
+              <Col span={15}>
+                <Upload
                   action='//jsonplaceholder.typicode.com/posts/'
                   listType='picture-card'
                   fileList={fileList}
                   onPreview={this.handlePreview}
                   onChange={this.handleChange}
                 >
-                  {fileList.length >= 1 ? null : uploadButton}
-                </Upload></Col>
-                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                  <img alt='example' style={{ width: '100%' }} src={previewImage} />
-                </Modal>
+                  {fileList.length >= 3 ? null : uploadButton}
+                </Upload>
               </Col>
-            </Row>
-            <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '2%', marginTop: '4%'}} />
+              <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                <img alt='example' style={{ width: '100%' }} src={previewImage} />
+              </Modal>
+            </Col>
           </Row>
+          <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '2%', marginTop: '4%'}} />
         </Row>
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />开发相关</p></Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={12}><span style={{color: 'red'}}>* </span>姓名 : <Input placeholder='请输入名字' style={{ width: 280 }} onChange={this.name} value={this.state.name} /></Col>
-            <Col span={11}><span style={{color: 'red'}}>* </span>身份证号 : <Input placeholder='请输入身份证号' style={{ width: 200 }} onChange={this.idNumber} value={this.state.idNumber} /></Col>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无无五五</span>
+                <span style={{color: 'red'}}>* </span>姓名 :
+              </Col>
+              <Input placeholder='请输入名字' style={{ width: 280 }} onChange={this.name} value={this.state.name} />
+            </Col>
+            <Col span={8}>
+              <Col span={5}>
+                <span style={{color: 'red'}}>* </span>身份证号 :
+              </Col>
+              <Col span={17}>
+                <Input placeholder='请输入身份证号' style={{ width: 200 }} onChange={this.idNumber} value={this.state.idNumber} /></Col>
+            </Col>
           </Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col><span style={{color: 'red'}}>* </span>手持身份证照片 : <Upload {...propss}>
-              <Button>
-                <Icon type='upload' /> 上传文件
-              </Button>
-            </Upload></Col>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC</span>
+                <span style={{color: 'red'}}>* </span>手持身份证照片 :
+              </Col>
+              <Col span={6}>
+                <Upload {...propss}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                </Upload>
+              </Col>
+            </Col>
           </Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={12}><span style={{color: 'red'}}>* </span>主要联系人 : <Input placeholder='请输入联系人' style={{ width: 280 }} onChange={this.conPeople} value={this.state.conPeople} /></Col>
-            <Col span={8}><span style={{color: 'red'}}>* </span>联系人电话 : <Input placeholder='请输入联系人电话' style={{ width: 200 }} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无</span>
+                <span style={{color: 'red'}}>* </span>主要联系人 :
+              </Col>
+              <Input placeholder='请输入联系人' style={{ width: 280 }} onChange={this.conPeople} value={this.state.conPeople} /></Col>
+            <Col span={8}>
+              <Col span={6}>
+                <span style={{color: 'red'}}>* </span>联系人电话 :
+              </Col>
+              <Col span={18}>
+                <Input placeholder='请输入联系人电话' style={{ width: 200 }} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
+            </Col>
           </Row>
           <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
         </Row>
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件版权</p></Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={15}>
+            <Col span={12}>
+              <span style={{visibility: 'hidden'}}>*PC无无</span>
               <RadioGroup onChange={this.radio} value={this.state.radio}>
-                <Radio value={1}>软件凭证 : <Upload {...propss}>
+                <Radio value={1}>软件凭证 : <span style={{visibility: 'hidden'}}>无</span><Upload {...propss}>
                   <Button>
                     <Icon type='upload' /> 上传文件
                   </Button>
                 </Upload></Radio>
-                <Radio value={2}>开发者权利声明 : <Upload {...propss}>
+                <Radio value={2}>开发者权利声明 : <span style={{visibility: 'hidden'}}>无</span><Upload {...propss}>
                   <Button>
                     <Icon type='upload' /> 上传文件
                   </Button>
                 </Upload></Radio>
-              </RadioGroup></Col>
+              </RadioGroup>
+            </Col>
             <Col span={5}><a href='javascript:;'>下载模版</a></Col>
           </Row>
           <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
@@ -372,9 +439,9 @@ class ShelfPlease extends React.Component {
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />财务凭证</p></Row>
           <Row>
-            <Col span={1} />
             <Col span={8}>
-              <span>财务审核凭证 : </span><Upload {...propss}>
+              <span style={{visibility: 'hidden'}}>*PC无无</span>
+              <span>财务审核凭证 : </span><span style={{visibility: 'hidden'}}>无</span><Upload {...propss}>
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
