@@ -97,18 +97,24 @@ class IterationPlease extends React.Component {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
             <Row>
-              <Col span={1} />
-              <Col span={6}><span><span style={{color: 'red'}}>* </span>软件版本 : </span><Select placeholder='请选择安装包版本' style={{ width: 200 }} >
-                {this.state.dataL.map((item, index) => {
-                  return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-                })}
-              </Select></Col>
-              <Col span={6}>
-                <Upload {...props}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload>
+              <Col span={12}>
+                <Col span={6}><span style={{visibility: 'hidden'}}>*PC无无无</span>
+                  <span style={{color: 'red'}}>* </span>软件版本 :
+                </Col>
+                <Col span={9}>
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                    {this.state.dataL.map((item, index) => {
+                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                    })}
+                  </Select>
+                </Col>
+                <Col span={6}>
+                  <Upload {...props}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                  </Upload>
+                </Col>
               </Col>
             </Row>
           </div>)
@@ -116,19 +122,26 @@ class IterationPlease extends React.Component {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
             <Row>
-              <Col span={1} />
-              <Col span={6}><span style={{visibility: 'hidden'}}>* 软件版本 : </span><Select placeholder='请选择安装包版本' style={{ width: 200 }} >
-                {this.state.dataL.map((item, index) => {
-                  return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-                })}
-              </Select></Col>
-              <Col span={6}>
-                <Upload {...props}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload>
-              </Col></Row>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC无无无<span style={{color: 'red'}}>* </span>软件版本 :</span>
+                </Col>
+                <Col span={9}>
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                    {this.state.dataL.map((item, index) => {
+                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                    })}
+                  </Select>
+                </Col>
+                <Col span={6}>
+                  <Upload {...props}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                  </Upload>
+                </Col>
+              </Col>
+            </Row>
           </div>)
       }
     }
@@ -196,18 +209,48 @@ class IterationPlease extends React.Component {
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={11}><span style={{visibility: 'hidden'}}>* </span>软件类型 : <span>教育类</span></Col>
-            <Col span={11}><span style={{visibility: 'hidden'}}>* </span>软件名称 : <span>超级教书的</span></Col>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                <span style={{visibility: 'hidden'}}>* </span>软件类型 :
+              </Col>
+              <Col span={5}>
+                <span>教育类</span>
+              </Col>
+            </Col>
+            <Col span={8}>
+              <Col span={5}>
+                <span style={{visibility: 'hidden'}}>* </span>软件名称 :
+              </Col>
+              <Col span={18}>
+                <span>超级教书的</span>
+              </Col>
+            </Col>
           </Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={11}><span style={{visibility: 'hidden'}}>* </span>当前版本 : <span>v1.3</span></Col>
-            <Col span={11}><span style={{color: 'red'}}>* </span>更新版本 : <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.newV} value={this.state.newV} /></Col>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                <span style={{visibility: 'hidden'}}>* </span>当前版本 :
+              </Col>
+              <Col span={5}>
+                <span>v1.3</span>
+              </Col>
+            </Col>
+            <Col span={8}>
+              <Col span={5}>
+                <span style={{color: 'red'}}>* </span>更新版本 :
+              </Col>
+              <Col span={18}>
+                <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.newV} value={this.state.newV} /></Col>
+            </Col>
           </Row>
           <Row className='Wxd'>
-            <Col span={1} />
-            <Col span={20}><span style={{color: 'red'}}>* </span>软件描述 : <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
+            <Col span={23}>
+              <span style={{visibility: 'hidden'}}>*PC无无无</span>
+              <span style={{color: 'red'}}>* </span>软件描述 :
+              <span style={{visibility: 'hidden'}}>无</span>
+              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
           </Row>
           <Row className='Wxd'>
             <Row className='Wxds'>
@@ -216,16 +259,22 @@ class IterationPlease extends React.Component {
               })}
             </Row>
             <Row className='Wxd'>
-              <Col span={1} />
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
-                <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                  <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
+                </Col>
+                <Col span={5}>
+                  <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+                </Col>
               </Col>
             </Row>
             <Row className='Wxd'>
-              <Col span={1} />
-              <Col span={22}>
-                <Col span={2}><span style={{color: 'red'}}>* </span>软件图标 : </Col>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                  <span style={{color: 'red'}}>* </span>软件图标 :
+                </Col>
                 <Upload
                   action='//jsonplaceholder.typicode.com/posts/'
                   listType='picture-card'
@@ -241,18 +290,22 @@ class IterationPlease extends React.Component {
               </Modal>
             </Row>
             <Row className='Wxd'>
-              <Col span={22}>
-                <Col span={1} />
-                <Col span={2}><span>PC端界面截图 : </span></Col>
-                <Col span={13}><Upload
-                  action='//jsonplaceholder.typicode.com/posts/'
-                  listType='picture-card'
-                  fileList={fileList}
-                  onPreview={this.handlePreview}
-                  onChange={this.handleChange}
-                >
-                  {fileList.length >= 3 ? null : uploadButton}
-                </Upload></Col>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC 无</span>
+                  <span>PC端界面截图 : </span>
+                </Col>
+                <Col span={13}>
+                  <Upload
+                    action='//jsonplaceholder.typicode.com/posts/'
+                    listType='picture-card'
+                    fileList={fileList}
+                    onPreview={this.handlePreview}
+                    onChange={this.handleChange}
+                  >
+                    {fileList.length >= 3 ? null : uploadButton}
+                  </Upload>
+                </Col>
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                   <img alt='example' style={{ width: '100%' }} src={previewImage} />
                 </Modal>
@@ -260,24 +313,31 @@ class IterationPlease extends React.Component {
             </Row>
           </Row>
           <Row>
-            <Col span={1} />
-            <Col span={8}>
-              <span>更新时间 : </span><DatePicker
-                style={{width: '280px'}}
-                showTime
-                format='YYYY-MM-DD HH:mm:ss'
-                placeholder='Select Time'
-                onChange={this.onChange}
-                onOk={this.onOk}
-              />
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                <span>更新时间 : </span>
+              </Col>
+              <Col span={16}>
+                <DatePicker
+                  style={{width: '280px'}}
+                  showTime
+                  format='YYYY-MM-DD HH:mm:ss'
+                  placeholder='Select Time'
+                  onChange={this.onChange}
+                  onOk={this.onOk}
+                />
+              </Col>
             </Col>
           </Row>
           <Row>
-            <Col>
-              <Col span={16} />
-              <Col span={2}><Button type='primary' onClick={this.submit}>提交申请</Button></Col>
-              <Col span={2}><Button>取消</Button></Col>
-            </Col>
+            <div style={{marginTop: '20px'}}>
+              <Col>
+                <Col span={16} />
+                <Col span={2}><Button type='primary' onClick={this.submit}>提交申请</Button></Col>
+                <Col span={2}><Button>取消</Button></Col>
+              </Col>
+            </div>
           </Row>
         </Row>
       </div>
