@@ -6,9 +6,33 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import axios from 'axios'
+import _ from 'lodash'
 import ajaxUrl from 'config/index'
-import { Table, Modal } from 'antd'
+import { Table, Modal, Input, Form, Button } from 'antd'
 import './PersonManageTable.scss'
+
+const FormItem = Form.Item
+const teacherColumns = {
+  name: '教师姓名',
+  username: '账号',
+  sex: '性别',
+  th_idcard: '身份证号码',
+  grad: '教学年级',
+  date: '执教时间',
+  duty: '行政职务',
+  phone: '联系方式'
+}
+
+const studentColumns = {
+  name: '学生姓名',
+  username: '账号',
+  sex: '性别',
+  grad: '年级',
+  class: '班级',
+  contact: '紧急联系人',
+  relationship: '与本人关系',
+  phone: '紧急联系人联系方式'
+}
 
 class PersonManageTable extends Component {
   constructor (props) {
@@ -17,7 +41,10 @@ class PersonManageTable extends Component {
       tableData: {},
       tableColumns: [],
       editModalVisible: false
+
     }
+    this.editRecord = {}
+    this.role = 'teacher'
   }
 
   getColumns = (role) => {
@@ -139,23 +166,96 @@ class PersonManageTable extends Component {
   }
 
   // 打开编辑弹窗
-  openEditModal=(record, role) => {
+  openEditModal = (record, role) => {
     // console.log(record, role)
     this.setState({
       editModalVisible: true
     })
+    this.editRecord = record
+    this.role = role
   }
 
   // 取消编辑
-  editCancel=() => {
+  editCancel = () => {
     this.setState({
       editModalVisible: false
     })
   }
 
   // 删除
-  delete=(id, role) => {
+  delete = (id, role) => {
     console.log('删除', id, role)
+  }
+
+  // 创建编辑表单
+  createEditForm = () => {
+    // console.log(studentColumns)
+    if (_.isEmpty(this.editRecord)) {
+      return ''
+    } else {
+      let columns = ''
+      let formItemLayout = { }
+      if (this.role === 'teacher') {
+        columns = teacherColumns
+        formItemLayout = {
+          labelCol: {
+            span: 5
+          },
+          wrapperCol: {
+            span: 19
+          }
+        }
+      } else if (this.role === 'student') {
+        columns = studentColumns
+        formItemLayout = {
+          labelCol: {
+            span: 7
+          },
+          wrapperCol: {
+            span: 17
+          }
+        }
+      }
+      let rows = []
+      for (var item in columns) {
+        let row = (
+          <FormItem
+            {...formItemLayout}
+            label={`${columns[item]}:`}
+            key={item}
+          >
+            {this.props.form.getFieldDecorator(item, {
+              initialValue: this.editRecord[item]
+            })(
+              <Input placeholder={`请输入${columns[item]}`} />
+            )}
+          </FormItem>
+        )
+        rows.push(row)
+      }
+      return (
+        <Form onSubmit={this.handleSubmit}>
+          {rows}
+          <FormItem
+            className='submit-box'
+          >
+            <Button type='primary' htmlType='submit'>
+            确定
+            </Button>
+          </FormItem>
+        </Form>
+      )
+    }
+  }
+
+  // 确定修改
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values)
+      }
+    })
   }
 
   componentDidMount () {
@@ -196,19 +296,27 @@ class PersonManageTable extends Component {
           visible={this.state.editModalVisible}
           onOk={this.editOk}
           onCancel={this.editCancel}
+          destroyOnClose
+          className='edit-modal'
+          footer={null}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          {
+            this.createEditForm()
+          }
         </Modal>
       </div>
     )
   }
 }
+
 PersonManageTable.propTypes = {
   onShowSizeChange: PropTypes.func,
   tableParams: PropTypes.object,
   pageNumChange: PropTypes.func,
-  role: PropTypes.string
+  role: PropTypes.string,
+  form: PropTypes.object
 }
-export default PersonManageTable
+
+const PersonManageForm = Form.create()(PersonManageTable)
+
+export default PersonManageForm
