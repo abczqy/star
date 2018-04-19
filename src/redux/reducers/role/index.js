@@ -12,7 +12,7 @@ import { SET_ROLE, GET_ROLE } from '../../constants/role'
  * @type {{code: string}}
  */
 const initialState = {
-  code: 'students' // 默认为游客
+  code: 'vendor' // 默认为游客
 }
 
 export default function role (state = {...initialState}, action) {
