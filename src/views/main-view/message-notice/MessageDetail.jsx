@@ -25,7 +25,7 @@ export default class MessageDetail extends React.Component {
 
   render () {
     return (
-      <div className='center-view'>
+      <div className='center-view mb20'>
         <Card title='消息通知详情' bordered={false} className='message-notice-card'extra={<a onClick={() => { this.handleTabChange('notice') }}>{'<返回'}</a>}>
           <div className='notice-detail'>
             <h4>这个是标题</h4>

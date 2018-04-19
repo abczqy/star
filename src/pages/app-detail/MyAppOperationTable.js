@@ -6,8 +6,9 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, Icon, Button } from 'antd'
+import { Link } from 'react-router-dom'
 import CustomPagingTable from '../../components/common/PagingTable'
-// import './MarketAnalysisTable.scss'
+import './MyAppOperationTable.scss'
 const FormItem = Form.Item
 const Option = Select.Option
 const Search = Input.Search
@@ -40,8 +41,17 @@ class MyAppTable extends Component {
       // width: 150
     }, {
       title: '操作',
-      dataIndex: 'clickCount'
+      dataIndex: 'clickCount',
       // width: 150
+      render: (text, record, index) => {
+        return (
+          <div>
+            <span style={{marginRight: '10px'}}><Link to='#'>迭代</Link></span>
+            <span style={{marginRight: '10px'}}><Link to='#'>日志下载</Link></span>
+            <span style={{marginRight: '10px'}}><Link to='/operate-manage-home/all-app-detail-mineabc'>查看详情</Link></span>
+          </div>
+        )
+      }
     }]
   }
   componentDidMount () {

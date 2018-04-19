@@ -3,7 +3,13 @@
 
 .center-view {
   width: calc(100% - 220px);
-  margin: 20px auto;
+}
+.mtb20{
+  margin: 20px auto;  
+}
+.mb20{
+  margin: 0 auto;
+  margin-bottom: 20px;
 }
 /*单行省略号*/
 .ellipsis {

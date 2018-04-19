@@ -6,8 +6,8 @@ import { Card, Menu } from 'antd'
 import axios from 'axios'
 import _ from 'lodash'
 import ajaxUrl from 'config'
-import MarketAnalysisTable from '../../page/market-analysis/marketAnalysis-table/MarketAnalysisTable'
-import MarketAnalysisWordCloud from '../../page/market-analysis/market-analysis-wordCloud/MarketAnalysisWordCloud'
+import MarketAnalysisTable from './marketAnalysis-table/MarketAnalysisTable'
+import MarketAnalysisWordCloud from './market-analysis-wordCloud/MarketAnalysisWordCloud'
 import './MarketAnalysis.scss'
 
 // const TabPane = Tabs.TabPane
@@ -62,7 +62,7 @@ class MarketAnalysis extends Component {
 
   render () {
     return (
-      <div className='market-analysis center-view'>
+      <div className='market-analysis center-view mtb20'>
         <Card title='同类软件下载排行对比' bordered={false} >
           <Menu
             onClick={this.typeSwitching}
