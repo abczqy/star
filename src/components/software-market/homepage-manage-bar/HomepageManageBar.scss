@@ -1,0 +1,32 @@
+.bar-wrap {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  .bar-left {
+    display: inline-block;
+    width: 90%;
+    height: 100%;
+    padding: 12px;
+  }
+  .bar-right {
+    display: inline-block;
+    width: 10%;
+    height: 100%;
+    padding: 12px;
+    position: absolute;
+    right: 0;
+    color: #1890ff
+  }
+  .bar-btn1-right {
+    position: absolute;
+    top: 15%;
+    right: 12%;
+  }
+  .bar-btn2-right {
+    position: absolute;
+    top: 15%;
+    right: 19%;
+  }
+}

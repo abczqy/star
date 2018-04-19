@@ -12,3 +12,8 @@ export {
   Student,
   Teacher
 } from './member-manage/index'
+
+export {
+  PortalHomepage,
+  PlatHomepage
+} from './platform-manage/index'

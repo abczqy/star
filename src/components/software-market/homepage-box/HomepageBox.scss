@@ -1,0 +1,27 @@
+.box-wrap {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed #b1b0ae;
+  padding: 6% 0 16% 0;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  .box-content-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ant-layout-header {
+    background: #fff;
+  }
+  .ant-layout-content {
+    background: #fff;
+  }
+  .ant-row {
+    padding-bottom: 2%;
+  }
+}
