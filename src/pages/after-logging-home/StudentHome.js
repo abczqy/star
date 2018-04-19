@@ -1,53 +1,23 @@
 /**
- * 软件市场首页
+ * 市场分析
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate } from 'antd'
-import PropTypes from 'prop-types'
 import HomeCarousel from './HomeCarousel'
-import { connect } from 'react-redux'
-import './TeacherHome.scss'
+import './StudentHome.scss'
 const TabPane = Tabs.TabPane
-class TeacherHome extends Component {
+class StudentHome extends Component {
   constructor (props) {
     super(props)
     this.state = {
       tableDatas: [],
       hotSearchDatas: [],
-      currentType: 'teaching',
-      obj: {
-        display: 'none'
-      }
-    }
-  }
-  componentDidMount () {
-    if (this.props.roleCode === 'teacher' || this.props.roleCode === 'student') {
-      this.setState({
-        obj: {
-          display: 'block'
-        }
-      })
+      currentType: 'teaching'
     }
   }
   render () {
-    console.log(1111111, this.props.roleCode)
     const datac = [{
-      src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-      title: '超级教师',
-      detail: '1111111111111333333333333333333333333333'
-    },
-    {
-      src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-      title: '超级教师',
-      detail: '1111111111111333333333333333333333333333'
-    },
-    {
-      src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-      title: '超级教师',
-      detail: '1111111111111333333333333333333333333333'
-    },
-    {
       src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
       title: '超级教师',
       detail: '1111111111111333333333333333333333333333'
@@ -76,52 +46,27 @@ class TeacherHome extends Component {
       <div className='logged-home'>
         <HomeCarousel />
         <div className='logged-home-recommendation'>
-          <div className='logged-home-border'>
-            <div className='popular-recommendation' style={this.state.obj}>
-              <div className='popular-recommendation-title'>
-                <h3 className='chinese'>老师推荐</h3>
-                <span className='english'>Hot recommendation</span>
-                <span className='more'>更多 > ></span>
-              </div>
-              <div className='popular-recommendation-item'>
-                {datac.map((item, index, arr) => {
-                  return (
-                    <div key={index} className='list'>
-                      <dl className='list-item'>
-                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={item.src} /></dt>
-                        <dd className='dl-dd'>
-                          <span className='dd-title'>{item.title}</span>
-                          <p className='dd-p'>{item.detail}</p>
-                        </dd>
-                      </dl>
-                      <p style={{float: 'right'}}><Link to='/operate-manage-home/all-app-detail-third'><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
-                    </div>
-                  )
-                })}
-              </div>
+          <div className='popular-recommendation'>
+            <div className='popular-recommendation-title'>
+              <h3 className='chinese'>热门推荐</h3>
+              <span className='english'>Hot recommendation</span>
+              <span className='more'>更多 > ></span>
             </div>
-            <div className='popular-recommendation'>
-              <div className='popular-recommendation-title'>
-                <h3 className='chinese'>热门推荐</h3>
-                <span className='english'>Hot recommendation</span>
-                <span className='more'>更多 > ></span>
-              </div>
-              <div className='popular-recommendation-item'>
-                {datac.map((item, index, arr) => {
-                  return (
-                    <div key={index} className='list'>
-                      <dl className='list-item'>
-                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={item.src} /></dt>
-                        <dd className='dl-dd'>
-                          <span className='dd-title'>{item.title}</span>
-                          <p className='dd-p'>{item.detail}</p>
-                        </dd>
-                      </dl>
-                      <p style={{float: 'right'}}><Link to='/operate-manage-home/all-app-detail-third'><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
-                    </div>
-                  )
-                })}
-              </div>
+            <div className='popular-recommendation-item'>
+              {datac.map((item, index, arr) => {
+                return (
+                  <div key={index} className='list'>
+                    <dl className='list-item'>
+                      <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={item.src} /></dt>
+                      <dd className='dl-dd'>
+                        <span className='dd-title'>{item.title}</span>
+                        <p className='dd-p'>{item.detail}</p>
+                      </dd>
+                    </dl>
+                    <p style={{float: 'right'}}><Link to='/operate-manage-home/all-app-detail-third'><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className='ranking'>
@@ -461,16 +406,5 @@ class TeacherHome extends Component {
     )
   }
 }
-TeacherHome.propTypes = {
-  roleCode: PropTypes.string
-}
-const mapStateToProps = state => ({
-  roleCode: state.role.code
-})
 
-const mapDispatchToProps = dispatch => ({
-})
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TeacherHome)
+export default StudentHome

@@ -102,10 +102,10 @@ export default [{
     component: ThirdPartyAppDetail
   }, {
     path: '/operate-manage-home/all-app-detail-mine',
-    component: MyAppDetail
+    component: MyApp
   }, {
     path: '/operate-manage-home/all-app-detail-mineabc',
-    component: MyApp
+    component: MyAppDetail
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口
