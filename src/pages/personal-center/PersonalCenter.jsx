@@ -10,7 +10,7 @@ import './PersonalCenter.scss'
 class PersonalCenter extends Component {
   render () {
     return (
-      <div className='personal-center center-view'>
+      <div className='personal-center center-view mtb20'>
         <Card title='我的应用' bordered={false} >
           <Row>
             <Col span={6} >

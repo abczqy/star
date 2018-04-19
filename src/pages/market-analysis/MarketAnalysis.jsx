@@ -62,7 +62,7 @@ class MarketAnalysis extends Component {
 
   render () {
     return (
-      <div className='market-analysis center-view'>
+      <div className='market-analysis center-view mtb20'>
         <Card title='同类软件下载排行对比' bordered={false} >
           <Menu
             onClick={this.typeSwitching}

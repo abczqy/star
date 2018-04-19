@@ -88,7 +88,7 @@ class PersonnelManagement extends Component {
 
   render () {
     return (
-      <div className='personnel-management center-view'>
+      <div className='personnel-management center-view mtb20'>
         {/* 侧边导航 */}
         <div className='sider'>
           <div className='sider-header'>

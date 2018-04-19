@@ -52,7 +52,7 @@ export default class MessageSetting extends React.Component {
     let strmailaf = mail.match(/@(\S*)/)[1]
     let smail = strmail.substr(0, 3) + '*****' + strmail.substr(strmail.length - 2) + '@' + strmailaf
     return (
-      <div className='center-view'>
+      <div className='center-view mb20'>
         <Card title='账号安全' bordered={false} className='message-setting-card'>
           <div className='setting-body'>
             <div className='safe_item'>
