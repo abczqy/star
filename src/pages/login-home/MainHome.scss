@@ -95,11 +95,44 @@
       float: left;
       width: 86px;
       list-style: none;
+      padding-top: 5px;
       a{
-        color: white;
-        padding: 6px 14px;
-        width:100px;
+        display: block;
+        position: relative;
+        text-align: center;
+        height: 48px;
+        border-radius: 3px;
+        span{
+          height: 48px;
+          line-height: 48px;
+          display: block;
+          color: white;
+        }
+        &.selected{
+          background: white;
+          span{
+            color: #20519E;
+          }
+        }
       }
+      /*div{
+        text-align: center;
+        margin-top: 10px;
+        height: 42px;
+        a{
+          display: block;
+          color: white;
+          width: 100px;
+          margin-top: -10px;
+        }
+      }
+      
+      div:hover{
+        background: white;
+        a{
+          color: #20519E;
+        }
+      }*/
     }
   }
 }
