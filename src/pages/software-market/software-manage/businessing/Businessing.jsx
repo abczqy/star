@@ -10,10 +10,10 @@
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
-import { BlankBar, SearchBar } from 'components/software-market'
 import ajaxUrl from 'config'
 import axios from 'axios'
-import 'views/main-view/software-market/SoftwareMarket.scss'
+import { BlankBar, SearchBar } from 'components/software-market'
+import 'pages/software-market/SoftwareMarket.scss'
 
 /**
    * 表格分页器设置-默认值
@@ -88,7 +88,7 @@ const columns = [{
   }
 }]
 
-class Manufacturer extends Component {
+class Businessing extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -211,4 +211,4 @@ class Manufacturer extends Component {
   }
 }
 
-export default Manufacturer
+export default Businessing

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-bind,react/prop-types */
+/* eslint-disable react/jsx-no-bind */
 /**
  * 游客的信息公开
  */
@@ -7,8 +9,7 @@ import img from '../../assets/images/hear.jpg'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './newsList.scss'
-import BottomHeader from '../../components/common/BottomHeader'
-
+import _ul from '../../assets/images/_ul.png'
 class Information extends React.Component {
   constructor (props) {
     super(props)
@@ -18,6 +19,9 @@ class Information extends React.Component {
         imgT: img,
         imgH: hand,
         imgP: people,
+        pageNum: 1,
+        pageSize: 10,
+        selete: '', // 选择地区
         dataP: [
           '民办普通高校等学校的设立发123...',
           '民办高等学校办学地址变更发123...',
@@ -27,48 +31,47 @@ class Information extends React.Component {
       },
       dataRight: {
         total: 99,
-        pageSize: 10,
-        data: [{
+        list: [{
           people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '运营者',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '运营者',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222十九大精33333333333333333333333333333333333333333333333333333333333333333333333333333333神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         }]
       },
       options: [
@@ -97,7 +100,12 @@ class Information extends React.Component {
     }
   }
   getList=() => {
-    console.log('获取数据')
+    let a = {
+      pageNum: this.state.data.pageNum || 1,
+      pageSize: this.state.data.pageSize || 1,
+      selete: this.state.selete || ''
+    }
+    console.log('游客的信息公开获取数据传的参数', a)
   }
   componentWillMount () {
     this.getList()
@@ -113,82 +121,96 @@ class Information extends React.Component {
   // 分页页码改变
   ptChange=(page, pageSize) => {
     console.log('页码改变', page, pageSize)
-    this.getList()
+    this.setState({
+      pageNum: page
+    }, () => {
+      this.getList()
+    })
   }
   // 每页展示数量改变
   stChange=(current, size) => {
     console.log('每页的数量改变', current, size)
-    this.getList()
+    this.setState({
+      pageSize: size
+    }, () => {
+      this.getList()
+    })
   }
-  // // 省厅的modal
-  // modal=() => {
-  //   console.log('省厅弹出框')
-  // }
   // 下拉分级改变
   onChangeF =(value) => {
     console.log(value)
-    this.getList()
+    this.setState({
+      selete: value
+    }, () => {
+      this.getList()
+    })
+  }
+  // a连接的页面跳转方法呦
+  handleTabChange (link) {
+    // if (link === this.props.location.pathname) {
+    //   window.location.reload()
+    // }
+    window.location.href = window.location.href + link
   }
   render () {
     return <div>
       <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
-          <Col span={5}>
-            <Row><div className='left-downer'><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></div></Row>
-            <Row><div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-                <ul className='ul-margin'>
-                  {this.state.data.dataP.map((item, index) => {
-                    return <li className='li-hover' key={index} ><span className='span-color'>{item}</span></li>
-                  })}
-                </ul>
-              </Card></div>
-            </Row>
-            <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
-          </Col>
-          <Col span={16}>
-            <ul className='ul-top' style={{width: '800px'}}>
-              <li style={{listStyle: 'none', width: '800px'}}>
-                <span>发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChange(value) }} changeOnSelect /></span>
-                {/* <span className='ST'><a onClick={this.modal}><img src={this.state.data.imgP} style={{width: '18px'}} alt='' />省厅</a></span> */}
-                <span style={{fontSize: '12px', marginLeft: '45%'}}><img src={this.state.data.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选</span></li>
-              {this.state.dataRight.data.map((item, index) => {
-                return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '120px'}} key={index}>
-                  <Col span={24}>
-                    <Row>
-                      <Col span={17}><p className='p'><a onClick={this.title}>{item.title}</a></p></Col>
-                      <Col span={4}><span className='span-top'>发布者:{item.people}</span></Col>
-                      <Col span={3}><span className='span-top'>{item.time}</span></Col>
-                    </Row>
-                    <Row>
-                      <Col span={23}>
-                        <p style={{fontSize: '12px'}}>{item.paragraph}</p>
-                      </Col>
-                    </Row>
-                  </Col>
-                </li>
-              })}
-            </ul>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={10} />
-          <Col >
-            <Pagination
-              size='small'
-              total={this.state.dataRight.total}
-              showSizeChanger
-              showQuickJumper
-              pageSize={this.state.dataRight.pageSize}
-              onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-              onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-            // pageSizeOptions={5}
-            /></Col>
+          <div style={{width: '1400px'}}>
+            <Col span={5}>
+              <Row><div className='left-downer'><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer'>
+                <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+                  <ul className='ul-margin'>
+                    {this.state.data.dataP.map((item, index) => {
+                      return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                    })}
+                  </ul>
+                </Card></div>
+              </Row>
+              <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
+            </Col></div>
+          <div style={{width: '1400px'}}>
+            <Col span={16}>
+              <ul className='ul-top' style={{width: '800px'}}>
+                <li style={{listStyle: 'none', width: '800px'}}>
+                  <span>发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} /></span>
+                  {/* <span className='ST'><a onClick={this.modal}><img src={this.state.data.imgP} style={{width: '18px'}} alt='' />省厅</a></span> */}
+                  <span style={{fontSize: '12px', marginLeft: '45%'}}><img src={this.state.data.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选</span></li>
+                {this.state.dataRight.list.map((item, index) => {
+                  return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '130px'}} key={index}>
+                    <Col span={24}>
+                      <Row>
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this, '/informationDet')}>{item.title}</a></p></Col>
+                        <Col span={4}><span className='span-top'>发布者:{item.people}</span></Col>
+                        <Col span={3}><span className='span-top'>{item.time}</span></Col>
+                      </Row>
+                      <Row>
+                        <Col span={23}>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}<span>&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </li>
+                })}
+              </ul>
+              <Row>
+                <Col span={9} />
+                <Col >
+                  <Pagination
+                    size='small'
+                    total={this.state.dataRight.total}
+                    showSizeChanger
+                    showQuickJumper
+                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                  // pageSizeOptions={5}
+                  /></Col>
+              </Row>
+            </Col>
+          </div>
         </Row>
       </div>
-      <Row>
-        <BottomHeader />
-      </Row>
     </div>
   }
 }

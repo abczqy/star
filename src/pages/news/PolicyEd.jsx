@@ -3,7 +3,7 @@
  *
  */
 import React from 'react'
-import {Card, Input, Row, Col, Upload, Button, Icon, message, Modal} from 'antd'
+import {Input, Row, Col, Upload, Button, Icon, message, Modal} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
 
@@ -18,12 +18,12 @@ class Policy extends React.Component {
     }
   }
   componentWillMount () {
-    if (this.props.ctrl === 'edit') {
+    if (this.props.ctrl && this.props.ctrl === 'edit') {
       this.setState({
         input: this.props.record.title,
         context: this.props.record.information
       })
-    } else if (this.props.ctrl === 'add') {
+    } else if (this.props.ctrl && this.props.ctrl === 'add') {
       this.setState({
         input: '',
         context: ''
@@ -49,6 +49,7 @@ class Policy extends React.Component {
   // 点击取消按钮
   cancel=() => {
     console.log('取消发送')
+    this.props.getModalV(false)
   }
   // 发送通知按钮
   open=() => {
@@ -71,8 +72,9 @@ class Policy extends React.Component {
       visible: false
     }, () => {
       this.sendF()
+      console.log('确认发送')
+      this.props.getModalV(false)
     })
-    console.log('确认发送')
   }
   // 取消按钮
   handleCancel = (e) => {
@@ -100,40 +102,38 @@ class Policy extends React.Component {
       }
     }
     return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
-        <Card title='政策发布' bordered={false} style={{ width: 1100, height: 600 }}>
-          <Row>
-            <div style={{marginBottom: '15px', height: '45px', marginTop: '8px'}}>
-              <Col span={2}><span style={{color: 'red'}}>*</span>通知标题 : </Col>
-              <Col span={8}><Input placeholder='请输入关键字' value={this.state.input} onChange={this.onChangeI} /></Col>
-            </div>
-          </Row>
-          <Row>
-            <div style={{marginBottom: '15px', height: '108px'}}>
-              <Col span={2}><span style={{color: 'red'}}>*</span>通知内容 : </Col>
-              <Col span={20}><TextArea rows={4} placeholder='请输入内容' value={this.state.context} onChange={this.onChangeF} /></Col>
-            </div>
-          </Row>
-          <Row>
-            <Col span={2}><span style={{visibility: 'hidden'}}>*</span>文件上传 : </Col>
-            <Col span={5}>
-              <Upload {...props}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-              </Upload>
+      <div style={{marginLeft: '5%', marginBottom: '20px'}}>
+        <Row>
+          <div style={{marginBottom: '15px', height: '45px', marginTop: '8px'}}>
+            <Col span={3}><span style={{color: 'red'}}>*</span>通知标题 : </Col>
+            <Col span={8}><Input placeholder='请输入关键字' value={this.state.input} onChange={this.onChangeI} /></Col>
+          </div>
+        </Row>
+        <Row>
+          <div style={{marginBottom: '15px', height: '108px'}}>
+            <Col span={3}><span style={{color: 'red'}}>*</span>通知内容 : </Col>
+            <Col span={20}><TextArea rows={4} placeholder='请输入内容' value={this.state.context} onChange={this.onChangeF} /></Col>
+          </div>
+        </Row>
+        <Row>
+          <Col span={3}><span style={{visibility: 'hidden'}}>*</span>文件上传 : </Col>
+          <Col span={5}>
+            <Upload {...props}>
+              <Button>
+                <Icon type='upload' /> 上传文件
+              </Button>
+            </Upload>
+          </Col>
+          <div style={{position: 'absolute', right: '10%', bottom: '-220px', width: '600px'}} >
+            <Col span={16} />
+            <Col span={4}>
+              <Button onClick={this.cancel}>取消</Button>
             </Col>
-            <div style={{position: 'absolute', right: '10%', bottom: '-220px', width: '600px'}} >
-              <Col span={16} />
-              <Col span={4}>
-                <Button onClick={this.cancel}>取消</Button>
-              </Col>
-              <Col span={4}>
-                <Button type='primary' onClick={this.open}>发送</Button>
-              </Col>
-            </div>
-          </Row>
-        </Card>
+            <Col span={4}>
+              <Button type='primary' onClick={this.open}>发送</Button>
+            </Col>
+          </div>
+        </Row>
       </div>
       <Modal
         visible={this.state.visible}
@@ -149,7 +149,8 @@ class Policy extends React.Component {
 }
 Policy.propTypes = {
   ctrl: PropTypes.string,
-  record: PropTypes.func
+  record: PropTypes.func,
+  getModalV: PropTypes.func
 }
 
 export default Policy

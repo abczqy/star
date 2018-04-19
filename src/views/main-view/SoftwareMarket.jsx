@@ -8,8 +8,13 @@ import {
   Businessing,
   IterationVerify,
   WaitVerify,
-  Manufacturer
-} from './software-market'
+  Manufacturer,
+  EducationalServices,
+  Parent,
+  School,
+  Student,
+  Teacher
+} from 'pages/software-market'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
@@ -69,6 +74,21 @@ export default class SoftwareMarket extends React.Component {
       case '5':
         result = <Manufacturer />
         break
+      case '6':
+        result = <School />
+        break
+      case '7':
+        result = <Teacher />
+        break
+      case '8':
+        result = <Student />
+        break
+      case '81':
+        result = <Parent />
+        break
+      case '82':
+        result = <EducationalServices />
+        break
       default:
        // 其他操作
     }
@@ -105,6 +125,7 @@ export default class SoftwareMarket extends React.Component {
                 <Menu.Item key='7'>老师</Menu.Item>
                 <Menu.Item key='8'>学生</Menu.Item>
                 <Menu.Item key='81'>家长</Menu.Item>
+                <Menu.Item key='82'>教育机构</Menu.Item>
               </SubMenu>
               <SubMenu key='sub3' title={<span><Icon type='notification' />平台管理</span>}>
                 <Menu.Item key='9'>门户首页</Menu.Item>
