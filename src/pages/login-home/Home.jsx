@@ -73,8 +73,6 @@ class Home extends React.Component {
   handleChangeVisible (key, flag) {
     this.setState({
       [key]: flag
-    }, () => {
-      this.handleAfterLogged()
     })
   }
 
