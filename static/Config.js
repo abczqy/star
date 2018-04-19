@@ -20,6 +20,10 @@ window.mungConfig = {
   Business: AJAX_HOST + '/Business',
 
   // 运营管理/会员管理-厂商
-  getFactory: AJAX_HOST + '/factoryManage/getFactory'
+  getFactory: AJAX_HOST + '/factoryManage/getFactory',
+  // 个人中心-我的应用
+  personalApps: AJAX_HOST + '/personal/apps',
+  // 个人中心-我的收藏
+  personalCollections: AJAX_HOST + '/personal/collections'
 
 }

@@ -5,7 +5,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Badge, Icon } from 'antd'
-import appLogo from '../../../assets/images/personal/appLogo.png'
 import './ApplicationCard.scss'
 
 class ApplicationCard extends Component {
@@ -23,13 +22,13 @@ class ApplicationCard extends Component {
         {/* 应用图标 */}
         <Badge dot={this.props.update} >
           <span className='appLogo'>
-            <img src={this.props.content.img} alt='' />
+            <img src={this.props.content.sw_icon} alt='' />
           </span>
         </Badge>
         {/* 应用文字介绍 */}
         <div className='info'>
-          <div className='name'>{this.props.content.name}</div>
-          <div className='description ellipsis'>{this.props.content.description}</div>
+          <div className='name'>{this.props.content.sw_name}</div>
+          <div className='description ellipsis'>{this.props.content.sw_desc}</div>
         </div>
         {/* 更新 */}
         {
@@ -77,19 +76,6 @@ class ApplicationCard extends Component {
       </div>
     )
   }
-}
-
-ApplicationCard.defaultProps = {
-  content: {
-    img: appLogo,
-    name: '超级教师',
-    description: '超级教师网站结合超级教师网站结合超级教师网站结合超级教师网站结合'
-  },
-  share: true,
-  update: true,
-  download: true,
-  open: false,
-  collection: true
 }
 
 ApplicationCard.propTypes = {
