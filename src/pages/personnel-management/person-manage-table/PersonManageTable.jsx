@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import axios from 'axios'
-import ajaxUrl from 'config'
+import ajaxUrl from 'config/index'
 import { Table, Modal } from 'antd'
 import './PersonManageTable.scss'
 

@@ -3,10 +3,10 @@
  */
 
 import React, { Component } from 'react'
-import { Menu, Input, Button, Row, Col } from 'antd'
+import { Menu, Input, Button, Row, Col, Upload } from 'antd'
 // import axios from 'axios'
 import ajaxUrl from 'config'
-import PersonManageTable from 'page/personnel-management/person-manage-table/PersonManageTable'
+import PersonManageTable from './person-manage-table/PersonManageTable'
 import './PersonnelManagement.scss'
 
 const tableParams = {
@@ -125,14 +125,16 @@ class PersonnelManagement extends Component {
             </Col>
             <Col offset={10} span={6} className='opt-box' >
               <span className='link' onClick={this.templateDownload} >模板下载</span>
-              <Button
-                className='upload-btn'
-                type='primary'
-                icon='file-add'
-                onClick={this.upload}
-              >
+              <Upload >
+                <Button
+                  className='upload-btn'
+                  type='primary'
+                  icon='file-add'
+                  onClick={this.upload}
+                >
                 批量导入
-              </Button>
+                </Button>
+              </Upload>
             </Col>
           </Row>
           <PersonManageTable
