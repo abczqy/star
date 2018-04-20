@@ -55,9 +55,9 @@ const getEchartsOptions = (data, type, title, config) => {
               }
             },
             data: [
-              {value: 335, name: '直接访问'},
-              {value: 310, name: '邮件营销'},
-              {value: 234, name: '联盟广告'}
+              { value: 335, name: '直接访问' },
+              { value: 310, name: '邮件营销' },
+              { value: 234, name: '联盟广告' }
             ]
           }
         ]
@@ -120,7 +120,7 @@ const getEchartsOptions = (data, type, title, config) => {
             name: '联盟广告',
             type: 'line',
             stack: '总量',
-            areaStyle: {color: 'rgba(178,198,230,0.5)'},
+            areaStyle: { color: 'rgba(178,198,230,0.5)' },
             data: [220, 182, 191, 234, 290, 330, 310]
           }
         ]
