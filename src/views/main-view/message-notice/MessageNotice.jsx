@@ -52,7 +52,9 @@ export default class MessageNotice extends React.Component {
             {data.map((item, index, arr) => {
               return <div className='list_itme' key={item.time}>
                 <div className='list-img'>
-                  <i />
+                  <div className='list_icon list_icon_bg'>
+                    <i />
+                  </div>
                 </div>
                 <div className='notice-count' onClick={() => { this.handleTabChange('detail', item.time) }}>
                   <div>

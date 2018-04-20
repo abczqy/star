@@ -14,6 +14,7 @@ import BottomHeader from '../../components/common/BottomHeader'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import apiConfig from '../../config'
 import './Operateview.scss'
 class OperateManage extends React.Component {
   constructor (props) {
@@ -27,7 +28,7 @@ class OperateManage extends React.Component {
     if (link === this.props.location.pathname) {
       window.location.reload()
     }
-    window.location.href = 'http://localhost:8080/#' + link
+    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
 
   getTabArr () {

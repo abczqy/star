@@ -20,7 +20,7 @@ class AddbindModel extends React.Component {
       this.props.form.resetFields()
     }
   }
-  saveOrSubmit =(value) => {
+  saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
@@ -53,7 +53,7 @@ class AddbindModel extends React.Component {
             // eslint-disable-next-line react/jsx-no-bind
             <Button key='cancle' onClick={this.props.hiddenModal}>取消</Button>,
             // eslint-disable-next-line react/jsx-no-bind
-            <Button key='save' type='primary' onClick={this.saveOrSubmit.bind(this, 0)}>添加</Button>
+            <Button key='save' type='primary' onClick={this.saveOrSubmit.bind(this)}>添加</Button>
           ]}
           width='35vw'
           height='30vw'

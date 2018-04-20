@@ -15,7 +15,10 @@ import {
   Student,
   Teacher,
   PortalHomepage,
-  PlatHomepage
+  PlatHomepage,
+  NewsList,
+  PublicInfo,
+  PublicInfoVerify
 } from 'pages/software-market'
 
 const { SubMenu } = Menu
@@ -93,6 +96,15 @@ export default class SoftwareMarket extends React.Component {
         break
       case '9':
         result = <PortalHomepage />
+        break
+      case '10':
+        result = <NewsList />
+        break
+      case '11':
+        result = <PublicInfo />
+        break
+      case '12':
+        result = <PublicInfoVerify />
         break
       case '13':
         result = <PlatHomepage />
