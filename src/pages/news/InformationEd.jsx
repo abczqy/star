@@ -11,6 +11,8 @@ import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
+// import axios from 'axios'
+// import ajaxUrl from 'config'
 
 const data = [
   {
@@ -160,7 +162,8 @@ class InformationEd extends React.Component {
             }]
           }]
         }
-      ]
+      ],
+      tableData: []
     }
     let thiz = this
     this.columns = [
@@ -227,17 +230,30 @@ class InformationEd extends React.Component {
             </div>
           )
         }
-      }]
+      }
+    ]
   }
   getList=() => {
     console.log('获取数据')
-    let a = {
+    let value = {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10,
       input: this.state.input || '',
       select: this.state.select || ''
     }
-    console.log('教育局信息公开获取数据传送信息', a)
+    console.log('教育局信息公开获取数据传送信息', value)
+    // axios.get('/applicaion/InfoListGet', {
+    //   value
+    // }).then(item => {
+    //   this.setState({
+    //     tableData: item.data
+    //   }, () => {
+    //     console.log('this.state.tableData', this.state.tableData)
+    //     // console.log('this.state.tableData.list', this.state.tableData.list)
+    //   })
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   }
   componentWillMount () {
     this.getList()
@@ -317,6 +333,18 @@ class InformationEd extends React.Component {
     //   info_id: record.info_id
     // }
     // console.log('删除传送行传的id', value)
+    // axios.get('/applicaion/InfoListGet', {
+    //   value
+    // }).then(item => {
+    //   this.setState({
+    //     infoData: item.data
+    //   }, () => {
+    //     console.log('this.state.infoData', this.state.infoData)
+    //     // console.log('this.state.infoData.list', this.state.infoData.list)
+    //   })
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   }
   // 确认按钮
   handleOk = (e) => {

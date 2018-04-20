@@ -24,6 +24,13 @@ window.mungConfig = {
   // 个人中心-我的应用
   personalApps: AJAX_HOST + '/personal/apps',
   // 个人中心-我的收藏
-  personalCollections: AJAX_HOST + '/personal/collections'
-
+  personalCollections: AJAX_HOST + '/personal/collections',
+  // 教育新闻列表
+  newsList: AJAX_HOST + '/applicaion/newslistget',
+  // 教育新闻列表详情
+  newsListDet: AJAX_HOST + '/applicaion/newsdetailget',
+  // 信息公开列表
+  information: AJAX_HOST + '/applicaion/InfoListGet',
+  // 信息公开列表详情
+  informationDet: AJAX_HOST + '/applicaion/InfoDetialGet'
 }

@@ -6,6 +6,8 @@ import React from 'react'
 import {Input, Row, Col, Upload, Button, Icon, message, Modal} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
+// import axios from 'axios'
+// import ajaxUrl from 'config'
 
 const { TextArea } = Input
 class Policy extends React.Component {
@@ -14,7 +16,8 @@ class Policy extends React.Component {
     this.state = {
       input: '',
       context: '',
-      visible: false
+      visible: false,
+      fileList: []
     }
   }
   componentWillMount () {
@@ -61,9 +64,22 @@ class Policy extends React.Component {
   sendF=() => {
     let value = {
       input: this.state.input,
-      context: this.state.context
+      context: this.state.context,
+      fileList: this.state.fileList
     }
-    console.log('要发送的内容', value)
+    console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
+    // axios.get('/applicaion/InfoListGet', {
+    //   value
+    // }).then(item => {
+    //   this.setState({
+    //     infoData: item.data
+    //   }, () => {
+    //     console.log('this.state.infoData', this.state.infoData)
+    //     // console.log('this.state.infoData.list', this.state.infoData.list)
+    //   })
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   }
   // 确认按钮
   handleOk = (e) => {
