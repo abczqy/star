@@ -153,7 +153,7 @@ class News extends React.Component {
             <Col span={15}>
               <ul className='ul-top'>
                 {/* this.state.newData.list.map */}
-                {this.state.newData.list.map((item, index) => {
+                {this.state.dataRight.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
                     <Col span={5}><img src={item.news_img} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
                     <Col span={16}>
