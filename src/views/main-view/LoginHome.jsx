@@ -11,10 +11,15 @@ import apiConfig from '../../config'
 class LoginHome extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
-      activeTab: 'home'
+      activeTab: this.getDefaultTabKey()
     }
+  }
+
+  getDefaultTabKey () {
+    let pathName = this.props.location.pathname
+    let temArr = pathName.split('/')
+    return temArr[temArr.length - 1] || 'home'
   }
 
   handleTabChange (link, key) {

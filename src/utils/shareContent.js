@@ -23,7 +23,7 @@ export default {
     _shareUrl += '&showcount=' + 1 // 参数showcount是否显示分享总数,显示：'1'，不显示：'0'，默认不显示
     _shareUrl += '&desc=' + encodeURIComponent('分享的描述') // 参数desc设置分享的描述，可选参数
     _shareUrl += '&summary=' + encodeURIComponent('分享摘要') // 参数summary设置分享摘要，可选参数
-    _shareUrl += '&title=' + encodeURIComponent(document.title) // 参数title设置分享标题，可选参数
+    _shareUrl += '&title=' + encodeURIComponent('标题123') // 参数title设置分享标题，可选参数
     _shareUrl += '&site=' + encodeURIComponent('分享来源') // 参数site设置分享来源，可选参数
     _shareUrl += '&pics=' + encodeURIComponent('') // 参数pics设置分享图片的路径，多张图片以＂|＂隔开，可选参数
     window.open(_shareUrl, '_blank')
