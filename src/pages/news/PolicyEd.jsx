@@ -1,5 +1,5 @@
 /**
- * 政策发布
+ * 政策发布弹出框内容
  *
  */
 import React from 'react'
@@ -116,22 +116,26 @@ class Policy extends React.Component {
           </div>
         </Row>
         <Row>
-          <Col span={3}><span style={{visibility: 'hidden'}}>*</span>文件上传 : </Col>
-          <Col span={5}>
-            <Upload {...props}>
-              <Button>
-                <Icon type='upload' /> 上传文件
-              </Button>
-            </Upload>
-          </Col>
-          <div style={{position: 'absolute', right: '10%', bottom: '-220px', width: '600px'}} >
-            <Col span={16} />
-            <Col span={4}>
-              <Button onClick={this.cancel}>取消</Button>
+          <Row>
+            <Col span={3}><span style={{visibility: 'hidden'}}>*</span>文件上传 : </Col>
+            <Col span={5}>
+              <Upload {...props}>
+                <Button>
+                  <Icon type='upload' /> 上传文件
+                </Button>
+              </Upload>
             </Col>
-            <Col span={4}>
-              <Button type='primary' onClick={this.open}>发送</Button>
-            </Col>
+          </Row>
+          <div style={{marginTop: '50px'}}>
+            <Row>
+              <Col span={16} />
+              <Col span={4}>
+                <Button onClick={this.cancel}>取消</Button>
+              </Col>
+              <Col span={4}>
+                <Button type='primary' onClick={this.open}>发送</Button>
+              </Col>
+            </Row>
           </div>
         </Row>
       </div>

@@ -139,13 +139,30 @@ class Information extends React.Component {
       this.getList()
     })
   }
-  // a标签的跳转方法哦~
-  handleTabChange (link) {
+  // 跳到信息公开编辑
+  handleTabChange (e) {
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
-    console.log(11111111111111)
-    window.location.href = 'localhost:8080/#/operate-manage-home/public' + link
+    this.props.history.push({
+      pathname: '/operate-manage-home/informationEd'
+      // search: e.target.text.split(' ')[0]
+    }
+    )
+    // window.location.href = 'localhost:8080/#/operate-manage-home/informationDetEd'
+  }
+  // 跳到（信息公开列表）// 政策发布
+  handleTabChanges (e) {
+    // if (link === this.props.location.pathname) {
+    //   window.location.reload()
+    // }
+    // window.location.href = 'localhost:8080/#/operate-manage-home/informationEd'
+    // window.location.href = 'localhost:8080/#/operate-manage-home/public/policy'
+    this.props.history.push({
+      pathname: '/operate-manage-home/informationDetEd'
+      // search: e.target.text.split(' ')[0]
+    }
+    )
   }
   render () {
     return <div>
@@ -153,7 +170,7 @@ class Information extends React.Component {
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this, '/policy')}><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></a></div></Row>
+              <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></a></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -173,7 +190,7 @@ class Information extends React.Component {
                   return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '126px'}} key={index}>
                     <Col span={24}>
                       <Row>
-                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this, '/informationDet')}>{item.title}</a></p></Col>
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}>{item.title}</a></p></Col>
                       </Row>
                       <Row>
                         <Col span={23}>

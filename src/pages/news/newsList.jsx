@@ -8,7 +8,8 @@ import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import './newsList.scss'
 import _ul from '../../assets/images/_ul.png'
-import { renderRoutes } from 'react-router-config'
+import axios from 'axios'
+// import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
   constructor (props) {
     super(props)
@@ -27,41 +28,63 @@ class News extends React.Component {
       },
       dataRight: {
         total: 50,
-        list: [{
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '111为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        }]
-      }
+        list: [
+          {
+            imgs: img,
+            news_id: 1,
+            title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+            time: '2018-03-23',
+            paragraph: '111为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          },
+          {
+            imgs: img,
+            news_id: 2,
+            title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+            time: '2018-03-23',
+            paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          },
+          {
+            imgs: img,
+            news_id: 3,
+            title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+            time: '2018-03-23',
+            paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          },
+          {
+            imgs: img,
+            news_id: 4,
+            title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+            time: '2018-03-23',
+            paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          },
+          {
+            imgs: img,
+            news_id: 5,
+            title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+            time: '2018-03-23',
+            paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+          }]
+      },
+      newData: {}
     }
   }
   getList = () => {
     console.log('获取数据')
+    let value = {
+      pageNum: this.state.pages,
+      pageSize: this.state.pageSize
+    }
+    axios.post('/applicaion/newslistget', {
+      value
+    }).then(item => {
+      this.setState({
+        newData: item.data.list
+      }, () => {
+        console.log(this.state.newData)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
   }
   componentWillMount () {
     this.getList()
@@ -95,12 +118,17 @@ class News extends React.Component {
     this.getList()
   }
   // a标签的跳转方法哦~
-  handleTabChange (link) {
-    console.log('111111111111111', this.props.route)
+  handleTabChange (e) {
+    console.log('111111111111111', this.props)
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
-    window.location.href = 'localhost:8080/#/unlogged/newsList' + link
+    this.props.history.push({
+      pathname: '/unlogged/newsDetails',
+      search: e.target.text.split(' ')[0]
+    })
+    // console.log('点击元素的key', e.target.text.split(' ')[0])
+    // window.location.href = `localhost:8080/#/unlogged/newsDetails?${e.target.text.split(' ')[0]}`
   }
   render () {
     return <div>
@@ -124,18 +152,18 @@ class News extends React.Component {
           <div style={{width: '1400px'}}>
             <Col span={15}>
               <ul className='ul-top'>
-                {this.state.dataRight.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px'}} key={index}>
-                    <Col span={5}><img src={img} style={{width: '135px'}} alt='' /></Col>
+                {/* this.state.newData.list.map */}
+                {this.state.newData.list.map((item, index) => {
+                  return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
+                    <Col span={5}><img src={item.news_img} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
                     <Col span={16}>
-                      <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this, '/newsDetails')}>{item.title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.time}</span></Col>
-                        {renderRoutes(this.props.route.childRoutes)}
+                      <Row>{/*                                                               key={item.news_id}       item.new_title */}
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.new_title}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>{/* {item.news_time} */}
                       </Row>
                       <Row>
-                        <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}</p>
+                        <Col span={23}>{/* .....................................................{item.news_desc} */}
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.news_desc}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -143,10 +171,10 @@ class News extends React.Component {
                 })}
               </ul><Row>
                 <Col span={10} />
-                <Col >
+                <Col span={14}>
                   <Pagination
                     size='small'
-                    total={this.state.dataRight.total}
+                    total={this.state.newData.total}// {this.state.newData.data.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
@@ -157,7 +185,6 @@ class News extends React.Component {
             </Col>
           </div>
         </Row>
-
       </div>
     </div>
   }

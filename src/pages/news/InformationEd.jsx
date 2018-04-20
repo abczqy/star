@@ -159,7 +159,10 @@ class InformationEd extends React.Component {
               label: '县级'
             }]
           }]
-        }]}
+        }
+      ]
+    }
+    let thiz = this
     this.columns = [
       {
         title: '信息标题',
@@ -217,9 +220,9 @@ class InformationEd extends React.Component {
         render (text, record, index) {
           return (
             <div style={{width: '90px'}}>
-              <span style={{width: '32px', display: 'inline-block'}}><a href='javascript:;' onClick={() => this.edit(record, 'edit')}>
+              <span style={{width: '32px', display: 'inline-block'}}><a href='javascript:;' onClick={() => thiz.edit(record, 'edit')}>
             编辑</a></span>
-              <span ><a href='javascript:;' onClick={() => this.delete(record)}>
+              <span ><a href='javascript:;' onClick={() => thiz.delete(record)}>
             删除</a></span>
             </div>
           )
@@ -310,6 +313,10 @@ class InformationEd extends React.Component {
   // 点击删除
   delete=(record) => {
     console.log('点击删除')
+    // let value = {
+    //   info_id: record.info_id
+    // }
+    // console.log('删除传送行传的id', value)
   }
   // 确认按钮
   handleOk = (e) => {
@@ -398,7 +405,7 @@ class InformationEd extends React.Component {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
         width={'50%'}
-        height={'50%'}
+        height={'600px'}
         maskClosable={false}
         footer=''
       >

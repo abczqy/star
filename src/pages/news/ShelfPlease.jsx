@@ -1,3 +1,6 @@
+/**
+ * 上架流程
+ */
 import React from 'react'
 import {Row, Col, Card, Input, Select, Button, message, Upload, Icon, DatePicker, Modal, Radio} from 'antd'
 import title from '../../assets/images/title.png'

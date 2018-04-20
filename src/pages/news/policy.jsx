@@ -1,5 +1,5 @@
 /**
- * 政策发布
+ * 政策发布页面
  *
  */
 import React from 'react'
