@@ -3,11 +3,12 @@
 .application-card {
   position: relative;
   // margin: 6px; // padding: 15px;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  // margin-top: 6px;
+  margin-bottom: 20px;
   border: 1px solid #EFF0EF;
   border: 1px solid #666;
   border-radius: 4px;
+  height: 102px;
   overflow: hidden;
   /*应用图标*/
   &:hover {
@@ -39,7 +40,6 @@
     display: inline-block;
     width: calc(100% - 100px);
     margin-top: 15px;
-    padding-left: 10px;
     line-height: 35px;
     vertical-align: top;
     .name {

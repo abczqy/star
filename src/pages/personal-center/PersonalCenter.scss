@@ -1,10 +1,33 @@
 /*---------------个人中心---------------*/
-.personal-center{
+
+.personal-center {
   margin-bottom: 0px;
-  .ant-card-body{
-    padding: 20px;
-  }
-  .ant-card{
+  .ant-card {
     margin-bottom: 20px;
+    .ant-card-body {
+      padding: 20px;
+      padding-bottom: 0;
+      background-color: #fff;
+    }
+    .link {
+      font-size: 12px;
+      cursor: pointer;
+      &.confirm {
+        color: #1890FF;
+        margin-right: 10px;
+      }
+    }
+    &.open {
+      .ant-card-body {
+        height: auto;
+        // padding-bottom: 0px;
+      }
+    }
+    &.take-up {
+      .ant-card-body {
+        height: 386px;
+        overflow: hidden;
+      }
+    }
   }
 }
