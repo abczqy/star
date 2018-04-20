@@ -11,6 +11,9 @@ import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
+import _ from 'lodash'
+import axios from 'axios'
+import ajaxUrl from 'config'
 
 class Information extends React.Component {
   constructor (props) {
@@ -97,16 +100,33 @@ class Information extends React.Component {
               label: '县级'
             }]
           }]
-        }]
+        }
+      ],
+      infoData: {}
     }
   }
   getList=() => {
     console.log('获取数据')
-    let a = {
-      pageNum: 1,
-      pageSize: 10
+    let value = {
+      pageNum: this.state.data.pageNum || 1,
+      pageSize: this.state.data.pageSize || 10,
+      province: 'sichuansheng',
+      city: 'zhaozhou',
+      county: 'chonghe'
     }
-    console.log('教育局的信息公开列表', a)
+    console.log('教育局的信息公开列表获取数据传的参数', value)
+    axios.get(ajaxUrl.information, {
+      value
+    }).then(item => {
+      this.setState({
+        infoData: item.data
+      }, () => {
+        console.log('this.state.infoData', this.state.infoData)
+        console.log('this.state.infoData.list', this.state.infoData.list)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
   }
   componentWillMount () {
     this.getList()
@@ -149,18 +169,12 @@ class Information extends React.Component {
       // search: e.target.text.split(' ')[0]
     }
     )
-    // window.location.href = 'localhost:8080/#/operate-manage-home/informationDetEd'
   }
   // 跳到（信息公开列表）// 政策发布
   handleTabChanges (e) {
-    // if (link === this.props.location.pathname) {
-    //   window.location.reload()
-    // }
-    // window.location.href = 'localhost:8080/#/operate-manage-home/informationEd'
-    // window.location.href = 'localhost:8080/#/operate-manage-home/public/policy'
     this.props.history.push({
-      pathname: '/operate-manage-home/informationDetEd'
-      // search: e.target.text.split(' ')[0]
+      pathname: '/operate-manage-home/informationDetEd',
+      search: e.target.text.split(' ')[0]
     }
     )
   }
@@ -186,15 +200,15 @@ class Information extends React.Component {
           <div style={{width: '1400px'}}>
             <Col span={16}>
               <ul className='ul-top' style={{width: '800px'}}>
-                {this.state.dataRight.list.map((item, index) => {
+                {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '126px'}} key={index}>
                     <Col span={24}>
                       <Row>
-                        <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}>{item.title}</a></p></Col>
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -205,7 +219,7 @@ class Information extends React.Component {
                 <Col >
                   <Pagination
                     size='small'
-                    total={this.state.dataRight.total}
+                    total={this.state.infoData.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}

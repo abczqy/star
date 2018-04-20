@@ -5,6 +5,8 @@ import React from 'react'
 import {Row, Col, Card, Input, Select, Button, message, Upload, Icon, DatePicker, Modal, Radio} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
+// import axios from 'axios'
+// import ajaxUrl from 'config'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group

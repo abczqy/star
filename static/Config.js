@@ -35,6 +35,14 @@ window.mungConfig = {
   personalAppsDelete: AJAX_HOST + '/personal/apps/delete',
 
   // 个人中心-我的收藏删除
-  personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete'
+  personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete',
 
+  // 教育新闻列表
+  newsList: AJAX_HOST + '/applicaion/newslistget',
+  // 教育新闻列表详情
+  newsListDet: AJAX_HOST + '/applicaion/newsdetailget',
+  // 信息公开列表
+  information: AJAX_HOST + '/applicaion/InfoListGet',
+  // 信息公开列表详情
+  informationDet: AJAX_HOST + '/applicaion/InfoDetialGet'
 }
