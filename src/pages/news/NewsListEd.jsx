@@ -6,7 +6,7 @@
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
-import './newsList.scss'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import { renderRoutes } from 'react-router-config'
 class News extends React.Component {

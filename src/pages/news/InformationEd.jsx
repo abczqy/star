@@ -5,11 +5,11 @@
  */
 import React from 'react'
 import {Row, Col, Card, Pagination, Input, Select, Table, Button, Modal} from 'antd'
-import Policy from './policyEd'
+import Policy from './PolicyEd'
 import img from '../../assets/images/hear.jpg'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
-import './newsList.scss'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 
 const data = [

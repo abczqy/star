@@ -6,8 +6,9 @@
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
-import './newsList.scss'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
+import _ from 'lodash'
 import axios from 'axios'
 
 // import { renderRoutes } from 'react-router-config'
@@ -79,15 +80,21 @@ class News extends React.Component {
       value
     }).then(item => {
       this.setState({
-        newData: item.data.list
+        newData: item.data
       }, () => {
-        console.log(this.state.newData)
+        console.log('*********************************')
+        console.log('*********************************')
+        console.log('*********************************')
+        console.log('获取数据存在state', this.state.newData)
+        console.log('获取数据存在state', this.state.newData.list)
+        console.log('*********************************')
+        console.log('*********************************')
       })
     }).catch(err => {
       console.log(err)
     })
   }
-  componentWillMount () {
+  componentDidMount () {
     this.getList()
   }
   // 标题的点击事件
@@ -105,8 +112,8 @@ class News extends React.Component {
       pageNum: page
     }, () => {
       console.log('获取分页存到state', this.state.pageNum)
+      this.getList()
     })
-    this.getList()
   }
   // 每页展示数量改变
   stChange=(current, size) => {
@@ -115,8 +122,8 @@ class News extends React.Component {
       pageSize: size
     }, () => {
       console.log('获取每页显示数量存到state', this.state.pageSize)
+      this.getList()
     })
-    this.getList()
   }
   // a标签的跳转方法哦~
   handleTabChange (e) {
@@ -154,12 +161,12 @@ class News extends React.Component {
             <Col span={15}>
               <ul className='ul-top'>
                 {/* this.state.newData.list.map */}
-                {this.state.dataRight.list.map((item, index) => {
+                {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
                     <Col span={5}><img src={item.news_img} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
                     <Col span={16}>
                       <Row>{/*                                                               key={item.news_id}       item.new_title */}
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.new_title}</a></p></Col>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
                         <Col span={4}><span className='span-top'>{item.news_time}</span></Col>{/* {item.news_time} */}
                       </Row>
                       <Row>

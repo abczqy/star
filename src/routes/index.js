@@ -4,14 +4,14 @@ import OperateManage from 'views/main-view/OperateManage'
 import SoftwareMarket from 'views/main-view/SoftwareMarket'
 import Home from 'pages/login-home/Home'
 
-import Information from 'pages/news/information'// 游客的信息公开
-import InformationDet from 'pages/news/informationDet'// 游客的信息公开详情
-import NewsList from 'pages/news/newsList'// 游客的新闻列表
-import NewsDetails from 'pages/news/newsDetails'// 游客的新闻列表详情
+import Information from 'pages/news/Information'// 游客的信息公开
+import InformationDet from 'pages/news/InformationDet'// 游客的信息公开详情
+import NewsList from 'pages/news/NewsList'// 游客的新闻列表
+import NewsDetails from 'pages/news/NewsDetails'// 游客的新闻列表详情
 
 import NewsListEd from 'pages/news/NewsListEd'// 教育局的新闻列表
-import NewDetailsEd from 'pages/news/newDetailsEd'// 教育局的新闻列表详情
-import PlaceInformation from 'pages/news/placeInformation'// 教育局的信息公开
+import NewDetailsEd from 'pages/news/NewDetailsEd'// 教育局的新闻列表详情
+import PlaceInformation from 'pages/news/PlaceInformation'// 教育局的信息公开
 import InformationDetEd from 'pages/news/InformationDetEd'// 教育局的信息公开详情
 import InformationEd from 'pages/news/InformationEd'// 教育局的信息列表编辑
 import Policy from 'pages/news/Policy'// 页面式的政策发布

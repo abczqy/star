@@ -4,7 +4,7 @@
 import React from 'react'
 import {Row, Col, Card} from 'antd'
 import img from '../../assets/images/hear.jpg'
-import './newsList.scss'
+import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
 import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'

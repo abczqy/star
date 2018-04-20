@@ -5,7 +5,7 @@
 import React from 'react'
 import {Row, Col, Card, Input, Select, Button, message, Upload, Icon, DatePicker, Modal} from 'antd'
 import title from '../../assets/images/title.png'
-import './newsList.scss'
+import './NewsList.scss'
 
 const { TextArea } = Input
 
@@ -42,7 +42,9 @@ class IterationPlease extends React.Component {
           key: '3',
           value: 'phone'
         }
-      ]
+      ],
+      array: [],
+      arrays: []
     }
   }
   componentWillMount () {
@@ -194,9 +196,11 @@ class IterationPlease extends React.Component {
   // 提交表单啦
   submit=() => {
     let value = {
-      newV: this.state.newV, // 软件类型
+      newV: this.state.newV, // 更新版本
       rDescribe: this.state.rDescribe, // 软件描述
-      hopeTime: this.state.hopeTime // 期望上架时间
+      hopeTime: this.state.hopeTime, // 期望上架时间
+      copTypes: this.state.array, // 多个系统类别
+      filelist: this.state.arrays // 附件列表
     }
     console.log('上架流程点击提交传的值', value)
   }

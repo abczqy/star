@@ -8,7 +8,7 @@ import {Row, Col, Card, Pagination, Cascader} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
-import './newsList.scss'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 class Information extends React.Component {
   constructor (props) {
