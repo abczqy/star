@@ -9,6 +9,7 @@ import img from '../../assets/images/hear.jpg'
 import './newsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
+
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
   constructor (props) {
