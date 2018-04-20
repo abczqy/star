@@ -11,15 +11,24 @@ import apiConfig from '../../config'
 class LoginHome extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
+      activeTab: this.getDefaultTabKey()
     }
   }
 
-  handleTabChange (link) {
+  getDefaultTabKey () {
+    let pathName = this.props.location.pathname
+    let temArr = pathName.split('/')
+    return temArr[temArr.length - 1] || 'home'
+  }
+
+  handleTabChange (link, key) {
     if (link === this.props.location.pathname) {
       window.location.reload()
     }
+    this.setState({
+      activeTab: key
+    })
     window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
 
@@ -32,9 +41,10 @@ class LoginHome extends React.Component {
           </Layout.Header>
           <Layout className='xingyun-top-header'>
             <div className='header-container'>
-              <li><a onClick={this.handleTabChange.bind(this, '/unlogged/home')}>首页</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/unlogged/newsList')}>教育新闻</a></li>
-              <li><a onClick={this.handleTabChange.bind(this, '/unlogged/information')}>信息公开</a></li>
+              <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
+              </li>
+              <li><a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a></li>
+              <li><a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a></li>
             </div>
             {renderRoutes(this.props.route.childRoutes)}
           </Layout>

@@ -6,7 +6,7 @@
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
-import './newsList.scss'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
@@ -95,12 +95,17 @@ class News extends React.Component {
     this.getList()
   }
   // a标签的跳转方法哦~
-  handleTabChange (link) {
-    console.log('111111111111111', this.props.route)
+  handleTabChange= () => {
+    // console.log('111111111111111', this.props.route)
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
-    window.location.href = 'localhost:8080/#/operate-manage-home/edu' + link
+    this.props.history.push({
+      pathname: '/operate-manage-home/NewDetailsEd'
+      // search: e.target.text.split(' ')[0]
+    }
+    )
+    // window.location.href = 'localhost:8080/#/operate-manage-home/NewDetailsEd'
   }
   render () {
     return <div>
@@ -129,7 +134,7 @@ class News extends React.Component {
                     <Col span={5}><img src={img} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this, '/newsDetails')}>{item.title}</a></p></Col>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange}>{item.title}</a></p></Col>
                         <Col span={4}><span className='span-top'>{item.time}</span></Col>
                         {renderRoutes(this.props.route.childRoutes)}
                       </Row>

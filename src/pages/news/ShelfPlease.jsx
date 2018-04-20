@@ -1,7 +1,10 @@
+/**
+ * 上架流程
+ */
 import React from 'react'
 import {Row, Col, Card, Input, Select, Button, message, Upload, Icon, DatePicker, Modal, Radio} from 'antd'
 import title from '../../assets/images/title.png'
-import './newsList.scss'
+import './NewsList.scss'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
@@ -44,7 +47,8 @@ class ShelfPlease extends React.Component {
           key: '3',
           value: 'phone'
         }
-      ]
+      ],
+      array: []
     }
   }
   componentWillMount () {
@@ -218,14 +222,16 @@ class ShelfPlease extends React.Component {
   submit=() => {
     let value = {
       rname: this.state.rname, // 软件名称
-      type: this.state.type, // 软件类型
+      rType: this.state.type, // 软件类型
       rDescribe: this.state.rDescribe, // 软件描述
       hopeTime: this.state.hopeTime, // 期望上架时间
       name: this.state.name, // 开发相关名字
       idNumber: this.state.idNumber, // 身份证号
       conPeople: this.state.conPeople, // 主要联系人
       conPeopleNum: this.state.conPeopleNum, // 主要联系人电话
-      radio: this.state.radio// 软件版权类别
+      copType: this.state.radio, // 软件版权类别
+      copTypes: this.state.array, // 系统类别
+      filelist: this.state.arrays // 附件列表
     }
     console.log('上架流程点击提交传的值', value)
   }

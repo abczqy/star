@@ -8,7 +8,7 @@ import {Row, Col, Card, Pagination, Cascader} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
-import './newsList.scss'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 class Information extends React.Component {
   constructor (props) {
@@ -33,42 +33,49 @@ class Information extends React.Component {
         total: 99,
         list: [{
           people: '教育机构',
+          news_id: 1,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
+          news_id: 2,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '运营者',
+          news_id: 3,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
+          news_id: 4,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '运营者',
+          news_id: 5,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
+          news_id: 6,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222十九大精33333333333333333333333333333333333333333333333333333333333333333333333333333333神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
         },
         {
           people: '教育机构',
+          news_id: 7,
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工作的通知》，明确2018年继续实施重点高校招收农村和贫困地区学生的国家专项计划、地方专项计划和高校专项计划，并对相关工作进行了全面部署。......'
@@ -96,16 +103,23 @@ class Information extends React.Component {
               label: '县级'
             }]
           }]
-        }]
+        }
+      ],
+      infoData: {}
     }
   }
   getList=() => {
-    let a = {
+    let value = {
       pageNum: this.state.data.pageNum || 1,
       pageSize: this.state.data.pageSize || 1,
       selete: this.state.selete || ''
     }
-    console.log('游客的信息公开获取数据传的参数', a)
+    console.log('游客的信息公开获取数据传的参数', value)
+    // ajax.yiduiyidui(value, item => {
+    //   this.setState({
+    //     infoData: item
+    //   })
+    // })
   }
   componentWillMount () {
     this.getList()
@@ -146,11 +160,15 @@ class Information extends React.Component {
     })
   }
   // a连接的页面跳转方法呦
-  handleTabChange (link) {
+  handleTabChange (e) {
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
-    window.location.href = window.location.href + link
+    // window.location.href = 'localhost:8080/#' + '/unlogged/informationDet'
+    this.props.history.push({
+      pathname: '/unlogged/informationDet',
+      search: e.target.text.split(' ')[0]
+    })
   }
   render () {
     return <div>
@@ -181,13 +199,13 @@ class Information extends React.Component {
                   return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '130px'}} key={index}>
                     <Col span={24}>
                       <Row>
-                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this, '/informationDet')}>{item.title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>发布者:{item.people}</span></Col>
-                        <Col span={3}><span className='span-top'>{item.time}</span></Col>
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.title}</a></p></Col>{/* this.state.infoData.info_title */}
+                        <Col span={4}><span className='span-top'>发布者:{item.people}</span></Col>{/* this.state.infoData.info_per */}
+                        <Col span={3}><span className='span-top'>{item.time}</span></Col>{/* this.state.infoData.info_time */}
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}<span>&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}</p>{/* this.state.infoData.info_desc */}
                         </Col>
                       </Row>
                     </Col>
@@ -199,7 +217,7 @@ class Information extends React.Component {
                 <Col >
                   <Pagination
                     size='small'
-                    total={this.state.dataRight.total}
+                    total={this.state.dataRight.total}// this.state.infoData.total
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}

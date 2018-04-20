@@ -4,16 +4,19 @@ import OperateManage from 'views/main-view/OperateManage'
 import SoftwareMarket from 'views/main-view/SoftwareMarket'
 import Home from 'pages/login-home/Home'
 
-// import Information from 'pages/news/Information'
-import InformationDet from 'pages/news/InformationDet'
-// import InformationEd from 'pages/news/InformationEd'
-// import NewsList from 'pages/news/NewsList'
-import NewsListEd from 'pages/news/NewsListEd'
-import NewsDetails from 'pages/news/NewsDetails'
-import PlaceInformation from 'pages/news/PlaceInformation'
-import Policy from 'pages/news/Policy'
-import Please from 'pages/news/ShelfPlease'
-import Iteration from 'pages/news/IterationPlease'
+import Information from 'pages/news/Information'// 游客的信息公开
+import InformationDet from 'pages/news/InformationDet'// 游客的信息公开详情
+import NewsList from 'pages/news/NewsList'// 游客的新闻列表
+import NewsDetails from 'pages/news/NewsDetails'// 游客的新闻列表详情
+
+import NewsListEd from 'pages/news/NewsListEd'// 教育局的新闻列表
+import NewDetailsEd from 'pages/news/NewDetailsEd'// 教育局的新闻列表详情
+import PlaceInformation from 'pages/news/PlaceInformation'// 教育局的信息公开
+import InformationDetEd from 'pages/news/InformationDetEd'// 教育局的信息公开详情
+import InformationEd from 'pages/news/InformationEd'// 教育局的信息列表编辑
+import Policy from 'pages/news/Policy'// 页面式的政策发布
+import Please from 'pages/news/ShelfPlease'// 上架流程
+import Iteration from 'pages/news/IterationPlease'// 迭代申请
 
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
@@ -29,8 +32,10 @@ import MessageTopBar from 'views/main-view/message-notice/MessageTopBar'
 import MessageNotice from 'views/main-view/message-notice/MessageNotice'
 import MessageSetting from 'views/main-view/message-notice/MessageSetting'
 import MessageDetail from 'views/main-view/message-notice/MessageDetail'
+
 import TeacherHome from '../pages/after-logging-home/TeacherHome'
 
+import Register from '../pages/register/Register'
 export default [{
   path: '/unlogged',
   component: LoginHome,
@@ -39,18 +44,16 @@ export default [{
     component: Home
   }, {
     path: '/unlogged/newsList',
-    component: Please,
-    childRoutes: [{
-      path: '/unlogged/newsList/newsDetails',
-      component: NewsDetails
-    }]
+    component: NewsList
+  }, {
+    path: '/unlogged/newsDetails',
+    component: NewsDetails
   }, {
     path: '/unlogged/information',
-    component: Iteration,
-    childRoutes: [{
-      path: '/unlogged/information/informationDet',
-      component: InformationDet
-    }]
+    component: Information
+  }, {
+    path: '/unlogged/informationDet',
+    component: InformationDet
   }]
 }, {
   path: '/operate-manage-home', // 登陆后-运营管理入口
@@ -60,24 +63,34 @@ export default [{
     component: TeacherHome
   }, {
     path: '/operate-manage-home/edu',
-    component: NewsListEd,
-    childRoutes: [{
-      path: '/operate-manage-home/edu/newsDetails',
-      component: NewsDetails
-    }]
+    component: NewsListEd
+  }, {
+    path: '/operate-manage-home/NewDetailsEd',
+    component: NewDetailsEd
   }, {
     path: '/operate-manage-home/public',
-    component: PlaceInformation,
-    childRoutes: [{
-      path: '/operate-manage-home/public/informationDet',
-      component: InformationDet
-    }, {
-      path: '/operate-manage-home/public/policy',
-      component: Policy
-    }]
+    component: PlaceInformation
+  }, {
+    path: '/operate-manage-home/informationDetEd',
+    component: InformationDetEd
+  }, {
+    path: '/operate-manage-home/informationEd',
+    component: InformationEd
+  }, {
+    path: '/operate-manage-home/please',
+    component: Please
+  }, {
+    path: '/operate-manage-home/iteration',
+    component: Iteration
   }, {
     path: '/operate-manage-home/member',
     component: PersonnelManagement
+  }, {
+    path: '/operate-manage-home/informationDet',
+    component: InformationDet
+  }, {
+    path: '/operate-manage-home/public/policy',
+    component: Policy
   }, {
     path: '/operate-manage-home/center',
     component: PersonalCenter
@@ -102,10 +115,10 @@ export default [{
     component: ThirdPartyAppDetail
   }, {
     path: '/operate-manage-home/all-app-detail-mine',
-    component: MyAppDetail
+    component: MyApp
   }, {
     path: '/operate-manage-home/all-app-detail-mineabc',
-    component: MyApp
+    component: MyAppDetail
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口
@@ -123,4 +136,7 @@ export default [{
     path: '/topbar-manage/detail',
     component: MessageDetail
   }]
+}, {
+  path: '/register-home', // 登陆后-软件市场入口
+  component: Register
 }]

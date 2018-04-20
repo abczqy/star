@@ -1,23 +1,28 @@
 /* eslint-disable react/jsx-no-bind,react/prop-types */
 /* eslint-disable react/jsx-no-bind */
-/*
-无身份区分的教育新闻列表
-*/
+/**
+ * 教育局的信息公开列表
+ */
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
-import './newsList.scss'
+import release from '../../assets/images/u111111.png'
+import hand from '../../assets/images/hand.png'
+import people from '../../assets/images/u1632.png'
+import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
-import { renderRoutes } from 'react-router-config'
-class News extends React.Component {
+
+class Information extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pageSize: 10,
-      pages: 1,
       data: {
-        imgO: img,
+        imgO: release,
         imgT: img,
+        imgH: hand,
+        imgP: people,
+        pageNum: 1,
+        pageSize: 10,
         dataP: [
           '民办普通高校等学校的设立发123...',
           '民办高等学校办学地址变更发123...',
@@ -26,42 +31,82 @@ class News extends React.Component {
           '民办学校以捐赠者姓名或者名123...']
       },
       dataRight: {
-        total: 50,
+        total: 99,
         list: [{
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '111为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
+          people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
         },
         {
-          imgs: img,
+          people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
         },
         {
-          imgs: img,
+          people: '运营者',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
         },
         {
-          imgs: img,
+          people: '教育机构',
+          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+          time: '2018-03-23',
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+        },
+        {
+          people: '运营者',
+          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+          time: '2018-03-23',
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+        },
+        {
+          people: '教育机构',
+          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
+          time: '2018-03-23',
+          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
+        },
+        {
+          people: '教育机构',
           title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
         }]
-      }
+      },
+      options: [
+        {
+          value: '省级',
+          label: '省级'
+        }, {
+          value: '市级',
+          label: '市级',
+          children: [{
+            value: '福州市',
+            label: '福州市'
+          }]
+        }, {
+          value: '区级',
+          label: '区级',
+          children: [{
+            value: '福州市',
+            label: '福州市',
+            children: [{
+              value: '县级',
+              label: '县级'
+            }]
+          }]
+        }]
     }
   }
-  getList = () => {
+  getList=() => {
     console.log('获取数据')
+    let a = {
+      pageNum: 1,
+      pageSize: 10
+    }
+    console.log('教育局的信息公开列表', a)
   }
   componentWillMount () {
     this.getList()
@@ -81,8 +126,8 @@ class News extends React.Component {
       pageNum: page
     }, () => {
       console.log('获取分页存到state', this.state.pageNum)
+      this.getList()
     })
-    this.getList()
   }
   // 每页展示数量改变
   stChange=(current, size) => {
@@ -91,16 +136,33 @@ class News extends React.Component {
       pageSize: size
     }, () => {
       console.log('获取每页显示数量存到state', this.state.pageSize)
+      this.getList()
     })
-    this.getList()
   }
-  // a标签的跳转方法哦~
-  handleTabChange (link) {
-    console.log('111111111111111', this.props.route)
+  // 跳到信息公开编辑
+  handleTabChange (e) {
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
-    window.location.href = 'localhost:8080/#/unlogged/newsList' + link
+    this.props.history.push({
+      pathname: '/operate-manage-home/informationEd'
+      // search: e.target.text.split(' ')[0]
+    }
+    )
+    // window.location.href = 'localhost:8080/#/operate-manage-home/informationDetEd'
+  }
+  // 跳到（信息公开列表）// 政策发布
+  handleTabChanges (e) {
+    // if (link === this.props.location.pathname) {
+    //   window.location.reload()
+    // }
+    // window.location.href = 'localhost:8080/#/operate-manage-home/informationEd'
+    // window.location.href = 'localhost:8080/#/operate-manage-home/public/policy'
+    this.props.history.push({
+      pathname: '/operate-manage-home/informationDetEd'
+      // search: e.target.text.split(' ')[0]
+    }
+    )
   }
   render () {
     return <div>
@@ -108,7 +170,7 @@ class News extends React.Component {
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer' ><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></a></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -122,16 +184,13 @@ class News extends React.Component {
             </Col>
           </div>
           <div style={{width: '1400px'}}>
-            <Col span={15}>
-              <ul className='ul-top'>
+            <Col span={16}>
+              <ul className='ul-top' style={{width: '800px'}}>
                 {this.state.dataRight.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px'}} key={index}>
-                    <Col span={5}><img src={img} style={{width: '135px'}} alt='' /></Col>
-                    <Col span={16}>
+                  return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '126px'}} key={index}>
+                    <Col span={24}>
                       <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this, '/newsDetails')}>{item.title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.time}</span></Col>
-                        {renderRoutes(this.props.route.childRoutes)}
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}>{item.title}</a></p></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
@@ -154,8 +213,7 @@ class News extends React.Component {
                     // pageSizeOptions={5}
                   /></Col>
               </Row>
-            </Col>
-          </div>
+            </Col></div>
         </Row>
 
       </div>
@@ -163,4 +221,4 @@ class News extends React.Component {
   }
 }
 
-export default News
+export default Information

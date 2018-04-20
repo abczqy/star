@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 /**
  * 游客登录页软件市场
  */
 import React from 'react'
 import { Row, Col, List, Avatar } from 'antd'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 
-export default class SoftMarket extends React.Component {
+class SoftMarket extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -35,11 +37,18 @@ export default class SoftMarket extends React.Component {
     )
   }
 
+  // eslint-disable-next-line react/prop-types
+  goToSoftMarket () {
+    this.props.history.push({
+      pathname: '/operate-manage-home'
+    })
+  }
+
   render () {
     return (
       <div className='soft-market-container'>
         <div className='soft-market-header'>
-          <span>
+          <span style={{cursor: 'pointer'}} onClick={() => { this.goToSoftMarket() }}>
             <div>软件市场</div>
             <div>Software Market</div>
           </span>
@@ -62,3 +71,4 @@ export default class SoftMarket extends React.Component {
 SoftMarket.propTypes = {
   data: PropTypes.array
 }
+export default withRouter(SoftMarket)

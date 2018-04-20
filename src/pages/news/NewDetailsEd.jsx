@@ -1,15 +1,15 @@
 /**
- * 无身份区分新闻列表详情
+ * 教育局的新闻列表详情
  */
 import React from 'react'
 import {Row, Col, Card} from 'antd'
 import img from '../../assets/images/hear.jpg'
-import './newsList.scss'
+import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
 import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
 import _ul from '../../assets/images/_ul.png'
-class NewsDetails extends React.Component {
+class NewsDetailsEd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -116,4 +116,4 @@ class NewsDetails extends React.Component {
   }
 }
 
-export default NewsDetails
+export default NewsDetailsEd

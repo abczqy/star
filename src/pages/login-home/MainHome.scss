@@ -95,10 +95,25 @@
       float: left;
       width: 86px;
       list-style: none;
+      padding-top: 5px;
       a{
-        color: white;
-        padding: 6px 14px;
-        width:100px;
+        display: block;
+        position: relative;
+        text-align: center;
+        height: 48px;
+        border-radius: 3px;
+        span{
+          height: 48px;
+          line-height: 48px;
+          display: block;
+          color: white;
+        }
+        &.selected{
+          background: white;
+          span{
+            color: #20519E;
+          }
+        }
       }
     }
   }

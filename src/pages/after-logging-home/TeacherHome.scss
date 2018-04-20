@@ -1,109 +1,112 @@
 .logged-home {
     width: 100%;
-    min-height: 800px;
-    _height: 800px;
-    background: #fff;
+    min-height: 550px;
+    _height: 550px;
     .logged-home-recommendation {
-        width: 80%;
+        width: 1523px;
         margin: auto;
-        min-height: 600px;
-        _height: 600px;
-        background:pink;
+        min-height: 550px;
+        _height: 550px;
         margin-top: 20px;
-        .popular-recommendation {
-            width: 80%;
-            min-height: 550px;
-            _height: 550px;
-            float: left;
+        .logged-home-border {
+            width: 1218px;
+            min-height: 500px;
+            _height: 500px;
             margin-right: 10px;
-            border: 1px solid red;
-            .popular-recommendation-title {
+            float: left;
+            .popular-recommendation {
                 width: 100%;
-                height: 50px;
-                line-height: 50px;
-                border-bottom: 1px solid #ccc;
-                .chinese {
-                    margin: 0;
-                    font-size: 16px;
-                    margin-left: 5px;
-                    width: 70px;
+                min-height: 300px;
+                _height: 300px;
+                float: left;
+                .popular-recommendation-title {
+                    width: 100%;
                     height: 50px;
-                    float: left;
+                    line-height: 50px;
+                    border-bottom: 1px solid #ccc;
+                    .chinese {
+                        margin: 0;
+                        font-size: 16px;
+                        margin-left: 5px;
+                        width: 70px;
+                        height: 50px;
+                        float: left;
+                    }
+                    .english {
+                        font-family: 'PingFangSC-Regular', 'PingFang SC';
+                        font-weight: 400;
+                        font-style: normal;
+                        font-size: 12px;
+                        color: #999999;
+                        float: left;
+                    }
+                    .more {
+                        font-family: 'PingFangSC-Regular', 'PingFang SC';
+                        font-weight: 400;
+                        font-style: normal;
+                        font-size: 12px;
+                        color: #999999;
+                        float: right;
+                    }
                 }
-                .english {
-                    font-family: 'PingFangSC-Regular', 'PingFang SC';
-                    font-weight: 400;
-                    font-style: normal;
-                    font-size: 12px;
-                    color: #999999;
-                    float: left;
-                }
-                .more {
-                    font-family: 'PingFangSC-Regular', 'PingFang SC';
-                    font-weight: 400;
-                    font-style: normal;
-                    font-size: 12px;
-                    color: #999999;
-                    float: right;
-                }
-            }
-            .popular-recommendation-item {
-                width: 100%;
-                min-height: 500px;
-                _height: 500px;
-                border: 1px solid blue;
-                margin-top: 12px;
-                .list {
-                    width: 260px;
-                    height: 125px;
-                    background: #fff;
-                    margin-right: 4.7%;
-                    float: left;
-                    margin-top: 10px;
-                    .list-item {
-                        width: 220px;
-                        height: 74px;
+                .popular-recommendation-item {
+                    width: 100%;
+                    min-height: 300px;
+                    _height: 300px;
+                    margin-top: 12px;
+                    overflow: hidden;
+                    .list {
+                        width: 260px;
+                        height: 125px;
+                        background: #fff;
+                        margin-right: 4.7%;
                         float: left;
                         margin-top: 10px;
-                        margin-left: 10px;
-                        .dl-dt {
-                            width: 75px;
+                        .list-item {
+                            width: 220px;
                             height: 74px;
                             float: left;
-                        }
-                        .dl-dd {
-                            width: 130px;
-                            height: 50px;
-                            float: left;
-                            margin-top: 15px;
-                            .dd-title {
-                                font-size: 16px;
-                                margin-left: 10px;
-                            }
-                            .dd-p {
-                                width: 150px;
+                            margin-top: 10px;
+                            margin-left: 10px;
+                            .dl-dt {
+                                width: 75px;
                                 height: 74px;
-                                overflow: hidden;
-                                text-overflow:ellipsis;
-                                white-space: nowrap;
-                                margin-left: 10px;
-                                font-size: 14px;
-                                margin-top: 4px;
-                                color: #999;
+                                float: left;
+                            }
+                            .dl-dd {
+                                width: 130px;
+                                height: 50px;
+                                float: left;
+                                margin-top: 15px;
+                                .dd-title {
+                                    font-size: 16px;
+                                    margin-left: 10px;
+                                }
+                                .dd-p {
+                                    width: 150px;
+                                    height: 74px;
+                                    overflow: hidden;
+                                    text-overflow:ellipsis;
+                                    white-space: nowrap;
+                                    margin-left: 10px;
+                                    font-size: 14px;
+                                    margin-top: 4px;
+                                    color: #999;
+                                }
                             }
                         }
                     }
                 }
-            }
-            .list:nth-child(4n) {
-                margin-right: 0;
+                .list:nth-child(4n) {
+                    margin-right: 0;
+                }
             }
         }
+        
         .ranking {
-            width: 18%;
+            width: 274px;
             min-height: 550px;
             _height: 550px;
-            background: yellow;
             float: left;
             .ranking-title {
                 width: 100%;

@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import axiosApi from '../../services'
 import {setRole} from '../../redux/actions/role'
 import PropTypes from 'prop-types'
+import apiConfig from '../../config'
 
 class MainBander extends React.Component {
   static propTypes = {
@@ -20,21 +21,24 @@ class MainBander extends React.Component {
     super(props)
     this.state = {
       userName: '', // 用户名密码
-      passWord: '' // 密码
+      passWord: '', // 密码
+      loginFormVisible: true
     }
   }
   handleLogin () {
-    if (this.state.userName === '3') {
-      axiosApi.login((response) => {
-        // 如果是首次登陆
-        if (response.isFirstLogged) {
-          // this.props.setRole(response.roleCode)
-          this.props.showSureWin(response.personInfo)
-        } else {
-          this.props.handleAfterLogged()
-        }
-      })
-    }
+    // if (this.state.userName === '3') {
+    axiosApi.login((response) => {
+      // 如果是首次登陆
+      if (response.isFirstLogged) {
+        // this.props.setRole(response.roleCode)
+        this.props.showSureWin(response.personInfo)
+      } else {
+        this.setState({
+          loginFormVisible: false
+        })
+      }
+    })
+    // }
   }
 
   /**
@@ -45,7 +49,13 @@ class MainBander extends React.Component {
       [key]: e.target.value
     })
   }
-
+  /* 注册 */
+  handregister=(link) => {
+    if (link === this.props.location.pathname) {
+      window.location.reload()
+    }
+    window.location.href = apiConfig.BASE_TAB + '/#' + link
+  }
   render () {
     var settings = {
       dots: false, // 下侧省略号
@@ -69,6 +79,42 @@ class MainBander extends React.Component {
             </div>
           </Slider>
         </div>
+        {
+          this.state.loginFormVisible ? (
+            <div className='login-div-container' >
+              <Row>
+                <p style={{marginTop: '20px', textAlign: 'center', fontFamily: "'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC'", fontSize: '20px', color: '#FFFFFF', fontStyle: 'normal'}}>用户登录</p>
+              </Row>
+              <Row>
+                <Form style={{marginLeft: '15px', marginRight: '15px'}}>
+                  <Form.Item>
+                    <Input onChange={(e) => { this.handleValueChange(e, 'userName') }} value={this.state.userName} className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      placeholder='请输入用户名' />
+                  </Form.Item>
+                  <Form.Item>
+                    <Input onChange={(e) => { this.handleValueChange(e, 'passWord') }} value={this.state.passWord} className='custom-input' prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      placeholder='请输入密码' type='password' />
+                  </Form.Item>
+                  <Form.Item>
+                    <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>用户提示</a>
+                    <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type='primary' htmlType='submit' className='login-btn'
+                      onClick={this.handleLogin.bind(this)}>
+                      立即登录
+                    </Button>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type='primary' htmlType='submit' className='register-btn'>
+                      注册账号
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Row>
+            </div>
+          ) : null
+        }
         <div className='login-div-container' >
           <Row>
             <p style={{marginTop: '20px', textAlign: 'center', fontFamily: "'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC'", fontSize: '20px', color: '#FFFFFF', fontStyle: 'normal'}}>用户登录</p>
@@ -94,7 +140,7 @@ class MainBander extends React.Component {
                 </Button>
               </Form.Item>
               <Form.Item>
-                <Button type='primary' htmlType='submit' className='register-btn'>
+                <Button type='primary' htmlType='submit' className='register-btn' onClick={this.handregister.bind(this, '/register-home')}>
                   注册账号
                 </Button>
               </Form.Item>

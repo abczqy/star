@@ -98,3 +98,32 @@
 .Wxds{
   margin-bottom: 15px;
 }
+
+.share-Qzone{
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  background: url("../../assets/images/Qzone.png") no-repeat center;
+  background-size: 100% 100%;
+}
+.share-WeChat{
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  width: 17px;
+  height: 17px;
+  margin-top: 5px;
+  background: url("../../assets/images/WeChat.png") no-repeat center;
+  background-size: 100% 100%;
+}
+.share-SinaWB{
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  background: url("../../assets/images/SinaWB.png") no-repeat center;
+  background-size: 100% 100%;
+}
