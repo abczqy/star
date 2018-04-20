@@ -15,5 +15,8 @@ export {
 
 export {
   PortalHomepage,
-  PlatHomepage
+  PlatHomepage,
+  NewsList,
+  PublicInfo,
+  PublicInfoVerify
 } from './platform-manage/index'

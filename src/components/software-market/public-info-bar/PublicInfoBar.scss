@@ -1,0 +1,30 @@
+.news-bar-wrap {
+  width: 100%;
+  height: 100%;
+  .date-picker-label {
+    width: 30%;
+  }
+  .date-picker {
+    width: 70%;
+  }
+  .select-label {
+    width: 30%;
+  }
+  .bar-btn {
+    color: #fff;
+    border-style: none;
+    opacity: 0.75;
+    &:hover {
+      opacity: 0.65;
+    }
+    &:active {
+      opacity: 1;
+    }
+  }
+  .del-btn {
+      background: #f00;
+  }
+  .add-btn {
+      background: #086808;
+  }
+}
