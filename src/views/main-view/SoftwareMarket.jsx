@@ -4,47 +4,22 @@
  */
 import React from 'react'
 import { Layout, Menu, Icon } from 'antd'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { renderRoutes } from 'react-router-config'
 import {
-  Businessing,
-  IterationVerify,
-  WaitVerify,
-  Manufacturer,
-  EducationalServices,
-  Parent,
-  School,
-  Student,
-  Teacher,
-  PortalHomepage,
-  PlatHomepage,
-  NewsList,
-  PublicInfo,
-  PublicInfoVerify
+  Businessing
 } from 'pages/software-market'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
-// import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 export default class SoftwareMarket extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      subMenuKey: '1'
+      subMenuKey: '0'
     }
-  }
-
-  /**
-   * 测试用：把obj转成string -- 有的obj用JSON.stringify转不了
-   * 后面可以作为测试函数放在utils中
-   */
-  Obj2String = (obj) => {
-    let str = ''
-
-    for (let item in obj) {
-      str += `${item}: ${obj[item]} \n`
-    }
-
-    return str
   }
 
   /**
@@ -52,68 +27,18 @@ export default class SoftwareMarket extends React.Component {
    * 后期：加入redux做状态管理
    */
   renderContent = ({item, key, keyPath}) => {
-    // console.log(`item: ${this.Obj2String(item)} \n`);
-    // console.log(`key: ${key} \n keyPath: ${keyPath}`);
-    // console.log(`item: ${item} \n key: ${key} keyPath: ${keyPath}`)
     this.setState({
       subMenuKey: key
     })
   }
 
-  /**
-   * 渲染每一个submenu对应的Content
-   */
   getContent = () => {
-    let result = null
-    // 判断下state.subMenuKey的值 -- 暂时用switch吧 后面可以考虑映射关系的处理 用json对象或者switch单独处理
-    switch (this.state.subMenuKey) {
-      case '1':
-        result = <Businessing />
-        break
-      case '2':
-        result = <WaitVerify />
-        break
-      case '3':
-        result = <IterationVerify />
-        break
-      case '5':
-        result = <Manufacturer />
-        break
-      case '6':
-        result = <School />
-        break
-      case '7':
-        result = <Teacher />
-        break
-      case '8':
-        result = <Student />
-        break
-      case '81':
-        result = <Parent />
-        break
-      case '82':
-        result = <EducationalServices />
-        break
-      case '9':
-        result = <PortalHomepage />
-        break
-      case '10':
-        result = <NewsList />
-        break
-      case '11':
-        result = <PublicInfo />
-        break
-      case '12':
-        result = <PublicInfoVerify />
-        break
-      case '13':
-        result = <PlatHomepage />
-        break
-      default:
-       // 其他操作
+    if (this.state.subMenuKey !== '0') {
+      return renderRoutes(this.props.route.childRoutes)
+    } else {
+      // 当subMenuKey === '0' 为初始页面
+      return <Businessing />
     }
-
-    return result
   }
 
   render () {
@@ -135,38 +60,76 @@ export default class SoftwareMarket extends React.Component {
               <SubMenu
                 key='sub1'
                 title={<span><Icon type='user' />软件管理</span>} >
-                <Menu.Item key='1'>运营中</Menu.Item>
-                <Menu.Item key='2'>待审核</Menu.Item>
-                <Menu.Item key='3'>迭代审核</Menu.Item>
+                <Menu.Item key='1'>
+                  <Link to='/software-market-home/software-manage/businessing'>运营中</Link>
+                </Menu.Item>
+                <Menu.Item key='2'>
+                  <Link to='/software-market-home/software-manage/wait-verify'>待审核</Link>
+                </Menu.Item>
+                <Menu.Item key='3'>
+                  <Link to='/software-market-home/software-manage/iteration-verify'>迭代审核</Link>
+                </Menu.Item>
               </SubMenu>
               <SubMenu key='sub2' title={<span><Icon type='laptop' />会员管理</span>}>
-                <Menu.Item key='5'>厂商</Menu.Item>
-                <Menu.Item key='6'>学校</Menu.Item>
-                <Menu.Item key='7'>老师</Menu.Item>
-                <Menu.Item key='8'>学生</Menu.Item>
-                <Menu.Item key='81'>家长</Menu.Item>
-                <Menu.Item key='82'>教育机构</Menu.Item>
+                <Menu.Item key='5'>
+                  <Link to='/software-market-home/member-manage/manufacturer'>厂商</Link>
+                </Menu.Item>
+                <Menu.Item key='6'>
+                  <Link to='/software-market-home/member-manage/school'>学校</Link>
+                </Menu.Item>
+                <Menu.Item key='7'>
+                  <Link to='/software-market-home/member-manage/teacher'>老师</Link>
+                </Menu.Item>
+                <Menu.Item key='8'>
+                  <Link to='/software-market-home/member-manage/student'>学生</Link>
+                </Menu.Item>
+                <Menu.Item key='81'>
+                  <Link to='/software-market-home/member-manage/parent'>家长</Link>
+                </Menu.Item>
+                <Menu.Item key='82'>
+                  <Link to='/software-market-home/member-manage/educational-services'>教育机构</Link>
+                </Menu.Item>
               </SubMenu>
               <SubMenu key='sub3' title={<span><Icon type='notification' />平台管理</span>}>
-                <Menu.Item key='9'>门户首页</Menu.Item>
-                <Menu.Item key='10'>新闻列表</Menu.Item>
-                <Menu.Item key='11'>信息公开</Menu.Item>
-                <Menu.Item key='12'>信息公开审核</Menu.Item>
-                <Menu.Item key='13'>平台首页</Menu.Item>
+                <Menu.Item key='9'>
+                  <Link to='/software-market-home/platform-manage/porttal-homepage'>门户首页</Link>
+                </Menu.Item>
+                <Menu.Item key='10'>
+                  <Link to='/software-market-home/platform-manage/news-list'>新闻列表</Link>
+                </Menu.Item>
+                <Menu.Item key='11'>
+                  <Link to='/software-market-home/platform-manage/public-info'>信息公开</Link>
+                </Menu.Item>
+                <Menu.Item key='12'>
+                  <Link to='/software-market-home/platform-manage/public-info-verify'>信息公开审核</Link>
+                </Menu.Item>
+                <Menu.Item key='13'>
+                  <Link to='/software-market-home/platform-manage/plat-homepage'>平台首页</Link>
+                </Menu.Item>
               </SubMenu>
               <SubMenu key='sub4' title={<span><Icon type='notification' />运营统计</span>}>
-                <Menu.Item key='9'>应用统计</Menu.Item>
-                <Menu.Item key='10'>用户统计</Menu.Item>
+                <Menu.Item key='9'>
+                  <Link>应用统计</Link>
+                </Menu.Item>
+                <Menu.Item key='10'>
+                  <Link>用户统计</Link>
+                </Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              { this.getContent() }
+              {
+                this.getContent()
+              }
             </Content>
           </Layout>
         </Layout>
       </Layout>
     )
   }
+}
+
+SoftwareMarket.propTypes = {
+  route: PropTypes.object
 }
