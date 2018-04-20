@@ -6,10 +6,13 @@ window.mungConfig = {
   /** *******************************软件市场************************************ */
   // 市场分析-表格
   MarketAnalysis: AJAX_HOST + '/MarketAnalysis',
+
   // 市场分析-词云图
   hotSearch: AJAX_HOST + '/hotSearch',
+
   // 人员管理-教师管理列表
   teacherManagement: AJAX_HOST + '/personnelManagement',
+
   // 人员管理-学生管理列表
   studentManagement: AJAX_HOST + '/studentManagement',
 
@@ -21,9 +24,17 @@ window.mungConfig = {
 
   // 运营管理/会员管理-厂商
   getFactory: AJAX_HOST + '/factoryManage/getFactory',
+
   // 个人中心-我的应用
   personalApps: AJAX_HOST + '/personal/apps',
+
   // 个人中心-我的收藏
-  personalCollections: AJAX_HOST + '/personal/collections'
+  personalCollections: AJAX_HOST + '/personal/collections',
+
+  // 个人中心-我的应用删除
+  personalAppsDelete: AJAX_HOST + '/personal/apps/delete',
+
+  // 个人中心-我的收藏删除
+  personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete'
 
 }

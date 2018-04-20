@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react'
-import { Card, Row, Col, Divider } from 'antd'
+import { Card, Row, Col, Divider, message } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
@@ -63,6 +63,39 @@ class PersonalCenter extends Component {
         [type]: false
       }
     })
+    let checks = document.getElementsByName(`${type}DeleteIds`)
+    let checkIds = []
+    for (var i in checks) {
+      if (checks[i].checked) {
+        checkIds.push(checks[i].value)
+      }
+    }
+    if (checkIds.length > 0) {
+      let url = ''
+      switch (type) {
+        case 'myApps':
+          url = ajaxUrl.personalAppsDelete
+          break
+        case 'myCollections':
+          url = ajaxUrl.personalCollectionsDelete
+          break
+        case 'studentApps':
+          /* 待修改 */
+          url = ajaxUrl.personalCollectionsDelete
+          break
+        default:
+          break
+      }
+      axios.post(url, {
+        sw_List: checkIds
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.result === 'success') {
+          message.success('成功删除应用')
+        }
+      }).catch(e => { console.log(e) })
+    }
+    console.log(checkIds)
   }
 
   // 取消删除
@@ -142,12 +175,22 @@ class PersonalCenter extends Component {
   render () {
     return (
       <div className='personal-center center-view mtb20'>
-        <Card title='我的应用' bordered={false} extra={this.getOpts('myApps')} className={this.state.openStatus['myApps'] ? 'open' : 'take-up'} >
+        <Card
+          title='我的应用'
+          bordered={false}
+          extra={this.getOpts('myApps')}
+          className={this.state.openStatus['myApps'] ? 'open' : 'take-up'}
+        >
           <Row gutter={16} >
             {
               this.state.myApps.map((item, index) => (
                 <Col span={6} key={index}>
-                  <ApplicationCard content={item} share={this.props.role === 'teacher'} />
+                  <ApplicationCard
+                    type='myApps'
+                    content={item}
+                    share={this.props.role === 'teacher'}
+                    deleteCheck={this.state.deleteActive['myApps']}
+                  />
                 </Col>
               ))
             }
@@ -155,12 +198,22 @@ class PersonalCenter extends Component {
         </Card>
         {
           this.props.role === 'parents' && (
-            <Card title='学生应用' bordered={false} extra={this.getOpts('studentApps')} className={this.state.openStatus['studentApps'] ? 'open' : 'take-up'} >
+            <Card
+              title='学生应用'
+              bordered={false}
+              extra={this.getOpts('studentApps')}
+              className={this.state.openStatus['studentApps'] ? 'open' : 'take-up'}
+            >
               <Row gutter={16} >
                 {
                   this.state.myCollections.map((item, index) => (
                     <Col span={6} key={index}>
-                      <ApplicationCard content={item} collection />
+                      <ApplicationCard
+                        type='studentApps'
+                        content={item}
+                        collection
+                        deleteCheck={this.state.deleteActive['studentApps']}
+                      />
                     </Col>
                   ))
                 }
@@ -168,12 +221,22 @@ class PersonalCenter extends Component {
             </Card>
           )
         }
-        <Card title='我的收藏' bordered={false} extra={this.getOpts('myCollections')} className={this.state.openStatus['myCollections'] ? 'open' : 'take-up'} >
+        <Card
+          title='我的收藏'
+          bordered={false}
+          extra={this.getOpts('myCollections')}
+          className={this.state.openStatus['myCollections'] ? 'open' : 'take-up'}
+        >
           <Row gutter={16} >
             {
               this.state.myCollections.map((item, index) => (
                 <Col span={6} key={index}>
-                  <ApplicationCard content={item} share={this.props.role === 'teacher'} />
+                  <ApplicationCard
+                    type='myCollections'
+                    content={item}
+                    share={this.props.role === 'teacher'}
+                    deleteCheck={this.state.deleteActive['myCollections']}
+                  />
                 </Col>
               ))
             }

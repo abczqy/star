@@ -9,13 +9,22 @@ import './ApplicationCard.scss'
 
 class ApplicationCard extends Component {
   render () {
+    // console.log(this.props.deleteCheck)
     return (
       <div className='application-card'>
         {/* 分享 */}
         {
-          this.props.share && (
+          (this.props.share && !this.props.deleteCheck) && (
             <span className='share'>
               <Icon type='export' />
+            </span>
+          )
+        }
+        {/* 删除check */}
+        {
+          (this.props.deleteCheck) && (
+            <span className='delete'>
+              <input type='checkbox' name={`${this.props.type}DeleteIds`} value={this.props.content.sw_id} />
             </span>
           )
         }
@@ -27,7 +36,7 @@ class ApplicationCard extends Component {
         </Badge>
         {/* 应用文字介绍 */}
         <div className='info'>
-          <div className='name'>{this.props.content.sw_name}</div>
+          <div className='name'>{this.props.content.sw_name}-{this.props.content.sw_id}</div>
           <div className='description ellipsis'>{this.props.content.sw_desc}</div>
         </div>
         {/* 更新 */}
@@ -84,7 +93,9 @@ ApplicationCard.propTypes = {
   update: PropTypes.bool,
   download: PropTypes.bool,
   open: PropTypes.bool,
-  collection: PropTypes.bool
+  collection: PropTypes.bool,
+  deleteCheck: PropTypes.bool,
+  type: PropTypes.string
 }
 
 export default ApplicationCard
