@@ -67,6 +67,10 @@
   }
   .carousel-detail-item dd span {
     margin: 3px 0;
+    width: 100px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     display: block;
   }
   .arrowhead-rotation {
@@ -103,6 +107,11 @@
     margin-top: 15px;
   }
   .software-application dl dd span {
+    display: block;
+    width: 130px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     font-size: 16px;
     margin-left: 10px;
   }

@@ -127,3 +127,17 @@
   background: url("../../assets/images/SinaWB.png") no-repeat center;
   background-size: 100% 100%;
 }
+.custom-share-container{
+  .ant-tooltip-inner {
+    max-width: 250px;
+    padding: 6px 8px;
+    color: black;
+    font: 12px/20px "Sim sun";
+    text-align: left;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-height: 32px;
+  }
+}

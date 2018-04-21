@@ -5,7 +5,7 @@
 import React from 'react'
 import './ThirdPartyAppDetail.css'
 import { Button, Icon, Carousel } from 'antd'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
@@ -21,10 +21,21 @@ export default class ThirdPartyAppDetail extends React.Component {
       obj: {
         display: 'none'
       },
-      addClassName: 'see-detail-itema'
+      addClassName: 'see-detail-itema',
+      appType: ''
     }
   }
-  componentWillReceiveProps (nextProps) {
+  static propTypes = {
+    location: PropTypes.object
+  }
+  componentDidMount () {
+    let a = this.props.location.search.replace('?', '')
+    console.log(1111111111111111, a)
+    this.setState({
+      appType: a
+    }, () => {
+      // this.getAllAppData()
+    })
   }
   handleSeeDetail = () => {
     if (this.state.obj.display === 'none') {
@@ -62,7 +73,7 @@ export default class ThirdPartyAppDetail extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000')
+    console.log('00000000', this.props)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
