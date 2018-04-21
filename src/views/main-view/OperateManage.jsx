@@ -10,6 +10,7 @@ import { renderRoutes } from 'react-router-config'
 // import AllApplications from '../../pages/edu-all-app/AllApplications'
 import PropTypes from 'prop-types'
 import BottomHeader from '../../components/common/BottomHeader'
+import SignOut from './SignOut'
 // import SelfSupport from '../../pages/app-detail/SelfSupport'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
@@ -20,7 +21,8 @@ class OperateManage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeTab: 'home'
+      activeTab: 'home',
+      signOutVisible: false // 退出系统
     }
   }
 
@@ -30,7 +32,17 @@ class OperateManage extends React.Component {
     }
     window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
-
+  // 退出系统
+  signOut=() => {
+    this.setState({
+      signOutVisible: true
+    })
+  }
+  hiddenModal (type) {
+    this.setState({
+      [type]: false
+    })
+  }
   getTabArr () {
     let baseTabArr = [{
       text: '首页',
@@ -98,7 +110,7 @@ class OperateManage extends React.Component {
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
               <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />
-              <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/poweroff')} />
+              <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} />
             </div>
           </div>
           <div style={{height: '92px', width: '100%', backgroundColor: '#fff'}}>
@@ -122,6 +134,10 @@ class OperateManage extends React.Component {
           <Row style={{width: '100%', height: 100, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
           </Row>
+          <SignOut
+            visible={this.state.signOutVisible}
+            hiddenModal={this.hiddenModal.bind(this, 'signOutVisible')}
+          />
         </Layout>
       </div>
     )

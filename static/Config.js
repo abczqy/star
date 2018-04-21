@@ -51,5 +51,20 @@ window.mungConfig = {
   // 信息公开列表
   information: AJAX_HOST + '/applicaion/InfoListGet',
   // 信息公开列表详情
-  informationDet: AJAX_HOST + '/applicaion/InfoDetialGet'
+  informationDet: AJAX_HOST + '/applicaion/InfoDetialGet',
+  // 教育局信息公开列表编辑
+  informationEdList: AJAX_HOST + '/applicaion/InfoListEd',
+  // 教育局信息公开列表编辑新增
+  informationEdListAdd: AJAX_HOST + '/applicaion/InfoListEdAdd',
+  // 教育局信息公开列表编辑编辑
+  informationEdListEdit: AJAX_HOST + '/applicaion/InfoListEdEdit',
+  // 教育局信息公开列表编辑删除
+  informationEdListDelete: AJAX_HOST + '/applicaion/InfoListEdDelete',
+  // 分享列表接口
+  detList: AJAX_HOST + '/applicaion/detList',
+
+  /** *******************************注册************************************ */
+  registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
+  register: AJAX_HOST + '/register/registermaf' // 注册按钮
+
 }

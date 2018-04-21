@@ -17,21 +17,15 @@ class Information extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: {
-        imgO: img,
-        imgT: img,
-        imgH: hand,
-        imgP: people,
-        pageNum: 1,
-        pageSize: 10,
-        selete: false, // 选择地区
-        dataP: [
-          '民办普通高校等学校的设立发123...',
-          '民办高等学校办学地址变更发123...',
-          '民办学校以捐赠者姓名或者名123...',
-          '本市进一步推进高中阶段学校123...',
-          '民办学校以捐赠者姓名或者名123...']
-      },
+      imgO: img,
+      imgT: img,
+      imgH: hand,
+      imgP: people,
+      pageNum: 1,
+      pageSize: 10,
+      selete: false, // 选择地区
+      dataP: [], // 公告和分享的list
+      imgG: '', // 公告图片
       dataRight: {
         total: 99,
         list: [{
@@ -117,11 +111,11 @@ class Information extends React.Component {
   }
   getList=() => {
     let value = {
-      pageNum: this.state.data.pageNum || 1,
-      pageSize: this.state.data.pageSize || 10,
-      province: this.state.data.selete ? '' : this.state.data.selete[0],
-      city: this.state.data.selete ? '' : this.state.data.selete[1],
-      county: this.state.data.selete ? '' : this.state.data.selete[2]
+      pageNum: this.state.pageNum || 1,
+      pageSize: this.state.pageSize || 10,
+      province: this.state.selete ? '' : this.state.selete[0],
+      city: this.state.selete ? '' : this.state.selete[1],
+      county: this.state.selete ? '' : this.state.selete[2]
     }
     console.log('游客的信息公开获取数据传的参数', value)
     axios.get(ajaxUrl.information, {
@@ -132,6 +126,17 @@ class Information extends React.Component {
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
         console.log('this.state.infoData.list', this.state.infoData.list)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
+
+    axios.get(ajaxUrl.detList).then(item => {
+      this.setState({
+        dataP: item.data.list,
+        img: item.data.img
+      }, () => {
+        console.log('获取分享列表数据存在state', this.state.dataP)
       })
     }).catch(err => {
       console.log(err)
@@ -174,10 +179,6 @@ class Information extends React.Component {
   }
   // a连接的页面跳转方法呦
   handleTabChange (e) {
-    // if (link === this.props.location.pathname) {
-    //   window.location.reload()
-    // }
-    // window.location.href = 'localhost:8080/#' + '/unlogged/informationDet'
     this.props.history.push({
       pathname: '/unlogged/informationDet',
       search: e.target.text.split(' ')[0]
@@ -190,25 +191,25 @@ class Information extends React.Component {
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer'><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer'><img src={this.state.img} style={{width: '280px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
-                    {this.state.data.dataP.map((item, index) => {
+                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
                       return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
                     })}
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
             <Col span={16}>
               <ul className='ul-top' style={{width: '800px'}}>
                 <li style={{listStyle: 'none', width: '800px'}}>
                   <span>发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} /></span>
-                  {/* <span className='ST'><a onClick={this.modal}><img src={this.state.data.imgP} style={{width: '18px'}} alt='' />省厅</a></span> */}
-                  <span style={{fontSize: '12px', marginLeft: '45%'}}><img src={this.state.data.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选</span></li>
+                  {/* <span className='ST'><a onClick={this.modal}><img src={this.state.imgP} style={{width: '18px'}} alt='' />省厅</a></span> */}
+                  <span style={{fontSize: '12px', marginLeft: '45%'}}><img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选</span></li>
                 {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '130px'}} key={index}>
                     <Col span={24}>

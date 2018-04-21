@@ -4,9 +4,13 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import {Card, Layout, Form, Input, Select, Button, Checkbox} from 'antd'
+import {Card, Layout, Form, Input, Select, Button, Checkbox, message} from 'antd'
 import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
+import RegisterModal from './RegisterSuccModal'
+import axios from 'axios'
+import ajaxUrl from 'config'
+import apiConfig from '../../config'
 class Register extends React.Component {
   constructor (props) {
     super(props)
@@ -21,7 +25,8 @@ class Register extends React.Component {
       phone_icon: false,
       checked: false,
       nextgetCode: true, // 第二次获取验证码
-      submitbtn: false // 注册按钮
+      submitbtn: false, // 注册按钮
+      registerVisible: false
     }
   }
   componentDidMount () {
@@ -29,14 +34,21 @@ class Register extends React.Component {
       verifyCode: new GVerify('v_container')
     })
   }
+  handleTabChange (link) {
+    if (link === this.props.location.pathname) {
+      window.location.reload()
+    }
+    window.location.href = apiConfig.BASE_TAB + '/#' + link
+  }
   // 校验邮箱
   handlemialonblur = (e) => {
     const value = e.target.value
     if (this.onLoginidChange(e)) {
-      this.setState({
-        confirmMail: true // fale 代表被邮箱被占用
-      }, () => {
-        let confirm = this.state.confirmMail
+      let confirm = ''
+      axios.post(ajaxUrl.registerValitemail, {
+        params: {email: value}
+      }).then((response) => {
+        confirm = response.msg !== '邮箱被占用'// fale 代表被邮箱被占用
         if (confirm) {
           this.setState({
             checkemail_icon: true,
@@ -82,7 +94,7 @@ class Register extends React.Component {
     const form = this.props.form
     let confirmvalue = form.getFieldValue('confirm')
     // eslint-disable-next-line
-    let reg = /^((?=.*?\d)(?=.*?[A-Za-z])|(?=.*?\d)(?=.*?[~!@#$%^&*()_+`\-={}:";'<>?,.\/])|(?=.*?[A-Za-z])(?=.*?[~!@#$%^&*()_+`\-={}:";'<>?,.\/])).{7,16}[\dA-Za-z~!@#$%^&*()_+`\-={}:";'<>?,.\/]+$/
+    let reg = /^((?=.*?\d)(?=.*?[A-Za-z])|(?=.*?\d)(?=.*?[~!@#$%^&*()_+`\-={}:";'<>?,.\/])|(?=.*?[A-Za-z])(?=.*?[~!@#$%^&*()_+`\-={}:";'<>?,.\/])).{8,16}$/
     if (value && value !== '' && value.trim() && reg.test(value)) {
       this.setState({
         checkpass_icon: true,
@@ -105,6 +117,11 @@ class Register extends React.Component {
         checkpass: '最短8位，包含字母、数字或者英文符号至少两种！',
         confirmpass_icon: false,
         checkconfirm: '你两次输入的密码不一致!'
+      })
+    } else if ((value === '' || value === undefined || value)) {
+      this.setState({
+        checkpass_icon: false,
+        checkpass: '最短8位，包含字母、数字或者英文符号至少两种！'
       })
     }
     if (value && this.state.confirmDirty && !(confirmvalue !== '' && confirmvalue !== undefined) && (value !== confirmvalue)) {
@@ -328,6 +345,16 @@ class Register extends React.Component {
       console.log('11111111111', this.state.agree)
     })
   }
+  // 查看用户协议
+  userAgreement = () => {
+
+  }
+  // 注册成功弹出框
+  hiddenModal () {
+    this.setState({
+      registerVisible: false
+    })
+  }
   saveOrSubmit =() => {
     let thiz = this
     let agree = thiz.state.agree
@@ -399,9 +426,37 @@ class Register extends React.Component {
         })
       }
       if (!err && agree) {
+        this.registermaf(values)
         console.log('注册', values)
       }
     })
+  }
+  registermaf = (values) => {
+    axios.post(ajaxUrl.register, {
+      params: {
+        maf_loginid: values.maf_loginid, // 注册账号
+        'maf_pwd': values.maf_pwd, // 注册密码
+        'maf_name': values.maf_name, // 家长姓名
+        'maf_idcard': values.maf_idcard, // 身份证
+        'maf_sad': values.maf_sad, // 与学生关系
+        'maf_sad_name': values.maf_sad_name, // 学生姓名
+        'maf_sad_idcard': values.maf_sad_idcard, // 学生身份证号
+        'maf_sad_account': values.maf_sad_account, // 学生账号
+        'maf_sad_pwd': values.maf_sad_pwd, // 学生账号密码
+        'maf_phone': values.maf_phone, // 家长电话
+        'maf_email': values.maf_loginid, // 家长邮箱（家长邮箱和登录账号是同一个）
+        'maf_phone_code': values.maf_phone_code // 手机验证码
+
+      }
+    }).then((response) => {
+      if (response.msg === '注册成功') {
+        this.setState({
+          registerVisible: true
+        })
+      } else {
+        message.error(response.msg)
+      }
+    }).catch(e => { console.log(e) })
   }
   render () {
     const formItemLayout = {
@@ -420,7 +475,7 @@ class Register extends React.Component {
         <Layout>
           <div>
             <Layout.Header className='xingyun-header' style={{height: '92px', width: '100%', margin: 'auto'}}>
-              <div className='xingyun-logo' style={{marginTop: '30px'}} />
+              <div className='xingyun-logo' style={{marginTop: '30px'}} onClick={this.handleTabChange.bind(this, '/unlogged/home')} />
             </Layout.Header>
           </div>
         </Layout>
@@ -569,7 +624,7 @@ class Register extends React.Component {
                 onChange={this.onChangeCheck}
                 className='check-box'
               />
-              <div className='agree'>我同意并遵守<a>《星云教育平台服务协议》</a></div>
+              <div className='agree'>我同意并遵守<a onClick={this.userAgreement}>《星云教育平台服务协议》</a></div>
               <div className='submitbtn'>
                 <Button key='save' disabled={!this.state.submitbtn} className={this.state.submitbtn ? '' : 'subdis'} onClick={this.saveOrSubmit.bind(this)}>立即注册</Button>
               </div>
@@ -577,6 +632,13 @@ class Register extends React.Component {
           </Card>
         </div>
         <BottomHeader />
+        {
+          this.state.registerVisible
+            ? <RegisterModal
+              visible={this.state.registerVisible}
+              hiddenModal={this.hiddenModal.bind(this)}
+            /> : ''
+        }
       </div>
     )
   }

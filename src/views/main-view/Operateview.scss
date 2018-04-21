@@ -240,7 +240,43 @@
     }
   }
 }
-/*添加绑定弹出框*/
-.addbind-modal{
-  
+/*修改密码*/
+.pass-change-modal{
+  width: 40vw;
+  .new_pass_input{
+    margin-bottom: 10px!important;
+  }
+  .passStrong{
+    span{
+      width: 30%;
+      background-color: #F2F2F2;
+      display: inline-block;
+      height: 15px;
+    }
+    .lower{
+      margin-right: 5%;
+      background-color: #D53F0D;
+    }
+    .medium{
+      margin-right: 5%;
+      background-color: #F97B15;
+    }
+    .weak{
+      background-color: #709F03;
+    }
+  }
+}
+// 退出
+.sign_out{
+  text-align: center;
+  font-size: 18px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
 }

@@ -7,6 +7,7 @@ import React from 'react'
 import {Layout, Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../../../components/common/BottomHeader'
+import SignOut from '../SignOut'
 import '../../../components/common/bottom.scss'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
@@ -14,7 +15,9 @@ import '../Operateview.scss'
 export default class MessageTopBar extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      signOutVisible: false // 退出系统
+    }
   }
 
   handleTabChange (link) {
@@ -23,7 +26,17 @@ export default class MessageTopBar extends React.Component {
     }
     window.location.href = 'http://localhost:8080/#' + link
   }
-
+  // 退出系统
+  signOut=() => {
+    this.setState({
+      signOutVisible: true
+    })
+  }
+  hiddenModal (type) {
+    this.setState({
+      [type]: false
+    })
+  }
   render () {
     return (
       <div>
@@ -35,7 +48,7 @@ export default class MessageTopBar extends React.Component {
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
               <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />
-              <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/poweroff')} />
+              <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
             </div>
           </div>
           <Layout.Header className='xingyun-header' style={{height: '92px'}}>
@@ -52,6 +65,10 @@ export default class MessageTopBar extends React.Component {
           {/* {renderRoutes(this.props.route.childRoutes)} */}
           {/* </Layout> */}
         </Layout>
+        <SignOut
+          visible={this.state.signOutVisible}
+          hiddenModal={this.hiddenModal.bind(this, 'signOutVisible')}
+        />
         <BottomHeader />
       </div>
     )
