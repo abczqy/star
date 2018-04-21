@@ -39,6 +39,10 @@ window.mungConfig = {
 
   // 个人中心-我的收藏删除
   personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete',
+  // 厂商登录首页排行榜
+  manufacturerSignInRankingList: AJAX_HOST + '/app/charts',
+  // 全部应用
+  allAppList: AJAX_HOST + '/app/appList',
 
   // 教育新闻列表
   newsList: AJAX_HOST + '/applicaion/newslistget',
