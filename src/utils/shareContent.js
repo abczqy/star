@@ -42,9 +42,17 @@ export default {
     window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?' + s.join('&'), '_blank')
   },
 
-  // 分享到微信朋友圈
-  shareToWeChat: (event) => {
-    event.preventDefault()
+  // 分享到微信朋友圈   返回网页生成二维码图片的地址
+  getQRCodeUrl: (title) => {
+    let params = {
+      t: 'http://www.baidu.com.cn', // 需要生成二维码的地址
+      s: 300 // 二维码的宽高
+    }
+    let s = []
+    for (let i in params) {
+      s.push(i + '=' + encodeURIComponent(params[i] || ''))
+    }
+    return 'http://www.gbtags.com/gb/qrcode?' + s.join('&')
   }
 
 }

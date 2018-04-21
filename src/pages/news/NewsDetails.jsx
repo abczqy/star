@@ -2,7 +2,7 @@
  * 无身份区分新闻列表详情
  */
 import React from 'react'
-import {Row, Col, Card} from 'antd'
+import {Row, Col, Card, Tooltip} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
@@ -77,6 +77,20 @@ class NewsDetails extends React.Component {
   position=() => {
     console.log('当前页面位置跳转')
   }
+
+  getQRCode () {
+    return (<div>
+      <Row>
+        <Col span={24}>
+          <img width={120} height={120} src={shareContent.getQRCodeUrl()} />
+        </Col>
+      </Row>
+      <Row>
+        <div style={{textAlign: 'center'}}>用微信扫码二维码<br />分享至好友和朋友圈</div>
+      </Row>
+    </div>)
+  }
+
   render () {
     console.log('数据', this.newsData)
     return <div>
@@ -119,7 +133,9 @@ class NewsDetails extends React.Component {
                   <div style={{marginBottom: '18px'}}>
                     <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
                     <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
-                    <span title='分享到微信朋友圈' className='share-WeChat' onClick={(e) => { shareContent.shareToWeChat(e) }} />
+                    <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
+                      <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
+                    </Tooltip>
                     <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
                   </div>
                 </Col>
