@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Card, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import { NewsAddBar, BlankBar, RichEditor } from 'components/software-market'
-import './NewsListAdd.scss'
+import './NewsListEdit.scss'
 
-class NewsListAdd extends Component {
+class NewsListEdit extends Component {
   render () {
     return (
       <div className='news-list-wrap' >
@@ -22,4 +22,4 @@ class NewsListAdd extends Component {
   }
 }
 
-export default NewsListAdd
+export default NewsListEdit

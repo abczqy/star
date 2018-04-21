@@ -33,7 +33,8 @@ import {
   Parent,
   School,
   Student,
-  Teacher
+  Teacher,
+  NewsListEdit
 } from 'pages/software-market'
 
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
@@ -186,6 +187,9 @@ export default [{
   }, {
     path: '/software-market-home/platform-manage/news-list-add',
     component: NewsListAdd
+  }, {
+    path: '/software-market-home/platform-manage/news-list-edit',
+    component: NewsListEdit
   }]
 }, {
   path: '/topbar-manage', // 新消息通知页面
