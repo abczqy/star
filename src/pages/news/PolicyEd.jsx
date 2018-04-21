@@ -6,8 +6,8 @@ import React from 'react'
 import {Input, Row, Col, Upload, Button, Icon, message, Modal} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
-// import axios from 'axios'
-// import ajaxUrl from 'config'
+import axios from 'axios'
+import ajaxUrl from 'config'
 
 const { TextArea } = Input
 class Policy extends React.Component {
@@ -17,11 +17,12 @@ class Policy extends React.Component {
       input: '',
       context: '',
       visible: false,
-      fileList: []
+      fileList: '1'
     }
   }
   componentWillMount () {
     if (this.props.ctrl && this.props.ctrl === 'edit') {
+      console.log('this.props.record', this.props.record.title)
       this.setState({
         input: this.props.record.title,
         context: this.props.record.information
@@ -68,18 +69,23 @@ class Policy extends React.Component {
       fileList: this.state.fileList
     }
     console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
-    // axios.get('/applicaion/InfoListGet', {
-    //   value
-    // }).then(item => {
-    //   this.setState({
-    //     infoData: item.data
-    //   }, () => {
-    //     console.log('this.state.infoData', this.state.infoData)
-    //     // console.log('this.state.infoData.list', this.state.infoData.list)
-    //   })
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    if (this.props.ctrl && this.props.ctrl === 'edit') {
+      axios.get(ajaxUrl.informationEdListEdit,
+        Object.assign(value, {id: this.props.record.id})
+      ).then(item => {
+        console.log(item)
+      }).catch(err => {
+        console.log(err)
+      })
+    } else if (this.props.ctrl && this.props.ctrl === 'add') {
+      axios.get(ajaxUrl.informationEdListAdd, {
+        value
+      }).then(item => {
+        console.log(item)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
   // 确认按钮
   handleOk = (e) => {
@@ -98,6 +104,14 @@ class Policy extends React.Component {
     this.setState({
       visible: false
     })
+  }
+  // modal框文字内容
+  change = () => {
+    if (this.props.ctrl && this.props.ctrl === 'edit') {
+      return '确定要修改内容吗'
+    } else if (this.props.ctrl && this.props.ctrl === 'add') {
+      return '确定要发布内容吗'
+    }
   }
   render () {
     const props = {
@@ -162,14 +176,14 @@ class Policy extends React.Component {
         bodyStyle={{height: '220px'}}
         maskClosable={false}
       >
-        <p style={{marginTop: '85px', marginLeft: '120px'}}><img src={i} style={{width: '30px'}} /> <span style={{fontSize: '15px'}}>是否确认要发布嘛？</span></p>
+        <p style={{marginTop: '85px', marginLeft: '120px'}}><img src={i} style={{width: '30px'}} /> <span style={{fontSize: '15px'}}>{this.change()}</span></p>
       </Modal>
     </div>
   }
 }
 Policy.propTypes = {
   ctrl: PropTypes.string,
-  record: PropTypes.func,
+  record: PropTypes.object,
   getModalV: PropTypes.func
 }
 

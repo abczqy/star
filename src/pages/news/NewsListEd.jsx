@@ -17,49 +17,10 @@ class News extends React.Component {
     this.state = {
       pageSize: 10,
       pages: 1,
-      data: {
-        imgO: img,
-        imgT: img,
-        dataP: [
-          '民办普通高校等学校的设立发123...',
-          '民办高等学校办学地址变更发123...',
-          '民办学校以捐赠者姓名或者名123...',
-          '本市进一步推进高中阶段学校123...',
-          '民办学校以捐赠者姓名或者名123...']
-      },
-      dataRight: {
-        total: 50,
-        list: [{
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '1111为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        },
-        {
-          imgs: img,
-          title: '教育部部署2018年重点高校招收农村和贫困地区学生工作',
-          time: '2018-03-23',
-          paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
-        }]
-      },
+      imgO: img,
+      imgT: img,
+      dataP: [], // 公告和分享的list
+      img: '', // 公告图片
       newData: {}
     }
   }
@@ -69,6 +30,7 @@ class News extends React.Component {
       pageNum: this.state.pages,
       pageSize: this.state.pageSize
     }
+
     axios.post(ajaxUrl.newsList, {
       value
     }).then(item => {
@@ -77,6 +39,18 @@ class News extends React.Component {
       }, () => {
         console.log('获取数据存在state', this.state.newData)
         console.log('获取数据存在state', this.state.newData.list)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
+
+    axios.get(ajaxUrl.detList).then(item => {
+      console.log('我到底做了个啥？？？', item.data)
+      this.setState({
+        dataP: item.data.list,
+        img: item.data.img
+      }, () => {
+        console.log('获取分享列表数据存在state', this.state.dataP)
       })
     }).catch(err => {
       console.log(err)
@@ -131,17 +105,17 @@ class News extends React.Component {
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer' ><img src={this.state.data.imgO} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer' ><img src={this.state.img} style={{width: '280px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
-                    {this.state.data.dataP.map((item, index) => {
+                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
                       return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
                     })}
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
             </Col>
           </div>
           <div style={{width: '1400px'}}>

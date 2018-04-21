@@ -11,22 +11,17 @@ import fen from '../../assets/images/u1415.png'
 import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import _ from 'lodash'
 class NewsDetailsEd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: {
-        imgT: img,
-        imgUl: ul,
-        imgFen: fen,
-        imgZui: zui,
-        dataP: [
-          '民办普通高校等学校的设立发123...',
-          '民办高等学校办学地址变更发123...',
-          '民办学校以捐赠者姓名或者名123...',
-          '本市进一步推进高中阶段学校123...',
-          '民办学校以捐赠者姓名或者名123...']
-      },
+      imgT: img,
+      imgUl: ul,
+      imgFen: fen,
+      imgZui: zui,
+      dataP: [], // 公告和分享的list
+      img: '', // 公告图片
       dataRight: {
         positionO: '教育新闻',
         positionT: '国内新闻',
@@ -55,6 +50,18 @@ class NewsDetailsEd extends React.Component {
     }).catch(err => {
       console.log(err)
     })
+
+    axios.get(ajaxUrl.detList).then(item => {
+      console.log('我到底做了个啥？？？', item.data)
+      this.setState({
+        dataP: item.data.list,
+        img: item.data.img
+      }, () => {
+        console.log('获取分享列表数据存在state', this.state.dataP)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
   }
   componentWillMount () {
     this.getList()
@@ -76,13 +83,13 @@ class NewsDetailsEd extends React.Component {
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
-                    {this.state.data.dataP.map((item, index) => {
+                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
                       return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
                     })}
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.data.imgT} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
             </Col>
           </div>
           <div style={{width: '1400px'}}>
@@ -110,21 +117,21 @@ class NewsDetailsEd extends React.Component {
           <Row >
             <Col span={4} />
             <Col>
-              <div style={{marginBottom: '18px'}}>分享: <img src={this.state.data.imgFen} style={{width: '217px'}} alt='' /></div>
+              <div style={{marginBottom: '18px'}}>分享: <img src={this.state.imgFen} style={{width: '217px'}} alt='' /></div>
             </Col>
           </Row>
           <Row>
             <Col span={4} />
             <Col>
-              <img src={this.state.data.imgZui} style={{width: '739px'}} alt='' />
+              <img src={this.state.imgZui} style={{width: '739px'}} alt='' />
             </Col>
           </Row>
           <Row>
             <Col span={4} />
             <Col span={12}>
               <ul className='details-li-ul-down'>
-                {this.state.data.dataP.map((item, index) => {
-                  return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.data.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
+                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                  return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
                 })}
               </ul>
             </Col>
