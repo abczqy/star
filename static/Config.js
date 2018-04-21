@@ -61,5 +61,10 @@ window.mungConfig = {
   // 教育局信息公开列表编辑删除
   informationEdListDelete: AJAX_HOST + '/applicaion/InfoListEdDelete',
   // 分享列表接口
-  detList: AJAX_HOST + '/applicaion/detList'
+  detList: AJAX_HOST + '/applicaion/detList',
+
+  /** *******************************注册************************************ */
+  registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
+  register: AJAX_HOST + '/register/registermaf' // 注册按钮
+
 }

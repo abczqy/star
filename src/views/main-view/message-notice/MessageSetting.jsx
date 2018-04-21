@@ -7,13 +7,25 @@ import React from 'react'
 import {Card, Icon} from 'antd'
 import Unbind from './UnbindModel'
 import Addbind from './AddbindModel'
+import ChangePass from './ChangePass'
+import ChangePhoneNumber from './ChangePhoneNumber'
+import ChangeFirmName from './ChangeFirmName'
+import ChangeFirmDescribe from './ChangeFirmDescribe'
+import ChangeFirmContract from './ChangeFirmContract'
+import ChangeFirmLicense from './ChangeFirmLicense'
 import '../Operateview.scss'
 export default class MessageSetting extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       unbindVisible: false,
-      addbindVisible: false
+      addbindVisible: false,
+      changePassVisible: false,
+      changePhoneVisible: false,
+      changeFirmName: false, // 厂商名称
+      changeFirmDescribe: false, // 厂商描述
+      changeFirmContract: false, // 厂商合同号
+      changeFirmLicense: false // 营业执照
     }
   }
 
@@ -40,6 +52,42 @@ export default class MessageSetting extends React.Component {
       addbindVisible: true
     })
   }
+  /* 修改密码 */
+  changepass =() => {
+    this.setState({
+      changePassVisible: true
+    })
+  }
+  /* 修改手机 */
+  changephone =() => {
+    this.setState({
+      changePhoneVisible: true
+    })
+  }
+  /* 修改厂商名称 */
+  changefirmname =() => {
+    this.setState({
+      changeFirmName: true
+    })
+  }
+  /* 修改描述 */
+  changefirmdescribe =() => {
+    this.setState({
+      changeFirmDescribe: true
+    })
+  }
+  /* 修改合同编号 */
+  changeFirmcontract =() => {
+    this.setState({
+      changeFirmContract: true
+    })
+  }
+  /* 营业执照 */
+  changeFirmLicense =() => {
+    this.setState({
+      changeFirmLicense: true
+    })
+  }
   render () {
     let phone = '18339966666'
     let mtel = phone.substr(0, 4) + '*****' + phone.substr(8)
@@ -47,10 +95,6 @@ export default class MessageSetting extends React.Component {
     let strname = '**' + name.substr(name.length - 1)
     let idcard = '135841235484123547'
     let strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
-    let mail = '914kj@163.com'
-    let strmail = mail.match(/(\S*)@/)[1]
-    let strmailaf = mail.match(/@(\S*)/)[1]
-    let smail = strmail.substr(0, 3) + '*****' + strmail.substr(strmail.length - 2) + '@' + strmailaf
     return (
       <div className='center-view mb20'>
         <Card title='账号安全' bordered={false} className='message-setting-card'>
@@ -62,7 +106,7 @@ export default class MessageSetting extends React.Component {
               <div className='safe-name'>
                 <span className='tit'>登录密码</span>
                 <span className='word'>互联网账号存在被盗风险，建议您定期修改密码以保护账户安全</span>
-                <a className='modify'> 修改</a>
+                <a className='modify' onClick={this.changepass}> 修改</a>
               </div>
             </div>
             <div className='safe_item'>
@@ -72,7 +116,7 @@ export default class MessageSetting extends React.Component {
               <div className='safe-name'>
                 <span className='tit'>手机验证</span>
                 <span className='word f-color'>您验证的手机：{mtel}若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
-                <a className='modify'> 修改</a>
+                <a className='modify' onClick={this.changephone}> 修改</a>
               </div>
             </div>
             <div className='safe_item'>
@@ -82,17 +126,6 @@ export default class MessageSetting extends React.Component {
               <div className='safe-name'>
                 <span className='tit'>实名认证</span>
                 <span className='word f-color'>您认证的实名信息：{strname}  {strIdcard}</span>
-                <a className='modify'> 修改</a>
-              </div>
-            </div>
-            <div className='safe_item'>
-              <div className='list-img'>
-                <i />
-              </div>
-              <div className='safe-name'>
-                <span className='tit'>邮箱验证</span>
-                <span className='word f-color'>您验证的邮箱：{smail}</span>
-                <a className='modify'>修改</a>
               </div>
             </div>
           </div>
@@ -107,7 +140,7 @@ export default class MessageSetting extends React.Component {
               <div className='safe-name'>
                 <span className='tit'>厂商名称</span>
                 <span className='word f-color'>福州市第一实验小学</span>
-                <a className='modify'> 修改</a>
+                <a className='modify' onClick={this.changefirmname}> 修改</a>
               </div>
             </div>
             <div className='safe_item'>
@@ -120,7 +153,7 @@ export default class MessageSetting extends React.Component {
                   <span style={{height: '1rem'}} />
                   这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述。
                 </div>
-                <a className='modify'> 修改</a>
+                <a className='modify' onClick={this.changefirmdescribe}> 修改</a>
               </div>
             </div>
             <div className='safe_item'>
@@ -130,7 +163,7 @@ export default class MessageSetting extends React.Component {
               <div className='safe-name'>
                 <span className='tit'>合同编号</span>
                 <span className='word f-color'>HT217897438927189470</span>
-                <a className='modify'> 修改</a>
+                <a className='modify' onClick={this.changeFirmcontract}> 修改</a>
               </div>
             </div>
             <div className='safe_item'>
@@ -140,7 +173,7 @@ export default class MessageSetting extends React.Component {
               <div className='safe-name'>
                 <span className='tit'>营业执照</span>
                 <span className='word f-color'><img style={{height: '50px'}} src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg' /></span>
-                <a className='modify'>修改</a>
+                <a className='modify' onClick={this.changeFirmLicense}>从新上传</a>
               </div>
             </div>
           </div>
@@ -171,6 +204,34 @@ export default class MessageSetting extends React.Component {
             visible={this.state.addbindVisible}
             hiddenModal={this.hiddenModal.bind(this, 'addbindVisible')}
           />
+          <ChangePass
+            visible={this.state.changePassVisible}
+            hiddenModal={this.hiddenModal.bind(this, 'changePassVisible')}
+          />
+          {this.state.changePhoneVisible ? <ChangePhoneNumber
+            visible={this.state.changePhoneVisible}
+            hiddenModal={this.hiddenModal.bind(this, 'changePhoneVisible')}
+          /> : null}
+          {/* 修改厂商名称 */}
+          {this.state.changeFirmName ? <ChangeFirmName
+            visible={this.state.changeFirmName}
+            hiddenModal={this.hiddenModal.bind(this, 'changeFirmName')}
+          /> : null}
+          {/* 修改厂商描述 */}
+          {this.state.changeFirmDescribe ? <ChangeFirmDescribe
+            visible={this.state.changeFirmDescribe}
+            hiddenModal={this.hiddenModal.bind(this, 'changeFirmDescribe')}
+          /> : null}
+          {/* 修改厂商合同编号 */}
+          {this.state.changeFirmContract ? <ChangeFirmContract
+            visible={this.state.changeFirmContract}
+            hiddenModal={this.hiddenModal.bind(this, 'changeFirmContract')}
+          /> : null}
+          {/* 营业执照 */}
+          {this.state.changeFirmLicense ? <ChangeFirmLicense
+            visible={this.state.changeFirmLicense}
+            hiddenModal={this.hiddenModal.bind(this, 'changeFirmLicense')}
+          /> : null}
         </Card>
       </div>
     )
