@@ -18,6 +18,24 @@ import Policy from 'pages/news/Policy'// 页面式的政策发布
 import Please from 'pages/news/ShelfPlease'// 上架流程
 import Iteration from 'pages/news/IterationPlease'// 迭代申请
 
+import {
+  PortalHomepage,
+  PlatHomepage,
+  NewsList as NewsListManage,
+  PublicInfo,
+  PublicInfoVerify,
+  NewsListAdd,
+  Businessing,
+  IterationVerify,
+  WaitVerify,
+  EducationalServices,
+  Manufacturer,
+  Parent,
+  School,
+  Student,
+  Teacher
+} from 'pages/software-market'
+
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
@@ -122,7 +140,53 @@ export default [{
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口
-  component: SoftwareMarket
+  component: SoftwareMarket,
+  childRoutes: [{
+    path: '/software-market-home/software-manage/businessing',
+    component: Businessing
+  }, {
+    path: '/software-market-home/software-manage/iteration-verify',
+    component: IterationVerify
+  }, {
+    path: '/software-market-home/software-manage/wait-verify',
+    component: WaitVerify
+  }, {
+    path: '/software-market-home/member-manage/educational-services',
+    component: EducationalServices
+  }, {
+    path: '/software-market-home/member-manage/manufacturer',
+    component: Manufacturer
+  }, {
+    path: '/software-market-home/member-manage/parent',
+    component: Parent
+  }, {
+    path: '/software-market-home/member-manage/school',
+    component: School
+  }, {
+    path: '/software-market-home/member-manage/student',
+    component: Student
+  }, {
+    path: '/software-market-home/member-manage/teacher',
+    component: Teacher
+  }, {
+    path: '/software-market-home/platform-manage/news-list',
+    component: NewsListManage
+  }, {
+    path: '/software-market-home/platform-manage/plat-homepage',
+    component: PlatHomepage
+  }, {
+    path: '/software-market-home/platform-manage/porttal-homepage',
+    component: PortalHomepage
+  }, {
+    path: '/software-market-home/platform-manage/public-info',
+    component: PublicInfo
+  }, {
+    path: '/software-market-home/platform-manage/public-info-verify',
+    component: PublicInfoVerify
+  }, {
+    path: '/software-market-home/platform-manage/news-list-add',
+    component: NewsListAdd
+  }]
 }, {
   path: '/topbar-manage', // 新消息通知页面
   component: MessageTopBar,

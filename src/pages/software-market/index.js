@@ -18,5 +18,6 @@ export {
   PlatHomepage,
   NewsList,
   PublicInfo,
-  PublicInfoVerify
+  PublicInfoVerify,
+  NewsListAdd
 } from './platform-manage/index'
