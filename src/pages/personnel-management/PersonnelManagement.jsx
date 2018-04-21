@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react'
-import { Menu, Input, Button, Row, Col, Upload } from 'antd'
+import { Menu, Input, Button, Row, Col, Upload, message } from 'antd'
 // import axios from 'axios'
 import ajaxUrl from 'config'
 import PersonManageTable from './person-manage-table/PersonManageTable'
@@ -22,6 +22,17 @@ class PersonnelManagement extends Component {
       tableParams,
       inputValue: '',
       role: 'teacher'
+    }
+    this.uploadProps = {
+      name: 'file',
+      action: ajaxUrl.batchImport,
+      onChange (info) {
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} 上传成功`)
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} 上传失败`)
+        }
+      }
     }
   }
 
@@ -69,12 +80,12 @@ class PersonnelManagement extends Component {
   }
 
   // 下载
-  templateDownload=() => {
+  templateDownload = () => {
     this.refs.downloadForm.submit()
   }
 
   // 切换学生和教师管理
-  roleChange=(obj) => {
+  roleChange = (obj) => {
     if (obj.key !== this.state.role) {
       this.setState({
         role: obj.key
@@ -125,14 +136,13 @@ class PersonnelManagement extends Component {
             </Col>
             <Col offset={10} span={6} className='opt-box' >
               <span className='link' onClick={this.templateDownload} >模板下载</span>
-              <Upload >
+              <Upload {...this.uploadProps}>
                 <Button
                   className='upload-btn'
                   type='primary'
                   icon='file-add'
-                  onClick={this.upload}
                 >
-                批量导入
+                  批量导入
                 </Button>
               </Upload>
             </Col>
