@@ -10,6 +10,7 @@ import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
 import axios from 'axios'
+import ajaxUrl from 'config'
 
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
@@ -76,19 +77,14 @@ class News extends React.Component {
       pageNum: this.state.pages,
       pageSize: this.state.pageSize
     }
-    axios.post('/applicaion/newslistget', {
+    axios.post(ajaxUrl.newsList, {
       value
     }).then(item => {
       this.setState({
         newData: item.data
       }, () => {
-        console.log('*********************************')
-        console.log('*********************************')
-        console.log('*********************************')
         console.log('获取数据存在state', this.state.newData)
         console.log('获取数据存在state', this.state.newData.list)
-        console.log('*********************************')
-        console.log('*********************************')
       })
     }).catch(err => {
       console.log(err)

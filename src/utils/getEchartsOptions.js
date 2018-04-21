@@ -114,6 +114,7 @@ const getEchartsOptions = (data, type, title, config) => {
             areaStyle: {
               color: 'rgba(45,183,245,0.5)'
             },
+            smooth: true,
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
@@ -121,6 +122,7 @@ const getEchartsOptions = (data, type, title, config) => {
             type: 'line',
             stack: '总量',
             areaStyle: { color: 'rgba(178,198,230,0.5)' },
+            smooth: true,
             data: [220, 182, 191, 234, 290, 330, 310]
           }
         ]

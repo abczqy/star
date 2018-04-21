@@ -43,16 +43,15 @@
           width: 16px;
           height: 16px;
           margin-right: 8px;
-          &.teacher{
+          &.teacher {
             background: url('../../assets/images/personal/teacher-blue.png') no-repeat;
             background-size: 100%;
           }
-          &.student{
+          &.student {
             background: url('../../assets/images/personal/student-blue.png') no-repeat;
             background-size: 100%;
           }
         }
-        
       }
       .ant-menu-item-selected {
         background: #39f;
@@ -61,11 +60,11 @@
         &:hover {
           color: #fff
         }
-        .icon.teacher{
+        .icon.teacher {
           background: url('../../assets/images/personal/teacher-white.png') no-repeat;
           background-size: 100%;
         }
-        .icon.student{
+        .icon.student {
           background: url('../../assets/images/personal/student-white.png') no-repeat;
           background-size: 100%;
         }
@@ -90,18 +89,20 @@
       }
       .opt-box {
         text-align: right;
-        .link{
+        .link {
           margin-right: 16px;
           color: #1890FF;
           text-decoration: underline;
           cursor: pointer;
         }
-        .upload-btn{
+        .upload-btn {
           background-color: #3c0;
           border-color: #3c0;
         }
       }
+    } // 隐藏上传列表
+    .ant-upload-list {
+      display: none !important;
     }
-    
   }
 }

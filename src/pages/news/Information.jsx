@@ -10,6 +10,9 @@ import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
+import _ from 'lodash'
+import axios from 'axios'
+import ajaxUrl from 'config'
 class Information extends React.Component {
   constructor (props) {
     super(props)
@@ -21,7 +24,7 @@ class Information extends React.Component {
         imgP: people,
         pageNum: 1,
         pageSize: 10,
-        selete: '', // 选择地区
+        selete: false, // 选择地区
         dataP: [
           '民办普通高校等学校的设立发123...',
           '民办高等学校办学地址变更发123...',
@@ -108,21 +111,31 @@ class Information extends React.Component {
       infoData: {}
     }
   }
+
+  componentWillMount () {
+    this.getList()
+  }
   getList=() => {
     let value = {
       pageNum: this.state.data.pageNum || 1,
-      pageSize: this.state.data.pageSize || 1,
-      selete: this.state.selete || ''
+      pageSize: this.state.data.pageSize || 10,
+      province: this.state.data.selete ? '' : this.state.data.selete[0],
+      city: this.state.data.selete ? '' : this.state.data.selete[1],
+      county: this.state.data.selete ? '' : this.state.data.selete[2]
     }
     console.log('游客的信息公开获取数据传的参数', value)
-    // ajax.yiduiyidui(value, item => {
-    //   this.setState({
-    //     infoData: item
-    //   })
-    // })
-  }
-  componentWillMount () {
-    this.getList()
+    axios.get(ajaxUrl.information, {
+      value
+    }).then(item => {
+      this.setState({
+        infoData: item.data
+      }, () => {
+        console.log('this.state.infoData', this.state.infoData)
+        console.log('this.state.infoData.list', this.state.infoData.list)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
   }
   // 标题的点击事件
   title =() => {
@@ -171,6 +184,7 @@ class Information extends React.Component {
     })
   }
   render () {
+    console.log('要用的数据', this.state.infoData)
     return <div>
       <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
@@ -195,17 +209,17 @@ class Information extends React.Component {
                   <span>发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} /></span>
                   {/* <span className='ST'><a onClick={this.modal}><img src={this.state.data.imgP} style={{width: '18px'}} alt='' />省厅</a></span> */}
                   <span style={{fontSize: '12px', marginLeft: '45%'}}><img src={this.state.data.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选</span></li>
-                {this.state.dataRight.list.map((item, index) => {
+                {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '130px'}} key={index}>
                     <Col span={24}>
                       <Row>
-                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.title}</a></p></Col>{/* this.state.infoData.info_title */}
-                        <Col span={4}><span className='span-top'>发布者:{item.people}</span></Col>{/* this.state.infoData.info_per */}
-                        <Col span={3}><span className='span-top'>{item.time}</span></Col>{/* this.state.infoData.info_time */}
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
+                        <Col span={4}><span className='span-top'>发布者:{item.info_per}</span></Col>
+                        <Col span={3}><span className='span-top'>{item.info_time}</span></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}</p>{/* this.state.infoData.info_desc */}
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -217,7 +231,7 @@ class Information extends React.Component {
                 <Col >
                   <Pagination
                     size='small'
-                    total={this.state.dataRight.total}// this.state.infoData.total
+                    total={this.state.infoData.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}

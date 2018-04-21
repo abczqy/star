@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Input, Button, Row, Col, DatePicker } from 'antd'
+import { Link } from 'react-router-dom'
 import './NewsBar.scss'
 
 const Search = Input.Search
@@ -32,7 +33,11 @@ class NewsBar extends Component {
             <Button className='bar-btn del-btn' type='primary'>批量删除</Button>
           </Col>
           <Col span={2}>
-            <Button className='bar-btn add-btn' type='primary'>增加新闻</Button>
+            <Button className='bar-btn add-btn' type='primary'>
+              <Link to='/software-market-home/platform-manage/news-list-add'>
+                  增加新闻
+              </Link>
+            </Button>
           </Col>
         </Row>
       </div>

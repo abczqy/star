@@ -7,8 +7,10 @@ import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import './NewsList.scss'
+import _ from 'lodash'
 import _ul from '../../assets/images/_ul.png'
-import { renderRoutes } from 'react-router-config'
+import axios from 'axios'
+import ajaxUrl from 'config'
 class News extends React.Component {
   constructor (props) {
     super(props)
@@ -57,11 +59,28 @@ class News extends React.Component {
           time: '2018-03-23',
           paragraph: '为贯彻党的十九大精神，落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》，近日教育部印发《关于做好2018年重点高校招收农村和贫困地区学生工落实《国务院关于深化考试招生制度改革的实施意见》和《政府工作报告》作......'
         }]
-      }
+      },
+      newData: {}
     }
   }
   getList = () => {
     console.log('获取数据')
+    let value = {
+      pageNum: this.state.pages,
+      pageSize: this.state.pageSize
+    }
+    axios.post(ajaxUrl.newsList, {
+      value
+    }).then(item => {
+      this.setState({
+        newData: item.data
+      }, () => {
+        console.log('获取数据存在state', this.state.newData)
+        console.log('获取数据存在state', this.state.newData.list)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
   }
   componentWillMount () {
     this.getList()
@@ -95,17 +114,16 @@ class News extends React.Component {
     this.getList()
   }
   // a标签的跳转方法哦~
-  handleTabChange= () => {
+  handleTabChange= (e) => {
     // console.log('111111111111111', this.props.route)
     // if (link === this.props.location.pathname) {
     //   window.location.reload()
     // }
     this.props.history.push({
-      pathname: '/operate-manage-home/NewDetailsEd'
-      // search: e.target.text.split(' ')[0]
+      pathname: '/operate-manage-home/NewDetailsEd',
+      search: e.target.text.split(' ')[0]
     }
     )
-    // window.location.href = 'localhost:8080/#/operate-manage-home/NewDetailsEd'
   }
   render () {
     return <div>
@@ -129,18 +147,17 @@ class News extends React.Component {
           <div style={{width: '1400px'}}>
             <Col span={15}>
               <ul className='ul-top'>
-                {this.state.dataRight.list.map((item, index) => {
+                {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
-                    <Col span={5}><img src={img} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={item.news_img} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
                     <Col span={16}>
-                      <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange}>{item.title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.time}</span></Col>
-                        {renderRoutes(this.props.route.childRoutes)}
+                      <Row>{/*                                                               key={item.news_id}       item.new_title */}
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>{/* {item.news_time} */}
                       </Row>
                       <Row>
-                        <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.paragraph}</p>
+                        <Col span={23}>{/* .....................................................{item.news_desc} */}
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.news_desc}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -151,7 +168,7 @@ class News extends React.Component {
                 <Col >
                   <Pagination
                     size='small'
-                    total={this.state.dataRight.total}
+                    total={this.state.newData.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
