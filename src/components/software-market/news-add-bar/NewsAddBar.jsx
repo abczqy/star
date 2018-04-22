@@ -8,7 +8,7 @@ class NewsAddBar extends Component {
   }
   render () {
     return (
-      <div className='edit-bar-wrap' >
+      <div className='edit-add-bar-wrap' >
         <Row gutter={16}>
           <Col span={12}>
             <span className='edit-bar-left-label'>通知标题: </span>
