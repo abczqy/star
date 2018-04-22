@@ -11,3 +11,6 @@ export { default as PublicInfoVerifyBar } from './public-info-verify-bar/PublicI
 export { default as NewsAddBar } from './news-add-bar/NewsAddBar'
 export { default as RichEditor } from './rich-editor/RichEditor'
 export { default as NewsEditBar } from './news-edit-bar/NewsEditBar'
+export { default as PublicInfoAddBar } from './public-info-add-bar/PublicInfoAddBar'
+export { default as PublicInfoEditBar } from './public-info-edit-bar/PublicInfoEditBar'
+export { default as PublicInfoVerifyView } from './public-info-verify-view/PublicInfoVerifyView'

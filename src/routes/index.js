@@ -24,7 +24,6 @@ import {
   NewsList as NewsListManage,
   PublicInfo,
   PublicInfoVerify,
-  NewsListAdd,
   Businessing,
   IterationVerify,
   WaitVerify,
@@ -34,7 +33,11 @@ import {
   School,
   Student,
   Teacher,
-  NewsListEdit
+  NewsListAdd,
+  NewsListEdit,
+  PublicInfoAdd,
+  PublicInfoEdit,
+  PublicInfoVerifyDetail
 } from 'pages/software-market'
 
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
@@ -190,6 +193,15 @@ export default [{
   }, {
     path: '/software-market-home/platform-manage/news-list-edit',
     component: NewsListEdit
+  }, {
+    path: '/software-market-home/platform-manage/public-info-add',
+    component: PublicInfoAdd
+  }, {
+    path: '/software-market-home/platform-manage/public-info-edit',
+    component: PublicInfoEdit
+  }, {
+    path: '/software-market-home/platform-manage/public-verify-detail',
+    component: PublicInfoVerifyDetail
   }]
 }, {
   path: '/topbar-manage', // 新消息通知页面

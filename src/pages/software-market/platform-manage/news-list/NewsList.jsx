@@ -11,13 +11,13 @@ import { BlankBar, NewsBar } from 'components/software-market'
 /**
    * 表格分页器设置-默认值
    */
-// const pagination = {
-//   pageNum: 1,
-//   pageSize: 10,
-//   showQuickJumper: true,
-//   showSizeChanger: true,
-//   text: '' // 用来赋空翻页后的search框--需要这样吗
-// }
+const pagination = {
+  pageNum: 1,
+  pageSize: 10,
+  showQuickJumper: true,
+  showSizeChanger: true
+  // text: '' // 用来赋空翻页后的search框--需要这样吗
+}
 
 /**
  * 表格的columns -- 后面用json文件配置出去 --参照bdq
@@ -112,6 +112,7 @@ class NewsList extends Component {
         <Table
           columns={columns}
           dataSource={tableData.data}
+          pagination={pagination}
         />
       </div>
     )

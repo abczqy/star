@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Input, Button, Row, Col, DatePicker, Select } from 'antd'
+import { Link } from 'react-router-dom'
 import './PublicInfoBar.scss'
 
 const Search = Input.Search
@@ -44,7 +45,11 @@ class PublicInfoBar extends Component {
             <Button className='bar-btn del-btn' type='primary'>批量删除</Button>
           </Col>
           <Col span={2}>
-            <Button className='bar-btn add-btn' type='primary'>增加新闻</Button>
+            <Button className='bar-btn add-btn' type='primary'>
+              <Link to='/software-market-home/platform-manage/public-info-add'>
+                +添加信息
+              </Link>
+            </Button>
           </Col>
         </Row>
       </div>
