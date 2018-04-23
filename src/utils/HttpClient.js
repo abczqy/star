@@ -13,20 +13,19 @@ Object.assign(axios.defaults, {
 /**
  * 请求前钩子函数
  */
-/* axios.interceptors.request.use(function (config) {
-  /!* if( config.showLoading ){
-   xhrQueue.push(1);
-
-   }*!/
-  //console.log(config);
-  return config;
+axios.interceptors.request.use(function (config) {
+  // if (config.showLoading) {
+  // //  xhrQueue.push(1)
+  // }
+  return config
 }, function (error) {
-  return Promise.reject(error);
-});
+  return Promise.reject(error)
+})
 
 axios.interceptors.response.use(function (response) {
-  //console.log(response);
-  return response;
-}); */
+  // console.log('拦截请求')
+  // window.location.href = 'https://www.baidu.com/'
+  return response
+})
 
 export {axios}

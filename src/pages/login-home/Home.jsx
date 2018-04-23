@@ -27,7 +27,7 @@ class Home extends React.Component {
     this.state = {
       sureDate: [],
       changeInfoOkWinVisible: false,
-      sureInfoWinVisible: false,
+      sureInfoWinVisible: true,
       changeInfoWinVisible: false,
       webAppData: [],
       softMarketData: [],

@@ -11,7 +11,6 @@ import axiosApi from '../../services'
 import {setRole} from '../../redux/actions/role'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
-
 class MainBander extends React.Component {
   static propTypes = {
     showSureWin: PropTypes.func,
@@ -22,21 +21,24 @@ class MainBander extends React.Component {
     this.state = {
       userName: '', // 用户名密码
       passWord: '', // 密码
-      loginFormVisible: true
+      loginFormVisible: true,
+      msgTip: '' // 用户登陆信息提示
     }
   }
   handleLogin () {
     // if (this.state.userName === '3') {
     axiosApi.login((response) => {
       // 如果是首次登陆
-      if (response.isFirstLogged) {
-        // this.props.setRole(response.roleCode)
+      // if (response.isFirstLogged) {
+      // this.props.setRole(response.roleCode)
+      /* if (1) {
         this.props.showSureWin(response.personInfo)
       } else {
         this.setState({
           loginFormVisible: false
         })
-      }
+      } */
+      this.props.showSureWin([])
     })
     // }
   }
@@ -56,6 +58,17 @@ class MainBander extends React.Component {
     }
     window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
+
+  /**
+   * 校验密码规则
+   * @param rule
+   * @param value
+   * @param callback
+   */
+  validatorPas (rule, value, callback) {
+    callback()
+  }
+
   render () {
     var settings = {
       dots: false, // 下侧省略号
@@ -87,7 +100,10 @@ class MainBander extends React.Component {
               </Row>
               <Row>
                 <Form style={{marginLeft: '15px', marginRight: '15px'}}>
-                  <Form.Item>
+                  <Form.Item
+                    validateStatus='error'
+                    validator={(rule, value, callback) => { this.validatorPas(rule, value, callback) }}
+                  >
                     <Input onChange={(e) => { this.handleValueChange(e, 'userName') }} value={this.state.userName} className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
                       placeholder='请输入用户名' />
                   </Form.Item>
@@ -96,7 +112,9 @@ class MainBander extends React.Component {
                       placeholder='请输入密码' type='password' />
                   </Form.Item>
                   <Form.Item>
-                    <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>用户提示</a>
+                    {
+                      this.state.msgTip === '' ? null : <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>{this.state.msgTip}</a>
+                    }
                     <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
                   </Form.Item>
                   <Form.Item>
