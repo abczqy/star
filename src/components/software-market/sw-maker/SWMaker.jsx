@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { Collapse } from 'antd'
-import { HomepageManageBar, HomepageAdd, HomepageBox } from 'components/software-market'
+import { HomepageManageBar, HomepageAdd, SWBox } from 'components/software-market'
 import './SWMaker.scss'
 
 const Panel = Collapse.Panel
@@ -66,20 +66,20 @@ class SWMaker extends Component {
    * 渲染小方块
    * @param { int } count 渲染多少个出来 默认是3个
    */
-  getPanelBox = (num) => {
-    return (<HomepageBox orderNum={num} />)
-  }
+  // getPanelBox = (num) => {
+  //   return (<HomepageBox orderNum={num} />)
+  // }
 
   render () {
     const { expand, boxList } = this.state
-    const { header } = this.props
+    const { header, boxTitle } = this.props
     const { title } = header
     return (
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} />} key='1'>
             {boxList.map((item, index) => {
-              return (<div className='float-box' key={index}><HomepageBox title={title} orderNum={item} onDelete={this.onDelete} /></div>)
+              return (<div className='float-box' key={index}><SWBox title={boxTitle} orderNum={item} onDelete={this.onDelete} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
           </Panel>
@@ -90,7 +90,8 @@ class SWMaker extends Component {
 }
 
 SWMaker.propTypes = {
-  header: PropsTypes.object
+  header: PropsTypes.object,
+  boxTitle: PropsTypes.string
 }
 
 export default SWMaker

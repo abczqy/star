@@ -17,3 +17,4 @@ export { default as PublicInfoVerifyView } from './public-info-verify-view/Publi
 export { default as BannerMaker } from './banner-maker/BannerMaker'
 export { default as SWMaker } from './sw-maker/SWMaker'
 export { default as BannerBox } from './banner-box/BannerBox'
+export { default as SWBox } from './sw-box/SWBox'

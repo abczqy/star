@@ -66,9 +66,9 @@ class BannerMaker extends Component {
    * 渲染小方块
    * @param { int } count 渲染多少个出来 默认是3个
    */
-  getPanelBox = (num) => {
-    return (<BannerBox orderNum={num} />)
-  }
+  // getPanelBox = (num) => {
+  //   return (<BannerBox orderNum={num} />)
+  // }
 
   render () {
     const { expand, boxList } = this.state
