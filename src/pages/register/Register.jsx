@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-no-bind,react/prop-types,standard/no-callback-literal,no-undef,no-useless-return */
 /**
- * header-bar-right
- * maol/setting/poweroff
+ * 家长注册
  */
 import React from 'react'
 import {Card, Layout, Form, Input, Select, Button, Checkbox, message} from 'antd'
@@ -374,12 +373,6 @@ class Register extends React.Component {
       if (values.maf_idcard === undefined) {
         this.setState({
           idcard_icon: false,
-          idcard: '身份证格式不正确！'
-        })
-      }
-      if (values.maf_idcard === undefined) {
-        this.setState({
-          idcard_icon: false,
           idcard: '请输入身份证！'
         })
       }
@@ -449,12 +442,12 @@ class Register extends React.Component {
 
       }
     }).then((response) => {
-      if (response.msg === '注册成功') {
+      if (response.data.msg === '注册成功') {
         this.setState({
           registerVisible: true
         })
       } else {
-        message.error(response.msg)
+        message.error(response.data.msg)
       }
     }).catch(e => { console.log(e) })
   }

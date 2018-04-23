@@ -35,6 +35,7 @@ export default class RegisterSuccModal extends React.Component {
   }
   backHome=() => {
     window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
+    window.clearInterval(this.interval)
   }
   render () {
     return (

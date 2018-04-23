@@ -13,11 +13,17 @@ import ChangeFirmName from './ChangeFirmName'
 import ChangeFirmDescribe from './ChangeFirmDescribe'
 import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
-export default class MessageSetting extends React.Component {
+class MessageSetting extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      stuMation: [], // 家长权限下
+      firmData: [], // 厂商
       unbindVisible: false,
       addbindVisible: false,
       changePassVisible: false,
@@ -27,6 +33,54 @@ export default class MessageSetting extends React.Component {
       changeFirmContract: false, // 厂商合同号
       changeFirmLicense: false // 营业执照
     }
+  }
+  componentDidMount () {
+    console.log(111111111111, this.props.roleCode)
+    if (this.props.roleCode === 'parents') {
+      this.getBindList()
+    } else if (this.props.roleCode === 'vendor') {
+      this.getFrimList()
+    }
+  }
+  // 获取学生绑定数据接口 stuData 要在此接口返回
+  getBindList=() => {
+    axios.post(ajaxUrl.registerValitemail, {
+      params: {stu: '123'}
+    }).then((response) => {
+      console.log('返回学生绑定信息', response)
+      this.setState({
+        stuData: [{
+          stuid: '1',
+          stuname: '王洪亮',
+          schname: '福州市鼓楼区中山小学',
+          schclass: '3年级2班',
+          photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
+        }, {
+          stuid: '2',
+          stuname: '京津冀',
+          schname: '福州市鼓楼区中山小学',
+          schclass: '3年级2班',
+          photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
+        }]
+      })
+    })
+  }
+  // 厂商权限下，获取厂商基本信息模块
+  getFrimList=() => {
+    axios.post(ajaxUrl.registerValitemail, {
+      params: {stu: '123'}
+    }).then((response) => {
+      console.log('返回学生绑定信息', response)
+      this.setState({
+        firmData: [{
+          firmid: '1',
+          firmName: '福州市第一实验小学',
+          firmDiscribe: '这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述。',
+          firmContract: 'HT217897438927189470',
+          photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
+        }]
+      })
+    })
   }
 
   handleTabChange (link) {
@@ -41,7 +95,8 @@ export default class MessageSetting extends React.Component {
     })
   }
   /* 解绑弹出框 */
-  visibaleUnbindModel =() => {
+  visibaleUnbindModel =(id) => {
+    console.log('解除绑定，学生id', id)
     this.setState({
       unbindVisible: true
     })
@@ -95,6 +150,83 @@ export default class MessageSetting extends React.Component {
     let strname = '**' + name.substr(name.length - 1)
     let idcard = '135841235484123547'
     let strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
+    let userType = this.props.roleCode
+    let model
+    if (userType === 'parents') {
+      let stuData = this.state.stuData
+      model = (
+        <Card title='学生绑定' bordered={false} className='message-setting-card'>
+          <div className='setting-body'>
+            {stuData && stuData.map((item, index) => {
+              return (<div key={index} className='stu_list'>
+                <div className='photo'>
+                  <img style={{height: '70px'}} src={item.photo} alt='' />
+                </div>
+                <div className='stumessage'>
+                  <h4>{item.stuname}</h4>
+                  <p>{item.schname}</p>
+                  <p>{item.schclass}</p>
+                </div>
+                <Icon type='link' className='stulink-icon' onClick={() => { this.visibaleUnbindModel(item.stuid) }} />
+              </div>)
+            })
+            }
+            <div className='stu_list addbind' onClick={() => { this.visibaleaddbindModel() }}>
+              <h4><Icon type='link' className='stulink-icon-add' />添加</h4>
+            </div>
+          </div>
+        </Card>
+      )
+    } else if (userType === 'vendor') {
+      let firmData = this.state.firmData[0]
+      model = (<Card title='基本信息' bordered={false} className='message-setting-card'>
+        <div className='setting-body'>
+          <div className='safe_item'>
+            <div className='list-img'>
+              <i />
+            </div>
+            <div className='safe-name'>
+              <span className='tit'>厂商名称</span>
+              <span className='word f-color'>{firmData && firmData.firmName}</span>
+              <a className='modify' onClick={this.changefirmname}> 修改</a>
+            </div>
+          </div>
+          <div className='safe_item'>
+            <div className='list-img'>
+              <i />
+            </div>
+            <div className='safe-name'>
+              <span className='tit'>厂商描述</span>
+              <div className='word f-color describe' >
+                <span style={{height: '1rem'}} />
+                {firmData && firmData.firmDiscribe}
+              </div>
+              <a className='modify' onClick={this.changefirmdescribe}> 修改</a>
+            </div>
+          </div>
+          <div className='safe_item'>
+            <div className='list-img'>
+              <i />
+            </div>
+            <div className='safe-name'>
+              <span className='tit'>合同编号</span>
+              <span className='word f-color'>{firmData && firmData.firmContract}</span>
+              <a className='modify' onClick={this.changeFirmcontract}> 修改</a>
+            </div>
+          </div>
+          <div className='safe_item'>
+            <div className='list-img'>
+              <i />
+            </div>
+            <div className='safe-name'>
+              <span className='tit'>营业执照</span>
+              <span className='word f-color'><img style={{height: '50px'}} src={firmData && firmData.photo} /></span>
+              <a className='modify' onClick={this.changeFirmLicense}>从新上传</a>
+            </div>
+          </div>
+        </div>
+      </Card>)
+    }
     return (
       <div className='center-view mb20'>
         <Card title='账号安全' bordered={false} className='message-setting-card'>
@@ -130,110 +262,56 @@ export default class MessageSetting extends React.Component {
             </div>
           </div>
         </Card>
-        {/* 厂商 */}
-        <Card title='基本信息' bordered={false} className='message-setting-card'>
-          <div className='setting-body'>
-            <div className='safe_item'>
-              <div className='list-img'>
-                <i />
-              </div>
-              <div className='safe-name'>
-                <span className='tit'>厂商名称</span>
-                <span className='word f-color'>福州市第一实验小学</span>
-                <a className='modify' onClick={this.changefirmname}> 修改</a>
-              </div>
-            </div>
-            <div className='safe_item'>
-              <div className='list-img'>
-                <i />
-              </div>
-              <div className='safe-name'>
-                <span className='tit'>厂商描述</span>
-                <div className='word f-color describe' >
-                  <span style={{height: '1rem'}} />
-                  这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述。
-                </div>
-                <a className='modify' onClick={this.changefirmdescribe}> 修改</a>
-              </div>
-            </div>
-            <div className='safe_item'>
-              <div className='list-img'>
-                <i />
-              </div>
-              <div className='safe-name'>
-                <span className='tit'>合同编号</span>
-                <span className='word f-color'>HT217897438927189470</span>
-                <a className='modify' onClick={this.changeFirmcontract}> 修改</a>
-              </div>
-            </div>
-            <div className='safe_item'>
-              <div className='list-img'>
-                <i />
-              </div>
-              <div className='safe-name'>
-                <span className='tit'>营业执照</span>
-                <span className='word f-color'><img style={{height: '50px'}} src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg' /></span>
-                <a className='modify' onClick={this.changeFirmLicense}>从新上传</a>
-              </div>
-            </div>
-          </div>
-        </Card>
-        {/* 家长 */}
-        <Card title='学生绑定' bordered={false} className='message-setting-card'>
-          <div className='setting-body'>
-            <div className='stu_list'>
-              <div className='photo'>
-                <img style={{height: '70px'}} src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg' alt='' />
-              </div>
-              <div className='stumessage'>
-                <h4>王洪亮</h4>
-                <p>福州市鼓楼区中山小学</p>
-                <p>3年2班</p>
-              </div>
-              <Icon type='link' className='stulink-icon' onClick={() => { this.visibaleUnbindModel() }} />
-            </div>
-            <div className='stu_list addbind' onClick={() => { this.visibaleaddbindModel() }}>
-              <h4><Icon type='link' className='stulink-icon-add' />添加</h4>
-            </div>
-          </div>
-          <Unbind
-            visible={this.state.unbindVisible}
-            hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
-          />
-          <Addbind
-            visible={this.state.addbindVisible}
-            hiddenModal={this.hiddenModal.bind(this, 'addbindVisible')}
-          />
-          <ChangePass
-            visible={this.state.changePassVisible}
-            hiddenModal={this.hiddenModal.bind(this, 'changePassVisible')}
-          />
-          {this.state.changePhoneVisible ? <ChangePhoneNumber
-            visible={this.state.changePhoneVisible}
-            hiddenModal={this.hiddenModal.bind(this, 'changePhoneVisible')}
-          /> : null}
-          {/* 修改厂商名称 */}
-          {this.state.changeFirmName ? <ChangeFirmName
-            visible={this.state.changeFirmName}
-            hiddenModal={this.hiddenModal.bind(this, 'changeFirmName')}
-          /> : null}
-          {/* 修改厂商描述 */}
-          {this.state.changeFirmDescribe ? <ChangeFirmDescribe
-            visible={this.state.changeFirmDescribe}
-            hiddenModal={this.hiddenModal.bind(this, 'changeFirmDescribe')}
-          /> : null}
-          {/* 修改厂商合同编号 */}
-          {this.state.changeFirmContract ? <ChangeFirmContract
-            visible={this.state.changeFirmContract}
-            hiddenModal={this.hiddenModal.bind(this, 'changeFirmContract')}
-          /> : null}
-          {/* 营业执照 */}
-          {this.state.changeFirmLicense ? <ChangeFirmLicense
-            visible={this.state.changeFirmLicense}
-            hiddenModal={this.hiddenModal.bind(this, 'changeFirmLicense')}
-          /> : null}
-        </Card>
+        {/* 家长 ,厂商 */}
+        { model}
+        <Unbind
+          visible={this.state.unbindVisible}
+          hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
+        />
+        <Addbind
+          visible={this.state.addbindVisible}
+          hiddenModal={this.hiddenModal.bind(this, 'addbindVisible')}
+          addStuBind={this.getBindList}
+        />
+        <ChangePass
+          visible={this.state.changePassVisible}
+          hiddenModal={this.hiddenModal.bind(this, 'changePassVisible')}
+        />
+        {this.state.changePhoneVisible ? <ChangePhoneNumber
+          visible={this.state.changePhoneVisible}
+          hiddenModal={this.hiddenModal.bind(this, 'changePhoneVisible')}
+        /> : null}
+        {/* 修改厂商名称 */}
+        {this.state.changeFirmName ? <ChangeFirmName
+          visible={this.state.changeFirmName}
+          hiddenModal={this.hiddenModal.bind(this, 'changeFirmName')}
+          getFirmList={this.getFrimList}
+        /> : null}
+        {/* 修改厂商描述 */}
+        {this.state.changeFirmDescribe ? <ChangeFirmDescribe
+          visible={this.state.changeFirmDescribe}
+          hiddenModal={this.hiddenModal.bind(this, 'changeFirmDescribe')}
+        /> : null}
+        {/* 修改厂商合同编号 */}
+        {this.state.changeFirmContract ? <ChangeFirmContract
+          visible={this.state.changeFirmContract}
+          hiddenModal={this.hiddenModal.bind(this, 'changeFirmContract')}
+        /> : null}
+        {/* 营业执照 */}
+        {this.state.changeFirmLicense ? <ChangeFirmLicense
+          visible={this.state.changeFirmLicense}
+          hiddenModal={this.hiddenModal.bind(this, 'changeFirmLicense')}
+        /> : null}
       </div>
     )
   }
 }
+MessageSetting.propTypes = {
+  roleCode: PropTypes.string
+}
+const mapStateToProps = state => ({
+  roleCode: state.role.code
+})
+export default connect(
+  mapStateToProps
+)(MessageSetting)

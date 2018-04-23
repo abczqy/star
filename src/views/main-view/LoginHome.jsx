@@ -7,6 +7,7 @@ import { Layout, Badge, Icon } from 'antd'
 import { renderRoutes } from 'react-router-config'
 import { connect } from 'react-redux'
 import apiConfig from '../../config'
+import SignOut from './SignOut'
 import './Operateview.scss'
 
 class LoginHome extends React.Component {
@@ -14,7 +15,8 @@ class LoginHome extends React.Component {
     super(props)
     let pathName = this.props.location.pathname
     this.state = {
-      activeTab: this.getDefaultTabKey(pathName)
+      activeTab: this.getDefaultTabKey(pathName),
+      signOutVisible: false // 退出系统
     }
   }
 
@@ -38,7 +40,17 @@ class LoginHome extends React.Component {
     })
     window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
-
+  // 退出系统
+  signOut=() => {
+    this.setState({
+      signOutVisible: true
+    })
+  }
+  hiddenModal (type) {
+    this.setState({
+      [type]: false
+    })
+  }
   render () {
     return (
       <div>
@@ -70,6 +82,10 @@ class LoginHome extends React.Component {
             {renderRoutes(this.props.route.childRoutes)}
           </Layout>
         </Layout>
+        <SignOut
+          visible={this.state.signOutVisible}
+          hiddenModal={this.hiddenModal.bind(this, 'signOutVisible')}
+        />
       </div>
     )
   }

@@ -7,7 +7,8 @@ class ChangeFirmName extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    getFirmList: PropTypes.func
   }
   constructor (props) {
     super(props)
@@ -21,11 +22,19 @@ class ChangeFirmName extends React.Component {
       this.props.form.resetFields()
     }
   }
+  // 获取焦点后修改input type=password
+  changePasType=() => {
+    this.setState({
+      type: 'password'
+    })
+  }
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('修改厂商名称', values)
+        // 修改后调用刷新父页面
+        this.props.getFirmList()
         this.props.hiddenModal()
       }
     })
@@ -66,7 +75,7 @@ class ChangeFirmName extends React.Component {
                 label='请输入密码'
               >
                 {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入密码!'}]})(
-                  <Input type={this.state.type} />
+                  <Input type={this.state.type} onClick={this.changePasType} />
                 )}
               </Form.Item>
               <Form.Item

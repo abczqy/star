@@ -20,6 +20,12 @@ class ChangeFirmDescribe extends React.Component {
       this.props.form.resetFields()
     }
   }
+  // 获取焦点后修改input type=password
+  changePasType=() => {
+    this.setState({
+      type: 'password'
+    })
+  }
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
@@ -65,7 +71,7 @@ class ChangeFirmDescribe extends React.Component {
                 label='请输入密码'
               >
                 {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入密码!'}]})(
-                  <Input type={this.state.type} />
+                  <Input type={this.state.type} onClick={this.changePasType} />
                 )}
               </Form.Item>
               <Form.Item
