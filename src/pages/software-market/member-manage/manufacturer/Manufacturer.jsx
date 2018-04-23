@@ -14,6 +14,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
+import MemRenewWin from './MemRenewWin'
 
 /**
    * 表格分页器设置-默认值
@@ -33,50 +34,6 @@ const pagination = {
    * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
    * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
    */
-const columns = [{
-  title: '厂商名称',
-  dataIndex: 'fa_name',
-  key: 'fa_name',
-  width: 200
-}, {
-  title: '账号',
-  dataIndex: 'fa_loginid',
-  key: 'fa_loginid',
-  width: 200
-}, {
-  title: '在运营软件数',
-  dataIndex: 'num',
-  key: 'num'
-}, {
-  title: '合同状态',
-  dataIndex: 'num_day',
-  key: 'num_day'
-}, {
-  title: '允许登录',
-  dataIndex: 'to_login',
-  key: 'to_login',
-  render: (text, record, index) => {
-    return (
-      <Switch />
-    )
-  }
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  width: 200,
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('...')}><Icon type='ellipsis' /></a>
-      </span>
-    )
-  }
-}]
 
 class Manufacturer extends Component {
   constructor (props) {
@@ -94,8 +51,56 @@ class Manufacturer extends Component {
         to_login: '1',
         num_day: '正常'
       },
-      pagination
+      pagination,
+      memRenewWinVisible: false
     }
+  }
+
+  getColumns () {
+    return [{
+      title: '厂商名称',
+      dataIndex: 'fa_name',
+      key: 'fa_name',
+      width: 200
+    }, {
+      title: '账号',
+      dataIndex: 'fa_loginid',
+      key: 'fa_loginid',
+      width: 200
+    }, {
+      title: '在运营软件数',
+      dataIndex: 'num',
+      key: 'num'
+    }, {
+      title: '合同状态',
+      dataIndex: 'num_day',
+      key: 'num_day'
+    }, {
+      title: '允许登录',
+      dataIndex: 'to_login',
+      key: 'to_login',
+      render: (text, record, index) => {
+        return (
+          <Switch />
+        )
+      }
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      width: 200,
+      render: (text, record, index) => {
+        return (
+          <span>
+            <a href='javascript:void(0)' onClick={() => this.showMemRenewWin()}>续费</a>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={() => alert('...')}><Icon type='ellipsis' /></a>
+          </span>
+        )
+      }
+    }]
   }
 
   /**
@@ -244,6 +249,18 @@ class Manufacturer extends Component {
     this.getTableDatas()
   }
 
+  handleCloseMemRenewWin () {
+    this.setState({
+      memRenewWinVisible: false
+    })
+  }
+
+  showMemRenewWin () {
+    this.setState({
+      memRenewWinVisible: true
+    })
+  }
+
   render () {
     const { pagination, tableData } = this.state
     return (
@@ -262,7 +279,7 @@ class Manufacturer extends Component {
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,
@@ -271,6 +288,7 @@ class Manufacturer extends Component {
             onChange: this.pageNumChange
           }}
         />
+        <MemRenewWin visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
       </div>
     )
   }

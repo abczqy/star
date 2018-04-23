@@ -15,6 +15,7 @@ import axios from 'axios'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
+import BusiRenewWin from './BusiRenewWin'
 
 /**
    * 表格分页器设置-默认值
@@ -40,7 +41,8 @@ class Businessing extends Component {
       appOffModalCon: {
         visible: false,
         swName: ''
-      }
+      },
+      busiRenewWinVisible: true // 续费弹窗
     }
     // 表格的列信息
     this.columns = [{
@@ -95,7 +97,7 @@ class Businessing extends Component {
       key: 'options',
       render: (text, record, index) => (
         <span>
-          <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
+          <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin()}>续费</a>
           <Divider type='vertical' />
           <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
           <Divider type='vertical' />
@@ -225,6 +227,18 @@ class Businessing extends Component {
     this.getTableDatas()
   }
 
+  handleCloseBusiRenewWin () {
+    this.setState({
+      busiRenewWinVisible: false
+    })
+  }
+
+  showBusiRenewWin () {
+    this.setState({
+      busiRenewWinVisible: true
+    })
+  }
+
   render () {
     const { tableData, pagination, appOffModalCon } = this.state
     return (
@@ -258,6 +272,7 @@ class Businessing extends Component {
           ]}
           swName={appOffModalCon.swName}
         />
+        <BusiRenewWin visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
       </div>
     )
   }
