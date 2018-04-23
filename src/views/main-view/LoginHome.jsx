@@ -3,10 +3,11 @@
  * 游客登陆界面
  */
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Badge, Icon } from 'antd'
 import { renderRoutes } from 'react-router-config'
 import { connect } from 'react-redux'
 import apiConfig from '../../config'
+import './Operateview.scss'
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -36,6 +37,20 @@ class LoginHome extends React.Component {
     return (
       <div>
         <Layout>
+          {
+            this.props.isLogged ? (
+              <div style={{height: '30px', width: '100%', margin: 'auto'}}>
+                <div style={{height: '30px', marginLeft: '50px', float: 'left'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
+                <div style={{height: '30px', float: 'right', marginRight: '50px'}} className='header-bar-icon'>
+                  <Badge count={5} >
+                    <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />
+                  </Badge>
+                  <Icon type='setting' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/setting') }} />
+                  <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} />
+                </div>
+              </div>
+            ) : null
+          }
           <Layout.Header className='xingyun-header' style={{height: '92px'}}>
             <div className='xingyun-logo' style={{marginTop: '30px'}} />
           </Layout.Header>
@@ -55,7 +70,9 @@ class LoginHome extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  roleCode: state.role.code
+  roleCode: state.role.code,
+  isLogged: state.role.isLogged,
+  personInfo: state.role.personInfo
 })
 
 const mapDispatchToProps = dispatch => ({

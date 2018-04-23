@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types,react/jsx-no-bind */
 import React from 'react'
 import Slider from 'react-slick'
-import { Row, Form, Icon, Input, Button } from 'antd'
+import { Row, Form, Icon, Input, Button, message } from 'antd'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import axiosApi from '../../services'
-import {setRole} from '../../redux/actions/role'
+import {setRole, setIsLogged, setUserInfo} from '../../redux/actions/role'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
 class MainBander extends React.Component {
@@ -25,22 +25,36 @@ class MainBander extends React.Component {
       msgTip: '' // 用户登陆信息提示
     }
   }
+
   handleLogin () {
-    // if (this.state.userName === '3') {
-    axiosApi.login((response) => {
-      // 如果是首次登陆
-      // if (response.isFirstLogged) {
-      // this.props.setRole(response.roleCode)
-      /* if (1) {
-        this.props.showSureWin(response.personInfo)
+    if (this.state.userName === '' || this.state.passWord === '') {
+      this.setState({
+        msgTip: '用户名或密码不能为空!'
+      })
+      return
+    }
+    axiosApi.login({
+      userName: this.state.userName || '',
+      userPassword: this.state.passWord || ''
+    }, (response) => {
+      let data = response.data
+      // 如果登陆成功
+      if (data.success) {
+        this.props.setRole(data.roleCode)
+        this.props.setUserInfo(data.personInfo)
+        this.props.setIsLogged(true)
+        // 如果该用户是首次登录
+        if (data.isFirstLogged) {
+          this.props.showSureWin(response.personInfo)
+        } else {
+          this.setState({
+            loginFormVisible: false
+          })
+        }
       } else {
-        this.setState({
-          loginFormVisible: false
-        })
-      } */
-      this.props.showSureWin([])
+        message.error('请求数据失败!')
+      }
     })
-    // }
   }
 
   /**
@@ -100,10 +114,7 @@ class MainBander extends React.Component {
               </Row>
               <Row>
                 <Form style={{marginLeft: '15px', marginRight: '15px'}}>
-                  <Form.Item
-                    validateStatus='error'
-                    validator={(rule, value, callback) => { this.validatorPas(rule, value, callback) }}
-                  >
+                  <Form.Item>
                     <Input onChange={(e) => { this.handleValueChange(e, 'userName') }} value={this.state.userName} className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
                       placeholder='请输入用户名' />
                   </Form.Item>
@@ -112,9 +123,7 @@ class MainBander extends React.Component {
                       placeholder='请输入密码' type='password' />
                   </Form.Item>
                   <Form.Item>
-                    {
-                      this.state.msgTip === '' ? null : <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>{this.state.msgTip}</a>
-                    }
+                    <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>{this.state.msgTip}</a>
                     <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
                   </Form.Item>
                   <Form.Item>
@@ -124,7 +133,7 @@ class MainBander extends React.Component {
                     </Button>
                   </Form.Item>
                   <Form.Item>
-                    <Button type='primary' htmlType='submit' className='register-btn'>
+                    <Button type='primary' htmlType='submit' className='register-btn' onClick={this.handregister.bind(this, '/register-home')}>
                       注册账号
                     </Button>
                   </Form.Item>
@@ -133,38 +142,6 @@ class MainBander extends React.Component {
             </div>
           ) : null
         }
-        <div className='login-div-container' >
-          <Row>
-            <p style={{marginTop: '20px', textAlign: 'center', fontFamily: "'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC'", fontSize: '20px', color: '#FFFFFF', fontStyle: 'normal'}}>用户登录</p>
-          </Row>
-          <Row>
-            <Form style={{marginLeft: '15px', marginRight: '15px'}}>
-              <Form.Item>
-                <Input onChange={(e) => { this.handleValueChange(e, 'userName') }} value={this.state.userName} className='custom-input' prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder='请输入用户名' />
-              </Form.Item>
-              <Form.Item>
-                <Input onChange={(e) => { this.handleValueChange(e, 'passWord') }} value={this.state.passWord} className='custom-input' prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder='请输入密码' type='password' />
-              </Form.Item>
-              <Form.Item>
-                <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>用户提示</a>
-                <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
-              </Form.Item>
-              <Form.Item>
-                <Button type='primary' htmlType='submit' className='login-btn'
-                  onClick={this.handleLogin.bind(this)}>
-                  立即登录
-                </Button>
-              </Form.Item>
-              <Form.Item>
-                <Button type='primary' htmlType='submit' className='register-btn' onClick={this.handregister.bind(this, '/register-home')}>
-                  注册账号
-                </Button>
-              </Form.Item>
-            </Form>
-          </Row>
-        </div>
       </div>
     )
   }
@@ -177,6 +154,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setRole: (code) => {
     dispatch(setRole(code))
+  },
+  setUserInfo: (userInfo) => {
+    dispatch(setUserInfo(userInfo))
+  },
+  setIsLogged: (flag) => {
+    dispatch(setIsLogged(flag))
   }
 })
 
