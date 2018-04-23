@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, Icon, Button } from 'antd'
 import { Link } from 'react-router-dom'
+import ajaxUrl from 'config'
+import axios from 'axios'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -15,28 +17,41 @@ const Search = Input.Search
 class MyAppTable extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      myAppInOperationData: [],
+      total: 0,
+      pageSize: 10,
+      pageNum: 1,
+      currentPage: 1,
+      sw_type: '',
+      sw_name: '',
+      searchFilter: {
+        sw_type: '',
+        sw_name: ''
+      }
+    }
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'name'
+      dataIndex: 'sw_name'
     }, {
       title: '所属类型',
-      dataIndex: 'appType',
+      dataIndex: 'sw_type',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.appType - b.appType
+      sorter: (a, b) => a.sw_type - b.sw_type
       // width: 150
     }, {
       title: '下载次数',
-      dataIndex: 'downLoadCount',
+      dataIndex: 'downloads',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.downLoadCount - b.downLoadCount
+      sorter: (a, b) => a.downloads - b.downloads
       // width: 150
     }, {
       title: '版本',
-      dataIndex: 'collectCount'
+      dataIndex: 'version'
       // width: 150
     }, {
       title: '上线时间',
-      dataIndex: 'updateDate',
+      dataIndex: 'sw_update_time',
       render: date => moment(date).format('YYYY-MM-DD')
       // width: 150
     }, {
@@ -45,10 +60,10 @@ class MyAppTable extends Component {
       // width: 150
       render: (text, record, index) => {
         return (
-          <div>
+          <div key={index}>
             <span style={{marginRight: '10px'}}><Link to='#'>迭代</Link></span>
             <span style={{marginRight: '10px'}}><Link to='#'>日志下载</Link></span>
-            <span style={{marginRight: '10px'}}><Link to='/operate-manage-home/all-app-detail-mineabc'>查看详情</Link></span>
+            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.sw_id}}>查看详情</Link></span>
           </div>
         )
       }
@@ -56,6 +71,66 @@ class MyAppTable extends Component {
   }
   componentDidMount () {
     this.props.form.validateFields()
+    this.getMyAppInOperationData()
+  }
+  // 我的应用-运营中
+  getMyAppInOperationData = (searchParams) => {
+    let params = {
+      pageNum: this.state.pageNum,
+      pageSize: this.state.pageSize,
+      fa_id: 1, // 厂商id
+      sw_type: this.state.sw_type, // 应用类型
+      sw_name: this.state.sw_name // 应用名称
+    }
+    axios.post(ajaxUrl.myAppInOperation, Object.assign(params, searchParams)).then((res) => {
+      console.log(2222222, res.data)
+      this.setState({
+        myAppInOperationData: res.data.list,
+        total: res.data.total
+      }, () => {
+        console.log(this.state.myAppInOperationData)
+      })
+    }).catch((e) => { console.log(e) })
+  }
+  // 改变每页显示条数
+  onShowSizeChange = (pageNum, pageSize) => {
+    console.log(pageNum, pageSize)
+    this.setState({pageNum, pageSize}, () => {
+      this.getMyAppInOperationData()
+    })
+  }
+  // 页码
+  onPageNumChange = (pageNum, pageSize) => {
+    console.log(pageNum, pageSize)
+    this.setState({pageNum, pageSize}, () => {
+      this.getMyAppInOperationData()
+    })
+  }
+  // 分类搜索
+  onChangeState=(value) => {
+    this.handleSearch({
+      sw_type: value || ''
+    })
+    this.setState({
+      sw_type: value
+    })
+  }
+  handleSearch = (searchFilter) => {
+    this.setState({
+      pageNum: 1,
+      searchFilter
+    }, () => {
+      this.getMyAppInOperationData(searchFilter)
+    })
+  }
+  // 名称搜索
+  handleSearchTextChange (e) {
+    this.setState({
+      sw_name: e.target.value.trim()
+    })
+  }
+  handBtnleFilter =() => {
+    this.handleSearch()
   }
   render () {
     const { getFieldDecorator } = this.props.form
@@ -67,7 +142,7 @@ class MyAppTable extends Component {
         span: 15
       }
     }
-    const aaaaaaaa = ['教育', '辅助']
+    const aaaaaaaa = ['全部', '教育', '辅助', '管理', '其他']
     return (
       <Card>
         <Form>
@@ -80,9 +155,9 @@ class MyAppTable extends Component {
                 {...formItemLayout}
               >
                 {getFieldDecorator('progressState')(
-                  <Select placeholder='全部' style={{ width: '150%' }} allowClear>
+                  <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
                     { aaaaaaaa.map((item, index, data) => {
-                      return <Option key={index}>{item}</Option>
+                      return <Option key={index} value={item}>{item}</Option>
                     })}
                   </Select>
                 )}
@@ -95,8 +170,8 @@ class MyAppTable extends Component {
                   placeholder='搜索应用名称'
                   style={{ width: '83%', marginRight: '10px' }}
                   enterButton
-                  // onChange={e => { return this.handleSearchTextChange(e) }}
-                  // onSearch={() => { this.handBtnleFilter() }}
+                  onChange={e => { return this.handleSearchTextChange(e) }}
+                  onSearch={() => { this.handBtnleFilter() }}
                 />
               </div>
             </Col>
@@ -115,17 +190,17 @@ class MyAppTable extends Component {
         /> */}
 
           <CustomPagingTable
-            dataSource={this.props.dataSource}
+            dataSource={this.state.myAppInOperationData}
             columns={this.columns}
             pageVisible
             //   loading={this.state.loading}
-            total={100}
+            total={this.state.total}
             // customCls='ant-table-body'
-            pageSize={10}
-            pageNum={20}
-            currentPage={1}
-            //   onShowSizeChange={(current, pageSize) => this.onShowSizeChange(current, pageSize)}
-            //   onChange={(current, pageSize) => this.onChange(current, pageSize)}
+            pageSize={this.state.pageSize}
+            pageNum={this.state.pageNum}
+            currentPage={this.state.currentPage}
+            onShowSizeChange={(current, pageSize) => this.onShowSizeChange(current, pageSize)}
+            onChange={(current, pageSize) => this.onPageNumChange(current, pageSize)}
           />
         </div>
       </Card>

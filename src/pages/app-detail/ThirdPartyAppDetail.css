@@ -235,7 +235,6 @@
     min-height: 110px;
     _height: 110px;
     overflow: hidden;
-    background: pink;
     float: left;
 }
 .app-detail .app-detail-relevant h3 {

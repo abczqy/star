@@ -6,11 +6,11 @@ import React from 'react'
 import './ThirdPartyAppDetail.css'
 import { Button, Icon, Carousel } from 'antd'
 import PropTypes from 'prop-types'
+import ajaxUrl from 'config'
+import axios from 'axios'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
-
-// import axiosApi from '../../../api'
 export default class ThirdPartyAppDetail extends React.Component {
   constructor (props) {
     super(props)
@@ -22,7 +22,8 @@ export default class ThirdPartyAppDetail extends React.Component {
         display: 'none'
       },
       addClassName: 'see-detail-itema',
-      appType: ''
+      appId: '',
+      appDetailData: []
     }
   }
   static propTypes = {
@@ -32,10 +33,25 @@ export default class ThirdPartyAppDetail extends React.Component {
     let a = this.props.location.search.replace('?', '')
     console.log(1111111111111111, a)
     this.setState({
-      appType: a
+      appId: a
     }, () => {
-      // this.getAllAppData()
+      this.getThirdPartyAppDetailData()
     })
+  }
+  // 获取应用详情数据
+  getThirdPartyAppDetailData = () => {
+    axios.post(ajaxUrl.thirdPartyAppDetail, {
+      params: {
+        sw_id: this.state.appId
+      }
+    }).then((res) => {
+      console.log(2222222, res.data)
+      this.setState({
+        appDetailData: res.data
+      }, () => {
+        console.log(this.state.appDetailData)
+      })
+    }).catch((e) => { console.log(e) })
   }
   handleSeeDetail = () => {
     if (this.state.obj.display === 'none') {

@@ -66,6 +66,16 @@ window.mungConfig = {
 
   /** *******************************注册************************************ */
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
-  register: AJAX_HOST + '/register/registermaf' // 注册按钮
+  register: AJAX_HOST + '/register/registermaf', // 注册按钮
 
+  // 应用详情（第三方）
+  thirdPartyAppDetail: AJAX_HOST + '/app/details',
+  // 我的应用-运营中
+  myAppInOperation: AJAX_HOST + '/applicaion/myapp',
+  // 我的应用-审核中
+  myAppToExamine: AJAX_HOST + '/applicaion/myappexamine',
+  // 我的应用-迭代审核
+  myAppIteration: AJAX_HOST + '/applicaion/myappiteratrionexaminesearch',
+  // 我的应用-审核和迭代中的撤销
+  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel'
 }

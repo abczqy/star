@@ -62,7 +62,7 @@ export default class MyAppDetail extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000')
+    console.log('00000000', this.props)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>

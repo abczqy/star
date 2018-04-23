@@ -3,9 +3,6 @@
  */
 import React, { Component } from 'react'
 import { Tabs, Badge } from 'antd'
-import axios from 'axios'
-import _ from 'lodash'
-import ajaxUrl from 'config'
 import MyAppOperationTable from './MyAppOperationTable'
 import MyAppExamineTable from './MyAppExamineTable'
 import MyAppIterationTable from './MyAppIterationTable'
@@ -36,42 +33,9 @@ class MyApp extends Component {
       currentType: e.key
     })
   }
-
-  // 获取表格数据
-  getTableData = () => {
-    axios.get(ajaxUrl.MarketAnalysis, {
-      params: {}
-    }).then(res => {
-      let resDatas = _.cloneDeep(res.data.data)
-      let datas = resDatas.map((item, index) => (
-        {
-          index: index + 1,
-          ...item
-        }
-      ))
-      this.setState({
-        tableDatas: datas
-      })
-    }).catch(e => { console.log(e) })
-  }
-
-  // 获取关键字热搜数据
-  gethotSearch=() => {
-    axios.get(ajaxUrl.hotSearch, {params: {}}).then(res => {
-      this.setState({
-        hotSearchDatas: res.data.data
-      })
-    }).catch(e => { console.log(e) })
-  }
-
-  componentDidMount () {
-    this.getTableData()
-    this.gethotSearch()
-  }
-
   render () {
     return (
-      <div style={{width: '80%', margin: 'auto', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff', paddingRight: '30px'}}>
+      <div style={{width: '80%', margin: 'auto', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff', paddingRight: '30px', minHeight: '900px'}}>
         {/* <Card>
           <Menu
             onClick={this.typeSwitching}
