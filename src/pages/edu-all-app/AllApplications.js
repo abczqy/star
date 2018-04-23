@@ -38,8 +38,6 @@ export default class AllApplications extends React.Component {
     }
   }
   render () {
-    console.log('88888888')
-    console.log(this.props.route.childRoutes)
     return (
       <div>
         <div style={{width: '100%', height: '250px'}}><img style={{width: '100%', height: '100%'}} src='https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2126622145,1468696620&fm=27&gp=0.jpg' /></div>
@@ -53,19 +51,19 @@ export default class AllApplications extends React.Component {
               theme={this.state.theme}
             >
               <Menu.Item key='1' style={{height: 60, lineHeight: '60px', fontSize: 16}}>
-                <Link to='/operate-manage-home/all-app/all-app'>全部应用</Link>
+                <Link to='/operate-manage-home/all-app/all-app?all'>全部应用</Link>
               </Menu.Item>
               <Menu.Item key='2' style={{height: 60, lineHeight: '60px', fontSize: 16}}>
-            教学类
+                <Link to='/operate-manage-home/all-app/all-app?edu'>教学类</Link>
               </Menu.Item>
               <Menu.Item key='3' style={{height: 60, lineHeight: '60px', fontSize: 16}}>
-            教辅类
+                <Link to='/operate-manage-home/all-app/all-app?teach'>教辅类</Link>
               </Menu.Item>
               <Menu.Item key='4' style={{height: 60, lineHeight: '60px', fontSize: 16}}>
-            管理类
+                <Link to='/operate-manage-home/all-app/all-app?manage'>管理类</Link>
               </Menu.Item>
               <Menu.Item key='5' style={{height: 60, lineHeight: '60px', fontSize: 16}}>
-            其他
+                <Link to='/operate-manage-home/all-app/all-app?other'>其他</Link>
               </Menu.Item>
             </Menu>
           </Sider>

@@ -1,42 +1,39 @@
 /*--------------市场分析 的表格--------------*/
-.marketAnalysis-table{
+
+.marketAnalysis-table {
   /*序号*/
-  .serial-num{
+  .serial-num {
     display: inline-block;
     width: 16px;
     height: 16px;
     text-align: center;
     line-height: 16px;
-    font-size: 12px;
-    // color: #fff;
+    font-size: 12px; // color: #fff;
     // background-color: #000;
     border-radius: 100px;
-    &.first{
+    &.first {
       background-color: #F00;
       color: #fff;
     }
-    &.second{
+    &.second {
       background-color: #F60;
       color: #fff;
     }
-    &.third{
+    &.third {
       background-color: #00A4F7;
       color: #fff;
     }
-    
   }
   /*app名称*/
-  .app-title{
-    img{
+  .app-title {
+    img {
       width: 22px;
       height: 22px;
       vertical-align: middle;
       margin-right: 8px;
-      
     }
-    span{
+    span {
       vertical-align: middle
     }
   }
-
 }

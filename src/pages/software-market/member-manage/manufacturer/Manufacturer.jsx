@@ -10,8 +10,8 @@
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider, Icon } from 'antd'
-import ajaxUrl from 'config'
 import axios from 'axios'
+import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 

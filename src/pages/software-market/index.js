@@ -19,5 +19,9 @@ export {
   NewsList,
   PublicInfo,
   PublicInfoVerify,
-  NewsListAdd
+  NewsListAdd,
+  NewsListEdit,
+  PublicInfoAdd,
+  PublicInfoEdit,
+  PublicInfoVerifyDetail
 } from './platform-manage/index'

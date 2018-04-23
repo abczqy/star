@@ -7,9 +7,8 @@ import { Card, Row, Col, Divider, message } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
-import ApplicationCard from '../../components/personal-center/application-card/ApplicationCard'
+import ApplicationCard from './application-card/ApplicationCard'
 import { connect } from 'react-redux'
-// import {getRole} from '../../redux/actions/role'
 import './PersonalCenter.scss'
 
 class PersonalCenter extends Component {
@@ -166,6 +165,59 @@ class PersonalCenter extends Component {
     )
   }
 
+  // 生成APP列表
+  createAppList = (openStatus, appList) => {
+    let list = []
+    if (openStatus) { // 展开状态
+      appList.forEach((item, index) => {
+        let app = (
+          <Col span={6} key={index}>
+            <ApplicationCard
+              type='myApps'
+              content={item}
+              share={this.props.role === 'teacher'}
+              deleteCheck={this.state.deleteActive['myApps']}
+            />
+          </Col>
+        )
+        list.push(app)
+      })
+    } else { // 收起状态
+      if (appList.length > 10) {
+        appList.forEach((item, index) => {
+          if (index < 10) {
+            let app = (
+              <Col span={6} key={index}>
+                <ApplicationCard
+                  type='myApps'
+                  content={item}
+                  share={this.props.role === 'teacher'}
+                  deleteCheck={this.state.deleteActive['myApps']}
+                />
+              </Col>
+            )
+            list.push(app)
+          }
+        })
+      } else {
+        appList.forEach((item, index) => {
+          let app = (
+            <Col span={6} key={index}>
+              <ApplicationCard
+                type='myApps'
+                content={item}
+                share={this.props.role === 'teacher'}
+                deleteCheck={this.state.deleteActive['myApps']}
+              />
+            </Col>
+          )
+          list.push(app)
+        })
+      }
+    }
+    return list
+  }
+
   componentDidMount () {
     console.log(this.props.role)
     this.getMyApps()
@@ -183,16 +235,7 @@ class PersonalCenter extends Component {
         >
           <Row gutter={16} >
             {
-              this.state.myApps.map((item, index) => (
-                <Col span={6} key={index}>
-                  <ApplicationCard
-                    type='myApps'
-                    content={item}
-                    share={this.props.role === 'teacher'}
-                    deleteCheck={this.state.deleteActive['myApps']}
-                  />
-                </Col>
-              ))
+              this.createAppList(this.state.openStatus['myApps'], this.state.myApps)
             }
           </Row>
         </Card>
@@ -206,16 +249,7 @@ class PersonalCenter extends Component {
             >
               <Row gutter={16} >
                 {
-                  this.state.myCollections.map((item, index) => (
-                    <Col span={6} key={index}>
-                      <ApplicationCard
-                        type='studentApps'
-                        content={item}
-                        collection
-                        deleteCheck={this.state.deleteActive['studentApps']}
-                      />
-                    </Col>
-                  ))
+                  this.createAppList(this.state.openStatus['studentApps'], this.state.studentApps)
                 }
               </Row>
             </Card>
@@ -229,16 +263,7 @@ class PersonalCenter extends Component {
         >
           <Row gutter={16} >
             {
-              this.state.myCollections.map((item, index) => (
-                <Col span={6} key={index}>
-                  <ApplicationCard
-                    type='myCollections'
-                    content={item}
-                    share={this.props.role === 'teacher'}
-                    deleteCheck={this.state.deleteActive['myCollections']}
-                  />
-                </Col>
-              ))
+              this.createAppList(this.state.openStatus['myCollections'], this.state.myCollections)
             }
           </Row>
         </Card>

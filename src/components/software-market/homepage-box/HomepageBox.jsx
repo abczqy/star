@@ -1,9 +1,3 @@
-/**
- *  这是个占位用的添加小方块的+
- *  功能是点击后会出现一个可编辑的小框
- *  这里肯定是需要加入表单的--去绑定key的-- 视图层搞定后结合接口
- *  好好设计下交互
- */
 import React, { Component } from 'react'
 import { Col, Row, Input, Layout, Icon } from 'antd'
 import PropsTypes from 'prop-types'

@@ -35,7 +35,7 @@ class NewsBar extends Component {
           <Col span={2}>
             <Button className='bar-btn add-btn' type='primary'>
               <Link to='/software-market-home/platform-manage/news-list-add'>
-                  增加新闻
+                  +添加新闻
               </Link>
             </Button>
           </Col>

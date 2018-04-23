@@ -1,0 +1,39 @@
+.edit-bar-wrap {
+  width: 100%;
+  height: 100%;
+  .edit-bar-left-label {
+   width: 40%;
+  }
+  .edit-bar-right-Input {
+    width: 60%;
+  }
+  .upload-btn {
+    border-radius: 20px;
+  }
+  .marks-font-type {
+    font-weight: 350;
+    font-size: 90%;
+  }
+  .left-span {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding-left: 60%;
+  }
+  .pic-card-label {
+    display: inline-block;
+    width: 25%;
+    height: 100%;
+    padding-top: 2%;
+  }
+  .pic-card {
+    display: inline-block;
+    width: 75%;
+    height: 100%;
+    vertical-align: text-top;
+    .ant-upload {
+      width: 30%;
+      height: 70%;
+    }
+  }
+}

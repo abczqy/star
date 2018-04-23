@@ -5,7 +5,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Table } from 'antd'
+import { Table, Row, Col } from 'antd'
+import CountShow from '../count-show/CountShow'
 import './MarketAnalysisTable.scss'
 
 class MarketAnalysisTable extends Component {
@@ -49,7 +50,18 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: '下载数量',
-      dataIndex: 'downLoadCount'
+      dataIndex: 'downLoadCount',
+      render: (downLoadCount, record) => (
+        <Row className='download'>
+          <Col span={8} className='down-number' >{downLoadCount}</Col>
+          <Col span={16} >
+            {
+              <CountShow percent={record.downPercent} index={record.index} />
+            }
+
+          </Col>
+        </Row>
+      )
       // width: 150
     }, {
       title: '收藏数量',
@@ -66,6 +78,7 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }]
   }
+
   render () {
     return (
       <div className='marketAnalysis-table'>
