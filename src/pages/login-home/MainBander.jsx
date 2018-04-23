@@ -45,7 +45,7 @@ class MainBander extends React.Component {
         this.props.setIsLogged(true)
         // 如果该用户是首次登录
         if (data.isFirstLogged) {
-          this.props.showSureWin(response.personInfo)
+          this.props.showSureWin(this.getSureInfoData(response.personInfo))
         } else {
           this.setState({
             loginFormVisible: false
@@ -55,6 +55,49 @@ class MainBander extends React.Component {
         message.error('请求数据失败!')
       }
     })
+  }
+
+  getSureInfoData (personInfo) {
+    let data = []
+    for (let i in personInfo) {
+      if (i === 'name') {
+        data.push({
+          type: '姓名',
+          value: personInfo[i]
+        })
+      } else if (i === 'sex') {
+        data.push({
+          type: '性别',
+          value: personInfo[i]
+        })
+      } else if (i === 'birth') {
+        data.push({
+          type: '出生日期',
+          value: personInfo[i]
+        })
+      } else if (i === 'school') {
+        data.push({
+          type: '学校',
+          value: personInfo[i]
+        })
+      } else if (i === 'iden') {
+        data.push({
+          type: '身份证号',
+          value: personInfo[i]
+        })
+      } else if (i === 'class') {
+        data.push({
+          type: '年级',
+          value: personInfo[i]
+        })
+      } else if (i === 'duty') {
+        data.push({
+          type: '行政职务',
+          value: personInfo[i]
+        })
+      }
+    }
+    return data
   }
 
   /**
