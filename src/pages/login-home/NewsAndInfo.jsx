@@ -1,14 +1,26 @@
+/* eslint-disable react/prop-types */
 /**
  * 游客登陆-信息公开
  */
 import React from 'react'
 import { Row, Col, List } from 'antd'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 
-export default class NewsAndInfo extends React.Component {
+class NewsAndInfo extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
+  }
+
+  // eslint-disable-next-line react/prop-types
+  handleNewsTitleClick () {
+    this.props.history.push('/unlogged/newsList')
+  }
+
+  // eslint-disable-next-line react/prop-types
+  handleInfoTitleClick () {
+    this.props.history.push('/unlogged/information')
   }
 
   render () {
@@ -30,7 +42,7 @@ export default class NewsAndInfo extends React.Component {
                         <div>{item.month}</div>
                       </div>
                     }
-                    title={<a href=''>{item.title}</a>}
+                    title={<a onClick={() => { this.handleNewsTitleClick() }}>{item.title}</a>}
                     description={item.description}
                   />
                 </List.Item>
@@ -52,7 +64,7 @@ export default class NewsAndInfo extends React.Component {
                         <div>{item.month}</div>
                       </div>
                     }
-                    title={<a href=''>{item.title}</a>}
+                    title={<a onClick={() => { this.handleInfoTitleClick() }}>{item.title}</a>}
                     description={item.description}
                   />
                 </List.Item>
@@ -67,3 +79,4 @@ export default class NewsAndInfo extends React.Component {
 NewsAndInfo.propTypes = {
   data: PropTypes.object
 }
+export default withRouter(NewsAndInfo)

@@ -1,6 +1,7 @@
 const AJAX_HOST = 'http://172.16.36.159:20000/app/mock/21'
 window.mungConfig = {
   API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
+  // http://p1663488m8.imwork.net:49784/     测试地址
   BASE_TAB: 'http://localhost:8080',
   LOGIN_URL: '',
   /** *******************************软件市场************************************ */
@@ -23,7 +24,7 @@ window.mungConfig = {
   batchImport: AJAX_HOST + '',
 
   // 运营管理/软件管理-运营中
-  Business: AJAX_HOST + '/Business',
+  Business: AJAX_HOST + '/management/applistm',
 
   // 运营管理/会员管理-厂商
   getFactory: AJAX_HOST + '/factoryManage/getFactory',
@@ -70,5 +71,20 @@ window.mungConfig = {
   // 申请上架接口
   shelf: AJAX_HOST + '/applicaion/shelf',
   // 用appId获取app数据接口
-  appId: AJAX_HOST + '/applicaion/appId'
+  appId: AJAX_HOST + '/applicaion/appId',
+
+  /** *******************************注册************************************ */
+  registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
+  register: AJAX_HOST + '/register/registermaf', // 注册按钮
+
+  // 应用详情（第三方）
+  thirdPartyAppDetail: AJAX_HOST + '/app/details',
+  // 我的应用-运营中
+  myAppInOperation: AJAX_HOST + '/applicaion/myapp',
+  // 我的应用-审核中
+  myAppToExamine: AJAX_HOST + '/applicaion/myappexamine',
+  // 我的应用-迭代审核
+  myAppIteration: AJAX_HOST + '/applicaion/myappiteratrionexaminesearch',
+  // 我的应用-审核和迭代中的撤销
+  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel'
 }

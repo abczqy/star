@@ -20,11 +20,14 @@ class AllApplicationsDetail extends React.Component {
         allAppListData: [],
         shelfTimeSort: 'desc',
         downloadNum: 'desc',
-        appType: ''
+        appType: 'all'
       }
   }
   static propTypes = {
     location: PropTypes.abj
+  }
+  componentDidMount () {
+    this.getAllAppData()
   }
   componentWillReceiveProps (nextProps) {
     let a = nextProps.location.search.replace('?', '')

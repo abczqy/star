@@ -3,7 +3,9 @@ import {axios} from '../../utils'
 /**
  * 用户登陆
  */
-export function login (sucFn) {
-  return axios.get('/home/login/students')
-    .then(response => { sucFn(response.data) })
+export function login (params, sucFn) {
+  return axios.post('/session/login', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
 }

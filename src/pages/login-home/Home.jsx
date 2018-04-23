@@ -1,3 +1,4 @@
+// eslint-disable-next-line react/jsx-no-bind
 /**
  * 游客登陆-首页
  */
@@ -173,7 +174,8 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  roleCode: state.role.code
+  roleCode: state.role.code,
+  isLogged: state.role.isLogged
 })
 
 const mapDispatchToProps = dispatch => ({

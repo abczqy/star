@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { HomepageMaker } from 'components/software-market'
+import { HomepageMaker, BannerMaker, SWMaker } from 'components/software-market'
 import './PortalHomepage.scss'
 
 class PortalHomepage extends Component {
@@ -9,14 +9,16 @@ class PortalHomepage extends Component {
         <HomepageMaker
           header={{title: '导航'}}
         />
-        <HomepageMaker
+        <BannerMaker
           header={{title: 'Banner 图'}}
         />
-        <HomepageMaker
+        <SWMaker
           header={{title: '重点推送'}}
+          boxTitle='推送'
         />
-        <HomepageMaker
+        <SWMaker
           header={{title: '软件市场'}}
+          boxTitle='软件'
         />
       </div>
     )

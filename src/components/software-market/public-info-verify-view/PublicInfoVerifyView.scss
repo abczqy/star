@@ -1,0 +1,19 @@
+.pub-info-verify-view-wrap {
+  width: 100%;
+  width: 100%;
+  .left-label {
+    width: 20%;
+  }
+  .right-input {
+    padding-bottom: 2%;
+  }
+  .ant-input {
+    display: inline-block;
+    width: 80%;
+    vertical-align: text-top;
+    padding-top: 0;
+    border-style: none;
+    background: #fff;
+    resize: none;
+  }
+}

@@ -1,7 +1,8 @@
 export {
   Businessing,
   IterationVerify,
-  WaitVerify
+  WaitVerify,
+  AppStandOffModal
 } from './software-manage/index'
 
 export {
@@ -19,5 +20,9 @@ export {
   NewsList,
   PublicInfo,
   PublicInfoVerify,
-  NewsListAdd
+  NewsListAdd,
+  NewsListEdit,
+  PublicInfoAdd,
+  PublicInfoEdit,
+  PublicInfoVerifyDetail
 } from './platform-manage/index'

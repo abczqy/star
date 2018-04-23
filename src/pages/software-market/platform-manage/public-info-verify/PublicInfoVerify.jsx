@@ -2,19 +2,22 @@
  * 平台管理-新闻列表
  */
 import React, { Component } from 'react'
-import { Table, Divider, Icon } from 'antd'
+import { Table, Icon } from 'antd'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import { BlankBar, PublicInfoVerifyBar } from 'components/software-market'
 
 /**
    * 表格分页器设置-默认值
    */
-// const pagination = {
-//   pageNum: 1,
-//   pageSize: 10,
-//   showQuickJumper: true,
-//   showSizeChanger: true,
-//   text: '' // 用来赋空翻页后的search框--需要这样吗
-// }
+const pagination = {
+  pageNum: 1,
+  pageSize: 10,
+  showQuickJumper: true,
+  showSizeChanger: true
+  // text: '' // 用来赋空翻页后的search框--需要这样吗
+}
 
 /**
  * 表格的columns -- 后面用json文件配置出去 --参照bdq
@@ -25,20 +28,20 @@ import { BlankBar, PublicInfoVerifyBar } from 'components/software-market'
  */
 const columns = [{
   title: '信息标题',
-  dataIndex: 'sw_name',
-  key: 'sw_name'
+  dataIndex: 'info_title',
+  key: 'info_title'
 }, {
   title: '信息描述',
-  dataIndex: 'sw_type',
-  key: 'sw_type'
+  dataIndex: 'info_desc',
+  key: 'info_desc'
 }, {
   title: '上传时间',
-  dataIndex: 'fa_name',
-  key: 'fa_name'
+  dataIndex: 'info_time',
+  key: 'info_time'
 }, {
   title: '附件',
-  dataIndex: 'sw_path',
-  key: 'sw_path',
+  dataIndex: 'info_id',
+  key: 'info_id',
   render: (text, record, index) => {
     return (
       <Icon type='link' />
@@ -51,22 +54,60 @@ const columns = [{
   render: (text, record, index) => {
     return (
       <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>编辑</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>删除</a>
+        <Link to='/software-market-home/platform-manage/public-verify-detail'>编辑</Link>
       </span>
     )
   }
 }]
 
 class PublicInfoVerify extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      tableData: {
+        data: [],
+        total: 0
+      }
+    }
+  }
+  /**
+   * 获取新闻列表中的数据
+   */
+  getTableDatas = () => {
+    axios.get(ajaxUrl.information, {
+      params: {
+        pageNum: 1,
+        pageSize: 10,
+        province: '四川省',
+        city: '成都市',
+        county: '青羊区'
+      }
+    }).then((res) => {
+      const data = res.data
+      // console.log(`data: ${JSON.stringify(data)}`)
+      this.setState({
+        tableData: {
+          data: data.list,
+          total: data.total
+        }
+      })
+      // 给每一条记录加上key值
+    }).catch((e) => { console.log(e) })
+  }
+
+  componentDidMount () {
+    this.getTableDatas()
+  }
   render () {
+    const { tableData } = this.state
     return (
       <div className='software-wrap'>
         <PublicInfoVerifyBar />
         <BlankBar />
         <Table
           columns={columns}
+          dataSource={tableData.data}
+          pagination={pagination}
         />
       </div>
     )
