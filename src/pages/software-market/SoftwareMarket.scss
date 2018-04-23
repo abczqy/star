@@ -3,7 +3,11 @@
   height: '100%'
 }
 
-//不能在函数生成的<span>中生效？？
+//不能在函数生成的<span>中生效
 .normal-color {
   color: #0f0
+}
+
+.warn-color {
+  color: #f00
 }

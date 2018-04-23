@@ -78,9 +78,17 @@ class Businessing extends Component {
       }
     }, {
       title: '缴费状态',
-      dataIndex: 'pay_state',
-      key: 'pay_state',
-      render: (text, record, index) => <span className='normal-color' >{text}</span>
+      dataIndex: 'expire',
+      key: 'expire',
+      render: (text, record, index) => {
+        // 这里的这个100 是临时量 其实应该用全局的标准 可以用redux管理起来 作为全局量使用 或 给出设置的界面
+        // 鼠标悬浮在上面 会出现 还差多少天到期
+        if (text > 100) {
+          return <span className='normal-color' >正常</span>
+        } else {
+          return <span className='warn-color' >已过期</span>
+        }
+      }
     }, {
       title: '操作',
       dataIndex: 'options',
