@@ -146,7 +146,7 @@ class ChangePass extends React.Component {
                   validator: this.compareToFirstPassword
                 }],
                 validateTrigger: 'onBlur'})(
-                  <Input placeholder='请再次输入新密码！' onBlur={this.handleConfirmBlur} />
+                  <Input placeholder='请再次输入新密码！' onClick={this.changeType} onBlur={this.handleConfirmBlur} />
                 )}
               </Form.Item>
             </Form>

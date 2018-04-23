@@ -8,11 +8,12 @@ import {Layout, Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../../../components/common/BottomHeader'
 import SignOut from '../SignOut'
+import { connect } from 'react-redux'
 import '../../../components/common/bottom.scss'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
 import '../Operateview.scss'
-export default class MessageTopBar extends React.Component {
+class MessageTopBar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -42,7 +43,7 @@ export default class MessageTopBar extends React.Component {
       <div>
         <Layout>
           <div style={{height: '30px'}}>
-            <div style={{height: '30px', float: 'left'}}>欢迎你，小姐姐</div>
+            <div style={{height: '30px', float: 'left', paddingLeft: '50px'}}>欢迎你,{this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
             <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
               <Badge count={5} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
@@ -57,13 +58,6 @@ export default class MessageTopBar extends React.Component {
           <div>
             {renderRoutes(this.props.route.childRoutes)}
           </div>
-          {/* <Layout className='xingyun-iden-top-bar'> */}
-          {/* <div className='header-container'> */}
-          {/* <li><a onClick={this.handleTabChange.bind(this, '/topbar-manage-notice/notice')}>首页</a></li> */}
-          {/* <li><a onClick={this.handleTabChange.bind(this, '/operate-manage-home/edu')}>教育新闻</a></li> */}
-          {/* </div> */}
-          {/* {renderRoutes(this.props.route.childRoutes)} */}
-          {/* </Layout> */}
         </Layout>
         <SignOut
           visible={this.state.signOutVisible}
@@ -74,3 +68,7 @@ export default class MessageTopBar extends React.Component {
     )
   }
 }
+const mapStateToProps = state => ({
+  personInfo: state.role.personInfo
+})
+export default connect(mapStateToProps)(MessageTopBar)

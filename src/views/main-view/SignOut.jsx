@@ -2,7 +2,7 @@
 import React from 'react'
 import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
-import apiConfig from '../../config'
+// import apiConfig from '../../config'
 export default class RegisterSuccModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
@@ -19,10 +19,22 @@ export default class RegisterSuccModal extends React.Component {
 
   }
   saveOrSubmit =(value) => {
+    document.cookie = 'name=' + '123456'
     this.props.hiddenModal()
+    this.backHome()
   }
   backHome=() => {
-    window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
+    // window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
+    this.clearCookie()
+  }
+  // 清楚kookie
+  clearCookie () {
+    // eslint-disable-next-line
+    let keys = document.cookie.match(/[^ =;]+(?=\=)/g)
+    console.log(keys)
+    if (keys) {
+      for (var i = keys.length; i--;) { document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString() }
+    }
   }
   render () {
     return (
@@ -40,7 +52,7 @@ export default class RegisterSuccModal extends React.Component {
             <Button key='save' type='primary' onClick={this.saveOrSubmit.bind(this)}>确认</Button>]}
         >
           <div>
-            <h4 className='sign_out'>确定退出系统?？</h4>
+            <h4 className='sign_out'>确定退出系统？</h4>
           </div>
         </Modal>
       </div>

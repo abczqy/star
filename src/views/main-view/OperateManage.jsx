@@ -103,8 +103,8 @@ class OperateManage extends React.Component {
     return (
       <div>
         <Layout>
-          <div style={{height: '30px', width: '80%', margin: 'auto'}}>
-            <div style={{height: '30px', float: 'left'}}>欢迎你，小姐姐</div>
+          <div style={{height: '30px', width: '90%', margin: 'auto'}}>
+            <div style={{height: '30px', float: 'left', paddingLeft: '50px'}}>欢迎你，小姐姐</div>
             <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
               <Badge count={5} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
@@ -114,7 +114,7 @@ class OperateManage extends React.Component {
             </div>
           </div>
           <div style={{height: '92px', width: '100%', backgroundColor: '#fff'}}>
-            <Layout.Header className='xingyun-header' style={{height: '92px', width: '80%', margin: 'auto'}}>
+            <Layout.Header className='xingyun-header' style={{height: '92px', width: '90%', margin: 'auto'}}>
               <div className='xingyun-logo' style={{marginTop: '30px'}} />
             </Layout.Header>
           </div>

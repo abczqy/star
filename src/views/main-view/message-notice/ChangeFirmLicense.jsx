@@ -22,6 +22,10 @@ class ChangeFirmLicense extends React.Component {
       this.props.form.resetFields()
     }
   }
+  // 点击表单后，改变type
+  changePasType = () => {
+    this.setState({ type: 'password' })
+  }
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
@@ -60,13 +64,13 @@ class ChangeFirmLicense extends React.Component {
     const uploadButton = (
       <div>
         <Icon type='plus' />
-        <div className='ant-upload-text'>Upload</div>
+        <div className='ant-upload-text'>上传</div>
       </div>
     )
     return (
       <div>
         <Modal
-          title='修改营业执照'
+          title='请上传营业执照'
           visible={this.props.visible}
           onCancel={this.props.hiddenModal}
           maskClosable={false}
@@ -87,7 +91,7 @@ class ChangeFirmLicense extends React.Component {
                 label='请输入密码'
               >
                 {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入密码!'}]})(
-                  <Input type={this.state.type} />
+                  <Input type={this.state.type} onClick={this.changePasType} />
                 )}
               </Form.Item>
               <Form.Item

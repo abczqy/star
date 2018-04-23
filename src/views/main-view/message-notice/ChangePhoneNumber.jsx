@@ -23,6 +23,10 @@ class ChangePhoneNumber extends React.Component {
       this.props.form.resetFields()
     }
   }
+  // 点击表单后，改变type
+  changeType = () => {
+    this.setState({ type: 'password' })
+  }
   hiddenModal=() => {
     this.props.hiddenModal()
     if (this.intervalcount) {
@@ -126,7 +130,7 @@ class ChangePhoneNumber extends React.Component {
                 label='请输入密码'
               >
                 {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入'}]})(
-                  <Input type={this.state.type} placeholder='请输入' />
+                  <Input type={this.state.type} onClick={this.changeType} placeholder='请输入' />
                 )}
               </Form.Item>
               <Form.Item

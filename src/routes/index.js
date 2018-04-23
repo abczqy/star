@@ -58,6 +58,7 @@ import MessageDetail from 'views/main-view/message-notice/MessageDetail'
 import TeacherHome from '../pages/after-logging-home/TeacherHome'
 
 import Register from '../pages/register/Register'
+import ForgetPass from '../pages/register/ForgetPass'
 export default [{
   path: '/unlogged',
   component: LoginHome,
@@ -217,6 +218,9 @@ export default [{
     component: MessageDetail
   }]
 }, {
-  path: '/register-home', // 登陆后-软件市场入口
+  path: '/register-home',
   component: Register
+}, {
+  path: '/forget-home',
+  component: ForgetPass
 }]

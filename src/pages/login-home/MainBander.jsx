@@ -167,7 +167,7 @@ class MainBander extends React.Component {
                   </Form.Item>
                   <Form.Item>
                     <a style={{color: 'red', fontSize: '12px', float: 'left'}} href=''>{this.state.msgTip}</a>
-                    <a style={{color: 'white', fontSize: '12px', float: 'right'}} href=''>忘记密码?</a>
+                    <a style={{color: 'white', fontSize: '12px', float: 'right'}} onClick={this.handregister.bind(this, '/forget-home')}>忘记密码?</a>
                   </Form.Item>
                   <Form.Item>
                     <Button type='primary' htmlType='submit' className='login-btn'

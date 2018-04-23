@@ -7,7 +7,8 @@ class AddbindModel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    addStuBind: PropTypes.func
   }
   constructor (props) {
     super(props)
@@ -25,6 +26,8 @@ class AddbindModel extends React.Component {
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('添加绑定', values)
+        // 调用父页面的查询接口更新绑定列表
+        this.props.addStuBind()
         this.props.hiddenModal()
       }
     })
