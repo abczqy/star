@@ -1,7 +1,8 @@
 export {
   Businessing,
   IterationVerify,
-  WaitVerify
+  WaitVerify,
+  AppStandOffModal
 } from './software-manage/index'
 
 export {

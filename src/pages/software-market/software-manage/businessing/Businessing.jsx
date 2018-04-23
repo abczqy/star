@@ -9,10 +9,11 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
+import { Table, Switch, Divider, Button } from 'antd'
 import ajaxUrl from 'config'
 import axios from 'axios'
 import { BlankBar, SearchBar } from 'components/software-market'
+import { AppStandOffModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -26,68 +27,6 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
- * 表格的columns -- 后面用json文件配置出去 --参照bdq
- * 做到配置项与组件的分离
- * 组件要用时只需要引入即可
- * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
- */
-const columns = [{
-  title: '应用名称',
-  dataIndex: 'sw_name',
-  key: 'sw_name'
-}, {
-  title: '所属类型',
-  dataIndex: 'sw_type',
-  key: 'sw_type'
-}, {
-  title: '供应商',
-  dataIndex: 'fa_name',
-  key: 'fa_name'
-}, {
-  title: '类型',
-  dataIndex: 'sw_path',
-  key: 'sw_path'
-}, {
-  title: '下载次数',
-  dataIndex: 'downloads',
-  key: 'downloads'
-}, {
-  title: '变更时间',
-  dataIndex: 'sw_update_time',
-  key: 'sw_update_time '
-}, {
-  title: '置顶',
-  dataIndex: 'stickTop',
-  key: 'stickTop',
-  render: (text, record, index) => {
-    return (
-      <Switch />
-    )
-  }
-}, {
-  title: '缴费状态',
-  dataIndex: 'pay_state',
-  key: 'pay_state',
-  render: (text, record, index) => <span className='normal-color' >{text}</span>
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('下架')}>下架</a>
-      </span>
-    )
-  }
-}]
-
 class Businessing extends Component {
   constructor (props) {
     super(props)
@@ -97,8 +36,65 @@ class Businessing extends Component {
         total: 0
       },
       pagination,
-      searchValue: ''
+      searchValue: '',
+      appOffModalCon: {
+        visible: false,
+        swName: ''
+      }
     }
+    // 表格的列信息
+    this.columns = [{
+      title: '应用名称',
+      dataIndex: 'sw_name',
+      key: 'sw_name'
+    }, {
+      title: '所属类型',
+      dataIndex: 'sw_type',
+      key: 'sw_type'
+    }, {
+      title: '供应商',
+      dataIndex: 'fa_name',
+      key: 'fa_name'
+    }, {
+      title: '类型',
+      dataIndex: 'sw_path',
+      key: 'sw_path'
+    }, {
+      title: '下载次数',
+      dataIndex: 'downloads',
+      key: 'downloads'
+    }, {
+      title: '变更时间',
+      dataIndex: 'sw_update_time',
+      key: 'sw_update_time '
+    }, {
+      title: '置顶',
+      dataIndex: 'stickTop',
+      key: 'stickTop',
+      render: (text, record, index) => {
+        return (
+          <Switch />
+        )
+      }
+    }, {
+      title: '缴费状态',
+      dataIndex: 'pay_state',
+      key: 'pay_state',
+      render: (text, record, index) => <span className='normal-color' >{text}</span>
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      render: (text, record, index) => (
+        <span>
+          <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
+          <Divider type='vertical' />
+          <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
+          <Divider type='vertical' />
+          <a href='javascript:void(0)' onClick={(e) => this.showAppOffStandModal(record)}>下架</a>
+        </span>
+      )
+    }]
   }
 
   /**
@@ -107,25 +103,61 @@ class Businessing extends Component {
   getTableDatas = () => {
     axios.post(ajaxUrl.Business, {
       params: {
-        per_info: '10',
-        person_id: '1'
+        pageNum: 1,
+        pageSize: 2,
+        sw_type: '娱乐类',
+        sw_name: '斗地主'
       }
     }).then((res) => {
       const data = res.data
+      // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.datasource,
-          total: data.pageCount.pageNumbers
+          data: data.data,
+          total: data.total
         }
       })
     }).catch((e) => { console.log(e) })
+  }
+
+  // 显示下架弹窗
+  showAppOffStandModal = (record) => {
+    // console.log(`record.sw_name: ${record.sw_name}`)
+    // console.log(`record: ${Obj2String(record)}`)
+    this.setState({
+      appOffModalCon: {
+        ...this.state.AppOffModalCon,
+        visible: true,
+        swName: record.sw_name
+      }
+    })
+  }
+
+  // 关闭弹窗
+  closeModal = () => {
+    this.setState({
+      appOffModalCon: {
+        ...this.state.AppOffModalCon,
+        visible: false
+      }
+    })
+  }
+
+  // 弹窗取消
+  handleCancel = () => {
+    this.closeModal()
+  }
+
+  handleOk = () => {
+    // 当然 在关闭之前要提交表单
+    this.closeModal()
   }
 
   /**
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    console.log('val:' + val)
+    // console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
   }
 
@@ -171,7 +203,7 @@ class Businessing extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    console.log('sudgfg::: ' + this.state.searchValue)
+    // console.log('sudgfg::: ' + this.state.searchValue)
   }
 
   inputChange = (e) => {
@@ -186,7 +218,7 @@ class Businessing extends Component {
   }
 
   render () {
-    const { tableData, pagination } = this.state
+    const { tableData, pagination, appOffModalCon } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -197,7 +229,7 @@ class Businessing extends Component {
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.columns}
           dataSource={tableData.data}
           pagination={{
             ...pagination,
@@ -205,6 +237,18 @@ class Businessing extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
+        />
+        <div ref='AppStandOffElem' className='app-stand-off-wrap' />
+        <AppStandOffModal
+          getContainer={() => this.refs.AppStandOffElem}
+          visible={appOffModalCon.visible}
+          footer={[
+            <Button key='submit' type='primary' onClick={this.handleOk}>
+              确认
+            </Button>,
+            <Button key='back' onClick={this.handleCancel}>取消</Button>
+          ]}
+          swName={appOffModalCon.swName}
         />
       </div>
     )

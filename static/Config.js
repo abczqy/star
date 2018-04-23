@@ -24,7 +24,7 @@ window.mungConfig = {
   batchImport: AJAX_HOST + '',
 
   // 运营管理/软件管理-运营中
-  Business: AJAX_HOST + '/Business',
+  Business: AJAX_HOST + '/management/applistm',
 
   // 运营管理/会员管理-厂商
   getFactory: AJAX_HOST + '/factoryManage/getFactory',
