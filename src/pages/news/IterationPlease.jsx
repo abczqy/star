@@ -3,9 +3,13 @@
  */
 
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, message, Upload, Icon, DatePicker, Modal} from 'antd'
+import {Row, Col, Card, Input, Select, Button, DatePicker} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
+import Upload from './Upload'
+import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
 
@@ -21,7 +25,7 @@ class IterationPlease extends React.Component {
       rDescribe: '',
       Edition: 1,
       renderEdition: [],
-      hopeTime: '',
+      hopeTime: null,
       // 有关上传截图
       previewVisible: false,
       previewImage: '',
@@ -45,12 +49,16 @@ class IterationPlease extends React.Component {
           value: 'phone'
         }
       ],
-      array: [],
-      arrays: []
+      AppData: null,
+      fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
+      fileListOneF: ['1'], // 用来存软件版本的文件id
+      fileListTwo: '1', // 用来存软件图标的文件id
+      fileListThree: ['1'] // 用来存PC端界面截图的文件id
     }
   }
   componentWillMount () {
     this.renderEdition()
+    this.getAppData()
   }
   // 更新版本
   newV=(e) => {
@@ -59,12 +67,23 @@ class IterationPlease extends React.Component {
       newV: value
     })
   }
-  // 类型
-  type=(value) => {
-    this.setState({
-      type: value
-    })
+// 获取app数据
+getAppData=() => {
+  let value = {
+    appId: this.props.appId
   }
+  axios.get(ajaxUrl.appId, {
+    value
+  }).then(item => {
+    this.setState({
+      AppData: item
+    }, () => {
+      console.log(this.state.AppData)
+    })
+  }).catch(err => {
+    console.log(err)
+  })
+}
   // 软件描述
   rDescribe=(e) => {
     let {value} = e.target
@@ -80,25 +99,28 @@ class IterationPlease extends React.Component {
       this.renderEdition()
     })
   }
+  // 用来存软件版本的文件id
+  getFileListOneF =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListOneF: a
+    }, () => {
+      console.log('软件版本的文件id', this.state.fileListOneF)
+    })
+  }
+  // 用来存软件版本的文件的系统版本
+  SChange =(value, index) => {
+    let a = this.state.fileListOneC
+    a[index] = value
+    this.setState({
+      fileListOneC: a
+    }, () => {
+      console.log('软件版本的文件的系统版本', this.state.fileListOneC)
+    })
+  }
   // 渲染软件版本列表
   renderEdition=() => {
-    let props = {
-      name: 'file',
-      action: '//jsonplaceholder.typicode.com/posts/',
-      headers: {
-        authorization: 'authorization-text'
-      },
-      onChange (info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList)
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} 文件上传成功`)
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} 文件上传失败`)
-        }
-      }
-    }
     let value = []
     for (let i = 0; i < this.state.Edition; i++) {
       if (i === 0) {
@@ -110,18 +132,20 @@ class IterationPlease extends React.Component {
                   <span style={{color: 'red'}}>* </span>软件版本 :
                 </Col>
                 <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
                       return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
-                <Col span={6}>
-                  <Upload {...props}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                  </Upload>
+                <Col span={9}>
+                  <Upload
+                    getFileList={this.getFileListOneF}
+                    index={i}
+                    indexD
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  />
                 </Col>
               </Col>
             </Row>
@@ -135,18 +159,20 @@ class IterationPlease extends React.Component {
                   <span style={{visibility: 'hidden'}}>*PC无无无<span style={{color: 'red'}}>* </span>软件版本 :</span>
                 </Col>
                 <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
                       return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
-                <Col span={6}>
-                  <Upload {...props}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                  </Upload>
+                <Col span={9}>
+                  <Upload
+                    getFileList={this.getFileListOneF}
+                    index={i}
+                    indexD
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  />
                 </Col>
               </Col>
             </Row>
@@ -159,10 +185,33 @@ class IterationPlease extends React.Component {
       console.log(this.state.renderEdition)
     })
   }
+  // 用来存软件图标的文件id
+  getFileListTwo =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListTwo: a
+    }, () => {
+      console.log('软件图标的文件id', this.state.fileListTwo)
+    })
+  }
+  // 用来存PC端界面截图的文件id
+  getFileListThree =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListThree: a
+    }, () => {
+      console.log('PC端界面截图的文件id', this.state.fileListThree)
+    })
+  }
   // 日期变化
   onChange=(value, dateString) => {
     console.log('Selected Time: ', value)
     console.log('Formatted Selected Time: ', dateString)
+    this.setState({
+      hopeTime: value
+    })
   }
   // 日期点击确定
   onOk=(value) => {
@@ -171,49 +220,42 @@ class IterationPlease extends React.Component {
       hopeTime: value
     })
   }
-  // 关闭图片
-  handleCancel = () => this.setState({ previewVisible: false })
-  // 显示图片
-  handlePreview = (file) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true
-    })
+// 整合软件版本数据
+zH=() => {
+  let a = []
+  for (let i = 0; i < this.state.Edition; i++) {
+    let c = {
+      fileListOneC: this.state.fileListOneC[i], // 用来存软件版本的文件的系统版本
+      fileListOneF: this.state.fileListOneF[i] // 用来存软件版本的文件id
+    }
+    a.push(c)
   }
-  // 图片改变
-  handleChange = ({ fileList }) => this.setState({ fileList })
-
-  // 关闭图片
-  handleCancels = () => this.setState({ previewVisible: false })
-  // 显示图片
-  handlePreviews = (file) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true
-    })
-  }
-  // 图片改变
-  handleChanges = ({ fileList }) => this.setState({ fileList })
-
+  console.log(a)
+  return a
+}
   // 提交表单啦
   submit=() => {
+    let z = []
+    z[0] = this.state.fileListTwo
+    z[1] = this.state.fileListThree
+
     let value = {
       newV: this.state.newV, // 更新版本
       rDescribe: this.state.rDescribe, // 软件描述
-      hopeTime: this.state.hopeTime, // 期望上架时间
-      copTypes: this.state.array, // 多个系统类别
-      filelist: this.state.arrays // 附件列表
+      hopeTime: this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD HH:mm:ss'), // 期望上架时间value.beginTime == null?'':value.beginTime.format('YYYY-MM-DD HH:mm')
+      copTypes: this.zH(), // 软件版本的文件id和系统类别
+      filelist: z // 其他附件
     }
-    console.log('上架流程点击提交传的值', value)
+    console.log('迭代申请点击提交传的值', value)
+    axios.get(ajaxUrl.iteration, {
+      value
+    }).then(item => {
+      console.log(item)
+    }).catch(err => {
+      console.log(err)
+    })
   }
   render () {
-    const { previewVisible, previewImage, fileList } = this.state
-    const uploadButton = (
-      <div>
-        <Icon type='plus' />
-        <div className='ant-upload-text'>Upload</div>
-      </div>
-    )
     return <Card title='迭代申请' style={{marginLeft: '15%', width: '1300px'}}>
       <div >
         <Row>
@@ -225,7 +267,8 @@ class IterationPlease extends React.Component {
                 <span style={{visibility: 'hidden'}}>* </span>软件类型 :
               </Col>
               <Col span={5}>
-                <span>教育类</span>
+                <span>{this.state.AppData.type}</span>
+                {/* <span>教学类</span> */}
               </Col>
             </Col>
             <Col span={8}>
@@ -233,7 +276,8 @@ class IterationPlease extends React.Component {
                 <span style={{visibility: 'hidden'}}>* </span>软件名称 :
               </Col>
               <Col span={18}>
-                <span>超级教书的</span>
+                {/* <span>超级教师</span> */}
+                <span>{this.state.AppData.rname}</span>
               </Col>
             </Col>
           </Row>
@@ -244,7 +288,8 @@ class IterationPlease extends React.Component {
                 <span style={{visibility: 'hidden'}}>* </span>当前版本 :
               </Col>
               <Col span={5}>
-                <span>v1.3</span>
+                {/* <span>v1.3</span> */}
+                <span>{this.state.AppData.edition}</span>
               </Col>
             </Col>
             <Col span={8}>
@@ -285,19 +330,14 @@ class IterationPlease extends React.Component {
                   <span style={{visibility: 'hidden'}}>*PC无无无</span>
                   <span style={{color: 'red'}}>* </span>软件图标 :
                 </Col>
-                <Upload
-                  action='//jsonplaceholder.typicode.com/posts/'
-                  listType='picture-card'
-                  fileList={fileList}
-                  onPreview={this.handlePreviews}
-                  onChange={this.handleChanges}
-                >
-                  {fileList.length >= 3 ? null : uploadButton}
-                </Upload>
+                <Col span={9}>
+                  <Upload
+                    getFileList={this.getFileListTwo}
+                    indexD={false}
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  /></Col>
               </Col>
-              <Modal visible={previewVisible} footer={null} onCancel={this.handleCancels}>
-                <img alt='example' style={{ width: '100%' }} src={previewImage} />
-              </Modal>
             </Row>
             <Row className='Wxd'>
               <Col span={12}>
@@ -305,20 +345,14 @@ class IterationPlease extends React.Component {
                   <span style={{visibility: 'hidden'}}>*PC 无</span>
                   <span>PC端界面截图 : </span>
                 </Col>
-                <Col span={13}>
+                <Col span={9}>
                   <Upload
-                    action='//jsonplaceholder.typicode.com/posts/'
-                    listType='picture-card'
-                    fileList={fileList}
-                    onPreview={this.handlePreview}
-                    onChange={this.handleChange}
-                  >
-                    {fileList.length >= 3 ? null : uploadButton}
-                  </Upload>
+                    getFileList={this.getFileListThree}
+                    indexD={false}
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  />
                 </Col>
-                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                  <img alt='example' style={{ width: '100%' }} src={previewImage} />
-                </Modal>
               </Col>
             </Row>
           </Row>
@@ -353,6 +387,10 @@ class IterationPlease extends React.Component {
       </div>
     </Card>
   }
+}
+
+IterationPlease.propTypes = {
+  appId: PropTypes.string
 }
 
 export default IterationPlease

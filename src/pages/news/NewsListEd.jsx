@@ -123,7 +123,7 @@ class News extends React.Component {
               <ul className='ul-top'>
                 {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
-                    <Col span={5}><img src={item.news_img} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
+                    <Col span={5}><img src={item.news_picture} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
                     <Col span={16}>
                       <Row>{/*                                                               key={item.news_id}       item.new_title */}
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>

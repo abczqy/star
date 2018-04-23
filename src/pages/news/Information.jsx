@@ -118,7 +118,7 @@ class Information extends React.Component {
       county: this.state.selete ? '' : this.state.selete[2]
     }
     console.log('游客的信息公开获取数据传的参数', value)
-    axios.get(ajaxUrl.information, {
+    axios.post(ajaxUrl.information, {
       value
     }).then(item => {
       this.setState({
@@ -214,7 +214,7 @@ class Information extends React.Component {
                   return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '130px'}} key={index}>
                     <Col span={24}>
                       <Row>
-                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
+                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
                         <Col span={4}><span className='span-top'>发布者:{item.info_per}</span></Col>
                         <Col span={3}><span className='span-top'>{item.info_time}</span></Col>
                       </Row>

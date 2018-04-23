@@ -45,8 +45,7 @@ class News extends React.Component {
       console.log(err)
     })
 
-    axios.get(ajaxUrl.detList).then(item => {
-      console.log('我到底做了个啥？？？', item.data)
+    axios.get(ajaxUrl.detList).then(item => { // 分享数据列表
       this.setState({
         dataP: item.data.list,
         img: item.data.img
@@ -126,7 +125,7 @@ class News extends React.Component {
                 {/* this.state.newData.list.map */}
                 {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
-                    <Col span={5}><img src={item.news_img} style={{width: '135px'}} alt='' /></Col>{/* item.news_img */}
+                    <Col span={5}><img src={item.news_picture} style={{width: '135px'}} alt='' /></Col>{/* item.news_picture */}
                     <Col span={16}>
                       <Row>{/*                                                               key={item.news_id}       item.new_title */}
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>

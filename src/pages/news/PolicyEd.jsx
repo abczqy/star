@@ -16,8 +16,7 @@ class Policy extends React.Component {
     this.state = {
       input: '',
       context: '',
-      visible: false,
-      fileList: '1'
+      visible: false
     }
   }
   componentWillMount () {
@@ -28,6 +27,11 @@ class Policy extends React.Component {
         context: this.props.record.information
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
+      this.setState({
+        input: '',
+        context: ''
+      })
+    } else {
       this.setState({
         input: '',
         context: ''

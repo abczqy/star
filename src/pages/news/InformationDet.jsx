@@ -2,7 +2,7 @@
  * 游客的信息公开详情
  */
 import React from 'react'
-import {Row, Col, Card} from 'antd'
+import {Row, Col, Card, Tooltip} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
@@ -12,6 +12,7 @@ import fen from '../../assets/images/u1415.png'
 import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import shareContent from '../../utils/shareContent'
 
 class InformationDet extends React.Component {
   constructor (props) {
@@ -75,6 +76,18 @@ class InformationDet extends React.Component {
   position=() => {
     console.log('当前页面位置跳转')
   }
+  getQRCode () {
+    return (<div>
+      <Row>
+        <Col span={24}>
+          <img width={120} height={120} src={shareContent.getQRCodeUrl()} />
+        </Col>
+      </Row>
+      <Row>
+        <div style={{textAlign: 'center'}}>用微信扫码二维码<br />分享至好友和朋友圈</div>
+      </Row>
+    </div>)
+  }
   render () {
     return <div>
       <div style={{marginLeft: '15%', marginBottom: '20px'}}>
@@ -118,10 +131,17 @@ class InformationDet extends React.Component {
           </div>
         </Row>
         <div style={{marginLeft: '13%'}}>
-          <Row >
+          <Row style={{marginBottom: '18px'}}>
             <Col span={4} />
-            <Col>
-              <div style={{marginBottom: '18px'}}>分享: <img src={this.state.imgFen} style={{width: '217px'}} alt='' /></div>
+            <Col span={20}>
+              <div style={{marginBottom: '18px'}}>
+                <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
+                <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
+                <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
+                  <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
+                </Tooltip>
+                <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
+              </div>
             </Col>
           </Row>
           <Row>

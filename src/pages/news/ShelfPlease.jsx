@@ -1,10 +1,15 @@
+/* eslint-disable react/jsx-no-bind,react/prop-types */
+/* eslint-disable react/jsx-no-bind */
 /**
  * 上架流程
  */
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, message, Upload, Icon, DatePicker, Modal, Radio} from 'antd'
+import {Row, Col, Card, Input, Select, Button, DatePicker, Radio} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
+import Upload from './Upload'
+import axios from 'axios'
+import ajaxUrl from 'config'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
 
@@ -21,7 +26,7 @@ class ShelfPlease extends React.Component {
       rDescribe: '',
       Edition: 1,
       renderEdition: [],
-      hopeTime: '',
+      hopeTime: null,
       name: '',
       idNumber: '',
       conPeople: '',
@@ -50,7 +55,13 @@ class ShelfPlease extends React.Component {
           value: 'phone'
         }
       ],
-      array: []
+      fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
+      fileListOneF: ['1'], // 用来存软件版本的文件id
+      fileListTwo: '1', // 用来存软件图标的文件id
+      fileListThree: ['1'], // 用来存PC端界面截图的文件id
+      fileListFour: '1', // 用来存身份证照片文件id
+      fileListFive: '1', // 用来存软件版权的文件id
+      fileListSix: '1' // 用来存财务审核凭证的文件id
     }
   }
   componentWillMount () {
@@ -84,25 +95,28 @@ class ShelfPlease extends React.Component {
       this.renderEdition()
     })
   }
+  // 用来存软件版本的文件id
+  getFileListOneF =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListOneF: a
+    }, () => {
+      console.log('软件版本的文件id', this.state.fileListOneF)
+    })
+  }
+  // 用来存软件版本的文件的系统版本
+  SChange =(value, index) => {
+    let a = this.state.fileListOneC
+    a[index] = value
+    this.setState({
+      fileListOneC: a
+    }, () => {
+      console.log('软件版本的文件的系统版本', this.state.fileListOneC)
+    })
+  }
   // 渲染软件版本列表
   renderEdition=() => {
-    let props = {
-      name: 'file',
-      action: '//jsonplaceholder.typicode.com/posts/',
-      headers: {
-        authorization: 'authorization-text'
-      },
-      onChange (info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList)
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} 文件上传成功`)
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} 文件上传失败`)
-        }
-      }
-    }
     let value = []
     for (let i = 0; i < this.state.Edition; i++) {
       if (i === 0) {
@@ -114,18 +128,20 @@ class ShelfPlease extends React.Component {
                   <span style={{color: 'red'}}>* </span>软件版本 :
                 </Col>
                 <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
                       return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
-                <Col span={6}>
-                  <Upload {...props}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                  </Upload>
+                <Col span={9}>
+                  <Upload
+                    getFileList={this.getFileListOneF}
+                    index={i}
+                    indexD
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  />
                 </Col>
               </Col>
             </Row>
@@ -139,18 +155,20 @@ class ShelfPlease extends React.Component {
                   <span style={{visibility: 'hidden'}}>*PC无无无<span style={{color: 'red'}}>* </span>软件版本 :</span>
                 </Col>
                 <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} >
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
                       return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
-                <Col span={6}>
-                  <Upload {...props}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                  </Upload>
+                <Col span={9}>
+                  <Upload
+                    getFileList={this.getFileListOneF}
+                    index={i}
+                    indexD
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  />
                 </Col>
               </Col>
             </Row>
@@ -163,10 +181,14 @@ class ShelfPlease extends React.Component {
       console.log(this.state.renderEdition)
     })
   }
+
   // 日期变化
   onChange=(value, dateString) => {
     console.log('Selected Time: ', value)
     console.log('Formatted Selected Time: ', dateString)
+    this.setState({
+      hopeTime: value
+    })
   }
   // 日期点击确定
   onOk=(value) => {
@@ -175,17 +197,14 @@ class ShelfPlease extends React.Component {
       hopeTime: value
     })
   }
-  // 关闭图片
-  handleCancel = () => this.setState({ previewVisible: false })
-  // 显示图片
-  handlePreview = (file) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true
-    })
+  // 日期取消
+  onBlur =(value) => {
+    if (value) {
+      this.setState({
+        hopeTime: value
+      })
+    }
   }
-  // 图片改变
-  handleChange = ({ fileList }) => this.setState({ fileList })
   // 存开发相关的name
   name=(e) => {
     let {value} = e.target
@@ -207,7 +226,7 @@ class ShelfPlease extends React.Component {
       conPeople: value
     })
   }
-  // 存联系人
+  // 存联系人电话
   conPeopleNum=(e) => {
     let {value} = e.target
     this.setState({
@@ -220,22 +239,98 @@ class ShelfPlease extends React.Component {
       radio: e.target.value
     })
   }
+  // 用来存软件图标的文件id
+  getFileListTwo =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListTwo: a
+    }, () => {
+      console.log('软件图标的文件id', this.state.fileListTwo)
+    })
+  }
+  // 用来存PC端界面截图的文件id
+  getFileListThree =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListThree: a
+    }, () => {
+      console.log('PC端界面截图的文件id', this.state.fileListThree)
+    })
+  }
+  // 用来存身份证照片文件id
+  getFileListFour =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListFour: a
+    }, () => {
+      console.log('身份证照片文件id', this.state.fileListFour)
+    })
+  }
+  // 用来存财务审核凭证的文件id
+  getFileListFive =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListFive: a
+    }, () => {
+      console.log('财务审核凭证的文件id', this.state.fileListFive)
+    })
+  }
+  // 用来存财务审核凭证的文件id
+  getFileListSix =(fileList, index) => {
+    let a = []
+    a[index] = fileList.map((data) => { return data.fileId || data.id })
+    this.setState({
+      fileListSix: a
+    }, () => {
+      console.log('财务审核凭证的文件id', this.state.fileListSix)
+    })
+  }
+  // 整合软件版本数据
+  zH=() => {
+    let a = []
+    for (let i = 0; i < this.state.Edition; i++) {
+      let c = {
+        fileListOneC: this.state.fileListOneC[i], // 用来存软件版本的文件的系统版本
+        fileListOneF: this.state.fileListOneF[i] // 用来存软件版本的文件id
+      }
+      a.push(c)
+    }
+    console.log(a)
+    return a
+  }
   // 提交表单啦
   submit=() => {
+    let z = []
+    z[0] = this.state.fileListTwo
+    z[1] = this.state.fileListThree
+    z[2] = this.state.fileListFour
+    z[3] = this.state.fileListFive
+    z[4] = this.state.fileListSix
     let value = {
       rname: this.state.rname, // 软件名称
       rType: this.state.type, // 软件类型
       rDescribe: this.state.rDescribe, // 软件描述
-      hopeTime: this.state.hopeTime, // 期望上架时间
+      hopeTime: this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD HH:mm:ss'), // 期望上架时间
       name: this.state.name, // 开发相关名字
       idNumber: this.state.idNumber, // 身份证号
       conPeople: this.state.conPeople, // 主要联系人
       conPeopleNum: this.state.conPeopleNum, // 主要联系人电话
       copType: this.state.radio, // 软件版权类别
-      copTypes: this.state.array, // 系统类别
-      filelist: this.state.arrays // 附件列表
+      copTypes: this.zH(), // 软件版本的文件id和系统类别
+      filelist: z // 附件列表
     }
     console.log('上架流程点击提交传的值', value)
+    axios.get(ajaxUrl.shelf, {
+      value
+    }).then(item => {
+      console.log(item)
+    }).catch(err => {
+      console.log(err)
+    })
   }
   render () {
     const data = [
@@ -252,30 +347,6 @@ class ShelfPlease extends React.Component {
         value: '类型3'
       }
     ]
-    const propss = {
-      name: 'file',
-      action: '//jsonplaceholder.typicode.com/posts/',
-      headers: {
-        authorization: 'authorization-text'
-      },
-      onChange (info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList)
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} 文件上传成功`)
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} 文件上传失败`)
-        }
-      }
-    }
-    const { previewVisible, previewImage, fileList } = this.state
-    const uploadButton = (
-      <div>
-        <Icon type='plus' />
-        <div className='ant-upload-text'>Upload</div>
-      </div>
-    )
     return <Card title='上架申请' style={{marginLeft: '15%', width: '1300px'}}>
       <div >
         <Row>
@@ -326,11 +397,13 @@ class ShelfPlease extends React.Component {
                 <span style={{visibility: 'hidden'}}>*PC无无无</span>
                 <span style={{color: 'red'}}>* </span>软件图标 :
               </Col>
-              <Upload {...propss}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-              </Upload>
+              <Col span={8}>
+                <Upload
+                  getFileList={this.getFileListTwo}
+                  indexD={false}
+                // update={this.state.update}
+                // updateDone={() => { this.setState({update: false}) }}
+                /></Col>
             </Col>
             <Col span={8}>
               <Col span={6}>
@@ -354,20 +427,14 @@ class ShelfPlease extends React.Component {
                 <span style={{visibility: 'hidden'}}>** 无无</span>
                 <span>PC端界面截图 :</span>
               </Col>
-              <Col span={15}>
+              <Col span={8}>
                 <Upload
-                  action='//jsonplaceholder.typicode.com/posts/'
-                  listType='picture-card'
-                  fileList={fileList}
-                  onPreview={this.handlePreview}
-                  onChange={this.handleChange}
-                >
-                  {fileList.length >= 3 ? null : uploadButton}
-                </Upload>
+                  getFileList={this.getFileListThree}
+                  indexD={false}
+                // update={this.state.update}
+                // updateDone={() => { this.setState({update: false}) }}
+                />
               </Col>
-              <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                <img alt='example' style={{ width: '100%' }} src={previewImage} />
-              </Modal>
             </Col>
           </Row>
           <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '2%', marginTop: '4%'}} />
@@ -396,12 +463,13 @@ class ShelfPlease extends React.Component {
                 <span style={{visibility: 'hidden'}}>*PC</span>
                 <span style={{color: 'red'}}>* </span>手持身份证照片 :
               </Col>
-              <Col span={6}>
-                <Upload {...propss}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload>
+              <Col span={8}>
+                <Upload
+                  getFileList={this.getFileListFour}
+                  indexD={false}
+                  // update={this.state.update}
+                  // updateDone={() => { this.setState({update: false}) }}
+                />
               </Col>
             </Col>
           </Row>
@@ -425,35 +493,52 @@ class ShelfPlease extends React.Component {
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件版权</p></Row>
           <Row className='Wxd'>
-            <Col span={12}>
+            <Col span={24}>
               <span style={{visibility: 'hidden'}}>*PC无无</span>
               <RadioGroup onChange={this.radio} value={this.state.radio}>
-                <Radio value={1}>软件凭证 : <span style={{visibility: 'hidden'}}>无</span><Upload {...propss}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload></Radio>
-                <Radio value={2}>开发者权利声明 : <span style={{visibility: 'hidden'}}>无</span><Upload {...propss}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                </Upload></Radio>
+                <Radio value={1}>
+                  <span >软件凭证 :</span>
+                  <span style={{visibility: 'hidden'}}>无无无五五五五无</span>
+                  <Upload
+                    getFileList={this.getFileListFour}
+                    indexD={false}
+                    // update={this.state.update}
+                    // updateDone={() => { this.setState({update: false}) }}
+                  />
+                </Radio>
+                <span style={{visibility: 'hidden'}}>*PC无无5555555555555呜呜呜呜呜</span>
+                <Radio value={2}>
+                  <span >开发者权利声明 :</span>
+                  <a href='javascript:;'>下载模版</a>
+                  <span style={{visibility: 'hidden'}}>无</span>
+                  <Upload
+                    getFileList={this.getFileListFive}
+                    indexD={false}
+                  // update={this.state.update}
+                  // updateDone={() => { this.setState({update: false}) }}
+                  />
+                </Radio>
               </RadioGroup>
             </Col>
-            <Col span={5}><a href='javascript:;'>下载模版</a></Col>
+            {/* <Col span={5}></Col> */}
           </Row>
           <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
         </Row>
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />财务凭证</p></Row>
           <Row>
-            <Col span={8}>
-              <span style={{visibility: 'hidden'}}>*PC无无</span>
-              <span>财务审核凭证 : </span><span style={{visibility: 'hidden'}}>无</span><Upload {...propss}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-              </Upload>
+            <Col span={12}>
+              <Col span={6}>
+                <span style={{visibility: 'hidden'}}>*PC无无</span>
+                <span>财务审核凭证 : </span><span style={{visibility: 'hidden'}}>无</span>
+              </Col>
+              <Col span={8}>
+                <Upload
+                  getFileList={this.getFileListSix}
+                  indexD={false}
+                  // update={this.state.update}
+                  // updateDone={() => { this.setState({update: false}) }}
+                /></Col>
             </Col>
           </Row>
         </Row>

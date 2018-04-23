@@ -64,7 +64,7 @@ class Information extends React.Component {
       county: 'chonghe'
     }
     console.log('教育局的信息公开列表获取数据传的参数', value)
-    axios.get(ajaxUrl.information, {
+    axios.post(ajaxUrl.information, {
       value
     }).then(item => {
       this.setState({
@@ -78,7 +78,6 @@ class Information extends React.Component {
     })
 
     axios.get(ajaxUrl.detList).then(item => {
-      console.log('我到底做了个啥？？？', item.data)
       this.setState({
         dataP: item.data.list,
         img: item.data.img

@@ -127,22 +127,24 @@ class NewsDetails extends React.Component {
                   </div>
                 </Col>
               </Row>
-              <Row style={{marginBottom: '18px'}}>
-                <Col span={24}>
-                  <div style={{marginBottom: '18px'}}>
-                    <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
-                    <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
-                    <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
-                      <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
-                    </Tooltip>
-                    <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
-                  </div>
-                </Col>
-              </Row>
+
             </Col>
           </div>
         </Row>
         <div style={{marginLeft: '6%'}}>
+          <Row style={{marginBottom: '18px'}}>
+            <Col span={4} />
+            <Col span={20}>
+              <div style={{marginBottom: '18px'}}>
+                <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
+                <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
+                <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
+                  <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
+                </Tooltip>
+                <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
+              </div>
+            </Col>
+          </Row>
           <Row>
             <Col span={4} />
             <Col>

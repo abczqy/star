@@ -45,13 +45,14 @@ window.mungConfig = {
   allAppList: AJAX_HOST + '/app/appList',
 
   // 教育新闻列表
-  newsList: AJAX_HOST + '/applicaion/newslistget',
+  newsList: AJAX_HOST + '/applicaion/newslist',
   // 教育新闻列表详情
   newsListDet: AJAX_HOST + '/applicaion/newsdetailget',
   // 信息公开列表
-  information: AJAX_HOST + '/applicaion/InfoListGet',
+  information: AJAX_HOST + '/applicaion/infolist',
   // 信息公开列表详情
-  informationDet: AJAX_HOST + '/applicaion/InfoDetialGet',
+  informationDet: AJAX_HOST + '/applicaion/infodetail',
+
   // 教育局信息公开列表编辑
   informationEdList: AJAX_HOST + '/applicaion/InfoListEd',
   // 教育局信息公开列表编辑新增
@@ -61,5 +62,13 @@ window.mungConfig = {
   // 教育局信息公开列表编辑删除
   informationEdListDelete: AJAX_HOST + '/applicaion/InfoListEdDelete',
   // 分享列表接口
-  detList: AJAX_HOST + '/applicaion/detList'
+  detList: AJAX_HOST + '/applicaion/detList',
+  // 上传文件接口
+  Upload: AJAX_HOST + '/upload',
+  // 迭代申请接口
+  iteration: AJAX_HOST + '/applicaion/iteration',
+  // 申请上架接口
+  shelf: AJAX_HOST + '/applicaion/shelf',
+  // 用appId获取app数据接口
+  appId: AJAX_HOST + '/applicaion/appId'
 }

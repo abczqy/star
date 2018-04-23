@@ -95,10 +95,10 @@ export default [{
     path: '/operate-manage-home/informationEd',
     component: InformationEd
   }, {
-    path: '/operate-manage-home/please',
+    path: '/operate-manage-home/please', // 上架
     component: Please
   }, {
-    path: '/operate-manage-home/iteration',
+    path: '/operate-manage-home/iteration', // 迭代
     component: Iteration
   }, {
     path: '/operate-manage-home/member',
