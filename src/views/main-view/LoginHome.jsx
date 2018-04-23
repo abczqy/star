@@ -12,13 +12,19 @@ import './Operateview.scss'
 class LoginHome extends React.Component {
   constructor (props) {
     super(props)
+    let pathName = this.props.location.pathname
     this.state = {
-      activeTab: this.getDefaultTabKey()
+      activeTab: this.getDefaultTabKey(pathName)
     }
   }
 
-  getDefaultTabKey () {
-    let pathName = this.props.location.pathname
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      activeTab: this.getDefaultTabKey(nextProps.location.pathname)
+    })
+  }
+
+  getDefaultTabKey (pathName) {
     let temArr = pathName.split('/')
     return temArr[temArr.length - 1] || 'home'
   }
