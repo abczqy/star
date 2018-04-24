@@ -42,7 +42,7 @@ class Businessing extends Component {
         visible: false,
         swName: ''
       },
-      busiRenewWinVisible: true // 续费弹窗
+      busiRenewWinVisible: false // 续费弹窗
     }
     // 表格的列信息
     this.columns = [{
