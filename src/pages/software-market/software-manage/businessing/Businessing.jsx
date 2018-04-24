@@ -10,12 +10,13 @@
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider, Button } from 'antd'
-import ajaxUrl from 'config'
-import axios from 'axios'
+// import ajaxUrl from 'config'
+// import axios from 'axios'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
+import {getAppListData} from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -37,11 +38,14 @@ class Businessing extends Component {
         total: 0
       },
       pagination,
-      searchValue: '',
+      searchValue: '', // 应用名称
+      type: '', // 类型
       appOffModalCon: {
         visible: false,
         swName: ''
       },
+      pageNum: 1,
+      pageSize: 10,
       busiRenewWinVisible: false // 续费弹窗
     }
     // 表格的列信息
@@ -108,10 +112,34 @@ class Businessing extends Component {
   }
 
   /**
+   * 请求表格参数
+   * @returns {{pageNum: number, pageSize: number, sw_type: string, sw_name: string}}
+   */
+  getParams () {
+    return {
+      pageNum: this.state.pageNum,
+      pageSize: this.state.pageSize,
+      sw_type: this.state.type || '',
+      sw_name: this.state.searchValue || ''
+    }
+  }
+
+  /**
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.Business, {
+    getAppListData(this.getParams(), (response) => {
+      console.log('************8888')
+      console.log(response)
+      let result = response.data
+      this.setState({
+        tableData: {
+          data: result.data,
+          total: result.total
+        }
+      })
+    })
+    /* axios.post(ajaxUrl.Business, {
       params: {
         pageNum: 1,
         pageSize: 2,
@@ -127,7 +155,7 @@ class Businessing extends Component {
           total: data.total
         }
       })
-    }).catch((e) => { console.log(e) })
+    }).catch((e) => { console.log(e) }) */
   }
 
   // 显示下架弹窗
@@ -167,8 +195,9 @@ class Businessing extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    // console.log('val:' + val)
-    // 需要以val为参数向后台请求表格数据并刷新
+    this.setState({
+      type: val
+    })
   }
 
   /**
@@ -205,7 +234,11 @@ class Businessing extends Component {
   /**
    * 搜索输入框变化的回调
    */
-  inputChange = () => {}
+  inputChange = (val) => {
+    this.setState({
+      searchValue: val
+    })
+  }
 
   /**
    * 根据搜索框的值进行搜索
@@ -213,7 +246,7 @@ class Businessing extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    // console.log('sudgfg::: ' + this.state.searchValue)
+    this.getTableDatas()
   }
 
   inputChange = (e) => {

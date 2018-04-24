@@ -1,7 +1,7 @@
 const AJAX_HOST = 'http://172.16.36.159:20000/app/mock/21'
 window.mungConfig = {
   API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
-  // http://p1663488m8.imwork.net:49784/     测试地址
+  // API_BASE_URL: 'http://p1663488m8.imwork.net:49784/', // 测试地址
   BASE_TAB: 'http://localhost:8080',
   LOGIN_URL: '',
   /** *******************************软件市场************************************ */
