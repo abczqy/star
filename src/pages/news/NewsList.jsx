@@ -5,7 +5,8 @@
 */
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
-import img from '../../assets/images/hear.jpg'
+import img from '../../assets/images/WeChat.png'
+import BottomHeader from '../../components/common/BottomHeader'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
@@ -97,16 +98,14 @@ class News extends React.Component {
       pathname: '/unlogged/newsDetails',
       search: e.target.text.split(' ')[0]
     })
-    // console.log('点击元素的key', e.target.text.split(' ')[0])
-    // window.location.href = `localhost:8080/#/unlogged/newsDetails?${e.target.text.split(' ')[0]}`
   }
   render () {
     return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '2.5%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer' ><img src={this.state.img} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -116,7 +115,7 @@ class News extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px'}} alt='' /></Row>
             </Col>
           </div>
           <div style={{width: '1400px'}}>
@@ -124,8 +123,8 @@ class News extends React.Component {
               <ul className='ul-top'>
                 {/* this.state.newData.list.map */}
                 {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', borderBottomColor: '#666', width: '880px', height: '160px'}} key={index}>
-                    <Col span={5}><img src={item.news_picture} style={{width: '135px'}} alt='' /></Col>{/* item.news_picture */}
+                  return <li style={{listStyle: 'none', borderBottom: '2px solid #f4f4f4', paddingTop: '30px', paddingLeft: '30px', backgroundColor: '#fff', width: '880px', height: '170px'}} key={index}>
+                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>{/* item.news_picture */}
                     <Col span={16}>
                       <Row>{/*                                                               key={item.news_id}       item.new_title */}
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -142,20 +141,21 @@ class News extends React.Component {
               </ul><Row>
                 <Col span={10} />
                 <Col span={14}>
-                  <Pagination
-                    size='small'
-                    total={this.state.newData.total}// {this.state.newData.total}
-                    showSizeChanger
-                    showQuickJumper
-                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                  {this.state.newData.total >= 5
+                    ? <Pagination
+                      total={this.state.newData.total}// {this.state.newData.total}
+                      showSizeChanger
+                      showQuickJumper
+                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                     // pageSizeOptions={5}
-                  /></Col>
+                    /> : null}</Col>
               </Row>
             </Col>
           </div>
         </Row>
       </div>
+      <BottomHeader />
     </div>
   }
 }

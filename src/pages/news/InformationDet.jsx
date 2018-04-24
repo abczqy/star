@@ -13,6 +13,7 @@ import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import shareContent from '../../utils/shareContent'
+import BottomHeader from '../../components/common/BottomHeader'
 
 class InformationDet extends React.Component {
   constructor (props) {
@@ -162,6 +163,7 @@ class InformationDet extends React.Component {
           </Row>
         </div>
       </div>
+      <BottomHeader />
     </div>
   }
 }

@@ -7,7 +7,6 @@ import {Row, Col, Card, Input, Select, Button, DatePicker} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 import Upload from './Upload'
-import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
 // import axios from 'axios'
@@ -57,8 +56,12 @@ class IterationPlease extends React.Component {
     }
   }
   componentWillMount () {
+    let a = window.location.href.split('?')
+    let value = {
+      news_id: a[a.length - 1]
+    }
     this.renderEdition()
-    this.getAppData()
+    this.getAppData(value)
   }
   // 更新版本
   newV=(e) => {
@@ -68,9 +71,9 @@ class IterationPlease extends React.Component {
     })
   }
 // 获取app数据
-getAppData=() => {
+getAppData=(a) => {
   let value = {
-    appId: this.props.appId
+    appId: a
   }
   axios.get(ajaxUrl.appId, {
     value
@@ -387,10 +390,6 @@ zH=() => {
       </div>
     </Card>
   }
-}
-
-IterationPlease.propTypes = {
-  appId: PropTypes.string
 }
 
 export default IterationPlease

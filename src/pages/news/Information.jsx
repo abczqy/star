@@ -5,6 +5,7 @@
  */
 import React from 'react'
 import {Row, Col, Card, Pagination, Cascader} from 'antd'
+import BottomHeader from '../../components/common/BottomHeader'
 import img from '../../assets/images/hear.jpg'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
@@ -244,6 +245,7 @@ class Information extends React.Component {
           </div>
         </Row>
       </div>
+      <BottomHeader />
     </div>
   }
 }
