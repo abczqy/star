@@ -19,3 +19,23 @@ export function appRenew (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 会员管理-厂商
+ */
+export function firmRenewList (params, sucFn) {
+  return axios.post('/a', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-厂商-续签
+ */
+export function firmRenew (params, sucFn) {
+  return axios.post('/a', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

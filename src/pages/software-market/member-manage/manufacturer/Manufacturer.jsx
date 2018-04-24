@@ -52,7 +52,8 @@ class Manufacturer extends Component {
         num_day: '正常'
       },
       pagination,
-      memRenewWinVisible: false
+      memRenewWinVisible: false,
+      memRenewRecord: {}
     }
   }
 
@@ -288,7 +289,7 @@ class Manufacturer extends Component {
             onChange: this.pageNumChange
           }}
         />
-        <MemRenewWin visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
+        <MemRenewWin record={this.state.memRenewRecord || {}} visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
       </div>
     )
   }

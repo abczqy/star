@@ -94,7 +94,6 @@ export default class BusiRenewWin extends React.Component {
     }
     const props = {
       onRemove: (file) => {
-        console.log('移除附件')
         this.setState(({ fileList }) => {
           const index = fileList.indexOf(file)
           const newFileList = fileList.slice()
@@ -105,7 +104,6 @@ export default class BusiRenewWin extends React.Component {
         })
       },
       beforeUpload: (file) => {
-        console.log('上传之前')
         this.setState(({ fileList }) => ({
           fileList: [...fileList, file]
         }))
