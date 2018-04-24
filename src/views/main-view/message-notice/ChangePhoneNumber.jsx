@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-return,no-undef,standard/no-callback-literal */
 /* 修改手机号 */
 import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
@@ -21,7 +22,17 @@ class ChangePhoneNumber extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (!nextProps.visible) {
       this.props.form.resetFields()
+      this.setState({
+        verifyCode: new GVerify('v_container')
+      })
     }
+  }
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({
+        verifyCode: new GVerify('v_container')
+      })
+    }, 100)
   }
   // 点击表单后，改变type
   changeType = () => {
@@ -66,8 +77,39 @@ class ChangePhoneNumber extends React.Component {
   getPhoneNumber=() => {
     const form = this.props.form
     let phoneNum = form.getFieldValue('maf_phone_number')
-    if (this.state.phoneNum) {
+    let phoneCon = form.getFieldValue('maf_phone_con')
+    if (phoneCon === '' || phoneCon === undefined) {
+      form.validateFields(['maf_phone_con'], { force: true })
+      this.setState({
+        phone_con_icon: false
+      })
+      return
+    }
+    if (phoneNum === '' || phoneNum === undefined) {
+      form.validateFields(['maf_phone_number'], { force: true })
+    }
+    form.validateFields(['maf_phone_con'], { force: true }, (err) => {
+      if (err) {
+        this.setState({
+          phone_con_icon: false
+        })
+      }
+    })
+    if (this.state.phoneNum && this.state.phone_con_icon) {
       this.Countdown()
+      this.setState({
+        nextgetCode: !this.state.nextgetCode
+      }, () => {
+        if (this.state.nextgetCode) {
+          var parent = document.getElementById('v_container')
+          var child = document.getElementById('verifyCanvas')
+          parent.removeChild(child)
+          this.setState({
+            verifyCode: new GVerify('v_container')
+          })
+        }
+      })
+      // form.setFieldsValue({maf_phone_con: ''})
       console.log(11111111111, phoneNum)
       // 请求接口获取手机验证码
     }
@@ -94,6 +136,34 @@ class ChangePhoneNumber extends React.Component {
   componentWillUnmount () {
     window.clearInterval(this.intervalcount)
   }
+  // 验证码
+  handlPhonecodeonblur=(rule, value, callback) => {
+    let verifyCode = this.state.verifyCode
+    if (value) {
+      var res = verifyCode.validate(value)
+      if (!res) {
+        callback('验证码错误!')
+        this.setState({
+          phone_con_icon: false,
+          phone_con: ''
+        })
+        return
+      } else {
+        callback()
+        this.setState({
+          phone_con_icon: true,
+          phone_con: ''
+        })
+      }
+    } else {
+      callback()
+      this.setState({
+        phone_con_icon: false,
+        phone_con: ''
+      })
+      return
+    }
+  }
   render () {
     const formItemLayout = {
       labelCol: {
@@ -109,7 +179,7 @@ class ChangePhoneNumber extends React.Component {
     return (
       <div>
         <Modal
-          title='修改密码'
+          title='修改手机号码'
           visible={this.props.visible}
           onCancel={this.hiddenModal}
           maskClosable={false}
@@ -132,6 +202,17 @@ class ChangePhoneNumber extends React.Component {
                 {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入'}]})(
                   <Input type={this.state.type} onClick={this.changeType} placeholder='请输入' />
                 )}
+              </Form.Item>
+              <Form.Item
+                {...formItemLayout}
+                label='验证码'
+              >
+                {getFieldDecorator('maf_phone_con', {rules: [{required: true, message: '请输入验证码'}, {validator: this.handlPhonecodeonblur}], validateTrigger: 'onBlur'})(
+                  <Input type='text' id='code_input' placeholder='请输入验证码' />
+                ) }
+                <button id='my_button'style={{display: 'none'}} />
+                <span className={this.state.phone_con_icon ? 'success succ' : 'fail false'}>{this.state.phone_con}</span>
+                <div id='v_container' style={{width: 100, height: 40}} />
               </Form.Item>
               <Form.Item
                 {...formItemLayout}
