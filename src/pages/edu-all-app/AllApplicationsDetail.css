@@ -126,3 +126,22 @@
     margin-top: 4px;
     color: #999;
   }
+  .gundongtiao ::-webkit-scrollbar-track-piece{
+    -webkit-border-radius:0;
+   }
+   .gundongtiao ::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+   }
+   .gundongtiao  ::-webkit-scrollbar-thumb{
+    height:50px;
+    background-color:#ccc;
+    -webkit-border-radius:4px;
+    outline-offset:-2px;
+    border: 2px solid #ccc;
+   }
+   .gundongtiao ::-webkit-scrollbar-thumb:hover{
+    height:50px;
+    background-color:#ccc;
+    -webkit-border-radius:4px;
+   }

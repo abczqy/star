@@ -192,21 +192,25 @@
 .exhibition-outside .ant-carousel .slick-slide div {
     color: #fff;
 }
-.app-detail .app-detail-introduce {
+.app-detail .app-detail-introduceaa {
     width: 100%;
-    min-height: 200px;
-    _height: 200px;
+    overflow: hidden;
+    min-height: 80px;
+    _height: 80px;
     float: left;
     margin-top: 50px;
 }
-.app-detail .app-detail-introduce h3 {
+.app-detail .app-detail-introduceaa h3 {
     font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
     font-weight: 500;
     font-style: normal;
     font-size: 20px;
     color: #474747;
 }
-.app-detail .app-detail-introduce p {
+.app-detail .app-detail-introduceaa p {
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
     margin: 0;
     font-size: 12px;
     color: #666666;

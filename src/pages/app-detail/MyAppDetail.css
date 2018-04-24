@@ -32,7 +32,10 @@
     color: #474747;
     font-size: 14px;
     margin-right: 20%;
-    min-width: 200px;
+    width: 200px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     display: block;
     float: left;
 }
