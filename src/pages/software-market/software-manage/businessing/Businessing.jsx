@@ -46,7 +46,8 @@ class Businessing extends Component {
       },
       pageNum: 1,
       pageSize: 10,
-      busiRenewWinVisible: false // 续费弹窗
+      busiRenewWinVisible: false, // 续费弹窗
+      busiRenewRecord: null // 当前选择行的值
     }
     // 表格的列信息
     this.columns = [{
@@ -101,7 +102,7 @@ class Businessing extends Component {
       key: 'options',
       render: (text, record, index) => (
         <span>
-          <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin()}>续费</a>
+          <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin(record)}>续费</a>
           <Divider type='vertical' />
           <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
           <Divider type='vertical' />
@@ -129,8 +130,6 @@ class Businessing extends Component {
    */
   getTableDatas = () => {
     getAppListData(this.getParams(), (response) => {
-      console.log('************8888')
-      console.log(response)
       let result = response.data
       this.setState({
         tableData: {
@@ -139,23 +138,6 @@ class Businessing extends Component {
         }
       })
     })
-    /* axios.post(ajaxUrl.Business, {
-      params: {
-        pageNum: 1,
-        pageSize: 2,
-        sw_type: '娱乐类',
-        sw_name: '斗地主'
-      }
-    }).then((res) => {
-      const data = res.data
-      // console.log(`data: ${JSON.stringify(data)}`)
-      this.setState({
-        tableData: {
-          data: data.data,
-          total: data.total
-        }
-      })
-    }).catch((e) => { console.log(e) }) */
   }
 
   // 显示下架弹窗
@@ -266,9 +248,10 @@ class Businessing extends Component {
     })
   }
 
-  showBusiRenewWin () {
+  showBusiRenewWin (record) {
     this.setState({
-      busiRenewWinVisible: true
+      busiRenewWinVisible: true,
+      busiRenewRecord: record
     })
   }
 
@@ -305,7 +288,7 @@ class Businessing extends Component {
           ]}
           swName={appOffModalCon.swName}
         />
-        <BusiRenewWin visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
+        <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
       </div>
     )
   }

@@ -9,3 +9,13 @@ export function getAppListData (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 软件管理-运营中-续费
+ */
+export function appRenew (params, sucFn) {
+  return axios.post('/a', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
