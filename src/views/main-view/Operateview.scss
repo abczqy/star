@@ -76,6 +76,9 @@
       }
     }
   }
+  .pagition{
+    text-align: center;
+  }
 }
 /*消息通知详情*/
 .notice-detail{
@@ -175,15 +178,22 @@
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.099);
       .photo{
         width: 5vw;
-        height: 7vw;
+        height: 6vw;
         text-align: center;
         line-height: 7vw;
         float: left;
+        background: url("../../assets/images/u18499.png") no-repeat center;
+        background-size: 100% 100%;
       }
       .stumessage{
         margin-top: 20px;
         padding-left: 15px;
-        float: left;
+        overflow: hidden;
+        p{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
       .stulink-icon{
         font-size: 18px;
@@ -264,6 +274,18 @@
     .weak{
       background-color: #709F03;
     }
+  }
+}
+// 修改手机号
+.pass-change-modal{
+  #code_input{
+    width: 10vw!important;
+  }
+  #v_container{
+    float: right;
+  }
+  #maf_phone_con{
+    width: 10vw!important;
   }
 }
 // 退出

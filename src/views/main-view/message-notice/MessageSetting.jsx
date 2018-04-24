@@ -44,24 +44,13 @@ class MessageSetting extends React.Component {
   }
   // 获取学生绑定数据接口 stuData 要在此接口返回
   getBindList=() => {
-    axios.post(ajaxUrl.registerValitemail, {
-      params: {stu: '123'}
+    axios.post(ajaxUrl.relationQueryStu, {
+      params: {maf_id: (this.props.personInfo && this.props.personInfo.maf_id) || ''}
     }).then((response) => {
       console.log('返回学生绑定信息', response)
       this.setState({
-        stuData: [{
-          stuid: '1',
-          stuname: '王洪亮',
-          schname: '福州市鼓楼区中山小学',
-          schclass: '3年级2班',
-          photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
-        }, {
-          stuid: '2',
-          stuname: '京津冀',
-          schname: '福州市鼓楼区中山小学',
-          schclass: '3年级2班',
-          photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
-        }]
+        stuData: response.data.data,
+        maf_id: (this.props.personInfo && this.props.personInfo.maf_id) || ''
       })
     })
   }
@@ -98,13 +87,16 @@ class MessageSetting extends React.Component {
   visibaleUnbindModel =(id) => {
     console.log('解除绑定，学生id', id)
     this.setState({
-      unbindVisible: true
+      unbindVisible: true,
+      stu_id: id,
+      maf_id: this.state.maf_id
     })
   }
   /* 添加绑定 */
   visibaleaddbindModel =() => {
     this.setState({
-      addbindVisible: true
+      addbindVisible: true,
+      maf_id: this.state.maf_id
     })
   }
   /* 修改密码 */
@@ -160,14 +152,14 @@ class MessageSetting extends React.Component {
             {stuData && stuData.map((item, index) => {
               return (<div key={index} className='stu_list'>
                 <div className='photo'>
-                  <img style={{height: '70px'}} src={item.photo} alt='' />
+                  {/* <img style={{height: '70px', width: '55px'}} src={item.stu_photo} alt='' /> */}
                 </div>
                 <div className='stumessage'>
-                  <h4>{item.stuname}</h4>
-                  <p>{item.schname}</p>
-                  <p>{item.schclass}</p>
+                  <h4>{item.stu_name}</h4>
+                  <p>{item.sh_name}</p>
+                  <p>{item.stu_class}</p>
                 </div>
-                <Icon type='link' className='stulink-icon' onClick={() => { this.visibaleUnbindModel(item.stuid) }} />
+                <Icon type='link' className='stulink-icon' onClick={() => { this.visibaleUnbindModel(item.stu_id) }} />
               </div>)
             })
             }
@@ -267,11 +259,14 @@ class MessageSetting extends React.Component {
         <Unbind
           visible={this.state.unbindVisible}
           hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
+          stu_id={this.state.stu_id}
+          maf_id={this.state.maf_id}
         />
         <Addbind
           visible={this.state.addbindVisible}
           hiddenModal={this.hiddenModal.bind(this, 'addbindVisible')}
-          addStuBind={this.getBindList}
+          getBindList={this.getBindList}
+          maf_id={this.state.maf_id}
         />
         <ChangePass
           visible={this.state.changePassVisible}

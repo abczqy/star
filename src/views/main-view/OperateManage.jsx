@@ -104,7 +104,7 @@ class OperateManage extends React.Component {
       <div>
         <Layout>
           <div style={{height: '30px', width: '90%', margin: 'auto'}}>
-            <div style={{height: '30px', float: 'left', paddingLeft: '50px'}}>欢迎你，小姐姐</div>
+            <div style={{height: '30px', float: 'left', paddingLeft: '50px'}}>欢迎你，{ this.props.personInfo && this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
             <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
               <Badge count={5} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />

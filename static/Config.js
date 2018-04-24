@@ -82,6 +82,13 @@ window.mungConfig = {
   /** *******************************注册************************************ */
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
   register: AJAX_HOST + '/register/registermaf', // 注册按钮
+  /* 账号设置 */
+  relationQueryStu: AJAX_HOST + '/addRelation/queryStu', // 家长注册接口-查询与家长绑定的学生
+  relationAdd: AJAX_HOST + '/addRelation/add', // 接口名称:	家长注册接口-与学生绑定
+  relationdelete: AJAX_HOST + '/addRelation/delete', // 家长注册接口-查询与家长绑定的学生
+
+  sessionLogout: AJAX_HOST + '/session/logout', // 登出
+  getMessageList: AJAX_HOST + '/getMessageList', // 消息通知列表
 
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',

@@ -2,19 +2,31 @@
 import React from 'react'
 import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
 export default class UnbindModel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
-    hiddenModal: PropTypes.func
+    hiddenModal: PropTypes.func,
+    maf_id: PropTypes.string,
+    stu_id: PropTypes.string
   }
   constructor (props) {
     super(props)
     this.state = {
     }
   }
-  saveOrSubmit =(value) => {
-    this.props.hiddenModal()
+  saveOrSubmit =() => {
+    axios.post(ajaxUrl.relationdelete, {
+      params: {
+        maf_id: this.props.maf_id,
+        stu_id: this.props.stu_id
+      }
+    }).then((response) => {
+      console.log('返回学生绑定信息', response)
+      this.props.hiddenModal()
+    })
   }
   render () {
     return (
@@ -29,7 +41,7 @@ export default class UnbindModel extends React.Component {
             // eslint-disable-next-line react/jsx-no-bind
             <Button key='cancle' onClick={this.props.hiddenModal}>取消</Button>,
             // eslint-disable-next-line react/jsx-no-bind
-            <Button key='save' type='primary' onClick={this.saveOrSubmit.bind(this, 0)}>解除绑定</Button>
+            <Button key='save' type='primary' onClick={this.saveOrSubmit.bind(this)}>解除绑定</Button>
           ]}
           width='35vw'
           height='30vw'

@@ -1,14 +1,18 @@
+/* eslint-disable no-undef,standard/no-callback-literal */
 /* 添加绑定弹出框 */
 import React from 'react'
 import {Modal, Button, Form, Input, Select} from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
 class AddbindModel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
     form: PropTypes.object,
-    addStuBind: PropTypes.func
+    getBindList: PropTypes.func,
+    maf_id: PropTypes.string
   }
   constructor (props) {
     super(props)
@@ -21,13 +25,37 @@ class AddbindModel extends React.Component {
       this.props.form.resetFields()
     }
   }
+  // 身份证
+  handlStuIdonblur=(rule, value, callback) => {
+    let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+    if (reg.test(value)) {
+      callback()
+    } else if (value !== '' && value !== undefined) {
+      callback('身份证格式不正确!')
+    } else {
+      callback()
+    }
+  }
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('添加绑定', values)
+        axios.post(ajaxUrl.relationAdd, {
+          params: {
+            maf_id: this.props.maf_id,
+            maf_sad: values.maf_sad, // 与学生的关系
+            maf_sad_name: values.maf_sad_name, // 学生姓名
+            maf_sad_idcard: values.maf_sad_idcard, // 学生身份证
+            maf_sad_account: values.maf_sad_account, // 学生账号
+            maf_sad_pwd: values.maf_sad_pwd
+          }
+        }).then((response) => {
+          console.log('返回学生绑定信息', response)
+          this.props.hiddenModal()
+        })
         // 调用父页面的查询接口更新绑定列表
-        this.props.addStuBind()
+        this.props.getBindList()
         this.props.hiddenModal()
       }
     })
@@ -87,7 +115,7 @@ class AddbindModel extends React.Component {
                 {...formItemLayout}
                 label='学生身份证号'
               >
-                {getFieldDecorator('maf_sad_idcard', {rules: [{required: true, message: '请输入学生身份证号'}]})(
+                {getFieldDecorator('maf_sad_idcard', {rules: [{required: true, message: '请输入学生身份证号'}, {validator: this.handlStuIdonblur}], validateTrigger: 'onBlur'})(
                   <Input placeholder='请输入学生身份证号' />
                 )}
               </Form.Item>
