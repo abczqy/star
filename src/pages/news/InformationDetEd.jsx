@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import {Row, Col, Card, Tooltip} from 'antd'
-import img from '../../assets/images/hear.jpg'
+import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
 import _ul from '../../assets/images/_ul.png'
@@ -90,77 +90,68 @@ class InformationDetEd extends React.Component {
   }
   render () {
     return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '20%', marginBottom: '20px'}}>
         <Row>
-          <div style={{width: '1900px'}}>
-            <Col span={5}>
-              <Row><div className='left-downer'>
-                <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-                  <ul className='ul-margin'>
-                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                      return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                    })}
-                  </ul>
-                </Card></div>
-              </Row>
-              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
-            </Col>
-          </div>
-          <div style={{width: '1400px'}}>
-            <Col span={15}>
+          <Col span={5}>
+            <div className='left-downer'>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+                <ul className='ul-margin'>
+                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                    return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                  })}
+                </ul>
+              </Card>
+            </div>
+            <img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' />
+          </Col>
+          <Col span={15}>
+            <div style={{backgroundColor: '#fff', width: '940px'}}>
               <Row>
                 <ul className='details-li-ul'>
-                  <li className='details-li-hover'><span className='span-colors'>当前位置: <a onClick={this.position}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>
+                  <li className='details-li-hover'>
+                    <span className='span-colors'>当前位置: <a onClick={this.position}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span>
+                  </li>
                 </ul>
               </Row>
               <Row>
                 <Col span={14}>
                   <div className='details-right-div'>
-                    <p className='details-right-title'>{this.state.infoData.info_title}</p>
-                    <span className='details-right-time'>发布时间:{this.state.infoData.info_time}</span>
+                    <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1' }</p>
+                    <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '1' }</span>
                     <div className='details-right-div-div'>
                       <div style={{marginBottom: '30px'}}>
-                        {this.state.infoData.info_desc}
+                        {this.state.infoData ? this.state.infoData.info_desc : '1' }
                       </div>
-                      <div style={{width: '700px', alignContent: 'right'}}><span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span></div>
+                      <div style={{width: '700px', alignContent: 'right'}}>
+                        <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
+                      </div>
                     </div>
                   </div>
                 </Col>
               </Row>
-            </Col>
-          </div>
+              <Row style={{marginBottom: '18px', marginLeft: '110px'}}>
+                <div style={{width: '200px', height: '30px'}}>
+                  <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
+                  <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
+                  <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
+                    <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
+                  </Tooltip>
+                  <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
+                </div>
+                <div>
+                  <img src={this.state.imgZui} style={{width: '739px'}} alt='' />
+                </div>
+                <div>
+                  <ul className='details-li-ul-down'>
+                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                      return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
+                    })}
+                  </ul>
+                </div>
+              </Row>
+            </div>
+          </Col>
         </Row>
-        <div style={{marginLeft: '13%'}}>
-          <Row style={{marginBottom: '18px'}}>
-            <Col span={4} />
-            <Col span={20}>
-              <div style={{marginBottom: '18px'}}>
-                <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
-                <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
-                <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
-                  <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
-                </Tooltip>
-                <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={4} />
-            <Col>
-              <img src={this.state.imgZui} style={{width: '739px'}} alt='' />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={4} />
-            <Col span={12}>
-              <ul className='details-li-ul-down'>
-                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                  return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
-                })}
-              </ul>
-            </Col>
-          </Row>
-        </div>
       </div>
     </div>
   }

@@ -39,6 +39,7 @@
   color:rgb(24, 144, 255);
   font-size: 16px;
   margin-top:20px;
+  margin-top: 8px;
 }
 .ST{
   color:rgb(144, 197, 240)
@@ -83,7 +84,7 @@
   color:rgb(51,51,51)
 }
 .left-downer{
-  margin-bottom: 8px;
+  margin-bottom: 0px;
   margin-top: 10px;
   width:320px
 }
@@ -96,9 +97,11 @@
   border-color: rgb(53, 230, 53)!important;
 }
 .paragraph{
+  font-size: 12px;
   text-overflow:ellipsis; 
   overflow: hidden; 
-  color:rgb(51,51,51)
+  color:rgb(51,51,51);
+  margin:0;
 }
 .Wxd{
   margin-bottom: 25px;
@@ -154,4 +157,29 @@
 }
 .right-div{
   background-color: #fff
+}
+.information-fabu{
+  color:rgb(107,107,107)
+}
+.information-dianji{
+  color:rgb(153,153,153);
+  font-size: '12px';
+}
+.line{
+  height:1px;
+  width:87.5%;
+  background-color: #e4e4e4;
+  margin-top:10px;
+}
+.information-line{
+  height:1px;
+  width:100%;
+  background-color: #e4e4e4;
+  margin-top:10px;
+}
+.place-line{
+  height:1px;
+  width:96%;
+  background-color: #e4e4e4;
+  margin-top:10px;
 }

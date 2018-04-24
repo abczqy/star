@@ -5,7 +5,7 @@
  */
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
-import img from '../../assets/images/hear.jpg'
+import img from '../../assets/images/WeChat.png'
 import release from '../../assets/images/u111111.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
@@ -140,7 +140,7 @@ class Information extends React.Component {
   }
   render () {
     return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '18%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
@@ -154,14 +154,14 @@ class Information extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px'}} alt='' /></Row>
             </Col>
           </div>
           <div style={{width: '1400px'}}>
             <Col span={16}>
               <ul className='ul-top' style={{width: '800px'}}>
                 {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '126px'}} key={index}>
+                  return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '800px', height: '135px', backgroundColor: '#fff'}} key={index}>
                     <Col span={24}>
                       <Row>
                         <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>
@@ -171,14 +171,17 @@ class Information extends React.Component {
                           <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
                         </Col>
                       </Row>
+                      <Row>
+                        <div className='place-line' />
+                      </Row>
                     </Col>
                   </li>
                 })}
-              </ul><Row>
+              </ul>
+              <Row>
                 <Col span={10} />
                 <Col >
                   <Pagination
-                    size='small'
                     total={this.state.infoData.total}
                     showSizeChanger
                     showQuickJumper
@@ -187,9 +190,9 @@ class Information extends React.Component {
                     // pageSizeOptions={5}
                   /></Col>
               </Row>
-            </Col></div>
+            </Col>
+          </div>
         </Row>
-
       </div>
     </div>
   }
