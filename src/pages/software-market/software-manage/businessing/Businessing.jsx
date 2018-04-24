@@ -13,7 +13,7 @@ import { Table, Switch, Divider, Button } from 'antd'
 // import ajaxUrl from 'config'
 // import axios from 'axios'
 import { BlankBar, SearchBar } from 'components/software-market'
-import { AppStandOffModal } from 'pages/software-market'
+import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
 import {getAppListData} from 'services/software-manage'
@@ -47,7 +47,11 @@ class Businessing extends Component {
       pageNum: 1,
       pageSize: 10,
       busiRenewWinVisible: false, // 续费弹窗
-      busiRenewRecord: null // 当前选择行的值
+      busiRenewRecord: null, // 当前选择行的值
+      appDetailModalCon: {
+        visible: false,
+        swName: ''
+      }
     }
     // 表格的列信息
     this.columns = [{
@@ -104,7 +108,7 @@ class Businessing extends Component {
         <span>
           <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin(record)}>续费</a>
           <Divider type='vertical' />
-          <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
+          <a href='javascript:void(0)' onClick={(e) => this.showAppDetailModal(record)}>详情</a>
           <Divider type='vertical' />
           <a href='javascript:void(0)' onClick={(e) => this.showAppOffStandModal(record)}>下架</a>
         </span>
@@ -140,6 +144,26 @@ class Businessing extends Component {
     })
   }
 
+  // 显示‘详情’弹窗
+  showAppDetailModal = (record) => {
+    this.setState({
+      appDetailModalCon: {
+        ...this.state.appDetailModalCon,
+        visible: true,
+        swName: record.sw_name
+      }
+    })
+  }
+
+  // 关闭‘详情’弹窗
+  handleAppDetCancel = () => {
+    this.setState({
+      appDetailModalCon: {
+        ...this.state.appDetailModalCon,
+        visible: false
+      }
+    })
+  }
   // 显示下架弹窗
   showAppOffStandModal = (record) => {
     // console.log(`record.sw_name: ${record.sw_name}`)
@@ -256,7 +280,7 @@ class Businessing extends Component {
   }
 
   render () {
-    const { tableData, pagination, appOffModalCon } = this.state
+    const { tableData, pagination, appOffModalCon, appDetailModalCon } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -289,6 +313,16 @@ class Businessing extends Component {
           swName={appOffModalCon.swName}
         />
         <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
+        <div ref='appDetailElem' className='app-detail-wrap' />
+        <AppDetailModal
+          title={appDetailModalCon.swName}
+          getContainer={() => this.refs.appDetailElem}
+          visible={appDetailModalCon.visible}
+          onCancel={this.handleAppDetCancel}
+          footer={[
+            <Button key='back' type='primary' onClick={this.handleAppDetCancel}>关闭</Button>
+          ]}
+        />
       </div>
     )
   }

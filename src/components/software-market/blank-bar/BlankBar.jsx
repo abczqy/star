@@ -8,6 +8,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class BlankBar extends Component {
+  // 获取父组件传进的高度 默认25px
   getHeight = () => (this.props.height || '25px')
 
   render () {

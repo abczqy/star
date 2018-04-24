@@ -9,10 +9,11 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
-import { BlankBar, SearchBar } from 'components/software-market'
-import ajaxUrl from 'config'
+import { Table, Button } from 'antd'
 import axios from 'axios'
+import ajaxUrl from 'config'
+import { BlankBar, SearchBar } from 'components/software-market'
+import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -26,68 +27,6 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
- * 表格的columns -- 后面用json文件配置出去 --参照bdq
- * 做到配置项与组件的分离
- * 组件要用时只需要引入即可
- * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
- */
-const columns = [{
-  title: '应用名称',
-  dataIndex: 'sw_name',
-  key: 'sw_name'
-}, {
-  title: '所属类型',
-  dataIndex: 'sw_type',
-  key: 'sw_type'
-}, {
-  title: '供应商',
-  dataIndex: 'fa_name',
-  key: 'fa_name'
-}, {
-  title: '类型',
-  dataIndex: 'sw_path',
-  key: 'sw_path'
-}, {
-  title: '下载次数',
-  dataIndex: 'downloads',
-  key: 'downloads'
-}, {
-  title: '变更时间',
-  dataIndex: 'sw_update_time',
-  key: 'sw_update_time '
-}, {
-  title: '置顶',
-  dataIndex: 'stickTop',
-  key: 'stickTop',
-  render: (text, record, index) => {
-    return (
-      <Switch />
-    )
-  }
-}, {
-  title: '缴费状态',
-  dataIndex: 'pay_state',
-  key: 'pay_state',
-  render: (text, record, index) => <span className='normal-color' >{text}</span>
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('下架')}>下架</a>
-      </span>
-    )
-  }
-}]
-
 class IterationVerify extends Component {
   constructor (props) {
     super(props)
@@ -97,7 +36,11 @@ class IterationVerify extends Component {
         total: 0
       },
       pagination,
-      searchValue: ''
+      searchValue: '',
+      detModalCon: {
+        visible: false,
+        swName: ''
+      }
     }
   }
 
@@ -105,20 +48,92 @@ class IterationVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.Business, {
+    axios.post(ajaxUrl.iterVerify, {
       params: {
-        per_info: '10',
-        person_id: '1'
+        pageNum: 1,
+        pageSize: 2,
+        sw_type: '游戏类', // 应用类型
+        sw_name: '绝地求生'// 应用名称
       }
     }).then((res) => {
       const data = res.data
       this.setState({
         tableData: {
-          data: data.datasource,
-          total: data.pageCount.pageNumbers
+          data: data.data,
+          total: data.total
         }
       })
     }).catch((e) => { console.log(e) })
+  }
+  /**
+ * 表格的columns -- 后面用json文件配置出去 --参照bdq
+ * 做到配置项与组件的分离
+ * 组件要用时只需要引入即可
+ * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
+ * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
+ */
+  getColumns = () => {
+    return [{
+      title: '应用名称',
+      dataIndex: 'sw_name',
+      key: 'sw_name'
+    }, {
+      title: '所属类型',
+      dataIndex: 'sw_type',
+      key: 'sw_type'
+    }, {
+      title: '供应商',
+      dataIndex: 'fa_name',
+      key: 'fa_name'
+    }, {
+      title: '类型',
+      dataIndex: 'sw_path',
+      key: 'sw_path'
+    }, {
+      title: '当前版本',
+      dataIndex: 'version',
+      key: 'version'
+    }, {
+      title: '迭代版本',
+      dataIndex: 'iteration_version',
+      key: 'iteration_version'
+    }, {
+      title: '提交时间',
+      dataIndex: 'sw_update_time',
+      key: 'sw_update_time '
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      render: (text, record, index) => {
+        return (
+          <span>
+            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>详情</a>
+          </span>
+        )
+      }
+    }]
+  }
+
+    // 显示‘详情’弹窗
+    showDetModal = (record) => {
+      this.setState({
+        detModalCon: {
+          ...this.state.detModalCon,
+          visible: true,
+          swName: record.sw_name
+        }
+      })
+    }
+
+  // 关闭‘详情’弹窗
+  handleAppDetCancel = () => {
+    this.setState({
+      detModalCon: {
+        ...this.state.detModalCon,
+        visible: false
+      }
+    })
   }
 
   /**
@@ -186,7 +201,7 @@ class IterationVerify extends Component {
   }
 
   render () {
-    const { tableData, pagination } = this.state
+    const { tableData, pagination, detModalCon } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -197,7 +212,7 @@ class IterationVerify extends Component {
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,
@@ -205,6 +220,18 @@ class IterationVerify extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
+        />
+        <div ref='IterDetailElem' className='Iter-detail-wrap' />
+        <IterationDetailModal
+          title={detModalCon.swName}
+          getContainer={() => this.refs.IterDetailElem}
+          visible={detModalCon.visible}
+          onCancel={this.handleAppDetCancel}
+          footer={[
+            <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
+            <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,
+            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
+          ]}
         />
       </div>
     )

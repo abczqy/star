@@ -9,10 +9,11 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Icon } from 'antd'
+import { Table, Switch, Divider, Icon, Popover, Button } from 'antd'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
+import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import 'pages/software-market/SoftwareMarket.scss'
 import MemRenewWin from './MemRenewWin'
 
@@ -53,7 +54,13 @@ class Manufacturer extends Component {
       },
       pagination,
       memRenewWinVisible: false,
-      memRenewRecord: {}
+      memRenewRecord: {},
+      delModalCon: {
+        visible: false
+      },
+      faDetModalCon: {
+        visible: false
+      }
     }
   }
 
@@ -95,13 +102,25 @@ class Manufacturer extends Component {
           <span>
             <a href='javascript:void(0)' onClick={() => this.showMemRenewWin()}>续费</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
+            <a href='javascript:void(0)' onClick={() => this.showFaDetModal()}>详情</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={() => alert('...')}><Icon type='ellipsis' /></a>
+            <Popover placement='rightTop' content={this.getPopContent(record)} trigger='click'>
+              <a href='javascript:void(0)'>
+                <Icon type='ellipsis' />
+              </a>
+            </Popover>
           </span>
         )
       }
     }]
+  }
+
+  getPopContent = (record) => {
+    return (<div>
+      <div><a href='javascript:void(0)'>初始密码</a></div>
+      <Divider className='slim-divid' />
+      <div><a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a></div>
+    </div>)
   }
 
   /**
@@ -131,6 +150,44 @@ class Manufacturer extends Component {
       })
       // 手动生成key值 把fa_id映射成key
     }).catch((e) => { console.log(e) })
+  }
+
+  // 显示‘详情’弹窗
+  showFaDetModal = (record) => {
+    this.setState({
+      faDetModalCon: {
+        ...this.state.faDetModalCon,
+        visible: true
+      }
+    })
+  }
+  // 关闭‘详情’弹窗
+  handleFaDetCancel = () => {
+    this.setState({
+      faDetModalCon: {
+        ...this.state.faDetModalCon,
+        visible: false
+      }
+    })
+  }
+
+  // 显示‘删除账号’弹窗
+  showDetModal = (record) => {
+    this.setState({
+      delModalCon: {
+        ...this.state.delModalCon,
+        visible: true
+      }
+    })
+  }
+  // 关闭‘删除账号’弹窗
+  handleDelLoginIdCancel = () => {
+    this.setState({
+      delModalCon: {
+        ...this.state.delModalCon,
+        visible: false
+      }
+    })
   }
 
   /**
@@ -263,7 +320,7 @@ class Manufacturer extends Component {
   }
 
   render () {
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, delModalCon, faDetModalCon } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMember
@@ -289,7 +346,28 @@ class Manufacturer extends Component {
             onChange: this.pageNumChange
           }}
         />
-        <MemRenewWin record={this.state.memRenewRecord || {}} visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
+        <MemRenewWin visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
+        <div ref='delLoginIdElem' />
+        <DelLoginIdModal
+          title='删除账号'
+          visible={delModalCon.visible}
+          getContainer={() => this.refs.delLoginIdElem}
+          onCancel={this.handleDelLoginIdCancel}
+          footer={[
+            <Button key='ok' type='primary' onClick={this.handleDelLoginIdCancel} >确定</Button>,
+            <Button key='cancel'onClick={this.handleDelLoginIdCancel} >取消</Button>
+          ]}
+        />
+        <div ref='faDetElem' className='fa-det-wrap' />
+        <FaDetailsModal
+          title='删除账号'
+          visible={faDetModalCon.visible}
+          getContainer={() => this.refs.faDetElem}
+          onCancel={this.handleFaDetCancel}
+          footer={[
+            <Button key='back' type='primary' onClick={this.handleFaDetCancel} >关闭</Button>
+          ]}
+        />
       </div>
     )
   }
