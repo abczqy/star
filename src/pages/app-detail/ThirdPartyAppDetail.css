@@ -288,3 +288,10 @@
 .app-detail .app-detail-relevant dl dd .relevant-icon {
     color: #FFBB45;
 }
+.app-detail .app-detail-relevant dl dd .ant-rate-star {
+    width: 14px;
+    margin: 0;
+}
+.app-detail .app-detail-relevant dl dd .ant-rate-star .anticon {
+    color: #fadb14;
+}

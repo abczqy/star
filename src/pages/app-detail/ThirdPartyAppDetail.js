@@ -4,7 +4,7 @@
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
 import './ThirdPartyAppDetail.css'
-import { Button, Icon, Carousel } from 'antd'
+import { Button, Icon, Carousel, Rate } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
 import axios from 'axios'
@@ -185,7 +185,8 @@ export default class ThirdPartyAppDetail extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
+                {/* <Icon className='relevant-icon' type='star' /> */}
               </dd>
             </dl>
             <dl>
@@ -195,7 +196,7 @@ export default class ThirdPartyAppDetail extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
             <dl>
@@ -205,7 +206,7 @@ export default class ThirdPartyAppDetail extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
             <dl>
@@ -215,7 +216,7 @@ export default class ThirdPartyAppDetail extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
           </div>
