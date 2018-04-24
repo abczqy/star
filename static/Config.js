@@ -89,7 +89,7 @@ window.mungConfig = {
 
   sessionLogout: AJAX_HOST + '/session/logout', // 登出
   getMessageList: AJAX_HOST + '/getMessageList', // 消息通知列表
-
+  getMessageListDetail: AJAX_HOST + '/getMessageList/detail', // 消息通知列表详情
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',
   // 我的应用-运营中
