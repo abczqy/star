@@ -185,14 +185,21 @@ class Information extends React.Component {
       search: e.target.text.split(' ')[0]
     })
   }
+  // 获取字符串
+  processStr=(str, n) => {
+    let l = str.length
+    if (l <= n) { return str } else {
+      return str.slice(0, n) + '...'
+    }
+  }
   render () {
     console.log('要用的数据', this.state.infoData)
     return <div style={{marginBottom: '20px'}}>
-      <div style={{marginLeft: '20%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
-            <Col span={5}>
-              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
+            <Col span={5} style={{width: '450px'}}>
+              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -202,11 +209,11 @@ class Information extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.imgO} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgO} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
             <Col span={16}>
-              <ul className='ul-top' style={{width: '800px'}}>
+              <ul className='ul-top' style={{width: '800px', height: '679px', backgroundColor: '#fff'}}>
                 <li style={{listStyle: 'none', width: '800px', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
                   <span className='information-fabu'>
                   发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />
@@ -225,7 +232,7 @@ class Information extends React.Component {
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.info_desc, 30)}</p>
                         </Col>
                       </Row>
                       <Row>

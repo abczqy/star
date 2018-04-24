@@ -81,7 +81,6 @@ class InformationEd extends React.Component {
         title: '状态',
         dataIndex: 'state',
         key: 'state',
-        sorter: true,
         width: 120,
         render (text, record, index) {
           if (text === '0') {
@@ -291,7 +290,7 @@ class InformationEd extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.imgT} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
             <Col span={19} style={{backgroundColor: '#fff', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
@@ -304,8 +303,8 @@ class InformationEd extends React.Component {
                       })}
                     </Select></Col>
                     <Col span={5}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
-                    <Col span={7}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
-                    <Col span={4}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
+                    <Col span={9}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
+                    <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
                   </div>
                 </Row>
                 <Row>

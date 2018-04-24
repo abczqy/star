@@ -270,7 +270,7 @@ zH=() => {
                 <span style={{visibility: 'hidden'}}>* </span>软件类型 :
               </Col>
               <Col span={5}>
-                <span>{this.state.AppData.type}</span>
+                <span>{this.state.AppData ? (this.state.AppData.type ? this.state.AppData.type : '教学类') : '教学类'}</span>
                 {/* <span>教学类</span> */}
               </Col>
             </Col>
@@ -280,7 +280,9 @@ zH=() => {
               </Col>
               <Col span={18}>
                 {/* <span>超级教师</span> */}
-                <span>{this.state.AppData.rname}</span>
+                <span>
+                  {this.state.AppData ? (this.state.AppData.rname ? this.state.AppData.rname : '超级教师') : '超级教师'}
+                </span>
               </Col>
             </Col>
           </Row>
@@ -291,8 +293,7 @@ zH=() => {
                 <span style={{visibility: 'hidden'}}>* </span>当前版本 :
               </Col>
               <Col span={5}>
-                {/* <span>v1.3</span> */}
-                <span>{this.state.AppData.edition}</span>
+                <span>{this.state.AppData ? (this.state.AppData.edition ? this.state.AppData.edition : 'v1.3') : 'v1.3'}</span>
               </Col>
             </Col>
             <Col span={8}>

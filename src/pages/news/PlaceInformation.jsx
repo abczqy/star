@@ -138,12 +138,19 @@ class Information extends React.Component {
     }
     )
   }
+  // 获取字符串
+  processStr=(str, n) => {
+    let l = str.length
+    if (l <= n) { return str } else {
+      return str.slice(0, n) + '...'
+    }
+  }
   render () {
     return <div>
       <div style={{marginLeft: '18%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
-            <Col span={5}>
+            <Col span={5} style={{width: '450px'}}>
               <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '280px'}} alt='' /></a></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
@@ -154,7 +161,7 @@ class Information extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.imgT} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' /></Row>
             </Col>
           </div>
           <div style={{width: '1400px'}}>
@@ -168,7 +175,7 @@ class Information extends React.Component {
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.info_desc, 30)}</p>
                         </Col>
                       </Row>
                       <Row>
@@ -179,7 +186,7 @@ class Information extends React.Component {
                 })}
               </ul>
               <Row>
-                <Col span={10} />
+                <Col span={9} />
                 <Col >
                   <Pagination
                     total={this.state.infoData.total}
