@@ -162,8 +162,8 @@ class Policy extends React.Component {
           </Row>
           <div style={{marginTop: '50px'}}>
             <Row>
-              <Col span={16} />
-              <Col span={4}>
+              <Col span={17} />
+              <Col span={3}>
                 <Button onClick={this.cancel}>取消</Button>
               </Col>
               <Col span={4}>

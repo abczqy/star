@@ -4,8 +4,10 @@
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
 import './SelfSupport.css'
-import { Button, Icon, Carousel } from 'antd'
-// import PropTypes from 'prop-types'
+import ajaxUrl from 'config'
+import axios from 'axios'
+import { Button, Icon, Carousel, Rate } from 'antd'
+import PropTypes from 'prop-types'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
@@ -18,13 +20,40 @@ export default class SelfSupport extends React.Component {
     this.state = {
       mode: 'inline',
       theme: 'light',
+      appId: '',
+      appDetailData: {},
       obj: {
         display: 'none'
       },
       addClassName: 'see-detail-itema'
     }
   }
-  componentWillReceiveProps (nextProps) {
+  static propTypes = {
+    location: PropTypes.object
+  }
+  componentDidMount () {
+    let a = this.props.location.search.replace('?', '')
+    console.log(1111111111111111, a)
+    this.setState({
+      appId: a
+    }, () => {
+      this.getThirdPartyAppDetailData()
+    })
+  }
+  // 获取应用详情数据
+  getThirdPartyAppDetailData = () => {
+    axios.post(ajaxUrl.thirdPartyAppDetail, {
+      params: {
+        sw_id: this.state.appId
+      }
+    }).then((res) => {
+      console.log(2222222, res.data)
+      this.setState({
+        appDetailData: res.data
+      }, () => {
+        console.log(this.state.appDetailData)
+      })
+    }).catch((e) => { console.log(e) })
   }
   handleSeeDetail = () => {
     if (this.state.obj.display === 'none') {
@@ -62,14 +91,14 @@ export default class SelfSupport extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000')
+    console.log('00000000', this.props)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
           <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2640553151,1248485598&fm=27&gp=0.jpg' />
           <div className='app-detail-header-right'>
-            <h2 className='header-title'>教育活动</h2>
-            <p className='header-classification'>分类：教学类</p>
+            <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
+            <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
             <Button className='header-button'>开通</Button>
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
@@ -134,11 +163,11 @@ export default class SelfSupport extends React.Component {
               </div>
             </div>
           </div>
-          <div className='app-detail-introduce'>
+          <div className='app-detail-introduceaaa'>
             <h3>应用介绍</h3>
-            <p>网易公开课，数千万爱学习的网友所钟爱的免费课程平台！</p>
-            <p>产品团队始终坚持在内容和设计上与时俱进、不断突破，曾荣登新周刊"优化生活特别奖"、新京报"年度公益奖"、DCCI"最学习奖"，并于2015年中国产业互联网峰会中荣获"最具价值在线教育平台"称号。· 课程资源好又多：作为中国最大最全的课程视频平台，拥有来自国内外顶尖学府的海量名师名课，覆盖文学艺术、历史哲学、经济社会、物理化学、心理管理、计算机技术等二十多个专业领域；作为TED官方合作伙伴，向国内用户提供最新最赞的TED演讲；引人入胜又发人深省的纪录片、轻松易学的可汗学院，无数好内容就在这里等着你。 </p>
-            <p>翻译实力坚强：拥有超过三百人的庞大翻译团队，具备各类专业素质的高级翻译人才，将在第一时间向您献出最优质的字幕翻译服务，再也不用因为看不懂国外好课而捉急了。</p>
+            <p>{this.state.appDetailData.sw_desc}</p>
+            {/* <p>产品团队始终坚持在内容和设计上与时俱进、不断突破，曾荣登新周刊"优化生活特别奖"、新京报"年度公益奖"、DCCI"最学习奖"，并于2015年中国产业互联网峰会中荣获"最具价值在线教育平台"称号。· 课程资源好又多：作为中国最大最全的课程视频平台，拥有来自国内外顶尖学府的海量名师名课，覆盖文学艺术、历史哲学、经济社会、物理化学、心理管理、计算机技术等二十多个专业领域；作为TED官方合作伙伴，向国内用户提供最新最赞的TED演讲；引人入胜又发人深省的纪录片、轻松易学的可汗学院，无数好内容就在这里等着你。 </p>
+            <p>翻译实力坚强：拥有超过三百人的庞大翻译团队，具备各类专业素质的高级翻译人才，将在第一时间向您献出最优质的字幕翻译服务，再也不用因为看不懂国外好课而捉急了。</p> */}
           </div>
           <div className='app-detail-characteristic'>
             <h3>新版特性</h3>
@@ -153,7 +182,7 @@ export default class SelfSupport extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
             <dl>
@@ -163,7 +192,7 @@ export default class SelfSupport extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
             <dl>
@@ -173,7 +202,7 @@ export default class SelfSupport extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
             <dl>
@@ -183,7 +212,7 @@ export default class SelfSupport extends React.Component {
               <dd>
                 <span>超级教师</span>
                 <div>1111111111111111111111111111111</div>
-                <Icon className='relevant-icon' type='star' />
+                <Rate disabled count={3} value={3} />
               </dd>
             </dl>
           </div>

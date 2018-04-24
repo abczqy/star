@@ -250,7 +250,7 @@ class MyAppTable extends Component {
           <div style={{width: '100%', marginTop: '20px'}}>
             <Checkbox onChange={this.handleCheckbox} style={{marginLeft: '40%'}}>我已确认须知</Checkbox>
           </div>
-          <Button disabled={this.state.checked === false} style={{width: '160px', marginLeft: '36%', marginTop: '20px'}} type='primary'>上架申请</Button>
+          <Button disabled={this.state.checked === false} style={{width: '160px', marginLeft: '36%', marginTop: '20px'}} type='primary'><Link to='/operate-manage-home/please'>上架申请</Link></Button>
         </Modal>
       </Card>
     )

@@ -158,7 +158,7 @@ class AllApplicationsDetail extends React.Component {
       )
     })
     return (
-      <div style={{ width: 1000, marginLeft: '6%' }}>
+      <div className='gundongtiao' style={{ width: 1000, marginLeft: '6%' }}>
         <div>
           <span style={{ fontSize: 20 }}>平台应用</span>
           <div className='all-app-carousel'>
@@ -175,7 +175,7 @@ class AllApplicationsDetail extends React.Component {
                           </dt>
                           <dd>
                             <span>{item.title}</span>
-                            <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'><Link to='/operate-manage-home/all-app-detail'>开通</Link></Button>
+                            <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'><Link to='/operate-manage-home/all-app-detail?abc'>开通</Link></Button>
                           </dd>
                         </dl>
                       )

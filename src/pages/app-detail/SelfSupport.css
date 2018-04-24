@@ -188,20 +188,25 @@
 .exhibition-outside .ant-carousel .slick-slide div {
     color: #fff;
 }
-.app-detail .app-detail-introduce {
+.app-detail .app-detail-introduceaaa {
     width: 100%;
-    height: 200px;
+    overflow: hidden;
+    min-height: 80px;
+    _height: 80px;
     float: left;
     margin-top: 50px;
 }
-.app-detail .app-detail-introduce h3 {
+.app-detail .app-detail-introduceaaa h3 {
     font-family: 'PingFangSC-Medium', 'PingFang SC Medium', 'PingFang SC';
     font-weight: 500;
     font-style: normal;
     font-size: 20px;
     color: #474747;
 }
-.app-detail .app-detail-introduce p {
+.app-detail .app-detail-introduceaaa p {
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
     margin: 0;
     font-size: 12px;
     color: #666666;
@@ -227,7 +232,9 @@
 }
 .app-detail .app-detail-relevant {
     width: 100%;
-    height: 110px;
+    min-height: 110px;
+    _height: 110px;
+    overflow: hidden;
     float: left;
 }
 .app-detail .app-detail-relevant h3 {
@@ -280,4 +287,14 @@
 }
 .app-detail .app-detail-relevant dl dd .relevant-icon {
     color: #FFBB45;
+}
+.app-detail .app-detail-relevant dl dd .relevant-icon {
+    color: #FFBB45;
+}
+.app-detail .app-detail-relevant dl dd .ant-rate-star {
+    width: 14px;
+    margin: 0;
+}
+.app-detail .app-detail-relevant dl dd .ant-rate-star .anticon {
+    color: #fadb14;
 }

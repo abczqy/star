@@ -6,7 +6,7 @@
 import React from 'react'
 import {Row, Col, Card, Pagination, Input, Select, Table, Button, Modal, Popconfirm, message} from 'antd'
 import Policy from './PolicyEd'
-import img from '../../assets/images/hear.jpg'
+import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
@@ -277,11 +277,11 @@ class InformationEd extends React.Component {
     ]
     console.log(this.state)
     return <div>
-      <div style={{marginLeft: '11%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '13%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer'><img src={this.state.img} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -291,10 +291,10 @@ class InformationEd extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
-            <Col span={17} >
+            <Col span={19} style={{backgroundColor: '#fff', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
               <div style={{marginTop: '15px'}}>
                 <Row>
                   <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '1050px'}}>
@@ -314,17 +314,17 @@ class InformationEd extends React.Component {
                   </div>
                 </Row>
                 <Row>
-                  <Col span={12} />
+                  <Col span={11} />
                   <Col >
-                    <Pagination
-                      size='small'
-                      total={this.state.tableData.total}
-                      showSizeChanger
-                      showQuickJumper
-                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                    // pageSizeOptions={5}
-                    /></Col>
+                    {this.state.tableData.total > 5
+                      ? <Pagination
+                        total={this.state.tableData.total}
+                        showSizeChanger
+                        showQuickJumper
+                        onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                        onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                        // pageSizeOptions={5}
+                      /> : null}</Col>
                 </Row>
               </div>
             </Col></div>

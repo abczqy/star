@@ -95,8 +95,8 @@ export default class ThirdPartyAppDetail extends React.Component {
         <div className='app-detail-header'>
           <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2640553151,1248485598&fm=27&gp=0.jpg' />
           <div className='app-detail-header-right'>
-            <h2 className='header-title'>教育活动</h2>
-            <p className='header-classification'>分类：教学类</p>
+            <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
+            <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
             <div>
               <Button className='header-button'>windows 32位<Icon style={{color: '#fff'}} type='download' /></Button>
               <Button className='header-button'>windows 64位<Icon style={{color: '#fff'}} type='download' /></Button>
@@ -166,11 +166,11 @@ export default class ThirdPartyAppDetail extends React.Component {
               </div>
             </div>
           </div>
-          <div className='app-detail-introduce'>
+          <div className='app-detail-introduceaa'>
             <h3>应用介绍</h3>
-            <p>网易公开课，数千万爱学习的网友所钟爱的免费课程平台！</p>
-            <p>产品团队始终坚持在内容和设计上与时俱进、不断突破，曾荣登新周刊"优化生活特别奖"、新京报"年度公益奖"、DCCI"最学习奖"，并于2015年中国产业互联网峰会中荣获"最具价值在线教育平台"称号。· 课程资源好又多：作为中国最大最全的课程视频平台，拥有来自国内外顶尖学府的海量名师名课，覆盖文学艺术、历史哲学、经济社会、物理化学、心理管理、计算机技术等二十多个专业领域；作为TED官方合作伙伴，向国内用户提供最新最赞的TED演讲；引人入胜又发人深省的纪录片、轻松易学的可汗学院，无数好内容就在这里等着你。 </p>
-            <p>翻译实力坚强：拥有超过三百人的庞大翻译团队，具备各类专业素质的高级翻译人才，将在第一时间向您献出最优质的字幕翻译服务，再也不用因为看不懂国外好课而捉急了。</p>
+            <p>{this.state.appDetailData.sw_desc}</p>
+            {/* <p>产品团队始终坚持在内容和设计上与时俱进、不断突破，曾荣登新周刊"优化生活特别奖"、新京报"年度公益奖"、DCCI"最学习奖"，并于2015年中国产业互联网峰会中荣获"最具价值在线教育平台"称号。· 课程资源好又多：作为中国最大最全的课程视频平台，拥有来自国内外顶尖学府的海量名师名课，覆盖文学艺术、历史哲学、经济社会、物理化学、心理管理、计算机技术等二十多个专业领域；作为TED官方合作伙伴，向国内用户提供最新最赞的TED演讲；引人入胜又发人深省的纪录片、轻松易学的可汗学院，无数好内容就在这里等着你。 </p>
+            <p>翻译实力坚强：拥有超过三百人的庞大翻译团队，具备各类专业素质的高级翻译人才，将在第一时间向您献出最优质的字幕翻译服务，再也不用因为看不懂国外好课而捉急了。</p> */}
           </div>
           <div className='app-detail-characteristic'>
             <h3>新版特性</h3>

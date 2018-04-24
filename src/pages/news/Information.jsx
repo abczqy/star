@@ -6,7 +6,7 @@
 import React from 'react'
 import {Row, Col, Card, Pagination, Cascader} from 'antd'
 import BottomHeader from '../../components/common/BottomHeader'
-import img from '../../assets/images/hear.jpg'
+import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
@@ -187,12 +187,12 @@ class Information extends React.Component {
   }
   render () {
     console.log('要用的数据', this.state.infoData)
-    return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+    return <div style={{marginBottom: '20px'}}>
+      <div style={{marginLeft: '20%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5}>
-              <Row><div className='left-downer'><img src={this.state.img} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -202,26 +202,35 @@ class Information extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.img} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgO} style={{width: '280px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
             <Col span={16}>
               <ul className='ul-top' style={{width: '800px'}}>
-                <li style={{listStyle: 'none', width: '800px'}}>
-                  <span>发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} /></span>
-                  {/* <span className='ST'><a onClick={this.modal}><img src={this.state.imgP} style={{width: '18px'}} alt='' />省厅</a></span> */}
-                  <span style={{fontSize: '12px', marginLeft: '45%'}}><img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选</span></li>
+                <li style={{listStyle: 'none', width: '800px', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
+                  <span className='information-fabu'>
+                  发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />
+                  </span>
+                  <span className='information-dianji' style={{marginLeft: '43%', fontSize: '12px'}}>
+                    <img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选
+                  </span>
+                </li>
                 {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', borderBottom: '1px solid rgb(180,190,199)', width: '800px', height: '130px'}} key={index}>
+                  return <li style={{listStyle: 'none', width: '800px', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}} key={index}>
                     <Col span={24}>
                       <Row>
                         <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
-                        <Col span={4}><span className='span-top'>发布者:{item.info_per}</span></Col>
+                        <Col span={4}><span className='span-top'>发布者 : {item.info_per}</span></Col>
                         <Col span={3}><span className='span-top'>{item.info_time}</span></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
                           <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col span={23}>
+                          <div className='information-line' />
                         </Col>
                       </Row>
                     </Col>
@@ -230,22 +239,20 @@ class Information extends React.Component {
               </ul>
               <Row>
                 <Col span={9} />
-                <Col >
-                  <Pagination
-                    size='small'
-                    total={this.state.infoData.total}
-                    showSizeChanger
-                    showQuickJumper
-                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                  // pageSizeOptions={5}
-                  /></Col>
+                <Col span={14}>
+                  {this.state.infoData.total >= 5
+                    ? <Pagination
+                      total={this.state.infoData.total}
+                      showSizeChanger
+                      showQuickJumper
+                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                      // pageSizeOptions={5}
+                    /> : null}</Col>
               </Row>
             </Col>
           </div>
-        </Row>
-      </div>
-      <BottomHeader />
+        </Row></div><BottomHeader />
     </div>
   }
 }

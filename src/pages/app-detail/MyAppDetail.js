@@ -5,7 +5,9 @@
 import React from 'react'
 import './MyAppDetail.css'
 import { Icon, Carousel } from 'antd'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
+import ajaxUrl from 'config'
+import axios from 'axios'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
@@ -18,13 +20,38 @@ export default class MyAppDetail extends React.Component {
     this.state = {
       mode: 'inline',
       theme: 'light',
+      appDetailId: '',
+      appDetailData: {},
       obj: {
         display: 'none'
       },
       addClassName: 'see-detail-itema'
     }
   }
-  componentWillReceiveProps (nextProps) {
+  static propTypes = {
+    location: PropTypes.abj
+  }
+  componentDidMount () {
+    let a = this.props.location.search.replace('?', '')
+    this.setState({
+      appDetailId: a
+    }, () => {
+      this.getMyAppDetailData()
+    })
+  }
+  getMyAppDetailData = () => {
+    axios.post(ajaxUrl.thirdPartyAppDetail, {
+      params: {
+        sw_id: this.state.appDetailId
+      }
+    }).then((res) => {
+      console.log(2222222, res.data)
+      this.setState({
+        appDetailData: res.data
+      }, () => {
+        console.log(this.state.appDetailData)
+      })
+    }).catch((e) => { console.log(e) })
   }
   handleSeeDetail = () => {
     if (this.state.obj.display === 'none') {
@@ -62,22 +89,22 @@ export default class MyAppDetail extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000', this.props)
+    console.log('00000000', this.props.location.search)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
           <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2640553151,1248485598&fm=27&gp=0.jpg' />
           <div className='app-detail-header-right'>
             <p>
-              <span className='header-titlea'>软件名称：超级教师</span>
-              <span className='header-titlea'>当前版本：1.0</span>
+              <span className='header-titlea'>软件名称：{this.state.appDetailData.sw_name}</span>
+              <span className='header-titlea'>当前版本：{this.state.appDetailData.version}</span>
             </p>
             <p>
-              <span className='header-titlea'>软件类型：教辅类</span>
-              <span className='header-titlea'>上架时间：2018年4月1日</span>
+              <span className='header-titlea'>软件类型：{this.state.appDetailData.sw_type}</span>
+              <span className='header-titlea'>上架时间：{this.state.appDetailData.sw_time_real}</span>
             </p>
             <p>
-              <span className='header-titlea'>兼容系统：windows 64位   ios11.2.6   安卓10.2.3</span>
+              <span className='header-titlea' title='windows 64位   ios11.2.6   安卓10.2.3'>兼容系统：windows 64位   ios11.2.6   安卓10.2.3</span>
             </p>
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
@@ -152,11 +179,11 @@ export default class MyAppDetail extends React.Component {
           <div style={{width: '100%', height: '180px', float: 'left'}}>
             <div className='app-detail-characteristica'>
               <h3>软件版权</h3>
-              <img src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4242567518,763252372&fm=27&gp=0.jpg' />
+              <img src={this.state.appDetailData.sw_copyright} />
             </div>
             <div className='app-detail-characteristica'>
               <h3>审核凭证</h3>
-              <img src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4242567518,763252372&fm=27&gp=0.jpg' />
+              <img src={this.state.appDetailData.fin_audit} />
             </div>
           </div>
           <div className='app-detail-relevanta'>
