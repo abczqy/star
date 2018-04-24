@@ -2,7 +2,10 @@ export {
   Businessing,
   IterationVerify,
   WaitVerify,
-  AppStandOffModal
+  AppStandOffModal,
+  AppDetailModal,
+  IterationDetailModal,
+  WaitDetailModal
 } from './software-manage/index'
 
 export {

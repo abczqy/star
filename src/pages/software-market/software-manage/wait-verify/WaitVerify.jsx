@@ -9,8 +9,9 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
+import { Table, Button } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
+import { WaitDetailModal } from 'pages/software-market'
 import ajaxUrl from 'config'
 import axios from 'axios'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -26,68 +27,6 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
- * 表格的columns -- 后面用json文件配置出去 --参照bdq
- * 做到配置项与组件的分离
- * 组件要用时只需要引入即可
- * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
- */
-const columns = [{
-  title: '应用名称',
-  dataIndex: 'sw_name',
-  key: 'sw_name'
-}, {
-  title: '所属类型',
-  dataIndex: 'sw_type',
-  key: 'sw_type'
-}, {
-  title: '供应商',
-  dataIndex: 'fa_name',
-  key: 'fa_name'
-}, {
-  title: '类型',
-  dataIndex: 'sw_path',
-  key: 'sw_path'
-}, {
-  title: '下载次数',
-  dataIndex: 'downloads',
-  key: 'downloads'
-}, {
-  title: '变更时间',
-  dataIndex: 'sw_update_time',
-  key: 'sw_update_time '
-}, {
-  title: '置顶',
-  dataIndex: 'stickTop',
-  key: 'stickTop',
-  render: (text, record, index) => {
-    return (
-      <Switch />
-    )
-  }
-}, {
-  title: '缴费状态',
-  dataIndex: 'pay_state',
-  key: 'pay_state',
-  render: (text, record, index) => <span className='normal-color' >{text}</span>
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('下架')}>下架</a>
-      </span>
-    )
-  }
-}]
-
 class WaitVerify extends Component {
   constructor (props) {
     super(props)
@@ -97,7 +36,11 @@ class WaitVerify extends Component {
         total: 0
       },
       pagination,
-      searchValue: ''
+      searchValue: '',
+      detModalCon: {
+        visible: false,
+        swName: ''
+      }
     }
   }
 
@@ -105,20 +48,84 @@ class WaitVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.Business, {
+    axios.post(ajaxUrl.waitVerify, {
       params: {
-        per_info: '10',
-        person_id: '1'
+        pageNum: 1,
+        pageSize: 2,
+        sw_type: '教育类',
+        sw_name: '慕课网app'
       }
     }).then((res) => {
       const data = res.data
       this.setState({
         tableData: {
-          data: data.datasource,
-          total: data.pageCount.pageNumbers
+          data: data.data,
+          total: data.total
         }
       })
     }).catch((e) => { console.log(e) })
+  }
+  /**
+ * 表格的columns -- 后面用json文件配置出去 --参照bdq
+ * 做到配置项与组件的分离
+ * 组件要用时只需要引入即可
+ * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
+ * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
+ */
+  getColumns = () => {
+    return [{
+      title: '应用名称',
+      dataIndex: 'sw_name',
+      key: 'sw_name'
+    }, {
+      title: '所属类型',
+      dataIndex: 'sw_type',
+      key: 'sw_type'
+    }, {
+      title: '供应商',
+      dataIndex: 'fa_name',
+      key: 'fa_name'
+    }, {
+      title: '类型',
+      dataIndex: 'sw_path',
+      key: 'sw_path'
+    }, {
+      title: '提交时间',
+      dataIndex: 'sw_update_time',
+      key: 'sw_update_time '
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      render: (text, record, index) => {
+        return (
+          <span>
+            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>详情</a>
+          </span>
+        )
+      }
+    }]
+  }
+
+  // 显示‘详情’弹窗
+  showDetModal = (record) => {
+    this.setState({
+      detModalCon: {
+        ...this.state.detModalCon,
+        visible: true,
+        swName: record.sw_name
+      }
+    })
+  }
+
+  // 关闭‘详情’弹窗
+  handleAppDetCancel = () => {
+    this.setState({
+      detModalCon: {
+        ...this.state.detModalCon,
+        visible: false
+      }
+    })
   }
 
   /**
@@ -186,7 +193,7 @@ class WaitVerify extends Component {
   }
 
   render () {
-    const { tableData, pagination } = this.state
+    const { tableData, pagination, detModalCon } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -197,7 +204,7 @@ class WaitVerify extends Component {
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,
@@ -205,6 +212,18 @@ class WaitVerify extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
+        />
+        <div ref='waitDetailElem' className='wait-detail-wrap' />
+        <WaitDetailModal
+          title={detModalCon.swName}
+          getContainer={() => this.refs.waitDetailElem}
+          visible={detModalCon.visible}
+          onCancel={this.handleAppDetCancel}
+          footer={[
+            <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
+            <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,
+            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
+          ]}
         />
       </div>
     )

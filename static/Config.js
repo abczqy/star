@@ -26,6 +26,12 @@ window.mungConfig = {
   // 运营管理/软件管理-运营中
   Business: AJAX_HOST + '/management/applistm',
 
+  // 运营管理/软件管理-迭代审核列表
+  iterVerify: AJAX_HOST + '/management/iterationexaminelistm',
+
+  // 运营管理/软件管理-待审核列表
+  waitVerify: AJAX_HOST + '/management/examinelistm',
+
   // 运营管理/会员管理-厂商
   getFactory: AJAX_HOST + '/factoryManage/getFactory',
 
