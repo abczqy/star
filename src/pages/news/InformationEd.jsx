@@ -250,57 +250,55 @@ class InformationEd extends React.Component {
     const dataT = [
       {'title': '审核中', value: '0'}, {'title': '已驳回', value: '1'}, {'title': '已发布', value: '2'}
     ]
-    return <div>
-      <div style={{marginLeft: '13%', marginBottom: '20px'}}>
+    return <div style={{margin: 'auto'}}>
+      <div >
         <Row>
-          <div style={{width: '1400px'}}>
-            <Col span={5} >
-              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
-              <Row><div className='left-downer'>
-                <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-                  <ul className='ul-margin'>
-                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                      return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                    })}
-                  </ul>
-                </Card></div>
-              </Row>
-              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
-            </Col></div>
-          <div style={{width: '1400px', marginTop: '10px'}}>
-            <Col span={19} style={{backgroundColor: '#fff', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
-              <div style={{marginTop: '15px'}}>
-                <Row>
-                  <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '1050px'}}>
-                    <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder={'全部'} style={{width: 200}} allowClear onChange={(value) => this.stateValue(value)}>
-                      {dataT.map((item, index) => {
-                        return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
-                      })}
-                    </Select></Col>
-                    <Col span={5}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
-                    <Col span={9}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
-                    <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
-                  </div>
-                </Row>
-                <Row>
-                  <div style={{marginBottom: '15px'}}>
-                    <Table pagination={false} columns={this.columns} dataSource={this.state.tableData.list} onChange={this.handleChange} />
-                  </div>
-                </Row>
-                <Row>
-                  <Col span={11} />
-                  <Col >
-                    {this.state.tableData.total > 5
-                      ? <Pagination
-                        total={this.state.tableData.total}
-                        showSizeChanger
-                        showQuickJumper
-                        onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                        onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                      /> : null}</Col>
-                </Row>
+          <Col span={5} >
+            <Row><div className='left-downer'>
+              <img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div>
+            </Row>
+            <Row><div className='left-downer'>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+                <ul className='ul-margin'>
+                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                    return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                  })}
+                </ul>
+              </Card></div>
+            </Row>
+            <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
+          </Col>
+          <Col span={19} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
+            <Row>
+              <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '1050px'}}>
+                <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder={'全部'} style={{width: 200}} allowClear onChange={(value) => this.stateValue(value)}>
+                  {dataT.map((item, index) => {
+                    return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
+                  })}
+                </Select></Col>
+                <Col span={5}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
+                <Col span={9}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
+                <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
               </div>
-            </Col></div>
+            </Row>
+            <Row>
+              <div style={{marginBottom: '15px'}}>
+                <Table pagination={false} columns={this.columns} dataSource={this.state.tableData.list} onChange={this.handleChange} />
+              </div>
+            </Row>
+            <Row style={{marginBottom: '10px'}}>
+              <Col span={8} />
+              <Col >
+                {this.state.tableData.total > 5
+                  ? <Pagination
+                    total={this.state.tableData.total}
+                    showSizeChanger
+                    showQuickJumper
+                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                  /> : null}</Col>
+            </Row>
+          </Col>
         </Row>
       </div>
       {this.state.visible

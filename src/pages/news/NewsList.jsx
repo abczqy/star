@@ -6,7 +6,6 @@
 import React from 'react'
 import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/WeChat.png'
-import BottomHeader from '../../components/common/BottomHeader'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
@@ -121,10 +120,10 @@ class News extends React.Component {
     }
   }
   render () {
-    return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
-        <Row>
-          <Col span={5} style={{width: '30%'}}>
+    return <div style={{margin: 'auto'}}>
+      <div>
+        <Row >
+          <Col span={5} style={{width: '25%'}}>
             <Row><div className='left-downer' ><div className='huoqu1'><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></div></Row>
             <Row><div className='left-downer' >
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
@@ -182,9 +181,9 @@ class News extends React.Component {
                   </li>
               })}
             </ul>
-            <Row>
-              <Col span={9} />
-              <Col span={14}>
+            <Row style={{marginBottom: '10px'}}>
+              <Col span={8} />
+              <Col >
                 {this.state.newData.total >= 5
                   ? <Pagination
                     total={this.state.newData.total}// {this.state.newData.total}
@@ -198,7 +197,6 @@ class News extends React.Component {
           </Col>
         </Row>
       </div>
-      <BottomHeader />
     </div>
   }
 }
