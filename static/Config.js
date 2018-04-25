@@ -109,5 +109,15 @@ window.mungConfig = {
   // 我的应用-迭代审核
   myAppIteration: AJAX_HOST + '/applicaion/myappiteratrionexaminesearch',
   // 我的应用-审核和迭代中的撤销
-  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel'
+  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel',
+
+  // 统计分析-软件下载量变化
+  softwareDownload: AJAX_HOST + '/statisticalAnalysis/softwareDownload',
+
+  // 统计分析-应用类型占比
+  softwareType: AJAX_HOST + '/statisticalAnalysis/softwareType',
+
+  // 统计分析-当月应用下载型占比
+  softwareDownloadConst: AJAX_HOST + '/statisticalAnalysis/softwareDownloadConst'
+
 }
