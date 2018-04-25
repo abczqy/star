@@ -8,7 +8,6 @@ import Information from 'pages/news/Information'// 游客的信息公开
 import InformationDet from 'pages/news/InformationDet'// 游客的信息公开详情
 import NewsList from 'pages/news/NewsList'// 游客的新闻列表
 import NewsDetails from 'pages/news/NewsDetails'// 游客的新闻列表详情
-
 import NewsListEd from 'pages/news/NewsListEd'// 教育局的新闻列表
 import NewDetailsEd from 'pages/news/NewDetailsEd'// 教育局的新闻列表详情
 import PlaceInformation from 'pages/news/PlaceInformation'// 教育局的信息公开
@@ -17,7 +16,6 @@ import InformationEd from 'pages/news/InformationEd'// 教育局的信息列表�
 import Policy from 'pages/news/Policy'// 页面式的政策发布
 import Please from 'pages/news/ShelfPlease'// 上架流程
 import Iteration from 'pages/news/IterationPlease'// 迭代申请
-
 import {
   PortalHomepage,
   PlatHomepage,

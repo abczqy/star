@@ -14,7 +14,7 @@ export function getAppListData (params, sucFn) {
  * 软件管理-运营中-续费
  */
 export function appRenew (params, sucFn) {
-  return axios.post('/a', params)
+  return axios.post('/management/renewal', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -34,7 +34,7 @@ export function firmRenewList (params, sucFn) {
  * 会员管理-厂商-续签
  */
 export function firmRenew (params, sucFn) {
-  return axios.post('/a', params)
+  return axios.post('/factoryManage/renew', params)
     .then(function (res) {
       sucFn(res)
     })

@@ -1,16 +1,31 @@
+/* eslint-disable react/prop-types */
 /**
  *
  */
 import React from 'react'
 import { Row, Col, Button, Icon } from 'antd'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 
-export default class WebApp extends React.Component {
+class WebApp extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
 
     }
+  }
+
+  handleAppClick (item) {
+    this.props.history.push({
+      pathname: '/operate-manage-home/all-app-detail-third',
+      search: item.sw_id
+    })
+  }
+
+  processStr (str, n) {
+    let l = str.length
+    if (l <= n) return str
+    return str.slice(0, n) + '...'
   }
 
   renderItem (item, index) {
@@ -21,11 +36,11 @@ export default class WebApp extends React.Component {
             <div className='split' />
           </div>
           <div className='item-content'>
-            <div className='img' />
-            <div className='title'>{item.title}</div>
-            <div className='content'>{item.content}</div>
+            <img className='app-img' src={item.sw_icon} />
+            <div className='title'>{item.sw_name}</div>
+            <div className='content'>{this.processStr(item.sw_desc, 20)}</div>
             <div>
-              <Button>查看详情<Icon type='arrow-right' /></Button>
+              <Button onClick={(item) => { this.handleAppClick(item) }}>查看详情<Icon type='arrow-right' /></Button>
             </div>
           </div>
         </div>
@@ -47,6 +62,9 @@ export default class WebApp extends React.Component {
     )
   }
 }
+
 WebApp.propTypes = {
   data: PropTypes.array
 }
+
+export default withRouter(WebApp)
