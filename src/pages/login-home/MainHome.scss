@@ -90,7 +90,7 @@
   .header-container{
     height: 50px;
     line-height: 50px;
-    margin-left: 50px;
+    margin-left: 8%;
     li{
       float: left;
       width: 86px;
@@ -238,12 +238,10 @@
       .item-content{
         text-align: center;
         padding: 30px 10px;
-        .img{
+        .app-img{
           margin: 0 auto;
           width: 70px;
           height: 70px;
-          background: url("../../assets/images/login-home/u45.png") no-repeat center;
-          background-size: 100% 100%;
         }
         .title{
           margin-top: 10px;
@@ -331,7 +329,7 @@
   }
   .soft-market-container{
     background: #FFFFFF;
-    padding: 20px 50px;
+    padding: 20px 100px;
     .soft-market-header{
       display: flex;
       justify-content: center;
@@ -375,6 +373,8 @@
         display: flex;
         justify-content: center;
         .soft-market-list-container{
+          width: 100%;
+          margin-left: 60px;
           .img{
             width: 60px;
             height: 60px;

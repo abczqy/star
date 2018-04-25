@@ -10,13 +10,13 @@ import SoftMarket from './SoftMarket'
 import BottomHeader from '../../components/common/BottomHeader'
 import AppCount from './AppCount'
 import NewsAndInfo from './NewsAndInfo'
-import axiosApi from '../../services'
 import SureInfoWin from './SureInfoWin'
 import ChangeInfoWin from './ChangeInfoWin'
 import ChangeInfoOkWin from './ChangeInfoOkWin'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { getRecommendApp, getSoftMarketList, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portal'
 
 class Home extends React.Component {
   static propTypes = {
@@ -30,13 +30,11 @@ class Home extends React.Component {
       changeInfoOkWinVisible: false,
       sureInfoWinVisible: false,
       changeInfoWinVisible: false,
-      webAppData: [],
-      softMarketData: [],
-      newsAndInfoData: {
-        newsData: [],
-        infoData: []
-      },
-      appCountData: []
+      webAppData: [], // 热门推荐
+      softMarketData: [], // 软件市场
+      newsData: [], // 新闻列表
+      infoData: [], // 信息公开
+      appCountData: []// 软件统计
     }
   }
 
@@ -48,12 +46,39 @@ class Home extends React.Component {
    * 请求页面初始数据
    */
   getHomeData () {
-    axiosApi.getHomeData((response) => {
+    // 门户首页-热门推荐
+    getRecommendApp({}, (response) => {
+      let result = response.data
       this.setState({
-        webAppData: response.webAppData,
-        softMarketData: response.softMarketData,
-        newsAndInfoData: response.newsAndInfoData,
-        appCountData: response.appCountData
+        webAppData: result.data
+      })
+    })
+    // 门户首页-软件市场
+    getSoftMarketList({}, (response) => {
+      let result = response.data
+      this.setState({
+        softMarketData: result.data
+      })
+    })
+    // 门户首页-教育新闻
+    getNewsNoticeList({}, (response) => {
+      let result = response.data
+      this.setState({
+        newsData: result.data
+      })
+    })
+    // 门户首页-信息公开
+    getPublicNoticeList({}, (response) => {
+      let result = response.data
+      this.setState({
+        infoData: result.data
+      })
+    })
+    // 门户首页-应用总数统计
+    getAllAppCount({}, (response) => {
+      let result = response.data
+      this.setState({
+        appCountData: result.data
       })
     })
   }
@@ -144,7 +169,7 @@ class Home extends React.Component {
         </Row>
         <Row style={{background: 'white'}}>
           <Col span={24}>
-            <NewsAndInfo data={this.state.newsAndInfoData} />
+            <NewsAndInfo infoData={this.state.infoData} newsData={this.state.newsData} />
           </Col>
         </Row>
         <Row>
