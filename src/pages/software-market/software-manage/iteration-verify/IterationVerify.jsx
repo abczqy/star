@@ -10,11 +10,10 @@
  */
 import React, { Component } from 'react'
 import { Table, Button } from 'antd'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
+import { iterVerify } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -40,7 +39,9 @@ class IterationVerify extends Component {
       detModalCon: {
         visible: false,
         swName: ''
-      }
+      },
+      sw_type: '游戏类',
+      sw_name: '绝地求生'
     }
   }
 
@@ -48,14 +49,12 @@ class IterationVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.iterVerify, {
-      params: {
-        pageNum: 1,
-        pageSize: 2,
-        sw_type: '游戏类', // 应用类型
-        sw_name: '绝地求生'// 应用名称
-      }
-    }).then((res) => {
+    iterVerify({
+      pageNum: 1,
+      pageSize: 2,
+      sw_type: this.state.sw_type, // 应用类型
+      sw_name: this.state.sw_name// 应用名称
+    }, (res) => {
       const data = res.data
       this.setState({
         tableData: {
@@ -63,7 +62,7 @@ class IterationVerify extends Component {
           total: data.total
         }
       })
-    }).catch((e) => { console.log(e) })
+    })
   }
   /**
  * 表格的columns -- 后面用json文件配置出去 --参照bdq
@@ -115,16 +114,16 @@ class IterationVerify extends Component {
     }]
   }
 
-    // 显示‘详情’弹窗
-    showDetModal = (record) => {
-      this.setState({
-        detModalCon: {
-          ...this.state.detModalCon,
-          visible: true,
-          swName: record.sw_name
-        }
-      })
-    }
+  // 显示‘详情’弹窗
+  showDetModal = (record) => {
+    this.setState({
+      detModalCon: {
+        ...this.state.detModalCon,
+        visible: true,
+        swName: record.sw_name
+      }
+    })
+  }
 
   // 关闭‘详情’弹窗
   handleAppDetCancel = () => {
@@ -142,6 +141,9 @@ class IterationVerify extends Component {
   onSelect = (val) => {
     console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
+    this.setState({
+      sw_type: val
+    })
   }
 
   /**
@@ -178,7 +180,12 @@ class IterationVerify extends Component {
   /**
    * 搜索输入框变化的回调
    */
-  inputChange = () => {}
+  inputChange = (e) => {
+    let value = e.target.value
+    this.setState({
+      sw_name: value
+    })
+  }
 
   /**
    * 根据搜索框的值进行搜索
@@ -186,14 +193,8 @@ class IterationVerify extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    console.log('sudgfg::: ' + this.state.searchValue)
-  }
-
-  inputChange = (e) => {
-    let value = e.target.value
-    this.setState({
-      searchValue: value
-    })
+    console.log('sw_name:', this.state.sw_name, 'sw_type:', this.state.sw_type)
+    this.getTableDatas()
   }
 
   componentDidMount () {

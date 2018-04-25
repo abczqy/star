@@ -49,3 +49,23 @@ export function firmRenew (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 软件管理-待审核
+ */
+export function getExamList (params, sucFn) {
+  return axios.post('/management/examinelistm', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 软件管理-迭代审核
+ */
+export function iterVerify (params, sucFn) {
+  return axios.post('/management/iterationexaminelistm', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

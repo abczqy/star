@@ -12,9 +12,8 @@ import React, { Component } from 'react'
 import { Table, Button } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
-import ajaxUrl from 'config'
-import axios from 'axios'
 import 'pages/software-market/SoftwareMarket.scss'
+import { getExamList } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -40,7 +39,9 @@ class WaitVerify extends Component {
       detModalCon: {
         visible: false,
         swName: ''
-      }
+      },
+      sw_type: '教育类',
+      sw_name: '慕课网app'
     }
   }
 
@@ -48,14 +49,12 @@ class WaitVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.waitVerify, {
-      params: {
-        pageNum: 1,
-        pageSize: 2,
-        sw_type: '教育类',
-        sw_name: '慕课网app'
-      }
-    }).then((res) => {
+    getExamList({
+      pageNum: 1,
+      pageSize: 2,
+      sw_type: this.state.sw_type,
+      sw_name: this.state.sw_name
+    }, (res) => {
       const data = res.data
       this.setState({
         tableData: {
@@ -63,7 +62,8 @@ class WaitVerify extends Component {
           total: data.total
         }
       })
-    }).catch((e) => { console.log(e) })
+    }
+    )
   }
   /**
  * 表格的columns -- 后面用json文件配置出去 --参照bdq
@@ -134,6 +134,9 @@ class WaitVerify extends Component {
   onSelect = (val) => {
     console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
+    this.setState({
+      sw_type: val
+    })
   }
 
   /**
@@ -170,7 +173,12 @@ class WaitVerify extends Component {
   /**
    * 搜索输入框变化的回调
    */
-  inputChange = () => {}
+  inputChange = (e) => {
+    let value = e.target.value
+    this.setState({
+      sw_name: value
+    })
+  }
 
   /**
    * 根据搜索框的值进行搜索
@@ -178,14 +186,8 @@ class WaitVerify extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    console.log('sudgfg::: ' + this.state.searchValue)
-  }
-
-  inputChange = (e) => {
-    let value = e.target.value
-    this.setState({
-      searchValue: value
-    })
+    console.log('sw_name:', this.state.sw_name, 'sw_type:', this.state.sw_type)
+    this.getTableDatas()
   }
 
   componentDidMount () {
