@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/jsx-no-bind,no-mixed-operators,no-unused-expressions */
 /**
  * 会员管理-厂商-续签
  */
@@ -19,8 +19,10 @@ export default class MemRenewWin extends React.Component {
     let yearsOption = this.getDefaultYears()
     this.state = {
       yearsOption,
-      renewType: 'renew',
+      renewType: '1',
       renewValue: yearsOption.defaultYear,
+      renewStartTime: '', // 临时开通的开始时间
+      renewEndTime: '', // 临时开通的结束时间
       fileLoading: false,
       fileList: [] // 附件
     }
@@ -46,12 +48,34 @@ export default class MemRenewWin extends React.Component {
     }
   }
 
-  disabledStartDate (current) {
-    return current && current < moment().subtract(1, 'days')
+  /**
+   * 结束时间不可选日期
+   * @param current
+   * @returns {*|boolean}
+   */
+  disabledEndDate = (current) => {
+    let start = moment().subtract(1, 'day')
+    if (this.state.renewStartTime) {
+      start = moment(this.state.renewStartTime, 'YYYY-MM-DD')
+    }
+    return current && current.valueOf() < start
   }
-
-  disabledEndDate (current) {
-    return current && current < moment().subtract(1, 'days')
+  /**
+   * 开始时间不可选日期
+   * @param current
+   * @returns {*|boolean}
+   */
+  disabledStartDate = (current) => {
+    let start = moment().subtract(1, 'day')
+    let end
+    if (this.state.renewEndTime) {
+      end = moment(this.state.renewEndTime, 'YYYY-MM-DD')
+    }
+    if (end) {
+      return current && current.valueOf() > end.add(1, 'day') || current.valueOf() < start
+    } else {
+      return current && current.valueOf() < start
+    }
   }
 
   handleRenewTypeChange (e) {
@@ -76,13 +100,33 @@ export default class MemRenewWin extends React.Component {
   getFormData () {
     const { fileList } = this.state
     const formData = new FormData()
+    formData.append('type', this.state.renewType)
     formData.append('fa_id', 'fa_123456')
-    formData.append('contract_start', '2018-01-01')
-    formData.append('contract_end', '2018-05-01')
+    // 临时开通
+    if (this.state.renewType === '0') {
+      formData.append('contract_start', '2018-01-01')
+      formData.append('contract_end', '2018-05-01')
+    } else { // 续费
+      formData.append('contract_end', '2018-05-01')
+    }
     fileList.forEach((file) => {
       formData.append('contract_path', file)
     })
     return formData
+  }
+
+  onChange = (field, value) => {
+    this.setState({
+      [field]: value ? value.format('YYYY-MM-DD') : ''
+    })
+  }
+
+  onStartChange= (value) => {
+    this.onChange('renewStartTime', value)
+  }
+
+  onEndChange = (value) => {
+    this.onChange('renewEndTime', value)
   }
 
   render () {
@@ -141,20 +185,22 @@ export default class MemRenewWin extends React.Component {
           <Row className='contract-status'>
             <Col span={12}>
               <Radio.Group onChange={this.handleRenewTypeChange.bind(thiz)} value={this.state.renewType}>
-                <Radio style={radioStyle} value='tem'>临时开通：
+                <Radio style={radioStyle} value='0'>临时开通：
                   <DatePicker
                     style={{ width: 120 }}
                     disabledDate={this.disabledStartDate.bind(this)}
                     format='YYYY-MM-DD'
+                    onChange={this.onStartChange}
                     placeholder='选择日期'
                   /><span style={{margin: '15px'}}>-</span>
                   <DatePicker
                     style={{ width: 120 }}
                     disabledDate={this.disabledEndDate.bind(this)}
                     format='YYYY-MM-DD'
+                    onChange={this.onEndChange}
                     placeholder='选择日期'
                   /></Radio>
-                <Radio style={radioStyle} value='renew'>续费：
+                <Radio style={radioStyle} value='1'>续费：
                   <Select defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
                     {
                       this.state.yearsOption.optionDatas.map((item, index, arr) => {

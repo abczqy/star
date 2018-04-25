@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/jsx-no-bind,no-mixed-operators */
 /**
  * 软件管理-运营中-续费
  */
@@ -46,12 +46,34 @@ export default class BusiRenewWin extends React.Component {
     }
   }
 
-  disabledStartDate (current) {
-    return current && current < moment().subtract(1, 'days')
+  /**
+   * 结束时间不可选日期
+   * @param current
+   * @returns {*|boolean}
+   */
+  disabledEndDate = (current) => {
+    let start = moment().subtract(1, 'day')
+    if (this.state.renewStartTime) {
+      start = moment(this.state.renewStartTime, 'YYYY-MM-DD')
+    }
+    return current && current.valueOf() < start
   }
-
-  disabledEndDate (current) {
-    return current && current < moment().subtract(1, 'days')
+  /**
+   * 开始时间不可选日期
+   * @param current
+   * @returns {*|boolean}
+   */
+  disabledStartDate = (current) => {
+    let start = moment().subtract(1, 'day')
+    let end
+    if (this.state.renewEndTime) {
+      end = moment(this.state.renewEndTime, 'YYYY-MM-DD')
+    }
+    if (end) {
+      return current && current.valueOf() > end.add(1, 'day') || current.valueOf() < start
+    } else {
+      return current && current.valueOf() < start
+    }
   }
 
   handleRenewTypeChange (e) {
