@@ -95,7 +95,7 @@ class InformationDet extends React.Component {
     return <div>
       <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
-          <Col span={5} style={{width: '450px'}}>
+          <Col span={5} style={{width: '30%'}}>
             <div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                 <ul className='ul-margin'>

@@ -57,11 +57,11 @@ class ShelfPlease extends React.Component {
       ],
       fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
       fileListOneF: ['1'], // 用来存软件版本的文件id
-      fileListTwo: '1', // 用来存软件图标的文件id
+      fileListTwo: ['1'], // 用来存软件图标的文件id
       fileListThree: ['1'], // 用来存PC端界面截图的文件id
-      fileListFour: '1', // 用来存身份证照片文件id
-      fileListFive: '1', // 用来存软件版权的文件id
-      fileListSix: '1' // 用来存财务审核凭证的文件id
+      fileListFour: ['1'], // 用来存身份证照片文件id
+      fileListFive: ['1'], // 用来存软件版权的文件id
+      fileListSix: ['1'] // 用来存财务审核凭证的文件id
     }
   }
   componentWillMount () {
@@ -97,7 +97,7 @@ class ShelfPlease extends React.Component {
   }
   // 用来存软件版本的文件id
   getFileListOneF =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListOneF
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListOneF: a
@@ -130,7 +130,7 @@ class ShelfPlease extends React.Component {
                 <Col span={9}>
                   <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
-                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                      return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
@@ -157,7 +157,7 @@ class ShelfPlease extends React.Component {
                 <Col span={9}>
                   <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
-                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                      return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
@@ -241,7 +241,7 @@ class ShelfPlease extends React.Component {
   }
   // 用来存软件图标的文件id
   getFileListTwo =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListTwo
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListTwo: a
@@ -251,7 +251,7 @@ class ShelfPlease extends React.Component {
   }
   // 用来存PC端界面截图的文件id
   getFileListThree =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListThree
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListThree: a
@@ -261,7 +261,7 @@ class ShelfPlease extends React.Component {
   }
   // 用来存身份证照片文件id
   getFileListFour =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListFour
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListFour: a
@@ -271,7 +271,7 @@ class ShelfPlease extends React.Component {
   }
   // 用来存财务审核凭证的文件id
   getFileListFive =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListFive
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListFive: a
@@ -281,7 +281,7 @@ class ShelfPlease extends React.Component {
   }
   // 用来存财务审核凭证的文件id
   getFileListSix =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListSix
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListSix: a
@@ -364,7 +364,7 @@ class ShelfPlease extends React.Component {
               <Col span={20}>
                 <Select placeholder='教育类' style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
                   {data.map((item, index) => {
-                    return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                    return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                   })}
                 </Select>
               </Col>
@@ -373,7 +373,7 @@ class ShelfPlease extends React.Component {
           <Row className='Wxd'>
             <Col span={23}>
               <span style={{visibility: 'hidden'}}>*PC无无无</span>
-              <span><span style={{color: 'red'}}>* </span>软件描述 : </span>
+              <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
               <span style={{visibility: 'hidden'}}>无</span>
               <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
           </Row>
