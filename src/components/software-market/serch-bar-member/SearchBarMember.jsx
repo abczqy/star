@@ -51,11 +51,8 @@ class SearchBarMember extends Component {
               <Option value='不允许'>不允许</Option>
             </Select>
           </Col>
-          <Col span={4}>
+          <Col span={6}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
-          </Col>
-          <Col span={2}>
-            <Button type='primary' className='search-bar-btn'>新增</Button>
           </Col>
           <Col span={2}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>

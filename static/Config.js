@@ -1,7 +1,11 @@
-const AJAX_HOST = 'http://172.16.36.159:20000/app/mock/21'
+const AJAX_HOST = 'http://p1663488m8.imwork.net:49784'
 window.mungConfig = {
   // API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
+<<<<<<< Updated upstream
   API_BASE_URL: 'http://p1663488m8.imwork.net:49784/', // 测试地址
+=======
+  API_BASE_URL: 'http://p1663488m8.imwork.net:49784', // 测试地址
+>>>>>>> Stashed changes
   BASE_TAB: 'http://localhost:8080',
   LOGIN_URL: '',
   /** *******************************软件市场************************************ */
@@ -53,11 +57,19 @@ window.mungConfig = {
   // 个人中心-学生应用删除
   studentAppsDelete: AJAX_HOST + '/personal/collections/delete', // wyl 待修改
 
+  // 个人中心-学生应用收藏/取消收藏
+  studentAppsCollect: AJAX_HOST + '/app/collect',
+
   // 厂商登录首页排行榜
   manufacturerSignInRankingList: AJAX_HOST + '/app/charts',
-  // 全部应用
+  // 首页老师推荐
+  teacherRecommend: AJAX_HOST + '/app/teacherRecommendApp',
+  // 首页热门推荐
+  hotRecommend: AJAX_HOST + '/app/hotApp',
+  // 全部应用 - 软件应用
   allAppList: AJAX_HOST + '/app/appList',
-
+  // 全部应用 - 平台应用
+  allAppPlatformList: AJAX_HOST + '/app/platform',
   // 教育新闻列表
   newsList: AJAX_HOST + '/applicaion/newslist',
   // 教育新闻列表详情
@@ -99,12 +111,27 @@ window.mungConfig = {
   getMessageListDetail: AJAX_HOST + '/getMessageList/detail', // 消息通知列表详情
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',
+  // 应用详情 (自营)
+  selfSupportAppDetail: AJAX_HOST + '/app/platform/details',
   // 我的应用-运营中
-  myAppInOperation: AJAX_HOST + '/applicaion/myapp',
+  myAppInOperation: AJAX_HOST + '/application/myapp',
   // 我的应用-审核中
-  myAppToExamine: AJAX_HOST + '/applicaion/myappexamine',
+  myAppToExamine: AJAX_HOST + '/application/myappexamine',
   // 我的应用-迭代审核
-  myAppIteration: AJAX_HOST + '/applicaion/myappiteratrionexaminesearch',
+  myAppIteration: AJAX_HOST + '/application/myappiteratrionexamine',
   // 我的应用-审核和迭代中的撤销
-  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel'
+  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel',
+
+  // 统计分析-软件下载量变化
+  softwareDownload: AJAX_HOST + '/statisticalAnalysis/softwareDownload',
+
+  // 统计分析-应用类型占比
+  softwareType: AJAX_HOST + '/statisticalAnalysis/softwareType',
+
+  // 统计分析-当月应用下载型占比
+  softwareDownloadConst: AJAX_HOST + '/statisticalAnalysis/softwareDownloadConst',
+
+  myAppRevoke: AJAX_HOST + '/application/examinecancel',
+  // 首页收藏
+  homeCollection: AJAX_HOST + '/app/collect'
 }

@@ -7,6 +7,7 @@ import { Card, Row, Col, Divider, message } from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import _ from 'lodash'
 import ApplicationCard from './application-card/ApplicationCard'
 import { connect } from 'react-redux'
 import './PersonalCenter.scss'
@@ -165,57 +166,39 @@ class PersonalCenter extends Component {
     )
   }
 
-  // 根据展开状态及数据数量生成APP列表
-  createAppList = (openStatus, appList, type) => {
+  // 生成APP列表
+  createAppList=(appList, type) => {
+    console.log(type)
     let list = []
-    if (openStatus) { // 展开状态
-      appList.forEach((item, index) => {
-        let app = (
-          <Col span={6} key={index}>
-            <ApplicationCard
-              type={type}
-              content={item}
-              share={this.props.role === 'teacher'}
-              deleteCheck={this.state.deleteActive[type]}
-            />
-          </Col>
-        )
-        list.push(app)
-      })
-    } else { // 收起状态 应用列表大于十个
-      if (appList.length > 10) {
-        appList.forEach((item, index) => {
-          if (index < 10) {
-            let app = (
-              <Col span={6} key={index}>
-                <ApplicationCard
-                  type={type}
-                  content={item}
-                  share={this.props.role === 'teacher'}
-                  deleteCheck={this.state.deleteActive[type]}
-                />
-              </Col>
-            )
-            list.push(app)
-          }
-        })
-      } else { // 收起状态 应用列表小于等于十个
-        appList.forEach((item, index) => {
-          let app = (
-            <Col span={6} key={index}>
-              <ApplicationCard
-                type={type}
-                content={item}
-                share={this.props.role === 'teacher'}
-                deleteCheck={this.state.deleteActive[type]}
-              />
-            </Col>
-          )
-          list.push(app)
-        })
-      }
-    }
+    appList.forEach((item, index) => {
+      let app = (
+        <Col span={6} key={index}>
+          <ApplicationCard
+            type={type}
+            content={item}
+            share={this.props.role === 'teacher'}
+            deleteCheck={this.state.deleteActive[type]}
+            download={Boolean(type === 'studentApps' || type === 'myCollections')}
+            collection={Boolean(type === 'studentApps')}
+            refresh={this.getApps}
+          />
+        </Col>
+      )
+      list.push(app)
+    })
     return list
+  }
+
+  // 判断应用列表数量
+  getAppList = (openStatus, appList, type) => {
+    if (appList.length === 0) {
+      return null
+    }
+    if (openStatus) { // 展开状态
+      return this.createAppList(appList, type)
+    } else { // 收起状态 应用列表大于十个
+      return this.createAppList(_.take(appList, 10), type)
+    }
   }
 
   init = () => {
@@ -238,11 +221,10 @@ class PersonalCenter extends Component {
           title='我的应用'
           bordered={false}
           extra={this.getOpts('myApps')}
-          className={this.state.openStatus['myApps'] ? 'open' : 'take-up'}
         >
           <Row gutter={16} >
             {
-              this.createAppList(this.state.openStatus['myApps'], this.state.myApps, 'myApps')
+              this.getAppList(this.state.openStatus['myApps'], this.state.myApps, 'myApps')
             }
           </Row>
         </Card>
@@ -252,11 +234,10 @@ class PersonalCenter extends Component {
               title='学生应用'
               bordered={false}
               extra={this.getOpts('studentApps')}
-              className={this.state.openStatus['studentApps'] ? 'open' : 'take-up'}
             >
               <Row gutter={16} >
                 {
-                  this.createAppList(this.state.openStatus['studentApps'], this.state.studentApps, 'studentApps')
+                  this.getAppList(this.state.openStatus['studentApps'], this.state.studentApps, 'studentApps')
                 }
               </Row>
             </Card>
@@ -266,11 +247,10 @@ class PersonalCenter extends Component {
           title='我的收藏'
           bordered={false}
           extra={this.getOpts('myCollections')}
-          className={this.state.openStatus['myCollections'] ? 'open' : 'take-up'}
         >
           <Row gutter={16} >
             {
-              this.createAppList(this.state.openStatus['myCollections'], this.state.myCollections, 'myCollections')
+              this.getAppList(this.state.openStatus['myCollections'], this.state.myCollections, 'myCollections')
             }
           </Row>
         </Card>

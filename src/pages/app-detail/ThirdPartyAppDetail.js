@@ -41,9 +41,7 @@ export default class ThirdPartyAppDetail extends React.Component {
   // 获取应用详情数据
   getThirdPartyAppDetailData = () => {
     axios.post(ajaxUrl.thirdPartyAppDetail, {
-      params: {
-        sw_id: this.state.appId
-      }
+      sw_id: this.state.appId
     }).then((res) => {
       console.log(2222222, res.data)
       this.setState({
@@ -93,7 +91,7 @@ export default class ThirdPartyAppDetail extends React.Component {
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2640553151,1248485598&fm=27&gp=0.jpg' />
+          <img src={this.state.appDetailData.sw_icon} />
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>

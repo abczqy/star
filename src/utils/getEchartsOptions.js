@@ -10,6 +10,10 @@ const getEchartsOptions = (data, type, title, config) => {
 
   switch (type) {
     case 'pie-doughnut':
+      let legendDatas = []
+      data.forEach((item, index) => {
+        legendDatas.push(item.name)
+      })
       options = {
         title: {
           text: title,
@@ -27,12 +31,12 @@ const getEchartsOptions = (data, type, title, config) => {
           orient: 'vertical',
           x: 'right',
           y: 'middle',
-          data: ['直接访问', '邮件营销', '联盟广告']
+          data: legendDatas
         },
         color: ['#f0647e', '#58acfb', '#fad352'],
         series: [
           {
-            name: '访问来源',
+            name: '',
             type: 'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
@@ -54,16 +58,29 @@ const getEchartsOptions = (data, type, title, config) => {
                 show: false
               }
             },
-            data: [
-              { value: 335, name: '直接访问' },
-              { value: 310, name: '邮件营销' },
-              { value: 234, name: '联盟广告' }
-            ]
+            data
           }
         ]
       }
       break
     case 'area-stack':
+      let legendDatasLine = []
+      let seriesData = []
+      data.data.forEach((item, index) => {
+        legendDatasLine.push(item.name)
+        seriesData.push(
+          {
+            name: item.name,
+            type: 'line',
+            stack: '总量',
+            areaStyle: {
+              //       color: 'rgba(45,183,245,0.5)'
+            },
+            smooth: true,
+            data: item.value
+          }
+        )
+      })
       options = {
         title: {
           text: title,
@@ -83,7 +100,7 @@ const getEchartsOptions = (data, type, title, config) => {
           }
         },
         legend: {
-          data: ['邮件营销', '联盟广告'],
+          data: legendDatasLine,
           x: 'right',
           selectedMode: false
         },
@@ -97,7 +114,7 @@ const getEchartsOptions = (data, type, title, config) => {
           {
             type: 'category',
             boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            data: data.xAxis
           }
         ],
         yAxis: [
@@ -106,26 +123,28 @@ const getEchartsOptions = (data, type, title, config) => {
           }
         ],
         color: ['#2db7f5', '#808bc6'],
-        series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {
-              color: 'rgba(45,183,245,0.5)'
-            },
-            smooth: true,
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            areaStyle: { color: 'rgba(178,198,230,0.5)' },
-            smooth: true,
-            data: [220, 182, 191, 234, 290, 330, 310]
-          }
-        ]
+        series: seriesData
+
+        // [
+        //   {
+        //     name: '邮件营销',
+        //     type: 'line',
+        //     stack: '总量',
+        //     areaStyle: {
+        //       color: 'rgba(45,183,245,0.5)'
+        //     },
+        //     smooth: true,
+        //     data: [120, 132, 101, 134, 90, 230, 210]
+        //   },
+        //   {
+        //     name: '联盟广告',
+        //     type: 'line',
+        //     stack: '总量',
+        //     areaStyle: { color: 'rgba(178,198,230,0.5)' },
+        //     smooth: true,
+        //     data: [220, 182, 191, 234, 290, 330, 310]
+        //   }
+        // ]
       }
       break
     default:

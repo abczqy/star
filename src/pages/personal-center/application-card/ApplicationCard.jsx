@@ -3,9 +3,12 @@
  */
 
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Badge, Icon, Popover, Modal } from 'antd'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import './ApplicationCard.scss'
 import warnPng from '../../../assets/images/personal/warn.png'
 
@@ -26,7 +29,7 @@ class ApplicationCard extends Component {
   }
 
   // 设置选择分享对象气泡的显示
-  setSharePopoverVisible=(visible) => {
+  setSharePopoverVisible = (visible) => {
     this.setState({
       sharePopoverVisible: visible
     })
@@ -41,7 +44,7 @@ class ApplicationCard extends Component {
   }
 
   // 生成分享对象列表
-  createShareList=(data) => {
+  createShareList = (data) => {
     let list = []
     _.forIn(data, (value, key) => {
       list.push(<div className='share-list-item' key={key} onClick={() => { this.share(key) }} >{value}</div>)
@@ -50,7 +53,7 @@ class ApplicationCard extends Component {
   }
 
   // 确定分享
-  shareEnsure=() => {
+  shareEnsure = () => {
     console.log('确定分享')
   }
 
@@ -61,10 +64,24 @@ class ApplicationCard extends Component {
   }
 
   // 控制分享确认弹窗的状态
-  setShareConfirmVisible=(bool) => {
+  setShareConfirmVisible = (bool) => {
     this.setState({
       shareConfirmVisible: bool
     })
+  }
+
+  // 收藏/取消收藏 操作
+  collectOption = (id, type) => {
+    axios.post(ajaxUrl.studentAppsCollect, {
+      sw_id: id,
+      type
+    }).then(res => {
+      if (res.data.result === 'success') {
+        // 收藏成功后刷新数据
+        this.props.refresh(ajaxUrl.personalCollections, 'myCollections')
+        this.props.refresh(ajaxUrl.studentApps, 'studentApps')
+      }
+    }).catch(e => { console.log(e) })
   }
 
   render () {
@@ -104,7 +121,7 @@ class ApplicationCard extends Component {
         </Badge>
         {/* 应用文字介绍 */}
         <div className='info'>
-          <div className='name'>{this.props.content.sw_name}-{this.props.content.sw_id}</div>
+          <div className='name'>{this.props.content.sw_name}</div>
           <div className='description ellipsis'>{this.props.content.sw_desc}</div>
         </div>
         {/* 更新 */}
@@ -121,15 +138,19 @@ class ApplicationCard extends Component {
             <div className='download opt-box'>
               {
                 this.props.collection && (
-                  <span className='collection plr6'>
-                    <Icon type='star-o' />
-                  </span>
+                  this.props.content.collectionStatus
+                    ? <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.sw_id, 'cancel') }}>
+                      <Icon type='star' />
+                    </span>
+                    : <span className='collection  plr6' onClick={() => { this.collectOption(this.props.content.sw_id, 'collect') }}>
+                      <Icon type='star-o' />
+                    </span>
                 )
               }
-              <span>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail', search: this.props.content.sw_id}} >
                 <Icon type='download' className='plr6' />
                 <span className='plr6'>下载</span>
-              </span>
+              </Link>
             </div>
           )
         }
@@ -182,7 +203,8 @@ ApplicationCard.propTypes = {
   open: PropTypes.bool,
   collection: PropTypes.bool,
   deleteCheck: PropTypes.bool,
-  type: PropTypes.string
+  type: PropTypes.string,
+  refresh: PropTypes.func
 }
 
 export default ApplicationCard

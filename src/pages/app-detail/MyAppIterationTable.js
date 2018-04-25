@@ -81,7 +81,7 @@ class MyAppIterationTable extends Component {
     let params = {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize,
-      fa_id: 1, // 厂商id
+      fa_id: 'fa_123456', // 厂商id
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name // 应用名称
     }
@@ -137,10 +137,8 @@ class MyAppIterationTable extends Component {
   }
   // 撤销操作确认
   confirm = (e) => {
-    axios.post(ajaxUrl.myAppRevoke, {
-      params: {
-        sw_id: e.sw_id
-      }
+    axios.put(ajaxUrl.myAppRevoke, {
+      sw_id: e.sw_id
     }).then((res) => {
       this.getMyAppInOperationData()
     }).catch((e) => { console.log(e) })

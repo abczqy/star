@@ -91,47 +91,31 @@ class InformationDet extends React.Component {
     </div>)
   }
   render () {
-    return <div style={{margin: 'auto'}}>
-      <div>
-        <Row>
-          <Col span={5} style={{width: '24%'}}>
-            <div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-                <ul className='ul-margin'>
-                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                    return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                  })}
-                </ul>
-              </Card>
-            </div>
-            <img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' />
-          </Col>
-          <Col span={15}>
-            <div style={{backgroundColor: '#fff', width: '940px'}}>
-              <Row>
-                <ul className='details-li-ul'>
-                  <li className='details-li-hover'>
-                    <span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span>
-                  </li>
-                </ul>
-              </Row>
-              <Row>
-                <Col span={14}>
-                  <div className='details-right-div'>
-                    <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1' }</p>
-                    <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '1' }</span>
-                    <div className='details-right-div-div'>
-                      <div style={{marginBottom: '30px'}}>
-                        {this.state.infoData ? this.state.infoData.info_desc : '1' }
-                      </div>
-                      <div style={{width: '700px', alignContent: 'right'}}>
-                        <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
-                      </div>
-                    </div>
+    return (
+      <div className='news-list-container'>
+        <div id='right-container'>
+          <div style={{backgroundColor: '#fff', width: '100%'}}>
+            <Row>
+              <ul className='details-li-ul'>
+                <li className='details-li-hover'><span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>
+              </ul>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <div className='details-right-div'>
+                  <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1'}</p>
+                  <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '时间'}</span>
+                  <div className='details-right-div-div'>
+                    {this.state.infoData ? this.state.infoData.info_desc : '文章'}
                   </div>
-                </Col>
-              </Row>
-              <Row style={{marginBottom: '18px', marginLeft: '110px'}}>
+                  <div style={{width: '700px', alignContent: 'right'}}>
+                    <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <div style={{marginBottom: '18px', marginLeft: '15%'}}>
                 <div style={{width: '200px', height: '30px'}}>
                   <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
                   <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
@@ -141,21 +125,32 @@ class InformationDet extends React.Component {
                   <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
                 </div>
                 <div>
-                  <img src={this.state.imgZui} style={{width: '739px'}} alt='' />
+                  <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
                 </div>
-                <div>
-                  <ul className='details-li-ul-down'>
-                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                      return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
-                    })}
-                  </ul>
-                </div>
-              </Row>
-            </div>
-          </Col>
-        </Row>
+                <ul className='details-li-ul-down'>
+                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item}</li> : null
+                  })}
+                </ul>
+              </div>
+            </Row></div>
+        </div>
+        <div id='left-container'>
+          <div className='center-public-info'>
+            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
+              <ul>
+                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                })}
+              </ul>
+            </Card>
+          </div>
+          <div className='bottom-img'>
+            <img src={this.state.imgT} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+          </div>
+        </div>
       </div>
-    </div>
+    )
   }
 }
 

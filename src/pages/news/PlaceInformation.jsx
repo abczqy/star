@@ -146,13 +146,13 @@ class Information extends React.Component {
     }
   }
   render () {
-    return <div style={{margin: 'auto'}}>
+    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <div >
         <Row>
-          <Col span={5} style={{width: '25%'}}>
-            <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '280px'}} alt='' /></a></div></Row>
+          <Col span={5} style={{width: '18%'}}>
+            <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '95%'}} alt='' /></a></div></Row>
             <Row><div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
                 <ul className='ul-margin'>
                   {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
                     return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
@@ -160,19 +160,19 @@ class Information extends React.Component {
                 </ul>
               </Card></div>
             </Row>
-            <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
+            <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
-          <Col span={16} >
-            <ul className='ul-top' style={{width: '850px', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
+          <Col span={16} style={{width: '68%'}}>
+            <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
               {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
-                return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '800px', height: '135px', backgroundColor: '#fff'}} key={index}>
+                return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                   <Col span={24}>
                     <Row>
                       <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>
                     </Row>
                     <Row>
                       <Col span={23}>
-                        <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.info_desc, 30)}</p>
+                        <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.info_desc, 150)}</p>
                       </Col>
                     </Row>
                     <Row>
@@ -181,19 +181,21 @@ class Information extends React.Component {
                   </Col>
                 </li>
               })}
+              <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}}>
+                <Row>
+                  <Col span={12} />
+                  <Col >
+                    <Pagination
+                      total={this.state.infoData.total}
+                      showSizeChanger
+                      showQuickJumper
+                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                      // pageSizeOptions={5}
+                    /></Col>
+                </Row>
+              </li>
             </ul>
-            <Row>
-              <Col span={8} />
-              <Col >
-                <Pagination
-                  total={this.state.infoData.total}
-                  showSizeChanger
-                  showQuickJumper
-                  onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                  onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                  // pageSizeOptions={5}
-                /></Col>
-            </Row>
           </Col>
         </Row>
       </div>

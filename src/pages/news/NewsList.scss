@@ -13,9 +13,6 @@
   font-size: 20px;
   list-style-image:url('../../assets/images/_ul.png')
 }
-.ul-top{
-  margin-top: 15px
-}
 .span-color:hover{
   background-color: rgb(144, 197, 240)
 }
@@ -51,9 +48,9 @@
   height:13px;
 }
 .details-right-div{
-  width:500px;
+  width:60%;
   text-align:center;
-  margin-left:180px;
+  margin-left:21%;
 }
 .details-right-div-div{
   text-indent: 2em;
@@ -86,7 +83,6 @@
 .left-downer{
   margin-bottom: 0px;
   margin-top: 10px;
-  width:320px
 }
 .ant-btn-danger{
   color:#fff!important;
@@ -183,4 +179,36 @@
   width:96%;
   background-color: #e4e4e4;
   margin-top:10px;
+}
+.ant-popover-inner-content{
+  width: 220px !important;
+}
+.news-list-container{
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top: 10px;
+  height: 100%;
+  #left-container{
+    width: 19%;
+    float:right;
+    margin-right: 5px;
+    .top-img{
+      margin-top: 10px;
+      height: 120px;
+      margin-bottom: 10px;
+    }
+    .center-public-info{
+      
+      
+    }
+    .bottom-img{
+      margin-top: 10px;
+      height: 120px;
+    }
+  }
+  #right-container{
+    width: 80%;
+    float:right;
+  }
+  
 }

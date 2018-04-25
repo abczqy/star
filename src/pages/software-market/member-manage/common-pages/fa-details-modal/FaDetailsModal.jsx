@@ -11,8 +11,15 @@ const modalConfig = {
 }
 
 class FaDetailsModal extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      res: '这是内容'
+    }
+  }
+
   render () {
-    const { getContainer, visible, footer, title, onCancel } = this.props
+    const { getContainer, visible, footer, title, onCancel, resData } = this.props
     return (
       <Modal
         {...modalConfig}
@@ -30,7 +37,7 @@ class FaDetailsModal extends Component {
         厂商名称
           </Col>
           <Col span={19} className='col-border-left'>
-        福州市第一小学
+            {resData ? resData.fa_name : null}
           </Col>
         </Row>
         <Row className='row-bottom-border row-top-padding'>
@@ -38,24 +45,23 @@ class FaDetailsModal extends Component {
             <Icon type='check' className='icon-check' />
           </Col>
           <Col span={3}>
-            厂商编号
+            厂商描述
+          </Col>
+          <Col span={19} className='col-border-left'>
+            {resData ? resData.fa_desc : null}
+          </Col>
+        </Row>
+        <Row className='row-bottom-border row-top-padding'>
+          <Col span={1}>
+            <Icon type='check' className='icon-check' />
+          </Col>
+          <Col span={3}>
+          合同编号
           </Col>
           <Col span={19} className='col-border-left'>
             <span>
-              这里是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述
-              是软件描述是软件描述是软件描述
+              {resData ? resData.fa_con_num : null}
             </span>
-          </Col>
-        </Row>
-        <Row className='row-bottom-border row-top-padding'>
-          <Col span={1}>
-            <Icon type='check' className='icon-check' />
-          </Col>
-          <Col span={3}>
-        合同编号
-          </Col>
-          <Col span={19} className='col-border-left'>
-        福州市第一小学
           </Col>
         </Row>
         <Row className='row-top-padding'>
@@ -66,7 +72,7 @@ class FaDetailsModal extends Component {
         营业执照
           </Col>
           <Col span={19} className='col-border-left'>
-            <img alt='营业执照照片' />
+            <img src={resData ? resData.contract_path : null} alt={resData ? resData.contract_path : null} />
           </Col>
         </Row>
       </Modal>
@@ -77,6 +83,7 @@ class FaDetailsModal extends Component {
 FaDetailsModal.propTypes = {
   getContainer: PropsTypes.func,
   visible: PropsTypes.bool,
+  resData: PropsTypes.any,
   footer: PropsTypes.array,
   title: PropsTypes.string,
   onCancel: PropsTypes.func
