@@ -19,8 +19,10 @@ export default class BusiRenewWin extends React.Component {
     let yearsOption = this.getDefaultYears()
     this.state = {
       yearsOption,
-      renewType: 'renew',
+      renewType: '1',
       renewValue: yearsOption.defaultYear,
+      renewStartTime: '', // 临时开通的开始时间
+      renewEndTime: '', // 临时开通的结束时间
       fileLoading: false,
       fileList: [] // 附件
     }
@@ -98,13 +100,39 @@ export default class BusiRenewWin extends React.Component {
   getFormData () {
     const { fileList } = this.state
     const formData = new FormData()
-    formData.append('sw_id', '1')
-    formData.append('renewType', this.state.renewType)
-    formData.append('renewValue', this.state.renewValue)
+    formData.append('type', this.state.renewType)
+    formData.append('fa_id', 'fa_123456')
+    // 临时开通
+    if (this.state.renewType === '0') {
+      formData.append('contract_start', this.state.renewStartTime)
+      formData.append('contract_end', this.state.renewEndTime)
+    } else { // 续费
+      formData.append('contract_end', this.state.renewValue)
+    }
     fileList.forEach((file) => {
-      formData.append('files[]', file)
+      formData.append('contract_path', file)
     })
     return formData
+  }
+
+  onChange = (field, value) => {
+    this.setState({
+      [field]: value ? value.format('YYYY-MM-DD') : ''
+    })
+  }
+
+  onStartChange= (value) => {
+    this.onChange('renewStartTime', value)
+  }
+
+  onEndChange = (value) => {
+    this.onChange('renewEndTime', value)
+  }
+
+  handleRenewRangeChange (value) {
+    this.setState({
+      renewValue: value
+    })
   }
 
   render () {
@@ -161,21 +189,23 @@ export default class BusiRenewWin extends React.Component {
           <Row className='contract-status'>
             <Col span={12}>
               <Radio.Group onChange={this.handleRenewTypeChange.bind(thiz)} value={this.state.renewType}>
-                <Radio style={radioStyle} value='tem'>临时开通：
+                <Radio style={radioStyle} value='0'>临时开通：
                   <DatePicker
                     style={{ width: 120 }}
                     disabledDate={this.disabledStartDate.bind(this)}
                     format='YYYY-MM-DD'
+                    onChange={this.onStartChange}
                     placeholder='选择日期'
                   /><span style={{margin: '15px'}}>-</span>
                   <DatePicker
                     style={{ width: 120 }}
                     disabledDate={this.disabledEndDate.bind(this)}
                     format='YYYY-MM-DD'
+                    onChange={this.onEndChange}
                     placeholder='选择日期'
                   /></Radio>
-                <Radio style={radioStyle} value='renew'>续费：
-                  <Select defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
+                <Radio style={radioStyle} value='1'>续费：
+                  <Select onChange={this.handleRenewRangeChange.bind(thiz)} defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
                     {
                       this.state.yearsOption.optionDatas.map((item, index, arr) => {
                         return <Select.Option key={index} value={item.value}>{item.text}</Select.Option>

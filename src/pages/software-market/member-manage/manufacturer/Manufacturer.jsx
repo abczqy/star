@@ -49,7 +49,7 @@ class Manufacturer extends Component {
         toLogin: 1,
         numDay: '正常'
       },
-      memRenewWinVisible: false,
+      memRenewWinVisible: true,
       memRenewRecord: {},
       delModalCon: {
         visible: false,

@@ -104,10 +104,10 @@ export default class MemRenewWin extends React.Component {
     formData.append('fa_id', 'fa_123456')
     // 临时开通
     if (this.state.renewType === '0') {
-      formData.append('contract_start', '2018-01-01')
-      formData.append('contract_end', '2018-05-01')
+      formData.append('contract_start', this.state.renewStartTime)
+      formData.append('contract_end', this.state.renewEndTime)
     } else { // 续费
-      formData.append('contract_end', '2018-05-01')
+      formData.append('contract_end', this.state.renewValue)
     }
     fileList.forEach((file) => {
       formData.append('contract_path', file)
@@ -127,6 +127,12 @@ export default class MemRenewWin extends React.Component {
 
   onEndChange = (value) => {
     this.onChange('renewEndTime', value)
+  }
+
+  handleRenewRangeChange (value) {
+    this.setState({
+      renewValue: value
+    })
   }
 
   render () {
@@ -201,7 +207,7 @@ export default class MemRenewWin extends React.Component {
                     placeholder='选择日期'
                   /></Radio>
                 <Radio style={radioStyle} value='1'>续费：
-                  <Select defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
+                  <Select onChange={this.handleRenewRangeChange.bind(thiz)} defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
                     {
                       this.state.yearsOption.optionDatas.map((item, index, arr) => {
                         return <Select.Option key={index} value={item.value}>{item.text}</Select.Option>
