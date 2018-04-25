@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Badge, Icon, Popover, Modal } from 'antd'
@@ -28,7 +29,7 @@ class ApplicationCard extends Component {
   }
 
   // 设置选择分享对象气泡的显示
-  setSharePopoverVisible=(visible) => {
+  setSharePopoverVisible = (visible) => {
     this.setState({
       sharePopoverVisible: visible
     })
@@ -43,7 +44,7 @@ class ApplicationCard extends Component {
   }
 
   // 生成分享对象列表
-  createShareList=(data) => {
+  createShareList = (data) => {
     let list = []
     _.forIn(data, (value, key) => {
       list.push(<div className='share-list-item' key={key} onClick={() => { this.share(key) }} >{value}</div>)
@@ -52,7 +53,7 @@ class ApplicationCard extends Component {
   }
 
   // 确定分享
-  shareEnsure=() => {
+  shareEnsure = () => {
     console.log('确定分享')
   }
 
@@ -63,20 +64,20 @@ class ApplicationCard extends Component {
   }
 
   // 控制分享确认弹窗的状态
-  setShareConfirmVisible=(bool) => {
+  setShareConfirmVisible = (bool) => {
     this.setState({
       shareConfirmVisible: bool
     })
   }
 
   // 收藏/取消收藏 操作
-  collectOption=(id, type) => {
+  collectOption = (id, type) => {
     axios.post(ajaxUrl.studentAppsCollect, {
       sw_id: id,
       type
     }).then(res => {
       if (res.data.result === 'success') {
-        // 收藏成功
+        // 收藏成功后刷新数据
         this.props.refresh(ajaxUrl.personalCollections, 'myCollections')
         this.props.refresh(ajaxUrl.studentApps, 'studentApps')
       }
@@ -146,10 +147,10 @@ class ApplicationCard extends Component {
                     </span>
                 )
               }
-              <span>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail', search: this.props.content.sw_id}} >
                 <Icon type='download' className='plr6' />
                 <span className='plr6'>下载</span>
-              </span>
+              </Link>
             </div>
           )
         }

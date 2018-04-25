@@ -96,7 +96,8 @@
     background: #FAFAFA;
     height: 35px;
     font-size: 12px; // overflow: hidden;
-    &>span {
+    &>span,
+    &>a {
       float: right;
       line-height: 25px;
       margin-right: 10px;
@@ -111,7 +112,7 @@
   }
   /*下载*/
   .download {
-    &>span {
+    &>a {
       background: #08A1E9;
       &>span {
         background: #40B3F9;
@@ -131,12 +132,10 @@
   }
   /*收藏*/
   .collection {
-    background-color: #FFBB45 !important;
-    // background-color: transparent !important;
+    background-color: #FFBB45 !important; // background-color: transparent !important;
     .anticon {
       font-size: 14px;
-      cursor: pointer;
-      // color: #FFBB45;
+      cursor: pointer; // color: #FFBB45;
     }
   }
 }
