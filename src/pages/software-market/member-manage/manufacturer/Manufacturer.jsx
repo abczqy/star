@@ -357,7 +357,7 @@ class Manufacturer extends Component {
             onChange: this.pageNumChange
           }}
         />
-        <MemRenewWin visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
+        <MemRenewWin record={this.state.memRenewRecord} visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
         <div ref='delLoginIdElem' />
         <DelLoginIdModal
           title='删除账号'
