@@ -54,7 +54,7 @@ class Manufacturer extends Component {
         num_day: '正常'
       },
       pagination,
-      memRenewWinVisible: false,
+      memRenewWinVisible: true,
       memRenewRecord: {},
       delModalCon: {
         visible: false
