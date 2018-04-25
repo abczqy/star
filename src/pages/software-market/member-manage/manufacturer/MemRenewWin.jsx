@@ -6,7 +6,7 @@ import React from 'react'
 import { Modal, Button, Row, Col, Radio, Upload, Icon, DatePicker, Select } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {appRenew} from 'services/software-manage'
+import {firmRenew} from 'services/software-manage'
 
 export default class MemRenewWin extends React.Component {
   static propTypes = {
@@ -64,7 +64,7 @@ export default class MemRenewWin extends React.Component {
    * 确定
    */
   handleSave () {
-    appRenew(this.getFormData(), (response) => {
+    firmRenew(this.getFormData(), (response) => {
 
     })
   }
@@ -76,11 +76,11 @@ export default class MemRenewWin extends React.Component {
   getFormData () {
     const { fileList } = this.state
     const formData = new FormData()
-    formData.append('sw_id', '1')
-    formData.append('renewType', this.state.renewType)
-    formData.append('renewValue', this.state.renewValue)
+    formData.append('fa_id', 'fa_123456')
+    formData.append('contract_start', '2018-01-01')
+    formData.append('contract_end', '2018-05-01')
     fileList.forEach((file) => {
-      formData.append('files[]', file)
+      formData.append('contract_path', file)
     })
     return formData
   }
@@ -125,12 +125,14 @@ export default class MemRenewWin extends React.Component {
         <div className='busi-renew-container'>
           <Row>
             <Col span={24} className='soft-name' >
-              厂商名称：{ ''}
+              厂商名称：{ this.props.record.fa_name || ''}
             </Col>
           </Row>
           <Row gutter={22}>
             <Col span={12}>
-              <span className='contract-title'>合同起止日期:<span className='contract-value'>2017年4月10日 - 2018年4月10日</span></span>
+              <span className='contract-title'>合同起止日期:
+                <span className='contract-value'>2017年4月10日 - 2018年4月10日</span>
+              </span>
             </Col>
             <Col span={12}>
               <span className='contract-title'>合同状态:<span className='contract-value' style={{color: '#FF6600'}}>余{0}天</span></span>

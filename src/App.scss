@@ -13,18 +13,19 @@ body {
   margin-top: -50px;
   margin-left: -50px;
 }
-
-.xingyun-header {
-  background: white !important;
-  height: 65px;
-}
-
-.xingyun-logo {
-  width: 172px;
-  height: 27px;
-  margin-top: 16px;
-  background: url("./assets/images/software-market/u49.png") no-repeat center;
-  background-size: 100% 100%;
+.xingyun{
+  .xingyun-header{
+    background: white !important;
+    height: 65px;
+    padding: 0 6% !important;
+    .xingyun-logo {
+      width: 172px;
+      height: 27px;
+      margin-top: 16px;
+      background: url("./assets/images/software-market/u49.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+  }
 }
 
 .sider-bar {

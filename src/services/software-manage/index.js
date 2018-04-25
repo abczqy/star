@@ -31,6 +31,16 @@ export function firmRenewList (params, sucFn) {
 }
 
 /**
+ * 会员管理-厂商-厂商详情
+ */
+export function getFactoryDetail (params, sucFn) {
+  return axios.post('/factoryManage/getdetail', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-厂商-续签
  */
 export function firmRenew (params, sucFn) {

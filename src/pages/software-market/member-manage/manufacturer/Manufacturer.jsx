@@ -16,6 +16,7 @@ import { BlankBar, SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import 'pages/software-market/SoftwareMarket.scss'
 import MemRenewWin from './MemRenewWin'
+import {getFactoryDetail} from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -100,7 +101,7 @@ class Manufacturer extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <a href='javascript:void(0)' onClick={() => this.showMemRenewWin()}>续费</a>
+            <a href='javascript:void(0)' onClick={() => this.showMemRenewWin(record)}>续费</a>
             <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={() => this.showFaDetModal()}>详情</a>
             <Divider type='vertical' />
@@ -313,9 +314,19 @@ class Manufacturer extends Component {
     })
   }
 
-  showMemRenewWin () {
-    this.setState({
-      memRenewWinVisible: true
+  /**
+   * 获取当前选中行的信息
+   * @param fa_id
+   */
+  showMemRenewWin (record) {
+    getFactoryDetail({
+      fa_id: record.fa_id
+    }, (response) => {
+      let result = response.data
+      this.setState({
+        memRenewRecord: result.data || {},
+        memRenewWinVisible: true
+      })
     })
   }
 
@@ -346,7 +357,7 @@ class Manufacturer extends Component {
             onChange: this.pageNumChange
           }}
         />
-        <MemRenewWin visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
+        <MemRenewWin record={this.state.memRenewRecord} visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
         <div ref='delLoginIdElem' />
         <DelLoginIdModal
           title='删除账号'

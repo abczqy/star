@@ -53,12 +53,12 @@ class LoginHome extends React.Component {
   }
   render () {
     return (
-      <div>
+      <div className='xingyun'>
         <Layout>
           {
             this.props.isLogged ? (
               <div style={{height: '30px', width: '100%', margin: 'auto'}}>
-                <div style={{height: '30px', marginLeft: '50px', float: 'left'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+                <div style={{height: '30px', marginLeft: '6%', float: 'left', lineHeight: '30px'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
                 <div style={{height: '30px', float: 'right', marginRight: '50px'}} className='header-bar-icon'>
                   <Badge count={5} >
                     <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />
@@ -69,8 +69,8 @@ class LoginHome extends React.Component {
               </div>
             ) : null
           }
-          <Layout.Header className='xingyun-header' style={{height: '92px'}}>
-            <div className='xingyun-logo' style={{marginTop: '30px'}} />
+          <Layout.Header className='xingyun-header'>
+            <div className='xingyun-logo' />
           </Layout.Header>
           <Layout className='xingyun-top-header'>
             <div className='header-container'>

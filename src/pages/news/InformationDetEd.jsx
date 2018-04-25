@@ -94,10 +94,10 @@ class InformationDetEd extends React.Component {
     </div>)
   }
   render () {
-    return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+    return <div style={{margin: 'auto'}}>
+      <div >
         <Row>
-          <Col span={5} style={{width: '30%'}}>
+          <Col span={5} style={{width: '24%'}}>
             <div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                 <ul className='ul-margin'>
@@ -109,7 +109,7 @@ class InformationDetEd extends React.Component {
             </div>
             <img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' />
           </Col>
-          <Col span={15}>
+          <Col span={15} style={{marginTop: '10px'}}>
             <div style={{backgroundColor: '#fff', width: '940px'}}>
               <Row>
                 <ul className='details-li-ul'>

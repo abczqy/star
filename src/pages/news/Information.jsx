@@ -5,7 +5,6 @@
  */
 import React from 'react'
 import {Row, Col, Card, Pagination, Cascader} from 'antd'
-import BottomHeader from '../../components/common/BottomHeader'
 import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
@@ -194,10 +193,10 @@ class Information extends React.Component {
   }
   render () {
     console.log('要用的数据', this.state.infoData)
-    return <div style={{marginBottom: '20px'}}>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+    return <div style={{margin: 'auto'}}>
+      <div>
         <Row>
-          <Col span={5} style={{width: '30%'}}>
+          <Col span={5} style={{width: '26%'}}>
             <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
             <Row><div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
@@ -242,9 +241,9 @@ class Information extends React.Component {
                 </li>
               })}
             </ul>
-            <Row>
-              <Col span={9} />
-              <Col span={14}>
+            <Row style={{marginBottom: '10px'}}>
+              <Col span={8} />
+              <Col >
                 {this.state.infoData.total >= 5
                   ? <Pagination
                     total={this.state.infoData.total}
@@ -256,7 +255,7 @@ class Information extends React.Component {
                   /> : null}</Col>
             </Row>
           </Col>
-        </Row></div><BottomHeader />
+        </Row></div>
     </div>
   }
 }

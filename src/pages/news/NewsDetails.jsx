@@ -12,7 +12,6 @@ import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
 import _ul from '../../assets/images/_ul.png'
 import shareContent from '../../utils/shareContent'
-import BottomHeader from '../../components/common/BottomHeader'
 import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
@@ -96,10 +95,10 @@ class NewsDetails extends React.Component {
   }
 
   render () {
-    return <div>
-      <div style={{marginLeft: '15%'}}>
+    return <div style={{margin: 'auto'}}>
+      <div>
         <Row>
-          <Col span={5} style={{width: '30%'}}>
+          <Col span={5} style={{width: '24%'}}>
             <Col span={24}>
               <div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
@@ -153,7 +152,6 @@ class NewsDetails extends React.Component {
               </Row></div>
           </Col>
         </Row></div>
-      <BottomHeader />
     </div>
   }
 }
