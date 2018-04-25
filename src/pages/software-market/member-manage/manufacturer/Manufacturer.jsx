@@ -10,24 +10,20 @@
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider, Icon, Popover, Button } from 'antd'
-import axios from 'axios'
-import ajaxUrl from 'config'
+// import axios from 'axios'
+// import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
-import 'pages/software-market/SoftwareMarket.scss'
 import MemRenewWin from './MemRenewWin'
-import {getFactoryDetail} from 'services/software-manage'
-
-/**
-   * 表格分页器设置-默认值
-   */
-const pagination = {
-  pageNum: 1,
-  pageSize: 10,
-  showQuickJumper: true,
-  showSizeChanger: true,
-  text: '' // 用来赋空翻页后的search框--需要这样吗
-}
+import {
+  firmRenewList,
+  delFaId,
+  changeFaLoginState,
+  initFaPwd,
+  getFaDetails,
+  getFactoryDetail
+} from 'services/software-manage'
+import 'pages/software-market/SoftwareMarket.scss'
 
 /**
    * 表格的columns -- 后面用json文件配置出去 --参照bdq
@@ -48,20 +44,35 @@ class Manufacturer extends Component {
       reqParam: {
         pageSize: 15,
         pageNum: 1,
-        fa_name: '东方国信',
-        fa_loginid: 'bonc',
-        to_login: '1',
-        num_day: '正常'
+        faName: '东方国信', // 临时值 后面赋空
+        faLoginid: 'bonc',
+        toLogin: 1,
+        numDay: '正常'
       },
-      pagination,
       memRenewWinVisible: false,
       memRenewRecord: {},
       delModalCon: {
-        visible: false
+        visible: false,
+        faId: null
       },
       faDetModalCon: {
-        visible: false
+        visible: false,
+        resData: null
       }
+    }
+  }
+
+  /**
+   * 表格分页器设置-默认值
+   */
+  getPagination = () => {
+    const { pageSize, pageNum } = this.state.reqParam
+    return {
+      pageNum: pageNum,
+      pageSize: pageSize,
+      showQuickJumper: true,
+      showSizeChanger: true,
+      text: '' // 用来赋空翻页后的search框--需要这样吗
     }
   }
 
@@ -73,8 +84,8 @@ class Manufacturer extends Component {
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'fa_loginid',
-      key: 'fa_loginid',
+      dataIndex: 'fa_id',
+      key: 'fa_id',
       width: 200
     }, {
       title: '在运营软件数',
@@ -89,8 +100,12 @@ class Manufacturer extends Component {
       dataIndex: 'to_login',
       key: 'to_login',
       render: (text, record, index) => {
+        let check = true
+        if (text === 0) {
+          check = false
+        }
         return (
-          <Switch />
+          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
         )
       }
     }, {
@@ -101,9 +116,9 @@ class Manufacturer extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <a href='javascript:void(0)' onClick={() => this.showMemRenewWin(record)}>续费</a>
+            <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续费</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={() => this.showFaDetModal()}>详情</a>
+            <a href='javascript:void(0)' onClick={(e) => this.showFaDetModal(record)}>详情</a>
             <Divider type='vertical' />
             <Popover placement='rightTop' content={this.getPopContent(record)} trigger='click'>
               <a href='javascript:void(0)'>
@@ -118,10 +133,23 @@ class Manufacturer extends Component {
 
   getPopContent = (record) => {
     return (<div>
-      <div><a href='javascript:void(0)'>初始密码</a></div>
+      <div><a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a></div>
       <Divider className='slim-divid' />
       <div><a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a></div>
     </div>)
+  }
+
+  getParams = () => {
+    const { pageSize, pageNum, faName, faLoginid, toLogin, numDay } = this.state.reqParam
+    // 最后都要赋空
+    return {
+      pageSize: pageSize || 15,
+      pageNum: pageNum || 1,
+      fa_name: faName || '东方国信',
+      fa_loginid: faLoginid || 'bonc',
+      to_login: toLogin || '1',
+      num_day: numDay || '正常'
+    }
   }
 
   /**
@@ -130,36 +158,36 @@ class Manufacturer extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.getFactory, {
-      params: {
-        // 在初始渲染页面时 这里不给任何参数 请求所有数据
-        pageSize: 15,
-        pageNum: 1,
-        fa_name: '东方国信',
-        fa_loginid: 'bonc',
-        to_login: '1',
-        num_day: '正常'
-      }
-    }).then((res) => {
-      const data = res.data
-      console.log(`data: ${JSON.stringify(data)}`)
+    firmRenewList(this.getParams(), (res) => {
+      const resData = res.data
+      // console.log(`resData: ${JSON.stringify(resData)}`)
       this.setState({
         tableData: {
-          data: data.list,
-          total: data.total
+          data: resData.list,
+          total: resData.total
         }
       })
-      // 手动生成key值 把fa_id映射成key
-    }).catch((e) => { console.log(e) })
+    })
   }
 
   // 显示‘详情’弹窗
   showFaDetModal = (record) => {
-    this.setState({
-      faDetModalCon: {
-        ...this.state.faDetModalCon,
-        visible: true
-      }
+    // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
+    const thiz = this
+    // 获取对应的后台数据
+    const params = {
+      fa_id: record.fa_id
+    }
+    getFaDetails(params, (res) => {
+      const resData = res.data
+      // 通过state将数据res传给子组件
+      thiz.setState({
+        faDetModalCon: {
+          ...this.state.faDetModalCon,
+          visible: true,
+          resData: resData
+        }
+      })
     })
   }
   // 关闭‘详情’弹窗
@@ -174,10 +202,12 @@ class Manufacturer extends Component {
 
   // 显示‘删除账号’弹窗
   showDetModal = (record) => {
+    // console.log(`record.fa_id : ${record.fa_id}`)
     this.setState({
       delModalCon: {
         ...this.state.delModalCon,
-        visible: true
+        visible: true,
+        faId: record.fa_id // 还要对齐 后台用的哪个参数
       }
     })
   }
@@ -195,12 +225,12 @@ class Manufacturer extends Component {
    * 当搜索框‘账号’值改变时回调
    */
   onFaLoginidChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+    // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        fa_loginid: e.target.value
+        faLoginid: e.target.value
       }
     })
   }
@@ -209,12 +239,12 @@ class Manufacturer extends Component {
    * 当搜索框‘厂商名称’值改变时回调
    */
   onFaNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+    // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        fa_name: e.target.value
+        faName: e.target.value
       }
     })
   }
@@ -223,12 +253,12 @@ class Manufacturer extends Component {
    * 当下拉选择框‘合同状态’值改变时回调
    */
   onNumDayChange = (val) => {
-    console.log(`val: ${val}`)
+    // console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        num_day: val
+        numDay: val
       }
     })
   }
@@ -237,33 +267,72 @@ class Manufacturer extends Component {
    * 当下拉选择框‘允许登录’值改变时回调
    */
   onToLogin = (val) => {
-    console.log(`val: ${val}`)
+    // console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        to_login: val
+        toLogin: val
       }
     })
-  }
-
-  /**
-   * 临时用来字符串化对象 -- 测试结束后删除
-   */
-  Obj2String = (obj) => {
-    let str = ''
-    for (let item in obj) {
-      str += `${item}: ${obj[item]} \n`
-    }
-    return str
   }
 
   /**
    * 当点击'搜索按钮时的回调'
    */
   search = () => {
-    // 拿到state中的reqParam值去向后台请求数据
-    // 请求接口后面根据请求的类别(厂商 学生...)封装下
+    // 参数已在state中更新 直接请求最新的列表数据
+    this.getTableDatas()
+  }
+
+  /**
+   * 删除某个厂商的账号
+   */
+  handleDelLoginId = () => {
+    const params = {
+      fa_id: this.state.delModalCon.faId
+    }
+    delFaId(params, (res) => {
+      // 这里其实应改通过state映射到一个view上 有个'删除成功'的提示
+      console.log(`res.data.msg: ${res.data.msg}`)
+    })
+    // 关闭弹窗
+    this.handleDelLoginIdCancel()
+    // 重新刷新数据dataSource
+    this.getTableDatas()
+  }
+
+  /**
+   * 点击改变'改变登录状态'
+   */
+  changeLoginState = (checked, record) => {
+    const toLogin = checked ? 1 : 0
+    // console.log(`toLogin: ${toLogin}`)
+    // 调用‘改变登录状态的接口’更新后台数据
+    const params = {
+      fa_id: record.fa_id,
+      to_login: toLogin
+    }
+    changeFaLoginState(params, (res) => {
+      console.log(`res.data.msg: ${res.data.msg}`)
+    })
+    // 刷新表格数据
+    this.getTableDatas()
+    // 后面再加上loading + 操作成功的提示
+  }
+
+  /**
+   * 初始化厂商密码
+   */
+  initPwd = (record) => {
+    const params = {
+      fa_id: record.fa_id
+    }
+    initFaPwd(params, (res) => {
+      console.log(`res.data.msg: ${res.data.msg}`)
+    })
+    // 最好有个确认的弹窗什么的
+    // 后面再加上loading + 操作成功的提示
   }
 
   /**
@@ -306,6 +375,7 @@ class Manufacturer extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+    // const thiz = this
   }
 
   handleCloseMemRenewWin () {
@@ -365,13 +435,14 @@ class Manufacturer extends Component {
           getContainer={() => this.refs.delLoginIdElem}
           onCancel={this.handleDelLoginIdCancel}
           footer={[
-            <Button key='ok' type='primary' onClick={this.handleDelLoginIdCancel} >确定</Button>,
+            <Button key='ok' type='primary' onClick={this.handleDelLoginId} >确定</Button>,
             <Button key='cancel'onClick={this.handleDelLoginIdCancel} >取消</Button>
           ]}
         />
         <div ref='faDetElem' className='fa-det-wrap' />
         <FaDetailsModal
-          title='删除账号'
+          title='厂商详情'
+          resData={faDetModalCon.resData}
           visible={faDetModalCon.visible}
           getContainer={() => this.refs.faDetElem}
           onCancel={this.handleFaDetCancel}
