@@ -41,11 +41,18 @@ window.mungConfig = {
   // 个人中心-我的收藏
   personalCollections: AJAX_HOST + '/personal/collections',
 
+  // 个人中心-学生应用
+  studentApps: AJAX_HOST + '/personal/collections', // wyl 待修改
+
   // 个人中心-我的应用删除
   personalAppsDelete: AJAX_HOST + '/personal/apps/delete',
 
   // 个人中心-我的收藏删除
   personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete',
+
+  // 个人中心-学生应用删除
+  studentAppsDelete: AJAX_HOST + '/personal/collections/delete', // wyl 待修改
+
   // 厂商登录首页排行榜
   manufacturerSignInRankingList: AJAX_HOST + '/app/charts',
   // 全部应用
@@ -84,7 +91,7 @@ window.mungConfig = {
   register: AJAX_HOST + '/register/registermaf', // 注册按钮
   /* 账号设置 */
   relationQueryStu: AJAX_HOST + '/addRelation/queryStu', // 家长注册接口-查询与家长绑定的学生
-  relationAdd: AJAX_HOST + '/addRelation/add', // 接口名称:	家长注册接口-与学生绑定
+  relationAdd: AJAX_HOST + '/addRelation/add', // 接口名称:家长注册接口-与学生绑定
   relationdelete: AJAX_HOST + '/addRelation/delete', // 家长注册接口-查询与家长绑定的学生
 
   sessionLogout: AJAX_HOST + '/session/logout', // 登出

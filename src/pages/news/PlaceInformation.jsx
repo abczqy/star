@@ -146,10 +146,10 @@ class Information extends React.Component {
     }
   }
   render () {
-    return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+    return <div style={{margin: 'auto'}}>
+      <div >
         <Row>
-          <Col span={5} style={{width: '30%'}}>
+          <Col span={5} style={{width: '25%'}}>
             <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '280px'}} alt='' /></a></div></Row>
             <Row><div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
@@ -162,8 +162,8 @@ class Information extends React.Component {
             </Row>
             <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
-          <Col span={16}>
-            <ul className='ul-top' style={{width: '850px', height: '679px', backgroundColor: '#fff'}}>
+          <Col span={16} >
+            <ul className='ul-top' style={{width: '850px', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
               {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                 return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '800px', height: '135px', backgroundColor: '#fff'}} key={index}>
                   <Col span={24}>
@@ -183,7 +183,7 @@ class Information extends React.Component {
               })}
             </ul>
             <Row>
-              <Col span={9} />
+              <Col span={8} />
               <Col >
                 <Pagination
                   total={this.state.infoData.total}

@@ -17,6 +17,7 @@ class PersonalCenter extends Component {
     this.state = {
       myApps: [],
       myCollections: [],
+      studentApps: [],
       openStatus: {// 卡片展开：true,卡片收起：false
         myApps: false,
         studentApps: false,
@@ -35,33 +36,18 @@ class PersonalCenter extends Component {
     }
   }
 
-  // 获取我的应用
-  getMyApps = () => {
-    axios.post(ajaxUrl.personalApps, {}).then(res => {
+  // 获取应用数据
+  getApps = (url, state) => {
+    axios.post(url, {}).then(res => {
       this.setState({
-        myApps: res.data.data
-      })
-    }).catch(e => { console.log(e) })
-  }
-
-  // 获取我的收藏
-  getMyCollections = () => {
-    axios.post(ajaxUrl.personalCollections, {}).then(res => {
-      this.setState({
-        myCollections: res.data.data
+        [state]: res.data.data
       })
     }).catch(e => { console.log(e) })
   }
 
   // 确认删除
   deleteConfirm = (type) => {
-    console.log('确认删除', type)
-    this.setState({
-      deleteActive: {
-        ...this.state.deleteActive,
-        [type]: false
-      }
-    })
+    // 获取选中的应用id
     let checks = document.getElementsByName(`${type}DeleteIds`)
     let checkIds = []
     for (var i in checks) {
@@ -69,32 +55,44 @@ class PersonalCenter extends Component {
         checkIds.push(checks[i].value)
       }
     }
-    if (checkIds.length > 0) {
-      let url = ''
-      switch (type) {
+    if (checkIds.length > 0) { // 选择了至少一个应用
+      let deleteUrl = ''
+      let getDataUrl = ''
+      switch (type) { // 根据类型区分删除URL和刷新的URL
         case 'myApps':
-          url = ajaxUrl.personalAppsDelete
+          deleteUrl = ajaxUrl.personalAppsDelete
+          getDataUrl = ajaxUrl.personalApps
           break
         case 'myCollections':
-          url = ajaxUrl.personalCollectionsDelete
+          deleteUrl = ajaxUrl.personalCollectionsDelete
+          getDataUrl = ajaxUrl.personalCollections
           break
         case 'studentApps':
-          /* 待修改 */
-          url = ajaxUrl.personalCollectionsDelete
+          deleteUrl = ajaxUrl.studentAppsDelete
+          getDataUrl = ajaxUrl.studentApps
           break
         default:
           break
       }
-      axios.post(url, {
+      axios.post(deleteUrl, {// 发送删除请求
         sw_List: checkIds
       }).then(res => {
         console.log(res.data)
         if (res.data.result === 'success') {
           message.success('成功删除应用')
+          this.getApps(getDataUrl, type)// 刷新当前类应用列表
+          this.setState({
+            deleteActive: {
+              ...this.state.deleteActive,
+              [type]: false
+            }
+          })
         }
       }).catch(e => { console.log(e) })
+    } else {
+      message.info('请选择要删除的应用')
     }
-    console.log(checkIds)
+    // console.log(checkIds)
   }
 
   // 取消删除
@@ -116,6 +114,8 @@ class PersonalCenter extends Component {
         ...this.state.deleteActive,
         [type]: true
       }
+    }, () => {
+      console.log(this.state.deleteActive)
     })
   }
 
@@ -165,49 +165,49 @@ class PersonalCenter extends Component {
     )
   }
 
-  // 生成APP列表
-  createAppList = (openStatus, appList) => {
+  // 根据展开状态及数据数量生成APP列表
+  createAppList = (openStatus, appList, type) => {
     let list = []
     if (openStatus) { // 展开状态
       appList.forEach((item, index) => {
         let app = (
           <Col span={6} key={index}>
             <ApplicationCard
-              type='myApps'
+              type={type}
               content={item}
               share={this.props.role === 'teacher'}
-              deleteCheck={this.state.deleteActive['myApps']}
+              deleteCheck={this.state.deleteActive[type]}
             />
           </Col>
         )
         list.push(app)
       })
-    } else { // 收起状态
+    } else { // 收起状态 应用列表大于十个
       if (appList.length > 10) {
         appList.forEach((item, index) => {
           if (index < 10) {
             let app = (
               <Col span={6} key={index}>
                 <ApplicationCard
-                  type='myApps'
+                  type={type}
                   content={item}
                   share={this.props.role === 'teacher'}
-                  deleteCheck={this.state.deleteActive['myApps']}
+                  deleteCheck={this.state.deleteActive[type]}
                 />
               </Col>
             )
             list.push(app)
           }
         })
-      } else {
+      } else { // 收起状态 应用列表小于等于十个
         appList.forEach((item, index) => {
           let app = (
             <Col span={6} key={index}>
               <ApplicationCard
-                type='myApps'
+                type={type}
                 content={item}
                 share={this.props.role === 'teacher'}
-                deleteCheck={this.state.deleteActive['myApps']}
+                deleteCheck={this.state.deleteActive[type]}
               />
             </Col>
           )
@@ -218,10 +218,17 @@ class PersonalCenter extends Component {
     return list
   }
 
+  init = () => {
+    this.getApps(ajaxUrl.personalApps, 'myApps')
+    this.getApps(ajaxUrl.personalCollections, 'myCollections')
+    if (this.props.role === 'parents') {
+      this.getApps(ajaxUrl.studentApps, 'studentApps')
+    }
+  }
+
   componentDidMount () {
     console.log(this.props.role)
-    this.getMyApps()
-    this.getMyCollections()
+    this.init()
   }
 
   render () {
@@ -235,7 +242,7 @@ class PersonalCenter extends Component {
         >
           <Row gutter={16} >
             {
-              this.createAppList(this.state.openStatus['myApps'], this.state.myApps)
+              this.createAppList(this.state.openStatus['myApps'], this.state.myApps, 'myApps')
             }
           </Row>
         </Card>
@@ -249,7 +256,7 @@ class PersonalCenter extends Component {
             >
               <Row gutter={16} >
                 {
-                  this.createAppList(this.state.openStatus['studentApps'], this.state.studentApps)
+                  this.createAppList(this.state.openStatus['studentApps'], this.state.studentApps, 'studentApps')
                 }
               </Row>
             </Card>
@@ -263,7 +270,7 @@ class PersonalCenter extends Component {
         >
           <Row gutter={16} >
             {
-              this.createAppList(this.state.openStatus['myCollections'], this.state.myCollections)
+              this.createAppList(this.state.openStatus['myCollections'], this.state.myCollections, 'myCollections')
             }
           </Row>
         </Card>

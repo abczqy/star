@@ -137,7 +137,7 @@ getAppData=(a) => {
                 <Col span={9}>
                   <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
-                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                      return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>
@@ -164,7 +164,7 @@ getAppData=(a) => {
                 <Col span={9}>
                   <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
-                      return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                      return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                     })}
                   </Select>
                 </Col>

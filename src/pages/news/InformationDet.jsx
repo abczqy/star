@@ -15,7 +15,6 @@ import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import shareContent from '../../utils/shareContent'
-import BottomHeader from '../../components/common/BottomHeader'
 
 class InformationDet extends React.Component {
   constructor (props) {
@@ -92,10 +91,10 @@ class InformationDet extends React.Component {
     </div>)
   }
   render () {
-    return <div>
-      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
+    return <div style={{margin: 'auto'}}>
+      <div>
         <Row>
-          <Col span={5} style={{width: '30%'}}>
+          <Col span={5} style={{width: '24%'}}>
             <div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                 <ul className='ul-margin'>
@@ -156,7 +155,6 @@ class InformationDet extends React.Component {
           </Col>
         </Row>
       </div>
-      <BottomHeader />
     </div>
   }
 }
