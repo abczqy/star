@@ -53,6 +53,9 @@ window.mungConfig = {
   // 个人中心-学生应用删除
   studentAppsDelete: AJAX_HOST + '/personal/collections/delete', // wyl 待修改
 
+  // 个人中心-学生应用收藏/取消收藏
+  studentAppsCollect: AJAX_HOST + '/app/collect',
+
   // 厂商登录首页排行榜
   manufacturerSignInRankingList: AJAX_HOST + '/app/charts',
   // 全部应用

@@ -4,9 +4,8 @@
   position: relative;
   margin-bottom: 20px;
   border: 1px solid #EFF0EF; // border: 1px solid #666;
-  border-radius: 4px;
-  height: 102px;
-  overflow: hidden;
+  border-radius: 4px; // height: 102px;
+  // overflow: hidden;
   /*应用图标*/
   &:hover {
     .update {
@@ -96,7 +95,7 @@
   .opt-box {
     background: #FAFAFA;
     height: 35px;
-    font-size: 12px;
+    font-size: 12px; // overflow: hidden;
     &>span {
       float: right;
       line-height: 25px;
@@ -119,6 +118,9 @@
         display: inline-block;
         height: 100%;
       }
+      .anticon {
+        font-size: 14px;
+      }
     }
   }
   /*打开*/
@@ -128,8 +130,14 @@
     }
   }
   /*收藏*/
-  .collect {
-    float: right;
+  .collection {
+    background-color: #FFBB45 !important;
+    // background-color: transparent !important;
+    .anticon {
+      font-size: 14px;
+      cursor: pointer;
+      // color: #FFBB45;
+    }
   }
 }
 
@@ -158,16 +166,16 @@ body {
   }
   .share-confirm-modal {
     //分享确认的弹窗
-    .ant-modal-body{
+    .ant-modal-body {
       text-align: center;
-      .confirm-info{
+      .confirm-info {
         font-size: 20px;
         color: #666;
         font-weight: 400;
         margin-top: 10px;
       }
     }
-    .warn-img{
+    .warn-img {
       width: 60px;
       height: 60px;
     }
