@@ -107,7 +107,7 @@ class News extends React.Component {
       <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
-            <Col span={5} style={{width: '450px'}}>
+            <Col span={5} style={{width: '30%'}}>
               <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>

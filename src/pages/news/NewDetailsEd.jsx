@@ -90,9 +90,9 @@ class NewsDetailsEd extends React.Component {
     </div>)
   }
   render () {
-    return <div style={{marginLeft: '18%', marginBottom: '20px'}}>
+    return <div style={{marginLeft: '15%', marginBottom: '20px'}}>
       <Row>
-        <Col span={5}>
+        <Col span={5} style={{width: '30%'}}>
           <Col span={24}>
             <div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>

@@ -51,7 +51,7 @@ class IterationPlease extends React.Component {
       AppData: null,
       fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
       fileListOneF: ['1'], // 用来存软件版本的文件id
-      fileListTwo: '1', // 用来存软件图标的文件id
+      fileListTwo: ['1'], // 用来存软件图标的文件id
       fileListThree: ['1'] // 用来存PC端界面截图的文件id
     }
   }
@@ -104,7 +104,7 @@ getAppData=(a) => {
   }
   // 用来存软件版本的文件id
   getFileListOneF =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListOneF
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListOneF: a
@@ -190,7 +190,7 @@ getAppData=(a) => {
   }
   // 用来存软件图标的文件id
   getFileListTwo =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListTwo
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListTwo: a
@@ -200,7 +200,7 @@ getAppData=(a) => {
   }
   // 用来存PC端界面截图的文件id
   getFileListThree =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListThree
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListThree: a
