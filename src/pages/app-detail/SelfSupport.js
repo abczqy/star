@@ -42,10 +42,8 @@ export default class SelfSupport extends React.Component {
   }
   // 获取应用详情数据
   getThirdPartyAppDetailData = () => {
-    axios.post(ajaxUrl.thirdPartyAppDetail, {
-      params: {
-        sw_id: this.state.appId
-      }
+    axios.post(ajaxUrl.selfSupportAppDetail, {
+      sw_id: this.state.appId
     }).then((res) => {
       console.log(2222222, res.data)
       this.setState({

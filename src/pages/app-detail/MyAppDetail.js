@@ -41,9 +41,7 @@ export default class MyAppDetail extends React.Component {
   }
   getMyAppDetailData = () => {
     axios.post(ajaxUrl.thirdPartyAppDetail, {
-      params: {
-        sw_id: this.state.appDetailId
-      }
+      sw_id: this.state.appDetailId
     }).then((res) => {
       console.log(2222222, res.data)
       this.setState({
@@ -187,7 +185,7 @@ export default class MyAppDetail extends React.Component {
             </div>
           </div>
           <div className='app-detail-relevanta'>
-            <h3>相关应用</h3>
+            <h3>历史版本</h3>
             <p>
               <p className='relevant-introduce'>
                 <span>超级教师 3.0</span>
