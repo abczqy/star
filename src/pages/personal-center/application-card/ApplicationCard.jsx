@@ -4,10 +4,69 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Badge, Icon } from 'antd'
+import _ from 'lodash'
+import { Badge, Icon, Popover, Modal } from 'antd'
 import './ApplicationCard.scss'
+import warnPng from '../../../assets/images/personal/warn.png'
+
+const shareBoxParams = {
+  all: '全部',
+  parent: '仅家长',
+  student: '仅学生'
+}
 
 class ApplicationCard extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      shareConfirmVisible: false, // 分享确认弹窗
+      sharePopoverVisible: false// 选择分享对象气泡
+    }
+    this.shareObject = ''
+  }
+
+  // 设置选择分享对象气泡的显示
+  setSharePopoverVisible=(visible) => {
+    this.setState({
+      sharePopoverVisible: visible
+    })
+  }
+
+  // 选择分享对象
+  share = (type) => {
+    console.log('share', type)
+    this.shareObject = type
+    this.setSharePopoverVisible(false)
+    this.setShareConfirmVisible(true)
+  }
+
+  // 生成分享对象列表
+  createShareList=(data) => {
+    let list = []
+    _.forIn(data, (value, key) => {
+      list.push(<div className='share-list-item' key={key} onClick={() => { this.share(key) }} >{value}</div>)
+    })
+    return list
+  }
+
+  // 确定分享
+  shareEnsure=() => {
+    console.log('确定分享')
+  }
+
+  // 取消分享
+  shareCancel = () => {
+    console.log('取消分享')
+    this.setShareConfirmVisible(false)
+  }
+
+  // 控制分享确认弹窗的状态
+  setShareConfirmVisible=(bool) => {
+    this.setState({
+      shareConfirmVisible: bool
+    })
+  }
+
   render () {
     // console.log(this.props.deleteCheck)
     return (
@@ -15,9 +74,18 @@ class ApplicationCard extends Component {
         {/* 分享 */}
         {
           (this.props.share && !this.props.deleteCheck) && (
-            <span className='share'>
-              <Icon type='export' />
-            </span>
+            <Popover
+              placement='bottomLeft'
+              title={null}
+              content={this.createShareList(shareBoxParams)}
+              trigger='click'
+              visible={this.state.sharePopoverVisible}
+              onVisibleChange={this.setSharePopoverVisible}
+            >
+              <span className='share'>
+                <Icon type='export' />
+              </span>
+            </Popover>
           )
         }
         {/* 删除check */}
@@ -82,6 +150,25 @@ class ApplicationCard extends Component {
             </div>
           )
         }
+        {/* 确认分享弹窗 */}
+        <Modal
+          className='share-confirm-modal'
+          title='确认分享'
+          visible={this.state.shareConfirmVisible}
+          onOk={this.shareEnsure}
+          onCancel={this.shareCancel}
+        >
+          <img className='warn-img' src={warnPng} />
+          <div className='confirm-info'>
+            {
+              this.shareObject === 'parent'
+                ? '确认将此软件分享给所有家长？'
+                : this.shareObject === 'student'
+                  ? '确认将此软件分享给所有学生？'
+                  : '确认将此软件分享给所有学生和家长？'
+            }
+          </div>
+        </Modal>
       </div>
     )
   }

@@ -51,7 +51,7 @@ class IterationPlease extends React.Component {
       AppData: null,
       fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
       fileListOneF: ['1'], // 用来存软件版本的文件id
-      fileListTwo: '1', // 用来存软件图标的文件id
+      fileListTwo: ['1'], // 用来存软件图标的文件id
       fileListThree: ['1'] // 用来存PC端界面截图的文件id
     }
   }
@@ -104,7 +104,7 @@ getAppData=(a) => {
   }
   // 用来存软件版本的文件id
   getFileListOneF =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListOneF
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListOneF: a
@@ -190,7 +190,7 @@ getAppData=(a) => {
   }
   // 用来存软件图标的文件id
   getFileListTwo =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListTwo
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListTwo: a
@@ -200,7 +200,7 @@ getAppData=(a) => {
   }
   // 用来存PC端界面截图的文件id
   getFileListThree =(fileList, index) => {
-    let a = []
+    let a = this.state.fileListThree
     a[index] = fileList.map((data) => { return data.fileId || data.id })
     this.setState({
       fileListThree: a
@@ -270,7 +270,7 @@ zH=() => {
                 <span style={{visibility: 'hidden'}}>* </span>软件类型 :
               </Col>
               <Col span={5}>
-                <span>{this.state.AppData.type}</span>
+                <span>{this.state.AppData ? (this.state.AppData.type ? this.state.AppData.type : '教学类') : '教学类'}</span>
                 {/* <span>教学类</span> */}
               </Col>
             </Col>
@@ -280,7 +280,9 @@ zH=() => {
               </Col>
               <Col span={18}>
                 {/* <span>超级教师</span> */}
-                <span>{this.state.AppData.rname}</span>
+                <span>
+                  {this.state.AppData ? (this.state.AppData.rname ? this.state.AppData.rname : '超级教师') : '超级教师'}
+                </span>
               </Col>
             </Col>
           </Row>
@@ -291,8 +293,7 @@ zH=() => {
                 <span style={{visibility: 'hidden'}}>* </span>当前版本 :
               </Col>
               <Col span={5}>
-                {/* <span>v1.3</span> */}
-                <span>{this.state.AppData.edition}</span>
+                <span>{this.state.AppData ? (this.state.AppData.edition ? this.state.AppData.edition : 'v1.3') : 'v1.3'}</span>
               </Col>
             </Col>
             <Col span={8}>
@@ -306,7 +307,7 @@ zH=() => {
           <Row className='Wxd'>
             <Col span={23}>
               <span style={{visibility: 'hidden'}}>*PC无无无</span>
-              <span style={{color: 'red'}}>* </span>软件描述 :
+              <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
               <span style={{visibility: 'hidden'}}>无</span>
               <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
           </Row>

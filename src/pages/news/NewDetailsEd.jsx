@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-bind,react/prop-types */
+/* eslint-disable react/jsx-no-bind */
 /**
  * 教育局的新闻列表详情
  */
@@ -69,8 +71,11 @@ class NewsDetailsEd extends React.Component {
     console.log('更多')
   }
   // 点击当前位置(教育新闻)
-  position=() => {
-    console.log('当前页面位置跳转')
+  position (e) {
+    this.props.history.push({
+      pathname: '/operate-manage-home/edu'
+    }
+    )
   }
   getQRCode () {
     return (<div>
@@ -85,9 +90,9 @@ class NewsDetailsEd extends React.Component {
     </div>)
   }
   render () {
-    return <div style={{marginLeft: '18%', marginBottom: '20px'}}>
+    return <div style={{marginLeft: '15%', marginBottom: '20px'}}>
       <Row>
-        <Col span={5}>
+        <Col span={5} style={{width: '30%'}}>
           <Col span={24}>
             <div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
@@ -98,14 +103,14 @@ class NewsDetailsEd extends React.Component {
                 </ul>
               </Card>
             </div>
-            <img src={this.state.imgT} style={{width: '280px'}} alt='' />
+            <img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' />
           </Col>
         </Col>
         <Col span={15}>
           <div style={{backgroundColor: '#fff', width: '940px'}}>
             <Row>
               <ul className='details-li-ul'>
-                <li className='details-li-hover'><span className='span-colors'>当前位置: <a onClick={this.position}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>
+                <li className='details-li-hover'><span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>
               </ul>
             </Row>
             <Row>

@@ -10,6 +10,7 @@
 .mb20{
   margin: 0 auto;
   margin-bottom: 20px;
+  min-height: calc(100vh - 120px);;
 }
 /*单行省略号*/
 .ellipsis {

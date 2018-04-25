@@ -185,73 +185,77 @@ class Information extends React.Component {
       search: e.target.text.split(' ')[0]
     })
   }
+  // 获取字符串
+  processStr=(str, n) => {
+    let l = str.length
+    if (l <= n) { return str } else {
+      return str.slice(0, n) + '...'
+    }
+  }
   render () {
     console.log('要用的数据', this.state.infoData)
     return <div style={{marginBottom: '20px'}}>
-      <div style={{marginLeft: '20%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
-          <div style={{width: '1400px'}}>
-            <Col span={5}>
-              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
-              <Row><div className='left-downer'>
-                <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-                  <ul className='ul-margin'>
-                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                      return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                    })}
-                  </ul>
-                </Card></div>
-              </Row>
-              <Row><img src={this.state.imgO} style={{width: '280px'}} alt='' /></Row>
-            </Col></div>
-          <div style={{width: '1400px'}}>
-            <Col span={16}>
-              <ul className='ul-top' style={{width: '800px'}}>
-                <li style={{listStyle: 'none', width: '800px', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
-                  <span className='information-fabu'>
+          <Col span={5} style={{width: '30%'}}>
+            <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
+            <Row><div className='left-downer'>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+                <ul className='ul-margin'>
+                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                    return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                  })}
+                </ul>
+              </Card></div>
+            </Row>
+            <Row><img src={this.state.imgO} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
+          </Col>
+          <Col span={16}>
+            <ul className='ul-top' style={{width: '800px', height: '679px', backgroundColor: '#fff'}}>
+              <li style={{listStyle: 'none', width: '800px', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
+                <span className='information-fabu'>
                   发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />
-                  </span>
-                  <span className='information-dianji' style={{marginLeft: '43%', fontSize: '12px'}}>
-                    <img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选
-                  </span>
+                </span>
+                <span className='information-dianji' style={{marginLeft: '43%', fontSize: '12px'}}>
+                  <img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选
+                </span>
+              </li>
+              {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
+                return <li style={{listStyle: 'none', width: '800px', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}} key={index}>
+                  <Col span={24}>
+                    <Row>
+                      <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
+                      <Col span={4}><span className='span-top'>发布者 : {item.info_per}</span></Col>
+                      <Col span={3}><span className='span-top'>{item.info_time}</span></Col>
+                    </Row>
+                    <Row>
+                      <Col span={23}>
+                        <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.info_desc, 30)}</p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={23}>
+                        <div className='information-line' />
+                      </Col>
+                    </Row>
+                  </Col>
                 </li>
-                {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
-                  return <li style={{listStyle: 'none', width: '800px', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}} key={index}>
-                    <Col span={24}>
-                      <Row>
-                        <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
-                        <Col span={4}><span className='span-top'>发布者 : {item.info_per}</span></Col>
-                        <Col span={3}><span className='span-top'>{item.info_time}</span></Col>
-                      </Row>
-                      <Row>
-                        <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.info_desc}</p>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col span={23}>
-                          <div className='information-line' />
-                        </Col>
-                      </Row>
-                    </Col>
-                  </li>
-                })}
-              </ul>
-              <Row>
-                <Col span={9} />
-                <Col span={14}>
-                  {this.state.infoData.total >= 5
-                    ? <Pagination
-                      total={this.state.infoData.total}
-                      showSizeChanger
-                      showQuickJumper
-                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                      // pageSizeOptions={5}
-                    /> : null}</Col>
-              </Row>
-            </Col>
-          </div>
+              })}
+            </ul>
+            <Row>
+              <Col span={9} />
+              <Col span={14}>
+                {this.state.infoData.total >= 5
+                  ? <Pagination
+                    total={this.state.infoData.total}
+                    showSizeChanger
+                    showQuickJumper
+                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                    // pageSizeOptions={5}
+                  /> : null}</Col>
+            </Row>
+          </Col>
         </Row></div><BottomHeader />
     </div>
   }

@@ -95,13 +95,20 @@ class News extends React.Component {
     }
     )
   }
+  // 获取字符串
+  processStr=(str, n) => {
+    let l = str.length
+    if (l <= n) { return str } else {
+      return str.slice(0, n) + '...'
+    }
+  }
   render () {
     return <div>
-      <div style={{marginLeft: '20%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
-            <Col span={5}>
-              <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
+            <Col span={5} style={{width: '30%'}}>
+              <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -111,11 +118,11 @@ class News extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><div className='left-downer'><img src={this.state.imgT} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
             <Col span={15}>
-              <ul className='ul-top'>
+              <ul className='ul-top' style={{width: '850px', height: '679px', backgroundColor: '#fff'}}>
                 {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
                   return index === 0
                     ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '880px', height: '180px'}} key={index}>
@@ -128,7 +135,7 @@ class News extends React.Component {
                           </Row>
                           <Row>
                             <Col span={23}>
-                              <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.news_desc}</p>
+                              <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
                             </Col>
                           </Row>
                         </Col>
@@ -146,7 +153,7 @@ class News extends React.Component {
                           </Row>
                           <Row>
                             <Col span={23}>
-                              <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{item.news_desc}</p>
+                              <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
                             </Col>
                           </Row>
                         </Col>

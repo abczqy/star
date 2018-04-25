@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-bind,react/prop-types */
+/* eslint-disable react/jsx-no-bind */
 /**
  * 教育局的信息公开详情
  */
@@ -73,8 +75,11 @@ class InformationDetEd extends React.Component {
     console.log('更多')
   }
   // 点击当前位置(教育新闻)
-  position=() => {
-    console.log('当前页面位置跳转')
+  position (e) {
+    this.props.history.push({
+      pathname: '/operate-manage-home/public'
+    }
+    )
   }
   getQRCode () {
     return (<div>
@@ -90,9 +95,9 @@ class InformationDetEd extends React.Component {
   }
   render () {
     return <div>
-      <div style={{marginLeft: '20%', marginBottom: '20px'}}>
+      <div style={{marginLeft: '15%', marginBottom: '20px'}}>
         <Row>
-          <Col span={5}>
+          <Col span={5} style={{width: '30%'}}>
             <div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                 <ul className='ul-margin'>
@@ -109,7 +114,7 @@ class InformationDetEd extends React.Component {
               <Row>
                 <ul className='details-li-ul'>
                   <li className='details-li-hover'>
-                    <span className='span-colors'>当前位置: <a onClick={this.position}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span>
+                    <span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span>
                   </li>
                 </ul>
               </Row>

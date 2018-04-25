@@ -2,6 +2,8 @@
 import React from 'react'
 import {Modal, Button, Form, Input, Upload, Icon} from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
 class ChangeFirmLicense extends React.Component {
   static propTypes = {
@@ -29,24 +31,33 @@ class ChangeFirmLicense extends React.Component {
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
+      let params = this.getFormData()
       if (!err) {
-        console.log('修改营业执照', values)
-        this.props.hiddenModal()
+        axios.post(ajaxUrl.relationdelete, params).then((response) => {
+          console.log('修改营业执照', values)
+          this.props.hiddenModal()
+        })
       }
     })
+  }
+  /**
+   * 返回附件的参数
+   * @returns {*}
+   */
+  getFormData () {
+    const { fileList } = this.state
+    const formData = new FormData()
+    formData.append('sw_pss', '1')
+    fileList.forEach((file) => {
+      formData.append('files[]', file)
+    })
+    return formData
   }
   handlePreview = (file) => {
     this.setState({
       // previewImage: file.url || file.thumbUrl,
       // previewVisible: true
     })
-  }
-  handleChange = ({ file, fileList }) => {
-    if (file.status === 'done' && file.response && file.response.success) {
-      console.log(11111111111, file.response.data)
-    }
-    console.log(11111111111, fileList)
-    this.setState({ fileList })
   }
   render () {
     const formItemLayout = {
@@ -58,6 +69,27 @@ class ChangeFirmLicense extends React.Component {
         xs: { span: 24 },
         sm: { span: 14 }
       }
+    }
+    const props = {
+      onRemove: (file) => {
+        console.log('移除附件')
+        this.setState(({ fileList }) => {
+          const index = fileList.indexOf(file)
+          const newFileList = fileList.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileList: newFileList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        console.log('上传之前')
+        this.setState(({ fileList }) => ({
+          fileList: [...fileList, file]
+        }))
+        return false
+      },
+      fileList: this.state.fileList
     }
     const { getFieldDecorator } = this.props.form
     const { fileList } = this.state
@@ -96,14 +128,13 @@ class ChangeFirmLicense extends React.Component {
               </Form.Item>
               <Form.Item
                 {...formItemLayout}
-                label='请输入厂商名称'
+                label='请上传厂商营业执照'
               >
-                <div>
+                <div style={{paddingLeft: '5px'}}>
                   <Upload
-                    action='//jsonplaceholder.typicode.com/posts/'
+                    // action='//jsonplaceholder.typicode.com/posts/'
                     listType='picture-card'
-                    // onPreview={this.handlePreview}
-                    onChange={this.handleChange}
+                    {...props}
                   >
                     {fileList.length >= 1 ? null : uploadButton}
                   </Upload>

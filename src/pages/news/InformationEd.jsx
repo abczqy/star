@@ -32,30 +32,6 @@ class InformationEd extends React.Component {
       pageSize: 10,
       dataP: [], // 公告和分享的list
       img: '', // 公告图片
-      options: [
-        {
-          value: '省级',
-          label: '省级'
-        }, {
-          value: '市级',
-          label: '市级',
-          children: [{
-            value: '福州市',
-            label: '福州市'
-          }]
-        }, {
-          value: '区级',
-          label: '区级',
-          children: [{
-            value: '福州市',
-            label: '福州市',
-            children: [{
-              value: '县级',
-              label: '县级'
-            }]
-          }]
-        }
-      ],
       tableData: [],
       record: {}
     }
@@ -81,7 +57,6 @@ class InformationEd extends React.Component {
         title: '状态',
         dataIndex: 'state',
         key: 'state',
-        sorter: true,
         width: 120,
         render (text, record, index) {
           if (text === '0') {
@@ -273,15 +248,14 @@ class InformationEd extends React.Component {
   }
   render () {
     const dataT = [
-      '审核中', '已驳回', '已发布'
+      {'title': '审核中', value: '0'}, {'title': '已驳回', value: '1'}, {'title': '已发布', value: '2'}
     ]
-    console.log(this.state)
     return <div>
       <div style={{marginLeft: '13%', marginBottom: '20px'}}>
         <Row>
           <div style={{width: '1400px'}}>
-            <Col span={5}>
-              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
+            <Col span={5} >
+              <Row><div className='left-downer'><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -291,21 +265,21 @@ class InformationEd extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.imgT} style={{width: '280px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
             </Col></div>
-          <div style={{width: '1400px'}}>
+          <div style={{width: '1400px', marginTop: '10px'}}>
             <Col span={19} style={{backgroundColor: '#fff', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
               <div style={{marginTop: '15px'}}>
                 <Row>
                   <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '1050px'}}>
                     <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder={'全部'} style={{width: 200}} allowClear onChange={(value) => this.stateValue(value)}>
                       {dataT.map((item, index) => {
-                        return <Select.Option key={index}>{item}</Select.Option>
+                        return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
                       })}
                     </Select></Col>
                     <Col span={5}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
-                    <Col span={7}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
-                    <Col span={4}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
+                    <Col span={9}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
+                    <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
                   </div>
                 </Row>
                 <Row>
@@ -323,7 +297,6 @@ class InformationEd extends React.Component {
                         showQuickJumper
                         onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                         onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                        // pageSizeOptions={5}
                       /> : null}</Col>
                 </Row>
               </div>

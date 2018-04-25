@@ -24,7 +24,7 @@ export default class MessageNotice extends React.Component {
       // 审核通过跳转到我的应用
       window.location.href = apiConfig.BASE_TAB + '/#' + 'operate-manage-home/all-app-detail-mine'
     } else if (link === '') {
-      this.props.history.push({pathname: link, search: '?id=' + id})
+      this.props.history.push({pathname: 'detail', search: '?id=' + id})
     } else if (link === '申请驳回') {
       // 审核驳回跳转到上架申请
       window.location.href = apiConfig.BASE_TAB + '/#' + 'operate-manage-home/please'
@@ -74,7 +74,7 @@ export default class MessageNotice extends React.Component {
                       {item.msg_title}
                       <span>{item.msg_date}</span>
                     </h4>
-                    <p>{item.msg_desc}</p>
+                    <p>{item.msg_desc}<a style={{display: item.msg_state ? '' : 'none'}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
                   </div>
                 </div>
               </div>
