@@ -161,12 +161,12 @@ class Information extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
             </Col>
           </div>
           <div style={{width: '1400px'}}>
             <Col span={16}>
-              <ul className='ul-top' style={{width: '800px'}}>
+              <ul className='ul-top' style={{width: '850px', height: '679px', backgroundColor: '#fff'}}>
                 {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                   return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '800px', height: '135px', backgroundColor: '#fff'}} key={index}>
                     <Col span={24}>

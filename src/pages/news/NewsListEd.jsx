@@ -108,7 +108,7 @@ class News extends React.Component {
         <Row>
           <div style={{width: '1400px'}}>
             <Col span={5} style={{width: '450px'}}>
-              <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px'}} alt='' /></div></Row>
+              <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
               <Row><div className='left-downer'>
                 <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
                   <ul className='ul-margin'>
@@ -118,11 +118,11 @@ class News extends React.Component {
                   </ul>
                 </Card></div>
               </Row>
-              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' /></Row>
+              <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
             </Col></div>
           <div style={{width: '1400px'}}>
             <Col span={15}>
-              <ul className='ul-top'>
+              <ul className='ul-top' style={{width: '850px', height: '679px', backgroundColor: '#fff'}}>
                 {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
                   return index === 0
                     ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '880px', height: '180px'}} key={index}>

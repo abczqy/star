@@ -373,7 +373,7 @@ class ShelfPlease extends React.Component {
           <Row className='Wxd'>
             <Col span={23}>
               <span style={{visibility: 'hidden'}}>*PC无无无</span>
-              <span><span style={{color: 'red'}}>* </span>软件描述 : </span>
+              <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
               <span style={{visibility: 'hidden'}}>无</span>
               <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
           </Row>
