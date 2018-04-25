@@ -98,7 +98,7 @@ class NewsDetails extends React.Component {
     return (
       <div className='news-list-container'>
         <div id='right-container'>
-          <div style={{backgroundColor: '#fff', width: '100%'}}>
+          <div style={{backgroundColor: '#fff', width: '100%', height: '730px'}}>
             <Row>
               <ul className='details-li-ul'>
                 <li className='details-li-hover'><span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>

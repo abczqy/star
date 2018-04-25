@@ -119,7 +119,7 @@ class News extends React.Component {
           <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
         <Col span={15} style={{width: '68%'}}>
-          <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
+          <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '730px', backgroundColor: '#fff'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>

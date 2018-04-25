@@ -1,11 +1,7 @@
 const AJAX_HOST = 'http://p1663488m8.imwork.net:49784'
 window.mungConfig = {
   // API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
-<<<<<<< Updated upstream
-  API_BASE_URL: 'http://p1663488m8.imwork.net:49784/', // 测试地址
-=======
   API_BASE_URL: 'http://p1663488m8.imwork.net:49784', // 测试地址
->>>>>>> Stashed changes
   BASE_TAB: 'http://localhost:8080',
   LOGIN_URL: '',
   /** *******************************软件市场************************************ */
@@ -71,7 +67,7 @@ window.mungConfig = {
   // 全部应用 - 平台应用
   allAppPlatformList: AJAX_HOST + '/app/platform',
   // 教育新闻列表
-  newsList: AJAX_HOST + '/applicaion/newslist',
+  newsList: AJAX_HOST + 'applicaion/newslist',
   // 教育新闻列表详情
   newsListDet: AJAX_HOST + '/applicaion/newsdetailget',
   // 信息公开列表

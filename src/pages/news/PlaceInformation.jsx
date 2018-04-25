@@ -163,7 +163,7 @@ class Information extends React.Component {
             <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
           <Col span={16} style={{width: '68%'}}>
-            <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
+            <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '730px', backgroundColor: '#fff'}}>
               {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                 return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                   <Col span={24}>
