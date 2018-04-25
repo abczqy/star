@@ -47,13 +47,7 @@ class PersonalCenter extends Component {
 
   // 确认删除
   deleteConfirm = (type) => {
-    console.log('确认删除', type)
-    this.setState({
-      deleteActive: {
-        ...this.state.deleteActive,
-        [type]: false
-      }
-    })
+    // 获取选中的应用id
     let checks = document.getElementsByName(`${type}DeleteIds`)
     let checkIds = []
     for (var i in checks) {
@@ -61,31 +55,44 @@ class PersonalCenter extends Component {
         checkIds.push(checks[i].value)
       }
     }
-    if (checkIds.length > 0) {
-      let url = ''
-      switch (type) {
+    if (checkIds.length > 0) { // 选择了至少一个应用
+      let deleteUrl = ''
+      let getDataUrl = ''
+      switch (type) { // 根据类型区分删除URL和刷新的URL
         case 'myApps':
-          url = ajaxUrl.personalAppsDelete
+          deleteUrl = ajaxUrl.personalAppsDelete
+          getDataUrl = ajaxUrl.personalApps
           break
         case 'myCollections':
-          url = ajaxUrl.personalCollectionsDelete
+          deleteUrl = ajaxUrl.personalCollectionsDelete
+          getDataUrl = ajaxUrl.personalCollections
           break
         case 'studentApps':
-          url = ajaxUrl.studentAppsDelete
+          deleteUrl = ajaxUrl.studentAppsDelete
+          getDataUrl = ajaxUrl.studentApps
           break
         default:
           break
       }
-      axios.post(url, {
+      axios.post(deleteUrl, {// 发送删除请求
         sw_List: checkIds
       }).then(res => {
         console.log(res.data)
         if (res.data.result === 'success') {
           message.success('成功删除应用')
+          this.getApps(getDataUrl, type)// 刷新当前类应用列表
+          this.setState({
+            deleteActive: {
+              ...this.state.deleteActive,
+              [type]: false
+            }
+          })
         }
       }).catch(e => { console.log(e) })
+    } else {
+      message.info('请选择要删除的应用')
     }
-    console.log(checkIds)
+    // console.log(checkIds)
   }
 
   // 取消删除
@@ -158,7 +165,7 @@ class PersonalCenter extends Component {
     )
   }
 
-  // 生成APP列表
+  // 根据展开状态及数据数量生成APP列表
   createAppList = (openStatus, appList, type) => {
     let list = []
     if (openStatus) { // 展开状态
@@ -211,13 +218,17 @@ class PersonalCenter extends Component {
     return list
   }
 
-  componentDidMount () {
-    console.log(this.props.role)
+  init = () => {
     this.getApps(ajaxUrl.personalApps, 'myApps')
     this.getApps(ajaxUrl.personalCollections, 'myCollections')
     if (this.props.role === 'parents') {
       this.getApps(ajaxUrl.studentApps, 'studentApps')
     }
+  }
+
+  componentDidMount () {
+    console.log(this.props.role)
+    this.init()
   }
 
   render () {
