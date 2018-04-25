@@ -14,9 +14,9 @@ export default class AppCount extends React.Component {
     return (
       <Col span={8} key={index}>
         <div className='item'>
-          <span className='num'>{item.count}</span>
+          <span className='num'>{item.num}</span>
           <span className='more'>+</span>
-          <div className='category'>{item.name}(个)</div>
+          <div className='category'>{item.calss}(个)</div>
         </div>
       </Col>
     )
