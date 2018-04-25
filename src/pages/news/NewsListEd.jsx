@@ -103,79 +103,80 @@ class News extends React.Component {
     }
   }
   render () {
-    return <div style={{margin: 'auto'}}>
-      <div >
-        <Row>
-          <Col span={5} style={{width: '25%'}}>
-            <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div></Row>
-            <Row><div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
-                <ul className='ul-margin'>
-                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                    return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                  })}
-                </ul>
-              </Card></div>
-            </Row>
-            <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
-          </Col>
-          <Col span={15}>
-            <ul className='ul-top' style={{width: '850px', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
-              {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
-                return index === 0
-                  ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '880px', height: '180px'}} key={index}>
-                    <Row>
-                      <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
-                      <Col span={16}>
-                        <Row>
-                          <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
-                          <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
-                        </Row>
-                        <Row>
-                          <Col span={23}>
-                            <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <div className='line' />
-                    </Row>
-                  </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '880px', height: '170px'}} key={index}>
-                    <Row>
-                      <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
-                      <Col span={16}>
-                        <Row>
-                          <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
-                          <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
-                        </Row>
-                        <Row>
-                          <Col span={23}>
-                            <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <div className='line' />
-                    </Row>
-                  </li>
-              })}
-            </ul><Row style={{marginBottom: '10px'}}>
-              <Col span={9} />
-              <Col >
-                {this.state.newData.total >= 5
-                  ? <Pagination
-                    total={this.state.newData.total}
-                    showSizeChanger
-                    showQuickJumper
-                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                  /> : null}</Col>
-            </Row>
-          </Col>
-        </Row>
-      </div>
+    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
+      <Row>
+        <Col span={5} style={{width: '18%'}}>
+          <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div></Row>
+          <Row><div className='left-downer'>
+            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
+              <ul className='ul-margin'>
+                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                })}
+              </ul>
+            </Card></div>
+          </Row>
+          <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+        </Col>
+        <Col span={15} style={{width: '68%'}}>
+          <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '679px', backgroundColor: '#fff'}}>
+            {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
+              return index === 0
+                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>
+                  <Row>
+                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
+                      </Row>
+                      <Row>
+                        <Col span={23}>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className='line' />
+                  </Row>
+                </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}} key={index}>
+                  <Row>
+                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={16}>
+                      <Row>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
+                      </Row>
+                      <Row>
+                        <Col span={23}>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className='line' />
+                  </Row>
+                </li>
+            })}
+            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}}>
+              <Row style={{marginBottom: '10px'}}>
+                <Col span={9} />
+                <Col >
+                  {this.state.newData.total >= 5
+                    ? <Pagination
+                      total={this.state.newData.total}
+                      showSizeChanger
+                      showQuickJumper
+                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                    /> : null}</Col>
+              </Row>
+            </li>
+          </ul>
+        </Col>
+      </Row>
     </div>
   }
 }

@@ -94,12 +94,12 @@ class InformationDetEd extends React.Component {
     </div>)
   }
   render () {
-    return <div style={{margin: 'auto'}}>
+    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <div >
         <Row>
-          <Col span={5} style={{width: '24%'}}>
+          <Col span={5} style={{width: '18%'}}>
             <div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
                 <ul className='ul-margin'>
                   {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
                     return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
@@ -107,10 +107,10 @@ class InformationDetEd extends React.Component {
                 </ul>
               </Card>
             </div>
-            <img src={this.state.imgT} style={{width: '280px', marginTop: '10px'}} alt='' />
+            <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
           </Col>
-          <Col span={15} style={{marginTop: '10px'}}>
-            <div style={{backgroundColor: '#fff', width: '940px'}}>
+          <Col span={15} style={{width: '68%', marginTop: '10px'}}>
+            <div style={{backgroundColor: '#fff', width: '100%'}}>
               <Row>
                 <ul className='details-li-ul'>
                   <li className='details-li-hover'>
@@ -119,7 +119,7 @@ class InformationDetEd extends React.Component {
                 </ul>
               </Row>
               <Row>
-                <Col span={14}>
+                <Col span={24}>
                   <div className='details-right-div'>
                     <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1' }</p>
                     <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '1' }</span>
@@ -134,7 +134,7 @@ class InformationDetEd extends React.Component {
                   </div>
                 </Col>
               </Row>
-              <Row style={{marginBottom: '18px', marginLeft: '110px'}}>
+              <Row style={{marginBottom: '18px', marginLeft: '15%'}}>
                 <div style={{width: '200px', height: '30px'}}>
                   <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
                   <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
@@ -144,12 +144,12 @@ class InformationDetEd extends React.Component {
                   <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
                 </div>
                 <div>
-                  <img src={this.state.imgZui} style={{width: '739px'}} alt='' />
+                  <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
                 </div>
                 <div>
                   <ul className='details-li-ul-down'>
                     {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                      return <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li>
+                      return index < 5 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li> : null
                     })}
                   </ul>
                 </div>

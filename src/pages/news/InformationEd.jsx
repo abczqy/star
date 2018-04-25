@@ -88,7 +88,7 @@ class InformationEd extends React.Component {
               <span style={{width: '32px', display: 'inline-block'}}>
                 <a href='javascript:;' onClick={() => thiz.edit(record, 'edit')}>
             编辑</a></span>
-              <Popconfirm title='您确定要删除这条信息吗?' onConfirm={() => thiz.confirmUp(record)} onCancel={thiz.cancelUp} okText='Yes' cancelText='No'>
+              <Popconfirm title='您确定要删除这条信息吗?' style={{width: '200px'}} onConfirm={() => thiz.confirmUp(record)} onCancel={thiz.cancelUp} okText='Yes' cancelText='No'>
                 <span ><a href='javascript:;' >
             删除</a></span>
               </Popconfirm>
@@ -250,15 +250,15 @@ class InformationEd extends React.Component {
     const dataT = [
       {'title': '审核中', value: '0'}, {'title': '已驳回', value: '1'}, {'title': '已发布', value: '2'}
     ]
-    return <div style={{margin: 'auto'}}>
+    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <div >
         <Row>
-          <Col span={5} >
+          <Col span={5} style={{width: '18%'}}>
             <Row><div className='left-downer'>
-              <img src={this.state.imgO} style={{width: '280px', height: '120px'}} alt='' /></div>
+              <img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div>
             </Row>
             <Row><div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: 280 }}>
+              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
                 <ul className='ul-margin'>
                   {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
                     return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
@@ -266,18 +266,18 @@ class InformationEd extends React.Component {
                 </ul>
               </Card></div>
             </Row>
-            <Row><img src={this.state.imgT} style={{width: '280px', marginTop: '10px', height: '120px'}} alt='' /></Row>
+            <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
-          <Col span={19} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
+          <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
             <Row>
-              <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '1050px'}}>
+              <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '98%'}}>
                 <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder={'全部'} style={{width: 200}} allowClear onChange={(value) => this.stateValue(value)}>
                   {dataT.map((item, index) => {
                     return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
                   })}
                 </Select></Col>
-                <Col span={5}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
-                <Col span={9}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
+                <Col span={3}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
+                <Col span={11}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
                 <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
               </div>
             </Row>
@@ -287,7 +287,7 @@ class InformationEd extends React.Component {
               </div>
             </Row>
             <Row style={{marginBottom: '10px'}}>
-              <Col span={8} />
+              <Col span={11} />
               <Col >
                 {this.state.tableData.total > 5
                   ? <Pagination

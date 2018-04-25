@@ -3,12 +3,13 @@
  * 游客登陆界面
  */
 import React from 'react'
-import { Layout, Badge, Icon } from 'antd'
+import { Badge, Icon } from 'antd'
 import { renderRoutes } from 'react-router-config'
 import { connect } from 'react-redux'
 import apiConfig from '../../config'
 import SignOut from './SignOut'
 import './Operateview.scss'
+import BottomHeader from 'components/common/BottomHeader'
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -54,7 +55,7 @@ class LoginHome extends React.Component {
   render () {
     return (
       <div className='xingyun'>
-        <Layout>
+        <div style={{height: '100%'}}>
           {
             this.props.isLogged ? (
               <div style={{height: '30px', width: '100%', margin: 'auto'}}>
@@ -69,19 +70,22 @@ class LoginHome extends React.Component {
               </div>
             ) : null
           }
-          <Layout.Header className='xingyun-header'>
+          <div className='xingyun-header'>
             <div className='xingyun-logo' />
-          </Layout.Header>
-          <Layout className='xingyun-top-header'>
+          </div>
+          <div className='xingyun-top-header'>
             <div className='header-container'>
               <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
               </li>
               <li><a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a></li>
               <li><a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a></li>
             </div>
+          </div>
+          <div className='content-container' >
             {renderRoutes(this.props.route.childRoutes)}
-          </Layout>
-        </Layout>
+          </div>
+          <BottomHeader />
+        </div>
         <SignOut
           visible={this.state.signOutVisible}
           hiddenModal={this.hiddenModal.bind(this, 'signOutVisible')}
