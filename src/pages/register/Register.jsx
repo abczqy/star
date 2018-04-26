@@ -45,9 +45,11 @@ class Register extends React.Component {
     if (this.onLoginidChange(e)) {
       let confirm = ''
       axios.post(ajaxUrl.registerValitemail, {
-        params: {email: value}
+        params: {
+          email: value
+        }
       }).then((response) => {
-        confirm = response.msg !== '邮箱被占用'// fale 代表被邮箱被占用
+        confirm = response.msg !== 'exist'//  exist代表被邮箱被占用
         if (confirm) {
           this.setState({
             checkemail_icon: true,
@@ -65,6 +67,13 @@ class Register extends React.Component {
             checkemail_icon: false
           })
         }
+      }).catch((err) => {
+        console.log(err)
+        message.error('请求错误！')
+        this.setState({
+          checkemail: '',
+          checkemail_icon: false
+        })
       })
     }
   }

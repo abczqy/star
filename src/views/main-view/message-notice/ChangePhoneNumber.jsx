@@ -183,7 +183,7 @@ class ChangePhoneNumber extends React.Component {
           visible={this.props.visible}
           onCancel={this.hiddenModal}
           maskClosable={false}
-          className='pass-change-modal'
+          className='pass-change-modal change-phone-number'
           footer={[
             // eslint-disable-next-line react/jsx-no-bind
             <Button key='cancle' onClick={this.hiddenModal}>取消</Button>,

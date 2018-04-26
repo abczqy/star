@@ -59,7 +59,7 @@ class MessageSetting extends React.Component {
     axios.post(ajaxUrl.registerValitemail, {
       params: {stu: '123'}
     }).then((response) => {
-      console.log('返回学生绑定信息', response)
+      console.log('返回厂商信息', response)
       this.setState({
         firmData: [{
           firmid: '1',
@@ -268,10 +268,10 @@ class MessageSetting extends React.Component {
           getBindList={this.getBindList}
           maf_id={this.state.maf_id}
         />
-        <ChangePass
+        {this.state.changePassVisible ? <ChangePass
           visible={this.state.changePassVisible}
           hiddenModal={this.hiddenModal.bind(this, 'changePassVisible')}
-        />
+        /> : null}
         {this.state.changePhoneVisible ? <ChangePhoneNumber
           visible={this.state.changePhoneVisible}
           hiddenModal={this.hiddenModal.bind(this, 'changePhoneVisible')}
@@ -286,16 +286,19 @@ class MessageSetting extends React.Component {
         {this.state.changeFirmDescribe ? <ChangeFirmDescribe
           visible={this.state.changeFirmDescribe}
           hiddenModal={this.hiddenModal.bind(this, 'changeFirmDescribe')}
+          getFirmList={this.getFrimList}
         /> : null}
         {/* 修改厂商合同编号 */}
         {this.state.changeFirmContract ? <ChangeFirmContract
           visible={this.state.changeFirmContract}
           hiddenModal={this.hiddenModal.bind(this, 'changeFirmContract')}
+          getFirmList={this.getFrimList}
         /> : null}
         {/* 营业执照 */}
         {this.state.changeFirmLicense ? <ChangeFirmLicense
           visible={this.state.changeFirmLicense}
           hiddenModal={this.hiddenModal.bind(this, 'changeFirmLicense')}
+          getFirmList={this.getFrimList}
         /> : null}
       </div>
     )

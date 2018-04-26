@@ -2,12 +2,15 @@
 import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
 class ChangeFirmDescribe extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    getFirmList: PropTypes.func
   }
   constructor (props) {
     super(props)
@@ -31,7 +34,15 @@ class ChangeFirmDescribe extends React.Component {
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('修改厂商描述', values)
-        this.props.hiddenModal()
+        axios.post(ajaxUrl.relationdelete, {
+          params: {
+            maf_pass: values,
+            maf_firm_name: values
+          }
+        }).then((response) => {
+          this.props.getFirmList()
+          this.props.hiddenModal()
+        })
       }
     })
   }

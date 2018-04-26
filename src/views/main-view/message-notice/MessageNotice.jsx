@@ -35,9 +35,9 @@ export default class MessageNotice extends React.Component {
     this.getPageList()
   }
   getPageList =() => {
-    axios.get(ajaxUrl.getMessageList, {
+    axios.post(ajaxUrl.getMessageList, {
       params: {
-        pageNum: this.state.pageNum,
+        page: this.state.pageNum,
         pageSize: 5
       }
     }).then((response) => {
@@ -61,7 +61,7 @@ export default class MessageNotice extends React.Component {
       <div className='center-view mb20'>
         <Card title='消息通知' bordered={false} className='message-notice-card'>
           <div className='notice-body'>
-            {this.state.listData.map((item, index, arr) => {
+            {this.state.listData && this.state.listData.map((item, index, arr) => {
               return <div className='list_itme' key={item.msg_id}>
                 <div className='list-img'>
                   <div className='list_icon list_icon_bg'>

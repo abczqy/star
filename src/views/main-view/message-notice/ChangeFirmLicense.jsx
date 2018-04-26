@@ -9,7 +9,8 @@ class ChangeFirmLicense extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    getFirmList: PropTypes.func
   }
   constructor (props) {
     super(props)
@@ -35,6 +36,7 @@ class ChangeFirmLicense extends React.Component {
       if (!err) {
         axios.post(ajaxUrl.relationdelete, params).then((response) => {
           console.log('修改营业执照', values)
+          thiz.props.getFirmList()
           this.props.hiddenModal()
         })
       }

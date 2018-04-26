@@ -8,19 +8,19 @@ import moment from 'moment'
 import axios from 'axios'
 import _ from 'lodash'
 import ajaxUrl from 'config/index'
-import { Table, Modal, Input, Form, Button } from 'antd'
+import { Table, Modal, Input, Form, Button, DatePicker } from 'antd'
 import './PersonManageTable.scss'
 
 const FormItem = Form.Item
 const teacherColumns = {
-  name: '教师姓名',
-  username: '账号',
-  sex: '性别',
+  th_name: '教师姓名',
+  th_loginid: '账号',
+  th_sex: '性别',
   th_idcard: '身份证号码',
-  grad: '教学年级',
-  date: '执教时间',
-  duty: '行政职务',
-  phone: '联系方式'
+  th_class: '教学年级',
+  th_time: '执教时间',
+  th_duty: '行政职务',
+  th_phone: '联系方式'
 }
 
 const studentColumns = {
@@ -184,6 +184,17 @@ class PersonManageTable extends Component {
 
   // 删除
   delete = (id, role) => {
+    if (role === 'teacher') {
+      axios.post(ajaxUrl.teacherUpdate, {
+        'th_id': id
+      }).then((response) => {
+      })
+    } else {
+      axios.post(ajaxUrl.teacherUpdate, {
+        'th_id': id
+      }).then((response) => {
+      })
+    }
     console.log('删除', id, role)
   }
 
@@ -227,7 +238,8 @@ class PersonManageTable extends Component {
             {this.props.form.getFieldDecorator(item, {
               initialValue: this.editRecord[item]
             })(
-              <Input placeholder={`请输入${columns[item]}`} />
+              item === 'th_time' ? <DatePicker format='YYYY-MM-DD'
+                style={{width: '100%'}}placeholder={`请输入${columns[item]}`} /> : <Input placeholder={`请输入${columns[item]}`} />
             )}
           </FormItem>
         )
@@ -253,7 +265,35 @@ class PersonManageTable extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
+        if (this.role === 'teacher') {
+          axios.post(ajaxUrl.teacherUpdate, {
+            'th_name': values.th_name,
+            'th_loginid': values.th_loginid,
+            'th_sex': values.th_sex,
+            'th_idcard': values.th_idcard,
+            'th_class': values.th_class,
+            'th_time': moment(values.th_time).format('YYYY-MM-DD'),
+            'th_duty': values.th_duty,
+            'th_phone': values.th_phone,
+            'th_id': this.editRecord.th_id
+          }).then((response) => {
+            this.editCancel()
+          })
+        } else {
+          axios.post(ajaxUrl.teacherUpdate, {
+            'th_name': values.th_name,
+            'th_loginid': values.th_loginid,
+            'th_sex': values.th_sex,
+            'th_idcard': values.th_idcard,
+            'th_class': values.th_class,
+            'th_time': values.th_time,
+            'th_duty': values.th_duty,
+            'th_phone': values.th_phone,
+            'th_id': this.editRecord.th_id
+          }).then((response) => {
+            this.editCancel()
+          })
+        }
       }
     })
   }
@@ -314,7 +354,8 @@ PersonManageTable.propTypes = {
   tableParams: PropTypes.object,
   pageNumChange: PropTypes.func,
   role: PropTypes.string,
-  form: PropTypes.object
+  form: PropTypes.object,
+  onCancel: PropTypes.func
 }
 
 const PersonManageForm = Form.create()(PersonManageTable)

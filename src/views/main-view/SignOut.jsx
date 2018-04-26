@@ -21,13 +21,7 @@ export default class RegisterSuccModal extends React.Component {
 
   }
   saveOrSubmit =(value) => {
-    document.cookie = 'name=' + '123456'
-    document.cookie = 'll=' + '123456'
-    axios.post(ajaxUrl.sessionLogout, {
-      params: {
-        'sessionId': '3IIK4IC4C9IL712'
-      }
-    }).then((response) => {
+    axios.post(ajaxUrl.sessionLogout).then((response) => {
       console.log('退出成功', response)
       this.props.hiddenModal()
       this.backHome()
@@ -37,7 +31,7 @@ export default class RegisterSuccModal extends React.Component {
     window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
     this.clearCookie()
   }
-  // 清楚kookie
+  // 清空kookie
   clearCookie () {
     // eslint-disable-next-line
     let keys = document.cookie.match(/[^ =;]+(?=\=)/g)

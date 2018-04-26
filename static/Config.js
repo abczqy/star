@@ -14,6 +14,11 @@ window.mungConfig = {
   // 人员管理-教师管理列表
   teacherManagement: AJAX_HOST + '/personnelManagement',
 
+  // 人员管理- 教师编辑
+  teacherUpdate: AJAX_HOST + '/manage/teacher/update',
+  // 人员管理 -删除教师
+  teacherDelete: AJAX_HOST + '/manage/teacher/delete',
+
   // 人员管理-学生管理列表
   studentManagement: AJAX_HOST + '/studentManagement',
 
@@ -99,12 +104,18 @@ window.mungConfig = {
   register: AJAX_HOST + '/register/registermaf', // 注册按钮
   /* 账号设置 */
   relationQueryStu: AJAX_HOST + '/addRelation/queryStu', // 家长注册接口-查询与家长绑定的学生
-  relationAdd: AJAX_HOST + '/addRelation/add', // 接口名称:家长注册接口-与学生绑定
-  relationdelete: AJAX_HOST + '/addRelation/delete', // 家长注册接口-查询与家长绑定的学生
 
-  sessionLogout: AJAX_HOST + '/session/logout', // 登出
-  getMessageList: AJAX_HOST + '/getMessageList', // 消息通知列表
-  getMessageListDetail: AJAX_HOST + '/getMessageList/detail', // 消息通知列表详情
+  relationAdd: AJAX_HOST + '/addRelation/add', // 家长注册接口-与学生绑定
+
+  relationdelete: AJAX_HOST + '/addRelation/delete', // 家长注册接口-查询与家长绑定的学生
+  // 登出
+  sessionLogout: AJAX_HOST + '/session/logout',
+  // 消息通知列表
+  getMessageList: AJAX_HOST + '/getAllMessageList',
+  // 未读消息数
+  getMessageCount: AJAX_HOST + '/getUnreadMessageCount',
+  // 消息通知列表详情
+  getMessageListDetail: AJAX_HOST + '/getMessageList/detail',
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',
   // 应用详情 (自营)
