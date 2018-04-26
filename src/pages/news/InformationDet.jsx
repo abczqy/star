@@ -38,12 +38,12 @@ class InformationDet extends React.Component {
     console.log('获取数据')
     let a = window.location.href.split('?')
     let value = {
-      info_id: a[a.length - 1]
+      info_id: Number(a[a.length - 1])
     }
     console.log('游客的信息公开详情传递参数', value)
-    axios.get(ajaxUrl.informationDet, {
+    axios.post(ajaxUrl.informationDet,
       value
-    }).then(item => {
+    ).then(item => {
       this.setState({
         infoData: item.data
       }, () => {

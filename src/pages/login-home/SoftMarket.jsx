@@ -6,6 +6,7 @@ import React from 'react'
 import { Row, Col, List, Avatar } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
+import Config from 'config'
 
 class SoftMarket extends React.Component {
   constructor (props) {
@@ -31,8 +32,8 @@ class SoftMarket extends React.Component {
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar className='img' src={item.SW_ICON} />}
-                  title={<a className='title' href=''>{item.SW_NAME}</a>}
+                  avatar={<Avatar className='img' src={Config.API_BASE_URL + item.SW_ICON} />}
+                  title={<a className='title' href='javascript:void(0);'>{item.SW_NAME}</a>}
                   description={this.processStr(item.SW_DESC, 60)}
                 />
               </List.Item>
@@ -46,7 +47,7 @@ class SoftMarket extends React.Component {
   // eslint-disable-next-line react/prop-types
   goToSoftMarket () {
     this.props.history.push({
-      pathname: '/operate-manage-home'
+      pathname: '/operate-manage-home/home'
     })
   }
 

@@ -15,13 +15,13 @@ class NewsAndInfo extends React.Component {
   }
 
   // eslint-disable-next-line react/prop-types
-  handleNewsTitleClick () {
-    this.props.history.push('/unlogged/newsList')
+  handleNewsTitleClick (item) {
+    this.props.history.push('/unlogged/newsDetails?' + item.news_id)
   }
 
   // eslint-disable-next-line react/prop-types
-  handleInfoTitleClick () {
-    this.props.history.push('/unlogged/information')
+  handleInfoTitleClick (item) {
+    this.props.history.push('/unlogged/informationDet?' + item.info_id)
   }
 
   processStr (str, n) {
@@ -31,13 +31,18 @@ class NewsAndInfo extends React.Component {
   }
 
   getMonth (str) {
-    // .month()
-    let s = moment(str).format('YYYY-MM-DD')
+    let s = ''
+    if (str) {
+      s = parseInt(moment('str').month()) + 1
+    }
     return s
   }
 
   getDay (str) {
-    let s = moment('2018-2-5').dayOfYear()
+    let s = ''
+    if (str) {
+      s = moment('str').day()
+    }
     return s
   }
 
@@ -60,7 +65,7 @@ class NewsAndInfo extends React.Component {
                         <div>{this.getMonth(item.news_time)}</div>
                       </div>
                     }
-                    title={<a onClick={() => { this.handleNewsTitleClick() }}>{item.news_title}</a>}
+                    title={<a onClick={() => { this.handleNewsTitleClick(item) }}>{item.news_title}</a>}
                     description={this.processStr(item.news_desc, 50)}
                   />
                 </List.Item>
@@ -82,7 +87,7 @@ class NewsAndInfo extends React.Component {
                         <div>{this.getMonth(item.info_time)}</div>
                       </div>
                     }
-                    title={<a onClick={() => { this.handleInfoTitleClick() }}>{item.info_title}</a>}
+                    title={<a onClick={() => { this.handleInfoTitleClick(item) }}>{item.info_title}</a>}
                     description={this.processStr(item.info_desc, 50)}
                   />
                 </List.Item>

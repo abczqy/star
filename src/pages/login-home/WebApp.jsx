@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types,space-infix-ops */
 /**
  *
  */
@@ -6,6 +6,7 @@ import React from 'react'
 import { Row, Col, Button, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
+import Config from 'config'
 
 class WebApp extends React.Component {
   constructor (props) {
@@ -16,10 +17,7 @@ class WebApp extends React.Component {
   }
 
   handleAppClick (item) {
-    this.props.history.push({
-      pathname: '/operate-manage-home/all-app-detail-third',
-      search: item.sw_id
-    })
+    this.props.history.push('/operate-manage-home/all-app-detail-third?'+item.sw_id)
   }
 
   processStr (str, n) {
@@ -36,11 +34,11 @@ class WebApp extends React.Component {
             <div className='split' />
           </div>
           <div className='item-content'>
-            <img className='app-img' src={item.sw_icon} />
+            <img className='app-img' src={Config.API_BASE_URL + item.sw_icon} />
             <div className='title'>{item.sw_name}</div>
-            <div className='content'>{this.processStr(item.sw_desc, 20)}</div>
+            <div className='content'>{this.processStr(item.sw_desc, 12)}</div>
             <div>
-              <Button onClick={(item) => { this.handleAppClick(item) }}>查看详情<Icon type='arrow-right' /></Button>
+              <Button onClick={() => { this.handleAppClick(item) }}>查看详情<Icon type='arrow-right' /></Button>
             </div>
           </div>
         </div>
