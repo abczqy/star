@@ -9,10 +9,16 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Icon } from 'antd'
-import ajaxUrl from 'config'
-import axios from 'axios'
-import { BlankBar, SearchBarMember } from 'components/software-market'
+import { Table, Switch, Divider } from 'antd'
+import {
+  paGetData,
+  paBatchLeadout,
+  changePaToLogin,
+  initPaPwd,
+  delPaLoginId
+} from 'services/software-manage'
+import { BlankBar, SearchBarMemberPa } from 'components/software-market'
+import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -34,30 +40,34 @@ const pagination = {
    * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
    */
 const columns = [{
-  title: '厂商名称',
-  dataIndex: 'fa_name',
-  key: 'fa_name',
+  title: '家长姓名',
+  dataIndex: 'maf_name',
+  key: 'maf_name',
   width: 200
 }, {
   title: '账号',
-  dataIndex: 'fa_loginid',
-  key: 'fa_loginid',
+  dataIndex: 'maf_id',
+  key: 'maf_id',
   width: 200
 }, {
-  title: '在运营软件数',
-  dataIndex: 'num',
-  key: 'num'
+  title: '角色',
+  dataIndex: 'maf_stu_sad',
+  key: 'maf_stu_sad'
 }, {
-  title: '合同状态',
-  dataIndex: 'num_day',
-  key: 'num_day'
+  title: '学生',
+  dataIndex: 'stu_name',
+  key: 'stu_name'
 }, {
   title: '允许登录',
   dataIndex: 'to_login',
   key: 'to_login',
   render: (text, record, index) => {
+    let check = true
+    if (text === '0') {
+      check = false
+    }
     return (
-      <Switch />
+      <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
     )
   }
 }, {
@@ -68,11 +78,9 @@ const columns = [{
   render: (text, record, index) => {
     return (
       <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
+        <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
         <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('...')}><Icon type='ellipsis' /></a>
+        <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
       </span>
     )
   }
@@ -89,12 +97,38 @@ class Parent extends Component {
       reqParam: {
         pageSize: 15,
         pageNum: 1,
-        fa_name: '东方国信',
-        fa_loginid: 'bonc',
-        to_login: '1',
-        num_day: '正常'
+        mafName: '',
+        stuName: '',
+        mafStuSad: '',
+        mafId: '',
+        toLogin: null
       },
-      pagination
+      pagination,
+      batchLeadParams: {
+        idArrs: []
+      }
+    }
+  }
+
+  getParams = () => {
+    const {
+      pageSize,
+      pageNum,
+      mafName,
+      mafId,
+      stuName,
+      toLogin,
+      mafStuSad
+    } = this.state.reqParam
+    // 最后都要赋空
+    return {
+      pageSize: pageSize || 15,
+      pageNum: pageNum || 1,
+      maf_name: mafName || '',
+      stu_name: stuName || '',
+      maf_stu_sad: mafStuSad || '',
+      maf_id: mafId || '',
+      to_login: toLogin || null
     }
   }
 
@@ -104,53 +138,53 @@ class Parent extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.getFactory, {
-      params: {
-        // 在初始渲染页面时 这里不给任何参数 请求所有数据
-        pageSize: 15,
-        pageNum: 1,
-        fa_name: '东方国信',
-        fa_loginid: 'bonc',
-        to_login: '1',
-        num_day: '正常'
-      }
-    }).then((res) => {
+    paGetData(this.getParams(), (res) => {
       const data = res.data
       console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list,
+          data: addKey2TableData(data.list, 'maf_id'),
           total: data.total
         }
       })
-      // 手动生成key值 把fa_id映射成key
-    }).catch((e) => { console.log(e) })
+    })
   }
 
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onFaLoginidChange = (e) => {
+  onIdChange = (e) => {
     console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        fa_loginid: e.target.value
+        maf_id: e.target.value
       }
     })
   }
 
   /**
-   * 当搜索框‘厂商名称’值改变时回调
+   * 当搜索框‘学生’值改变时回调
    */
-  onFaNameChange = (e) => {
+  onStuNameChange = (e) => {
     console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        fa_name: e.target.value
+        stu_name: e.target.value
+      }
+    })
+  }
+
+  onPaNameChange = (e) => {
+    console.log(`e: ${this.Obj2String(e.target.value)}`)
+    // 修改state.reqParams中对应的值
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        maf_name: e.target.value
       }
     })
   }
@@ -158,13 +192,13 @@ class Parent extends Component {
   /**
    * 当下拉选择框‘合同状态’值改变时回调
    */
-  onNumDayChange = (val) => {
+  onRoleChange = (val) => {
     console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        num_day: val
+        maf_stu_sad: val
       }
     })
   }
@@ -174,13 +208,68 @@ class Parent extends Component {
    */
   onToLogin = (val) => {
     console.log(`val: ${val}`)
+    let loginAllow = 0
+    if (val === 'allow') {
+      loginAllow = 1
+    } else if (val === 'refuse') {
+      loginAllow = 1
+    } else if (val === 'all') {
+      loginAllow = null
+    }
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        to_login: val
+        to_login: loginAllow
       }
     })
+  }
+
+  /**
+   * 点击改变'改变登录状态'
+   */
+  changeLoginState = (checked, record) => {
+    const toLogin = checked ? '1' : '0'
+    // console.log(`toLogin: ${toLogin}`)
+    // 调用‘改变登录状态的接口’更新后台数据
+    const params = {
+      maf_id: record.maf_id,
+      to_login: toLogin
+    }
+    changePaToLogin(params, (res) => {
+      console.log(`res.data.msg: ${res.data.msg}`)
+    })
+    // 刷新表格数据
+    this.getTableDatas()
+    // 后面再加上loading + 操作成功的提示
+  }
+
+  /**
+   * 初始化厂商密码
+   */
+  initPwd = (record) => {
+    const params = {
+      maf_id: record.maf_id
+    }
+    initPaPwd(params, (res) => {
+      console.log(`res.data.msg: ${res.data.msg}`)
+    })
+    // 最好有个确认的弹窗什么的
+    // 后面再加上loading + 操作成功的提示
+  }
+
+  /**
+   * 删除学生账号
+   */
+  delLoginId = (record) => {
+    const params = {
+      maf_id: record.maf_id
+    }
+    delPaLoginId(params, (res) => {
+      console.log(`res.data.msg: ${res.data.msg}`)
+    })
+    // 最好有个确认的弹窗什么的
+    // 后面再加上loading + 操作成功的提示
   }
 
   /**
@@ -198,14 +287,39 @@ class Parent extends Component {
    * 当点击'搜索按钮时的回调'
    */
   search = () => {
-    // 拿到state中的reqParam值去向后台请求数据
-    // 请求接口后面根据请求的类别(厂商 学生...)封装下
+    this.getTableDatas()
   }
 
   /**
    * 当点击'批量导出'按钮时的回调
    */
-  BatchExport = () => {}
+  onBatchLeadout = () => {
+    // 从state中获取实时的fa_id数组的值 作为请求参数传给后台
+    const { idArrs } = this.state.batchLeadParams
+    console.log(`faIdArrs: ${JSON.stringify(idArrs)}`)
+    paBatchLeadout({maf_id: idArrs}, (res) => {
+      console.log(`${res.data.info}`)
+    })
+  }
+
+  /**
+   * 多选选项变化
+   */
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    // console.log(`selectedRowKeys: ${selectedRowKeys}`)
+    // console.log(`selectedRows: ${JSON.stringify(selectedRows)}`)
+    // 从view中得到数据 并把fa_id提取出来组合为一个新数组
+    let idArr = []
+    selectedRows.map((val, index) => {
+      idArr.push(val.maf_id)
+    })
+    // 将fa_id得到的新数组映射到state中
+    this.setState({
+      batchLeadParams: {
+        faIdArrs: idArr
+      }
+    })
+  }
 
   /**
    * pageSize 变化时回调
@@ -248,17 +362,14 @@ class Parent extends Component {
     const { pagination, tableData } = this.state
     return (
       <div className='software-wrap'>
-        <SearchBarMember
-          inputText1='账号 '
-          inputText2='厂商名称 '
-          selectText1='合同状态 '
-          selectText2='允许登录 '
-          onInput1Change={this.onFaLoginidChange}
-          onInput2Change={this.onFaNameChange}
-          onSelect1Change={this.onNumDayChange}
+        <SearchBarMemberPa
+          onInput1Change={this.onIdChange}
+          onInput2Change={this.onStuNameChange}
+          onInput3Change={this.onPaNameChange}
+          onSelect1Change={this.onRoleChange}
           onSelect2Change={this.onToLogin}
           onBtnSearchClick={this.search}
-          onBtnBatchExport={this.BatchExport}
+          onBtnBatchExport={this.onBatchLeadout}
         />
         <BlankBar />
         <Table
@@ -269,6 +380,10 @@ class Parent extends Component {
             total: this.state.tableData.total,
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
+          }}
+          rowSelection={{
+            fixed: true,
+            onChange: this.rowSelectChange
           }}
         />
       </div>
