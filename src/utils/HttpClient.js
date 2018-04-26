@@ -17,10 +17,11 @@ axios.interceptors.request.use(function (config) {
   // if (config.showLoading) {
   // //  xhrQueue.push(1)
   // }
+  let STAR_WEB_SESSION_ID = webStorage.getItem('STAR_WEB_SESSION_ID') ? webStorage.getItem('STAR_WEB_SESSION_ID') : ''
   if (config.url.indexOf('?') > 0) {
-    config.url = config.url + '&STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID') || ''
+    config.url = config.url + '&STAR_WEB_SESSION_ID=' + STAR_WEB_SESSION_ID
   } else {
-    config.url = config.url + '?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID') || ''
+    config.url = config.url + '?STAR_WEB_SESSION_ID=' + STAR_WEB_SESSION_ID
   }
   return config
 }, function (error) {
