@@ -3,10 +3,11 @@
  *
  */
 import React from 'react'
-import { Row, Col, Button, Icon } from 'antd'
+import { Row, Col, Button, Icon, message } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'
+import webStorage from 'webStorage'
 
 class WebApp extends React.Component {
   constructor (props) {
@@ -17,6 +18,11 @@ class WebApp extends React.Component {
   }
 
   handleAppClick (item) {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    if (STAR_WEB_ROLE_CODE=== '' || STAR_WEB_ROLE_CODE=== null) {
+      message.warning('请先登录!')
+      return
+    }
     this.props.history.push('/operate-manage-home/all-app-detail-third?'+item.sw_id)
   }
 

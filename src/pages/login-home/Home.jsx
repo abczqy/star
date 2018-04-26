@@ -157,10 +157,10 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row style={{background: '#FAFCFF'}}>
-          <WebApp data={this.state.webAppData} />
+          <WebApp data={this.state.webAppData || []} />
         </Row>
         <Row>
-          <SoftMarket data={this.state.softMarketData} />
+          <SoftMarket data={this.state.softMarketData || []} />
         </Row>
         <Row>
           <Col span={24}>
@@ -169,12 +169,12 @@ class Home extends React.Component {
         </Row>
         <Row style={{background: 'white'}}>
           <Col span={24}>
-            <NewsAndInfo infoData={this.state.infoData} newsData={this.state.newsData} />
+            <NewsAndInfo infoData={this.state.infoData || []} newsData={this.state.newsData || []} />
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <AppCount data={this.state.appCountData} />
+            <AppCount data={this.state.appCountData || []} />
           </Col>
         </Row>
         <Row>

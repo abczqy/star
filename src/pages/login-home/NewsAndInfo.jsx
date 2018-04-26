@@ -3,10 +3,11 @@
  * 游客登陆-信息公开
  */
 import React from 'react'
-import { Row, Col, List } from 'antd'
+import { Row, Col, List, message } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import moment from 'moment'
+import webStorage from 'webStorage'
 
 class NewsAndInfo extends React.Component {
   constructor (props) {
@@ -16,11 +17,21 @@ class NewsAndInfo extends React.Component {
 
   // eslint-disable-next-line react/prop-types
   handleNewsTitleClick (item) {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    if (STAR_WEB_ROLE_CODE === '' || STAR_WEB_ROLE_CODE === null) {
+      message.warning('请先登录!')
+      return
+    }
     this.props.history.push('/unlogged/newsDetails?' + item.news_id)
   }
 
   // eslint-disable-next-line react/prop-types
   handleInfoTitleClick (item) {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    if (STAR_WEB_ROLE_CODE === '' || STAR_WEB_ROLE_CODE === null) {
+      message.warning('请先登录!')
+      return
+    }
     this.props.history.push('/unlogged/informationDet?' + item.info_id)
   }
 
