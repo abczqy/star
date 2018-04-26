@@ -21,7 +21,8 @@ import {
   changeFaLoginState,
   initFaPwd,
   getFaDetails,
-  getFactoryDetail
+  getFactoryDetail,
+  faBatchLeadout
 } from 'services/software-manage'
 import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -47,7 +48,7 @@ class Manufacturer extends Component {
         pageNum: 1,
         faName: '', // 临时值 后面赋空
         faLoginid: '',
-        toLogin: null,
+        toLogin: '',
         numDay: ''
       },
       memRenewWinVisible: false,
@@ -59,6 +60,9 @@ class Manufacturer extends Component {
       faDetModalCon: {
         visible: false,
         resData: null
+      },
+      batchLeadParams: {
+        faIdArrs: []
       }
     }
   }
@@ -148,7 +152,7 @@ class Manufacturer extends Component {
       pageNum: pageNum,
       fa_name: faName || '',
       fa_loginid: faLoginid || '',
-      to_login: toLogin || null,
+      to_login: toLogin || '',
       num_day: numDay || ''
     }
   }
@@ -337,11 +341,6 @@ class Manufacturer extends Component {
   }
 
   /**
-   * 当点击'批量导出'按钮时的回调
-   */
-  BatchExport = () => {}
-
-  /**
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
@@ -401,6 +400,37 @@ class Manufacturer extends Component {
     })
   }
 
+  /**
+   * 多选选项变化
+   */
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    // console.log(`selectedRowKeys: ${selectedRowKeys}`)
+    // console.log(`selectedRows: ${JSON.stringify(selectedRows)}`)
+    // 从view中得到数据 并把fa_id提取出来组合为一个新数组
+    let faIdArr = []
+    selectedRows.map((val, index) => {
+      faIdArr.push(val.fa_id)
+    })
+    // 将fa_id得到的新数组映射到state中
+    this.setState({
+      batchLeadParams: {
+        faIdArrs: faIdArr
+      }
+    })
+  }
+
+  /**
+   * 批量导出
+   */
+  onBatchLeadout = () => {
+    // 从state中获取实时的fa_id数组的值 作为请求参数传给后台
+    const { faIdArrs } = this.state.batchLeadParams
+    console.log(`faIdArrs: ${JSON.stringify(faIdArrs)}`)
+    faBatchLeadout({fa_id: faIdArrs}, (res) => {
+      console.log(`${res.data.info}`)
+    })
+  }
+
   render () {
     const { pagination, tableData, delModalCon, faDetModalCon } = this.state
     return (
@@ -415,7 +445,7 @@ class Manufacturer extends Component {
           onSelect1Change={this.onNumDayChange}
           onSelect2Change={this.onToLogin}
           onBtnSearchClick={this.search}
-          onBtnBatchExport={this.BatchExport}
+          onBtnBatchExport={this.onBatchLeadout}
         />
         <BlankBar />
         <Table
@@ -426,6 +456,10 @@ class Manufacturer extends Component {
             total: this.state.tableData.total,
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
+          }}
+          rowSelection={{
+            fixed: true,
+            onChange: this.rowSelectChange
           }}
         />
         <MemRenewWin record={this.state.memRenewRecord} visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />

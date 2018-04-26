@@ -132,13 +132,17 @@ window.mungConfig = {
   myAppRevoke: AJAX_HOST + '/applicaion/examinecancel',
 
   // 统计分析-软件下载量变化
-  softwareDownload: AJAX_HOST + '/statisticalAnalysis/softwareDownload',
+  softwareDownload: AJAX_HOST + '/getDownloadStatisticalAnalysisList',
 
   // 统计分析-应用类型占比
-  softwareType: AJAX_HOST + '/statisticalAnalysis/softwareType',
+  softwareType: AJAX_HOST + '/getAppTypeStatisticalAnalysisList',
 
   // 统计分析-当月应用下载型占比
-  softwareDownloadConst: AJAX_HOST + '/statisticalAnalysis/softwareDownloadConst',
+  softwareDownloadConst: AJAX_HOST + '/getAppTypeMonthStatisticalAnalysisList',
+
+  // 统计分析-全部软件下拉列表
+  getAllAppCode: AJAX_HOST + '/getAppStatisticalAnalysisList',
+
   // 首页收藏
   homeCollection: AJAX_HOST + '/app/collect'
 }

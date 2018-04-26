@@ -74,7 +74,7 @@ const getEchartsOptions = (data, type, title, config) => {
             type: 'line',
             stack: '总量',
             areaStyle: {
-              //       color: 'rgba(45,183,245,0.5)'
+              color: 'rgba(45,183,245,0.5)'
             },
             smooth: true,
             data: item.value
