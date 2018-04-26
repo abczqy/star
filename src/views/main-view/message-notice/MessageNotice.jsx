@@ -23,7 +23,7 @@ export default class MessageNotice extends React.Component {
     if (link === '审核通过') {
       // 审核通过跳转到我的应用
       window.location.href = apiConfig.BASE_TAB + '/#' + 'operate-manage-home/all-app-detail-mine'
-    } else if (link === '') {
+    } else if (link === '消息通知') {
       this.props.history.push({pathname: 'detail', search: '?id=' + id})
     } else if (link === '申请驳回') {
       // 审核驳回跳转到上架申请
@@ -36,10 +36,8 @@ export default class MessageNotice extends React.Component {
   }
   getPageList =() => {
     axios.post(ajaxUrl.getMessageList, {
-      params: {
-        page: this.state.pageNum,
-        pageSize: 5
-      }
+      page: this.state.pageNum,
+      pageSize: 5
     }).then((response) => {
       console.log('返回学生绑定信息', response)
       this.setState({
@@ -68,13 +66,13 @@ export default class MessageNotice extends React.Component {
                     <i />
                   </div>
                 </div>
-                <div className='notice-count' onClick={() => { this.handleTabChange(item.msg_state, item.msg_id) }}>
+                <div className='notice-count' onClick={() => { this.handleTabChange(item.MSG_STATE, item.MSG_ID) }}>
                   <div>
                     <h4>
-                      {item.msg_title}
-                      <span>{item.msg_date}</span>
+                      {item.MSG_TITLE}
+                      <span>{item.MSG_DATE}</span>
                     </h4>
-                    <p>{item.msg_desc}<a style={{display: item.msg_state ? '' : 'none'}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
+                    <p>{item.MSG_DESC.replace(/(.{80}).*/, '$1....')}<a style={{display: item.msg_state ? '' : 'none'}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
                   </div>
                 </div>
               </div>
