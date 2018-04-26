@@ -3218,6 +3218,10 @@ globule@^1.0.0:
     lodash "~4.17.4"
     minimatch "~3.0.2"
 
+gr-event-dispatcher@~1.1.1:
+  version "1.1.1"
+  resolved "http://registry.npm.taobao.org/gr-event-dispatcher/download/gr-event-dispatcher-1.1.1.tgz#06f0150672209133aa8a31f6f6e91053f27d1276"
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.2:
   version "4.1.11"
   resolved "http://registry.npm.taobao.org/graceful-fs/download/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
@@ -7296,6 +7300,12 @@ watchpack@^1.4.0:
     chokidar "^2.0.2"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
+
+webStorage@^2.1.1:
+  version "2.1.1"
+  resolved "http://registry.npm.taobao.org/webStorage/download/webStorage-2.1.1.tgz#82ebca311ca8afd7c7e31e7fa4a7a56956fcc41e"
+  dependencies:
+    gr-event-dispatcher "~1.1.1"
 
 webpack-bundle-analyzer@^2.9.1:
   version "2.11.1"

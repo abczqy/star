@@ -53,6 +53,12 @@ const getEchartsOptions = (data, type, title, config) => {
                 }
               }
             },
+            itemStyle: {
+              normal: {// 设置环形图断开 其实是背景色的border
+                borderWidth: 6,
+                borderColor: '#ffffff'
+              }
+            },
             labelLine: {
               normal: {
                 show: false
