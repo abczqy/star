@@ -45,8 +45,8 @@ export default class SoftwareMarket extends React.Component {
     return (
       <div className='xingyun'>
         <Layout>
-          <Header className='xingyun-header'>
-            <div className='xingyun-logo' />
+          <Header style={{ padding: '15px 2%', background: 'white', height: '65px' }}>
+            <div className='logo' />
           </Header>
           <Layout className='sider-bar'>
             <Sider width={200}>

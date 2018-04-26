@@ -4,7 +4,7 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import {Layout, Icon, Badge} from 'antd'
+import {Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../../../components/common/BottomHeader'
 import SignOut from '../SignOut'
@@ -56,24 +56,22 @@ class MessageTopBar extends React.Component {
   render () {
     return (
       <div className='xingyun'>
-        <Layout>
-          <div style={{height: '30px'}}>
-            <div style={{height: '30px', float: 'left', paddingLeft: '110px'}}>欢迎你,{this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
-            <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
-              <Badge count={this.state.messageCount} >
-                <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
-              </Badge>
-              <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />
-              <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
-            </div>
+        <div style={{height: '30px', width: '100%'}}>
+          <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您,{this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+          <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
+            <Badge count={this.state.messageCount} >
+              <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
+            </Badge>
+            <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />
+            <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
           </div>
-          <Layout.Header className='xingyun-header' style={{height: '92px', paddingLeft: '110px'}}>
-            <div className='xingyun-logo' style={{marginTop: '30px'}} onClick={this.handleTabChange.bind(this, 'operate-manage-home/market')} />
-          </Layout.Header>
-          <div>
-            {renderRoutes(this.props.route.childRoutes)}
-          </div>
-        </Layout>
+        </div>
+        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, 'operate-manage-home/market')}>
+          <div className='xingyun-logo' />
+        </div>
+        <div>
+          {renderRoutes(this.props.route.childRoutes)}
+        </div>
         <SignOut
           visible={this.state.signOutVisible}
           hiddenModal={this.hiddenModal.bind(this, 'signOutVisible')}
