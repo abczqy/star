@@ -191,7 +191,7 @@ class AllApplicationsDetail extends React.Component {
               <Carousel style={{width: 800}} ref='test'>
                 {this.state.platformAppDataa.map((item, index, arr) => {
                   return (
-                    <div>
+                    <div key={index}>
                       <div>
                         { this.state.platformAppDataa[index].map((item, index, arr) => {
                           return (

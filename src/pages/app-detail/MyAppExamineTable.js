@@ -132,7 +132,7 @@ class MyAppExamineTable extends Component {
   }
   // 撤销操作确认
   confirm = (e) => {
-    axios.put(ajaxUrl.myAppRevoke, {
+    axios.post(ajaxUrl.myAppRevoke, {
       sw_id: e.sw_id
     }).then((res) => {
       this.getMyAppInOperationData()
