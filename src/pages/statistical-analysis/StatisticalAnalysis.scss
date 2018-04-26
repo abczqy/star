@@ -1,20 +1,20 @@
 /*-----------------统计分析----------------*/
 
 .statistical-analysis {
-  margin-bottom: 0px;  
+  margin-bottom: 0px;
   .ant-card {
     margin-bottom: 20px;
   }
-  .ant-calendar-picker{
+  .ant-calendar-picker,
+  .ant-select {
     width: 230px;
     margin-right: 20px;
     margin-bottom: 20px;
   }
-  .echart-box{
+  .echart-box {
     height: 300px;
     padding: 20px;
     border: 1px solid #E4E4E4;
-    border: 1px solid #ddd;
-    // margin-top: 20px;
+    border: 1px solid #ddd; // margin-top: 20px;
   }
 }
