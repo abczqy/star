@@ -90,11 +90,8 @@ class TeacherHome extends Component {
     axios.post(ajaxUrl.teacherRecommend, {
       num: this.state.teacherMoreNum
     }).then((res) => {
-      console.log(2222222, res.data.list)
       this.setState({
         teacherData: res.data.list
-      }, () => {
-        console.log(55555555, this.state.teacherData)
       })
     }).catch((e) => { console.log(e) })
   }
@@ -103,11 +100,8 @@ class TeacherHome extends Component {
     axios.post(ajaxUrl.hotRecommend, {
       num: this.state.hotMoreNum
     }).then((res) => {
-      console.log(2222222, res.data.data)
       this.setState({
         hotData: res.data.data
-      }, () => {
-        console.log(55555555, this.state.hotData)
       })
     }).catch((e) => { console.log(e) })
   }
@@ -129,7 +123,6 @@ class TeacherHome extends Component {
   }
   // 处理收藏按钮
   handleCollection = (id) => {
-    console.log(5555677777)
     if (this.state.collectionType === 'cancel') {
       this.setState({
         collectionType: 'collect'
@@ -205,7 +198,7 @@ class TeacherHome extends Component {
                 <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>
-                {this.state.teacherData.map((item, index, arr) => {
+                {this.state.teacherData && this.state.teacherData.map((item, index, arr) => {
                   return (
                     <div key={index} className='list'>
                       <dl className='list-item'>
@@ -228,7 +221,7 @@ class TeacherHome extends Component {
                 <span className='more' onClick={this.handleHotMor}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>
-                {this.state.hotData.map((item, index, arr) => {
+                {this.state.hotData && this.state.hotData.map((item, index, arr) => {
                   return (
                     <div key={index} className='list'>
                       <dl className='list-item'>
@@ -300,7 +293,7 @@ class TeacherHome extends Component {
                     </div>
                   </p>
                 </div>
-                {this.state.rankingDataSplice.map((item, index, arr) => {
+                {this.state.rankingDataSplice && this.state.rankingDataSplice.map((item, index, arr) => {
                   return (
                     <div className='lista' key={index}>
                       <p className='lista-title'>
@@ -370,7 +363,7 @@ class TeacherHome extends Component {
                     </div>
                   </p>
                 </div>
-                {this.state.rankingDataSplice.map((item, index, arr) => {
+                {this.state.rankingDataSplice && this.state.rankingDataSplice.map((item, index, arr) => {
                   return (
                     <div className='lista' key={index}>
                       <p className='lista-title'>

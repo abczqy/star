@@ -51,7 +51,7 @@ class OperateManage extends React.Component {
       src: '/operate-manage-home/home'
     }, {
       text: '全部应用',
-      src: '/operate-manage-home/all-app'
+      src: '/operate-manage-home/all-app/all-app'
     }, {
       text: '个人中心',
       src: '/operate-manage-home/center'
@@ -68,7 +68,7 @@ class OperateManage extends React.Component {
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
-        src: '/operate-manage-home/all-app'
+        src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '人员管理',
         src: '/operate-manage-home/member'
@@ -82,7 +82,7 @@ class OperateManage extends React.Component {
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
-        src: '/operate-manage-home/all-app'
+        src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '我的应用',
         src: '/operate-manage-home/all-app-detail-mine'
@@ -131,7 +131,7 @@ class OperateManage extends React.Component {
             {renderRoutes(this.props.route.childRoutes)}
           </Layout>
 
-          <Row style={{width: '100%', height: 100, marginTop: '30px', backgroundColor: '#000'}}>
+          <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
           </Row>
           <SignOut

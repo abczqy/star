@@ -124,6 +124,10 @@ window.mungConfig = {
   getMessageListDetail: AJAX_HOST + '/getMessageList/detail',
   // 账号设置-密码修改
   updateUserPassword: AJAX_HOST + '/control/updateUserPassword',
+  // 忘记密码
+  forgetThePassword: AJAX_HOST + '/control/updateUserPassword',
+  // 获取短信验证码
+  SMSVerification: AJAX_HOST + '/SMSVerification',
 
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',
@@ -136,7 +140,7 @@ window.mungConfig = {
   // 我的应用-迭代审核
   myAppIteration: AJAX_HOST + '/application/myappiteratrionexamine',
   // 我的应用-审核和迭代中的撤销
-  myAppRevoke: AJAX_HOST + '/applicaion/examinecancel',
+  myAppRevoke: AJAX_HOST + '/application/examinecancel',
 
   // 统计分析-软件下载量变化
   softwareDownload: AJAX_HOST + '/getDownloadStatisticalAnalysisList',
@@ -151,5 +155,7 @@ window.mungConfig = {
   getAllAppCode: AJAX_HOST + '/getAppStatisticalAnalysisList',
 
   // 首页收藏
-  homeCollection: AJAX_HOST + '/app/collect'
+  homeCollection: AJAX_HOST + '/app/collect',
+  // 首页轮播图
+  homeCarousel: AJAX_HOST + '/homepage/banner'
 }

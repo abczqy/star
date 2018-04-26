@@ -4,6 +4,8 @@ import React from 'react'
 import {Card, Layout, Form, Input, Button} from 'antd'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
 
@@ -16,7 +18,8 @@ class ForgetPass extends React.Component {
     super(props)
     this.state = {
       checkpass: '最短8位，包含字母、数字或者英文符号至少两种',
-      phonemsg: '请先输入验证码！'
+      phonemsg: '请先输入验证码！',
+      phoneCode: '' // 短信验证码
     }
   }
   componentDidMount () {
@@ -81,14 +84,22 @@ class ForgetPass extends React.Component {
   }
   // 获取手机验证码
   getPhoneCode=() => {
-    console.log('校验成功后请求接口')
     const form = this.props.form
     let phoneNum = form.getFieldValue('maf_phone')
     // eslint-disable-next-line camelcase
     let maf_phone_con = form.getFieldValue('maf_phone_con')
+    let account = form.getFieldValue('maf_loginid')
     this.handlPhonecodeonblur(maf_phone_con)
+    if (account === '' || account === undefined) {
+      this.setState({
+        checkemail_icon: false,
+        checkemail: '请先输入账号！'
+      })
+      return
+    }
     if (this.handlPhoneonblur(phoneNum)) {
       console.log('获取验证码成功')
+      this.getCode(account)
       this.setState({
         nextgetCode: !this.state.nextgetCode
       }, () => {
@@ -110,6 +121,16 @@ class ForgetPass extends React.Component {
         phonemsg: '请输入手机号！'
       })
     }
+  }
+  // 获取验证码
+  getCode=(account) => {
+    axios.post(ajaxUrl.SMSVerification, {
+      user_id: account
+    }).then((response) => {
+      this.setState({
+        phoneCode: response.data
+      })
+    })
   }
   // 手机验证码
   handlPhonecheckonblur=(e) => {
@@ -246,7 +267,7 @@ class ForgetPass extends React.Component {
       if (values.maf_phone_con === undefined) {
         this.setState({
           phone_con_icon: false,
-          phone_con: '请输入验证码'
+          phone_con: '请输入验证码!'
         })
       }
       if (values.maf_phone === undefined) {
@@ -261,9 +282,23 @@ class ForgetPass extends React.Component {
           phonecheck: '请输入短信验证码！'
         })
       }
+      if (values.fog_phone_code !== '' && (values.fog_phone_code !== this.state.phoneCode)) {
+        this.setState({
+          phonecheck_icon: false,
+          phonecheck: '短信验证码不正确！'
+        })
+      }
       if (!err) {
         console.log('忘记密码', values)
-        this.backHome('/unlogged/home')
+        axios.post(ajaxUrl.relationdelete, {
+          params: {
+            user_id: values.maf_loginid,
+            idcard: values.maf_sad_idcard,
+            password: values.maf_pwd
+          }
+        }).then((response) => {
+          this.backHome('/unlogged/home')
+        })
       }
     })
   }
