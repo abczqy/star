@@ -43,9 +43,9 @@ class PersonalCenter extends Component {
     axios.post(url, {
       num: 0
     }).then(res => {
-      console.log(url, res.data.data)
+      // console.log(url, res.data.data)
       this.setState({
-        [state]: res.data.data
+        [state]: res.data
       })
     }).catch(e => { console.log(e) })
   }

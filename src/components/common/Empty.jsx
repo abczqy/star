@@ -9,10 +9,11 @@ import {Icon} from 'antd'
 class Empty extends React.Component {
   render () {
     let style = {
-      'textAlign': 'center'
+      'textAlign': 'center',
+      'marginBottom': '20px'
     }
     return (
-      <div className='empty' style={style} >
+      <div className='empty' style={{...style, ...this.props.style}} >
         <Icon type='meh-o' />
         {this.props.msg || ' 暂无数据'}
       </div>
@@ -21,7 +22,8 @@ class Empty extends React.Component {
 }
 
 Empty.propTypes = {
-  msg: PropTypes.string
+  msg: PropTypes.string,
+  style: PropTypes.object
 }
 
 export default Empty
