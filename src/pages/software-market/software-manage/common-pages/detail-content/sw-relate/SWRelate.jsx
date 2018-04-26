@@ -69,8 +69,10 @@ class SWRelate extends Component {
               <span>兼容系统:</span>
             </Col>
             <Col span={9}>
-              <span>{swPath && swPath[0][0] ? swPath[0][0] : 'Windows32'}:</span>
-              <span><Icon type='link' /><span>{swPath && swPath[0][1] ? swPath[0][1] : 'PC端.dmg'}</span></span>
+              <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
+              <span><Icon type='link' /></span>
+              <span>{swPath && swPath[0] ? swPath[0][1] : 'PC端.dmg'}</span>
+              <span><Icon type='download' /></span>
             </Col>
             <Col span={2} offset={6}>
               版本号：
@@ -84,7 +86,9 @@ class SWRelate extends Component {
               {swPathRest && swPathRest.map((item, index) => {
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
-                  <span><Icon type='link' /><span>{item && item[1]}</span></span>
+                  <span><Icon type='link' /></span>
+                  <span>{item && item[1]}</span>
+                  <span><Icon type='download' /></span>
                 </span>
               })}
             </Col>

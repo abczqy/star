@@ -111,20 +111,30 @@ export function getExamList (params, sucFn) {
 }
 
 /**
- * 软件管理-迭代审核
+ * 软件管理-待审核详情
  */
-export function iterVerify (params, sucFn) {
-  return axios.post('/management/iterationexaminelistm', params)
+export function verifyDetail (params, sucFn) {
+  return axios.post('/management/appdetail', params)
     .then(function (res) {
       sucFn(res)
     })
 }
 
 /**
- * 软件管理-待审核详情
+ * 软件管理-待审核-审核
  */
-export function verifyDetail (params, sucFn) {
-  return axios.post('/management/appdetail', params)
+export function waitVeriExam (params, sucFn) {
+  return axios.post('/management/examineapp', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 软件管理-迭代审核
+ */
+export function iterVerify (params, sucFn) {
+  return axios.post('/management/iterationexaminelistm', params)
     .then(function (res) {
       sucFn(res)
     })

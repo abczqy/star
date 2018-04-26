@@ -13,7 +13,7 @@ import { Table, Button } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getExamList, verifyDetail } from 'services/software-manage'
+import { getExamList, verifyDetail, waitVeriExam } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -124,7 +124,8 @@ class WaitVerify extends Component {
           ...thiz.state.detModalCon,
           visible: true,
           swName: record.sw_name,
-          resData: resData
+          resData: resData,
+          sw_id: record.sw_id
         }
       })
     })
@@ -137,6 +138,16 @@ class WaitVerify extends Component {
         ...this.state.detModalCon,
         visible: false
       }
+    })
+  }
+
+  // 同意详情弹窗
+  handleDetAgree = (id) => {
+    const params = {
+      sw_id: id
+    }
+    waitVeriExam(params, (res) => {
+
     })
   }
 
@@ -235,7 +246,7 @@ class WaitVerify extends Component {
           resData={detModalCon.resData}
           onCancel={this.handleAppDetCancel}
           footer={[
-            <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
+            <Button key='agree' type='primary' onClick={() => this.handleDetAgree(detModalCon.sw_id)}>同意</Button>,
             <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,
             <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}
