@@ -57,6 +57,7 @@ class MainBander extends React.Component {
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
         webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+        this.props.updatePage()
         // 如果该用户是首次登录
         if (data.isFirstLogged) {
           this.props.showSureWin(this.getSureInfoData(response.personInfo))

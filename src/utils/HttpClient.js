@@ -29,6 +29,10 @@ axios.interceptors.request.use(function (config) {
 })
 
 axios.interceptors.response.use(function (response) {
+  // 如果是登录超时
+  if (response.data && response.data.isLoggedTimeOut) {
+    window.location.reload(response.data.loginUrl)
+  }
   // console.log('拦截请求')
   // window.location.href = 'https://www.baidu.com/'
   return response

@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind,react/prop-types */
+/* eslint-disable react/jsx-no-bind,react/prop-types,no-undef,no-return-assign */
 /**
  * 游客登陆界面
  */
@@ -68,6 +68,12 @@ class LoginHome extends React.Component {
       [type]: false
     })
   }
+
+  updatePage () {
+    this.setState({
+      refresh: !this.state.refresh
+    })
+  }
   render () {
     return (
       <div className='xingyun'>
@@ -98,7 +104,9 @@ class LoginHome extends React.Component {
             </div>
           </div>
           <div className='content-container' >
-            {renderRoutes(this.props.route.childRoutes)}
+            {renderRoutes(this.props.route.childRoutes, {
+              updatePage: () => { this.updatePage() }
+            })}
           </div>
           <BottomHeader />
         </div>
