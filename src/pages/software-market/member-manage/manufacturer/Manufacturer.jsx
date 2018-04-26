@@ -23,6 +23,7 @@ import {
   getFaDetails,
   getFactoryDetail
 } from 'services/software-manage'
+import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -44,12 +45,12 @@ class Manufacturer extends Component {
       reqParam: {
         pageSize: 15,
         pageNum: 1,
-        faName: '东方国信', // 临时值 后面赋空
-        faLoginid: 'bonc',
-        toLogin: 1,
-        numDay: '正常'
+        faName: '', // 临时值 后面赋空
+        faLoginid: '',
+        toLogin: null,
+        numDay: ''
       },
-      memRenewWinVisible: true,
+      memRenewWinVisible: false,
       memRenewRecord: {},
       delModalCon: {
         visible: false,
@@ -143,12 +144,12 @@ class Manufacturer extends Component {
     const { pageSize, pageNum, faName, faLoginid, toLogin, numDay } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageSize: pageSize || 15,
-      pageNum: pageNum || 1,
-      fa_name: faName || '东方国信',
-      fa_loginid: faLoginid || 'bonc',
-      to_login: toLogin || '1',
-      num_day: numDay || '正常'
+      pageSize: pageSize,
+      pageNum: pageNum,
+      fa_name: faName || '',
+      fa_loginid: faLoginid || '',
+      to_login: toLogin || null,
+      num_day: numDay || ''
     }
   }
 
@@ -163,7 +164,7 @@ class Manufacturer extends Component {
       // console.log(`resData: ${JSON.stringify(resData)}`)
       this.setState({
         tableData: {
-          data: resData.list,
+          data: addKey2TableData(resData.list, 'fa_id'),
           total: resData.total
         }
       })
