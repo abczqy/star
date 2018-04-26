@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from '../config/index'
-
+import webStorage from 'webStorage'
 const {API_BASE_URL} = config
 
 Object.assign(axios.defaults, {
@@ -17,6 +17,11 @@ axios.interceptors.request.use(function (config) {
   // if (config.showLoading) {
   // //  xhrQueue.push(1)
   // }
+  if (config.url.indexOf('?') > 0) {
+    config.url = config.url + '&STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID') || ''
+  } else {
+    config.url = config.url + '?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID') || ''
+  }
   return config
 }, function (error) {
   return Promise.reject(error)

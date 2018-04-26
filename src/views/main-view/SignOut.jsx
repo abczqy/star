@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import apiConfig from '../../config'
+import {clearCookie} from 'utils/cookie'
 export default class RegisterSuccModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
@@ -29,17 +30,9 @@ export default class RegisterSuccModal extends React.Component {
   }
   backHome=() => {
     window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
-    this.clearCookie()
+    clearCookie()
   }
-  // 清空kookie
-  clearCookie () {
-    // eslint-disable-next-line
-    let keys = document.cookie.match(/[^ =;]+(?=\=)/g)
-    console.log(keys)
-    if (keys) {
-      for (var i = keys.length; i--;) { document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString() }
-    }
-  }
+
   render () {
     return (
       <div>

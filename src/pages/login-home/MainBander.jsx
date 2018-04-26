@@ -11,6 +11,8 @@ import axiosApi from '../../services'
 import {setRole, setIsLogged, setUserInfo} from '../../redux/actions/role'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
+import webStorage from 'webStorage'
+
 class MainBander extends React.Component {
   static propTypes = {
     showSureWin: PropTypes.func,
@@ -21,7 +23,7 @@ class MainBander extends React.Component {
     this.state = {
       userName: '', // 用户名密码
       passWord: '', // 密码
-      loginFormVisible: true,
+      loginFormVisible: webStorage.getItem('STAR_WEB_ROLE_CODE') === '',
       msgTip: '' // 用户登陆信息提示
     }
   }
@@ -40,9 +42,13 @@ class MainBander extends React.Component {
       let data = response.data
       // 如果登陆成功
       if (data.success) {
-        this.props.setRole(data.roleCode)
-        this.props.setUserInfo(data.personInfo)
-        this.props.setIsLogged(true)
+        // this.props.setRole(data.roleCode)
+        // this.props.setUserInfo(data.personInfo)
+        // this.props.setIsLogged(true)
+        webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
+        webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
+        webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
+        webStorage.setItem('STAR_WEB_IS_LOGGED', true)
         // 如果该用户是首次登录
         if (data.isFirstLogged) {
           this.props.showSureWin(this.getSureInfoData(response.personInfo))

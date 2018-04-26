@@ -17,6 +17,8 @@ import SignOut from './SignOut'
 import { connect } from 'react-redux'
 import apiConfig from '../../config'
 import './Operateview.scss'
+import webStorage from 'webStorage'
+
 class OperateManage extends React.Component {
   constructor (props) {
     super(props)
@@ -104,7 +106,7 @@ class OperateManage extends React.Component {
       <div className='xingyun'>
         <Layout>
           <div style={{height: '30px'}}>
-            <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您，{ this.props.personInfo && this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+            <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您，{ webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客'}</div>
             <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
               <Badge count={5} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
