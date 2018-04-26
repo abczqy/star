@@ -14,7 +14,8 @@ import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import _ from 'lodash'
-
+import AJAX_HOST from '../../../static/Config'
+const Search = Input.Search
 class InformationEd extends React.Component {
   constructor (props) {
     super(props)
@@ -101,13 +102,9 @@ class InformationEd extends React.Component {
   }
   confirmUp =(record) => {
     console.log('点击删除')
-    let value = {
-      id: record.id
-    }
+    let value = record.id
     console.log('删除传送行传的id', value)
-    axios.get(ajaxUrl.informationEdListDelete, {
-      value
-    }).then(item => {
+    axios.get(AJAX_HOST + `/manage/deleteEduMsgList?InfoId=${value}`).then(item => {
       message.success('您已经做好了决定并删除了这一条消息！')
       console.log(item)
     }).catch(err => {
@@ -124,8 +121,8 @@ class InformationEd extends React.Component {
     let value = {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10,
-      input: this.state.input || '',
-      select: this.state.select || ''
+      keyword: this.state.input || '',
+      state: this.state.select || ''
     }
     console.log('教育局信息公开获取数据传送信息', value)
     axios.get(ajaxUrl.informationEdList, {
@@ -197,12 +194,14 @@ class InformationEd extends React.Component {
       this.getList()
     })
   }
-  // 关键字搜索
-  inputChange=(e) => {
-    let {value} = e.target
+  // 名称搜索
+  handleSearchTextChange (e) {
     this.setState({
-      input: value
+      input: e.target.value.trim()
     })
+  }
+  handBtnleFilter =() => {
+    this.search()
   }
   // 点击编辑的跳转
   edit=(record, text) => {
@@ -276,8 +275,16 @@ class InformationEd extends React.Component {
                     return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
                   })}
                 </Select></Col>
-                <Col span={3}><Input placeholder='请输入关键字' onChange={(value) => this.inputChange(value)} /></Col>
-                <Col span={11}><Button type='primary' style={{marginLeft: '10px'}} onClick={this.search}>搜索</Button></Col>
+                <Col span={1} />
+                <Col span={12}>
+                  <Search
+                    mode='combobox'
+                    placeholder='搜索应用名称'
+                    style={{ width: '69%', marginRight: '10px' }}
+                    enterButton
+                    onChange={e => { return this.handleSearchTextChange(e) }}
+                    onSearch={() => { this.handBtnleFilter() }}
+                  /></Col>
                 <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
               </div>
             </Row>

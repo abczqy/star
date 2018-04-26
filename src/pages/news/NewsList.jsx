@@ -20,10 +20,11 @@ class News extends React.Component {
       pages: 1,
       imgO: img,
       imgT: img,
-      dataP: [], // 公告和分享的list
+      dataP: false, // 公告和分享的list
       img: '', // 公告图片
       newData: null,
-      height: ''
+      height: '',
+      heights: ''
     }
   }
   getList = () => {
@@ -58,6 +59,7 @@ class News extends React.Component {
   }
   componentDidMount () {
     this.getList()
+    this.getHeight()
     this.getClassName(document, 'ant-col-5 huoqu')
   }
   // 标题的点击事件
@@ -118,11 +120,23 @@ class News extends React.Component {
       return str.slice(0, n) + '...'
     }
   }
+  // 获取高度
+  getHeight=() => {
+    if (this.state.dataP) {
+      this.setState({
+        heights: 730
+      })
+    } else {
+      this.setState({
+        heights: 385
+      })
+    }
+  }
   render () {
     return (
       <div className='news-list-container'>
-        <div id='right-container' style={{height: '730px'}}>
-          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff'}}>
+        <div id='right-container' style={{height: `${this.state.height}px`}}>
+          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0'}}>
             {this.state.newData ? this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>

@@ -3,7 +3,7 @@
  *
  */
 import React from 'react'
-import {Input, Row, Col, Upload, Button, Icon, message, Modal} from 'antd'
+import {Input, Row, Col, Upload, Button, Icon, Modal} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -16,7 +16,8 @@ class Policy extends React.Component {
     this.state = {
       input: '',
       context: '',
-      visible: false
+      visible: false,
+      fileList: []// 存文件
     }
   }
   componentWillMount () {
@@ -67,13 +68,14 @@ class Policy extends React.Component {
   }
   // 发送通知方法
   sendF=() => {
-    let value = {
-      input: this.state.input,
-      context: this.state.context,
-      fileList: this.state.fileList
-    }
-    console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
     if (this.props.ctrl && this.props.ctrl === 'edit') {
+      let value = {
+        id: this.props.record.id,
+        title: this.state.input,
+        desc: this.state.context,
+        attachment: this.state.fileList
+      }
+      console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
       axios.get(ajaxUrl.informationEdListEdit,
         Object.assign(value, {id: this.props.record.id})
       ).then(item => {
@@ -82,6 +84,12 @@ class Policy extends React.Component {
         console.log(err)
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
+      let value = {
+        title: this.state.input,
+        desc: this.state.context,
+        attachment: this.state.fileList
+      }
+      console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
       axios.get(ajaxUrl.informationEdListAdd, {
         value
       }).then(item => {
@@ -119,21 +127,23 @@ class Policy extends React.Component {
   }
   render () {
     const props = {
-      name: 'file',
-      action: '//jsonplaceholder.typicode.com/posts/',
-      headers: {
-        authorization: 'authorization-text'
+      onRemove: (file) => {
+        this.setState(({ fileList }) => {
+          const index = fileList.indexOf(file)
+          const newFileList = fileList.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileList: newFileList
+          }
+        })
       },
-      onChange (info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList)
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} 文件上传成功`)
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} 文件上传失败`)
-        }
-      }
+      beforeUpload: (file) => {
+        this.setState(({ fileList }) => ({
+          fileList: [...fileList, file]
+        }))
+        return false
+      },
+      fileList: this.state.fileList
     }
     return <div>
       <div style={{marginLeft: '5%', marginBottom: '20px'}}>
@@ -157,6 +167,7 @@ class Policy extends React.Component {
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
+                <span className='extend'><span style={{visibility: 'hidden'}}>无无</span>支持扩展名：.png .jpg ...</span>
               </Upload>
             </Col>
           </Row>

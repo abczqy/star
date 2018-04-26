@@ -25,7 +25,7 @@ class Information extends React.Component {
       imgP: people,
       pageNum: 1,
       pageSize: 10,
-      dataP: [], // 公告和分享的list
+      dataP: false, // 公告和分享的list
       img: '', // 公告图片
       options: [
         {
@@ -51,20 +51,24 @@ class Information extends React.Component {
           }]
         }
       ],
-      infoData: false
+      infoData: false,
+      height: ''
     }
   }
   getList=() => {
     console.log('获取数据')
-    // let value = {
-    //   pageNum: this.state.pageNum || 1,
-    //   pageSize: this.state.pageSize || 10
-    // }
-    // console.log('教育局的信息公开列表获取数据传的参数', value)
-    axios.post(ajaxUrl.PlaceInformation
+    let value = {
+      pageNum: this.state.pageNum || 1,
+      pageSize: this.state.pageSize || 10,
+      province: '',
+      city: '',
+      county: ''
+    }
+    console.log('教育局的信息公开列表获取数据传的参数', value)
+    axios.post(ajaxUrl.information, value
     ).then(item => {
       this.setState({
-        infoData: item
+        infoData: item.data
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
         console.log('this.state.infoData.list', this.state.infoData.list)
@@ -86,6 +90,7 @@ class Information extends React.Component {
   }
   componentWillMount () {
     this.getList()
+    this.getHeight()
   }
   // 标题的点击事件
   title =() => {
@@ -141,14 +146,24 @@ class Information extends React.Component {
       return str.slice(0, n) + '...'
     }
   }
+  // 获取高度
+  getHeight=() => {
+    if (this.state.dataP) {
+      this.setState({
+        heights: ''
+      })
+    } else {
+      this.setState({
+        heights: '385px'
+      })
+    }
+  }
   render () {
-    const length = this.state.infoData ? this.state.infoData.data.length : 1
-    console.log('total', length)
     return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <div >
         <Row>
           <Col span={5} style={{width: '18%'}}>
-            <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '95%'}} alt='' /></a></div></Row>
+            <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></a></div></Row>
             <Row><div className='left-downer'>
               <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
                 <ul className='ul-margin'>
@@ -160,9 +175,9 @@ class Information extends React.Component {
             </Row>
             <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
-          <Col span={16} style={{width: '68%'}}>
-            <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '730px', backgroundColor: '#fff'}}>
-              {(!_.isEmpty(this.state.infoData)) && this.state.infoData.data.map((item, index) => {
+          <Col span={16} style={{width: '68%', height: '730px'}}>
+            <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: `${this.state.heights}`, backgroundColor: '#fff'}}>
+              {this.state.infoData && this.state.infoData.list.map((item, index) => {
                 return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                   <Col span={24}>
                     <Row>
