@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'antd'
 import PropsTypes from 'prop-types'
-import { SWRelate, DevRelate, IterationInfo } from '../detail-content'
+import { SWRelate, DevRelate, VoucherRelate } from '../detail-content'
 import { BlankBar } from 'components/software-market'
 import './WaitDetailModal.scss'
 
@@ -14,7 +14,7 @@ const modalConfig = {
 
 class WaitDetailModal extends Component {
   render () {
-    const { getContainer, visible, footer, title, onCancel, resData, isWaitItera } = this.props
+    const { getContainer, visible, footer, title, onCancel, resData } = this.props
     return (
       <Modal
         {...modalConfig}
@@ -26,9 +26,9 @@ class WaitDetailModal extends Component {
       >
         <SWRelate resData={resData} />
         <BlankBar />
-        {isWaitItera ? <IterationInfo /> : null}
-        {isWaitItera ? <BlankBar /> : null}
-        <DevRelate />
+        <DevRelate resData={resData} />
+        <BlankBar />
+        <VoucherRelate resData={resData} />
         <BlankBar />
       </Modal>
     )
@@ -41,8 +41,8 @@ WaitDetailModal.propTypes = {
   footer: PropsTypes.array,
   title: PropsTypes.string,
   onCancel: PropsTypes.func,
-  resData: PropsTypes.any,
-  isWaitItera: PropsTypes.bool
+  resData: PropsTypes.object,
+  isItera: PropsTypes.bool
 }
 
 export default WaitDetailModal

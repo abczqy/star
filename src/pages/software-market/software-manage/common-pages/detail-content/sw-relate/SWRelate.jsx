@@ -11,22 +11,25 @@ import moment from 'moment'
 class SWRelate extends Component {
   render () {
     const { resData } = this.props
+
+    // 第一步把获取到的sw_path去掉{}
+    let path = resData.sw_path && resData.sw_path.slice(1, -1)
+    console.log('path:', path)
+    // 第二步以逗号为分隔符分割
+    let pathArray = path.split(',')
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
-    let isFirst = true
-    if (resData.sw_path) {
-      for (var key in Object.keys(resData.sw_path)) {
-        swPath.push(key)
-        if (!isFirst) {
-          swPathRest.push(key)
-        }
-        isFirst = false
-      }
+    console.log('pathArray:', pathArray)
+    for (let i = 0; i < pathArray.length; i++) {
+      // 第三步以冒号为分隔符分割
+      swPath.push(pathArray[i].split(':'))
     }
-
-    console.log('resData:', resData)
-    console.log('swPathRest:', swPathRest)
+    // 给swPathRest赋值
+    for (let i = 1; i < swPath.length; i++) {
+      swPathRest.push(swPath[i])
+    }
+    console.log('pathArrSec:', swPath)
 
     return (
       <div className='ralate-wrap'>
@@ -64,22 +67,22 @@ class SWRelate extends Component {
               <span>兼容系统:</span>
             </Col>
             <Col span={9}>
-              <span>{swPath && swPath[0] ? swPath[0] : 'Windows32'}:</span>
-              <span><Icon type='link' /><span>PC端.dmg</span></span>
+              <span>{swPath && swPath[0][0] ? swPath[0][0] : 'Windows32'}:</span>
+              <span><Icon type='link' /><span>{swPath && swPath[0][1] ? swPath[0][1] : 'PC端.dmg'}</span></span>
             </Col>
             <Col span={2} offset={6}>
               版本号：
             </Col>
             <Col span={4}>
-              <span>V2.1</span>
+              <span>V{resData.version}</span>
             </Col>
           </Row>
           <Row>
             <Col span={9} offset={3}>
-              {swPathRest && swPathRest.map((item) => {
-                return <span>
-                  <span>{resData.sw_path[item]}</span>
-                  <span><Icon type='link' /><span>PC端.dmg</span></span>
+              {swPathRest && swPathRest.map((item, index) => {
+                return <span key={index}>
+                  <span>{item && item[0]}:</span>
+                  <span><Icon type='link' /><span>{item && item[1]}</span></span>
                 </span>
               })}
             </Col>
@@ -107,7 +110,7 @@ class SWRelate extends Component {
 }
 
 SWRelate.propTypes = {
-  resData: PropsTypes.any
+  resData: PropsTypes.object
 }
 
 export default SWRelate

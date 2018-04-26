@@ -5,9 +5,11 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'antd'
 import { BlankBar } from 'components/software-market'
+import PropsTypes from 'prop-types'
 
 class VoucherRelate extends Component {
   render () {
+    const { resData } = this.props
     return (
       <div className='ralate-wrap'>
         <Row>
@@ -22,13 +24,13 @@ class VoucherRelate extends Component {
               <span>软著凭证:</span>
             </Col>
             <Col span={6}>
-              <img alt='软著凭证图片' />
+              <img alt='软著凭证图片' src={resData.sw_copyright} />
             </Col>
             <Col span={2} offset={8}>
               <span>财务凭证:</span>
             </Col>
             <Col span={6}>
-              <img alt='财务凭证图片' />
+              <img alt='财务凭证图片' src={resData.fin_audit} />
             </Col>
           </Row>
         </div>
@@ -37,4 +39,7 @@ class VoucherRelate extends Component {
   }
 }
 
+VoucherRelate.propTypes = {
+  resData: PropsTypes.object
+}
 export default VoucherRelate

@@ -13,7 +13,7 @@ import { Table, Button } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { iterVerify } from 'services/software-manage'
+import { iterVerify, iterVeriDetail } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -40,8 +40,8 @@ class IterationVerify extends Component {
         visible: false,
         swName: ''
       },
-      sw_type: '游戏类',
-      sw_name: '绝地求生'
+      sw_type: '教辅类',
+      sw_name: ''
     }
   }
 
@@ -51,7 +51,7 @@ class IterationVerify extends Component {
   getTableDatas = () => {
     iterVerify({
       pageNum: 1,
-      pageSize: 2,
+      pageSize: 10,
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name// 应用名称
     }, (res) => {
@@ -116,12 +116,23 @@ class IterationVerify extends Component {
 
   // 显示‘详情’弹窗
   showDetModal = (record) => {
-    this.setState({
-      detModalCon: {
-        ...this.state.detModalCon,
-        visible: true,
-        swName: record.sw_name
-      }
+    // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
+    const thiz = this
+    // 获取对应的后台数据
+    const params = {
+      sw_id: record.sw_id
+    }
+    iterVeriDetail(params, (res) => {
+      const resData = res.data
+      // 通过state将数据res传给子组件
+      thiz.setState({
+        detModalCon: {
+          ...thiz.state.detModalCon,
+          visible: true,
+          swName: record.sw_name,
+          resData: resData
+        }
+      })
     })
   }
 
