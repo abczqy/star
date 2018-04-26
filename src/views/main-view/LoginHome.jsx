@@ -8,6 +8,8 @@ import { renderRoutes } from 'react-router-config'
 import { connect } from 'react-redux'
 import apiConfig from '../../config'
 import SignOut from './SignOut'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import './Operateview.scss'
 import BottomHeader from 'components/common/BottomHeader'
 
@@ -17,7 +19,8 @@ class LoginHome extends React.Component {
     let pathName = this.props.location.pathname
     this.state = {
       activeTab: this.getDefaultTabKey(pathName),
-      signOutVisible: false // 退出系统
+      signOutVisible: false, // 退出系统
+      messageCount: '0'
     }
   }
 
@@ -31,7 +34,18 @@ class LoginHome extends React.Component {
     let temArr = pathName.split('/')
     return temArr[temArr.length - 1] || 'home'
   }
-
+  componentDidMount () {
+    this.getMessageCount()
+  }
+  // 未读消息数
+  getMessageCount=() => {
+    axios.post(ajaxUrl.getMessageCount).then((response) => {
+      console.log('返回未读消息数量', response)
+      this.setState({
+        messageCount: response.data.count
+      })
+    })
+  }
   handleTabChange (link, key) {
     if (link === this.props.location.pathname) {
       window.location.reload()
@@ -61,7 +75,7 @@ class LoginHome extends React.Component {
               <div style={{height: '30px', width: '100%', margin: 'auto'}}>
                 <div style={{height: '30px', marginLeft: '6%', float: 'left', lineHeight: '30px'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
                 <div style={{height: '30px', float: 'right', marginRight: '50px'}} className='header-bar-icon'>
-                  <Badge count={5} >
+                  <Badge count={this.state.messageCount} >
                     <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />
                   </Badge>
                   <Icon type='setting' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/setting') }} />

@@ -58,7 +58,7 @@ class MessageTopBar extends React.Component {
       <div className='xingyun'>
         <Layout>
           <div style={{height: '30px'}}>
-            <div style={{height: '30px', float: 'left', paddingLeft: '110px'}}>欢迎你,{this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
+            <div style={{height: '30px', float: 'left', paddingLeft: '110px'}}>欢迎你,{this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
             <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
               <Badge count={this.state.messageCount} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />

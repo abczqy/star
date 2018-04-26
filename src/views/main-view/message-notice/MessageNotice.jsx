@@ -44,7 +44,7 @@ export default class MessageNotice extends React.Component {
       console.log('返回学生绑定信息', response)
       this.setState({
         listData: response.data.data,
-        total: response.data.total
+        total: response.data.count
       })
     })
   }
@@ -64,7 +64,7 @@ export default class MessageNotice extends React.Component {
             {this.state.listData && this.state.listData.map((item, index, arr) => {
               return <div className='list_itme' key={item.msg_id}>
                 <div className='list-img'>
-                  <div className='list_icon list_icon_bg'>
+                  <div className={item.hasRead === '1' ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
                     <i />
                   </div>
                 </div>
