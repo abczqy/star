@@ -205,7 +205,7 @@ class TeacherHome extends Component {
                 <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>
-                {this.state.teacherData.map((item, index, arr) => {
+                {this.state.teacherData && this.state.teacherData.map((item, index, arr) => {
                   return (
                     <div key={index} className='list'>
                       <dl className='list-item'>
@@ -228,7 +228,7 @@ class TeacherHome extends Component {
                 <span className='more' onClick={this.handleHotMor}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>
-                {this.state.hotData.map((item, index, arr) => {
+                {this.state.hotData && this.state.hotData.map((item, index, arr) => {
                   return (
                     <div key={index} className='list'>
                       <dl className='list-item'>
@@ -300,7 +300,7 @@ class TeacherHome extends Component {
                     </div>
                   </p>
                 </div>
-                {this.state.rankingDataSplice.map((item, index, arr) => {
+                {this.state.rankingDataSplice && this.state.rankingDataSplice.map((item, index, arr) => {
                   return (
                     <div className='lista' key={index}>
                       <p className='lista-title'>
@@ -370,7 +370,7 @@ class TeacherHome extends Component {
                     </div>
                   </p>
                 </div>
-                {this.state.rankingDataSplice.map((item, index, arr) => {
+                {this.state.rankingDataSplice && this.state.rankingDataSplice.map((item, index, arr) => {
                   return (
                     <div className='lista' key={index}>
                       <p className='lista-title'>

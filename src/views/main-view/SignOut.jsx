@@ -8,7 +8,7 @@ import apiConfig from '../../config'
 import {clearCookie} from 'utils/cookie'
 import { connect } from 'react-redux'
 import {setRole} from '../../redux/actions/role'
-
+import webStorage from 'webStorage'
 class SignOutModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
@@ -27,8 +27,12 @@ class SignOutModal extends React.Component {
   saveOrSubmit =(value) => {
     axios.post(ajaxUrl.sessionLogout).then((response) => {
       console.log('退出成功', response)
-      this.props.hiddenModal()
       this.backHome()
+      webStorage.removeItem('STAR_WEB_SESSION_ID')
+      webStorage.removeItem('STAR_WEB_ROLE_CODE')
+      webStorage.removeItem('STAR_WEB_PERSON_INFO')
+      webStorage.removeItem('STAR_WEB_IS_LOGGED')
+      this.props.hiddenModal()
     })
   }
   backHome=() => {

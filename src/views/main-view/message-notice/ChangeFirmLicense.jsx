@@ -104,7 +104,7 @@ class ChangeFirmLicense extends React.Component {
     return (
       <div>
         <Modal
-          title='请上传营业执照'
+          title='修改营业执照'
           visible={this.props.visible}
           onCancel={this.props.hiddenModal}
           maskClosable={false}

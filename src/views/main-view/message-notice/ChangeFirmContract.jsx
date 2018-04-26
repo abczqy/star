@@ -60,7 +60,7 @@ class ChangeFirmContract extends React.Component {
     return (
       <div>
         <Modal
-          title='修改密码'
+          title='修改合同编号'
           visible={this.props.visible}
           onCancel={this.props.hiddenModal}
           maskClosable={false}

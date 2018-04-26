@@ -45,9 +45,7 @@ class Register extends React.Component {
     if (this.onLoginidChange(e)) {
       let confirm = ''
       axios.post(ajaxUrl.registerValitemail, {
-        params: {
-          email: value
-        }
+        email: value
       }).then((response) => {
         confirm = response.msg !== 'exist'//  exist代表被邮箱被占用
         if (confirm) {
@@ -293,18 +291,13 @@ class Register extends React.Component {
   }
   // 获取手机验证码
   getPhoneCode=() => {
-    console.log('校验成功后请求接口')
     const form = this.props.form
     let phoneNum = form.getFieldValue('maf_phone')
     // eslint-disable-next-line camelcase
     let maf_phone_con = form.getFieldValue('maf_phone_con')
-    // let pho = this.state.phone_icon
     if (this.handlPhoneonblur(phoneNum)) {
       console.log('获取验证码成功')
       this.setState({
-        // verifyCode: new GVerify('v_container'),
-        // phone_con_icon: false,
-        // getcode_btn: false,
         nextgetCode: !this.state.nextgetCode
       }, () => {
         if (this.state.nextgetCode) {
@@ -319,7 +312,6 @@ class Register extends React.Component {
           })
         }
       })
-      // form.setFieldsValue({maf_phone_con: ''})
     } else if (phoneNum === '' || phoneNum === undefined) {
       this.setState({
         phone_icon: false,
