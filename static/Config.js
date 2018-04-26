@@ -137,8 +137,6 @@ window.mungConfig = {
 
   // 统计分析-当月应用下载型占比
   softwareDownloadConst: AJAX_HOST + '/statisticalAnalysis/softwareDownloadConst',
-
-  myAppRevoke: AJAX_HOST + '/application/examinecancel',
   // 首页收藏
   homeCollection: AJAX_HOST + '/app/collect'
 }
