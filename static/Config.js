@@ -1,4 +1,6 @@
-const AJAX_HOST = 'http://p1663488m8.imwork.net:49784'
+// const AJAX_HOST = 'http://172.16.36.159:20000/app/mock/21'// Rap地址
+const AJAX_HOST = 'http://p1663488m8.imwork.net:49784'// 测试服务器地址
+
 window.mungConfig = {
   // API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
   API_BASE_URL: 'http://p1663488m8.imwork.net:49784', // 测试地址
@@ -6,10 +8,10 @@ window.mungConfig = {
   LOGIN_URL: '',
   /** *******************************软件市场************************************ */
   // 市场分析-表格
-  MarketAnalysis: AJAX_HOST + '/MarketAnalysis',
+  MarketAnalysis: AJAX_HOST + '/getMarketAnalysisList',
 
   // 市场分析-词云图
-  hotSearch: AJAX_HOST + '/hotSearch',
+  hotSearch: AJAX_HOST + '/hotSearch', // wyl 待修改
 
   // 人员管理-教师管理列表
   teacherManagement: AJAX_HOST + '/personnelManagement',
@@ -47,7 +49,7 @@ window.mungConfig = {
   personalCollections: AJAX_HOST + '/personal/collections',
 
   // 个人中心-学生应用
-  studentApps: AJAX_HOST + '/personal/collections', // wyl 待修改
+  studentApps: AJAX_HOST + '/personal/student/app',
 
   // 个人中心-我的应用删除
   personalAppsDelete: AJAX_HOST + '/personal/apps/delete',
