@@ -55,7 +55,7 @@ class MessageTopBar extends React.Component {
   }
   render () {
     return (
-      <div>
+      <div className='xingyun'>
         <Layout>
           <div style={{height: '30px'}}>
             <div style={{height: '30px', float: 'left', paddingLeft: '110px'}}>欢迎你,{this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
