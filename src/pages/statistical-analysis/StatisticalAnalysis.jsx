@@ -8,6 +8,7 @@ import { Row, Col, Card, DatePicker, Button, Select } from 'antd'
 import axios from 'axios'
 import _ from 'lodash'
 import ajaxUrl from 'config'
+import Empty from '../../components/common/Empty'
 import Echarts from '../../components/common/Echarts'
 import getEchartsOptions from '../../utils/getEchartsOptions'
 
@@ -154,7 +155,7 @@ class StatisticalAnalysis extends Component {
           <div className='echart-box' >
             {
               _.isEmpty(downloadLineData)
-                ? ''
+                ? <Empty style={{'lineHeight': '300px'}} />
                 : <Echarts options={getEchartsOptions(downloadLineData, 'area-stack', '软件下载量变化')} />
             }
 
@@ -165,22 +166,22 @@ class StatisticalAnalysis extends Component {
             {/* 应用类型占比 */}
             <Col span={12}>
               <div className='echart-box' >
-                {/* {
+                {
                   _.isEmpty(appTypeRadioData)
-                    ? ''
+                    ? <Empty style={{'lineHeight': '300px'}} />
                     : <Echarts options={getEchartsOptions(appTypeRadioData, 'pie-doughnut', '应用类型占比')} />
-                } */}
+                }
 
               </div>
             </Col>
             {/* 当月应用下载型占比 */}
             <Col span={12}>
               <div className='echart-box' >
-                {/* {
+                {
                   _.isEmpty(downloadTypeRadioData)
-                    ? ''
+                    ? <Empty style={{'lineHeight': '300px'}} />
                     : <Echarts options={getEchartsOptions(downloadTypeRadioData, 'pie-doughnut', '当月应用下载型占比')} />
-                } */}
+                }
               </div>
             </Col>
           </Row>
