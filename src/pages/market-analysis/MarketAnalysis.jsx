@@ -8,6 +8,7 @@ import _ from 'lodash'
 import ajaxUrl from 'config'
 import MarketAnalysisTable from './marketAnalysis-table/MarketAnalysisTable'
 import MarketAnalysisWordCloud from './market-analysis-wordCloud/MarketAnalysisWordCloud'
+import Empty from '../../components/common/Empty'
 import './MarketAnalysis.scss'
 
 // const TabPane = Tabs.TabPane
@@ -80,7 +81,7 @@ class MarketAnalysis extends Component {
         <Card title='关键词搜索' bordered={false} className='word-cloud' >
           {
             _.isEmpty(this.state.hotSearchDatas)
-              ? '暂无数据'
+              ? <Empty style={{'lineHeight': '300px'}} />
               : <MarketAnalysisWordCloud dataSource={this.state.hotSearchDatas} />
           }
         </Card>
