@@ -8,6 +8,7 @@ import { Row, Col, Card, DatePicker, Button, Select } from 'antd'
 import axios from 'axios'
 import _ from 'lodash'
 import ajaxUrl from 'config'
+import Empty from '../../components/common/Empty'
 import Echarts from '../../components/common/Echarts'
 import getEchartsOptions from '../../utils/getEchartsOptions'
 
@@ -32,7 +33,7 @@ class StatisticalAnalysis extends Component {
 
   // 日期变动
   dateChange = (date, dateString) => {
-    console.log(date, dateString)
+    // console.log(date, dateString)
     this.dateRange = {
       startDate: dateString[0],
       endDate: dateString[1]
@@ -41,7 +42,7 @@ class StatisticalAnalysis extends Component {
 
   // 搜索
   search = () => {
-    console.log('搜索', this.dateRange, this.appCode)
+    // console.log('搜索', this.dateRange, this.appCode)
     this.getDownloadLineData({
       time1: this.dateRange.startDate,
       time2: this.dateRange.endDate,
@@ -57,60 +58,68 @@ class StatisticalAnalysis extends Component {
       sw_id: '',
       ...params
     }).then(res => {
-      console.log(res.data)
-      let data = res.data.data
-      let targetData = {
-        xAxis: [], // 横坐标
-        data: [{
-          name: '下载量',
-          value: [] // 下载量
-        }]
-      }
+      // console.log('软件下载量变化-折线图', res.data)
+      let data = res.data
       if (data && data.length > 0) {
+        let targetData = {
+          xAxis: [], // 横坐标
+          data: [{
+            name: '下载量',
+            value: [] // 下载量
+          }]
+        }
         data.forEach((item, index) => {
           targetData.xAxis.push(item.SHIJIAN)
           targetData.data[0].value.push(item.NUM)
         })
+        this.setState({
+          downloadLineData: targetData
+        })
       }
-      this.setState({
-        downloadLineData: targetData
-      })
     }).catch(e => { console.log(e) })
   }
 
   // 应用类型占比-扇形图
   getAppTypeRadioData=() => {
     axios.post(ajaxUrl.softwareType, {}).then(res => {
-      console.log(res.data)
-      this.setState({
-        appTypeRadioData: res.data.data
-      })
+      // console.log(res.data)
+      let data = res.data
+      if (data && data.length > 0) {
+        this.setState({
+          appTypeRadioData: res.data
+        })
+      }
     }).catch(e => { console.log(e) })
   }
 
   // 当月应用下载型占比-扇形图
   getDownloadTypeRadioData=() => {
     axios.post(ajaxUrl.softwareDownloadConst, {}).then(res => {
-      console.log(res.data)
-      this.setState({
-        downloadTypeRadioData: res.data.data
-      })
+      // console.log(res.data)
+      let data = res.data
+      if (data && data.length > 0) {
+        this.setState({
+          downloadTypeRadioData: res.data
+        })
+      }
     }).catch(e => { console.log(e) })
   }
 
   // 获取统计分析全部软件下拉列表
   getAllApps=() => {
     axios.post(ajaxUrl.getAllAppCode, {}).then(res => {
-      console.log(res.data)
-      this.setState({
-        allAppCode: res.data.data
-      })
+      // console.log('全部软件下拉列表', res.data)
+      let data = res.data
+      if (data && data.length > 0) {
+        this.setState({
+          allAppCode: res.data
+        })
+      }
     }).catch(e => { console.log(e) })
   }
 
   // 应用选择
   appChange = (value) => {
-    console.log(`selected ${value}`)
     this.appCode = value
   }
 
@@ -127,6 +136,7 @@ class StatisticalAnalysis extends Component {
 
   render () {
     const { downloadLineData, appTypeRadioData, downloadTypeRadioData, allAppCode } = this.state
+    console.log(appTypeRadioData, downloadTypeRadioData)
     return (
       <div className='statistical-analysis center-view mtb20'>
         <Card title='统计分析' bordered={false}>
@@ -134,7 +144,7 @@ class StatisticalAnalysis extends Component {
             <Select onChange={this.appChange} placeholder='请选择应用' >
               {
                 allAppCode.map((item, index) => (
-                  <Option key={item.sw_id} >{item.sw_name}</Option>
+                  <Option key={index} value={item.sw_id} >{item.sw_name}</Option>
                 ))
               }
             </Select>
@@ -145,7 +155,7 @@ class StatisticalAnalysis extends Component {
           <div className='echart-box' >
             {
               _.isEmpty(downloadLineData)
-                ? ''
+                ? <Empty style={{'lineHeight': '300px'}} />
                 : <Echarts options={getEchartsOptions(downloadLineData, 'area-stack', '软件下载量变化')} />
             }
 
@@ -158,7 +168,7 @@ class StatisticalAnalysis extends Component {
               <div className='echart-box' >
                 {
                   _.isEmpty(appTypeRadioData)
-                    ? ''
+                    ? <Empty style={{'lineHeight': '300px'}} />
                     : <Echarts options={getEchartsOptions(appTypeRadioData, 'pie-doughnut', '应用类型占比')} />
                 }
 
@@ -169,7 +179,7 @@ class StatisticalAnalysis extends Component {
               <div className='echart-box' >
                 {
                   _.isEmpty(downloadTypeRadioData)
-                    ? ''
+                    ? <Empty style={{'lineHeight': '300px'}} />
                     : <Echarts options={getEchartsOptions(downloadTypeRadioData, 'pie-doughnut', '当月应用下载型占比')} />
                 }
               </div>

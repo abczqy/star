@@ -51,7 +51,7 @@ class WaitVerify extends Component {
   getTableDatas = () => {
     getExamList({
       pageNum: 1,
-      pageSize: 2,
+      pageSize: 10,
       sw_type: this.state.sw_type,
       sw_name: this.state.sw_name
     }, (res) => {
@@ -121,7 +121,7 @@ class WaitVerify extends Component {
       // 通过state将数据res传给子组件
       thiz.setState({
         detModalCon: {
-          ...this.state.detModalCon,
+          ...thiz.state.detModalCon,
           visible: true,
           swName: record.sw_name,
           resData: resData
@@ -234,7 +234,6 @@ class WaitVerify extends Component {
           visible={detModalCon.visible}
           resData={detModalCon.resData}
           onCancel={this.handleAppDetCancel}
-          isWaitItera
           footer={[
             <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
             <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,

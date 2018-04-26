@@ -1,7 +1,7 @@
 /*-------------应用卡片--------------*/
 
 .application-card {
-  position: relative;
+  position: relative; 
   margin-bottom: 20px;
   border: 1px solid #EFF0EF; // border: 1px solid #666;
   border-radius: 4px; // height: 102px;
@@ -141,16 +141,13 @@
 }
 
 body {
-  .ant-popover {
-    // 分享对象的选择气泡
-    .ant-popover-arrow {
-      display: none;
-    }
-    .ant-popover-inner-content {
-      padding: 0;
-      width: 70px
-    }
-    .share-list-item {
+  .share-list {
+    // 选择分享对象的下拉框
+    background-color: #fff;
+    width: 85px;
+    margin-top: 5px;
+    border-radius: 2px;
+    .ant-dropdown-menu-item {
       cursor: pointer;
       border-bottom: 1px solid #ddd;
       text-align: center;
@@ -159,9 +156,6 @@ body {
         border: none;
       }
     }
-  }
-  .ant-popover-placement-bottomLeft {
-    padding-top: 5px
   }
   .share-confirm-modal {
     //分享确认的弹窗

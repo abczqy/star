@@ -5,61 +5,44 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
-import { Badge, Icon, Popover, Modal } from 'antd'
+// import _ from 'lodash'
+import { Badge, Icon, Dropdown, Modal, Menu } from 'antd'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import './ApplicationCard.scss'
 import warnPng from '../../../assets/images/personal/warn.png'
 
-const shareBoxParams = {
-  all: '全部',
-  parent: '仅家长',
-  student: '仅学生'
-}
-
 class ApplicationCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      shareConfirmVisible: false, // 分享确认弹窗
-      sharePopoverVisible: false// 选择分享对象气泡
+      shareConfirmVisible: false // 分享确认弹窗
     }
+    this.shareMenu = (
+      <Menu className='share-list' onClick={this.share}>
+        <Menu.Item key='all'>全部</Menu.Item>
+        <Menu.Item key='parent'>仅家长</Menu.Item>
+        <Menu.Item key='student'>仅学生</Menu.Item>
+      </Menu>
+    )
     this.shareObject = ''
-  }
-
-  // 设置选择分享对象气泡的显示
-  setSharePopoverVisible = (visible) => {
-    this.setState({
-      sharePopoverVisible: visible
-    })
   }
 
   // 选择分享对象
   share = (type) => {
-    console.log('share', type)
+    // console.log('share', type)
     this.shareObject = type
-    this.setSharePopoverVisible(false)
     this.setShareConfirmVisible(true)
-  }
-
-  // 生成分享对象列表
-  createShareList = (data) => {
-    let list = []
-    _.forIn(data, (value, key) => {
-      list.push(<div className='share-list-item' key={key} onClick={() => { this.share(key) }} >{value}</div>)
-    })
-    return list
   }
 
   // 确定分享
   shareEnsure = () => {
-    console.log('确定分享')
+    // console.log('确定分享')
   }
 
   // 取消分享
   shareCancel = () => {
-    console.log('取消分享')
+    // console.log('取消分享')
     this.setShareConfirmVisible(false)
   }
 
@@ -91,18 +74,15 @@ class ApplicationCard extends Component {
         {/* 分享 */}
         {
           (this.props.share && !this.props.deleteCheck) && (
-            <Popover
+            <Dropdown
               placement='bottomLeft'
-              title={null}
-              content={this.createShareList(shareBoxParams)}
-              trigger='click'
-              visible={this.state.sharePopoverVisible}
-              onVisibleChange={this.setSharePopoverVisible}
+              overlay={this.shareMenu}
+              trigger={['click']}
             >
               <span className='share'>
                 <Icon type='export' />
               </span>
-            </Popover>
+            </Dropdown>
           )
         }
         {/* 删除check */}

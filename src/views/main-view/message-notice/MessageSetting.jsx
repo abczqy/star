@@ -213,7 +213,7 @@ class MessageSetting extends React.Component {
             <div className='safe-name'>
               <span className='tit'>营业执照</span>
               <span className='word f-color'><img style={{height: '50px'}} src={firmData && firmData.photo} /></span>
-              <a className='modify' onClick={this.changeFirmLicense}>从新上传</a>
+              <a className='modify' onClick={this.changeFirmLicense}>重新上传</a>
             </div>
           </div>
         </div>

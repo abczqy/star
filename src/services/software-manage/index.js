@@ -121,10 +121,20 @@ export function iterVerify (params, sucFn) {
 }
 
 /**
- * 软件管理-迭代审核、待审核详情
+ * 软件管理-待审核详情
  */
 export function verifyDetail (params, sucFn) {
   return axios.post('/management/appdetail', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 软件管理-迭代审核详情
+ */
+export function iterVeriDetail (params, sucFn) {
+  return axios.post('/management/appdetailiter', params)
     .then(function (res) {
       sucFn(res)
     })

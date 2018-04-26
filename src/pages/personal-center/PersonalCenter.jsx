@@ -4,12 +4,12 @@
 
 import React, { Component } from 'react'
 import { Card, Row, Col, Divider, message } from 'antd'
-import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import _ from 'lodash'
 import ApplicationCard from './application-card/ApplicationCard'
-import { connect } from 'react-redux'
+import Empty from '../../components/common/Empty'
+import webStorage from 'webStorage'
 import './PersonalCenter.scss'
 
 class PersonalCenter extends Component {
@@ -35,13 +35,18 @@ class PersonalCenter extends Component {
         myCollections: []
       }
     }
+    this.role = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    console.log(this.role)
   }
 
   // 获取应用数据
   getApps = (url, state) => {
-    axios.post(url, {}).then(res => {
+    axios.post(url, {
+      num: 0
+    }).then(res => {
+      // console.log(url, res.data.data)
       this.setState({
-        [state]: res.data.data
+        [state]: res.data
       })
     }).catch(e => { console.log(e) })
   }
@@ -176,7 +181,7 @@ class PersonalCenter extends Component {
           <ApplicationCard
             type={type}
             content={item}
-            share={this.props.role === 'teacher'}
+            share={this.role === 'teacher'}
             deleteCheck={this.state.deleteActive[type]}
             download={Boolean(type === 'studentApps' || type === 'myCollections')}
             collection={Boolean(type === 'studentApps')}
@@ -191,26 +196,27 @@ class PersonalCenter extends Component {
 
   // 判断应用列表数量
   getAppList = (openStatus, appList, type) => {
-    if (appList.length === 0) {
-      return null
-    }
-    if (openStatus) { // 展开状态
-      return this.createAppList(appList, type)
-    } else { // 收起状态 应用列表大于十个
-      return this.createAppList(_.take(appList, 10), type)
+    if (appList) {
+      if (appList.length === 0) {
+        return <Empty />
+      }
+      if (openStatus) { // 展开状态
+        return this.createAppList(appList, type)
+      } else { // 收起状态 应用列表大于十个
+        return this.createAppList(_.take(appList, 10), type)
+      }
     }
   }
 
   init = () => {
     this.getApps(ajaxUrl.personalApps, 'myApps')
     this.getApps(ajaxUrl.personalCollections, 'myCollections')
-    if (this.props.role === 'parents') {
+    if (this.role === 'parents') {
       this.getApps(ajaxUrl.studentApps, 'studentApps')
     }
   }
 
   componentDidMount () {
-    console.log(this.props.role)
     this.init()
   }
 
@@ -229,7 +235,7 @@ class PersonalCenter extends Component {
           </Row>
         </Card>
         {
-          this.props.role === 'parents' && (
+          this.role === 'parents' && (
             <Card
               title='学生应用'
               bordered={false}
@@ -259,14 +265,4 @@ class PersonalCenter extends Component {
   }
 }
 
-PersonalCenter.propTypes = {
-  role: PropTypes.string
-}
-
-const mapStateToProps = state => ({
-  role: state.role.code
-})
-
-export default connect(
-  mapStateToProps
-)(PersonalCenter)
+export default PersonalCenter

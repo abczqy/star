@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind,no-useless-return,no-undef */
 /* 忘记密码 */
 import React from 'react'
-import {Card, Layout, Form, Input, Button} from 'antd'
+import {Card, Layout, Form, Input, Button, message} from 'antd'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
 import axios from 'axios'
@@ -297,7 +297,11 @@ class ForgetPass extends React.Component {
             password: values.maf_pwd
           }
         }).then((response) => {
-          this.backHome('/unlogged/home')
+          if (response.data === 'false') {
+            message.error('没有此账号！')
+          } else {
+            this.backHome('/unlogged/home')
+          }
         })
       }
     })
