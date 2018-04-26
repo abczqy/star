@@ -49,9 +49,9 @@ class MyAppIterationTable extends Component {
       // width: 150
     }, {
       title: '下载次数',
-      dataIndex: 'downloads',
+      dataIndex: 'sw_downloads',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.downloads - b.downloads
+      sorter: (a, b) => a.sw_downloads - b.sw_downloads
       // width: 150
     }, {
       title: '变更时间',
@@ -137,7 +137,7 @@ class MyAppIterationTable extends Component {
   }
   // 撤销操作确认
   confirm = (e) => {
-    axios.put(ajaxUrl.myAppRevoke, {
+    axios.post(ajaxUrl.myAppRevoke, {
       sw_id: e.sw_id
     }).then((res) => {
       this.getMyAppInOperationData()

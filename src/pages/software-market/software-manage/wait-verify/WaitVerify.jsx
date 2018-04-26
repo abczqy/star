@@ -13,7 +13,7 @@ import { Table, Button } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getExamList } from 'services/software-manage'
+import { getExamList, verifyDetail } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -109,12 +109,24 @@ class WaitVerify extends Component {
 
   // 显示‘详情’弹窗
   showDetModal = (record) => {
-    this.setState({
-      detModalCon: {
-        ...this.state.detModalCon,
-        visible: true,
-        swName: record.sw_name
-      }
+    // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
+    const thiz = this
+    // 获取对应的后台数据
+    const params = {
+      sw_id: record.sw_id
+    }
+
+    verifyDetail(params, (res) => {
+      const resData = res.data
+      // 通过state将数据res传给子组件
+      thiz.setState({
+        detModalCon: {
+          ...this.state.detModalCon,
+          visible: true,
+          swName: record.sw_name,
+          resData: resData
+        }
+      })
     })
   }
 
@@ -220,7 +232,9 @@ class WaitVerify extends Component {
           title={detModalCon.swName}
           getContainer={() => this.refs.waitDetailElem}
           visible={detModalCon.visible}
+          resData={detModalCon.resData}
           onCancel={this.handleAppDetCancel}
+          isWaitItera
           footer={[
             <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
             <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,

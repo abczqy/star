@@ -5,7 +5,11 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import apiConfig from '../../config'
-export default class RegisterSuccModal extends React.Component {
+import {clearCookie} from 'utils/cookie'
+import { connect } from 'react-redux'
+import {setRole} from '../../redux/actions/role'
+import webStorage from 'webStorage'
+class SignOutModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func
@@ -23,23 +27,19 @@ export default class RegisterSuccModal extends React.Component {
   saveOrSubmit =(value) => {
     axios.post(ajaxUrl.sessionLogout).then((response) => {
       console.log('退出成功', response)
-      this.props.hiddenModal()
       this.backHome()
+      webStorage.removeItem('STAR_WEB_SESSION_ID')
+      webStorage.removeItem('STAR_WEB_ROLE_CODE')
+      webStorage.removeItem('STAR_WEB_PERSON_INFO')
+      webStorage.removeItem('STAR_WEB_IS_LOGGED')
+      this.props.hiddenModal()
     })
   }
   backHome=() => {
     window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
-    this.clearCookie()
+    clearCookie()
   }
-  // 清空kookie
-  clearCookie () {
-    // eslint-disable-next-line
-    let keys = document.cookie.match(/[^ =;]+(?=\=)/g)
-    console.log(keys)
-    if (keys) {
-      for (var i = keys.length; i--;) { document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString() }
-    }
-  }
+
   render () {
     return (
       <div>
@@ -63,3 +63,14 @@ export default class RegisterSuccModal extends React.Component {
     )
   }
 }
+const mapDispatchToProps = dispatch => ({
+  setRole: (code) => {
+    dispatch(setRole(code))
+  }
+})
+const mapStateToProps = state => ({
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignOutModal)

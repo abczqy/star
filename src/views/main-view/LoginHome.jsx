@@ -12,6 +12,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import './Operateview.scss'
 import BottomHeader from 'components/common/BottomHeader'
+import webStorage from 'webStorage'
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -71,9 +72,9 @@ class LoginHome extends React.Component {
       <div className='xingyun'>
         <div style={{height: '100%'}}>
           {
-            this.props.isLogged ? (
+            webStorage.getItem('STAR_WEB_IS_LOGGED') ? (
               <div style={{height: '30px', width: '100%'}}>
-                <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+                <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您,{ webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客') : '游客'}</div>
                 <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
                   <Badge count={this.state.messageCount} >
                     <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />

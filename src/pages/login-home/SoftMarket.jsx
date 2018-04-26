@@ -3,10 +3,11 @@
  * 游客登录页软件市场
  */
 import React from 'react'
-import { Row, Col, List, Avatar } from 'antd'
+import { Row, Col, List, Avatar, message } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'
+import webStorage from 'webStorage'
 
 class SoftMarket extends React.Component {
   constructor (props) {
@@ -46,6 +47,11 @@ class SoftMarket extends React.Component {
 
   // eslint-disable-next-line react/prop-types
   goToSoftMarket () {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    if (STAR_WEB_ROLE_CODE === '' || STAR_WEB_ROLE_CODE === null) {
+      message.warning('请先登录!')
+      return
+    }
     this.props.history.push({
       pathname: '/operate-manage-home/home'
     })

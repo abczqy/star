@@ -17,6 +17,8 @@ import SignOut from './SignOut'
 import { connect } from 'react-redux'
 import apiConfig from '../../config'
 import './Operateview.scss'
+import webStorage from 'webStorage'
+
 class OperateManage extends React.Component {
   constructor (props) {
     super(props)
@@ -49,7 +51,7 @@ class OperateManage extends React.Component {
       src: '/operate-manage-home/home'
     }, {
       text: '全部应用',
-      src: '/operate-manage-home/all-app'
+      src: '/operate-manage-home/all-app/all-app'
     }, {
       text: '个人中心',
       src: '/operate-manage-home/center'
@@ -66,7 +68,7 @@ class OperateManage extends React.Component {
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
-        src: '/operate-manage-home/all-app'
+        src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '人员管理',
         src: '/operate-manage-home/member'
@@ -80,7 +82,7 @@ class OperateManage extends React.Component {
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
-        src: '/operate-manage-home/all-app'
+        src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '我的应用',
         src: '/operate-manage-home/all-app-detail-mine'
@@ -104,7 +106,7 @@ class OperateManage extends React.Component {
       <div className='xingyun'>
         <Layout>
           <div style={{height: '30px'}}>
-            <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您，{ this.props.personInfo && this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+            <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您，{ webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客') : '游客'}</div>
             <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
               <Badge count={5} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
@@ -129,7 +131,7 @@ class OperateManage extends React.Component {
             {renderRoutes(this.props.route.childRoutes)}
           </Layout>
 
-          <Row style={{width: '100%', height: 100, marginTop: '30px', backgroundColor: '#000'}}>
+          <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
           </Row>
           <SignOut

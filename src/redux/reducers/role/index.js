@@ -12,7 +12,7 @@ import { SET_ROLE, GET_ROLE, SET_IS_LOGGED, GET_IS_LOGGED, SET_USER_INFO, GET_US
  * @type {{code: string}}
  */
 const initialState = {
-  code: 'students', // 默认为游客
+  code: 'vendor', // 默认为游客
   isLogged: true, // 用户是否登录
   personInfo: {} // 用户信息
 }

@@ -66,7 +66,7 @@ class MessageTopBar extends React.Component {
             <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
           </div>
         </div>
-        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, 'operate-manage-home/market')}>
+        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, 'unlogged/home')}>
           <div className='xingyun-logo' />
         </div>
         <div>

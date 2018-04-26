@@ -44,9 +44,9 @@ class MyAppTable extends Component {
       // width: 150
     }, {
       title: '下载次数',
-      dataIndex: 'downloads',
+      dataIndex: 'sw_downloads',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.downloads - b.downloads
+      sorter: (a, b) => a.sw_downloads - b.sw_downloads
       // width: 150
     }, {
       title: '版本',
