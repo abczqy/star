@@ -25,7 +25,8 @@ const getEchartsOptions = (data, type, title, config) => {
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
+          // formatter: '{a} <br/>{b}: {c} ({d}%)'
+          formatter: '{b}: {c} ({d}%)'
         },
         legend: {
           orient: 'vertical',
@@ -33,7 +34,7 @@ const getEchartsOptions = (data, type, title, config) => {
           y: 'middle',
           data: legendDatas
         },
-        color: ['#f0647e', '#58acfb', '#fad352'],
+        color: ['#f0647e', '#58acfb', '#fad352'], // 配置颜色
         series: [
           {
             name: '',
