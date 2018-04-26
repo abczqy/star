@@ -11,6 +11,16 @@ export function login (params, sucFn) {
 }
 
 /**
+ * 修改密码
+ */
+export function modifyPassword (params, sucFn) {
+  return axios.post('/control/updateUserPassword', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 门户首页-热门推荐
  */
 export function getRecommendApp (params, sucFn) {

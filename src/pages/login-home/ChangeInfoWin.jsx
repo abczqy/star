@@ -3,8 +3,9 @@
  * 老师学生确认信息弹框
  */
 import React from 'react'
-import { Form, Modal, Button, Input, Row, Col } from 'antd'
+import { Form, Modal, Button, Input, Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
+import {modifyPassword} from 'services/portal/'
 
 class _LoginForm extends React.Component {
   constructor (props) {
@@ -14,7 +15,7 @@ class _LoginForm extends React.Component {
     }
   }
   componentDidMount () {
-    this.props.form.validateFields()
+
   }
 
   validatorPas (rule, value, callback) {
@@ -52,7 +53,9 @@ class _LoginForm extends React.Component {
    * 保存新的密码
    */
   saveNewPsw (obj) {
-
+    modifyPassword({password: obj.psw}, (response) => {
+      message.success('修改密码成功!')
+    })
   }
 
   render () {

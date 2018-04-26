@@ -65,6 +65,11 @@ class MainBander extends React.Component {
           this.setState({
             loginFormVisible: false
           })
+          if (data.roleCode === 'operator') {
+            this.props.history.push({
+              pathname: '/software-market-home'
+            })
+          }
         }
       } else {
         message.error('请求数据失败!')
