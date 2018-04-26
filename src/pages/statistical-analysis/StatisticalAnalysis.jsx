@@ -49,7 +49,7 @@ class StatisticalAnalysis extends Component {
     })
   }
 
-  // 软件下载量变化
+  // 软件下载量变化-折线图
   getDownloadLineData=(params) => {
     axios.post(ajaxUrl.softwareDownload, {
       time1: '',
@@ -58,13 +58,27 @@ class StatisticalAnalysis extends Component {
       ...params
     }).then(res => {
       console.log(res.data)
+      let data = res.data.data
+      let targetData = {
+        xAxis: [], // 横坐标
+        data: [{
+          name: '下载量',
+          value: [] // 下载量
+        }]
+      }
+      if (data && data.length > 0) {
+        data.forEach((item, index) => {
+          targetData.xAxis.push(item.SHIJIAN)
+          targetData.data[0].value.push(item.NUM)
+        })
+      }
       this.setState({
-        downloadLineData: res.data
+        downloadLineData: targetData
       })
     }).catch(e => { console.log(e) })
   }
 
-  // 应用类型占比
+  // 应用类型占比-扇形图
   getAppTypeRadioData=() => {
     axios.post(ajaxUrl.softwareType, {}).then(res => {
       console.log(res.data)
@@ -74,7 +88,7 @@ class StatisticalAnalysis extends Component {
     }).catch(e => { console.log(e) })
   }
 
-  // 当月应用下载型占比
+  // 当月应用下载型占比-扇形图
   getDownloadTypeRadioData=() => {
     axios.post(ajaxUrl.softwareDownloadConst, {}).then(res => {
       console.log(res.data)
