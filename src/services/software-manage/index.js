@@ -119,3 +119,13 @@ export function iterVerify (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 软件管理-迭代审核、待审核详情
+ */
+export function verifyDetail (params, sucFn) {
+  return axios.post('/management/appdetail', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

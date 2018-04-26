@@ -2,6 +2,8 @@
 import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
 class ChangePass extends React.Component {
   static propTypes = {
@@ -78,8 +80,17 @@ class ChangePass extends React.Component {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('添加绑定', values)
-        this.props.hiddenModal()
+        axios.get(ajaxUrl.updateUserPassword, {
+          params: {
+            type: '',
+            id: '',
+            pwd: values.maf_new_pass,
+            oldPwd: values.maf_old_pass
+          }
+        }).then((response) => {
+          console.log('修改密码', response)
+          this.props.hiddenModal()
+        })
       }
     })
   }

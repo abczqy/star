@@ -14,7 +14,7 @@ const modalConfig = {
 
 class WaitDetailModal extends Component {
   render () {
-    const { getContainer, visible, footer, title, onCancel } = this.props
+    const { getContainer, visible, footer, title, onCancel, resData, isWaitItera } = this.props
     return (
       <Modal
         {...modalConfig}
@@ -24,10 +24,10 @@ class WaitDetailModal extends Component {
         title={title}
         onCancel={onCancel}
       >
-        <SWRelate />
+        <SWRelate resData={resData} />
         <BlankBar />
-        <IterationInfo />
-        <BlankBar />
+        {isWaitItera ? <IterationInfo /> : null}
+        {isWaitItera ? <BlankBar /> : null}
         <DevRelate />
         <BlankBar />
       </Modal>
@@ -40,7 +40,9 @@ WaitDetailModal.propTypes = {
   visible: PropsTypes.bool,
   footer: PropsTypes.array,
   title: PropsTypes.string,
-  onCancel: PropsTypes.func
+  onCancel: PropsTypes.func,
+  resData: PropsTypes.any,
+  isWaitItera: PropsTypes.bool
 }
 
 export default WaitDetailModal

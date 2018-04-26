@@ -6,7 +6,10 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import apiConfig from '../../config'
 import {clearCookie} from 'utils/cookie'
-export default class RegisterSuccModal extends React.Component {
+import { connect } from 'react-redux'
+import {setRole} from '../../redux/actions/role'
+
+class SignOutModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func
@@ -56,3 +59,14 @@ export default class RegisterSuccModal extends React.Component {
     )
   }
 }
+const mapDispatchToProps = dispatch => ({
+  setRole: (code) => {
+    dispatch(setRole(code))
+  }
+})
+const mapStateToProps = state => ({
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignOutModal)

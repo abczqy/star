@@ -14,10 +14,10 @@ class MarketAnalysisTable extends Component {
     super(props)
     this.columns = [{
       title: '序号',
-      dataIndex: 'index',
-      render: (index) => {
-        let serialNumber = index
-        switch (index) {
+      dataIndex: 'id',
+      render: (id) => {
+        let serialNumber = id
+        switch (id) {
           case 1:
             serialNumber = <span className='serial-num first' >1</span>
             break
@@ -28,7 +28,7 @@ class MarketAnalysisTable extends Component {
             serialNumber = <span className='serial-num third' >3</span>
             break
           default:
-            serialNumber = <span className='serial-num' >{index}</span>
+            serialNumber = <span className='serial-num' >{id}</span>
             break
         }
         return serialNumber
@@ -36,27 +36,27 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: 'APP名称',
-      dataIndex: 'name',
+      dataIndex: 'APPNAME',
       render: (text, record) => (
         <span className='app-title'>
-          <img src={record.appLogo} alt='' />
+          <img src={record.APPURL} alt='' />
           <span>{text}</span>
         </span>
       )
       // width: 150
     }, {
       title: 'APP类型',
-      dataIndex: 'appType'
+      dataIndex: 'APPTYPE'
       // width: 150
     }, {
       title: '下载数量',
-      dataIndex: 'downLoadCount',
+      dataIndex: 'DOWNLOADS',
       render: (downLoadCount, record) => (
         <Row className='download'>
           <Col span={8} className='down-number' >{downLoadCount}</Col>
           <Col span={16} >
             {
-              <CountShow percent={record.downPercent} index={record.index} />
+              <CountShow percent={record.PROGROSS} index={record.id} />
             }
 
           </Col>
@@ -65,15 +65,15 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: '收藏数量',
-      dataIndex: 'collectCount'
+      dataIndex: 'COLLNUM'
       // width: 150
     }, {
       title: '点击率',
-      dataIndex: 'clickCount'
+      dataIndex: 'CLICKNUM'
       // width: 150
     }, {
       title: '上线时间',
-      dataIndex: 'updateDate',
+      dataIndex: 'TIME',
       render: date => moment(date).format('YYYY-MM-DD')
       // width: 150
     }]
@@ -84,7 +84,7 @@ class MarketAnalysisTable extends Component {
       <div className='marketAnalysis-table'>
         <Table
           className='data-table'
-          rowKey='index'
+          rowKey='id'
           columns={this.columns}
           dataSource={this.props.dataSource}
           pagination={false}

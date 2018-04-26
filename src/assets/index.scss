@@ -2,7 +2,7 @@
 /*-----------------公用样式-----------------*/
 
 .center-view {
-  width: calc(100% - 220px);
+  width: calc(80%);
 }
 .mtb20{
   margin: 20px auto;  
@@ -10,7 +10,7 @@
 .mb20{
   margin: 0 auto;
   margin-bottom: 20px;
-  min-height: calc(100vh - 120px);;
+  min-height: calc(100vh - 120px);
 }
 /*单行省略号*/
 .ellipsis {

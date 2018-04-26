@@ -5,9 +5,29 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon } from 'antd'
 import { BlankBar } from 'components/software-market'
+import PropsTypes from 'prop-types'
+import moment from 'moment'
 
 class SWRelate extends Component {
   render () {
+    const { resData } = this.props
+    let swPath = []
+    // 刨除第一个元素剩余的内容
+    let swPathRest = []
+    let isFirst = true
+    if (resData.sw_path) {
+      for (var key in Object.keys(resData.sw_path)) {
+        swPath.push(key)
+        if (!isFirst) {
+          swPathRest.push(key)
+        }
+        isFirst = false
+      }
+    }
+
+    console.log('resData:', resData)
+    console.log('swPathRest:', swPathRest)
+
     return (
       <div className='ralate-wrap'>
         <Row>
@@ -19,16 +39,16 @@ class SWRelate extends Component {
         <div className='relate-content'>
           <Row>
             <Col span={2} offset={1}>
-            软件分类:
+              软件分类:
             </Col>
             <Col span={9}>
-              <span>教辅类:</span>
+              <span>{resData.sw_type ? resData.sw_type : '默认分类'}</span>
             </Col>
             <Col span={2} offset={6}>
-            上架时间:
+              上架时间:
             </Col>
             <Col span={4}>
-              <span>2018-4-23</span>
+              <span>{resData.sw_time_real ? moment(resData.sw_time_real).format('YYYY-MM-DD') : '2099-9-9'}</span>
             </Col>
           </Row>
           <Row>
@@ -36,11 +56,7 @@ class SWRelate extends Component {
               <span>系统描述:</span>
             </Col>
             <Col span={19}>
-              <span>
-              这里是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述
-              是软件描述是软件描述是软件描述              这里是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述是软件描述
-              是软件描述是软件描述是软件描述
-              </span>
+              <span>{resData.sw_desc ? resData.sw_desc : '描述描述描述描述描述描述描述描述描述'}</span>
             </Col>
           </Row>
           <Row>
@@ -48,11 +64,11 @@ class SWRelate extends Component {
               <span>兼容系统:</span>
             </Col>
             <Col span={9}>
-              <span>Windows_32：</span>
+              <span>{swPath && swPath[0] ? swPath[0] : 'Windows32'}:</span>
               <span><Icon type='link' /><span>PC端.dmg</span></span>
             </Col>
             <Col span={2} offset={6}>
-            版本号：
+              版本号：
             </Col>
             <Col span={4}>
               <span>V2.1</span>
@@ -60,8 +76,12 @@ class SWRelate extends Component {
           </Row>
           <Row>
             <Col span={9} offset={3}>
-              <span>Windows_32：</span>
-              <span><Icon type='link' /><span>PC端.dmg</span></span>
+              {swPathRest && swPathRest.map((item) => {
+                return <span>
+                  <span>{resData.sw_path[item]}</span>
+                  <span><Icon type='link' /><span>PC端.dmg</span></span>
+                </span>
+              })}
             </Col>
           </Row>
           <Row>
@@ -69,7 +89,7 @@ class SWRelate extends Component {
               <span>软件图标:</span>
             </Col>
             <Col>
-              <img alt='软件的图标' />
+              <img alt='软件的图标' src={resData.sw_icon} />
             </Col>
           </Row>
           <Row className='sw-relate-move-L'>
@@ -77,13 +97,17 @@ class SWRelate extends Component {
               <span>PC端界面截图:</span>
             </Col>
             <Col>
-              <img alt='pc端的界面截图' />
+              <img alt='pc端的界面截图' src={resData.sw_computer_photo} />
             </Col>
           </Row>
         </div>
       </div>
     )
   }
+}
+
+SWRelate.propTypes = {
+  resData: PropsTypes.any
 }
 
 export default SWRelate
