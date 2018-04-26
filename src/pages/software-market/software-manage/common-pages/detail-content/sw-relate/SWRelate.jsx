@@ -10,13 +10,15 @@ import moment from 'moment'
 
 class SWRelate extends Component {
   render () {
-    const { resData } = this.props
+    const { resData, isWaitItera } = this.props
 
     // 第一步把获取到的sw_path去掉{}
-    let path = resData.sw_path && resData.sw_path.slice(1, -1)
+    let path = []
+    path = resData.sw_path ? resData.sw_path.slice(1, -1) : []
     console.log('path:', path)
     // 第二步以逗号为分隔符分割
-    let pathArray = path.split(',')
+    let pathArray = []
+    pathArray = path.length > 0 ? path.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
@@ -56,13 +58,13 @@ class SWRelate extends Component {
           </Row>
           <Row>
             <Col span={2} offset={1}>
-              <span>系统描述:</span>
+              <span>软件描述:</span>
             </Col>
             <Col span={19}>
               <span>{resData.sw_desc ? resData.sw_desc : '描述描述描述描述描述描述描述描述描述'}</span>
             </Col>
           </Row>
-          <Row>
+          {isWaitItera ? <Row>
             <Col span={2} offset={1}>
               <span>兼容系统:</span>
             </Col>
@@ -76,8 +78,8 @@ class SWRelate extends Component {
             <Col span={4}>
               <span>V{resData.version}</span>
             </Col>
-          </Row>
-          <Row>
+          </Row> : null}
+          {isWaitItera ? <Row>
             <Col span={9} offset={3}>
               {swPathRest && swPathRest.map((item, index) => {
                 return <span key={index}>
@@ -86,7 +88,7 @@ class SWRelate extends Component {
                 </span>
               })}
             </Col>
-          </Row>
+          </Row> : null}
           <Row>
             <Col span={2} offset={1}>
               <span>软件图标:</span>
@@ -110,7 +112,8 @@ class SWRelate extends Component {
 }
 
 SWRelate.propTypes = {
-  resData: PropsTypes.object
+  resData: PropsTypes.object,
+  isWaitItera: PropsTypes.bool
 }
 
 export default SWRelate

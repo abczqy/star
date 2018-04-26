@@ -24,7 +24,7 @@ class WaitDetailModal extends Component {
         title={title}
         onCancel={onCancel}
       >
-        <SWRelate resData={resData} />
+        <SWRelate resData={resData} isWaitItera />
         <BlankBar />
         <DevRelate resData={resData} />
         <BlankBar />
