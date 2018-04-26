@@ -37,6 +37,9 @@ window.mungConfig = {
   // 运营管理/软件管理-待审核列表
   waitVerify: AJAX_HOST + '/management/examinelistm',
 
+  // 运营管理/软件管理-迭代审核、待审核详情
+  verityDetail: AJAX_HOST + '/management/appdetail',
+
   // 运营管理/会员管理-厂商
   getFactory: AJAX_HOST + '/factoryManage/getFactory',
 
