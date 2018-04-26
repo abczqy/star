@@ -8,7 +8,6 @@ import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
-import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
 
@@ -23,7 +22,7 @@ class News extends React.Component {
       imgT: img,
       dataP: [], // 公告和分享的list
       img: '', // 公告图片
-      newData: {},
+      newData: null,
       height: ''
     }
   }
@@ -33,9 +32,9 @@ class News extends React.Component {
       pageNum: this.state.pages,
       pageSize: this.state.pageSize
     }
-    axios.post(ajaxUrl.newsList, {
+    axios.post(ajaxUrl.newsList,
       value
-    }).then(item => {
+    ).then(item => {
       this.setState({
         newData: item.data
       }, () => {
@@ -122,9 +121,9 @@ class News extends React.Component {
   render () {
     return (
       <div className='news-list-container'>
-        <div id='right-container'>
-          <ul className='ul-top' style={{width: '100%', height: '730px', backgroundColor: '#fff'}}>
-            {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
+        <div id='right-container' style={{height: '730px'}}>
+          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff'}}>
+            {this.state.newData ? this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>
                   <Row>
@@ -163,20 +162,21 @@ class News extends React.Component {
                     <div className='line' />
                   </Row>
                 </li>
-            })}
+            }) : ''}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}}>
               <Row style={{marginBottom: '10px'}}>
                 <Col span={12} />
                 <Col >
-                  {this.state.newData.total >= 5
+                  {this.state.newData ? (this.state.newData.total >= 5
                     ? <Pagination
                       total={this.state.newData.total}// {this.state.newData.total}
                       showSizeChanger
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                       onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                      // pageSizeOptions={5}
-                    /> : null}</Col>
+                    /> : null) : <Pagination total={50} showSizeChanger showQuickJumper onChange={(page, pageSize) => { this.ptChange(page, pageSize) }} onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                  /> }
+                </Col>
               </Row>
             </li>
           </ul>
@@ -188,7 +188,7 @@ class News extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul>
-                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                {this.state.dataP && this.state.dataP.map((item, index) => {
                   return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
                 })}
               </ul>

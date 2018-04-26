@@ -51,24 +51,20 @@ class Information extends React.Component {
           }]
         }
       ],
-      infoData: {}
+      infoData: false
     }
   }
   getList=() => {
     console.log('获取数据')
-    let value = {
-      pageNum: this.state.pageNum || 1,
-      pageSize: this.state.pageSize || 10,
-      province: 'sichuansheng',
-      city: 'zhaozhou',
-      county: 'chonghe'
-    }
-    console.log('教育局的信息公开列表获取数据传的参数', value)
-    axios.post(ajaxUrl.information, {
-      value
-    }).then(item => {
+    // let value = {
+    //   pageNum: this.state.pageNum || 1,
+    //   pageSize: this.state.pageSize || 10
+    // }
+    // console.log('教育局的信息公开列表获取数据传的参数', value)
+    axios.post(ajaxUrl.PlaceInformation
+    ).then(item => {
       this.setState({
-        infoData: item.data
+        infoData: item
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
         console.log('this.state.infoData.list', this.state.infoData.list)
@@ -146,6 +142,8 @@ class Information extends React.Component {
     }
   }
   render () {
+    const length = this.state.infoData ? this.state.infoData.data.length : 1
+    console.log('total', length)
     return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <div >
         <Row>
@@ -164,7 +162,7 @@ class Information extends React.Component {
           </Col>
           <Col span={16} style={{width: '68%'}}>
             <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '730px', backgroundColor: '#fff'}}>
-              {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
+              {(!_.isEmpty(this.state.infoData)) && this.state.infoData.data.map((item, index) => {
                 return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                   <Col span={24}>
                     <Row>
@@ -186,12 +184,11 @@ class Information extends React.Component {
                   <Col span={12} />
                   <Col >
                     <Pagination
-                      total={this.state.infoData.total}
+                      total={length}
                       showSizeChanger
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                       onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                      // pageSizeOptions={5}
                     /></Col>
                 </Row>
               </li>

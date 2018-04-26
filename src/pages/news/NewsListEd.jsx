@@ -31,9 +31,9 @@ class News extends React.Component {
       pageSize: this.state.pageSize
     }
 
-    axios.post(ajaxUrl.newsList, {
+    axios.post(ajaxUrl.newsList,
       value
-    }).then(item => {
+    ).then(item => {
       this.setState({
         newData: item.data
       }, () => {

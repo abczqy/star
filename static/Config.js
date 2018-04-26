@@ -1,4 +1,4 @@
-const AJAX_HOST = 'http://172.16.36.159:20000/app/mock/21'
+const AJAX_HOST = 'http://p1663488m8.imwork.net:49784'
 window.mungConfig = {
   // API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
   API_BASE_URL: 'http://p1663488m8.imwork.net:49784', // 测试地址
@@ -72,32 +72,34 @@ window.mungConfig = {
   // 全部应用 - 平台应用
   allAppPlatformList: AJAX_HOST + '/app/platform',
   // 教育新闻列表
-  newsList: AJAX_HOST + 'applicaion/newslist',
+  newsList: AJAX_HOST + '/application/newslist',
   // 教育新闻列表详情
-  newsListDet: AJAX_HOST + '/applicaion/newsdetailget',
+  newsListDet: AJAX_HOST + '/application/newdetial',
   // 信息公开列表
-  information: AJAX_HOST + '/applicaion/infolist',
+  information: AJAX_HOST + '/application/infolist',
   // 信息公开列表详情
-  informationDet: AJAX_HOST + '/applicaion/infodetail',
+  informationDet: AJAX_HOST + '/application/infodetail',
 
+  // 教育局信息公开列表
+  PlaceInformation: AJAX_HOST + '/manage/getPublicInfo',
   // 教育局信息公开列表编辑
-  informationEdList: AJAX_HOST + '/applicaion/InfoListEd',
+  informationEdList: AJAX_HOST + '/application/InfoListEd',
   // 教育局信息公开列表编辑新增
-  informationEdListAdd: AJAX_HOST + '/applicaion/InfoListEdAdd',
+  informationEdListAdd: AJAX_HOST + '/manage/addPublicInfo',
   // 教育局信息公开列表编辑编辑
-  informationEdListEdit: AJAX_HOST + '/applicaion/InfoListEdEdit',
+  informationEdListEdit: AJAX_HOST + '/manage/editPublicInfo',
   // 教育局信息公开列表编辑删除
-  informationEdListDelete: AJAX_HOST + '/applicaion/InfoListEdDelete',
+  informationEdListDelete: AJAX_HOST + '/application/InfoListEdDelete',
   // 分享列表接口
-  detList: AJAX_HOST + '/applicaion/detList',
+  detList: AJAX_HOST + '/application/detList',
   // 上传文件接口
   Upload: AJAX_HOST + '/upload',
   // 迭代申请接口
-  iteration: AJAX_HOST + '/applicaion/iteration',
+  iteration: AJAX_HOST + '/updateSoft/querySw',
   // 申请上架接口
-  shelf: AJAX_HOST + '/applicaion/shelf',
+  shelf: AJAX_HOST + '/uploadSw/upload',
   // 用appId获取app数据接口
-  appId: AJAX_HOST + '/applicaion/appId',
+  appId: AJAX_HOST + '/application/appId',
 
   /** *******************************注册************************************ */
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用

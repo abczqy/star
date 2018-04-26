@@ -42,12 +42,12 @@ class NewsDetails extends React.Component {
     console.log('获取数据')
     let a = window.location.href.split('?')
     let value = {
-      news_id: a[a.length - 1]
+      news_id: Number(a[a.length - 1])
     }
     console.log(value)
-    axios.post(ajaxUrl.newsListDet, {
+    axios.post(ajaxUrl.newsListDet,
       value
-    }).then(item => {
+    ).then(item => {
       this.setState({
         newData: item.data
       }, () => {
