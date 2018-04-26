@@ -1,4 +1,4 @@
-const AJAX_HOST = 'http://p1663488m8.imwork.net:49784'
+const AJAX_HOST = 'http://172.16.36.159:20000/app/mock/21'
 window.mungConfig = {
   // API_BASE_URL: 'http://172.16.36.159:20000/app/mock/21',
   API_BASE_URL: 'http://p1663488m8.imwork.net:49784', // 测试地址
@@ -103,11 +103,12 @@ window.mungConfig = {
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
   register: AJAX_HOST + '/register/registermaf', // 注册按钮
   /* 账号设置 */
-  relationQueryStu: AJAX_HOST + '/addRelation/queryStu', // 家长注册接口-查询与家长绑定的学生
-
-  relationAdd: AJAX_HOST + '/addRelation/add', // 家长注册接口-与学生绑定
-
-  relationdelete: AJAX_HOST + '/addRelation/delete', // 家长注册接口-查询与家长绑定的学生
+  // 家长注册接口-查询与家长绑定的学生
+  relationQueryStu: AJAX_HOST + '/addRelation/queryStu',
+  // 家长注册接口-与学生绑定
+  relationAdd: AJAX_HOST + '/addRelation/add',
+  // 家长注册接口-查询与家长绑定的学生
+  relationdelete: AJAX_HOST + '/addRelation/delete',
   // 登出
   sessionLogout: AJAX_HOST + '/session/logout',
   // 消息通知列表
@@ -116,6 +117,7 @@ window.mungConfig = {
   getMessageCount: AJAX_HOST + '/getUnreadMessageCount',
   // 消息通知列表详情
   getMessageListDetail: AJAX_HOST + '/getMessageList/detail',
+
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',
   // 应用详情 (自营)
