@@ -25,7 +25,8 @@ export default class SelfSupport extends React.Component {
       obj: {
         display: 'none'
       },
-      addClassName: 'see-detail-itema'
+      addClassName: 'see-detail-itema',
+      relateData: []
     }
   }
   static propTypes = {
@@ -45,11 +46,10 @@ export default class SelfSupport extends React.Component {
     axios.post(ajaxUrl.selfSupportAppDetail, {
       sw_id: this.state.appId
     }).then((res) => {
-      console.log(2222222, res.data)
       this.setState({
         appDetailData: res.data
       }, () => {
-        console.log(this.state.appDetailData)
+        this.getRelatedApplications()
       })
     }).catch((e) => { console.log(e) })
   }
@@ -82,6 +82,17 @@ export default class SelfSupport extends React.Component {
       })
     }
   }
+  // 获取相关应用数据
+  getRelatedApplications = () => {
+    axios.post(ajaxUrl.relatedApplications, {
+      sw_tpe: this.state.appId,
+      type: 'platform'
+    }).then((res) => {
+      this.setState({
+        relateData: res.appDetailData.sw_tpe
+      })
+    }).catch((e) => { console.log(e) })
+  }
   handleLeftClick = () => {
     this.refs['exhibition-inside-carousel'].prev()
   }
@@ -89,11 +100,10 @@ export default class SelfSupport extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000', this.props)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2640553151,1248485598&fm=27&gp=0.jpg' />
+          <img src={this.state.appDetailData.sw_icon} />
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
@@ -105,7 +115,7 @@ export default class SelfSupport extends React.Component {
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
               <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>28.71M</span></div>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>5.3.0</span></div>
+              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
               <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
             </div>
             <div className='see-detail-item-jurisdiction'>

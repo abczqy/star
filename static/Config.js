@@ -157,5 +157,7 @@ window.mungConfig = {
   // 首页收藏
   homeCollection: AJAX_HOST + '/app/collect',
   // 首页轮播图
-  homeCarousel: AJAX_HOST + '/homepage/banner'
+  homeCarousel: AJAX_HOST + '/homepage/banner',
+  // 全部应用-应用详情-相关应用
+  relatedApplications: AJAX_HOST + '/personal/relatedApp'
 }

@@ -168,7 +168,7 @@ class MyAppTable extends Component {
         span: 15
       }
     }
-    const aaaaaaaa = ['全部', '教育', '辅助', '管理', '其他']
+    const aaaaaaaa = ['教育类', '教辅类', '管理类', '其他类']
     return (
       <Card>
         <Form>
