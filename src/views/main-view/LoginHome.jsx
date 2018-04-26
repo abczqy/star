@@ -21,7 +21,8 @@ class LoginHome extends React.Component {
     this.state = {
       activeTab: this.getDefaultTabKey(pathName),
       signOutVisible: false, // 退出系统
-      messageCount: '0'
+      messageCount: '0',
+      refresh: true // 专用于用户登录后刷新用户
     }
   }
 

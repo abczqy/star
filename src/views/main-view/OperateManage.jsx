@@ -8,7 +8,7 @@ import React from 'react'
 import {Layout, Icon, Badge, Row} from 'antd'
 import { renderRoutes } from 'react-router-config'
 // import AllApplications from '../../pages/edu-all-app/AllApplications'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import BottomHeader from '../../components/common/BottomHeader'
 import SignOut from './SignOut'
 // import SelfSupport from '../../pages/app-detail/SelfSupport'
@@ -46,6 +46,8 @@ class OperateManage extends React.Component {
     })
   }
   getTabArr () {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    let roleCode = STAR_WEB_ROLE_CODE || ''
     let baseTabArr = [{
       text: '首页',
       src: '/operate-manage-home/home'
@@ -56,13 +58,13 @@ class OperateManage extends React.Component {
       text: '个人中心',
       src: '/operate-manage-home/center'
     }]
-    if (this.props.roleCode === 'parents') { // 家长
+    if (roleCode === 'parents') { // 家长
       return baseTabArr
-    } else if (this.props.roleCode === 'students') { // 学生
+    } else if (roleCode === 'students') { // 学生
       return baseTabArr
-    } else if (this.props.roleCode === 'teacher') { // 教师
+    } else if (roleCode === 'teacher') { // 教师
       return baseTabArr
-    } else if (this.props.roleCode === 'school') { // 学校
+    } else if (roleCode === 'school') { // 学校
       return [{
         text: '首页',
         src: '/operate-manage-home/home'
@@ -76,7 +78,7 @@ class OperateManage extends React.Component {
         text: '个人中心',
         src: '/operate-manage-home/center'
       }]
-    } else if (this.props.roleCode === 'vendor') { // 厂商
+    } else if (roleCode === 'vendor') { // 厂商
       return [{
         text: '首页',
         src: '/operate-manage-home/home'
@@ -93,9 +95,9 @@ class OperateManage extends React.Component {
         text: '市场分析',
         src: '/operate-manage-home/market'
       }]
-    } else if (this.props.roleCode === '') { // 游客
+    } else if (roleCode === '') { // 游客
 
-    } else if (this.props.roleCode === 'eduBureau') { // 教育局
+    } else if (roleCode === 'eduBureau') { // 教育局
 
     }
   }
@@ -145,7 +147,7 @@ class OperateManage extends React.Component {
 }
 
 OperateManage.propTypes = {
-  roleCode: PropTypes.string
+  // roleCode: PropTypes.string
 }
 const mapStateToProps = state => ({
   roleCode: state.role.code

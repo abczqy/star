@@ -40,7 +40,7 @@ class WebApp extends React.Component {
             <div className='split' />
           </div>
           <div className='item-content'>
-            <img className='app-img' src={Config.API_BASE_URL + item.sw_icon} />
+            <img className='app-img' src={Config.IMG_BASE_URL + item.sw_icon} />
             <div className='title'>{item.sw_name}</div>
             <div className='content'>{this.processStr(item.sw_desc, 12)}</div>
             <div>

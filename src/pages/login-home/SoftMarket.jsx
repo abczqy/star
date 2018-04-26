@@ -33,7 +33,7 @@ class SoftMarket extends React.Component {
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar className='img' src={Config.API_BASE_URL + item.SW_ICON} />}
+                  avatar={<Avatar className='img' src={Config.IMG_BASE_URL + item.SW_ICON} />}
                   title={<a className='title' href='javascript:void(0);'>{item.SW_NAME}</a>}
                   description={this.processStr(item.SW_DESC, 60)}
                 />
