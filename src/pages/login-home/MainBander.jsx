@@ -23,9 +23,17 @@ class MainBander extends React.Component {
     this.state = {
       userName: '', // 用户名密码
       passWord: '', // 密码
-      loginFormVisible: webStorage.getItem('STAR_WEB_ROLE_CODE') === '',
+      loginFormVisible: this.getDefaultLoginFormVisible(),
       msgTip: '' // 用户登陆信息提示
     }
+  }
+
+  getDefaultLoginFormVisible () {
+    let flag = false
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === '' || webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      flag = true
+    }
+    return flag
   }
 
   handleLogin () {
