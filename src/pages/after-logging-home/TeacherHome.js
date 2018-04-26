@@ -39,12 +39,13 @@ class TeacherHome extends Component {
         }
       })
     }
-  }
-  componentWillMount () {
     this.getRankingData()
     this.getTeacherData()
     this.getHotData()
   }
+  // componentWillMount () {
+
+  // }
   // 获取排行榜数据
   getRankingData = () => {
     axios.post(ajaxUrl.manufacturerSignInRankingList, {
@@ -128,6 +129,7 @@ class TeacherHome extends Component {
   }
   // 处理收藏按钮
   handleCollection = (id) => {
+    console.log(5555677777)
     if (this.state.collectionType === 'cancel') {
       this.setState({
         collectionType: 'collect'
@@ -142,9 +144,9 @@ class TeacherHome extends Component {
       })
     }
   }
-  // 发送收藏按钮请求
+  发送收藏按钮请求
   postCollection = (id) => {
-    axios.post(ajaxUrl.hotRecommend, {
+    axios.post(ajaxUrl.homeCollection, {
       sw_id: id,
       type: this.state.collectionType
     }).then((res) => {
@@ -213,7 +215,7 @@ class TeacherHome extends Component {
                           <p className='dd-p'>{item.SW_DESC}</p>
                         </dd>
                       </dl>
-                      <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={this.handleCollection(item.SW_ID)} type='star-o' /></p>
+                      <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
                     </div>
                   )
                 })}
