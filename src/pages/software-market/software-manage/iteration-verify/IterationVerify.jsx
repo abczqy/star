@@ -239,6 +239,7 @@ class IterationVerify extends Component {
           getContainer={() => this.refs.IterDetailElem}
           visible={detModalCon.visible}
           onCancel={this.handleAppDetCancel}
+          resData={detModalCon.resData}
           footer={[
             <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
             <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,

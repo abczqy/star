@@ -25,7 +25,7 @@ class SignOutModal extends React.Component {
 
   }
   saveOrSubmit =(value) => {
-    axios.post(ajaxUrl.sessionLogout).then((response) => {
+    axios.put(ajaxUrl.sessionLogout, {}).then((response) => {
       console.log('退出成功', response)
       this.backHome()
       webStorage.removeItem('STAR_WEB_SESSION_ID')
