@@ -279,7 +279,7 @@
   }
 }
 // 修改手机号
-.pass-change-modal{
+.pass-change-modal.change-phone-number{
   #code_input{
     width: 10vw!important;
   }
@@ -287,7 +287,7 @@
     float: right;
   }
   #maf_phone_con{
-    width: 10vw!important;
+    width: 60%!important;
   }
 }
 // 退出

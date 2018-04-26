@@ -110,7 +110,7 @@ class InformationDetEd extends React.Component {
             <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
           </Col>
           <Col span={15} style={{width: '68%', marginTop: '10px'}}>
-            <div style={{backgroundColor: '#fff', width: '100%'}}>
+            <div style={{backgroundColor: '#fff', width: '100%', height: '730px'}}>
               <Row>
                 <ul className='details-li-ul'>
                   <li className='details-li-hover'>

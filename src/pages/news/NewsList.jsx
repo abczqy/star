@@ -123,7 +123,7 @@ class News extends React.Component {
     return (
       <div className='news-list-container'>
         <div id='right-container'>
-          <ul className='ul-top' style={{width: '100%', height: '679px', backgroundColor: '#fff'}}>
+          <ul className='ul-top' style={{width: '100%', height: '730px', backgroundColor: '#fff'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>

@@ -8,7 +8,10 @@ import {Layout, Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../../../components/common/BottomHeader'
 import SignOut from '../SignOut'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import { connect } from 'react-redux'
+import apiConfig from '../../../config'
 import '../../../components/common/bottom.scss'
 // import { renderRoutes } from 'react-router-config'
 // import { withRouter } from 'react-router-dom'
@@ -17,15 +20,27 @@ class MessageTopBar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      signOutVisible: false // 退出系统
+      signOutVisible: false, // 退出系统
+      messageCount: '0'
     }
   }
-
+  componentDidMount () {
+    this.getMessageCount()
+  }
+  // 未读消息数
+  getMessageCount=() => {
+    axios.post(ajaxUrl.getMessageCount).then((response) => {
+      console.log('返回未读消息数量', response)
+      this.setState({
+        messageCount: response.data.count
+      })
+    })
+  }
   handleTabChange (link) {
     if (link === this.props.location.pathname) {
       window.location.reload()
     }
-    window.location.href = 'http://localhost:8080/#' + link
+    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
   // 退出系统
   signOut=() => {
@@ -45,7 +60,7 @@ class MessageTopBar extends React.Component {
           <div style={{height: '30px'}}>
             <div style={{height: '30px', float: 'left', paddingLeft: '110px'}}>欢迎你,{this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
             <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
-              <Badge count={5} >
+              <Badge count={this.state.messageCount} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
               <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />

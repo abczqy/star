@@ -195,7 +195,7 @@ class Information extends React.Component {
     return (
       <div className='news-list-container'>
         <div id='right-container'>
-          <ul className='ul-top' style={{width: '100%', height: '679px', backgroundColor: '#fff'}}>
+          <ul className='ul-top' style={{width: '100%', height: '730px', backgroundColor: '#fff'}}>
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <span className='information-fabu'>
                   发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />

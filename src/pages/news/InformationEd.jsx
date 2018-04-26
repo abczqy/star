@@ -268,7 +268,7 @@ class InformationEd extends React.Component {
             </Row>
             <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
-          <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
+          <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', height: '730px'}}>
             <Row>
               <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '98%'}}>
                 <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder={'全部'} style={{width: 200}} allowClear onChange={(value) => this.stateValue(value)}>
