@@ -23,32 +23,28 @@ class MarketAnalysis extends Component {
   }
 
   typeSwitching = (e) => {
+    // this.type = e.item.props.children
+    this.getTableData(e.item.props.children)
     this.setState({
       currentType: e.key
     })
   }
 
   // 获取表格数据
-  getTableData = () => {
-    axios.get(ajaxUrl.MarketAnalysis, {
-      params: {}
+  getTableData = (type) => {
+    axios.post(ajaxUrl.MarketAnalysis, {
+      type
     }).then(res => {
       let resDatas = _.cloneDeep(res.data.data)
-      let datas = resDatas.map((item, index) => (
-        {
-          index: index + 1,
-          ...item
-        }
-      ))
       this.setState({
-        tableDatas: datas
+        tableDatas: resDatas
       })
     }).catch(e => { console.log(e) })
   }
 
   // 获取关键字热搜数据
   gethotSearch=() => {
-    axios.get(ajaxUrl.hotSearch, {params: {}}).then(res => {
+    axios.post(ajaxUrl.hotSearch, {}).then(res => {
       this.setState({
         hotSearchDatas: res.data.data
       })
@@ -56,7 +52,7 @@ class MarketAnalysis extends Component {
   }
 
   componentDidMount () {
-    this.getTableData()
+    this.getTableData('教学类')
     this.gethotSearch()
   }
 
