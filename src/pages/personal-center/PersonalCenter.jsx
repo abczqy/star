@@ -9,6 +9,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import _ from 'lodash'
 import ApplicationCard from './application-card/ApplicationCard'
+import Empty from '../../components/common/Empty'
 import { connect } from 'react-redux'
 import './PersonalCenter.scss'
 
@@ -39,7 +40,10 @@ class PersonalCenter extends Component {
 
   // 获取应用数据
   getApps = (url, state) => {
-    axios.post(url, {}).then(res => {
+    axios.post(url, {
+      num: 0
+    }).then(res => {
+      console.log(url, res.data.data)
       this.setState({
         [state]: res.data.data
       })
@@ -191,13 +195,15 @@ class PersonalCenter extends Component {
 
   // 判断应用列表数量
   getAppList = (openStatus, appList, type) => {
-    if (appList.length === 0) {
-      return null
-    }
-    if (openStatus) { // 展开状态
-      return this.createAppList(appList, type)
-    } else { // 收起状态 应用列表大于十个
-      return this.createAppList(_.take(appList, 10), type)
+    if (appList) {
+      if (appList.length === 0) {
+        return <Empty />
+      }
+      if (openStatus) { // 展开状态
+        return this.createAppList(appList, type)
+      } else { // 收起状态 应用列表大于十个
+        return this.createAppList(_.take(appList, 10), type)
+      }
     }
   }
 
