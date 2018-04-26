@@ -81,6 +81,16 @@ export function getFaDetails (params, sucFn) {
 }
 
 /**
+ * 会员管理-厂商-批量导出
+ */
+export function faBatchLeadout (params, sucFn) {
+  return axios.post('/management/batchleadoutfa', {params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-厂商-续签
  */
 export function firmRenew (params, sucFn) {
