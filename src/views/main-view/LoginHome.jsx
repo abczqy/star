@@ -58,9 +58,9 @@ class LoginHome extends React.Component {
         <div style={{height: '100%'}}>
           {
             this.props.isLogged ? (
-              <div style={{height: '30px', width: '100%', margin: 'auto'}}>
-                <div style={{height: '30px', marginLeft: '6%', float: 'left', lineHeight: '30px'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
-                <div style={{height: '30px', float: 'right', marginRight: '50px'}} className='header-bar-icon'>
+              <div style={{height: '30px', width: '100%'}}>
+                <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您,{ this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+                <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
                   <Badge count={5} >
                     <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />
                   </Badge>

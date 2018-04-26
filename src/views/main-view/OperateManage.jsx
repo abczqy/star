@@ -104,8 +104,8 @@ class OperateManage extends React.Component {
       <div className='xingyun'>
         <Layout>
           <div style={{height: '30px'}}>
-            <div style={{height: '30px', float: 'left', paddingLeft: '110px'}}>欢迎你，{ this.props.personInfo && this.props.personInfo.name ? this.props.personInfo.name : ''}</div>
-            <div style={{height: '30px', float: 'right'}} className='header-bar-icon'>
+            <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您，{ this.props.personInfo && this.props.personInfo.name ? this.props.personInfo.name : '游客'}</div>
+            <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
               <Badge count={5} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
@@ -113,10 +113,8 @@ class OperateManage extends React.Component {
               <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} />
             </div>
           </div>
-          <div style={{height: '92px', width: '100%', backgroundColor: '#fff'}}>
-            <Layout.Header className='xingyun-header' style={{height: '92px', paddingLeft: '110px'}}>
-              <div className='xingyun-logo' style={{marginTop: '30px'}} />
-            </Layout.Header>
+          <div className='xingyun-header'>
+            <div className='xingyun-logo' />
           </div>
           <Layout className='xingyun-iden-top-bar'>
             <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
