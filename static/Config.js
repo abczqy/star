@@ -122,6 +122,8 @@ window.mungConfig = {
   getMessageCount: AJAX_HOST + '/getUnreadMessageCount',
   // 消息通知列表详情
   getMessageListDetail: AJAX_HOST + '/getMessageList/detail',
+  // 账号设置-密码修改
+  updateUserPassword: AJAX_HOST + '/control/updateUserPassword',
 
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',

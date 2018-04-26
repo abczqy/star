@@ -1,9 +1,17 @@
 .register_home {
   .xingyun-header{
-    padding-top: 30px;
+    background: white !important;
+    height: 65px;
+    padding: 15px 10% !important;
+    .xingyun-logo {
+      width: 172px;
+      height: 27px;
+      background: url("../../assets/images/software-market/u49.png") no-repeat center;
+      background-size: 100% 100%;
+    }
   }
   .xingyun-logo{
-    margin-top: 0px !important;
+    margin-top: 10px !important;
   }
   .center-view{
     width: 100%;
@@ -13,6 +21,7 @@
     background-size: 100% 100%;
     padding-top: 30px;
     margin-bottom: 0px !important;
+    min-height: calc(100vh - 157px);
     .register-card{
       width: 55vw;
       margin: 0 auto;
