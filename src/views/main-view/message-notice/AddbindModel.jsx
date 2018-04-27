@@ -42,14 +42,12 @@ class AddbindModel extends React.Component {
       if (!err) {
         console.log('添加绑定', values)
         axios.post(ajaxUrl.relationAdd, {
-          params: {
-            maf_id: this.props.maf_id,
-            maf_sad: values.maf_sad, // 与学生的关系
-            maf_sad_name: values.maf_sad_name, // 学生姓名
-            maf_sad_idcard: values.maf_sad_idcard, // 学生身份证
-            maf_sad_account: values.maf_sad_account, // 学生账号
-            maf_sad_pwd: values.maf_sad_pwd
-          }
+          maf_id: this.props.maf_id,
+          maf_sad: values.maf_sad, // 与学生的关系
+          maf_sad_name: values.maf_sad_name, // 学生姓名
+          maf_sad_idcard: values.maf_sad_idcard, // 学生身份证
+          maf_sad_account: values.maf_sad_account, // 学生账号
+          maf_sad_pwd: values.maf_sad_pwd
         }).then((response) => {
           console.log('返回学生绑定信息', response)
           this.props.hiddenModal()

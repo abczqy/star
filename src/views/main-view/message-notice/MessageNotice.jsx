@@ -71,10 +71,10 @@ export default class MessageNotice extends React.Component {
                 <div className='notice-count' onClick={() => { this.handleTabChange(item.MSG_STATE, item.MSG_ID) }}>
                   <div>
                     <h4>
-                      {item.MSG_TITLE}
+                      {item.MSG_STATE}
                       <span>{item.MSG_DATE}</span>
                     </h4>
-                    <p>{item.MSG_DESC.replace(/(.{80}).*/, '$1....')}<a style={{display: item.msg_state ? '' : 'none'}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
+                    <p>{item.MSG_TITLE.replace(/(.{80}).*/, '$1....')}<a style={{display: item.MSG_STATE === '消息通知' ? 'none' : ''}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
                   </div>
                 </div>
               </div>
