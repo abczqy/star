@@ -14,7 +14,7 @@ class SWRelate extends Component {
 
     // 第一步把获取到的sw_path去掉{}
     let path = []
-    path = resData.sw_path ? resData.sw_path.slice(1, -1) : []
+    path = resData && resData.sw_path ? resData.sw_path.slice(1, -1) : []
     // 第二步以逗号为分隔符分割
     let pathArray = []
     pathArray = path.length > 0 ? path.split(',') : []
@@ -44,13 +44,13 @@ class SWRelate extends Component {
               软件分类:
             </Col>
             <Col span={9}>
-              <span>{resData.sw_type ? resData.sw_type : '默认分类'}</span>
+              <span>{resData && resData.sw_type ? resData.sw_type : '默认分类'}</span>
             </Col>
             <Col span={2} offset={6}>
               上架时间:
             </Col>
             <Col span={4}>
-              <span>{resData.sw_time_real ? moment(resData.sw_time_real).format('YYYY-MM-DD') : '2099-9-9'}</span>
+              <span>{resData && resData.sw_time_real ? moment(resData.sw_time_real).format('YYYY-MM-DD') : '2099-9-9'}</span>
             </Col>
           </Row>
           <Row>
@@ -58,7 +58,7 @@ class SWRelate extends Component {
               <span>软件描述:</span>
             </Col>
             <Col span={19}>
-              <span>{resData.sw_desc ? resData.sw_desc : '描述描述描述描述描述描述描述描述描述'}</span>
+              <span>{resData && resData.sw_desc ? resData.sw_desc : '描述描述描述描述描述描述描述描述描述'}</span>
             </Col>
           </Row>
           {isWaitItera ? <Row>
@@ -95,7 +95,7 @@ class SWRelate extends Component {
               <span>软件图标:</span>
             </Col>
             <Col>
-              <img alt='软件的图标' src={resData.sw_icon} />
+              <img alt='软件的图标' src={resData && resData.sw_icon} />
             </Col>
           </Row>
           <Row className='sw-relate-move-L'>
@@ -103,7 +103,7 @@ class SWRelate extends Component {
               <span>PC端界面截图:</span>
             </Col>
             <Col>
-              <img alt='pc端的界面截图' src={resData.sw_computer_photo} />
+              <img alt='pc端的界面截图' src={resData && resData.sw_computer_photo} />
             </Col>
           </Row>
         </div>

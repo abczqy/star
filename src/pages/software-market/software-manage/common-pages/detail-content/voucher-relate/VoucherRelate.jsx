@@ -24,13 +24,13 @@ class VoucherRelate extends Component {
               <span>软著凭证:</span>
             </Col>
             <Col span={6}>
-              <img alt='软著凭证图片' src={resData.sw_copyright} />
+              <img alt='软著凭证图片' src={resData && resData.sw_copyright} />
             </Col>
             <Col span={2} offset={8}>
               <span>财务凭证:</span>
             </Col>
             <Col span={6}>
-              <img alt='财务凭证图片' src={resData.fin_audit} />
+              <img alt='财务凭证图片' src={resData && resData.fin_audit} />
             </Col>
           </Row>
         </div>

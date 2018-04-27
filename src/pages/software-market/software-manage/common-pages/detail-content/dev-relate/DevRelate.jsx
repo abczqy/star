@@ -24,13 +24,13 @@ class DevRelate extends Component {
             姓名:
             </Col>
             <Col span={9}>
-              <span className='relate-move-L-4'>{resData.developers}</span>
+              <span className='relate-move-L-4'>{resData && resData.developers}</span>
             </Col>
             <Col span={3} offset={5} className='relate-move-L-3'>
             身份证号:
             </Col>
             <Col span={4}>
-              <span>{resData.dev_idcard}</span>
+              <span>{resData && resData.dev_idcard}</span>
             </Col>
           </Row>
           <Row>
@@ -38,13 +38,13 @@ class DevRelate extends Component {
               <span>联系人电话:</span>
             </Col>
             <Col span={7}>
-              <span>{resData.dev_contact_phone}</span>
+              <span>{resData && resData.dev_contact_phone}</span>
             </Col>
             <Col span={3} offset={5} className='relate-move-L-4'>
               主要联系人:
             </Col>
             <Col span={4} className='relate-move-L-2'>
-              <span>{resData.dev_contact}</span>
+              <span>{resData && resData.dev_contact}</span>
             </Col>
           </Row>
           <Row>
@@ -52,7 +52,7 @@ class DevRelate extends Component {
               <span>手持身份证照片:</span>
             </Col>
             <Col>
-              <img alt='身份证照片' src={resData.dev_photo} />
+              <img alt='身份证照片' src={resData && resData.dev_photo} />
             </Col>
           </Row>
         </div>

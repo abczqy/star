@@ -16,7 +16,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import {getAppListData} from 'services/software-manage'
+import {getAppListData, verifyDetail} from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -146,12 +146,25 @@ class Businessing extends Component {
 
   // 显示‘详情’弹窗
   showAppDetailModal = (record) => {
-    this.setState({
-      appDetailModalCon: {
-        ...this.state.appDetailModalCon,
-        visible: true,
-        swName: record.sw_name
-      }
+    // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
+    const thiz = this
+    // 获取对应的后台数据
+    const params = {
+      sw_id: record.sw_id
+    }
+
+    verifyDetail(params, (res) => {
+      const resData = res.data
+      // 通过state将数据res传给子组件
+      thiz.setState({
+        appDetailModalCon: {
+          ...thiz.state.detModalCon,
+          visible: true,
+          swName: record.sw_name,
+          resData: resData,
+          sw_id: record.sw_id
+        }
+      })
     })
   }
 
@@ -319,6 +332,7 @@ class Businessing extends Component {
           getContainer={() => this.refs.appDetailElem}
           visible={appDetailModalCon.visible}
           onCancel={this.handleAppDetCancel}
+          resData={appDetailModalCon.resData}
           footer={[
             <Button key='back' type='primary' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}

@@ -214,7 +214,6 @@ class WaitVerify extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    console.log('sw_name:', this.state.sw_name, 'sw_type:', this.state.sw_type)
     this.getTableDatas()
   }
 
