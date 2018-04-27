@@ -4,6 +4,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate } from 'antd'
+import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import axios from 'axios'
 import PropTypes from 'prop-types'
@@ -137,7 +138,7 @@ class TeacherHome extends Component {
       })
     }
   }
-  发送收藏按钮请求
+  // 发送收藏按钮请求
   postCollection = (id) => {
     axios.post(ajaxUrl.homeCollection, {
       sw_id: id,
@@ -146,46 +147,7 @@ class TeacherHome extends Component {
     }).catch((e) => { console.log(e) })
   }
   render () {
-    // const datac = [{
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '超级教师',
-    //   detail: '1111111111111333333333333333333333333333'
-    // }]
+    console.log(65656464, webStorage.getItem('STAR_WEB_ROLE_CODE'))
     return (
       <div className='logged-home'>
         <HomeCarousel />

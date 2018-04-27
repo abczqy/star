@@ -47,7 +47,7 @@ class Manufacturer extends Component {
         pageSize: 15,
         pageNum: 1,
         faName: '', // 临时值 后面赋空
-        faLoginid: '',
+        faId: '',
         toLogin: '',
         numDay: ''
       },
@@ -106,7 +106,7 @@ class Manufacturer extends Component {
       key: 'to_login',
       render: (text, record, index) => {
         let check = true
-        if (text === 0) {
+        if (text === '0') {
           check = false
         }
         return (
@@ -145,13 +145,13 @@ class Manufacturer extends Component {
   }
 
   getParams = () => {
-    const { pageSize, pageNum, faName, faLoginid, toLogin, numDay } = this.state.reqParam
+    const { pageSize, pageNum, faName, faId, toLogin, numDay } = this.state.reqParam
     // 最后都要赋空
     return {
       pageSize: pageSize,
       pageNum: pageNum,
       fa_name: faName || '',
-      fa_loginid: faLoginid || '',
+      fa_id: faId || '',
       to_login: toLogin || '',
       num_day: numDay || ''
     }
@@ -235,7 +235,7 @@ class Manufacturer extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        faLoginid: e.target.value
+        faId: e.target.value
       }
     })
   }
@@ -274,10 +274,18 @@ class Manufacturer extends Component {
   onToLogin = (val) => {
     // console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
+    let loginAllow = 0
+    if (val === 'allow') {
+      loginAllow = 1
+    } else if (val === 'refuse') {
+      loginAllow = 1
+    } else if (val === 'all') {
+      loginAllow = null
+    }
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        toLogin: val
+        toLogin: loginAllow
       }
     })
   }

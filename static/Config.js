@@ -85,18 +85,16 @@ window.mungConfig = {
   // 信息公开列表详情
   informationDet: AJAX_HOST + '/application/infodetail',
 
-  // 教育局信息公开列表
-  PlaceInformation: AJAX_HOST + '/manage/getPublicInfo',
-  // 教育局信息公开列表编辑
-  informationEdList: AJAX_HOST + '/application/InfoListEd',
+  // 教育局信息公开列表编辑获取列表
+  informationEdList: AJAX_HOST + '/manage/getPublicInfo',
   // 教育局信息公开列表编辑新增
   informationEdListAdd: AJAX_HOST + '/manage/addPublicInfo',
   // 教育局信息公开列表编辑编辑
   informationEdListEdit: AJAX_HOST + '/manage/editPublicInfo',
   // 教育局信息公开列表编辑删除
-  informationEdListDelete: AJAX_HOST + '/application/InfoListEdDelete',
+  informationEdListDelete: AJAX_HOST + '/manage/deleteEduMsgList?InfoId="7"',
   // 分享列表接口
-  detList: AJAX_HOST + '/application/detList',
+  detList: AJAX_HOST + '/application/detList', // 现在公告和详情页分享列表用的是这个
   // 上传文件接口
   Upload: AJAX_HOST + '/upload',
   // 迭代申请接口
@@ -104,7 +102,7 @@ window.mungConfig = {
   // 申请上架接口
   shelf: AJAX_HOST + '/uploadSw/upload',
   // 用appId获取app数据接口
-  appId: AJAX_HOST + '/application/appId',
+  appId: AJAX_HOST + '/app/details',
 
   /** *******************************注册************************************ */
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
@@ -159,5 +157,7 @@ window.mungConfig = {
   // 首页收藏
   homeCollection: AJAX_HOST + '/app/collect',
   // 首页轮播图
-  homeCarousel: AJAX_HOST + '/homepage/banner'
+  homeCarousel: AJAX_HOST + '/homepage/banner',
+  // 全部应用-应用详情-相关应用
+  relatedApplications: AJAX_HOST + '/personal/relatedApp'
 }

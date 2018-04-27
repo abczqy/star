@@ -45,9 +45,9 @@ class IterationInfo extends Component {
             兼容系统:
             </Col>
             <Col span={9}>
-              <span>{swPath && swPath[0][0] ? swPath[0][0] : 'Windows32'}:</span>
+              <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
               <span><Icon type='link' /></span>
-              <span>{swPath && swPath[0][1] ? swPath[0][1] : 'PC端.dmg'}</span>
+              <span>{swPath && swPath[0] ? swPath[0][1] : 'PC端.dmg'}</span>
               <span><Icon type='download' /></span>
             </Col>
             <Col span={2} offset={6}>

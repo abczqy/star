@@ -4,10 +4,10 @@
  * 上架流程
  */
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, DatePicker, Radio} from 'antd'
+import {Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
-import Upload from './Upload'
+// import Upload from './Upload'
 import axios from 'axios'
 import ajaxUrl from 'config'
 // import axios from 'axios'
@@ -55,13 +55,13 @@ class ShelfPlease extends React.Component {
           value: 'phone'
         }
       ],
-      fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
-      fileListOneF: ['1'], // 用来存软件版本的文件id
-      fileListTwo: ['1'], // 用来存软件图标的文件id
-      fileListThree: ['1'], // 用来存PC端界面截图的文件id
-      fileListFour: ['1'], // 用来存身份证照片文件id
-      fileListFive: ['1'], // 用来存软件版权的文件id
-      fileListSix: ['1'] // 用来存财务审核凭证的文件id
+      fileListOneC: [], // 用来存软件版本的文件的系统版本
+      fileListOneF: [], // 用来存软件版本的文件id
+      fileListTwo: [], // 用来存软件图标的文件id
+      fileListThree: [], // 用来存PC端界面截图的文件id
+      fileListFour: [], // 用来存身份证照片文件id
+      fileListFive: [], // 用来存软件版权的文件id
+      fileListSix: [] // 用来存财务审核凭证的文件id
     }
   }
   componentWillMount () {
@@ -95,16 +95,7 @@ class ShelfPlease extends React.Component {
       this.renderEdition()
     })
   }
-  // 用来存软件版本的文件id
-  getFileListOneF =(fileList, index) => {
-    let a = this.state.fileListOneF
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListOneF: a
-    }, () => {
-      console.log('软件版本的文件id', this.state.fileListOneF)
-    })
-  }
+
   // 用来存软件版本的文件的系统版本
   SChange =(value, index) => {
     let a = this.state.fileListOneC
@@ -119,6 +110,29 @@ class ShelfPlease extends React.Component {
   renderEdition=() => {
     let value = []
     for (let i = 0; i < this.state.Edition; i++) {
+      const propsO = {
+        onRemove: (file) => {
+          this.setState(({ fileListOneF }) => {
+            const index = fileListOneF.indexOf(file)
+            const newFileList = fileListOneF.slice()
+            newFileList.splice(index, 1)
+            return {
+              fileListOneF: newFileList
+            }
+          }, () => {
+            console.log('this.state.fileListOneF', this.state.fileListOneF)
+          })
+        },
+        beforeUpload: (file) => {
+          this.setState(({ fileListOneF }) => ({
+            fileListOneF: [...fileListOneF, file]
+          }), () => {
+            console.log('this.state.fileListOneF', this.state.fileListOneF)
+          })
+          return false
+        },
+        fileListOneF: this.state.fileListOneF
+      }
       if (i === 0) {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
@@ -135,13 +149,13 @@ class ShelfPlease extends React.Component {
                   </Select>
                 </Col>
                 <Col span={9}>
-                  <Upload
-                    getFileList={this.getFileListOneF}
-                    index={i}
-                    indexD
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsO}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Col>
               </Col>
             </Row>
@@ -162,13 +176,13 @@ class ShelfPlease extends React.Component {
                   </Select>
                 </Col>
                 <Col span={9}>
-                  <Upload
-                    getFileList={this.getFileListOneF}
-                    index={i}
-                    indexD
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsO}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Col>
               </Col>
             </Row>
@@ -239,56 +253,6 @@ class ShelfPlease extends React.Component {
       radio: e.target.value
     })
   }
-  // 用来存软件图标的文件id
-  getFileListTwo =(fileList, index) => {
-    let a = this.state.fileListTwo
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListTwo: a
-    }, () => {
-      console.log('软件图标的文件id', this.state.fileListTwo)
-    })
-  }
-  // 用来存PC端界面截图的文件id
-  getFileListThree =(fileList, index) => {
-    let a = this.state.fileListThree
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListThree: a
-    }, () => {
-      console.log('PC端界面截图的文件id', this.state.fileListThree)
-    })
-  }
-  // 用来存身份证照片文件id
-  getFileListFour =(fileList, index) => {
-    let a = this.state.fileListFour
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListFour: a
-    }, () => {
-      console.log('身份证照片文件id', this.state.fileListFour)
-    })
-  }
-  // 用来存财务审核凭证的文件id
-  getFileListFive =(fileList, index) => {
-    let a = this.state.fileListFive
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListFive: a
-    }, () => {
-      console.log('财务审核凭证的文件id', this.state.fileListFive)
-    })
-  }
-  // 用来存财务审核凭证的文件id
-  getFileListSix =(fileList, index) => {
-    let a = this.state.fileListSix
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListSix: a
-    }, () => {
-      console.log('财务审核凭证的文件id', this.state.fileListSix)
-    })
-  }
   // 整合软件版本数据
   zH=() => {
     let a = []
@@ -304,12 +268,6 @@ class ShelfPlease extends React.Component {
   }
   // 提交表单啦
   submit=() => {
-    let z = []
-    z[0] = this.state.fileListTwo
-    z[1] = this.state.fileListThree
-    z[2] = this.state.fileListFour
-    z[3] = this.state.fileListFive
-    z[4] = this.state.fileListSix
     let value = {
       rname: this.state.rname, // 软件名称
       rType: this.state.type, // 软件类型
@@ -319,14 +277,19 @@ class ShelfPlease extends React.Component {
       idNumber: this.state.idNumber, // 身份证号
       conPeople: this.state.conPeople, // 主要联系人
       conPeopleNum: this.state.conPeopleNum, // 主要联系人电话
-      copType: this.state.radio, // 软件版权类别
+      sw_type: this.state.radio, // 软件版权类别
+      sw_icon: this.state.fileListTwo, // 软件图标
+      sw_computer_photo: this.state.fileListThree, // pc图片
+      idNumber_photo: this.state.fileListFour, // 手持身份证照片
+      sw_copyright: this.state.fileListFive, // 软件版权的文件
+      fin_audit: this.state.fileListSix, // 财务凭证
       copTypes: this.zH(), // 软件版本的文件id和系统类别
-      filelist: z // 附件列表
+      fa_id: '1'// 厂商Id
     }
     console.log('上架流程点击提交传的值', value)
-    axios.get(ajaxUrl.shelf, {
+    axios.get(ajaxUrl.shelf,
       value
-    }).then(item => {
+    ).then(item => {
       console.log(item)
     }).catch(err => {
       console.log(err)
@@ -347,6 +310,121 @@ class ShelfPlease extends React.Component {
         value: '类型3'
       }
     ]
+    const propsT = {
+      onRemove: (file) => {
+        this.setState(({ fileListTwo }) => {
+          const index = fileListTwo.indexOf(file)
+          const newFileList = fileListTwo.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListTwo: newFileList
+          }
+        }, () => {
+          console.log('this.state.fileListTwo', this.state.fileListTwo)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListTwo }) => ({
+          fileListTwo: [...fileListTwo, file]
+        }), () => {
+          console.log('this.state.fileListTwo', this.state.fileListTwo)
+        })
+        return false
+      },
+      fileListTwo: this.state.fileListTwo
+    }
+    const propsP = {
+      onRemove: (file) => {
+        this.setState(({ fileListFour }) => {
+          const index = fileListFour.indexOf(file)
+          const newFileList = fileListFour.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListFour: newFileList
+          }
+        }, () => {
+          console.log('fileListFour', this.state.fileListFour)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListFour }) => ({
+          fileListFour: [...fileListFour, file]
+        }), () => {
+          console.log('fileListFour', this.state.fileListFour)
+        })
+        return false
+      },
+      fileListFour: this.state.fileListFour
+    }
+    const propsW = {
+      onRemove: (file) => {
+        this.setState(({ fileListFive }) => {
+          const index = fileListFive.indexOf(file)
+          const newFileList = fileListFive.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListFive: newFileList
+          }
+        }, () => {
+          console.log('fileListFive', this.state.fileListFive)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListFive }) => ({
+          fileListFive: [...fileListFive, file]
+        }), () => {
+          console.log('fileListFive', this.state.fileListFive)
+        })
+        return false
+      },
+      fileListFive: this.state.fileListFive
+    }
+    const propsC = {
+      onRemove: (file) => {
+        this.setState(({ fileListThree }) => {
+          const index = fileListThree.indexOf(file)
+          const newFileList = fileListThree.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListThree: newFileList
+          }
+        }, () => {
+          console.log('fileListThree', this.state.fileListThree)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListThree }) => ({
+          fileListThree: [...fileListThree, file]
+        }), () => {
+          console.log('fileListThree', this.state.fileListThree)
+        })
+        return false
+      },
+      fileListThree: this.state.fileListThree
+    }
+    const propsD = {
+      onRemove: (file) => {
+        this.setState(({ fileListSix }) => {
+          const index = fileListSix.indexOf(file)
+          const newFileList = fileListSix.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListSix: newFileList
+          }
+        }, () => {
+          console.log('this.state.fileListSix', this.state.fileListSix)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListSix }) => ({
+          fileListSix: [...fileListSix, file]
+        }), () => {
+          console.log('this.state.fileListSix', this.state.fileListSix)
+        })
+        return false
+      },
+      fileListSix: this.state.fileListSix
+    }
     return <Card title='上架申请' style={{marginLeft: '15%', width: '1300px'}}>
       <div >
         <Row>
@@ -398,12 +476,13 @@ class ShelfPlease extends React.Component {
                 <span style={{color: 'red'}}>* </span>软件图标 :
               </Col>
               <Col span={8}>
-                <Upload
-                  getFileList={this.getFileListTwo}
-                  indexD={false}
-                // update={this.state.update}
-                // updateDone={() => { this.setState({update: false}) }}
-                /></Col>
+                <Upload {...propsT}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <span className='extend'>
+                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                </Upload></Col>
             </Col>
             <Col span={8}>
               <Col span={6}>
@@ -428,12 +507,13 @@ class ShelfPlease extends React.Component {
                 <span>PC端界面截图 :</span>
               </Col>
               <Col span={8}>
-                <Upload
-                  getFileList={this.getFileListThree}
-                  indexD={false}
-                // update={this.state.update}
-                // updateDone={() => { this.setState({update: false}) }}
-                />
+                <Upload {...propsC}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <span className='extend'>
+                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                </Upload>
               </Col>
             </Col>
           </Row>
@@ -464,12 +544,13 @@ class ShelfPlease extends React.Component {
                 <span style={{color: 'red'}}>* </span>手持身份证照片 :
               </Col>
               <Col span={8}>
-                <Upload
-                  getFileList={this.getFileListFour}
-                  indexD={false}
-                  // update={this.state.update}
-                  // updateDone={() => { this.setState({update: false}) }}
-                />
+                <Upload {...propsP}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <span className='extend'>
+                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                </Upload>
               </Col>
             </Col>
           </Row>
@@ -499,24 +580,26 @@ class ShelfPlease extends React.Component {
                 <Radio value={1}>
                   <span >软件凭证 :</span>
                   <span style={{visibility: 'hidden'}}>无无无五五五五无</span>
-                  <Upload
-                    getFileList={this.getFileListFour}
-                    indexD={false}
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsW}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Radio>
                 <span style={{visibility: 'hidden'}}>*PC无无5555555555555呜呜呜呜呜</span>
                 <Radio value={2}>
                   <span >开发者权利声明 :</span>
                   <a href='javascript:;'>下载模版</a>
                   <span style={{visibility: 'hidden'}}>无</span>
-                  <Upload
-                    getFileList={this.getFileListFive}
-                    indexD={false}
-                  // update={this.state.update}
-                  // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsW}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Radio>
               </RadioGroup>
             </Col>
@@ -533,12 +616,13 @@ class ShelfPlease extends React.Component {
                 <span>财务审核凭证 : </span><span style={{visibility: 'hidden'}}>无</span>
               </Col>
               <Col span={8}>
-                <Upload
-                  getFileList={this.getFileListSix}
-                  indexD={false}
-                  // update={this.state.update}
-                  // updateDone={() => { this.setState({update: false}) }}
-                /></Col>
+                <Upload {...propsD}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <span className='extend'>
+                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                </Upload></Col>
             </Col>
           </Row>
         </Row>

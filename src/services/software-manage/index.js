@@ -101,6 +101,106 @@ export function firmRenew (params, sucFn) {
 }
 
 /**
+ * 会员管理-学生-查询
+ */
+export function getStudentDatas (params, sucFn) {
+  axios.post('/stuManage/getMsg', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学生-改变登录状态
+ */
+export function changeStuToLogin (params, sucFn) {
+  axios.post('/stuManage/updatelogin', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学生-重置密码
+ */
+export function initStuPwd (params, sucFn) {
+  axios.post('/stuManage/updatepwd', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学生-删除学生账号
+ */
+export function delStuLoginId (params, sucFn) {
+  axios.post('/stuManage/updatestate', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学生-批量导出
+ */
+export function stBatchLeadout (params, sucFn) {
+  axios.post('/management/batchleadoutst', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-家长-查询
+ */
+export function paGetData (params, sucFn) {
+  axios.post('/parentmanage/getlist', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-家长-批量导出
+ */
+export function paBatchLeadout (params, sucFn) {
+  axios.post('/management/batchleadoutpa', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-家长-改变登录状态
+ */
+export function changePaToLogin (params, sucFn) {
+  axios.post('/parentmanage/tologin', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-家长-重置密码
+ */
+export function initPaPwd (params, sucFn) {
+  axios.post('/parentmanage/updatepwd', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-家长-删除家长账号
+ */
+export function delPaLoginId (params, sucFn) {
+  axios.post('/parentmanage/updatestate', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
  * 软件管理-待审核
  */
 export function getExamList (params, sucFn) {
@@ -111,20 +211,30 @@ export function getExamList (params, sucFn) {
 }
 
 /**
- * 软件管理-迭代审核
+ * 软件管理-待审核详情
  */
-export function iterVerify (params, sucFn) {
-  return axios.post('/management/iterationexaminelistm', params)
+export function verifyDetail (params, sucFn) {
+  return axios.post('/management/appdetail', params)
     .then(function (res) {
       sucFn(res)
     })
 }
 
 /**
- * 软件管理-待审核详情
+ * 软件管理-待审核-审核
  */
-export function verifyDetail (params, sucFn) {
-  return axios.post('/management/appdetail', params)
+export function waitVeriExam (params, sucFn) {
+  return axios.post('/management/examineapp', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 软件管理-迭代审核
+ */
+export function iterVerify (params, sucFn) {
+  return axios.post('/management/iterationexaminelistm', params)
     .then(function (res) {
       sucFn(res)
     })

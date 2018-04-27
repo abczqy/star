@@ -19,9 +19,10 @@ class News extends React.Component {
       pages: 1,
       imgO: img,
       imgT: img,
-      dataP: [], // 公告和分享的list
+      dataP: false, // 公告和分享的list
       img: '', // 公告图片
-      newData: {}
+      newData: {},
+      height: ''
     }
   }
   getList = () => {
@@ -58,6 +59,7 @@ class News extends React.Component {
   }
   componentWillMount () {
     this.getList()
+    this.getHeight()
   }
   // 标题的点击事件
   title =() => {
@@ -102,6 +104,18 @@ class News extends React.Component {
       return str.slice(0, n) + '...'
     }
   }
+  // 获取高度
+  getHeight=() => {
+    if (this.state.dataP) {
+      this.setState({
+        height: 730
+      })
+    } else {
+      this.setState({
+        height: 385
+      })
+    }
+  }
   render () {
     return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <Row>
@@ -118,8 +132,8 @@ class News extends React.Component {
           </Row>
           <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
-        <Col span={15} style={{width: '68%'}}>
-          <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: '730px', backgroundColor: '#fff'}}>
+        <Col span={15} style={{width: '68%', height: '730px'}}>
+          <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px', height: `${this.state.height}px`, backgroundColor: '#fff'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>

@@ -24,7 +24,7 @@ class Information extends React.Component {
       pageNum: 1,
       pageSize: 10,
       selete: false, // 选择地区
-      dataP: [], // 公告和分享的list
+      dataP: false, // 公告和分享的list
       imgG: '', // 公告图片
       options: [
         {
@@ -50,12 +50,14 @@ class Information extends React.Component {
           }]
         }
       ],
-      infoData: {}
+      infoData: {},
+      height: ''
     }
   }
 
   componentWillMount () {
     this.getList()
+    this.getHeight()
   }
   getList=() => {
     let value = {
@@ -139,11 +141,23 @@ class Information extends React.Component {
       return str.slice(0, n) + '...'
     }
   }
+  // 获取高度
+  getHeight=() => {
+    if (this.state.dataP) {
+      this.setState({
+        height: 730
+      })
+    } else {
+      this.setState({
+        height: 385
+      })
+    }
+  }
   render () {
     return (
       <div className='news-list-container'>
-        <div id='right-container'>
-          <ul className='ul-top' style={{width: '100%', height: '730px', backgroundColor: '#fff'}}>
+        <div id='right-container' style={{height: `${this.state.height}px`}}>
+          <ul className='ul-top' style={{width: '100%', padding: '0', backgroundColor: '#fff'}}>
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <span className='information-fabu'>
                   发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />

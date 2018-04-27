@@ -27,7 +27,8 @@ class AllApplicationsDetail extends React.Component {
         page4: [],
         shelfTimeSort: 'desc',
         downloadNum: 'desc',
-        appType: 'all'
+        appType: 'all',
+        collectionType: 'cancel'
       }
   }
   static propTypes = {
@@ -118,6 +119,30 @@ class AllApplicationsDetail extends React.Component {
       })
     }
   }
+  // 处理收藏按钮
+  handleCollection = (id) => {
+    if (this.state.collectionType === 'cancel') {
+      this.setState({
+        collectionType: 'collect'
+      }, () => {
+        this.postCollection(id)
+      })
+    } else {
+      this.setState({
+        collectionType: 'cancel'
+      }, () => {
+        this.postCollection(id)
+      })
+    }
+  }
+  // 发送收藏按钮请求
+  postCollection = (id) => {
+    axios.post(ajaxUrl.homeCollection, {
+      sw_id: id,
+      type: this.state.collectionType
+    }).then((res) => {
+    }).catch((e) => { console.log(e) })
+  }
   render () {
     // const dataa = [{
     //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
@@ -177,7 +202,7 @@ class AllApplicationsDetail extends React.Component {
               <p>{item.SW_DESC}</p>
             </dd>
           </dl>
-          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
+          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
         </div>
       )
     })

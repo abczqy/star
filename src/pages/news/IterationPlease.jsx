@@ -3,10 +3,10 @@
  */
 
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, DatePicker} from 'antd'
+import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
-import Upload from './Upload'
+// import Upload from './Upload'
 import axios from 'axios'
 import ajaxUrl from 'config'
 // import axios from 'axios'
@@ -49,10 +49,10 @@ class IterationPlease extends React.Component {
         }
       ],
       AppData: null,
-      fileListOneC: ['1'], // 用来存软件版本的文件的系统版本
-      fileListOneF: ['1'], // 用来存软件版本的文件id
-      fileListTwo: ['1'], // 用来存软件图标的文件id
-      fileListThree: ['1'] // 用来存PC端界面截图的文件id
+      fileListOneC: [], // 用来存软件版本的文件的系统版本
+      fileListOneF: [], // 用来存软件版本的文件id
+      fileListTwo: [], // 用来存软件图标的文件id
+      fileListThree: [] // 用来存PC端界面截图的文件id
     }
   }
   componentWillMount () {
@@ -102,16 +102,6 @@ getAppData=(a) => {
       this.renderEdition()
     })
   }
-  // 用来存软件版本的文件id
-  getFileListOneF =(fileList, index) => {
-    let a = this.state.fileListOneF
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListOneF: a
-    }, () => {
-      console.log('软件版本的文件id', this.state.fileListOneF)
-    })
-  }
   // 用来存软件版本的文件的系统版本
   SChange =(value, index) => {
     let a = this.state.fileListOneC
@@ -126,6 +116,26 @@ getAppData=(a) => {
   renderEdition=() => {
     let value = []
     for (let i = 0; i < this.state.Edition; i++) {
+      let propsO = {
+        onRemove: (file) => {
+          this.setState(({ fileListOneF }) => {
+            const index = fileListOneF.indexOf(file)
+            const newFileList = fileListOneF.slice()
+            newFileList.splice(index, 1)
+            return {
+              fileListOneF: newFileList
+            }
+          })
+        },
+        beforeUpload: (file) => {
+          this.setState(({ fileListOneF }) => ({
+            fileListOneF: [...fileListOneF, file]
+          }))
+          return false
+        },
+        fileListOneF: this.state.fileListOneF
+      }
+
       if (i === 0) {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
@@ -142,13 +152,13 @@ getAppData=(a) => {
                   </Select>
                 </Col>
                 <Col span={9}>
-                  <Upload
-                    getFileList={this.getFileListOneF}
-                    index={i}
-                    indexD
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsO}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Col>
               </Col>
             </Row>
@@ -169,13 +179,13 @@ getAppData=(a) => {
                   </Select>
                 </Col>
                 <Col span={9}>
-                  <Upload
-                    getFileList={this.getFileListOneF}
-                    index={i}
-                    indexD
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsO}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Col>
               </Col>
             </Row>
@@ -186,26 +196,6 @@ getAppData=(a) => {
       renderEdition: value
     }, () => {
       console.log(this.state.renderEdition)
-    })
-  }
-  // 用来存软件图标的文件id
-  getFileListTwo =(fileList, index) => {
-    let a = this.state.fileListTwo
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListTwo: a
-    }, () => {
-      console.log('软件图标的文件id', this.state.fileListTwo)
-    })
-  }
-  // 用来存PC端界面截图的文件id
-  getFileListThree =(fileList, index) => {
-    let a = this.state.fileListThree
-    a[index] = fileList.map((data) => { return data.fileId || data.id })
-    this.setState({
-      fileListThree: a
-    }, () => {
-      console.log('PC端界面截图的文件id', this.state.fileListThree)
     })
   }
   // 日期变化
@@ -238,27 +228,71 @@ zH=() => {
 }
   // 提交表单啦
   submit=() => {
-    let z = []
-    z[0] = this.state.fileListTwo
-    z[1] = this.state.fileListThree
-
     let value = {
+      sw_id: '1', // 迭代的软件id
       newV: this.state.newV, // 更新版本
       rDescribe: this.state.rDescribe, // 软件描述
-      hopeTime: this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD HH:mm:ss'), // 期望上架时间value.beginTime == null?'':value.beginTime.format('YYYY-MM-DD HH:mm')
-      copTypes: this.zH(), // 软件版本的文件id和系统类别
-      filelist: z // 其他附件
+      updateTime: this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD HH:mm:ss'), // 期望上架时间value.beginTime == null?'':value.beginTime.format('YYYY-MM-DD HH:mm')
+      sw_computer_photo_new: this.state.fileListThree, // pc电脑图片
+      sw_icon_new: this.state.fileListTwo, // 软件图标
+      copTypes: this.zH() // 软件版本的文件id和系统类别
     }
     console.log('迭代申请点击提交传的值', value)
-    axios.get(ajaxUrl.iteration, {
+    axios.get(ajaxUrl.iteration,
       value
-    }).then(item => {
+    ).then(item => {
       console.log(item)
     }).catch(err => {
       console.log(err)
     })
   }
   render () {
+    const propsT = {
+      onRemove: (file) => {
+        this.setState(({ fileListTwo }) => {
+          const index = fileListTwo.indexOf(file)
+          const newFileList = fileListTwo.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListTwo: newFileList
+          }
+        }, () => {
+          console.log('this.state.fileListTwo', this.state.fileListTwo)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListTwo }) => ({
+          fileListTwo: [...fileListTwo, file]
+        }), () => {
+          console.log('this.state.fileListTwo', this.state.fileListTwo)
+        })
+        return false
+      },
+      fileListTwo: this.state.fileListTwo
+    }
+    const propsP = {
+      onRemove: (file) => {
+        this.setState(({ fileListThree }) => {
+          const index = fileListThree.indexOf(file)
+          const newFileList = fileListThree.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListThree: newFileList
+          }
+        }, () => {
+          console.log('fileListThree', this.state.fileListThree)
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListThree }) => ({
+          fileListThree: [...fileListThree, file]
+        }), () => {
+          console.log('fileListThree', this.state.fileListThree)
+        })
+        return false
+      },
+      fileListThree: this.state.fileListThree
+    }
     return <Card title='迭代申请' style={{marginLeft: '15%', width: '1300px'}}>
       <div >
         <Row>
@@ -335,12 +369,13 @@ zH=() => {
                   <span style={{color: 'red'}}>* </span>软件图标 :
                 </Col>
                 <Col span={9}>
-                  <Upload
-                    getFileList={this.getFileListTwo}
-                    indexD={false}
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  /></Col>
+                  <Upload {...propsT}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload></Col>
               </Col>
             </Row>
             <Row className='Wxd'>
@@ -350,12 +385,13 @@ zH=() => {
                   <span>PC端界面截图 : </span>
                 </Col>
                 <Col span={9}>
-                  <Upload
-                    getFileList={this.getFileListThree}
-                    indexD={false}
-                    // update={this.state.update}
-                    // updateDone={() => { this.setState({update: false}) }}
-                  />
+                  <Upload {...propsP}>
+                    <Button>
+                      <Icon type='upload' /> 上传文件
+                    </Button>
+                    <span className='extend'>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                  </Upload>
                 </Col>
               </Col>
             </Row>
