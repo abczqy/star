@@ -134,7 +134,9 @@ class Home extends React.Component {
       <div className='login-home-container'>
         <Row>
           <Col span={24}>
-            <MainBander {...this.props} showSureWin={(data) => { this.showSureWin(data) }}
+            <MainBander {...this.props}
+              handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
+              showSureWin={(data) => { this.showSureWin(data) }}
               handleAfterLogged={(key, flag) => { this.handleChangeVisible(key, flag) }} />
             <div className='home-title-container'>
               <div style={{marginBottom: '30px', height: '50px'}}>
