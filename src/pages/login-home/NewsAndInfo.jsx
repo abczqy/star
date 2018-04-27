@@ -44,7 +44,47 @@ class NewsAndInfo extends React.Component {
   getMonth (str) {
     let s = ''
     if (str) {
-      s = parseInt(moment('str').month()) + 1
+      s = parseInt(moment(str).month()) + 1
+    }
+    switch (s) {
+      case 1:
+        s = '一'
+        break
+      case 2:
+        s = '二'
+        break
+      case 3:
+        s = '三'
+        break
+      case 4:
+        s = '四'
+        break
+      case 5:
+        s = '五'
+        break
+      case 6:
+        s = '六'
+        break
+      case 7:
+        s = '七'
+        break
+      case 8:
+        s = '八'
+        break
+      case 9:
+        s = '九'
+        break
+      case 10:
+        s = '十'
+        break
+      case 11:
+        s = '十一'
+        break
+      case 12:
+        s = '十二'
+        break
+      default:
+        s = '一'
     }
     return s
   }
@@ -52,7 +92,7 @@ class NewsAndInfo extends React.Component {
   getDay (str) {
     let s = ''
     if (str) {
-      s = moment('str').day()
+      s = moment(str).day()
     }
     return s
   }
@@ -73,7 +113,7 @@ class NewsAndInfo extends React.Component {
                     avatar={
                       <div className='avatar-title'>
                         <div>{this.getDay(item.news_time)}</div>
-                        <div>{this.getMonth(item.news_time)}</div>
+                        <div>{this.getMonth(item.news_time) + '月'}</div>
                       </div>
                     }
                     title={<a onClick={() => { this.handleNewsTitleClick(item) }}>{item.news_title}</a>}
@@ -95,7 +135,7 @@ class NewsAndInfo extends React.Component {
                     avatar={
                       <div className='avatar-title'>
                         <div>{this.getDay(item.info_time)}</div>
-                        <div>{this.getMonth(item.info_time)}</div>
+                        <div>{this.getMonth(item.info_time) + '月'}</div>
                       </div>
                     }
                     title={<a onClick={() => { this.handleInfoTitleClick(item) }}>{item.info_title}</a>}
