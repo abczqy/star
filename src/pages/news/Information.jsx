@@ -156,7 +156,7 @@ class Information extends React.Component {
   render () {
     return (
       <div className='news-list-container'>
-        <div id='right-container' style={{height: `${this.state.height}px`}}>
+        <div id='right-container'>
           <ul className='ul-top' style={{width: '100%', padding: '0', backgroundColor: '#fff'}}>
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <span className='information-fabu'>
