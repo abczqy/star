@@ -82,8 +82,6 @@ class ChangePass extends React.Component {
       if (!err) {
         axios.get(ajaxUrl.updateUserPassword, {
           params: {
-            type: '',
-            id: '',
             pwd: values.maf_new_pass,
             oldPwd: values.maf_old_pass
           }

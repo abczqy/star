@@ -7,12 +7,13 @@ import './register.scss'
 export default class RegisterSuccModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
-    hiddenModal: PropTypes.func
+    hiddenModal: PropTypes.func,
+    account: PropTypes.string
   }
   constructor (props) {
     super(props)
     this.state = {
-      clockTime: 3
+      clockTime: 60
     }
   }
   componentDidMount () {
@@ -53,6 +54,7 @@ export default class RegisterSuccModal extends React.Component {
           <div>
             <h4 className='registesucc-icon'><span /></h4>
             <h4 className='register_tip'>恭喜您注册成功！</h4>
+            <h4 className='account_nmum'>您注册的账号为:{this.props.account}</h4>
           </div>
           <div className='time'>{this.state.clockTime}秒后返回门户</div>
         </Modal>

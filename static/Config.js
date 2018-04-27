@@ -117,11 +117,11 @@ window.mungConfig = {
   // 登出
   sessionLogout: AJAX_HOST + '/session/logout',
   // 消息通知列表
-  getMessageList: AJAX_HOST + '/getAllMessageList',
+  getAllMessageList: AJAX_HOST + '/getAllMessageList',
   // 未读消息数
   getMessageCount: AJAX_HOST + '/getUnreadMessageCount',
   // 消息通知列表详情
-  getMessageListDetail: AJAX_HOST + '/getMessageList/detail',
+  getMessageListDetail: AJAX_HOST + '/getMessageDetail',
   // 账号设置-密码修改
   updateUserPassword: AJAX_HOST + '/control/updateUserPassword',
   // 忘记密码
