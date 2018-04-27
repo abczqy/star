@@ -37,18 +37,18 @@ class SearchBarMember extends Component {
           </Col>
           <Col span={4}>
             <span className='select-label'>{selectText1}</span>
-            <Select defaultValue='全部' className='select' onChange={onSelect1Change} >
-              <Option value='全部'>全部</Option>
-              <Option value='正常'>正常</Option>
-              <Option value='已过期'>已过期</Option>
+            <Select defaultValue='all' className='select' onChange={onSelect1Change} >
+              <Option value='all'>全部</Option>
+              <Option value='normal'>正常</Option>
+              <Option value='expire'>已过期</Option>
             </Select>
           </Col>
           <Col span={4}>
             <span className='select-label'>{selectText2}</span>
-            <Select defaultValue='全部' className='select' onChange={onSelect2Change} >
-              <Option value='全部'>全部</Option>
-              <Option value='允许'>允许</Option>
-              <Option value='不允许'>不允许</Option>
+            <Select defaultValue='all' className='select' onChange={onSelect2Change} >
+              <Option value='all'>全部</Option>
+              <Option value='allow'>允许</Option>
+              <Option value='refuse'>不允许</Option>
             </Select>
           </Col>
           <Col span={6}>

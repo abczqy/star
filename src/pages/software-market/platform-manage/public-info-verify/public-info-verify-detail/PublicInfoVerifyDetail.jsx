@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon } from 'antd'
+import { Card, Icon, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { PublicInfoVerifyView } from 'components/software-market'
 
@@ -12,6 +12,13 @@ class PublicInfoVerifyDetail extends Component {
             <PublicInfoVerifyView />
           </div>
         </Card>
+        <div className='foot-bar'>
+          <span>
+            <Button className='btn-refuse'>驳回</Button>
+            <span className='blank-bar-ver' />
+            <Button type='primary'>通过</Button>
+          </span>
+        </div>
       </div>
     )
   }

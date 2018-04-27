@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon } from 'antd'
+import { Card, Icon, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { NewsAddBar, BlankBar, RichEditor } from 'components/software-market'
 import './NewsListAdd.scss'
@@ -16,7 +16,15 @@ class NewsListAdd extends Component {
           <div>
             <RichEditor />
           </div>
+          <BlankBar />
         </Card>
+        <div className='foot-bar'>
+          <span>
+            <Button>取消</Button>
+            <span className='blank-bar-ver' />
+            <Button type='primary'>添加</Button>
+          </span>
+        </div>
       </div>
     )
   }

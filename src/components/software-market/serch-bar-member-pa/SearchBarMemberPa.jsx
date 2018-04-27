@@ -38,15 +38,15 @@ class SearchBarMemberPa extends Component {
           </Col>
           <Col span={4}>
             <span className='select-label'>选择角色</span>
-            <Select defaultValue='全部' className='select' onChange={onSelect1Change} >
-              <Option value='全部'>全部</Option>
+            <Select defaultValue='all' className='select' onChange={onSelect1Change} >
+              <Option value='all'>全部</Option>
               <Option value='father'>父亲</Option>
               <Option value='mother'>母亲</Option>
             </Select>
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录</span>
-            <Select defaultValue='全部' className='select' onChange={onSelect2Change} >
+            <Select defaultValue='all' className='select' onChange={onSelect2Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='defuse'>不允许</Option>
