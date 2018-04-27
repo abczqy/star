@@ -95,10 +95,20 @@ class OperateManage extends React.Component {
         text: '市场分析',
         src: '/operate-manage-home/market'
       }]
-    } else if (roleCode === '') { // 游客
-
     } else if (roleCode === 'eduBureau') { // 教育局
-
+      return [{
+        text: '首页',
+        src: '/operate-manage-home/home'
+      }, {
+        text: '全部应用',
+        src: '/operate-manage-home/all-app/all-app'
+      }, {
+        text: '个人中心',
+        src: '/operate-manage-home/center'
+      }, {
+        text: '政策通知',
+        src: '/operate-manage-home/public/policy'
+      }]
     }
   }
 
