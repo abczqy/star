@@ -38,10 +38,11 @@ class WaitVerify extends Component {
       searchValue: '',
       detModalCon: {
         visible: false,
-        swName: ''
+        swName: '',
+        resData: {}
       },
-      sw_type: '教育类',
-      sw_name: '慕课网app'
+      sw_type: '',
+      sw_name: ''
     }
   }
 
@@ -117,7 +118,7 @@ class WaitVerify extends Component {
     }
 
     verifyDetail(params, (res) => {
-      const resData = res.data
+      const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
       thiz.setState({
         detModalCon: {
