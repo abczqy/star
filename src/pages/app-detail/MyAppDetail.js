@@ -25,7 +25,10 @@ export default class MyAppDetail extends React.Component {
       obj: {
         display: 'none'
       },
-      addClassName: 'see-detail-itema'
+      addClassName: 'see-detail-itema',
+      computerCarousel: [],
+      compatibleSystem: [],
+      developmentRelated: []
     }
   }
   static propTypes = {
@@ -37,17 +40,38 @@ export default class MyAppDetail extends React.Component {
       appDetailId: a
     }, () => {
       this.getMyAppDetailData()
+      this.getDevelopmentRelated()
     })
   }
   getMyAppDetailData = () => {
     axios.post(ajaxUrl.thirdPartyAppDetail, {
       sw_id: this.state.appDetailId
     }).then((res) => {
-      console.log(2222222, res.data)
       this.setState({
         appDetailData: res.data
       }, () => {
-        console.log(this.state.appDetailData)
+        // let shishi = this.state.appDetailData.sw_path.replace(/\//g, '')
+        // eslint-disable-next-line no-eval
+        // let ceshi = eval('(' + shishi + ')')
+        let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
+        let bb = []
+        for (let i in aa) {
+          bb.push(aa[i])
+        }
+        this.setState({
+          computerCarousel: bb
+        })
+        this.handleCompatibleSystem(this.state.appDetailData.sw_path)
+      })
+    }).catch((e) => { console.log(e) })
+  }
+  // 获取开发相关数据
+  getDevelopmentRelated = () => {
+    axios.post(ajaxUrl.developmentRelated, {
+      sw_id: this.state.appDetailId
+    }).then((res) => {
+      this.setState({
+        developmentRelated: res.data
       })
     }).catch((e) => { console.log(e) })
   }
@@ -86,12 +110,59 @@ export default class MyAppDetail extends React.Component {
   handleRightClick = () => {
     this.refs['exhibition-inside-carousel'].next()
   }
+  // pc展示  手机展示  切换
+  handleSwitchCarousel = (type) => {
+    if (type === 'computer') {
+      console.log(22222)
+      let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
+      let bb = []
+      for (let i in aa) {
+        bb.push(aa[i])
+      }
+      this.setState({
+        computerCarousel: bb
+      })
+    } else {
+      console.log(33333333)
+      let cc = JSON.parse(this.state.appDetailData.sw_phone_photo)
+      let dd = []
+      for (let i in cc) {
+        dd.push(cc[i])
+      }
+      this.setState({
+        computerCarousel: dd
+      })
+    }
+  }
+  // 处理兼容系统字段
+  handleCompatibleSystem = (data) => {
+    // 第一步把获取到的sw_path去掉{}
+    let path = []
+    path = data ? data.slice(1, -1) : []
+    // 第二步以逗号为分隔符分割
+    let pathArray = []
+    pathArray = path.length > 0 ? path.split(',') : []
+    let swPath = []
+    // 刨除第一个元素剩余的内容
+    let swPathRest = []
+    for (let i = 0; i < pathArray.length; i++) {
+      // 第三步以冒号为分隔符分割
+      swPath.push(pathArray[i].split(':'))
+    }
+    // 给swPathRest赋值
+    for (let i = 1; i < swPath.length; i++) {
+      swPathRest.push(swPath[i])
+    }
+    this.setState({
+      compatibleSystem: swPath
+    })
+  }
   render () {
-    console.log('00000000', this.props.location.search)
+    console.log('00000000', this.state.compatibleSystem)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2640553151,1248485598&fm=27&gp=0.jpg' />
+          <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
           <div className='app-detail-header-right'>
             <p>
               <span className='header-titlea'>软件名称：{this.state.appDetailData.sw_name}</span>
@@ -102,7 +173,13 @@ export default class MyAppDetail extends React.Component {
               <span className='header-titlea'>上架时间：{this.state.appDetailData.sw_time_real}</span>
             </p>
             <p>
-              <span className='header-titlea' title='windows 64位   ios11.2.6   安卓10.2.3'>兼容系统：windows 64位   ios11.2.6   安卓10.2.3</span>
+              <span className='header-titlea'>兼容系统：{
+                this.state.compatibleSystem.map((item, index, arr) => {
+                  return (
+                    <span>{arr[index][0]}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  )
+                })
+              }</span>
             </p>
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
@@ -134,15 +211,30 @@ export default class MyAppDetail extends React.Component {
           <div className='app-detail-exhibition'>
             <div className='exhibition-title'>
               <h3>软件展示</h3>
-              <div>pc展示</div>
-              <div>手机展示</div>
+              <div onClick={() => this.handleSwitchCarousel('computer')}>pc展示</div>
+              <div onClick={() => this.handleSwitchCarousel('phone')}>手机展示</div>
             </div>
             <div className='exhibition-outside'>
               <div className='exhibition-inside'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
                 <div style={{width: '80%', marginLeft: '160px'}}>
                   <Carousel ref='exhibition-inside-carousel'>
-                    <div>
+                    {this.state.computerCarousel.map((item, index, arr) => {
+                      return (
+                        <div key={index}>
+                          <div>
+                            {this.state.computerCarousel[index].map((item, index, arr) => {
+                              return (
+                                <div key={index} style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
+                                  <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )
+                    })}
+                    {/* <div>
                       <div>
                         <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
                           <img style={{width: '100%', height: '100%'}} src='https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=5a0f156f57b5c9ea7df305e3e538b622/cf1b9d16fdfaaf519d4aa2db805494eef01f7a2c.jpg' />
@@ -154,10 +246,7 @@ export default class MyAppDetail extends React.Component {
                           <img style={{width: '100%', height: '100%'}} src='https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=5a0f156f57b5c9ea7df305e3e538b622/cf1b9d16fdfaaf519d4aa2db805494eef01f7a2c.jpg' />
                         </div>
                       </div>
-                    </div>
-                    <div><div>2</div></div>
-                    <div><div>3</div></div>
-                    <div><div>4</div></div>
+                    </div> */}
                   </Carousel>
                 </div>
                 <Icon onClick={this.handleRightClick} className='exhibition-inside-right' type='right' />
@@ -166,22 +255,22 @@ export default class MyAppDetail extends React.Component {
           </div>
           <div className='app-detail-introducea'>
             <h3>开发相关</h3>
-            <img src='https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1514772015,3464222502&fm=27&gp=0.jpg' />
+            <img src={ajaxUrl.IMG_BASE_URL + this.state.developmentRelated.dev_photo} />
             <div>
-              <div className='introduce-detail'>姓名：张亮</div>
-              <div className='introduce-detail'>身份证号：350101 198812102822</div>
-              <div className='introduce-detail'>主要联系人：张三</div>
-              <div className='introduce-detail'>联系人电话：18626372263</div>
+              <div className='introduce-detail'>姓名：{this.state.developmentRelated.developers}</div>
+              <div className='introduce-detail'>身份证号：{this.state.developmentRelated.dev_idcard}</div>
+              <div className='introduce-detail'>主要联系人：{this.state.developmentRelated.dev_contact}</div>
+              <div className='introduce-detail'>联系人电话：{this.state.developmentRelated.dev_contact_phone}</div>
             </div>
           </div>
           <div style={{width: '100%', height: '180px', float: 'left'}}>
             <div className='app-detail-characteristica'>
               <h3>软件版权</h3>
-              <img src={this.state.appDetailData.sw_copyright} />
+              <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_copyright} />
             </div>
             <div className='app-detail-characteristica'>
               <h3>审核凭证</h3>
-              <img src={this.state.appDetailData.fin_audit} />
+              <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.fin_audit} />
             </div>
           </div>
           <div className='app-detail-relevanta'>

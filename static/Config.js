@@ -161,5 +161,7 @@ window.mungConfig = {
   // 首页轮播图
   homeCarousel: AJAX_HOST + '/homepage/banner',
   // 全部应用-应用详情-相关应用
-  relatedApplications: AJAX_HOST + '/personal/relatedApp'
+  relatedApplications: AJAX_HOST + '/personal/relatedApp',
+  // 我的应用详情 - 开发相关
+  developmentRelated: AJAX_HOST + '/personal/developer'
 }
