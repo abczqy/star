@@ -15,14 +15,12 @@ class SWRelate extends Component {
     // 第一步把获取到的sw_path去掉{}
     let path = []
     path = resData.sw_path ? resData.sw_path.slice(1, -1) : []
-    console.log('path:', path)
     // 第二步以逗号为分隔符分割
     let pathArray = []
     pathArray = path.length > 0 ? path.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
-    console.log('pathArray:', pathArray)
     for (let i = 0; i < pathArray.length; i++) {
       // 第三步以冒号为分隔符分割
       swPath.push(pathArray[i].split(':'))
@@ -31,7 +29,6 @@ class SWRelate extends Component {
     for (let i = 1; i < swPath.length; i++) {
       swPathRest.push(swPath[i])
     }
-    console.log('pathArrSec:', swPath)
 
     return (
       <div className='ralate-wrap'>
