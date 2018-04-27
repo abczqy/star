@@ -1,8 +1,10 @@
 /* eslint-disable no-useless-return,no-undef,standard/no-callback-literal */
 /* 修改手机号 */
 import React from 'react'
-import {Modal, Button, Form, Input} from 'antd'
+import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import ajaxUrl from 'config'
 import '../Operateview.scss'
 class ChangePhoneNumber extends React.Component {
   static propTypes = {
@@ -16,7 +18,8 @@ class ChangePhoneNumber extends React.Component {
       confirmDirty: false,
       type: 'text',
       Countdown: true,
-      countTime: 60
+      countTime: 60,
+      phoneCode: '' // 短信验证码
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -47,9 +50,18 @@ class ChangePhoneNumber extends React.Component {
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
+      if (values.maf_phone_con !== thiz.state.phoneCode) {
+        message.error('短信验证码不正确！')
+        return
+      }
       if (!err) {
         console.log('修改手机号', values)
-        this.props.hiddenModal()
+        axios.post(ajaxUrl.updatePhoneNum, {
+          phoneNum: values.maf_phone_number,
+          password: values.maf_pass
+        }).then((response) => {
+          this.props.hiddenModal()
+        })
         window.clearInterval(this.intervalcount)
       }
     })
@@ -112,9 +124,20 @@ class ChangePhoneNumber extends React.Component {
       // form.setFieldsValue({maf_phone_con: ''})
       console.log(11111111111, phoneNum)
       // 请求接口获取手机验证码
+      this.getPhoneCode(phoneNum)
     }
     // const form = this.props.form
     // let phoneNum = form.getFieldValue('maf_phone_number')
+  }
+  // 获取短信验证码
+  getPhoneCode=(phoneNum) => {
+    axios.post(ajaxUrl.SMSVerification, {
+      NUM: phoneNum
+    }).then((response) => {
+      this.setState({
+        phoneCode: response.data
+      })
+    })
   }
   // 倒计时
   Countdown=() => {
