@@ -11,6 +11,14 @@
   margin: 0 auto;
   margin-bottom: 20px;
   min-height: calc(100vh - 120px);
+  .message-setting-card{
+    .ant-card-head{
+      background-color: #F8F8F8;
+    }
+  }
+  .ant-card-head{
+    height: 45px !important;
+  }
 }
 /*单行省略号*/
 .ellipsis {

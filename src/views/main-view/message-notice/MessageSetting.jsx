@@ -50,7 +50,7 @@ class MessageSetting extends React.Component {
     }).then((response) => {
       console.log('返回学生绑定信息', response)
       this.setState({
-        stuData: response.data.data,
+        stuData: response.data,
         maf_id: webStorage.getItem('STAR_WEB_PERSON_INFO').id
       })
     })
@@ -85,9 +85,10 @@ class MessageSetting extends React.Component {
     })
   }
   /* 解绑弹出框 */
-  visibaleUnbindModel =(id) => {
+  visibaleUnbindModel =(id, name) => {
     console.log('解除绑定，学生id', id)
     this.setState({
+      stuName: name,
       unbindVisible: true,
       stu_id: id,
       maf_id: this.state.maf_id
@@ -148,7 +149,7 @@ class MessageSetting extends React.Component {
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
       let stuData = this.state.stuData
       model = (
-        <Card title='学生绑定' bordered={false} className='message-setting-card'>
+        <Card title='学生绑定' className='message-setting-card'>
           <div className='setting-body'>
             {stuData && stuData.map((item, index) => {
               return (<div key={index} className='stu_list'>
@@ -157,10 +158,10 @@ class MessageSetting extends React.Component {
                 </div>
                 <div className='stumessage'>
                   <h4>{item.stu_name}</h4>
-                  <p>{item.sh_name}</p>
+                  <p>{item.sh_id}</p>
                   <p>{item.stu_class}</p>
                 </div>
-                <Icon type='link' className='stulink-icon' onClick={() => { this.visibaleUnbindModel(item.stu_id) }} />
+                <Icon type='link' title='解绑' className='stulink-icon' onClick={() => { this.visibaleUnbindModel(item.stu_id, item.stu_name) }} />
               </div>)
             })
             }
@@ -172,7 +173,7 @@ class MessageSetting extends React.Component {
       )
     } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
       let firmData = this.state.firmData[0]
-      model = (<Card title='基本信息' bordered={false} className='message-setting-card'>
+      model = (<Card title='基本信息' className='message-setting-card'>
         <div className='setting-body'>
           <div className='safe_item'>
             <div className='list-img'>
@@ -222,7 +223,7 @@ class MessageSetting extends React.Component {
     }
     return (
       <div className='center-view mb20'>
-        <Card title='账号安全' bordered={false} className='message-setting-card'>
+        <Card title='账号安全' className='message-setting-card'>
           <div className='setting-body'>
             <div className='safe_item'>
               <div className='list-img'>
@@ -262,6 +263,8 @@ class MessageSetting extends React.Component {
           hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
           stu_id={this.state.stu_id}
           maf_id={this.state.maf_id}
+          stuName={this.state.stuName}
+          getBindList={this.getBindList}
         />
         <Addbind
           visible={this.state.addbindVisible}

@@ -1,6 +1,6 @@
 /* 修改密码 */
 import React from 'react'
-import {Modal, Button, Form, Input} from 'antd'
+import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
@@ -80,14 +80,17 @@ class ChangePass extends React.Component {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
-        axios.get(ajaxUrl.updateUserPassword, {
-          params: {
-            pwd: values.maf_new_pass,
-            oldPwd: values.maf_old_pass
-          }
+        axios.post(ajaxUrl.updateUserPassword, {
+          pwd: values.maf_new_pass,
+          oldPwd: values.maf_old_pass
         }).then((response) => {
           console.log('修改密码', response)
-          this.props.hiddenModal()
+          if (response.data === 'ERROR') {
+            message.error('您输入的旧密码不正确！')
+          } else {
+            message.success('密码修改成功！')
+            this.props.hiddenModal()
+          }
         })
       }
     })

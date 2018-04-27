@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -142,12 +142,17 @@ class WaitVerify extends Component {
   }
 
   // 同意详情弹窗
-  handleDetAgree = (id) => {
+  handleDetAgree = (state) => {
+    const thiz = this
     const params = {
-      sw_id: id
+      sw_id: this.state.detModalCon.sw_id,
+      se_state: state === 'agree' ? 1 : 0
     }
     waitVeriExam(params, (res) => {
-
+      const data = res.data
+      message.success(data.info)
+      thiz.handleAppDetCancel()
+      thiz.getTableDatas()
     })
   }
 
@@ -209,7 +214,6 @@ class WaitVerify extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    console.log('sw_name:', this.state.sw_name, 'sw_type:', this.state.sw_type)
     this.getTableDatas()
   }
 
@@ -246,8 +250,8 @@ class WaitVerify extends Component {
           resData={detModalCon.resData}
           onCancel={this.handleAppDetCancel}
           footer={[
-            <Button key='agree' type='primary' onClick={() => this.handleDetAgree(detModalCon.sw_id)}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,
+            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
+            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
             <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}
         />

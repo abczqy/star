@@ -15,7 +15,7 @@ class News extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pageSize: 10,
+      pageSize: 5,
       pages: 1,
       imgO: img,
       imgT: img,
@@ -46,7 +46,6 @@ class News extends React.Component {
     })
 
     axios.get(ajaxUrl.detList).then(item => {
-      console.log('我到底做了个啥？？？', item.data)
       this.setState({
         dataP: item.data.list,
         img: item.data.img
@@ -132,13 +131,13 @@ class News extends React.Component {
           </Row>
           <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
-        <Col span={15} style={{width: '68%'}}>
+        <Col span={15} style={{width: '68%', minHeight: '820px'}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px', height: `${this.state.height}px`, backgroundColor: '#fff'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0
-                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>
+                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -154,9 +153,9 @@ class News extends React.Component {
                   <Row>
                     <div className='line' />
                   </Row>
-                </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}} key={index}>
+                </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -174,9 +173,9 @@ class News extends React.Component {
                   </Row>
                 </li>
             })}
-            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}}>
-              <Row style={{marginBottom: '10px'}}>
-                <Col span={9} />
+            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '30%'}}>
+              <Row style={{marginTop: '40px'}}>
+                <Col span={8} />
                 <Col >
                   {this.state.newData.total >= 5
                     ? <Pagination

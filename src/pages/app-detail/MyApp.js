@@ -17,7 +17,8 @@ class MyApp extends Component {
       tableDatas: [],
       hotSearchDatas: [],
       currentType: 'teaching',
-      changeState: 0
+      changeState: 0,
+      newNewsNum: {}
     }
   }
   changeState () {
@@ -31,6 +32,12 @@ class MyApp extends Component {
   typeSwitching = (e) => {
     this.setState({
       currentType: e.key
+    })
+  }
+  // 获取新消息数量
+  getNewNewsNum = (num) => {
+    this.setState({
+      newNewsNum: num
     })
   }
   render () {
@@ -55,13 +62,13 @@ class MyApp extends Component {
           <MyAppOperationTable dataSource={this.state.tableDatas} />
         </Card> */}
         <Tabs defaultActiveKey='class' onChange={() => this.changeState()}>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={5}>运营中</Badge>} key='class' >
-            <MyAppOperationTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum.news1}>运营中</Badge>} key='class' >
+            <MyAppOperationTable getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={7}>审核中</Badge>} key='text' >
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum.news2}>审核中</Badge>} key='text' >
             <MyAppExamineTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={6}>迭代审核</Badge>} key='grade' >
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum.news3}>迭代审核</Badge>} key='grade' >
             <MyAppIterationTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
         </Tabs>

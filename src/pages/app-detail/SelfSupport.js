@@ -51,11 +51,9 @@ export default class SelfSupport extends React.Component {
         appDetailData: res.data
       }, () => {
         let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
-        console.log(888, aa)
         let bb = []
         for (let i in aa) {
           bb.push(aa[i])
-          console.log(77777, bb)
         }
         this.setState({
           computerCarousel: bb
@@ -114,7 +112,32 @@ export default class SelfSupport extends React.Component {
   handleClick () {
     window.open(this.state.appDetailData.sw_path)
   }
+  // pc展示  手机展示  切换
+  handleSwitchCarousel = (type) => {
+    if (type === 'computer') {
+      console.log(22222)
+      let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
+      let bb = []
+      for (let i in aa) {
+        bb.push(aa[i])
+      }
+      this.setState({
+        computerCarousel: bb
+      })
+    } else {
+      console.log(33333333)
+      let cc = JSON.parse(this.state.appDetailData.sw_phone_photo)
+      let dd = []
+      for (let i in cc) {
+        dd.push(cc[i])
+      }
+      this.setState({
+        computerCarousel: dd
+      })
+    }
+  }
   render () {
+    console.log(777777, this.state.computerCarousel)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -156,8 +179,8 @@ export default class SelfSupport extends React.Component {
           <div className='app-detail-exhibition'>
             <div className='exhibition-title'>
               <h3>软件展示</h3>
-              <div>pc展示</div>
-              <div>手机展示</div>
+              <div onClick={() => this.handleSwitchCarousel('computer')}>pc展示</div>
+              <div onClick={() => this.handleSwitchCarousel('phone')}>手机展示</div>
             </div>
             <div className='exhibition-outside'>
               <div className='exhibition-inside'>

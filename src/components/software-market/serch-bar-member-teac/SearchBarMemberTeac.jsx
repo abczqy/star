@@ -6,17 +6,17 @@
 import React, { Component } from 'react'
 import { Input, Select, Button, Row, Col } from 'antd'
 import PropsTypes from 'prop-types'
-import './SearchBarMemberSch.scss'
+import './SearchBarMemberTeac.scss'
 
 const Option = Select.Option
 
-class SearchBarMemberSch extends Component {
+class SearchBarMemberTeac extends Component {
   render () {
     const {
       onBtnSearchClick,
       onInput1Change,
       onInput2Change,
-      onSelect1Change,
+      onInput3Change,
       onSelect2Change,
       onBtnBatchExport
     } = this.props
@@ -28,16 +28,12 @@ class SearchBarMemberSch extends Component {
             <Input className='input' placeholder='请输入' onChange={onInput1Change} />
           </Col>
           <Col span={5}>
-            <span className='input-label'>学校名称</span>
+            <span className='input-label'>教师姓名</span>
             <Input className='input' onChange={onInput2Change} />
           </Col>
           <Col span={5}>
-            <span className='select-label'>所属教育机构</span>
-            <Select defaultValue='all' className='select' onChange={onSelect1Change} >
-              <Option value='all'>全部</Option>
-              <Option value='normal'>正常</Option>
-              <Option value='expire'>已过期</Option>
-            </Select>
+            <span className='input-label'>学校名称</span>
+            <Input className='input' onChange={onInput3Change} />
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录</span>
@@ -59,13 +55,13 @@ class SearchBarMemberSch extends Component {
   }
 }
 
-SearchBarMemberSch.propTypes = {
+SearchBarMemberTeac.propTypes = {
   onBtnSearchClick: PropsTypes.func,
   onInput1Change: PropsTypes.func,
   onInput2Change: PropsTypes.func,
-  onSelect1Change: PropsTypes.func,
+  onInput3Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }
 
-export default SearchBarMemberSch
+export default SearchBarMemberTeac

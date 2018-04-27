@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types,react/jsx-no-bind */
 import React from 'react'
 import Slider from 'react-slick'
-import { Row, Form, Icon, Input, Button, message } from 'antd'
+import { Row, Form, Icon, Input, Button } from 'antd'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
@@ -57,10 +57,29 @@ class MainBander extends React.Component {
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
         webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+        // 清空提示信息
+        this.setState({
+          msgTip: ''
+        })
         this.props.updatePage()
         // 如果该用户是首次登录
         if (data.isFirstLogged) {
-          this.props.showSureWin(this.getSureInfoData(response.personInfo))
+          // 如果是教师和学生   先弹出信息
+          if (data.roleCode === 'teacher' || data.roleCode === 'students') {
+            this.setState({
+              loginFormVisible: false
+            })
+            this.props.showSureWin(this.getSureInfoData(response.personInfo))
+          } else if (data.roleCode === 'parents') { // 如果是家长  关闭登录form框
+            this.setState({
+              loginFormVisible: false
+            })
+          } else { // 其他的弹出修改密码窗口
+            this.setState({
+              loginFormVisible: false
+            })
+            this.props.handleChangeVisible('changeInfoWinVisible', true)
+          }
         } else {
           this.setState({
             loginFormVisible: false
@@ -72,7 +91,9 @@ class MainBander extends React.Component {
           }
         }
       } else {
-        message.error('请求数据失败!')
+        this.setState({
+          msgTip: data.msg
+        })
       }
     })
   }

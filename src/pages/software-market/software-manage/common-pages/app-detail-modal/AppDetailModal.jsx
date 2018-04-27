@@ -14,7 +14,7 @@ const modalConfig = {
 
 class AppDetailModal extends Component {
   render () {
-    const { getContainer, visible, footer, title, onCancel } = this.props
+    const { getContainer, visible, footer, title, onCancel, resData } = this.props
     return (
       <Modal
         {...modalConfig}
@@ -24,11 +24,11 @@ class AppDetailModal extends Component {
         title={title}
         onCancel={onCancel}
       >
-        <SWRelate />
+        <SWRelate resData={resData} />
         <BlankBar />
-        <DevRelate />
+        <DevRelate resData={resData} />
         <BlankBar />
-        <VoucherRelate />
+        <VoucherRelate resData={resData} />
         <BlankBar />
       </Modal>
     )
@@ -40,7 +40,8 @@ AppDetailModal.propTypes = {
   visible: PropsTypes.bool,
   footer: PropsTypes.array,
   title: PropsTypes.string,
-  onCancel: PropsTypes.func
+  onCancel: PropsTypes.func,
+  resData: PropsTypes.object
 }
 
 export default AppDetailModal

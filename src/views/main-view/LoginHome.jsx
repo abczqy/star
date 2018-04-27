@@ -37,7 +37,6 @@ class LoginHome extends React.Component {
     return temArr[temArr.length - 1] || 'home'
   }
   componentDidMount () {
-    this.getMessageCount()
   }
   // 未读消息数
   getMessageCount=() => {
@@ -72,6 +71,10 @@ class LoginHome extends React.Component {
   updatePage () {
     this.setState({
       refresh: !this.state.refresh
+    }, () => {
+      if (webStorage.getItem('STAR_WEB_IS_LOGGED')) {
+        this.getMessageCount()
+      }
     })
   }
   render () {

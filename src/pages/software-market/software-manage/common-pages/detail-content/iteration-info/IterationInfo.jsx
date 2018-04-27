@@ -8,20 +8,21 @@ import { BlankBar } from 'components/software-market'
 import PropsTypes from 'prop-types'
 
 class IterationInfo extends Component {
+  onChange = (date, dateString) => {
+    this.props.getOnShelfTime(dateString)
+  }
   render () {
     const { resData } = this.props
 
     // 第一步把获取到的sw_path去掉{}
     let path = []
     path = resData.sw_path0 ? resData.sw_path0.slice(1, -1) : []
-    console.log('path:', path)
     // 第二步以逗号为分隔符分割
     let pathArray = []
     pathArray = path.length > 0 ? path.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
-    console.log('pathArray:', pathArray)
     for (let i = 0; i < pathArray.length; i++) {
       // 第三步以冒号为分隔符分割
       swPath.push(pathArray[i].split(':'))
@@ -30,7 +31,6 @@ class IterationInfo extends Component {
     for (let i = 1; i < swPath.length; i++) {
       swPathRest.push(swPath[i])
     }
-    console.log('pathArrSec:', swPath)
     return (
       <div className='ralate-wrap'>
         <Row>
@@ -87,7 +87,7 @@ class IterationInfo extends Component {
             期望上架时间:
             </Col>
             <Col span={4}>
-              <span><DatePicker /></span>
+              <span><DatePicker onChange={this.onChange} /></span>
             </Col>
           </Row>
         </div>
@@ -97,7 +97,8 @@ class IterationInfo extends Component {
 }
 
 IterationInfo.propTypes = {
-  resData: PropsTypes.object
+  resData: PropsTypes.object,
+  getOnShelfTime: PropsTypes.func
 }
 
 export default IterationInfo

@@ -87,7 +87,7 @@
 }
 /*消息通知详情*/
 .notice-detail{
-  width: 50vw;
+  width: 40vw;
   margin: 0 auto;
   min-height: 80vh;
  h4{
@@ -96,7 +96,8 @@
    font-weight: 400;
    text-align: center;
    color: #EE881E;
-   margin-bottom: 20px;
+   margin-top: 10px;
+   margin-bottom: 30px;
  }
   P{
     text-align: left;
@@ -172,7 +173,6 @@
     }
     /*家长用户时*/
     .stu_list{
-      height: 7vw;
       width: 18vw;
       float: left;
       margin-top: 15px;
@@ -189,11 +189,12 @@
         line-height: 7vw;
         float: left;
         background: url("../../assets/images/u18499.png") no-repeat center;
-        background-size: 100% 100%;
+        background-size: 80% 80%;
       }
       .stumessage{
-        margin-top: 20px;
         padding-left: 15px;
+        padding-bottom: 10px;
+        padding-top: 10px;
         overflow: hidden;
         p{
           overflow: hidden;
@@ -206,6 +207,7 @@
         position: absolute;
         right: 10px;
         top: 10px;
+        cursor: pointer;
       }
     }
     // 添加绑定card
@@ -213,16 +215,18 @@
       cursor: pointer;
       border:1px dashed #E4E4E4;
       box-shadow: none !important;
+      height: 120px;
+      line-height: 120px;
       &:hover{
         background-color: #F9F9F9;
       }
       h4{
         text-align: center;
-        padding-top: 2.5vw;
         font-weight: 400;
         font-style: normal;
         font-size: 16px;
         color: #999999;
+        padding-bottom: calc(2.5vw - 16px);
       }
       .stulink-icon-add{
         font-size: 18px;

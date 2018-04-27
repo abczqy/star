@@ -65,7 +65,7 @@ class MyAppTable extends Component {
         return (
           <div key={index}>
             <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.sw_id}}>迭代</Link></span>
-            <span style={{marginRight: '10px'}}><Link to='#'>日志下载</Link></span>
+            <span style={{marginRight: '10px'}}><Link to={record.sw_log}>日志下载</Link></span>
             <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.sw_id}}>查看详情</Link></span>
           </div>
         )
@@ -86,12 +86,11 @@ class MyAppTable extends Component {
       sw_name: this.state.sw_name // 应用名称
     }
     axios.post(ajaxUrl.myAppInOperation, Object.assign(params, searchParams)).then((res) => {
-      console.log(2222222, res.data)
       this.setState({
         myAppInOperationData: res.data.list,
         total: res.data.total
       }, () => {
-        console.log(this.state.myAppInOperationData)
+        this.props.getNewNewsNum(res.data.new)
       })
     }).catch((e) => { console.log(e) })
   }
@@ -259,7 +258,8 @@ class MyAppTable extends Component {
 
 MyAppTable.propTypes = {
   dataSource: PropTypes.array,
-  form: PropTypes.object
+  form: PropTypes.object,
+  getNewNewsNum: PropTypes.func
 }
 
 export default Form.create()(MyAppTable)

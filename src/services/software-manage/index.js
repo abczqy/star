@@ -249,3 +249,22 @@ export function iterVeriDetail (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 软件时长-上架申请
+ */
+export function shelf (params, sucFn) {
+  return axios.post('/uploadSw/upload', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 迭代申请
+ */
+export function iteration (params, sucFn) {
+  return axios.post('/updateSoft/update', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

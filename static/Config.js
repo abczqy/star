@@ -124,6 +124,8 @@ window.mungConfig = {
   getMessageListDetail: AJAX_HOST + '/getMessageDetail',
   // 账号设置-密码修改
   updateUserPassword: AJAX_HOST + '/control/updateUserPassword',
+  // 账号设置-手机验证
+  updatePhoneNum: AJAX_HOST + '/updatePhoneNum',
   // 忘记密码
   forgetThePassword: AJAX_HOST + '/control/updateUserPassword',
   // 获取短信验证码

@@ -24,8 +24,8 @@ class Policy extends React.Component {
     if (this.props.ctrl && this.props.ctrl === 'edit') {
       console.log('this.props.record', this.props.record.title)
       this.setState({
-        input: this.props.record.title,
-        context: this.props.record.information
+        input: this.props.record.info_title,
+        context: this.props.record.info_desc
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
       this.setState({
@@ -70,14 +70,13 @@ class Policy extends React.Component {
   sendF=() => {
     if (this.props.ctrl && this.props.ctrl === 'edit') {
       let value = {
-        id: this.props.record.id,
         title: this.state.input,
         desc: this.state.context,
         attachment: this.state.fileList
       }
       console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
-      axios.get(ajaxUrl.informationEdListEdit,
-        Object.assign(value, {id: this.props.record.id})
+      axios.post(ajaxUrl.informationEdListEdit,
+        Object.assign(value, {id: this.props.record.info_id})
       ).then(item => {
         console.log(item)
       }).catch(err => {
@@ -90,9 +89,9 @@ class Policy extends React.Component {
         attachment: this.state.fileList
       }
       console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
-      axios.get(ajaxUrl.informationEdListAdd, {
+      axios.post(ajaxUrl.informationEdListAdd,
         value
-      }).then(item => {
+      ).then(item => {
         console.log(item)
       }).catch(err => {
         console.log(err)
