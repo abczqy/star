@@ -258,12 +258,22 @@ class Manufacturer extends Component {
    * 当下拉选择框‘合同状态’值改变时回调
    */
   onNumDayChange = (val) => {
-    // console.log(`val: ${val}`)
+    // console.log(`合同状态val: ${val}`)
+    let numDayState = ''
+    if (val === 'normal') {
+      numDayState = '正常'
+    } else if (val === 'expire') {
+      numDayState = '已过期'
+    } else if (val === 'all') {
+      numDayState = '全部'
+    } else if (val === 'remain10') {
+      numDayState = '剩余10天内'
+    }
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        numDay: val
+        numDay: numDayState
       }
     })
   }
@@ -276,11 +286,11 @@ class Manufacturer extends Component {
     // 修改state.reqParams中对应的值
     let loginAllow = 0
     if (val === 'allow') {
-      loginAllow = 1
+      loginAllow = '1'
     } else if (val === 'refuse') {
-      loginAllow = 1
+      loginAllow = '0'
     } else if (val === 'all') {
-      loginAllow = null
+      loginAllow = ''
     }
     this.setState({
       reqParam: {

@@ -25,12 +25,24 @@ class RichEditor extends Component {
     }
     this.editor = {}
   }
+
+  /**
+   * 设置文本框中的内容 -- 作为回调的参数传给父组件使用
+   */
+  setText = (msg) => {
+    // msg 要不要处理一下 正则什么的 加上<p>标签
+    this.setState({
+      contentText: msg
+    })
+    this.editor.text.html(this.state.contentText)
+  }
+
   /**
    * 获取输入的内容(将值传给父组件 -- 父组件通过表单提交)
    * 返回值是当前state.contantText
    * 不过 这里用state存起来貌似没什么用
    */
-  getContent = () => {
+  getText = () => {
     // console.log(`rich-editor中的文本：${this.editor.txt.text()}`)
     // console.log(`rich-editor中的html：${this.editor.txt.html()}`)
     const contentText = this.editor.txt.text()

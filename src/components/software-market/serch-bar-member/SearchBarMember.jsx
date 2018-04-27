@@ -40,6 +40,7 @@ class SearchBarMember extends Component {
             <Select defaultValue='all' className='select' onChange={onSelect1Change} >
               <Option value='all'>全部</Option>
               <Option value='normal'>正常</Option>
+              <Option value='remain10'>剩余10天内</Option>
               <Option value='expire'>已过期</Option>
             </Select>
           </Col>
