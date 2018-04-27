@@ -37,8 +37,7 @@ class SignOutModal extends React.Component {
   }
   backHome=() => {
     clearCookie()
-    window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
-    window.location.reload()
+    window.location.reload(apiConfig.BASE_TAB + '/#' + 'unlogged/home')
   }
 
   render () {
