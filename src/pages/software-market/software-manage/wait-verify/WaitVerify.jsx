@@ -146,12 +146,13 @@ class WaitVerify extends Component {
     const thiz = this
     const params = {
       sw_id: this.state.detModalCon.sw_id,
-      sw_state: state === 'agree' ? 1 : 0
+      se_state: state === 'agree' ? 1 : 0
     }
     waitVeriExam(params, (res) => {
       const data = res.data
       message.success(data.info)
       thiz.handleAppDetCancel()
+      thiz.getTableDatas()
     })
   }
 
