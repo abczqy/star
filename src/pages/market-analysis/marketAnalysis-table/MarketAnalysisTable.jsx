@@ -6,6 +6,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Table, Row, Col } from 'antd'
+import ajaxUrl from 'config'
 import CountShow from '../count-show/CountShow'
 import './MarketAnalysisTable.scss'
 
@@ -39,7 +40,7 @@ class MarketAnalysisTable extends Component {
       dataIndex: 'APPNAME',
       render: (text, record) => (
         <span className='app-title'>
-          <img src={record.APPURL} alt='' />
+          <img src={ajaxUrl.IMG_BASE_URL + record.APPURL} alt='' />
           <span>{text}</span>
         </span>
       )

@@ -96,7 +96,7 @@ class ApplicationCard extends Component {
         {/* 应用图标 */}
         <Badge dot={this.props.update} >
           <span className='appLogo'>
-            <img src={this.props.content.sw_icon} alt='' />
+            <img src={ajaxUrl.IMG_BASE_URL + this.props.content.sw_icon} alt='' />
           </span>
         </Badge>
         {/* 应用文字介绍 */}
