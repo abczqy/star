@@ -15,7 +15,8 @@ export default class MessageNotice extends React.Component {
     super(props)
     this.state = {
       pageNum: 1,
-      listData: [] // 消息列表数据
+      listData: [], // 消息列表数据
+      total: 0
     }
   }
 
@@ -24,6 +25,7 @@ export default class MessageNotice extends React.Component {
       // 审核通过跳转到我的应用
       window.location.href = apiConfig.BASE_TAB + '/#' + 'operate-manage-home/all-app-detail-mine'
     } else if (link === '消息通知') {
+      // window.location.href = apiConfig.BASE_TAB + '/#' + 'topbar-manage/detail?' + id
       this.props.history.push({pathname: 'detail', search: '?id=' + id})
     } else if (link === '申请驳回') {
       // 审核驳回跳转到上架申请
@@ -35,7 +37,7 @@ export default class MessageNotice extends React.Component {
     this.getPageList()
   }
   getPageList =() => {
-    axios.post(ajaxUrl.getMessageList, {
+    axios.post(ajaxUrl.getAllMessageList, {
       page: this.state.pageNum,
       pageSize: 5
     }).then((response) => {
@@ -60,7 +62,7 @@ export default class MessageNotice extends React.Component {
         <Card title='消息通知' bordered={false} className='message-notice-card'>
           <div className='notice-body'>
             {this.state.listData && this.state.listData.map((item, index, arr) => {
-              return <div className='list_itme' key={item.msg_id}>
+              return <div className='list_itme' key={item.MSG_ID}>
                 <div className='list-img'>
                   <div className={item.hasRead === '1' ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
                     <i />
@@ -69,17 +71,17 @@ export default class MessageNotice extends React.Component {
                 <div className='notice-count' onClick={() => { this.handleTabChange(item.MSG_STATE, item.MSG_ID) }}>
                   <div>
                     <h4>
-                      {item.MSG_TITLE}
+                      {item.MSG_STATE}
                       <span>{item.MSG_DATE}</span>
                     </h4>
-                    <p>{item.MSG_DESC.replace(/(.{80}).*/, '$1....')}<a style={{display: item.msg_state ? '' : 'none'}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
+                    <p>{item.MSG_TITLE.replace(/(.{80}).*/, '$1....')}<a style={{display: item.MSG_STATE === '消息通知' ? 'none' : ''}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
                   </div>
                 </div>
               </div>
             })}
           </div>
           <div className='pagition'>
-            <Pagination defaultPageSize={5} defaultCurrent={1} total={this.state.total} onChange={this.pagitonChange} />
+            {this.state.total > 0 ? <Pagination defaultPageSize={5} defaultCurrent={1} total={this.state.total} onChange={this.pagitonChange} /> : null}
           </div>
           {renderRoutes(this.props.route.childRoutes)}
         </Card>

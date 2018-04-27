@@ -196,7 +196,7 @@ class AllApplicationsDetail extends React.Component {
       return (
         <div key={index} className='software-application'>
           <dl>
-            <dt><img src={item.SW_ICON} /></dt>
+            <dt><img src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
             <dd>
               <span>{item.SW_NAME}</span>
               <p>{item.SW_DESC}</p>
@@ -222,7 +222,7 @@ class AllApplicationsDetail extends React.Component {
                           return (
                             <dl key={index} className='carousel-detail-item'>
                               <dt>
-                                <img src={item.SW_ICON} />
+                                <img src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} />
                               </dt>
                               <dd>
                                 <span>{item.SW_NAME}</span>

@@ -27,12 +27,12 @@ class PublicInfoBar extends Component {
           <Col span={4}>
             <span className='select-label'>发布者: </span>
             <Select
-              defaultValue='全部'
+              defaultValue='all'
               style={{ width: '70%' }}
             >
-              <Option value='全部'>全部</Option>
-              <Option value='省教育厅'>省教育厅</Option>
-              <Option value='市教育厅'>市教育厅</Option>
+              <Option value='all'>全部</Option>
+              <Option value='provinceEduDepart'>省教育厅</Option>
+              <Option value='cityEduDepart'>市教育厅</Option>
             </Select>
           </Col>
           <Col span={4}>

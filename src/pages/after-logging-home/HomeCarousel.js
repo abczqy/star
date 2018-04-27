@@ -40,7 +40,7 @@ class HomeCarousel extends Component {
             return (
               <div key={index}>
                 <h3>
-                  <img style={{width: '100%', height: '360px'}} src={item.BANNER_URL} />
+                  <img style={{width: '100%', height: '360px'}} src={ajaxUrl.IMG_BASE_URL + '/' + item.BANNER_URL} />
                 </h3>
               </div>
             )

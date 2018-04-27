@@ -124,22 +124,22 @@ class News extends React.Component {
   getHeight=() => {
     if (this.state.dataP) {
       this.setState({
-        heights: 730
+        heights: '70%'
       })
     } else {
       this.setState({
-        heights: 385
+        heights: '30%'
       })
     }
   }
   render () {
     return (
       <div className='news-list-container'>
-        <div id='right-container' style={{height: `${this.state.height}px`}}>
+        <div id='right-container'>
           <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0'}}>
             {this.state.newData ? this.state.newData.list.map((item, index) => {
               return index === 0
-                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '180px'}} key={index}>
+                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '20%'}} key={index}>
                   <Row>
                     <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
@@ -157,7 +157,7 @@ class News extends React.Component {
                   <Row>
                     <div className='line' />
                   </Row>
-                </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}} key={index}>
+                </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
                     <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
@@ -177,7 +177,7 @@ class News extends React.Component {
                   </Row>
                 </li>
             }) : ''}
-            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '170px'}}>
+            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
               <Row style={{marginBottom: '10px'}}>
                 <Col span={12} />
                 <Col >

@@ -13,10 +13,11 @@ import ChangeFirmName from './ChangeFirmName'
 import ChangeFirmDescribe from './ChangeFirmDescribe'
 import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import webStorage from 'webStorage'
 import '../Operateview.scss'
 class MessageSetting extends React.Component {
   constructor (props) {
@@ -35,41 +36,41 @@ class MessageSetting extends React.Component {
     }
   }
   componentDidMount () {
-    console.log(111111111111, this.props.roleCode)
-    if (this.props.roleCode === 'parents') {
+    console.log(111111111111, webStorage.getItem('STAR_WEB_PERSON_INFO'))
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
       this.getBindList()
-    } else if (this.props.roleCode === 'vendor') {
+    } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
       this.getFrimList()
     }
   }
   // 获取学生绑定数据接口 stuData 要在此接口返回
   getBindList=() => {
     axios.post(ajaxUrl.relationQueryStu, {
-      params: {maf_id: (this.props.personInfo && this.props.personInfo.maf_id) || ''}
+      maf_id: webStorage.getItem('STAR_WEB_PERSON_INFO').id
     }).then((response) => {
       console.log('返回学生绑定信息', response)
       this.setState({
         stuData: response.data.data,
-        maf_id: (this.props.personInfo && this.props.personInfo.maf_id) || ''
+        maf_id: webStorage.getItem('STAR_WEB_PERSON_INFO').id
       })
     })
   }
   // 厂商权限下，获取厂商基本信息模块
   getFrimList=() => {
-    axios.post(ajaxUrl.registerValitemail, {
-      params: {stu: '123'}
-    }).then((response) => {
-      console.log('返回厂商信息', response)
-      this.setState({
-        firmData: [{
-          firmid: '1',
-          firmName: '福州市第一实验小学',
-          firmDiscribe: '这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述。',
-          firmContract: 'HT217897438927189470',
-          photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
-        }]
-      })
-    })
+    // axios.post(ajaxUrl.registerValitemail, {
+    //   params: {stu: '123'}
+    // }).then((response) => {
+    //   console.log('返回厂商信息', response)
+    //   this.setState({
+    //     firmData: [{
+    //       firmid: '1',
+    //       firmName: '福州市第一实验小学',
+    //       firmDiscribe: '这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述。',
+    //       firmContract: 'HT217897438927189470',
+    //       photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
+    //     }]
+    //   })
+    // })
   }
 
   handleTabChange (link) {
@@ -142,9 +143,9 @@ class MessageSetting extends React.Component {
     let strname = '**' + name.substr(name.length - 1)
     let idcard = '135841235484123547'
     let strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
-    let userType = this.props.roleCode
+    // let userType = this.props.roleCode
     let model
-    if (userType === 'parents') {
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
       let stuData = this.state.stuData
       model = (
         <Card title='学生绑定' bordered={false} className='message-setting-card'>
@@ -169,7 +170,7 @@ class MessageSetting extends React.Component {
           </div>
         </Card>
       )
-    } else if (userType === 'vendor') {
+    } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
       let firmData = this.state.firmData[0]
       model = (<Card title='基本信息' bordered={false} className='message-setting-card'>
         <div className='setting-body'>
@@ -305,7 +306,7 @@ class MessageSetting extends React.Component {
   }
 }
 MessageSetting.propTypes = {
-  roleCode: PropTypes.string
+  // roleCode: PropTypes.string
 }
 const mapStateToProps = state => ({
   roleCode: state.role.code

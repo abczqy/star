@@ -27,9 +27,9 @@ class SearchBar extends Component {
               style={{ width: '75%' }}
               onChange={onSelectChange}
             >
-              <Option value='全部'>全部</Option>
-              <Option value='教育类'>教育类</Option>
-              <Option value='教辅类'>教辅类</Option>
+              <Option value='all'>全部</Option>
+              <Option value='edu'>教育类</Option>
+              <Option value='teachAid'>教辅类</Option>
             </Select>
           </Col>
           <Col span={6}>

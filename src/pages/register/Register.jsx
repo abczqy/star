@@ -428,7 +428,6 @@ class Register extends React.Component {
   registermaf = (values) => {
     axios.post(ajaxUrl.register, {
       params: {
-        maf_loginid: values.maf_loginid, // 注册账号
         'maf_pwd': values.maf_pwd, // 注册密码
         'maf_name': values.maf_name, // 家长姓名
         'maf_idcard': values.maf_idcard, // 身份证
@@ -443,13 +442,10 @@ class Register extends React.Component {
 
       }
     }).then((response) => {
-      if (response.data.msg === '注册成功') {
-        this.setState({
-          registerVisible: true
-        })
-      } else {
-        message.error(response.data.msg)
-      }
+      this.setState({
+        registerVisible: true,
+        accountSucc: response.account
+      })
     }).catch(e => { console.log(e) })
   }
   render () {
@@ -479,7 +475,7 @@ class Register extends React.Component {
               <Form>
                 <Form.Item
                   {...formItemLayout}
-                  label='账号'
+                  label='电子邮箱'
                 >
                   {getFieldDecorator('maf_loginid', {
                     rules: [{
@@ -631,6 +627,7 @@ class Register extends React.Component {
             ? <RegisterModal
               visible={this.state.registerVisible}
               hiddenModal={this.hiddenModal.bind(this)}
+              account={this.state.accountSucc}
             /> : ''
         }
       </div>

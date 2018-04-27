@@ -42,10 +42,10 @@ class SearchBarMemberStu extends Component {
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录</span>
-            <Select defaultValue='全部' className='select' onChange={onSelect2Change} >
-              <Option value='全部'>全部</Option>
-              <Option value='允许'>允许</Option>
-              <Option value='不允许'>不允许</Option>
+            <Select defaultValue='all' className='select' onChange={onSelect2Change} >
+              <Option value='all'>全部</Option>
+              <Option value='allow'>允许</Option>
+              <Option value='refuse'>不允许</Option>
             </Select>
           </Col>
           <Col span={2}>

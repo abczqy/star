@@ -38,7 +38,7 @@ export default class MessageDetail extends React.Component {
     }).then((response) => {
       console.log('返回消息详情', response)
       this.setState({
-        detailData: response.data.data[0]
+        detailData: response.data[0]
       })
     })
   }
