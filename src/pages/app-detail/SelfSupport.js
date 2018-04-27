@@ -26,7 +26,8 @@ export default class SelfSupport extends React.Component {
         display: 'none'
       },
       addClassName: 'see-detail-itema',
-      relateData: []
+      relateData: [],
+      computerCarousel: []
     }
   }
   static propTypes = {
@@ -49,6 +50,16 @@ export default class SelfSupport extends React.Component {
       this.setState({
         appDetailData: res.data
       }, () => {
+        let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
+        console.log(888, aa)
+        let bb = []
+        for (let i in aa) {
+          bb.push(aa[i])
+          console.log(77777, bb)
+        }
+        this.setState({
+          computerCarousel: bb
+        })
         this.getRelatedApplications()
       })
     }).catch((e) => { console.log(e) })
@@ -99,15 +110,19 @@ export default class SelfSupport extends React.Component {
   handleRightClick = () => {
     this.refs['exhibition-inside-carousel'].next()
   }
+
+  handleClick () {
+    window.open(this.state.appDetailData.sw_path)
+  }
   render () {
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src={this.state.appDetailData.sw_icon} />
+          <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
-            <Button className='header-button'>开通</Button>
+            <Button className='header-button' onClick={() => { this.handleClick() }}>开通</Button>
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
             </div>
@@ -149,22 +164,21 @@ export default class SelfSupport extends React.Component {
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
                 <div style={{width: '80%', marginLeft: '160px'}}>
                   <Carousel ref='exhibition-inside-carousel'>
-                    <div>
-                      <div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='http://img2.imgtn.bdimg.com/it/u=2187221025,2848241019&fm=27&gp=0.jpg' />
+                    {this.state.computerCarousel.map((item, index, arr) => {
+                      return (
+                        <div key={index}>
+                          <div>
+                            {this.state.computerCarousel[index].map((item, index, arr) => {
+                              return (
+                                <div key={index} style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
+                                  <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='http://img2.imgtn.bdimg.com/it/u=2187221025,2848241019&fm=27&gp=0.jpg' />
-                        </div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='http://img2.imgtn.bdimg.com/it/u=2187221025,2848241019&fm=27&gp=0.jpg' />
-                        </div>
-                      </div>
-                    </div>
-                    <div><div>2</div></div>
-                    <div><div>3</div></div>
-                    <div><div>4</div></div>
+                      )
+                    })}
                   </Carousel>
                 </div>
                 <Icon onClick={this.handleRightClick} className='exhibition-inside-right' type='right' />

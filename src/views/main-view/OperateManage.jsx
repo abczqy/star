@@ -47,6 +47,7 @@ class OperateManage extends React.Component {
   }
   getTabArr () {
     let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    console.log(44444, STAR_WEB_ROLE_CODE)
     let roleCode = STAR_WEB_ROLE_CODE || ''
     let baseTabArr = [{
       text: '首页',

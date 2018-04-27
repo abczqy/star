@@ -23,7 +23,9 @@ export default class ThirdPartyAppDetail extends React.Component {
       },
       addClassName: 'see-detail-itema',
       appId: '',
-      appDetailData: []
+      appDetailData: [],
+      computerCarousel: [],
+      relateData: []
     }
   }
   static propTypes = {
@@ -47,7 +49,17 @@ export default class ThirdPartyAppDetail extends React.Component {
       this.setState({
         appDetailData: res.data
       }, () => {
-        console.log(this.state.appDetailData)
+        let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
+        console.log(888, aa)
+        let bb = []
+        for (let i in aa) {
+          bb.push(aa[i])
+          console.log(77777, bb)
+        }
+        this.setState({
+          computerCarousel: bb
+        })
+        this.getRelatedApplications()
       })
     }).catch((e) => { console.log(e) })
   }
@@ -80,6 +92,17 @@ export default class ThirdPartyAppDetail extends React.Component {
       })
     }
   }
+  // 获取相关应用数据
+  getRelatedApplications = () => {
+    axios.post(ajaxUrl.relatedApplications, {
+      sw_type: this.state.appId,
+      type: 'software'
+    }).then((res) => {
+      this.setState({
+        relateData: res.appDetailData.sw_tpe
+      })
+    }).catch((e) => { console.log(e) })
+  }
   handleLeftClick = () => {
     this.refs['exhibition-inside-carousel'].prev()
   }
@@ -87,11 +110,11 @@ export default class ThirdPartyAppDetail extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000', this.props)
+    console.log('00000000', this.state.computerCarousel)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src={this.state.appDetailData.sw_icon} />
+          <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
@@ -142,22 +165,21 @@ export default class ThirdPartyAppDetail extends React.Component {
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
                 <div style={{width: '80%', marginLeft: '160px'}}>
                   <Carousel ref='exhibition-inside-carousel'>
-                    <div>
-                      <div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='http://img2.imgtn.bdimg.com/it/u=2187221025,2848241019&fm=27&gp=0.jpg' />
+                    {this.state.computerCarousel.map((item, index, arr) => {
+                      return (
+                        <div key={index}>
+                          <div>
+                            {this.state.computerCarousel[index].map((item, index, arr) => {
+                              return (
+                                <div key={index} style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
+                                  <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='http://img2.imgtn.bdimg.com/it/u=2187221025,2848241019&fm=27&gp=0.jpg' />
-                        </div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='http://img2.imgtn.bdimg.com/it/u=2187221025,2848241019&fm=27&gp=0.jpg' />
-                        </div>
-                      </div>
-                    </div>
-                    <div><div>2</div></div>
-                    <div><div>3</div></div>
-                    <div><div>4</div></div>
+                      )
+                    })}
                   </Carousel>
                 </div>
                 <Icon onClick={this.handleRightClick} className='exhibition-inside-right' type='right' />

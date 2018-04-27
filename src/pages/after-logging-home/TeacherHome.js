@@ -7,7 +7,7 @@ import { Button, Icon, Tabs, Rate } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import axios from 'axios'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import HomeCarousel from './HomeCarousel'
 import { connect } from 'react-redux'
 import './TeacherHome.scss'
@@ -33,7 +33,7 @@ class TeacherHome extends Component {
     }
   }
   componentDidMount () {
-    if (this.props.roleCode === 'teacher' || this.props.roleCode === 'students') {
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students') {
       this.setState({
         obj: {
           display: 'block'
@@ -164,7 +164,7 @@ class TeacherHome extends Component {
                   return (
                     <div key={index} className='list'>
                       <dl className='list-item'>
-                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={item.SW_ICON} /></dt>
+                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
                         <dd className='dl-dd'>
                           <span className='dd-title'>{item.SW_NAME}</span>
                           <p className='dd-p'>{item.SW_DESC}</p>
@@ -187,7 +187,7 @@ class TeacherHome extends Component {
                   return (
                     <div key={index} className='list'>
                       <dl className='list-item'>
-                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={item.SW_ICON} /></dt>
+                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
                         <dd className='dl-dd'>
                           <span className='dd-title'>{item.SW_NAME}</span>
                           <p className='dd-p'>{item.SW_DESC}</p>
@@ -213,7 +213,7 @@ class TeacherHome extends Component {
                     <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_NAME : ''}</span>
                     <div className='app-install'>
                       <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_ICON : ''} /></dt>
+                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[0].SW_ICON) : ''} /></dt>
                         <dd className='app-install-dd'>
                           <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_DOWNLOADS : ''}</p>
                           <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[0].SW_STAR : 0} />
@@ -229,7 +229,7 @@ class TeacherHome extends Component {
                     <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_NAME : ''}</span>
                     <div id='bbbbbb' className='app-install'>
                       <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_ICON : ''} /></dt>
+                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[1].SW_ICON) : ''} /></dt>
                         <dd className='app-install-dd'>
                           <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_DOWNLOADS : ''}</p>
                           <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[1].SW_STAR : 0} />
@@ -245,7 +245,7 @@ class TeacherHome extends Component {
                     <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_NAME : ''}</span>
                     <div className='app-install'>
                       <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_ICON : ''} /></dt>
+                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[2].SW_ICON) : ''} /></dt>
                         <dd className='app-install-dd'>
                           <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_DOWNLOADS : ''}</p>
                           <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[2].SW_STAR : 0} />
@@ -263,7 +263,7 @@ class TeacherHome extends Component {
                         <span className='title-detaila'>{item.SW_NAME}</span>
                         <div className='app-install'>
                           <dl className='app-install-dl'>
-                            <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={item.SW_ICON} /></dt>
+                            <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
                             <dd className='app-install-dd'>
                               <p className='download-num'>下载次数： {item.SW_DOWNLOADS}</p>
                               <Rate disabled value={item.SW_STAR} />
@@ -283,7 +283,7 @@ class TeacherHome extends Component {
                     <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_NAME : ''}</span>
                     <div className='app-install'>
                       <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_ICON : ''} /></dt>
+                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[0].SW_ICON) : ''} /></dt>
                         <dd className='app-install-dd'>
                           <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_DOWNLOADS : ''}</p>
                           <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[0].SW_STAR : 0} />
@@ -299,7 +299,7 @@ class TeacherHome extends Component {
                     <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_NAME : ''}</span>
                     <div id='bbbbbb' className='app-install'>
                       <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_ICON : ''} /></dt>
+                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[1].SW_ICON) : ''} /></dt>
                         <dd className='app-install-dd'>
                           <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_DOWNLOADS : ''}</p>
                           <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[1].SW_STAR : 0} />
@@ -315,7 +315,7 @@ class TeacherHome extends Component {
                     <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_NAME : ''}</span>
                     <div className='app-install'>
                       <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_ICON : ''} /></dt>
+                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[2].SW_ICON) : ''} /></dt>
                         <dd className='app-install-dd'>
                           <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_DOWNLOADS : ''}</p>
                           <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[2].SW_STAR : 0} />
@@ -333,7 +333,7 @@ class TeacherHome extends Component {
                         <span className='title-detaila'>{item.SW_NAME}</span>
                         <div className='app-install'>
                           <dl className='app-install-dl'>
-                            <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={item.SW_ICON} /></dt>
+                            <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
                             <dd className='app-install-dd'>
                               <p className='download-num'>下载次数： {item.SW_DOWNLOADS}</p>
                               <Rate disabled value={item.SW_STAR} />
@@ -354,7 +354,7 @@ class TeacherHome extends Component {
   }
 }
 TeacherHome.propTypes = {
-  roleCode: PropTypes.string
+  // roleCode: PropTypes.string
 }
 const mapStateToProps = state => ({
   roleCode: state.role.code
