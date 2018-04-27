@@ -50,7 +50,7 @@ class MessageSetting extends React.Component {
     }).then((response) => {
       console.log('返回学生绑定信息', response)
       this.setState({
-        stuData: response.data.data,
+        stuData: response.data,
         maf_id: webStorage.getItem('STAR_WEB_PERSON_INFO').id
       })
     })
@@ -157,7 +157,7 @@ class MessageSetting extends React.Component {
                 </div>
                 <div className='stumessage'>
                   <h4>{item.stu_name}</h4>
-                  <p>{item.sh_name}</p>
+                  <p>{item.sh_id}</p>
                   <p>{item.stu_class}</p>
                 </div>
                 <Icon type='link' className='stulink-icon' onClick={() => { this.visibaleUnbindModel(item.stu_id) }} />
@@ -262,6 +262,7 @@ class MessageSetting extends React.Component {
           hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
           stu_id={this.state.stu_id}
           maf_id={this.state.maf_id}
+          getBindList={this.getBindList}
         />
         <Addbind
           visible={this.state.addbindVisible}

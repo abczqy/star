@@ -10,7 +10,8 @@ export default class UnbindModel extends React.Component {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
     maf_id: PropTypes.string,
-    stu_id: PropTypes.string
+    stu_id: PropTypes.string,
+    getBindList: PropTypes.func
   }
   constructor (props) {
     super(props)
@@ -19,12 +20,11 @@ export default class UnbindModel extends React.Component {
   }
   saveOrSubmit =() => {
     axios.post(ajaxUrl.relationdelete, {
-      params: {
-        maf_id: this.props.maf_id,
-        stu_id: this.props.stu_id
-      }
+      maf_id: this.props.maf_id,
+      maf_sad_account: this.props.stu_id
     }).then((response) => {
       console.log('返回学生绑定信息', response)
+      this.props.getBindList()
       this.props.hiddenModal()
     })
   }
