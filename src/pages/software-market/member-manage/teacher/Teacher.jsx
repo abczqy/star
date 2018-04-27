@@ -12,7 +12,7 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider, Icon } from 'antd'
 import ajaxUrl from 'config'
 import axios from 'axios'
-import { BlankBar, SearchBarMember } from 'components/software-market'
+import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -158,7 +158,7 @@ class Teacher extends Component {
   /**
    * 当下拉选择框‘合同状态’值改变时回调
    */
-  onNumDayChange = (val) => {
+  onSchNameChange = (val) => {
     console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
     this.setState({
@@ -248,14 +248,10 @@ class Teacher extends Component {
     const { pagination, tableData } = this.state
     return (
       <div className='software-wrap'>
-        <SearchBarMember
-          inputText1='账号 '
-          inputText2='厂商名称 '
-          selectText1='合同状态 '
-          selectText2='允许登录 '
+        <SearchBarMemberTeac
           onInput1Change={this.onFaLoginidChange}
           onInput2Change={this.onFaNameChange}
-          onSelect1Change={this.onNumDayChange}
+          onInput3Change={this.onSchNameChange}
           onSelect2Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.BatchExport}
