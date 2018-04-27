@@ -4,6 +4,9 @@
   margin-bottom: 0px;
   .ant-card {
     margin-bottom: 20px;
+    .ant-card-head{
+      border-bottom-width: 2px
+    }
     .ant-card-body {
       padding: 20px;
       padding-bottom: 0;
