@@ -125,7 +125,7 @@ class IterationVerify extends Component {
       sw_id: record.sw_id
     }
     iterVeriDetail(params, (res) => {
-      const resData = res.data
+      const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
       thiz.setState({
         detModalCon: {

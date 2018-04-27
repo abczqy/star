@@ -21,6 +21,16 @@ export function appRenew (params, sucFn) {
 }
 
 /**
+ * 软件管理-运营中-续费
+ */
+export function undercarriage (params, sucFn) {
+  return axios.post('/management/undercarriage', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-厂商-列表/查询
  */
 export function firmRenewList (params, sucFn) {
