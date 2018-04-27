@@ -64,16 +64,16 @@ export default [{
     component: Home
   }, {
     path: '/unlogged/newsList',
-    component: Logged(NewsList)
+    component: NewsList
   }, {
     path: '/unlogged/newsDetails',
-    component: Logged(NewsDetails)
+    component: NewsDetails
   }, {
     path: '/unlogged/information',
-    component: Logged(Information)
+    component: Information
   }, {
     path: '/unlogged/informationDet',
-    component: Logged(InformationDet)
+    component: InformationDet
   }]
 }, {
   path: '/operate-manage-home', // 登陆后-运营管理入口
@@ -216,8 +216,8 @@ export default [{
   }]
 }, {
   path: '/register-home',
-  component: Logged(Register)
+  component: Register
 }, {
   path: '/forget-home',
-  component: Logged(ForgetPass)
+  component: ForgetPass
 }]
