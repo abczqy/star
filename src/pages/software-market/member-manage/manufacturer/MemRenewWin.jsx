@@ -3,7 +3,7 @@
  * 会员管理-厂商-续签
  */
 import React from 'react'
-import { Modal, Button, Row, Col, Radio, Upload, Icon, DatePicker, Select } from 'antd'
+import { Modal, Button, Row, Col, Radio, Upload, Icon, DatePicker, Select, message } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import {firmRenew} from 'services/software-manage'
@@ -89,7 +89,13 @@ export default class MemRenewWin extends React.Component {
    */
   handleSave () {
     firmRenew(this.getFormData(), (response) => {
-
+      let result = response.data
+      if (result.success) {
+        message.success('续签成功!')
+        this.props.handleClose()
+      } else {
+        message.error('续签失败!')
+      }
     })
   }
 
@@ -193,6 +199,7 @@ export default class MemRenewWin extends React.Component {
               <Radio.Group onChange={this.handleRenewTypeChange.bind(thiz)} value={this.state.renewType}>
                 <Radio style={radioStyle} value='0'>临时开通：
                   <DatePicker
+                    disabled={this.state.renewType !== '0'}
                     style={{ width: 120 }}
                     disabledDate={this.disabledStartDate.bind(this)}
                     format='YYYY-MM-DD'
@@ -200,6 +207,7 @@ export default class MemRenewWin extends React.Component {
                     placeholder='选择日期'
                   /><span style={{margin: '15px'}}>-</span>
                   <DatePicker
+                    disabled={this.state.renewType !== '0'}
                     style={{ width: 120 }}
                     disabledDate={this.disabledEndDate.bind(this)}
                     format='YYYY-MM-DD'
@@ -207,7 +215,7 @@ export default class MemRenewWin extends React.Component {
                     placeholder='选择日期'
                   /></Radio>
                 <Radio style={radioStyle} value='1'>续费：
-                  <Select onChange={this.handleRenewRangeChange.bind(thiz)} defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
+                  <Select disabled={this.state.renewType !== '1'} onChange={this.handleRenewRangeChange.bind(thiz)} defaultValue={this.state.yearsOption.defaultYear} style={{ width: 275, marginLeft: '28px' }}>
                     {
                       this.state.yearsOption.optionDatas.map((item, index, arr) => {
                         return <Select.Option key={index} value={item.value}>{item.text}</Select.Option>
