@@ -9,11 +9,11 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { iterVerify, iterVeriDetail } from 'services/software-manage'
+import { iterVerify, iterVeriDetail, waitVeriExam } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -38,10 +38,12 @@ class IterationVerify extends Component {
       searchValue: '',
       detModalCon: {
         visible: false,
-        swName: ''
+        swName: '',
+        resData: {}
       },
-      sw_type: '教辅类',
-      sw_name: ''
+      sw_type: '教辅类', // 软件类型
+      sw_name: '',
+      sw_time: '' // 期望上架时间
     }
   }
 
@@ -130,7 +132,8 @@ class IterationVerify extends Component {
           ...thiz.state.detModalCon,
           visible: true,
           swName: record.sw_name,
-          resData: resData
+          resData: resData,
+          sw_id: record.sw_id
         }
       })
     })
@@ -143,6 +146,29 @@ class IterationVerify extends Component {
         ...this.state.detModalCon,
         visible: false
       }
+    })
+  }
+
+  // 迭代审核详情弹窗同意驳回
+  handleDetAgree = (state) => {
+    const thiz = this
+    const params = {
+      sw_id: this.state.detModalCon.sw_id,
+      se_state: state === 'agree' ? 1 : 0,
+      sw_time: this.state.sw_time
+    }
+    waitVeriExam(params, (res) => {
+      const data = res.data
+      message.success(data.info)
+      thiz.handleAppDetCancel()
+      thiz.getTableDatas()
+    })
+  }
+
+  // 获得期望上架时间,并设置到state中
+  getOnShelfTime = (time) => {
+    this.setState({
+      sw_time: time
     })
   }
 
@@ -240,9 +266,10 @@ class IterationVerify extends Component {
           visible={detModalCon.visible}
           onCancel={this.handleAppDetCancel}
           resData={detModalCon.resData}
+          getOnShelfTime={this.getOnShelfTime}
           footer={[
-            <Button key='agree' type='primary' onClick={this.handleAppDetCancel}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={this.handleAppDetCancel}>驳回</Button>,
+            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
+            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
             <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}
         />

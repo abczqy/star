@@ -8,6 +8,9 @@ import { BlankBar } from 'components/software-market'
 import PropsTypes from 'prop-types'
 
 class IterationInfo extends Component {
+  onChange = (date, dateString) => {
+    this.props.getOnShelfTime(dateString)
+  }
   render () {
     const { resData } = this.props
 
@@ -84,7 +87,7 @@ class IterationInfo extends Component {
             期望上架时间:
             </Col>
             <Col span={4}>
-              <span><DatePicker /></span>
+              <span><DatePicker onChange={this.onChange} /></span>
             </Col>
           </Row>
         </div>
@@ -94,7 +97,8 @@ class IterationInfo extends Component {
 }
 
 IterationInfo.propTypes = {
-  resData: PropsTypes.object
+  resData: PropsTypes.object,
+  getOnShelfTime: PropsTypes.func
 }
 
 export default IterationInfo

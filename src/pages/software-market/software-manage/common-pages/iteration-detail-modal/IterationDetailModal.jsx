@@ -13,6 +13,10 @@ const modalConfig = {
 }
 
 class IterationDetailModal extends Component {
+  getOnShelfTime = (time) => {
+    this.props.getOnShelfTime(time)
+  }
+
   render () {
     const { getContainer, visible, footer, title, onCancel, resData } = this.props
     return (
@@ -26,7 +30,7 @@ class IterationDetailModal extends Component {
       >
         <SWRelate resData={resData} />
         <BlankBar />
-        <IterationInfo resData={resData} />
+        <IterationInfo resData={resData} getOnShelfTime={this.getOnShelfTime} />
         <BlankBar />
         <DevRelate resData={resData} />
         <BlankBar />
@@ -41,7 +45,8 @@ IterationDetailModal.propTypes = {
   footer: PropsTypes.array,
   title: PropsTypes.string,
   onCancel: PropsTypes.func,
-  resData: PropsTypes.object
+  resData: PropsTypes.object,
+  getOnShelfTime: PropsTypes.func
 }
 
 export default IterationDetailModal
