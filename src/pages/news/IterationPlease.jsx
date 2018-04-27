@@ -11,6 +11,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
+import {iteration} from 'services/software-manage'
 
 const { TextArea } = Input
 
@@ -52,16 +53,17 @@ class IterationPlease extends React.Component {
       fileListOneC: [], // 用来存软件版本的文件的系统版本
       fileListOneF: [], // 用来存软件版本的文件id
       fileListTwo: [], // 用来存软件图标的文件id
-      fileListThree: [] // 用来存PC端界面截图的文件id
+      fileListThree: [], // 用来存PC端界面截图的文件id
+      appId: ''
     }
   }
   componentWillMount () {
     let a = window.location.href.split('?')
-    let value = {
-      news_id: a[a.length - 1]
-    }
+    this.setState({
+      appId: a[1]
+    })
     this.renderEdition()
-    this.getAppData(value)
+    this.getAppData(a[1])
   }
   // 更新版本
   newV=(e) => {
@@ -73,11 +75,11 @@ class IterationPlease extends React.Component {
 // 获取app数据
 getAppData=(a) => {
   let value = {
-    appId: a
+    sw_id: a
   }
-  axios.get(ajaxUrl.appId, {
+  axios.post(ajaxUrl.appId,
     value
-  }).then(item => {
+  ).then(item => {
     this.setState({
       AppData: item
     }, () => {
@@ -228,22 +230,17 @@ zH=() => {
 }
   // 提交表单啦
   submit=() => {
-    let value = {
-      sw_id: '1', // 迭代的软件id
-      newV: this.state.newV, // 更新版本
-      rDescribe: this.state.rDescribe, // 软件描述
-      updateTime: this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD HH:mm:ss'), // 期望上架时间value.beginTime == null?'':value.beginTime.format('YYYY-MM-DD HH:mm')
-      sw_computer_photo_new: this.state.fileListThree, // pc电脑图片
-      sw_icon_new: this.state.fileListTwo, // 软件图标
-      copTypes: this.zH() // 软件版本的文件id和系统类别
-    }
-    console.log('迭代申请点击提交传的值', value)
-    axios.get(ajaxUrl.iteration,
-      value
-    ).then(item => {
-      console.log(item)
-    }).catch(err => {
-      console.log(err)
+    const formData = new FormData()
+    formData.append('newV', this.state.newV)// 软件图标
+    formData.append('rDescribe_new', this.state.rDescribe)// 软件描述
+    formData.append('updateTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD')) // 期望上架时间
+    formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
+    formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
+    formData.append('copTypes', this.zH())// 软件版本的文件id和系统类别
+    formData.append('sw_id', '5564654654654')// 软件id
+    // formData.append('sw_id', this.state.appId)// appId
+    iteration(formData, (response) => {
+      console.log(response)
     })
   }
   render () {
@@ -304,7 +301,9 @@ zH=() => {
                 <span style={{visibility: 'hidden'}}>* </span>软件类型 :
               </Col>
               <Col span={5}>
-                <span>{this.state.AppData ? (this.state.AppData.type ? this.state.AppData.type : '教学类') : '教学类'}</span>
+                <span>{this.state.AppData ? (this.state.AppData.data
+                  ? this.state.AppData.data.sw_type
+                  : '教学') : '教学'}</span>
                 {/* <span>教学类</span> */}
               </Col>
             </Col>
@@ -315,7 +314,9 @@ zH=() => {
               <Col span={18}>
                 {/* <span>超级教师</span> */}
                 <span>
-                  {this.state.AppData ? (this.state.AppData.rname ? this.state.AppData.rname : '超级教师') : '超级教师'}
+                  {this.state.AppData ? (this.state.AppData.data
+                    ? this.state.AppData.data.sw_name
+                    : '超级教') : '超级教'}
                 </span>
               </Col>
             </Col>
@@ -327,7 +328,9 @@ zH=() => {
                 <span style={{visibility: 'hidden'}}>* </span>当前版本 :
               </Col>
               <Col span={5}>
-                <span>{this.state.AppData ? (this.state.AppData.edition ? this.state.AppData.edition : 'v1.3') : 'v1.3'}</span>
+                <span>{this.state.AppData ? (this.state.AppData.data
+                  ? this.state.AppData.data.version
+                  : 'v1.') : 'v1.'}</span>
               </Col>
             </Col>
             <Col span={8}>

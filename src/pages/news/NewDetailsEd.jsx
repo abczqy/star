@@ -104,7 +104,7 @@ class NewsDetailsEd extends React.Component {
           </div>
           <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
         </Col>
-        <Col span={15} style={{width: '68%', marginTop: '10px'}}>
+        <Col span={15} style={{width: '68%', marginTop: '10px', minHeight: '790px'}}>
           <div style={{backgroundColor: '#fff', width: '100%'}}>
             <Row>
               <ul className='details-li-ul'>
