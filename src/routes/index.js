@@ -37,7 +37,7 @@ import {
   PublicInfoEdit,
   PublicInfoVerifyDetail
 } from 'pages/software-market'
-
+import {Logged} from 'components/common/hoc/Logged'
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
@@ -52,11 +52,10 @@ import MessageTopBar from 'views/main-view/message-notice/MessageTopBar'
 import MessageNotice from 'views/main-view/message-notice/MessageNotice'
 import MessageSetting from 'views/main-view/message-notice/MessageSetting'
 import MessageDetail from 'views/main-view/message-notice/MessageDetail'
-
 import TeacherHome from '../pages/after-logging-home/TeacherHome'
-
 import Register from '../pages/register/Register'
 import ForgetPass from '../pages/register/ForgetPass'
+
 export default [{
   path: '/unlogged',
   component: LoginHome,
@@ -65,160 +64,160 @@ export default [{
     component: Home
   }, {
     path: '/unlogged/newsList',
-    component: NewsList
+    component: Logged(NewsList)
   }, {
     path: '/unlogged/newsDetails',
-    component: NewsDetails
+    component: Logged(NewsDetails)
   }, {
     path: '/unlogged/information',
-    component: Information
+    component: Logged(Information)
   }, {
     path: '/unlogged/informationDet',
-    component: InformationDet
+    component: Logged(InformationDet)
   }]
 }, {
   path: '/operate-manage-home', // 登陆后-运营管理入口
-  component: OperateManage,
+  component: Logged(OperateManage),
   childRoutes: [{
     path: '/operate-manage-home/home',
-    component: TeacherHome
+    component: Logged(TeacherHome)
   }, {
     path: '/operate-manage-home/edu',
-    component: NewsListEd
+    component: Logged(NewsListEd)
   }, {
     path: '/operate-manage-home/NewDetailsEd',
-    component: NewDetailsEd
+    component: Logged(NewDetailsEd)
   }, {
     path: '/operate-manage-home/public',
-    component: PlaceInformation
+    component: Logged(PlaceInformation)
   }, {
     path: '/operate-manage-home/informationDetEd',
-    component: InformationDetEd
+    component: Logged(InformationDetEd)
   }, {
     path: '/operate-manage-home/informationEd',
-    component: InformationEd
+    component: Logged(InformationEd)
   }, {
     path: '/operate-manage-home/please', // 上架
-    component: Please
+    component: Logged(Please)
   }, {
     path: '/operate-manage-home/iteration', // 迭代
-    component: Iteration
+    component: Logged(Iteration)
   }, {
     path: '/operate-manage-home/member',
-    component: PersonnelManagement
+    component: Logged(PersonnelManagement)
   }, {
     path: '/operate-manage-home/informationDet',
-    component: InformationDet
+    component: Logged(InformationDet)
   }, {
     path: '/operate-manage-home/public/policy',
-    component: Policy
+    component: Logged(Policy)
   }, {
     path: '/operate-manage-home/center',
-    component: PersonalCenter
+    component: Logged(PersonalCenter)
   }, {
     path: '/operate-manage-home/statis',
-    component: StatisticalAnalysis
+    component: Logged(StatisticalAnalysis)
   }, {
     path: '/operate-manage-home/market',
-    component: MarketAnalysis
+    component: Logged(MarketAnalysis)
   }, {
     path: '/operate-manage-home/all-app',
-    component: AllApplications,
+    component: Logged(AllApplications),
     childRoutes: [{
       path: '/operate-manage-home/all-app/all-app',
-      component: AllApplicationsDetail
+      component: Logged(AllApplicationsDetail)
     }]
   }, {
     path: '/operate-manage-home/all-app-detail',
-    component: SelfSupport
+    component: Logged(SelfSupport)
   }, {
     path: '/operate-manage-home/all-app-detail-third',
-    component: ThirdPartyAppDetail
+    component: Logged(ThirdPartyAppDetail)
   }, {
     path: '/operate-manage-home/all-app-detail-mine',
-    component: MyApp
+    component: Logged(MyApp)
   }, {
     path: '/operate-manage-home/all-app-detail-mineabc',
-    component: MyAppDetail
+    component: Logged(MyAppDetail)
   }]
 }, {
   path: '/software-market-home', // 登陆后-软件市场入口
-  component: SoftwareMarket,
+  component: Logged(SoftwareMarket),
   childRoutes: [{
     path: '/software-market-home/software-manage/businessing',
-    component: Businessing
+    component: Logged(Businessing)
   }, {
     path: '/software-market-home/software-manage/iteration-verify',
-    component: IterationVerify
+    component: Logged(IterationVerify)
   }, {
     path: '/software-market-home/software-manage/wait-verify',
-    component: WaitVerify
+    component: Logged(WaitVerify)
   }, {
     path: '/software-market-home/member-manage/educational-services',
-    component: EducationalServices
+    component: Logged(EducationalServices)
   }, {
     path: '/software-market-home/member-manage/manufacturer',
-    component: Manufacturer
+    component: Logged(Manufacturer)
   }, {
     path: '/software-market-home/member-manage/parent',
-    component: Parent
+    component: Logged(Parent)
   }, {
     path: '/software-market-home/member-manage/school',
-    component: School
+    component: Logged(School)
   }, {
     path: '/software-market-home/member-manage/student',
-    component: Student
+    component: Logged(Student)
   }, {
     path: '/software-market-home/member-manage/teacher',
-    component: Teacher
+    component: Logged(Teacher)
   }, {
     path: '/software-market-home/platform-manage/news-list',
-    component: NewsListManage
+    component: Logged(NewsListManage)
   }, {
     path: '/software-market-home/platform-manage/plat-homepage',
-    component: PlatHomepage
+    component: Logged(PlatHomepage)
   }, {
     path: '/software-market-home/platform-manage/porttal-homepage',
-    component: PortalHomepage
+    component: Logged(PortalHomepage)
   }, {
     path: '/software-market-home/platform-manage/public-info',
-    component: PublicInfo
+    component: Logged(PublicInfo)
   }, {
     path: '/software-market-home/platform-manage/public-info-verify',
-    component: PublicInfoVerify
+    component: Logged(PublicInfoVerify)
   }, {
     path: '/software-market-home/platform-manage/news-list-add',
-    component: NewsListAdd
+    component: Logged(NewsListAdd)
   }, {
     path: '/software-market-home/platform-manage/news-list-edit',
-    component: NewsListEdit
+    component: Logged(NewsListEdit)
   }, {
     path: '/software-market-home/platform-manage/public-info-add',
-    component: PublicInfoAdd
+    component: Logged(PublicInfoAdd)
   }, {
     path: '/software-market-home/platform-manage/public-info-edit',
-    component: PublicInfoEdit
+    component: Logged(PublicInfoEdit)
   }, {
     path: '/software-market-home/platform-manage/public-verify-detail',
-    component: PublicInfoVerifyDetail
+    component: Logged(PublicInfoVerifyDetail)
   }]
 }, {
   path: '/topbar-manage', // 新消息通知页面
-  component: MessageTopBar,
+  component: Logged(MessageTopBar),
   childRoutes: [{
     path: '/topbar-manage/notice',
-    component: MessageNotice
+    component: Logged(MessageNotice)
   }, {
     path: '/topbar-manage/setting',
-    component: MessageSetting
+    component: Logged(MessageSetting)
   }, {
     path: '/topbar-manage/detail',
-    component: MessageDetail
+    component: Logged(MessageDetail)
   }]
 }, {
   path: '/register-home',
-  component: Register
+  component: Logged(Register)
 }, {
   path: '/forget-home',
-  component: ForgetPass
+  component: Logged(ForgetPass)
 }]
