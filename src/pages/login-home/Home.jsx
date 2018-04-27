@@ -7,7 +7,6 @@ import { Row, Col } from 'antd'
 import MainBander from './MainBander'
 import WebApp from './WebApp'
 import SoftMarket from './SoftMarket'
-import BottomHeader from '../../components/common/BottomHeader'
 import AppCount from './AppCount'
 import NewsAndInfo from './NewsAndInfo'
 import SureInfoWin from './SureInfoWin'
@@ -176,9 +175,6 @@ class Home extends React.Component {
           <Col span={24}>
             <AppCount data={this.state.appCountData || []} />
           </Col>
-        </Row>
-        <Row>
-          <BottomHeader />
         </Row>
         <ChangeInfoOkWin visible={this.state.changeInfoOkWinVisible}
           handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
