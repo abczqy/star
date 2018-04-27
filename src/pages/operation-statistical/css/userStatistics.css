@@ -1,0 +1,212 @@
+body {
+  background-color: rgba(244, 244, 244, 1);
+}
+
+.logoArea {
+  width: 1442px;
+  height: 64px;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.logoArea .content {
+  width: 1350px;
+  height: 64px;
+  line-height: 64px;
+  margin: 0 auto;
+}
+
+.logoArea .content .logo {
+  width: 171px;
+  height: 27px;
+}
+
+.logoArea #searchBox {
+  font-size: 12px;
+  margin-left: 780px;
+  display: inline-block;
+  visibility: hidden;
+}
+
+.logoArea #searchBox input {
+  height: 26px;
+  padding: 6px;
+  box-sizing: border-box;
+  border: 1px solid #e9e9e9;
+  border-radius: 5px;
+}
+
+.logoArea .search {
+  width: 18px;
+  height: 19px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.logoArea .alerm {
+  width: 16px;
+  height: 21px;
+  margin: 0px 24px;
+}
+
+.logoArea .avatar {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+
+}
+
+/* ------------------------------------------- */
+
+.content {
+  width: auto;
+  /*width: 1442px;*/
+  position: relative;
+}
+
+.left {
+  width: 256px;
+  height: 800px;
+  background-color: rgba(0, 21, 41, 1);
+}
+
+.left .layui-nav {
+  background-color: transparent;
+}
+
+.left .layui-nav-tree {
+  width: 100%;
+}
+
+.layui-nav-tree .layui-nav-item a {
+  height: 52px;
+  line-height: 52px;
+}
+
+.layui-nav-tree .layui-nav-item dl dd a {
+  height: 40px;
+  line-height: 40px;
+}
+
+.left .layui-nav-item dl dd:hover {
+  background-color: #1890ff;
+}
+
+.left .layui-nav-item img {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+}
+
+.layui-nav-itemed .layui-nav-child {
+  background-color: rgba(0, 12, 23, 1);
+}
+
+.right {
+  top: 18px;
+  left: 18px;
+  /*left: 274px;*/
+  width: 1162px;
+  height: 782px;
+  overflow: auto;
+  position: absolute;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 1);
+
+}
+
+.right .layui-tab {
+  margin: 23px 18px 0px 18px;
+}
+
+.right .layui-tab-title li {
+  margin-left: 22px;
+  font-family: 'Microsoft Sans Serif Normal', 'Microsoft Sans Serif';
+  font-weight: 400;
+  font-size: 14px;
+  color: #333333;
+}
+
+.layui-tab-brief>.layui-tab-title .layui-this::after {
+  color: rgb(24, 144, 255);
+  border-bottom: 2px solid rgb(24, 144, 255);
+}
+
+.right .layui-tab-title {
+  border: none;
+}
+
+.right .layui-tab ul li:hover {
+  color: rgb(24, 144, 255);
+  border-bottom: 2px solid rgb(24, 144, 255);
+
+}
+
+.layui-tab-content {
+  padding: 0;
+  height: auto;
+  overflow: auto;
+}
+
+.layui-tab-item .card {
+  width: 262px;
+  height: 150px;
+  border: 1px solid #e9e9e9;
+  display: inline-block;
+  margin-right: 16px;
+  box-sizing: border-box;
+  padding-top: 20px;
+  padding-left: 24px;
+  font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
+  font-weight: 400;
+}
+
+.layui-tab-item .card p:nth-child(1) {
+  font-family: MicrosoftYaHei, 微软雅黑;
+  font-weight: 400;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.427);
+  line-height: 22px;
+}
+
+.layui-tab-item .card p:nth-child(2) {
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.847);
+  line-height: 38px;
+}
+
+.layui-tab-item .card img {
+  width: 218px;
+  height: 25px;
+  margin-top: 30px;
+}
+
+.layui-tab-item .card:nth-child(4) {
+  margin-right: 0;
+}
+
+.layui-tab-item .pie-left,
+.layui-tab-item .pie-right {
+  width: 542px;
+  height: 300px;
+  margin-top: 12px;
+  margin-right: 16px;
+  display: inline-block;
+  font-family: PingFangSC-Regular, "PingFang SC";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  border: 1px solid #e9e9e9;
+}
+
+.layui-tab-item .pie p {
+  margin-top: 18px;
+  margin-left: 20px;
+}
+
+.layui-tab-item .pie-right {
+  margin-right: 0px;
+}
+
+.layui-tab-item .table {
+  width: 1108px;
+}
