@@ -81,6 +81,9 @@ class MainBander extends React.Component {
             this.props.handleChangeVisible('changeInfoWinVisible', true)
           }
         } else {
+          this.setState({
+            loginFormVisible: false
+          })
           if (data.roleCode === 'operator') {
             this.props.history.push({
               pathname: '/software-market-home'
