@@ -40,39 +40,35 @@ class InformationEd extends React.Component {
     this.columns = [
       {
         title: '信息标题',
-        dataIndex: 'title',
-        key: 'title',
-        width: 120,
+        dataIndex: 'info_title',
+        key: 'info_title',
         render (text, record, index) {
           return <div style={{width: '160px', textOverflow: 'ellipsis', overflow: 'hidden'}}><i style={{overflow: 'hidden', width: '10000000000000000000000000000000000000000000000000000000px', fontStyle: 'normal', display: 'inline-block', textOverflow: 'ellipsis'}}>{text}</i></div>
         }
       }, {
         title: '详情',
-        dataIndex: 'information',
-        key: 'information',
-        width: 400,
+        dataIndex: 'info_desc',
+        key: 'info_desc',
         render (text, record, index) {
           return <div style={{width: '500px', textOverflow: 'ellipsis', overflow: 'hidden'}}><i style={{overflow: 'hidden', width: '10000000000000000000000000000000000000000000000000000000px', fontStyle: 'normal', display: 'inline-block', textOverflow: 'ellipsis'}}>{text}</i></div>
         }
       }, {
         title: '状态',
-        dataIndex: 'state',
-        key: 'state',
-        width: 120,
+        dataIndex: 'info_state',
+        key: 'info_state',
         render (text, record, index) {
-          if (text === '0') {
+          if (record.info_state === 0) {
             return <div style={{color: 'orange', width: '60px'}}>审核中</div>
-          } else if (text === '1') {
+          } else if (record.info_state === 1) {
             return <div style={{color: 'red', width: '60px'}}>已驳回</div>
-          } else if (text === '2') {
+          } else if (record.info_state === 2) {
             return <div style={{color: 'green', width: '60px'}}>已发布</div>
           }
         }
       }, {
         title: '发布时间',
-        dataIndex: 'time',
-        key: 'time',
-        width: 120,
+        dataIndex: 'info_time',
+        key: 'info_time',
         render (text, record, index) {
           return (
             <div style={{width: '90px'}}>{text}</div>
@@ -82,7 +78,6 @@ class InformationEd extends React.Component {
         title: '操作',
         dataIndex: 'do',
         key: 'do',
-        width: 120,
         render (text, record, index) {
           return (
             <div style={{width: '90px'}}>
@@ -102,7 +97,7 @@ class InformationEd extends React.Component {
   }
   confirmUp =(record) => {
     console.log('点击删除')
-    let value = record.id
+    let value = record.info_id
     console.log('删除传送行传的id', value)
     axios.get(AJAX_HOST + `/manage/deleteEduMsgList?InfoId=${value}`).then(item => {
       message.success('您已经做好了决定并删除了这一条消息！')
@@ -125,14 +120,13 @@ class InformationEd extends React.Component {
       state: this.state.select || ''
     }
     console.log('教育局信息公开获取数据传送信息', value)
-    axios.get(ajaxUrl.informationEdList, {
+    axios.post(ajaxUrl.informationEdList,
       value
-    }).then(item => {
+    ).then(item => {
       this.setState({
         tableData: item.data
       }, () => {
         console.log('this.state.tableData', this.state.tableData)
-        // console.log('this.state.tableData.list', this.state.tableData.list)
       })
     }).catch(err => {
       console.log(err)
@@ -246,8 +240,9 @@ class InformationEd extends React.Component {
     })
   }
   render () {
+    console.log('返回数据', this.state.tableData)
     const dataT = [
-      {'title': '审核中', value: '0'}, {'title': '已驳回', value: '1'}, {'title': '已发布', value: '2'}
+      {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
     ]
     return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
       <div >
@@ -267,10 +262,10 @@ class InformationEd extends React.Component {
             </Row>
             <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
           </Col>
-          <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', height: '730px'}}>
+          <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', minHeight: '820px'}}>
             <Row>
               <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '98%'}}>
-                <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder={'全部'} style={{width: 200}} allowClear onChange={(value) => this.stateValue(value)}>
+                <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder='请查询状态' style={{ width: '60%' }} allowClear onChange={(value) => this.stateValue(value)}>
                   {dataT.map((item, index) => {
                     return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
                   })}
@@ -290,7 +285,7 @@ class InformationEd extends React.Component {
             </Row>
             <Row>
               <div style={{marginBottom: '15px'}}>
-                <Table pagination={false} columns={this.columns} dataSource={this.state.tableData.list} onChange={this.handleChange} />
+                <Table pagination={false} columns={this.columns} dataSource={this.state.tableData.data} onChange={this.handleChange} />
               </div>
             </Row>
             <Row style={{marginBottom: '10px'}}>

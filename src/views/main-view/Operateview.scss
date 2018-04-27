@@ -87,7 +87,7 @@
 }
 /*消息通知详情*/
 .notice-detail{
-  width: 50vw;
+  width: 40vw;
   margin: 0 auto;
   min-height: 80vh;
  h4{
@@ -96,7 +96,8 @@
    font-weight: 400;
    text-align: center;
    color: #EE881E;
-   margin-bottom: 20px;
+   margin-top: 10px;
+   margin-bottom: 30px;
  }
   P{
     text-align: left;
@@ -206,6 +207,7 @@
         position: absolute;
         right: 10px;
         top: 10px;
+        cursor: pointer;
       }
     }
     // 添加绑定card

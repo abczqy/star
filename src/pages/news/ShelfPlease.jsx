@@ -4,14 +4,13 @@
  * 上架流程
  */
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload} from 'antd'
+import {Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 // import Upload from './Upload'
-import axios from 'axios'
-import ajaxUrl from 'config'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
+import {shelf} from 'services/software-manage'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
@@ -154,7 +153,7 @@ class ShelfPlease extends React.Component {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
                   </Upload>
                 </Col>
               </Col>
@@ -181,7 +180,7 @@ class ShelfPlease extends React.Component {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
                   </Upload>
                 </Col>
               </Col>
@@ -268,31 +267,26 @@ class ShelfPlease extends React.Component {
   }
   // 提交表单啦
   submit=() => {
-    let value = {
-      rname: this.state.rname, // 软件名称
-      rType: this.state.type, // 软件类型
-      rDescribe: this.state.rDescribe, // 软件描述
-      hopeTime: this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD HH:mm:ss'), // 期望上架时间
-      name: this.state.name, // 开发相关名字
-      idNumber: this.state.idNumber, // 身份证号
-      conPeople: this.state.conPeople, // 主要联系人
-      conPeopleNum: this.state.conPeopleNum, // 主要联系人电话
-      sw_type: this.state.radio, // 软件版权类别
-      sw_icon: this.state.fileListTwo, // 软件图标
-      sw_computer_photo: this.state.fileListThree, // pc图片
-      idNumber_photo: this.state.fileListFour, // 手持身份证照片
-      sw_copyright: this.state.fileListFive, // 软件版权的文件
-      fin_audit: this.state.fileListSix, // 财务凭证
-      copTypes: this.zH(), // 软件版本的文件id和系统类别
-      fa_id: '1'// 厂商Id
-    }
-    console.log('上架流程点击提交传的值', value)
-    axios.get(ajaxUrl.shelf,
-      value
-    ).then(item => {
-      console.log(item)
-    }).catch(err => {
-      console.log(err)
+    const formData = new FormData()
+    formData.append('rname', this.state.rname)// 软件名称
+    formData.append('rType', this.state.type)// 软件类型
+    formData.append('rDescribe', this.state.rDescribe)// 软件描述
+    formData.append('hopeTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD'))// 期望上架时间
+    formData.append('name', this.state.name)// 开发相关名字
+    formData.append('idNumber', this.state.idNumber)// 身份证号
+    formData.append('conPeople', this.state.conPeople)// 主要联系人
+    formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话
+    formData.append('sw_type', this.state.radio)// 软件版权类别
+    formData.append('sw_icon', this.state.fileListTwo)// 软件图标
+    formData.append('sw_computer_photo', this.state.fileListThree)// pc图片
+    formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片
+    formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
+    formData.append('fin_audit', this.state.fileListSix)// 财务凭证
+    formData.append('copTypes', this.zH())// 软件版本的文件id和系统类别
+    formData.append('fa_id', 'fa_123456')// 厂商Id
+    shelf(formData, (response) => {
+      message.success(`上架申请成功!${response}`)
+      console.log(response)
     })
   }
   render () {
@@ -452,7 +446,7 @@ class ShelfPlease extends React.Component {
             <Col span={23}>
               <span style={{visibility: 'hidden'}}>*PC无无无</span>
               <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
-              <span style={{visibility: 'hidden'}}>无</span>
+              <span style={{visibility: 'hidden'}}>|无</span>
               <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
           </Row>
           <Row className='Wxds'>
@@ -481,7 +475,7 @@ class ShelfPlease extends React.Component {
                     <Icon type='upload' /> 上传文件
                   </Button>
                   <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
                 </Upload></Col>
             </Col>
             <Col span={8}>
@@ -512,7 +506,7 @@ class ShelfPlease extends React.Component {
                     <Icon type='upload' /> 上传文件
                   </Button>
                   <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
                 </Upload>
               </Col>
             </Col>
@@ -549,7 +543,7 @@ class ShelfPlease extends React.Component {
                     <Icon type='upload' /> 上传文件
                   </Button>
                   <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
                 </Upload>
               </Col>
             </Col>
@@ -575,32 +569,38 @@ class ShelfPlease extends React.Component {
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件版权</p></Row>
           <Row className='Wxd'>
             <Col span={24}>
-              <span style={{visibility: 'hidden'}}>*PC无无</span>
+              <Col span={1} />
               <RadioGroup onChange={this.radio} value={this.state.radio}>
-                <Radio value={1}>
-                  <span >软件凭证 :</span>
-                  <span style={{visibility: 'hidden'}}>无无无五五五五无</span>
-                  <Upload {...propsW}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                    <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
-                  </Upload>
-                </Radio>
-                <span style={{visibility: 'hidden'}}>*PC无无5555555555555呜呜呜呜呜</span>
-                <Radio value={2}>
-                  <span >开发者权利声明 :</span>
-                  <a href='javascript:;'>下载模版</a>
-                  <span style={{visibility: 'hidden'}}>无</span>
-                  <Upload {...propsW}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                    <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
-                  </Upload>
-                </Radio>
+                <Col span={1} />
+                <Col span={8}>
+                  <Radio value={1}>
+                    <span >软件凭证 :</span>
+                    <span style={{visibility: 'hidden'}}>无</span>
+                    <Upload {...propsW}>
+                      <Button>
+                        <Icon type='upload' /> 上传文件
+                      </Button>
+                      <span className='extend'>
+                        <span style={{visibility: 'hidden'}}>无</span>支持扩展名：.png .jpg ...</span>
+                    </Upload>
+                  </Radio>
+                  <span style={{visibility: 'hidden'}}>*PC无无555555555555555555555555555555555555555555555555呜呜呜呜呜</span>
+                </Col>
+                <Col span={2} />
+                <Col span={10}>
+                  <span style={{visibility: 'hidden'}}>6</span>
+                  <Radio value={2}>
+                    <span >开发者权利声明 :</span>
+                    <span style={{visibility: 'hidden'}}>无</span>
+                    <Upload {...propsW}>
+                      <Button>
+                        <Icon type='upload' /> 上传文件
+                      </Button>
+                      <span className='extend'>
+                        <span style={{visibility: 'hidden'}}>无</span>支持扩展名：.png .jpg ...</span><a href='javascript:;'>下载模版</a>
+                    </Upload>
+                  </Radio>
+                </Col>
               </RadioGroup>
             </Col>
             {/* <Col span={5}></Col> */}
@@ -621,7 +621,7 @@ class ShelfPlease extends React.Component {
                     <Icon type='upload' /> 上传文件
                   </Button>
                   <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
                 </Upload></Col>
             </Col>
           </Row>

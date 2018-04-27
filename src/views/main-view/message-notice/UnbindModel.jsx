@@ -11,7 +11,8 @@ export default class UnbindModel extends React.Component {
     hiddenModal: PropTypes.func,
     maf_id: PropTypes.string,
     stu_id: PropTypes.string,
-    getBindList: PropTypes.func
+    getBindList: PropTypes.func,
+    stuName: PropTypes.string
   }
   constructor (props) {
     super(props)
@@ -48,7 +49,7 @@ export default class UnbindModel extends React.Component {
         >
           <div>
             <h4 className='unbind-icon'><span /></h4>
-            <h4>确定解除您与孩子王洪亮的绑定吗？</h4>
+            <h4>确定解除您与孩子{this.props.stuName}的绑定吗？</h4>
           </div>
         </Modal>
       </div>

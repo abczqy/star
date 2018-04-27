@@ -34,6 +34,7 @@
     "react-slick": "^0.23.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "reqwest": "^2.0.5",
     "wangeditor": "^3.1.1",
     "webStorage": "^2.1.1"
   },

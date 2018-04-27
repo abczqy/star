@@ -16,7 +16,7 @@ class News extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pageSize: 10,
+      pageSize: 5,
       pages: 1,
       imgO: img,
       imgT: img,
@@ -60,7 +60,6 @@ class News extends React.Component {
   componentDidMount () {
     this.getList()
     this.getHeight()
-    this.getClassName(document, 'ant-col-5 huoqu')
   }
   // 标题的点击事件
   title =() => {
@@ -98,21 +97,6 @@ class News extends React.Component {
       search: e.target.text.split(' ')[0]
     })
   }
-  // 获取页面元素
-  getClassName=(parent, cls1) => {
-    let res = [] // 存放匹配结果的数组
-    let ele = parent.getElementsByTagName('*')
-    for (let i = 0; i < ele.length; i++) {
-      if (ele[i].className === cls1) {
-        console.log('ant-col-5 huoqu', ele[i].offsetHeight)
-        this.setState({
-          height: ele[i].offsetHeight
-        })
-        console.log('对应的元素', ele[i])
-        res.push(ele[i])
-      }
-    }
-  }
   // 获取字符串
   processStr=(str, n) => {
     let l = str.length
@@ -141,7 +125,7 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '20%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -159,7 +143,7 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={this.state.imgO} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
