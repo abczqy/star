@@ -5,18 +5,25 @@
  */
 import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
-import { Collapse } from 'antd'
-import { HomepageManageBar, HomepageAdd, HomepageBox } from 'components/software-market'
+import { Collapse, message } from 'antd'
+import { HomepageManageBar, HomepageAdd, HomepageBox, HomepageNewBox } from 'components/software-market'
 import './HomepageMaker.scss'
+
+import axios from 'axios'
+import ajaxUrl from 'config'
 
 const Panel = Collapse.Panel
 
 class HomepageMaker extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       expand: false,
-      boxList: [1, 2, 3]
+      count: 0,
+      data: [],
+      navigationTitle: '',
+      navigationUrl: '',
+      newData: []
     }
   }
   /**
@@ -27,6 +34,20 @@ class HomepageMaker extends Component {
       expand: !this.state.expand
     })
   }
+  // onDelete = (value) => {
+  //   let a = value.toString()
+  //   axios.post(ajaxUrl.deleteGatewayNavigation, { "navigation_id": a }).then(
+  //     res => {
+  //       console.log(res.data)
+  //       if (res.data) {
+  //         this.props.getList()
+  //         message.success('删除成功')
+  //       } else {
+  //         message.error('删除失败')
+  //       }
+  //     }
+  //   ).catch(e => { console.log(e) })
+  // }
 
   copyArray = (arr) => {
     let result = []
@@ -36,24 +57,35 @@ class HomepageMaker extends Component {
     return result
   }
 
-  onDelete = (orderNum) => {
-    let b = this.copyArray(this.state.boxList)
-    b.splice(orderNum - 1, 1)
-    this.setState({
-      boxList: b
-    })
-  }
-
   onAdd = () => {
     let a = 0
-    a += this.state.boxList.length + 1
-    let b = this.copyArray(this.state.boxList)
+    a += this.state.newData.length + 1
+    let b = this.copyArray(this.state.newData)
     b.push(a)
-    this.setState({
-      boxList: b
-    })
+    if (b.length <= 1) {
+      this.setState({
+        newData: b
+      })
+    } else {
+      message.warning('请保存后继续新增')
+    }
   }
 
+  getList = () => {
+    axios.get(ajaxUrl.getGatewayNavigationList, {}).then(res => {
+      this.setState({
+        data: [],
+        count: 0
+      }, () => {
+        this.setState({
+          count: res.data.pageCount,
+          data: res.data.data,
+
+        })
+      })
+
+    }).catch(e => { console.log(e) })
+  }
   /**
    * 渲染“添加小方块”
    * @param { int } count 渲染多少个出来 默认是3个
@@ -70,16 +102,69 @@ class HomepageMaker extends Component {
     return (<HomepageBox orderNum={num} />)
   }
 
-  render () {
-    const { expand, boxList } = this.state
+
+  componentDidMount() {
+    this.getList();
+    console.log(this.state.data)
+  }
+  //获取input输入值
+  getInputValue = (e) => {
+    let { value } = e.target
+    this.setState({
+      navigationTitle: value
+    })
+  }
+  getInputValuet = (e) => {
+    let { value } = e.target
+    this.setState({
+      navigationUrl: value
+    })
+  }
+  //撤销修改
+  recerve = () => {
+    this.setState({
+      newData: []
+    })
+    this.getList()
+  }
+  //保存新增
+  addHomepage = () => {
+    let a = this.state.navigationTitle.toString()
+    let b = this.state.navigationUrl.toString()
+    axios.post(ajaxUrl.addGatewayNavigation, {
+      "navigation_title": a,
+      "navigation_url": b
+    }).then(res => {
+      this.setState({
+        newData: []
+      })
+      console.log(res.data)
+      if (res.data) {
+        message.success('保存成功!')
+      } else {
+        message.error('保存失败')
+      }
+      this.getList()
+      console.log(this.state.data)
+    }).catch(e => { console.log(e) })
+  }
+  render() {
+    const { expand, data, newData } = this.state
     const { header } = this.props
     const { title } = header
     return (
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
-          <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} />} key='1'>
-            {boxList.map((item, index) => {
-              return (<div className='float-box' key={index}><HomepageBox title={title} orderNum={item} onDelete={this.onDelete} /></div>)
+          <Panel showArrow={false} header={<HomepageManageBar getList={this.getList} title={title} expand={expand} addpage={this.addHomepage} click={this.recerve} />} key='1'>
+            {data.map((item, index) => {
+              return (<div className='float-box' key={index}><HomepageBox title={title} orderNum={index + 1
+              } id={item.navigation_id} dataa={item.navigation_title} datab={item.navigation_url} getList={this.getList}
+                onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
+            })}
+            {newData.map((item, index) => {
+              return (<div className='float-box' key={index}><HomepageNewBox title={title} orderNum={index + this.state.data.length + 1
+              } getList={this.getList}
+                onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
           </Panel>
