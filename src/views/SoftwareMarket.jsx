@@ -109,11 +109,11 @@ export default class SoftwareMarket extends React.Component {
                   </Menu.Item>
                 </SubMenu>
                 <SubMenu key='sub4' title={<span><Icon type='notification' />运营统计</span>}>
-                  <Menu.Item key='9'>
-                    <Link>应用统计</Link>
+                  <Menu.Item key='sub4-apply'>
+                    <Link to='/software-market-home/platform-manage/app-count'>应用统计</Link>
                   </Menu.Item>
-                  <Menu.Item key='10'>
-                    <Link>用户统计</Link>
+                  <Menu.Item key='sub4-satis'>
+                    <Link to='/software-market-home/platform-manage/user-count'>用户统计</Link>
                   </Menu.Item>
                 </SubMenu>
               </Menu>

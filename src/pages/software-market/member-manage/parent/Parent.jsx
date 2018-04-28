@@ -135,7 +135,7 @@ class Parent extends Component {
   getTableDatas = () => {
     paGetData(this.getParams(), (res) => {
       const data = res.data
-      console.log(`data: ${JSON.stringify(data)}`)
+      // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
           data: addKey2TableData(data.list, 'maf_id'),

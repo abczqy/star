@@ -8,9 +8,7 @@ import PropsTypes from 'prop-types'
 import { Collapse, message } from 'antd'
 import { HomepageManageBar, HomepageAdd, HomepageBox, HomepageNewBox } from 'components/software-market'
 import './HomepageMaker.scss'
-
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {getGatewayNavigationList, addGatewayNavigation} from 'services/software-manage'
 
 const Panel = Collapse.Panel
 
@@ -72,7 +70,7 @@ class HomepageMaker extends Component {
   }
 
   getList = () => {
-    axios.get(ajaxUrl.getGatewayNavigationList, {}).then(res => {
+    getGatewayNavigationList({}, res => {
       this.setState({
         data: [],
         count: 0
@@ -83,7 +81,7 @@ class HomepageMaker extends Component {
 
         })
       })
-    }).catch(e => { console.log(e) })
+    })
   }
   /**
    * 渲染“添加小方块”
@@ -127,24 +125,28 @@ class HomepageMaker extends Component {
   }
   // 保存新增
   addHomepage = () => {
-    let a = this.state.navigationTitle.toString()
-    let b = this.state.navigationUrl.toString()
-    axios.post(ajaxUrl.addGatewayNavigation, {
-      'navigation_title': a,
-      'navigation_url': b
-    }).then(res => {
-      this.setState({
-        newData: []
+    let params = {
+      navigation_title: this.state.navigationTitle,
+      navigation_url: this.state.navigationUrl
+    }
+    if (this.state.navigationTitle !== '' && this.state.navigationUrl !== '') {
+      console.log(this.state.navigationUrl)
+      addGatewayNavigation(params, res => {
+        this.setState({
+          newData: []
+        })
+        console.log(res.data)
+        if (res.data) {
+          message.success('保存成功!')
+        } else {
+          message.error('保存失败')
+        }
+        this.getList()
+        console.log(this.state.data)
       })
-      console.log(res.data)
-      if (res.data) {
-        message.success('保存成功!')
-      } else {
-        message.error('保存失败')
-      }
-      this.getList()
-      console.log(this.state.data)
-    }).catch(e => { console.log(e) })
+    } else {
+      message.warning('请完善内容')
+    }
   }
   render () {
     const { expand, data, newData } = this.state

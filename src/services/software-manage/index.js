@@ -211,6 +211,26 @@ export function delPaLoginId (params, sucFn) {
 }
 
 /**
+ * 会员管理-学校/老师/机构-删除
+ */
+export function maDelId (params, sucFn) {
+  axios.post('/manage/delete', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学校/老师/机构-密码重置
+ */
+export function maInitPwd (params, sucFn) {
+  axios.post('/manage/updatePassword', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-学校-查询
  */
 export function schGetData (params, sucFn) {
@@ -221,30 +241,50 @@ export function schGetData (params, sucFn) {
 }
 
 /**
- * 会员管理-学校-删除
- */
-export function schDelId (params, sucFn) {
-  axios.post('/manage/delete', {...params})
-    .then((res) => {
-      sucFn(res)
-    })
-}
-
-/**
- * 会员管理-学校-密码重置
- */
-export function schInitPwd (params, sucFn) {
-  axios.post('/manage/updatePassword', {...params})
-    .then((res) => {
-      sucFn(res)
-    })
-}
-
-/**
  * 会员管理-学校-批量导出
  */
 export function schBatchLeadout (params, sucFn) {
   axios.post('/manage/updatePassword', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-教师-查询
+ */
+export function thGetData (params, sucFn) {
+  axios.post('/manage/teacher', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-教师-批量导出
+ */
+export function thBatchLeadout (params, sucFn) {
+  axios.post('/manage/teacher', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-教育机构-查询
+ */
+export function eduGetData (params, sucFn) {
+  axios.post('/manage/educational', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-教育机构-批量导出
+ */
+export function eduBatchLeadout (params, sucFn) {
+  axios.post('/management/batchleadoutedu', {...params})
     .then((res) => {
       sucFn(res)
     })
@@ -314,6 +354,60 @@ export function shelf (params, sucFn) {
  */
 export function iteration (params, sucFn) {
   return axios.post('/updateSoft/update', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-门户导航添加
+ */
+export function addGatewayNavigation (params, sucFn) {
+  return axios.post('/addGatewayNavigation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-门户导航查询
+ */
+export function getGatewayNavigationList (params, sucFn) {
+  return axios.get('/getGatewayNavigationList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-门户导航删除
+ */
+export function deleteGatewayNavigation (params, sucFn) {
+  return axios.post('/deleteGatewayNavigation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-banner图添加
+ */
+export function addGatewayBanner (params, sucFn) {
+  return axios.post('/addGatewayBanner', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-banner图查询
+ */
+export function getGatewayBannerList (params, sucFn) {
+  return axios.get('/getGatewayBannerList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-banner图删除
+ */
+export function deleteGatewayBanner (params, sucFn) {
+  return axios.post('/deleteGatewayBanner', params)
     .then(function (res) {
       sucFn(res)
     })

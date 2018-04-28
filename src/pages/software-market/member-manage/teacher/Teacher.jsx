@@ -9,10 +9,16 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Icon } from 'antd'
-import ajaxUrl from 'config'
-import axios from 'axios'
+import { Table, Switch, Divider } from 'antd'
+import { Link } from 'react-router-dom'
+import {
+  thGetData,
+  maDelId,
+  maInitPwd,
+  thBatchLeadout
+} from 'services/software-manage'
 import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
+import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -26,58 +32,6 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
-   * 表格的columns -- 后面用json文件配置出去 --参照bdq
-   * 做到配置项与组件的分离
-   * 组件要用时只需要引入即可
-   * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
-   * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
-   */
-const columns = [{
-  title: '厂商名称',
-  dataIndex: 'fa_name',
-  key: 'fa_name',
-  width: 200
-}, {
-  title: '账号',
-  dataIndex: 'fa_loginid',
-  key: 'fa_loginid',
-  width: 200
-}, {
-  title: '在运营软件数',
-  dataIndex: 'num',
-  key: 'num'
-}, {
-  title: '合同状态',
-  dataIndex: 'num_day',
-  key: 'num_day'
-}, {
-  title: '允许登录',
-  dataIndex: 'to_login',
-  key: 'to_login',
-  render: (text, record, index) => {
-    return (
-      <Switch />
-    )
-  }
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  width: 200,
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={() => alert('续费')}>续费</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>详情</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('...')}><Icon type='ellipsis' /></a>
-      </span>
-    )
-  }
-}]
-
 class Teacher extends Component {
   constructor (props) {
     super(props)
@@ -89,12 +43,78 @@ class Teacher extends Component {
       reqParam: {
         pageSize: 15,
         pageNum: 1,
-        fa_name: '东方国信',
-        fa_loginid: 'bonc',
-        to_login: '1',
-        num_day: '正常'
+        thId: '',
+        thName: '',
+        toLogin: '',
+        shName: ''
       },
-      pagination
+      pagination,
+      batchLeadParams: {
+        idArrs: []
+      }
+    }
+  }
+
+  getClomus = () => {
+    return ([{
+      title: '教师姓名',
+      dataIndex: 'th_name',
+      key: 'th_name',
+      width: 200
+    }, {
+      title: '账号',
+      dataIndex: 'th_id',
+      key: 'th_id',
+      width: 200
+    }, {
+      title: '所属教育机构',
+      dataIndex: 'sh_name',
+      key: 'sh_name'
+    }, {
+      title: '允许登录',
+      dataIndex: 'to_login',
+      key: 'to_login',
+      render: (text, record, index) => {
+        return (
+          <Switch />
+        )
+      }
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      width: 200,
+      render: (text, record, index) => {
+        return (
+          <span>
+            <Link to='/software-market-home/member-manage/student'>学生</Link>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+          </span>
+        )
+      }
+    }])
+  }
+
+  getParams = () => {
+    const {
+      pageSize,
+      pageNum,
+      thId,
+      thName,
+      toLogin,
+      shName
+    } = this.state.reqParam
+    // 最后都要赋空
+    return {
+      pageSize: pageSize || 15,
+      pageNum: pageNum || 1,
+      th_id: thId || '',
+      th_name: thName || '',
+      to_login: toLogin || '',
+      sh_name: shName || ''
     }
   }
 
@@ -104,59 +124,47 @@ class Teacher extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.getFactory, {
-      params: {
-        // 在初始渲染页面时 这里不给任何参数 请求所有数据
-        pageSize: 15,
-        pageNum: 1,
-        fa_name: '东方国信',
-        fa_loginid: 'bonc',
-        to_login: '1',
-        num_day: '正常'
-      }
-    }).then((res) => {
+    thGetData(this.getParams(), (res) => {
       const data = res.data
       console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list,
+          data: addKey2TableData(data.list, 'th_id'),
           total: data.total
         }
       })
-      // 手动生成key值 把fa_id映射成key
-    }).catch((e) => { console.log(e) })
+    })
   }
 
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onFaLoginidChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onIdChange = (val) => {
     // 修改state.reqParams中对应的值
+    // 暂时val和显示的值是一个 看后台传入的数据结构
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        fa_loginid: e.target.value
+        thId: val
       }
     })
   }
 
   /**
-   * 当搜索框‘厂商名称’值改变时回调
+   * 当搜索框‘教师姓名’值改变时回调
    */
-  onFaNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onthNameChange = (val) => {
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        fa_name: e.target.value
+        thName: val
       }
     })
   }
 
   /**
-   * 当下拉选择框‘合同状态’值改变时回调
+   * 当下拉选择框‘学校名称’值改变时回调
    */
   onSchNameChange = (val) => {
     console.log(`val: ${val}`)
@@ -164,7 +172,7 @@ class Teacher extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        num_day: val
+        shName: val
       }
     })
   }
@@ -174,11 +182,19 @@ class Teacher extends Component {
    */
   onToLogin = (val) => {
     console.log(`val: ${val}`)
+    let loginAllow = ''
+    if (val === 'allow') {
+      loginAllow = '1'
+    } else if (val === 'refuse') {
+      loginAllow = '0'
+    } else if (val === 'all') {
+      loginAllow = ''
+    }
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        to_login: val
+        to_login: loginAllow
       }
     })
   }
@@ -195,17 +211,67 @@ class Teacher extends Component {
   }
 
   /**
+   * 删除账号
+   */
+  delLoginId = (record) => {
+    const params = {
+      th_id: record.th_id
+    }
+    maDelId(params, (res) => {
+      console.log(`res.data.result: ${res.data.result}`)
+    })
+    // 最好有个确认的弹窗什么的
+    // 后面再加上loading + 操作成功的提示
+  }
+
+  /**
+   * 初始化密码
+   */
+  initPwd = (record) => {
+    const params = {
+      th_id: record.th_id
+    }
+    maInitPwd(params, (res) => {
+      console.log(`res.data.result: ${res.data.result}`)
+    })
+    // 最好有个确认的弹窗什么的
+    // 后面再加上loading + 操作成功的提示
+  }
+
+  /**
    * 当点击'搜索按钮时的回调'
    */
   search = () => {
-    // 拿到state中的reqParam值去向后台请求数据
-    // 请求接口后面根据请求的类别(厂商 学生...)封装下
+    this.getTableDatas()
   }
 
   /**
    * 当点击'批量导出'按钮时的回调
    */
-  BatchExport = () => {}
+  onBatchLeadout = () => {
+    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
+    const { idArrs } = this.state.batchLeadParams
+    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
+    thBatchLeadout({th_id: idArrs}, (res) => {
+      console.log(`${res.data.info}`)
+    })
+  }
+  /**
+   * 多选选项变化
+   */
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    // 从view中得到数据 并把th_id提取出来组合为一个新数组
+    let idArr = []
+    selectedRows.map((val, index) => {
+      idArr.push(val.th_id)
+    })
+    // 将th_id得到的新数组映射到state中
+    this.setState({
+      batchLeadParams: {
+        idArrs: idArr
+      }
+    })
+  }
 
   /**
    * pageSize 变化时回调
@@ -249,22 +315,27 @@ class Teacher extends Component {
     return (
       <div className='software-wrap'>
         <SearchBarMemberTeac
-          onInput1Change={this.onFaLoginidChange}
-          onInput2Change={this.onFaNameChange}
-          onInput3Change={this.onSchNameChange}
-          onSelect2Change={this.onToLogin}
+          searchParams={{idArr: ['全部', '1234', '5678']}}
+          onSelect1Change={this.onIdChange}
+          onSelect2Change={this.onthNameChange}
+          onSelect3Change={this.onSchNameChange}
+          onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
-          onBtnBatchExport={this.BatchExport}
+          onBtnBatchExport={this.onBatchLeadout}
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getClomus()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,
             total: this.state.tableData.total,
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
+          }}
+          rowSelection={{
+            fixed: true,
+            onChange: this.rowSelectChange
           }}
         />
       </div>

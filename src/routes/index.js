@@ -55,6 +55,8 @@ import MessageDetail from 'views/message-notice/MessageDetail'
 import TeacherHome from 'pages/after-logging-home/TeacherHome'
 import Register from 'pages/register/Register'
 import ForgetPass from 'pages/register/ForgetPass'
+import AppCount from 'pages/software-market/business-count/AppCount'
+import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default [{
   path: '/unlogged',
@@ -200,6 +202,12 @@ export default [{
   }, {
     path: '/software-market-home/platform-manage/public-verify-detail',
     component: Logged(PublicInfoVerifyDetail)
+  }, {
+    path: '/software-market-home/platform-manage/app-count',
+    component: Logged(AppCount)
+  }, {
+    path: '/software-market-home/platform-manage/user-count',
+    component: Logged(UserCount)
   }]
 }, {
   path: '/topbar-manage', // 新消息通知页面

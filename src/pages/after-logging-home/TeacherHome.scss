@@ -83,8 +83,13 @@
                                 float: left;
                                 margin-top: 15px;
                                 .dd-title {
+                                    display: block;
+                                    width: 150px;
                                     font-size: 16px;
                                     margin-left: 10px;
+                                    overflow: hidden;
+                                    text-overflow:ellipsis;
+                                    white-space: nowrap;
                                 }
                                 .dd-p {
                                     width: 150px;

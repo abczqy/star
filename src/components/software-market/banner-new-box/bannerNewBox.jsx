@@ -3,12 +3,9 @@
  * 或者  横排公用一个div的上下border
  */
 import React, { Component } from 'react'
-import { Col, Row, Upload, Button, Icon, message } from 'antd'
+import { Col, Row, Upload, Button, Icon, Form } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerNewBox.scss'
-
-import axios from 'axios'
-import ajaxUrl from 'config'
 
 // const { Header, Content } = Layout
 
@@ -34,26 +31,13 @@ import ajaxUrl from 'config'
 // }
 
 class BannerNewBox extends Component {
-    onDelete = (value) => {
-      let a = value.toString()
-      axios.post(ajaxUrl.deleteGatewayNavigation, { 'navigation_id': a }).then(
-        res => {
-          console.log(res.data)
-          if (res.data) {
-            this.props.getList()
-            message.success('删除成功')
-          } else {
-            message.error('删除失败')
-          }
-        }
-      ).catch(e => { console.log(e) })
-    }
-    render () {
-      const { title, orderNum, datas, handleOk } = this.props
+  render () {
+    const { title, orderNum, datas } = this.props
 
-      return (
-        <div className='box-wrap'>
-          <div className='banner-box-content-wrap '>
+    return (
+      <div className='box-wrap'>
+        <div className='banner-box-content-wrap '>
+          <Form>
             <Row gutter={16}>
               <Col span={5}>
                 <span className='left-label'>
@@ -72,21 +56,20 @@ class BannerNewBox extends Component {
             <Row gutter={16}>
               <Col span={2} offset={7}>
                 <Button size='small' disabled > 删除</Button>
-                <Button onClick={handleOk}>暂存</Button>
               </Col>
             </Row>
-          </div>
+          </Form>
         </div>
-      )
-    }
+      </div>
+    )
+  }
 }
 
 BannerNewBox.propTypes = {
   orderNum: PropsTypes.number,
   title: PropsTypes.string,
-  getList: PropsTypes.object,
-  datas: PropsTypes.object,
-  handleOk: PropsTypes.func
+  getList: PropsTypes.func,
+  datas: PropsTypes.object
 }
 
 export default BannerNewBox
