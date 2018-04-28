@@ -7,14 +7,8 @@
 import React from 'react'
 import {Layout, Icon, Badge, Row} from 'antd'
 import { renderRoutes } from 'react-router-config'
-// import AllApplications from '../../pages/edu-all-app/AllApplications'
-// import PropTypes from 'prop-types'
-import BottomHeader from '../../components/common/BottomHeader'
+import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
-// import SelfSupport from '../../pages/app-detail/SelfSupport'
-// import { renderRoutes } from 'react-router-config'
-// import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import apiConfig from '../../config'
 import './Operateview.scss'
 import webStorage from 'webStorage'
@@ -157,17 +151,4 @@ class OperateManage extends React.Component {
   }
 }
 
-OperateManage.propTypes = {
-  // roleCode: PropTypes.string
-}
-const mapStateToProps = state => ({
-  roleCode: state.role.code
-})
-
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OperateManage)
+export default OperateManage

@@ -6,17 +6,16 @@
 import React from 'react'
 import {Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
-import BottomHeader from '../../../components/common/BottomHeader'
+import BottomHeader from 'components/common/BottomHeader'
 import SignOut from '../SignOut'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import { connect } from 'react-redux'
 import apiConfig from '../../../config'
 import webStorage from 'webStorage'
-import '../../../components/common/bottom.scss'
-// import { renderRoutes } from 'react-router-config'
-// import { withRouter } from 'react-router-dom'
+import 'components/common/bottom.scss'
 import '../Operateview.scss'
+
 class MessageTopBar extends React.Component {
   constructor (props) {
     super(props)

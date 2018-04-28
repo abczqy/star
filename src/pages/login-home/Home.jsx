@@ -13,7 +13,6 @@ import SureInfoWin from './SureInfoWin'
 import ChangeInfoWin from './ChangeInfoWin'
 import ChangeInfoOkWin from './ChangeInfoOkWin'
 import { withRouter } from 'react-router'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getRecommendApp, getSoftMarketList, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portal'
 
@@ -196,15 +195,5 @@ class Home extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
-  roleCode: state.role.code,
-  isLogged: state.role.isLogged
-})
 
-const mapDispatchToProps = dispatch => ({
-})
-
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home))
+export default withRouter(Home)

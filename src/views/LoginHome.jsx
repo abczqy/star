@@ -5,7 +5,6 @@
 import React from 'react'
 import { Badge, Icon } from 'antd'
 import { renderRoutes } from 'react-router-config'
-import { connect } from 'react-redux'
 import apiConfig from '../../config'
 import SignOut from './SignOut'
 import axios from 'axios'
@@ -122,16 +121,4 @@ class LoginHome extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  roleCode: state.role.code,
-  isLogged: state.role.isLogged,
-  personInfo: state.role.personInfo
-})
-
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginHome)
+export default LoginHome

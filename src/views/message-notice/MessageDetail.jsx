@@ -4,7 +4,7 @@
  */
 import React from 'react'
 import {Card} from 'antd'
-import {getSearchString} from '../../../utils/index'
+import {getSearchString} from 'utils/index'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import '../Operateview.scss'

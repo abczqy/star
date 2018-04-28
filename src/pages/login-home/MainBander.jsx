@@ -6,9 +6,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
-import { connect } from 'react-redux'
 import axiosApi from '../../services'
-import {setRole, setIsLogged, setUserInfo} from '../../redux/actions/role'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
 import webStorage from 'webStorage'
@@ -50,9 +48,6 @@ class MainBander extends React.Component {
       let data = response.data
       // 如果登陆成功
       if (data.success) {
-        // this.props.setRole(data.roleCode)
-        // this.props.setUserInfo(data.personInfo)
-        // this.props.setIsLogged(true)
         webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
         webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
@@ -231,23 +226,4 @@ class MainBander extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  roleCode: state.role.code
-})
-
-const mapDispatchToProps = dispatch => ({
-  setRole: (code) => {
-    dispatch(setRole(code))
-  },
-  setUserInfo: (userInfo) => {
-    dispatch(setUserInfo(userInfo))
-  },
-  setIsLogged: (flag) => {
-    dispatch(setIsLogged(flag))
-  }
-})
-
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainBander))
+export default withRouter(MainBander)

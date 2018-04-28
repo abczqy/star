@@ -6,8 +6,6 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import apiConfig from '../../config'
 import {clearCookie} from 'utils/cookie'
-import { connect } from 'react-redux'
-import {setRole} from '../../redux/actions/role'
 import webStorage from 'webStorage'
 class SignOutModal extends React.Component {
   static propTypes = {
@@ -63,14 +61,4 @@ class SignOutModal extends React.Component {
     )
   }
 }
-const mapDispatchToProps = dispatch => ({
-  setRole: (code) => {
-    dispatch(setRole(code))
-  }
-})
-const mapStateToProps = state => ({
-})
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignOutModal)
+export default SignOutModal
