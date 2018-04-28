@@ -33,9 +33,7 @@ class MarketAnalysis extends Component {
 
   // 获取表格数据
   getTableData = (type) => {
-    axios.post(ajaxUrl.MarketAnalysis, {
-      type
-    }).then(res => {
+    axios.post(ajaxUrl.MarketAnalysis, {type}).then(res => {
       let resDatas = _.cloneDeep(res.data.data)
       this.setState({
         tableDatas: resDatas
@@ -45,11 +43,11 @@ class MarketAnalysis extends Component {
 
   // 获取关键字热搜数据
   gethotSearch=() => {
-    axios.post(ajaxUrl.hotSearch, {}).then(res => {
-      this.setState({
-        hotSearchDatas: res.data.data
-      })
-    }).catch(e => { console.log(e) })
+    // axios.post(ajaxUrl.hotSearch, {}).then(res => {
+    //   this.setState({
+    //     hotSearchDatas: res.data.data
+    //   })
+    // }).catch(e => { console.log(e) })
   }
 
   componentDidMount () {

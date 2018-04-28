@@ -8,8 +8,7 @@ import PropsTypes from 'prop-types'
 import { Collapse, message } from 'antd'
 import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox } from 'components/software-market'
 import './BannerMaker.scss'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import { addGatewayBanner, getGatewayBannerList } from 'services/software-manage'
 
 const Panel = Collapse.Panel
 
@@ -65,13 +64,30 @@ class BannerMaker extends Component {
   }
   // 保存新增banner图
   addBanner = () => {
-    let a = this.state.fileList.toString()
-    axios.post(ajaxUrl.addGatewayBanner, { 'file': a }).then(
-
-    ).catch(err => {
-      console.log(err)
+    // const formData = new FormData()
+    // formData.append('file', this.state.fileList)
+    let list = this.state.fileList
+    let a = list[0].uid
+    let b = list[0].name
+    let c = list[0].size
+    let d = list[0].type
+    console.log(this.state.fileList)
+    console.log(a, b, c, d)
+    let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
+    addGatewayBanner(params, res => {
+      this.setState({
+        bannerNewData: []
+      })
+      if (res.data) {
+        message.success('图片保存成功')
+        this.getList()
+      } else {
+        message.success('图片保存失败')
+      }
+      console.log(res)
     })
   }
+
   recerve = () => {
     this.setState({
       bannerNewData: [],
@@ -80,7 +96,7 @@ class BannerMaker extends Component {
     this.getList()
   }
   getList = () => {
-    axios.get(ajaxUrl.getGatewayBannerList, { params: {} }).then(res => {
+    getGatewayBannerList({}, res => {
       let f = []
       this.setState({
         bannerData: [],
@@ -98,35 +114,6 @@ class BannerMaker extends Component {
         boxList: f
       })
       console.log(this.state.bannerData, f)
-    }).catch(e => { console.log(e) })
-  }
-  open = () => {
-    this.setState({
-      visible: true
-    })
-    console.log('此时visible值为', this.state.visible)
-  }
-
-  handleOk = (e) => {
-    console.log(e)
-    this.setState({
-      visible: false
-    }, () => {
-      this.addBanner()
-      console.log('确认发送')
-    })
-  }
-  change = () => {
-    if (this.props.ctrl && this.props.ctrl === 'edit') {
-      return '确定要修改内容吗'
-    } else if (this.props.ctrl && this.props.ctrl === 'add') {
-      return '确定要发布内容吗'
-    }
-  }
-  handleCancel = (e) => {
-    console.log(e)
-    this.setState({
-      visible: false
     })
   }
   componentDidMount () {
@@ -166,14 +153,14 @@ class BannerMaker extends Component {
     return (
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
-          <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.handleOk} click={this.recerve} />} key='1'>
+          <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
               } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
-              } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel} change={this.change} handleOk={this.open} /></div>)
+              } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList} visible={this.state.visible} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
           </Panel>
@@ -184,8 +171,7 @@ class BannerMaker extends Component {
 }
 
 BannerMaker.propTypes = {
-  header: PropsTypes.object,
-  ctrl: PropsTypes.object
+  header: PropsTypes.object
 }
 
 export default BannerMaker
