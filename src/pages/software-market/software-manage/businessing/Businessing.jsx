@@ -9,14 +9,14 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Button } from 'antd'
+import { Table, Switch, Divider, Button, message } from 'antd'
 // import ajaxUrl from 'config'
 // import axios from 'axios'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import {getAppListData, verifyDetail} from 'services/software-manage'
+import {getAppListData, verifyDetail, undercarriage} from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -42,7 +42,8 @@ class Businessing extends Component {
       type: '', // 类型
       appOffModalCon: {
         visible: false,
-        swName: ''
+        swName: '',
+        swId: ''
       },
       pageNum: 1,
       pageSize: 10,
@@ -51,7 +52,8 @@ class Businessing extends Component {
       appDetailModalCon: {
         visible: false,
         swName: ''
-      }
+      },
+      veriCode: '' // 验证码
     }
     // 表格的列信息
     this.columns = [{
@@ -185,7 +187,8 @@ class Businessing extends Component {
       appOffModalCon: {
         ...this.state.AppOffModalCon,
         visible: true,
-        swName: record.sw_name
+        swName: record.sw_name,
+        swId: record.sw_id
       }
     })
   }
@@ -207,7 +210,16 @@ class Businessing extends Component {
 
   handleOk = () => {
     // 当然 在关闭之前要提交表单
-    this.closeModal()
+    const thiz = this
+    const params = {
+      sw_id: this.state.appOffModalCon.swId
+    }
+    undercarriage(params, (res) => {
+      const data = res.data ? res.data : {}
+      message.success(data.info)
+      thiz.closeModal()
+      thiz.getTableDatas()
+    })
   }
 
   /**
@@ -292,6 +304,13 @@ class Businessing extends Component {
     })
   }
 
+  // 获取验证码并进行设置
+  getVeriCode = (value) => {
+    this.setState({
+      veriCode: value
+    })
+  }
+
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon } = this.state
     return (
@@ -317,6 +336,7 @@ class Businessing extends Component {
         <AppStandOffModal
           getContainer={() => this.refs.AppStandOffElem}
           visible={appOffModalCon.visible}
+          getVeriCode={this.getVeriCode}
           footer={[
             <Button key='submit' type='primary' onClick={this.handleOk}>
               确认
