@@ -15,7 +15,7 @@ import ajaxUrl from 'config'
 const Panel = Collapse.Panel
 
 class HomepageMaker extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       expand: false,
@@ -79,11 +79,10 @@ class HomepageMaker extends Component {
       }, () => {
         this.setState({
           count: res.data.pageCount,
-          data: res.data.data,
+          data: res.data.data
 
         })
       })
-
     }).catch(e => { console.log(e) })
   }
   /**
@@ -102,12 +101,11 @@ class HomepageMaker extends Component {
     return (<HomepageBox orderNum={num} />)
   }
 
-
-  componentDidMount() {
-    this.getList();
+  componentDidMount () {
+    this.getList()
     console.log(this.state.data)
   }
-  //获取input输入值
+  // 获取input输入值
   getInputValue = (e) => {
     let { value } = e.target
     this.setState({
@@ -120,20 +118,20 @@ class HomepageMaker extends Component {
       navigationUrl: value
     })
   }
-  //撤销修改
+  // 撤销修改
   recerve = () => {
     this.setState({
       newData: []
     })
     this.getList()
   }
-  //保存新增
+  // 保存新增
   addHomepage = () => {
     let a = this.state.navigationTitle.toString()
     let b = this.state.navigationUrl.toString()
     axios.post(ajaxUrl.addGatewayNavigation, {
-      "navigation_title": a,
-      "navigation_url": b
+      'navigation_title': a,
+      'navigation_url': b
     }).then(res => {
       this.setState({
         newData: []
@@ -148,7 +146,7 @@ class HomepageMaker extends Component {
       console.log(this.state.data)
     }).catch(e => { console.log(e) })
   }
-  render() {
+  render () {
     const { expand, data, newData } = this.state
     const { header } = this.props
     const { title } = header
@@ -158,13 +156,11 @@ class HomepageMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar getList={this.getList} title={title} expand={expand} addpage={this.addHomepage} click={this.recerve} />} key='1'>
             {data.map((item, index) => {
               return (<div className='float-box' key={index}><HomepageBox title={title} orderNum={index + 1
-              } id={item.navigation_id} dataa={item.navigation_title} datab={item.navigation_url} getList={this.getList}
-                onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
+              } id={item.navigation_id} dataa={item.navigation_title} datab={item.navigation_url} getList={this.getList}onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
             })}
             {newData.map((item, index) => {
               return (<div className='float-box' key={index}><HomepageNewBox title={title} orderNum={index + this.state.data.length + 1
-              } getList={this.getList}
-                onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
+              } getList={this.getList} onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
           </Panel>

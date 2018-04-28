@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
-import { Col, Row, Input, Layout, Icon, Popconfirm, message, Button } from 'antd'
+import { Col, Row, Input, Layout, Button } from 'antd'
 import PropsTypes from 'prop-types'
 import './HomepageNewBox.scss'
 
-import axios from 'axios'
-import ajaxUrl from 'config'
 const { Header, Content } = Layout
 
 class HomepageNewBox extends Component {
-
-  render() {
-    const { title, orderNum, dataa, datab, id, getList, onChange, onChanget } = this.props
+  render () {
+    const { title, orderNum, dataa, datab, onChange, onChanget } = this.props
     return (
       <div className='box-wrap'>
         <div className='box-content-wrap'>
@@ -55,7 +52,10 @@ class HomepageNewBox extends Component {
 HomepageNewBox.propTypes = {
   orderNum: PropsTypes.number,
   title: PropsTypes.string,
-  onDelete: PropsTypes.func
+  dataa: PropsTypes.string,
+  datab: PropsTypes.string,
+  onChange: PropsTypes.func,
+  onChanget: PropsTypes.func
 }
 
 export default HomepageNewBox

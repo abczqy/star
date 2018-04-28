@@ -11,11 +11,10 @@ import './BannerMaker.scss'
 import axios from 'axios'
 import ajaxUrl from 'config'
 
-
 const Panel = Collapse.Panel
 
 class BannerMaker extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       boxList: [1, 2, 3],
@@ -55,7 +54,6 @@ class BannerMaker extends Component {
     } else {
       message.warning('请保存后继续新增')
     }
-
   }
 
   /**
@@ -65,10 +63,10 @@ class BannerMaker extends Component {
   getPanelAdd = () => {
     return (<HomepageAdd onAdd={this.onAdd} />)
   }
-  //保存新增banner图
+  // 保存新增banner图
   addBanner = () => {
     let a = this.state.fileList.toString()
-    axios.post(ajaxUrl.addGatewayBanner, { "file": a }).then(
+    axios.post(ajaxUrl.addGatewayBanner, { 'file': a }).then(
 
     ).catch(err => {
       console.log(err)
@@ -131,7 +129,7 @@ class BannerMaker extends Component {
       visible: false
     })
   }
-  componentDidMount() {
+  componentDidMount () {
     this.getList()
   }
   /**
@@ -142,8 +140,8 @@ class BannerMaker extends Component {
   //   return (<BannerBox orderNum={num} />)
   // }
 
-  render() {
-    const { expand, boxList, bannerData, bannerNewData } = this.state
+  render () {
+    const { expand, bannerData, bannerNewData } = this.state
     const { header } = this.props
     const { title } = header
     const datas = {
@@ -175,8 +173,7 @@ class BannerMaker extends Component {
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
-              } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList}
-                visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel} change={this.change} handleOk={this.open} /></div>)
+              } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel} change={this.change} handleOk={this.open} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
           </Panel>
@@ -187,7 +184,8 @@ class BannerMaker extends Component {
 }
 
 BannerMaker.propTypes = {
-  header: PropsTypes.object
+  header: PropsTypes.object,
+  ctrl: PropsTypes.object
 }
 
 export default BannerMaker

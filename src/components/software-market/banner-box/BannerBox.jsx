@@ -3,7 +3,7 @@
  * 或者  横排公用一个div的上下border
  */
 import React, { Component } from 'react'
-import { Col, Row, Upload, Button, Icon } from 'antd'
+import { Col, Row, Upload, Button, Icon, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
 
@@ -33,12 +33,10 @@ import ajaxUrl from 'config'
 //   defaultFileList: [...fileList]
 // }
 
-
 class BannerBox extends Component {
-
   onDelete = (value) => {
     let a = value.toString()
-    axios.post(ajaxUrl.deleteGatewayNavigation, { "navigation_id": a }).then(
+    axios.post(ajaxUrl.deleteGatewayNavigation, { 'navigation_id': a }).then(
       res => {
         console.log(res.data)
         if (res.data) {
@@ -50,8 +48,8 @@ class BannerBox extends Component {
       }
     ).catch(e => { console.log(e) })
   }
-  render() {
-    const { title, orderNum, dataa, datab, id, getId, datas } = this.props
+  render () {
+    const { title, orderNum, id, datas } = this.props
     return (
       <div className='box-wrap'>
         <div className='banner-box-content-wrap '>
@@ -83,7 +81,10 @@ class BannerBox extends Component {
 
 BannerBox.propTypes = {
   orderNum: PropsTypes.number,
-  title: PropsTypes.string
+  title: PropsTypes.string,
+  id: PropsTypes.string,
+  getList: PropsTypes.func,
+  datas: PropsTypes.object
 }
 
 export default BannerBox

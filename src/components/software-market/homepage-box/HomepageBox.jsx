@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Row, Input, Layout, Icon, Popconfirm, message, Button } from 'antd'
+import { Col, Row, Input, Layout, message, Button } from 'antd'
 import PropsTypes from 'prop-types'
 import './HomepageBox.scss'
 
@@ -10,7 +10,7 @@ const { Header, Content } = Layout
 class HomepageBox extends Component {
   onDelete = (value) => {
     let a = value.toString()
-    axios.post(ajaxUrl.deleteGatewayNavigation, { "navigation_id": a }).then(
+    axios.post(ajaxUrl.deleteGatewayNavigation, { 'navigation_id': a }).then(
       res => {
         console.log(res.data)
         if (res.data) {
@@ -23,9 +23,8 @@ class HomepageBox extends Component {
     ).catch(e => { console.log(e) })
   }
 
-
-  render() {
-    const { title, orderNum, dataa, datab, id, getList, onChange, onChanget } = this.props
+  render () {
+    const { title, orderNum, dataa, datab, id, onChange, onChanget } = this.props
     return (
       <div className='box-wrap'>
         <div className='box-content-wrap'>
@@ -70,7 +69,12 @@ class HomepageBox extends Component {
 HomepageBox.propTypes = {
   orderNum: PropsTypes.number,
   title: PropsTypes.string,
-  onDelete: PropsTypes.func
+  dataa: PropsTypes.string,
+  datab: PropsTypes.string,
+  id: PropsTypes.number,
+  getList: PropsTypes.func,
+  onChange: PropsTypes.func,
+  onChanget: PropsTypes.func
 }
 
 export default HomepageBox

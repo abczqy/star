@@ -8,12 +8,11 @@ class HomepageManageBar extends Component {
    * bar-left的部分阻止默认的“展开”事件冒泡
    */
 
-
   onCancel = (e) => {
     e.stopPropagation()
   }
-  render() {
-    const { title, expand, addpage, navigationTitle, navigationUrl, click } = this.props
+  render () {
+    const { title, expand, addpage, click } = this.props
     return (
       <div className='bar-wrap'>
         <span className='bar-left' onClick={this.onCancel}>
@@ -29,7 +28,9 @@ class HomepageManageBar extends Component {
 
 HomepageManageBar.propTypes = {
   title: PropsTypes.string,
-  expand: PropsTypes.bool
+  expand: PropsTypes.bool,
+  addpage: PropsTypes.func,
+  click: PropsTypes.func
 }
 
 export default HomepageManageBar
