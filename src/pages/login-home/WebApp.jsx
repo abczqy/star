@@ -34,7 +34,7 @@ class WebApp extends React.Component {
 
   renderItem (item, index) {
     return (
-      <Col span={5} key={index}>
+      <Col span={5} key={index} style={{marginBottom: '15px'}}>
         <div className='item'>
           <div className='item-split'>
             <div className='split' />
