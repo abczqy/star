@@ -139,6 +139,7 @@ const getEchartsOptions = (data, type, title, config, totalName) => {
         legend: {
           data: legendDatasLine,
           x: 'right',
+          icon: 'circle',
           selectedMode: false
         },
         grid: {
@@ -157,27 +158,6 @@ const getEchartsOptions = (data, type, title, config, totalName) => {
         }],
         color: ['#2db7f5', '#808bc6'],
         series: seriesData
-
-        // [
-        //   {
-        //     name: '邮件营销',
-        //     type: 'line',
-        //     stack: '总量',
-        //     areaStyle: {
-        //       color: 'rgba(45,183,245,0.5)'
-        //     },
-        //     smooth: true,
-        //     data: [120, 132, 101, 134, 90, 230, 210]
-        //   },
-        //   {
-        //     name: '联盟广告',
-        //     type: 'line',
-        //     stack: '总量',
-        //     areaStyle: { color: 'rgba(178,198,230,0.5)' },
-        //     smooth: true,
-        //     data: [220, 182, 191, 234, 290, 330, 310]
-        //   }
-        // ]
       }
       break
     default:
