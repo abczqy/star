@@ -91,7 +91,7 @@
       cursor: pointer;
     }
   }
-  /*下载和打开*/
+  /*下载和打开和开通*/
   .opt-box {
     background: #FAFAFA;
     height: 35px;
@@ -130,6 +130,13 @@
       background: #7ED321;
     }
   }
+  /*开通*/
+  .set-up {
+    &>span {
+      background: #08A1E9;
+    }
+  }
+  
   /*收藏*/
   .collection {
     background-color: #FFBB45 !important; // background-color: transparent !important;

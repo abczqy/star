@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 // import _ from 'lodash'
 import { Badge, Icon, Dropdown, Modal, Menu } from 'antd'
@@ -56,7 +56,7 @@ class ApplicationCard extends Component {
   // 收藏/取消收藏 操作
   collectOption = (id, type) => {
     axios.post(ajaxUrl.studentAppsCollect, {
-      sw_id: id,
+      SW_ID: id,
       type
     }).then(res => {
       if (res.data.result === 'success') {
@@ -89,20 +89,20 @@ class ApplicationCard extends Component {
         {
           (this.props.deleteCheck) && (
             <span className='delete'>
-              <input type='checkbox' name={`${this.props.type}DeleteIds`} value={this.props.content.sw_id} />
+              <input type='checkbox' name={`${this.props.type}DeleteIds`} value={this.props.content.SW_ID} />
             </span>
           )
         }
         {/* 应用图标 */}
         <Badge dot={this.props.update} >
           <span className='appLogo'>
-            <img src={ajaxUrl.IMG_BASE_URL + this.props.content.sw_icon} alt='' />
+            <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
           </span>
         </Badge>
         {/* 应用文字介绍 */}
         <div className='info'>
-          <div className='name'>{this.props.content.sw_name}</div>
-          <div className='description ellipsis'>{this.props.content.sw_desc}</div>
+          <div className='name'>{this.props.content.SW_NAME}</div>
+          <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
         </div>
         {/* 更新 */}
         {
@@ -118,16 +118,16 @@ class ApplicationCard extends Component {
             <div className='download opt-box'>
               {
                 this.props.collection && (
-                  this.props.content.collectionStatus
-                    ? <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.sw_id, 'cancel') }}>
+                  this.props.content.isCollected
+                    ? <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.SW_ID, 'cancel') }}>
                       <Icon type='star' />
                     </span>
-                    : <span className='collection  plr6' onClick={() => { this.collectOption(this.props.content.sw_id, 'collect') }}>
+                    : <span className='collection  plr6' onClick={() => { this.collectOption(this.props.content.SW_ID, 'collect') }}>
                       <Icon type='star-o' />
                     </span>
                 )
               }
-              <Link to={{pathname: '/operate-manage-home/all-app-detail', search: this.props.content.sw_id}} >
+              <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
                 <Icon type='download' className='plr6' />
                 <span className='plr6'>下载</span>
               </Link>
@@ -140,17 +140,41 @@ class ApplicationCard extends Component {
             <div className='open opt-box'>
               {
                 this.props.collection && (
-                  <span className='collection plr6'>
-                    <Icon type='star-o' />
-                  </span>
+                  this.props.content.isCollected
+                    ? <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.SW_ID, 'cancel') }}>
+                      <Icon type='star' />
+                    </span>
+                    : <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.SW_ID, 'collect') }}>
+                      <Icon type='star-o' />
+                    </span>
                 )
               }
-              <span className='plr6' >
-                打开
-              </span>
+              <a href={this.props.content.swUrl}> <span className='plr6'>打开</span></a>
             </div>
           )
         }
+        {/* 开通 */}
+        {
+          this.props.setUp && (
+            <div className='set-up opt-box'>
+              {
+                this.props.collection && (
+                  this.props.content.isCollected
+                    ? <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.SW_ID, 'cancel') }}>
+                      <Icon type='star' />
+                    </span>
+                    : <span className='collection plr6' onClick={() => { this.collectOption(this.props.content.SW_ID, 'collect') }}>
+                      <Icon type='star-o' />
+                    </span>
+                )
+              }
+              <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
+                <span className='plr6'>开通</span>
+              </Link>
+            </div>
+          )
+        }
+
         {/* 确认分享弹窗 */}
         <Modal
           className='share-confirm-modal'
@@ -175,16 +199,37 @@ class ApplicationCard extends Component {
   }
 }
 
+// ApplicationCard.propTypes = {
+//   content: {
+//     'SW_ID': 'k!b',
+//     'SW_NAME': '第五人格',
+//     'sw_type': '娱乐',
+//     'sw_icon': 'static/images/appLogo.png',
+//     'sw_desc': '就是第五人格',
+//     'isCollected': true
+//   }, // 应用信息
+//   share: false, // 是否显示分享按钮
+//   update: false, // 是否显示更新提示
+//   download: false, // 是否显示下载按钮
+//   open: false, // 是否显示打开按钮
+//   collection: false, // 是否显示收藏按钮
+//   deleteCheck: false, // 是否显示多选框 用于选中删除
+//   type: PropTypes.string, // 卡片类型 是我的应用还是···
+//   refresh: PropTypes.func, // 刷新我的收藏和学生应用的数据
+//   setUp: false// 是否显示开通按钮
+// }
+
 ApplicationCard.propTypes = {
-  content: PropTypes.object,
-  share: PropTypes.bool,
-  update: PropTypes.bool,
-  download: PropTypes.bool,
-  open: PropTypes.bool,
-  collection: PropTypes.bool,
-  deleteCheck: PropTypes.bool,
-  type: PropTypes.string,
-  refresh: PropTypes.func
+  content: PropTypes.object, // 应用信息
+  share: PropTypes.bool, // 是否显示分享按钮
+  update: PropTypes.bool, // 是否显示更新提示
+  download: PropTypes.bool, // 是否显示下载按钮
+  open: PropTypes.bool, // 是否显示打开按钮
+  collection: PropTypes.bool, // 是否显示收藏按钮
+  deleteCheck: PropTypes.bool, // 是否显示多选框 用于选中删除
+  type: PropTypes.string, // 卡片类型 是我的应用还是···
+  refresh: PropTypes.func, // 刷新我的收藏和学生应用的数据
+  setUp: PropTypes.bool// 是否显示开通按钮
 }
 
 export default ApplicationCard

@@ -166,15 +166,15 @@ window.mungConfig = {
   developmentRelated: AJAX_HOST + '/personal/developer',
   // 门户首页-门户导航
   addGatewayNavigation: AJAX_HOST + '/addGatewayNavigation',
-  //门户导航-查询接口
+  // 门户导航-查询接口
   getGatewayNavigationList: AJAX_HOST + '/getGatewayNavigationList',
-  //门户导航-删除接口
+  // 门户导航-删除接口
   deleteGatewayNavigation: AJAX_HOST + '/deleteGatewayNavigation',
-  //banner-新增接口
+  // banner-新增接口
   addGatewayBanner: AJAX_HOST + '/addGatewayBanner',
-  //banner-查询接口
+  // banner-查询接口
   getGatewayBannerList: AJAX_HOST + '/getGatewayBannerList',
-  //banner-删除接口
-  deleteGatewayBanner: AJAX_HOST + '/deleteGatewayBanner',
+  // banner-删除接口
+  deleteGatewayBanner: AJAX_HOST + '/deleteGatewayBanner'
 
 }

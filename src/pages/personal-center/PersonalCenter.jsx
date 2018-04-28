@@ -176,6 +176,33 @@ class PersonalCenter extends Component {
     console.log(type)
     let list = []
     appList.forEach((item, index) => {
+      let download = false
+      let open = false
+      let collection = false
+      let setUp = false
+      if (type === 'myApps') { // 配饰按钮显示
+        if (item.isSelfSupport) {
+          open = true
+        }
+      } else if (type === 'myCollections') {
+        if (item.isSelfSupport) {
+          setUp = true
+        } else {
+          download = true
+        }
+      } else if (type === 'studentApps') {
+        if (item.isSelfSupport) {
+          if (item.isOpen) {
+            open = true
+          } else {
+            setUp = true
+          }
+        } else {
+          download = true
+        }
+        collection = true
+      }
+      // download open collection setUp
       let app = (
         <Col span={6} key={index}>
           <ApplicationCard
@@ -183,9 +210,12 @@ class PersonalCenter extends Component {
             content={item}
             share={this.role === 'teacher'}
             deleteCheck={this.state.deleteActive[type]}
-            download={Boolean(type === 'studentApps' || type === 'myCollections')}
-            collection={Boolean(type === 'studentApps')}
+            download={download}
+            open={open}
+            collection={collection}
+            setUp={setUp}
             refresh={this.getApps}
+
           />
         </Col>
       )
