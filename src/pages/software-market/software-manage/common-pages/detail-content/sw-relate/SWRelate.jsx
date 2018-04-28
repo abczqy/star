@@ -73,7 +73,7 @@ class SWRelate extends Component {
               <span><Icon type='download' /></span>
             </Col>
             <Col span={2} offset={6}>
-              版本号：
+              版本号:
             </Col>
             <Col span={4}>
               <span>V{resData.version}</span>
@@ -99,14 +99,14 @@ class SWRelate extends Component {
               <img style={{width: 48, height: 42}} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
             </Col>
           </Row>
-          <Row className='sw-relate-move-L'>
+          {isWaitItera ? <Row className='sw-relate-move-L'>
             <Col span={3}>
               <span>PC端界面截图:</span>
             </Col>
             <Col>
-              <img alt='pc端的界面截图' src={resData && resData.sw_computer_photo} />
+              <img style={{width: 81, height: 55}} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_computer_photo} />
             </Col>
-          </Row>
+          </Row> : null}
         </div>
       </div>
     )

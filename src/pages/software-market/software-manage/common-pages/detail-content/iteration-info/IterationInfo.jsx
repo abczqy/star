@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { Row, Col, Icon, DatePicker } from 'antd'
 import { BlankBar } from 'components/software-market'
 import PropsTypes from 'prop-types'
+import ajaxUrl from 'config'
 
 class IterationInfo extends Component {
   onChange = (date, dateString) => {
@@ -42,7 +43,7 @@ class IterationInfo extends Component {
         <div className='relate-content'>
           <Row>
             <Col span={2} offset={1}>
-            兼容系统:
+              兼容系统:
             </Col>
             <Col span={9}>
               <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
@@ -51,7 +52,7 @@ class IterationInfo extends Component {
               <span><Icon type='download' /></span>
             </Col>
             <Col span={2} offset={6}>
-            版本号:
+              版本号:
             </Col>
             <Col span={4}>
               <span>{resData.iteration_version}</span>
@@ -81,10 +82,10 @@ class IterationInfo extends Component {
               <span>PC端界面截图:</span>
             </Col>
             <Col span={6}>
-              <img alt='pc端的界面截图' src={resData.sw_computer_photo0} />
+              <img alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_photo0} />
             </Col>
             <Col span={3} offset={6}>
-            期望上架时间:
+              期望上架时间:
             </Col>
             <Col span={4}>
               <span><DatePicker onChange={this.onChange} /></span>
