@@ -136,7 +136,7 @@ class StatisticalAnalysis extends Component {
 
   render () {
     const { downloadLineData, appTypeRadioData, downloadTypeRadioData, allAppCode } = this.state
-    console.log(appTypeRadioData, downloadTypeRadioData)
+    // console.log(appTypeRadioData, downloadTypeRadioData)
     return (
       <div className='statistical-analysis center-view mtb20'>
         <Card title='统计分析' bordered={false}>
@@ -169,7 +169,7 @@ class StatisticalAnalysis extends Component {
                 {
                   _.isEmpty(appTypeRadioData)
                     ? <Empty style={{'lineHeight': '300px'}} />
-                    : <Echarts options={getEchartsOptions(appTypeRadioData, 'pie-doughnut', '应用类型占比')} />
+                    : <Echarts options={getEchartsOptions(appTypeRadioData, 'pie-doughnut', '应用类型占比', {}, '应用总数')} />
                 }
 
               </div>
@@ -180,7 +180,7 @@ class StatisticalAnalysis extends Component {
                 {
                   _.isEmpty(downloadTypeRadioData)
                     ? <Empty style={{'lineHeight': '300px'}} />
-                    : <Echarts options={getEchartsOptions(downloadTypeRadioData, 'pie-doughnut', '当月应用下载型占比')} />
+                    : <Echarts options={getEchartsOptions(downloadTypeRadioData, 'pie-doughnut', '当月应用下载型占比', {}, '下载总数')} />
                 }
               </div>
             </Col>

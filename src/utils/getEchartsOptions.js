@@ -3,18 +3,24 @@
  * data 数据           数据
  * type echart的类型   增加类型
  * config 配置项       自行添加配置
+ * totalName 环形图需要在中间显示总数信息时，要显示的标题(如果有需要) 例如下载占比图，totalName为“下载总数”
  */
 
-const getEchartsOptions = (data, type, title, config) => {
+import _ from 'lodash'
+
+const getEchartsOptions = (data, type, title, config, totalName) => {
   let options = {}
 
   switch (type) {
     case 'pie-doughnut':
-      let legendDatas = []
+      // 自定义图例数据 计算各项百分比
+      let legendDatas = _.cloneDeep(data)
       let sum = 0
       data.forEach((item, index) => {
-        legendDatas.push(item.name + 'ddd')
         sum += item.value
+      })
+      data.forEach((item, index) => {
+        legendDatas[index].value = `${item.name} ${((item.value / sum) * 100).toFixed(0)}%`
       })
       options = {
         title: {
@@ -28,13 +34,21 @@ const getEchartsOptions = (data, type, title, config) => {
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)'
-          // formatter: '{b}: {c} ({d}%)'
         },
         legend: {
           orient: 'vertical',
-          x: 'right',
           y: 'middle',
-          'icon': 'circle'
+          right: 20,
+          'icon': 'circle',
+          formatter: (name) => { // 自定义图例 显示各项占比
+            let leng = ''
+            legendDatas.forEach((item, i) => {
+              if (name === item.name) {
+                leng = item.value
+              }
+            })
+            return leng
+          }
         },
         color: ['#f0647e', '#58acfb', '#fad352'], // 配置颜色
         series: [{
@@ -50,7 +64,7 @@ const getEchartsOptions = (data, type, title, config) => {
               position: 'center',
               color: '#666',
               formatter: [
-                '{title|应用总数}',
+                `{title|${totalName}}`,
                 `{num|${sum}}`
               ].join('\n'),
               rich: {
