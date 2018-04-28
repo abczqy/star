@@ -72,13 +72,6 @@ class MessageSetting extends React.Component {
     //   })
     // })
   }
-
-  handleTabChange (link) {
-    if (link === this.props.location.pathname) {
-      window.location.reload()
-    }
-    window.location.href = 'http://localhost:8080/#' + link
-  }
   hiddenModal (type) {
     this.setState({
       [type]: false
@@ -312,7 +305,7 @@ MessageSetting.propTypes = {
   // roleCode: PropTypes.string
 }
 const mapStateToProps = state => ({
-  roleCode: state.role.code
+  // roleCode: state.role.code
 })
 export default connect(
   mapStateToProps

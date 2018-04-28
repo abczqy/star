@@ -7,10 +7,10 @@ import React from 'react'
 import {Card, Pagination} from 'antd'
 import '../Operateview.scss'
 import { renderRoutes } from 'react-router-config'
-import apiConfig from '../../../config'
 import axios from 'axios'
-import ajaxUrl from 'config'
-export default class MessageNotice extends React.Component {
+import Config from 'config'
+import { withRouter } from 'react-router'
+class MessageNotice extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -23,25 +23,26 @@ export default class MessageNotice extends React.Component {
   handleTabChange (link, id) {
     if (link === '审核通过') {
       // 审核通过跳转到我的应用
-      window.location.href = apiConfig.BASE_TAB + '/#' + 'operate-manage-home/all-app-detail-mine'
+      this.props.history.push({
+        pathname: 'operate-manage-home/all-app-detail-mine'
+      })
     } else if (link === '消息通知') {
-      // window.location.href = apiConfig.BASE_TAB + '/#' + 'topbar-manage/detail?' + id
       this.props.history.push({pathname: 'detail', search: '?id=' + id})
     } else if (link === '申请驳回') {
       // 审核驳回跳转到上架申请
-      window.location.href = apiConfig.BASE_TAB + '/#' + 'operate-manage-home/please'
+      this.props.history.push({
+        pathname: 'operate-manage-home/please'
+      })
     }
-    // window.location.href = 'http://localhost:8080/#' + 'operate-manage-home/all-app-detail-mine'
   }
   componentDidMount () {
     this.getPageList()
   }
   getPageList =() => {
-    axios.post(ajaxUrl.getAllMessageList, {
+    axios.post(Config.getAllMessageList, {
       page: this.state.pageNum,
       pageSize: 5
     }).then((response) => {
-      console.log('返回学生绑定信息', response)
       this.setState({
         listData: response.data.data,
         total: response.data.count
@@ -89,3 +90,4 @@ export default class MessageNotice extends React.Component {
     )
   }
 }
+export default withRouter(MessageNotice)

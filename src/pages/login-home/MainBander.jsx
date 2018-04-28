@@ -8,7 +8,6 @@ import './MainHome.scss'
 import { withRouter } from 'react-router'
 import {login} from 'services/portal'
 import PropTypes from 'prop-types'
-import apiConfig from '../../config'
 import webStorage from 'webStorage'
 
 class MainBander extends React.Component {
@@ -144,12 +143,15 @@ class MainBander extends React.Component {
       [key]: e.target.value
     })
   }
-  /* 注册 */
+  /* 注册-忘记密码 */
   handregister=(link) => {
     if (link === this.props.location.pathname) {
       window.location.reload()
+    } else {
+      this.props.history.push({
+        pathname: link
+      })
     }
-    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
 
   /**

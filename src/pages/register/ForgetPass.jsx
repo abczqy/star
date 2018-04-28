@@ -3,9 +3,9 @@
 import React from 'react'
 import {Card, Layout, Form, Input, Button, message} from 'antd'
 import PropTypes from 'prop-types'
-import apiConfig from '../../config'
 import axios from 'axios'
-import ajaxUrl from 'config'
+import Config from 'config'
+import { withRouter } from 'react-router'
 import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
 
@@ -124,7 +124,7 @@ class ForgetPass extends React.Component {
   }
   // 获取验证码
   getCode=(account) => {
-    axios.post(ajaxUrl.SMSVerification, {
+    axios.post(Config.SMSVerification, {
       user_id: account
     }).then((response) => {
       this.setState({
@@ -290,7 +290,7 @@ class ForgetPass extends React.Component {
       }
       if (!err) {
         console.log('忘记密码', values)
-        axios.post(ajaxUrl.relationdelete, {
+        axios.post(Config.relationdelete, {
           params: {
             user_id: values.maf_loginid,
             idcard: values.maf_sad_idcard,
@@ -422,4 +422,4 @@ class ForgetPass extends React.Component {
     )
   }
 }
-export default Form.create()(ForgetPass)
+export default withRouter(Form.create()(ForgetPass))

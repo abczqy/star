@@ -2,13 +2,14 @@
 import React from 'react'
 import {Modal} from 'antd'
 import PropTypes from 'prop-types'
-import apiConfig from '../../config'
+import { withRouter } from 'react-router'
 import './register.scss'
-export default class RegisterSuccModal extends React.Component {
+class RegisterSuccModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
-    account: PropTypes.string
+    account: PropTypes.string,
+    history: PropTypes.object
   }
   constructor (props) {
     super(props)
@@ -22,8 +23,10 @@ export default class RegisterSuccModal extends React.Component {
         clockTime: this.state.clockTime - 1
       }, () => {
         if (this.state.clockTime === 0) {
-          window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
           clearInterval(this.interval)
+          this.props.history.push({
+            pathname: 'unlogged/home'
+          })
         }
       })
     }, 1000)
@@ -35,8 +38,10 @@ export default class RegisterSuccModal extends React.Component {
     this.props.hiddenModal()
   }
   backHome=() => {
-    window.location.href = apiConfig.BASE_TAB + '/#' + 'unlogged/home'
     window.clearInterval(this.interval)
+    this.props.history.push({
+      pathname: 'unlogged/home'
+    })
   }
   render () {
     return (
@@ -62,3 +67,4 @@ export default class RegisterSuccModal extends React.Component {
     )
   }
 }
+export default withRouter(RegisterSuccModal)

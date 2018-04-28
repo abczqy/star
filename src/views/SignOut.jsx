@@ -4,13 +4,14 @@ import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import ajaxUrl from 'config'
-import apiConfig from '../../config'
+import { withRouter } from 'react-router'
 import {clearCookie} from 'utils/cookie'
 import webStorage from 'webStorage'
 class SignOutModal extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
-    hiddenModal: PropTypes.func
+    hiddenModal: PropTypes.func,
+    history: PropTypes.object
   }
   constructor (props) {
     super(props)
@@ -35,7 +36,9 @@ class SignOutModal extends React.Component {
   }
   backHome=() => {
     clearCookie()
-    window.location.reload(apiConfig.BASE_TAB + '/#' + 'unlogged/home')
+    this.props.history.push({
+      pathname: 'unlogged/home'
+    })
   }
 
   render () {
@@ -61,4 +64,4 @@ class SignOutModal extends React.Component {
     )
   }
 }
-export default SignOutModal
+export default withRouter(SignOutModal)

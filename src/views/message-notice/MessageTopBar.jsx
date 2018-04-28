@@ -9,10 +9,9 @@ import { renderRoutes } from 'react-router-config'
 import BottomHeader from 'components/common/BottomHeader'
 import SignOut from '../SignOut'
 import axios from 'axios'
-import ajaxUrl from 'config'
-import { connect } from 'react-redux'
-import apiConfig from '../../../config'
+import Config from 'config'
 import webStorage from 'webStorage'
+import { withRouter } from 'react-router'
 import 'components/common/bottom.scss'
 import '../Operateview.scss'
 
@@ -29,7 +28,7 @@ class MessageTopBar extends React.Component {
   }
   // 未读消息数
   getMessageCount=() => {
-    axios.post(ajaxUrl.getMessageCount).then((response) => {
+    axios.post(Config.getMessageCount).then((response) => {
       console.log('返回未读消息数量', response)
       this.setState({
         messageCount: response.data.count
@@ -39,8 +38,11 @@ class MessageTopBar extends React.Component {
   handleTabChange (link) {
     if (link === this.props.location.pathname) {
       window.location.reload()
+    } else {
+      this.props.history.push({
+        pathname: link
+      })
     }
-    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
   // 退出系统
   signOut=() => {
@@ -68,7 +70,7 @@ class MessageTopBar extends React.Component {
             <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
           </div>
         </div>
-        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, 'unlogged/home')}>
+        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, '/unlogged/home')}>
           <div className='xingyun-logo' />
         </div>
         <div>
@@ -83,7 +85,5 @@ class MessageTopBar extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
-  personInfo: state.role.personInfo
-})
-export default connect(mapStateToProps)(MessageTopBar)
+
+export default withRouter(MessageTopBar)
