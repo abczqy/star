@@ -11,10 +11,12 @@ import _ from 'lodash'
 import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import webStorage from 'webStorage'
 class News extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       pageSize: 5,
       pages: 1,
       imgO: img,
@@ -56,9 +58,40 @@ class News extends React.Component {
       console.log(err)
     })
   }
-  componentWillMount () {
+  componentDidMount () {
     this.getList()
     this.getHeight()
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   // 标题的点击事件
   title =() => {
@@ -105,18 +138,18 @@ class News extends React.Component {
   }
   // 获取高度
   getHeight=() => {
-    if (this.state.dataP) {
+    if (this.state.webStorage) {
       this.setState({
-        height: 730
+        viewHeight: window.innerHeight - 248
       })
     } else {
       this.setState({
-        height: 385
+        viewHeight: window.innerHeight - 193
       })
     }
   }
   render () {
-    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
+    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
       <Row>
         <Col span={5} style={{width: '18%'}}>
           <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div></Row>
@@ -131,8 +164,8 @@ class News extends React.Component {
           </Row>
           <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
-        <Col span={15} style={{width: '68%', minHeight: '820px'}}>
-          <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px', height: `${this.state.height}px`, backgroundColor: '#fff'}}>
+        <Col span={15} style={{width: '68%', height: this.state.viewHeight}}>
+          <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px', backgroundColor: '#fff'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
@@ -173,8 +206,8 @@ class News extends React.Component {
                   </Row>
                 </li>
             })}
-            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '30%'}}>
-              <Row style={{marginTop: '40px'}}>
+            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '15%'}}>
+              <Row style={{marginTop: '10px'}}>
                 <Col span={8} />
                 <Col >
                   {this.state.newData.total >= 5

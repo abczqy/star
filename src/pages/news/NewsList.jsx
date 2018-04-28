@@ -10,12 +10,14 @@ import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import webStorage from 'webStorage'
 
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       pageSize: 5,
       pages: 1,
       imgO: img,
@@ -24,7 +26,8 @@ class News extends React.Component {
       img: '', // 公告图片
       newData: null,
       height: '',
-      heights: ''
+      heights: '',
+      webStorage: false
     }
   }
   getList = () => {
@@ -60,6 +63,37 @@ class News extends React.Component {
   componentDidMount () {
     this.getList()
     this.getHeight()
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   // 标题的点击事件
   title =() => {
@@ -106,26 +140,26 @@ class News extends React.Component {
   }
   // 获取高度
   getHeight=() => {
-    if (this.state.dataP) {
+    if (this.state.webStorage) {
       this.setState({
-        heights: '70%'
+        viewHeight: window.innerHeight - 237
       })
     } else {
       this.setState({
-        heights: '30%'
+        viewHeight: window.innerHeight - 193
       })
     }
   }
   render () {
     return (
-      <div className='news-list-container'>
+      <div className='news-list-container' style={{height: this.state.viewHeight}}>
         <div id='right-container'>
-          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0'}}>
+          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0', height: this.state.viewHeight}}>
             {this.state.newData ? this.state.newData.list.map((item, index) => {
               return index === 0
-                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '20%'}} key={index}>
+                ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '60%'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -143,7 +177,7 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '60%'}} alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>

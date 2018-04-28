@@ -15,10 +15,12 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
+import webStorage from 'webStorage'
 class NewsDetailsEd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       imgT: img,
       imgUl: ul,
       imgFen: fen,
@@ -63,8 +65,40 @@ class NewsDetailsEd extends React.Component {
       console.log(err)
     })
   }
-  componentWillMount () {
+  componentDidMount () {
     this.getList()
+    this.getHeight()
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   // 更多的点击事件
   more=() => {
@@ -89,8 +123,20 @@ class NewsDetailsEd extends React.Component {
       </Row>
     </div>)
   }
+  // 获取高度
+  getHeight=() => {
+    if (this.state.webStorage) {
+      this.setState({
+        viewHeight: window.innerHeight - 248
+      })
+    } else {
+      this.setState({
+        viewHeight: window.innerHeight - 193
+      })
+    }
+  }
   render () {
-    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
+    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
       <Row>
         <Col span={5} style={{width: '18%'}}>
           <div className='left-downer'>

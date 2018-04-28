@@ -15,11 +15,13 @@ import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import shareContent from '../../utils/shareContent'
+import webStorage from 'webStorage'
 
 class InformationDet extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       imgT: img,
       imgUl: ul,
       imgFen: fen,
@@ -64,8 +66,40 @@ class InformationDet extends React.Component {
       console.log(err)
     })
   }
-  componentWillMount () {
+  componentDidMount () {
     this.getList()
+    this.getHeight()
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   // 更多的点击事件
   more=() => {
@@ -90,10 +124,22 @@ class InformationDet extends React.Component {
       </Row>
     </div>)
   }
+  // 获取高度
+  getHeight=() => {
+    if (this.state.webStorage) {
+      this.setState({
+        viewHeight: window.innerHeight - 223
+      })
+    } else {
+      this.setState({
+        viewHeight: window.innerHeight - 193
+      })
+    }
+  }
   render () {
     return (
-      <div className='news-list-container'>
-        <div id='right-container'>
+      <div className='news-list-container' style={{height: this.state.viewHeight}}>
+        <div id='right-container' style={{height: this.state.viewHeight}}>
           <div style={{backgroundColor: '#fff', width: '100%'}}>
             <Row>
               <ul className='details-li-ul'>

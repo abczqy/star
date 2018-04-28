@@ -13,10 +13,12 @@ import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
+import webStorage from 'webStorage'
 class Information extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       imgO: img,
       imgT: img,
       imgH: hand,
@@ -55,9 +57,40 @@ class Information extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.getList()
     this.getHeight()
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   getList=() => {
     let value = {
@@ -143,20 +176,20 @@ class Information extends React.Component {
   }
   // 获取高度
   getHeight=() => {
-    if (this.state.dataP) {
+    if (this.state.webStorage) {
       this.setState({
-        height: 730
+        viewHeight: window.innerHeight - 223
       })
     } else {
       this.setState({
-        height: 385
+        viewHeight: window.innerHeight - 193
       })
     }
   }
   render () {
     return (
-      <div className='news-list-container'>
-        <div id='right-container'>
+      <div className='news-list-container' style={{height: this.state.viewHeight}}>
+        <div id='right-container' style={{height: this.state.viewHeight}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', backgroundColor: '#fff'}}>
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <span className='information-fabu'>

@@ -284,7 +284,7 @@ class ShelfPlease extends React.Component {
     formData.append('fin_audit', this.state.fileListSix)// 财务凭证
     formData.append('copTypes', this.zH())// 软件版本的文件id和系统类别
     formData.append('fa_id', 'fa_123456')// 厂商Id
-    shelf(formData, (response) => {
+    shelf(formData, (response) => { // 这个是我在别的页面引进来的ajax，这个是提交的
       message.success(`上架申请成功!${response}`)
       console.log(response)
     })

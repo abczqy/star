@@ -15,7 +15,7 @@ body {
 }
 .xingyun{
   width: 100%;
-  height:calc(77vh);
+  height:100%;
   .xingyun-header{
     background: white !important;
     height: 65px;
@@ -32,6 +32,7 @@ body {
     overflow: hidden;
     // height: 100%;
     width: 100%;
+    height: calc(100% - 180px);
   }
 }
 .logo{
