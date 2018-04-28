@@ -56,7 +56,7 @@ class Student extends Component {
     }
   }
 
-  getClomus = () => {
+  getColumns = () => {
     return ([{
       title: '学生姓名',
       dataIndex: 'stu_name',
@@ -136,7 +136,7 @@ class Student extends Component {
   getTableDatas = () => {
     getStudentDatas(this.getParams(), (res) => {
       const data = res.data
-      console.log(`data: ${JSON.stringify(data)}`)
+      // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
           data: addKey2TableData(data.list, 'stu_id'),
@@ -379,7 +379,7 @@ class Student extends Component {
         />
         <BlankBar />
         <Table
-          columns={this.getClomus()}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,

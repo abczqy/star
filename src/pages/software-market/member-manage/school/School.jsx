@@ -13,8 +13,8 @@ import { Table, Switch, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import {
   schGetData,
-  schDelId,
-  schInitPwd,
+  maDelId,
+  maInitPwd,
   schBatchLeadout
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberSch } from 'components/software-market'
@@ -211,7 +211,7 @@ class School extends Component {
     const params = {
       sh_id: record.sh_id
     }
-    schDelId(params, (res) => {
+    maDelId(params, (res) => {
       console.log(`res.data.result: ${res.data.result}`)
     })
     // 最好有个确认的弹窗什么的
@@ -226,7 +226,7 @@ class School extends Component {
     const params = {
       sh_id: record.sh_id
     }
-    schInitPwd(params, (res) => {
+    maInitPwd(params, (res) => {
       console.log(`res.data.result: ${res.data.result}`)
     })
     // 最好有个确认的弹窗什么的
