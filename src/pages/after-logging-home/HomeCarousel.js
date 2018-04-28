@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import { Carousel } from 'antd'
 import ajaxUrl from 'config'
-import axios from 'axios'
+import {homeCarousel} from 'services/software-home/'
 import './HomeCarousel.scss'
 
 class HomeCarousel extends Component {
@@ -23,8 +23,8 @@ class HomeCarousel extends Component {
     // aa.replace(/^\[(\D*)]$/, '$1')
   }
   getCarouselData = () => {
-    axios.get(ajaxUrl.homeCarousel, {
-    }).then((res) => {
+    homeCarousel({
+    }, (res) => {
       this.setState({
         homeCarouselDatas: res.data.list
       }, () => {

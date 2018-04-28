@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
-import axios from 'axios'
+import {manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 const TabPane = Tabs.TabPane
@@ -47,10 +47,10 @@ class TeacherHome extends Component {
   // }
   // 获取排行榜数据
   getRankingData = () => {
-    axios.post(ajaxUrl.manufacturerSignInRankingList, {
+    manufacturerSignInRankingList({
       num: 10,
       chartType: this.state.rankingType
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         rankingData: res.data.data
       }, () => {
@@ -86,9 +86,9 @@ class TeacherHome extends Component {
   }
   // 获取老师推荐数据
   getTeacherData = () => {
-    axios.post(ajaxUrl.teacherRecommend, {
+    teacherRecommend({
       num: this.state.teacherMoreNum
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         teacherData: res.data.list
       })
@@ -96,9 +96,9 @@ class TeacherHome extends Component {
   }
   // 获取热门推荐数据
   getHotData = () => {
-    axios.post(ajaxUrl.hotRecommend, {
+    hotRecommend({
       num: this.state.hotMoreNum
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         hotData: res.data.data
       })
@@ -138,10 +138,10 @@ class TeacherHome extends Component {
   }
   // 发送收藏按钮请求
   postCollection = (id) => {
-    axios.post(ajaxUrl.homeCollection, {
+    homeCollection({
       sw_id: id,
       type: this.state.collectionType
-    }).then((res) => {
+    }, (res) => {
     }).catch((e) => { console.log(e) })
   }
   render () {

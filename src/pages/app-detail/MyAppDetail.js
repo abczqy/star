@@ -7,12 +7,8 @@ import './MyAppDetail.css'
 import { Icon, Carousel } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
-import axios from 'axios'
-// import { renderRoutes } from 'react-router-config'
-// import { Link } from 'react-router-dom'
-// const { Sider, Content } = Layout
-
-// import axiosApi from '../../../api'
+import {thirdPartyAppDetail} from 'services/all-app/'
+import {developmentRelated} from 'services/my-app/'
 export default class MyAppDetail extends React.Component {
   constructor (props) {
     super(props)
@@ -44,9 +40,9 @@ export default class MyAppDetail extends React.Component {
     })
   }
   getMyAppDetailData = () => {
-    axios.post(ajaxUrl.thirdPartyAppDetail, {
+    thirdPartyAppDetail({
       sw_id: this.state.appDetailId
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         appDetailData: res.data
       }, () => {
@@ -67,9 +63,9 @@ export default class MyAppDetail extends React.Component {
   }
   // 获取开发相关数据
   getDevelopmentRelated = () => {
-    axios.post(ajaxUrl.developmentRelated, {
+    developmentRelated({
       sw_id: this.state.appDetailId
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         developmentRelated: res.data
       })
