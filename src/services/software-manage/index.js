@@ -358,3 +358,57 @@ export function iteration (params, sucFn) {
       sucFn(res)
     })
 }
+/**
+ * 平台首页-门户导航添加
+ */
+export function addGatewayNavigation (params, sucFn) {
+  return axios.post('/addGatewayNavigation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-门户导航查询
+ */
+export function getGatewayNavigationList (params, sucFn) {
+  return axios.get('/getGatewayNavigationList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-门户导航删除
+ */
+export function deleteGatewayNavigation (params, sucFn) {
+  return axios.post('/deleteGatewayNavigation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-banner图添加
+ */
+export function addGatewayBanner (params, sucFn) {
+  return axios.post('/addGatewayBanner', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-banner图查询
+ */
+export function getGatewayBannerList (params, sucFn) {
+  return axios.get('/getGatewayBannerList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台首页-banner图删除
+ */
+export function deleteGatewayBanner (params, sucFn) {
+  return axios.post('/deleteGatewayBanner', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

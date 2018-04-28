@@ -6,9 +6,7 @@ import React, { Component } from 'react'
 import { Col, Row, Upload, Button, Icon, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
-
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {deleteGatewayNavigation} from 'services/software-manage'
 
 // const { Header, Content } = Layout
 
@@ -36,17 +34,16 @@ import ajaxUrl from 'config'
 class BannerBox extends Component {
   onDelete = (value) => {
     let a = value.toString()
-    axios.post(ajaxUrl.deleteGatewayNavigation, { 'navigation_id': a }).then(
-      res => {
-        console.log(res.data)
-        if (res.data) {
-          this.props.getList()
-          message.success('删除成功')
-        } else {
-          message.error('删除失败')
-        }
+    let params = { 'navigation_id': a }
+    deleteGatewayNavigation(params, res => {
+      console.log(res.data)
+      if (res.data) {
+        this.props.getList()
+        message.success('删除成功')
+      } else {
+        message.error('删除失败')
       }
-    ).catch(e => { console.log(e) })
+    })
   }
   render () {
     const { title, orderNum, id, datas } = this.props
