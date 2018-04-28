@@ -15,6 +15,7 @@ import _ from 'lodash'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
+import {processStr} from 'utils'
 
 class Information extends React.Component {
   constructor (props) {
@@ -154,13 +155,6 @@ class Information extends React.Component {
     }
     )
   }
-  // 获取字符串
-  processStr=(str, n) => {
-    let l = str.length
-    if (l <= n) { return str } else {
-      return str.slice(0, n) + '...'
-    }
-  }
   componentWillReceiveProps (nextProps) {
     console.log('判断用户登录')
     if (nextProps !== this.props) {
@@ -218,7 +212,7 @@ class Information extends React.Component {
                    </Row>
                    <Row>
                      <Col span={23}>
-                       <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.info_desc, 150)}</p>
+                       <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.info_desc, 150)}</p>
                      </Col>
                    </Row>
                    <Row>
