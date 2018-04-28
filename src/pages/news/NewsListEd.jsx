@@ -12,6 +12,7 @@ import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
+import {processStr} from 'utils'
 class News extends React.Component {
   constructor (props) {
     super(props)
@@ -129,13 +130,6 @@ class News extends React.Component {
     }
     )
   }
-  // 获取字符串
-  processStr=(str, n) => {
-    let l = str.length
-    if (l <= n) { return str } else {
-      return str.slice(0, n) + '...'
-    }
-  }
   // 获取高度
   getHeight=() => {
     if (this.state.webStorage) {
@@ -178,7 +172,7 @@ class News extends React.Component {
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.news_desc, 30)}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -196,7 +190,7 @@ class News extends React.Component {
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{this.processStr(item.news_desc, 30)}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.news_desc, 30)}</p>
                         </Col>
                       </Row>
                     </Col>
