@@ -31,12 +31,12 @@ class SearchBarMemberSch extends Component {
             <span className='input-label'>学校名称</span>
             <Input className='input' onChange={onInput2Change} />
           </Col>
-          <Col span={5}>
+          <Col span={4}>
             <span className='select-label'>所属教育机构</span>
             <Select defaultValue='all' className='select' onChange={onSelect1Change} >
               <Option value='all'>全部</Option>
-              <Option value='normal'>正常</Option>
-              <Option value='expire'>已过期</Option>
+              <Option value='allow'>允许</Option>
+              <Option value='refuse'>不允许</Option>
             </Select>
           </Col>
           <Col span={4}>

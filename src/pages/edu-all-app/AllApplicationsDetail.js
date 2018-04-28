@@ -50,7 +50,7 @@ class AllApplicationsDetail extends React.Component {
   // 获取软件应用数据
   getAllAppData = () => {
     axios.post(ajaxUrl.allAppList, {
-      appType: this.state.appType,
+      appType: this.state.appType === '' ? 'all' : this.state.appType,
       timeOrd: this.state.shelfTimeSort,
       numOrd: this.state.downloadNum
     }).then((res) => {
@@ -65,12 +65,7 @@ class AllApplicationsDetail extends React.Component {
     }).then((res) => {
       console.log(2222222, res.data.data)
       this.setState({
-        platformAppData: res.data.data,
-        page0: res.data.data.page0 ? res.data.data.page0 : [],
-        page1: res.data.data.page1 ? res.data.data.page1 : [],
-        page2: res.data.data.page2 ? res.data.data.page2 : [],
-        page3: res.data.data.page3 ? res.data.data.page3 : [],
-        page4: res.data.data.page4 ? res.data.data.page4 : []
+        platformAppData: res.data.data
       }, () => {
         this.state.platformAppDataa = []
         for (let i in this.state.platformAppData) {

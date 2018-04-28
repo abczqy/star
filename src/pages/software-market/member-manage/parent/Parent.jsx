@@ -32,60 +32,6 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
-   * 表格的columns -- 后面用json文件配置出去 --参照bdq
-   * 做到配置项与组件的分离
-   * 组件要用时只需要引入即可
-   * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
-   * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
-   */
-const columns = [{
-  title: '家长姓名',
-  dataIndex: 'maf_name',
-  key: 'maf_name',
-  width: 200
-}, {
-  title: '账号',
-  dataIndex: 'maf_id',
-  key: 'maf_id',
-  width: 200
-}, {
-  title: '角色',
-  dataIndex: 'maf_stu_sad',
-  key: 'maf_stu_sad'
-}, {
-  title: '学生',
-  dataIndex: 'stu_name',
-  key: 'stu_name'
-}, {
-  title: '允许登录',
-  dataIndex: 'to_login',
-  key: 'to_login',
-  render: (text, record, index) => {
-    let check = true
-    if (text === '0') {
-      check = false
-    }
-    return (
-      <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
-    )
-  }
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  width: 200,
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
-      </span>
-    )
-  }
-}]
-
 class Parent extends Component {
   constructor (props) {
     super(props)
@@ -101,13 +47,62 @@ class Parent extends Component {
         stuName: '',
         mafStuSad: '',
         mafId: '',
-        toLogin: null
+        toLogin: ''
       },
       pagination,
       batchLeadParams: {
         idArrs: []
       }
     }
+  }
+
+  getColumns = () => {
+    return ([{
+      title: '家长姓名',
+      dataIndex: 'maf_name',
+      key: 'maf_name',
+      width: 200
+    }, {
+      title: '账号',
+      dataIndex: 'maf_id',
+      key: 'maf_id',
+      width: 200
+    }, {
+      title: '角色',
+      dataIndex: 'maf_stu_sad',
+      key: 'maf_stu_sad'
+    }, {
+      title: '学生',
+      dataIndex: 'stu_name',
+      key: 'stu_name'
+    }, {
+      title: '允许登录',
+      dataIndex: 'to_login',
+      key: 'to_login',
+      render: (text, record, index) => {
+        let check = true
+        if (text === '0') {
+          check = false
+        }
+        return (
+          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+        )
+      }
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      width: 200,
+      render: (text, record, index) => {
+        return (
+          <span>
+            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+          </span>
+        )
+      }
+    }])
   }
 
   getParams = () => {
@@ -128,7 +123,7 @@ class Parent extends Component {
       stu_name: stuName || '',
       maf_stu_sad: mafStuSad || '',
       maf_id: mafId || '',
-      to_login: toLogin || null
+      to_login: toLogin || ''
     }
   }
 
@@ -159,7 +154,7 @@ class Parent extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        maf_id: e.target.value
+        mafId: e.target.value
       }
     })
   }
@@ -173,7 +168,7 @@ class Parent extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        stu_name: e.target.value
+        stuName: e.target.value
       }
     })
   }
@@ -184,21 +179,29 @@ class Parent extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        maf_name: e.target.value
+        mafName: e.target.value
       }
     })
   }
 
   /**
-   * 当下拉选择框‘合同状态’值改变时回调
+   * 当下拉选择框"选择角色"值改变时回调
    */
   onRoleChange = (val) => {
     console.log(`val: ${val}`)
+    let relation = ''
+    if (val === 'all') {
+      relation = ''
+    } else if (val === 'father') {
+      relation = '父亲'
+    } else if (val === 'mother') {
+      relation = '母亲'
+    }
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        maf_stu_sad: val
+        mafStuSad: relation
       }
     })
   }
@@ -220,7 +223,7 @@ class Parent extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        to_login: loginAllow
+        toLogin: loginAllow
       }
     })
   }
@@ -306,8 +309,8 @@ class Parent extends Component {
    * 多选选项变化
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
-    // console.log(`selectedRowKeys: ${selectedRowKeys}`)
-    // console.log(`selectedRows: ${JSON.stringify(selectedRows)}`)
+    console.log(`selectedRowKeys: ${selectedRowKeys}`)
+    console.log(`selectedRows: ${JSON.stringify(selectedRows)}`)
     // 从view中得到数据 并把fa_id提取出来组合为一个新数组
     let idArr = []
     selectedRows.map((val, index) => {
@@ -316,7 +319,7 @@ class Parent extends Component {
     // 将fa_id得到的新数组映射到state中
     this.setState({
       batchLeadParams: {
-        faIdArrs: idArr
+        idArrs: idArr
       }
     })
   }
@@ -373,7 +376,7 @@ class Parent extends Component {
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,

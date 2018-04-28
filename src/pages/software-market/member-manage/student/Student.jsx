@@ -32,60 +32,6 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
-   * 表格的columns -- 后面用json文件配置出去 --参照bdq
-   * 做到配置项与组件的分离
-   * 组件要用时只需要引入即可
-   * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
-   * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
-   */
-const columns = [{
-  title: '学生姓名',
-  dataIndex: 'stu_name',
-  key: 'stu_name',
-  width: 200
-}, {
-  title: '账号',
-  dataIndex: 'stu_id',
-  key: 'stu_id',
-  width: 200
-}, {
-  title: '学校',
-  dataIndex: 'sh_name',
-  key: 'sh_name'
-}, {
-  title: '家长',
-  dataIndex: 'maf_name',
-  key: 'maf_name'
-}, {
-  title: '允许登录',
-  dataIndex: 'to_login',
-  key: 'to_login',
-  render: (text, record, index) => {
-    let check = true
-    if (text === '0') {
-      check = false
-    }
-    return (
-      <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
-    )
-  }
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  width: 200,
-  render: (text, record, index) => {
-    return (
-      <span>
-        <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
-      </span>
-    )
-  }
-}]
-
 class Student extends Component {
   constructor (props) {
     super(props)
@@ -110,6 +56,56 @@ class Student extends Component {
     }
   }
 
+  getClomus = () => {
+    return ([{
+      title: '学生姓名',
+      dataIndex: 'stu_name',
+      key: 'stu_name',
+      width: 200
+    }, {
+      title: '账号',
+      dataIndex: 'stu_id',
+      key: 'stu_id',
+      width: 200
+    }, {
+      title: '学校',
+      dataIndex: 'sh_name',
+      key: 'sh_name'
+    }, {
+      title: '家长',
+      dataIndex: 'maf_name',
+      key: 'maf_name'
+    }, {
+      title: '允许登录',
+      dataIndex: 'to_login',
+      key: 'to_login',
+      render: (text, record, index) => {
+        let check = true
+        if (text === '0') {
+          check = false
+        }
+        return (
+          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+        )
+      }
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      width: 200,
+      render: (text, record, index) => {
+        return (
+          <span>
+            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+          </span>
+        )
+      }
+    }]
+    )
+  }
+
   getParams = () => {
     const {
       pageSize,
@@ -122,8 +118,8 @@ class Student extends Component {
     } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageSize: pageSize,
-      pageNum: pageNum,
+      pageSize: pageSize || 15,
+      pageNum: pageNum || 1,
       stu_name: stuName || '',
       stu_id: stuId || '',
       maf_name: mafName || '',
@@ -197,13 +193,13 @@ class Student extends Component {
    */
   onToLogin = (val) => {
     console.log(`val: ${val}`)
-    let loginAllow = 0
+    let loginAllow = ''
     if (val === 'allow') {
-      loginAllow = 1
+      loginAllow = '1'
     } else if (val === 'refuse') {
-      loginAllow = 1
+      loginAllow = '0'
     } else if (val === 'all') {
-      loginAllow = null
+      loginAllow = ''
     }
     // 修改state.reqParams中对应的值
     this.setState({
@@ -219,7 +215,7 @@ class Student extends Component {
    */
   changeLoginState = (checked, record) => {
     const toLogin = checked ? '1' : '0'
-    // console.log(`toLogin: ${toLogin}`)
+    console.log(`toLogin: ${toLogin}`)
     // 调用‘改变登录状态的接口’更新后台数据
     const params = {
       stu_id: record.stu_id,
@@ -308,7 +304,7 @@ class Student extends Component {
   onBatchLeadout = () => {
     // 从state中获取实时的stu_id数组的值 作为请求参数传给后台
     const { idArrs } = this.state.batchLeadParams
-    console.log(`faIdArrs: ${JSON.stringify(idArrs)}`)
+    console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
     stBatchLeadout({stu_id: idArrs}, (res) => {
       console.log(`${res.data.info}`)
     })
@@ -318,8 +314,6 @@ class Student extends Component {
    * 多选选项变化
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
-    // console.log(`selectedRowKeys: ${selectedRowKeys}`)
-    // console.log(`selectedRows: ${JSON.stringify(selectedRows)}`)
     // 从view中得到数据 并把stu_id提取出来组合为一个新数组
     let idArr = []
     selectedRows.map((val, index) => {
@@ -328,7 +322,7 @@ class Student extends Component {
     // 将stu_id得到的新数组映射到state中
     this.setState({
       batchLeadParams: {
-        faIdArrs: idArr
+        idArrs: idArr
       }
     })
   }
@@ -385,7 +379,7 @@ class Student extends Component {
         />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getClomus()}
           dataSource={tableData.data}
           pagination={{
             ...pagination,

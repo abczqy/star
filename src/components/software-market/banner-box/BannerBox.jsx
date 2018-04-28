@@ -3,36 +3,53 @@
  * 或者  横排公用一个div的上下border
  */
 import React, { Component } from 'react'
-import { Col, Row, Upload, Button, Icon } from 'antd'
+import { Col, Row, Upload, Button, Icon, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
+
+import axios from 'axios'
+import ajaxUrl from 'config'
 
 // const { Header, Content } = Layout
 
 // 测试用图片数据
-const fileList = [{
-  uid: -1,
-  name: 'xxx.png',
-  status: 'done',
-  url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-}, {
-  uid: -2,
-  name: 'yyy.png',
-  status: 'done',
-  url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-}]
+// const fileList = [{
+//   uid: -1,
+//   name: 'xxx.png',
+//   status: 'done',
+//   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+//   thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+// }, {
+//   uid: -2,
+//   name: 'yyy.png',
+//   status: 'done',
+//   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+//   thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+// }]
 
-const uploadConfig = {
-  action: '//jsonplaceholder.typicode.com/posts/',
-  listType: 'picture',
-  defaultFileList: [...fileList]
-}
+// const uploadConfig = {
+//   action: '//jsonplaceholder.typicode.com/posts/',
+//   listType: 'picture',
+//   defaultFileList: [...fileList]
+// }
 
 class BannerBox extends Component {
+  onDelete = (value) => {
+    let a = value.toString()
+    axios.post(ajaxUrl.deleteGatewayNavigation, { 'navigation_id': a }).then(
+      res => {
+        console.log(res.data)
+        if (res.data) {
+          this.props.getList()
+          message.success('删除成功')
+        } else {
+          message.error('删除失败')
+        }
+      }
+    ).catch(e => { console.log(e) })
+  }
   render () {
-    const { title, orderNum } = this.props
+    const { title, orderNum, id, datas } = this.props
     return (
       <div className='box-wrap'>
         <div className='banner-box-content-wrap '>
@@ -43,12 +60,17 @@ class BannerBox extends Component {
               </span>
             </Col>
             <Col span={19}>
-              <Upload {...uploadConfig} >
+              <Upload {...datas} >
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
                 <div className='marks-font-type'>支持扩展名：.png .jpg...  （图片尺寸：1425*450）</div>
               </Upload>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={2} offset={7}>
+              <Button size='small' onClick={() => this.onDelete(id)} > 删除</Button>
             </Col>
           </Row>
         </div>
@@ -59,7 +81,10 @@ class BannerBox extends Component {
 
 BannerBox.propTypes = {
   orderNum: PropsTypes.number,
-  title: PropsTypes.string
+  title: PropsTypes.string,
+  id: PropsTypes.string,
+  getList: PropsTypes.func,
+  datas: PropsTypes.object
 }
 
 export default BannerBox

@@ -7,6 +7,7 @@ import { Row, Col, Icon } from 'antd'
 import { BlankBar } from 'components/software-market'
 import PropsTypes from 'prop-types'
 import moment from 'moment'
+import ajaxUrl from 'config'
 
 class SWRelate extends Component {
   render () {
@@ -95,7 +96,7 @@ class SWRelate extends Component {
               <span>软件图标:</span>
             </Col>
             <Col>
-              <img alt='软件的图标' src={resData && resData.sw_icon} />
+              <img style={{width: 48, height: 42}} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
             </Col>
           </Row>
           <Row className='sw-relate-move-L'>
