@@ -5,13 +5,13 @@
 import React from 'react'
 import { Badge, Icon } from 'antd'
 import { renderRoutes } from 'react-router-config'
-import apiConfig from '../../config'
 import SignOut from './SignOut'
 import axios from 'axios'
-import ajaxUrl from 'config'
+import Config from 'config'
 import './Operateview.scss'
 import BottomHeader from 'components/common/BottomHeader'
 import webStorage from 'webStorage'
+import { withRouter } from 'react-router'
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -39,7 +39,7 @@ class LoginHome extends React.Component {
   }
   // 未读消息数
   getMessageCount=() => {
-    axios.post(ajaxUrl.getMessageCount).then((response) => {
+    axios.post(Config.getMessageCount).then((response) => {
       console.log('返回未读消息数量', response)
       this.setState({
         messageCount: response.data.count
@@ -53,7 +53,9 @@ class LoginHome extends React.Component {
     this.setState({
       activeTab: key
     }, () => {
-      window.location.href = apiConfig.BASE_TAB + '/#' + link
+      this.props.history.push({
+        pathname: link
+      })
     })
   }
   // 退出系统
@@ -122,4 +124,4 @@ class LoginHome extends React.Component {
   }
 }
 
-export default LoginHome
+export default withRouter(LoginHome)

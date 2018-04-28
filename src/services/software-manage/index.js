@@ -21,7 +21,7 @@ export function appRenew (params, sucFn) {
 }
 
 /**
- * 软件管理-运营中-续费
+ * 软件管理-运营中-下架
  */
 export function undercarriage (params, sucFn) {
   return axios.post('/management/undercarriage', params)

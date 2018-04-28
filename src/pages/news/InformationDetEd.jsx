@@ -15,11 +15,13 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
+import webStorage from 'webStorage'
 
 class InformationDetEd extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       imgT: img,
       imgUl: ul,
       imgFen: fen,
@@ -41,6 +43,7 @@ class InformationDetEd extends React.Component {
     console.log('获取数据')
   }
   componentWillMount () {
+    this.getHeight()
     this.getList()
     let a = window.location.href.split('?')
     let value = {
@@ -69,6 +72,37 @@ class InformationDetEd extends React.Component {
     }).catch(err => {
       console.log(err)
     })
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   // 更多的点击事件
   more=() => {
@@ -93,73 +127,83 @@ class InformationDetEd extends React.Component {
       </Row>
     </div>)
   }
-  render () {
-    return <div style={{margin: 'auto', width: '100%', marginLeft: '6%'}}>
-      <div >
-        <Row>
-          <Col span={5} style={{width: '18%'}}>
-            <div className='left-downer'>
-              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-                <ul className='ul-margin'>
-                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                    return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                  })}
-                </ul>
-              </Card>
-            </div>
-            <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
-          </Col>
-          <Col span={15} style={{width: '68%', marginTop: '10px', minHeight: '820px'}}>
-            <div style={{backgroundColor: '#fff', width: '100%'}}>
-              <Row>
-                <ul className='details-li-ul'>
-                  <li className='details-li-hover'>
-                    <span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span>
-                  </li>
-                </ul>
-              </Row>
-              <Row>
-                <Col span={24}>
-                  <div className='details-right-div'>
-                    <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1' }</p>
-                    <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '1' }</span>
-                    <div className='details-right-div-div'>
-                      <div style={{marginBottom: '30px'}}>
-                        {this.state.infoData ? this.state.infoData.info_desc : '1' }
-                      </div>
-                      <div style={{width: '700px', alignContent: 'right'}}>
-                        <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row style={{marginBottom: '18px', marginLeft: '15%'}}>
-                <div style={{width: '200px', height: '30px'}}>
-                  <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
-                  <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
-                  <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
-                    <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
-                  </Tooltip>
-                  <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
-                </div>
-                <div>
-                  <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
-                </div>
-                <div>
-                  <ul className='details-li-ul-down'>
-                    {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                      return index < 5 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li> : null
-                    })}
-                  </ul>
-                </div>
-              </Row>
-            </div>
-          </Col>
-        </Row>
-      </div>
-    </div>
-  }
+ // 获取高度
+ getHeight=() => {
+   if (this.state.webStorage) {
+     this.setState({
+       viewHeight: window.innerHeight - 247
+     })
+   } else {
+     this.setState({
+       viewHeight: window.innerHeight - 193
+     })
+   }
+ }
+ render () {
+   return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
+     <div >
+       <Col span={5} style={{width: '18%'}}>
+         <div className='left-downer'>
+           <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
+             <ul className='ul-margin'>
+               {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                 return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+               })}
+             </ul>
+           </Card>
+         </div>
+         <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
+       </Col>
+       <Col span={15} style={{width: '68%', marginTop: '10px'}}>
+         <div style={{backgroundColor: '#fff', width: '100%'}}>
+           <Row>
+             <ul className='details-li-ul'>
+               <li className='details-li-hover'>
+                 <span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span>
+               </li>
+             </ul>
+           </Row>
+           <Row>
+             <Col span={24}>
+               <div className='details-right-div'>
+                 <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1' }</p>
+                 <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '1' }</span>
+                 <div className='details-right-div-div'>
+                   <div style={{marginBottom: '30px'}}>
+                     {this.state.infoData ? this.state.infoData.info_desc : '1' }
+                   </div>
+                   <div style={{width: '700px', alignContent: 'right'}}>
+                     <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
+                   </div>
+                 </div>
+               </div>
+             </Col>
+           </Row>
+           <Row style={{marginBottom: '18px', marginLeft: '15%'}}>
+             <div style={{width: '200px', height: '30px'}}>
+               <span style={{float: 'left', height: '28px', lineHeight: '28px'}}>分享:</span>
+               <span title='分享到QQ空间' className='share-Qzone' onClick={(e) => { shareContent.shareToQzone(e) }} />
+               <Tooltip overlayClassName='custom-share-container' trigger='click' placement='top' title={this.getQRCode()} okText='' cancelText=''>
+                 <span title='分享到微信朋友圈' className='share-WeChat jiathis_button_weixin' />
+               </Tooltip>
+               <span title='分享到新浪微博' className='share-SinaWB' onClick={(e) => { shareContent.shareToSinaWB(e) }} />
+             </div>
+             <div>
+               <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
+             </div>
+             <div>
+               <ul className='details-li-ul-down'>
+                 {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                   return index < 5 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px'}} alt='' /> {item}</li> : null
+                 })}
+               </ul>
+             </div>
+           </Row>
+         </div>
+       </Col>
+     </div>
+   </div>
+ }
 }
 
 export default InformationDetEd

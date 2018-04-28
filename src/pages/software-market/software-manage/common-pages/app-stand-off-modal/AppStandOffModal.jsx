@@ -12,6 +12,16 @@ const modalConfig = {
 }
 
 class AppStandOffModal extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+
+    }
+  }
+
+  onChange = (e) => {
+    this.props.getVeriCode(e.target.value)
+  }
   render () {
     const { getContainer, visible, footer, swName } = this.props
     return (
@@ -31,7 +41,7 @@ class AppStandOffModal extends Component {
         </Row>
         <Row gutter={16}>
           <Col offset={4} span={10}>
-            <Input placeholder='请输入验证码' />
+            <Input placeholder='请输入验证码' onChange={this.onChange} />
           </Col>
           <Col span={10}>
             <img src='./test-data/test-check-code.png' alt='src由父传入' />
@@ -47,7 +57,8 @@ AppStandOffModal.propTypes = {
   getContainer: PropsTypes.any,
   visible: PropsTypes.bool,
   footer: PropsTypes.array,
-  swName: PropsTypes.string
+  swName: PropsTypes.string,
+  getVeriCode: PropsTypes.func
 }
 
 export default AppStandOffModal

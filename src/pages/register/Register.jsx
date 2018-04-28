@@ -8,8 +8,8 @@ import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
 import RegisterModal from './RegisterSuccModal'
 import axios from 'axios'
-import ajaxUrl from 'config'
-import apiConfig from '../../config'
+import Config from 'config'
+import { withRouter } from 'react-router'
 class Register extends React.Component {
   constructor (props) {
     super(props)
@@ -37,14 +37,14 @@ class Register extends React.Component {
     if (link === this.props.location.pathname) {
       window.location.reload()
     }
-    window.location.href = apiConfig.BASE_TAB + '/#' + link
+    this.props.history.push({pathname: link})
   }
   // 校验邮箱
   handlemialonblur = (e) => {
     const value = e.target.value
     if (this.onLoginidChange(e)) {
       let confirm = ''
-      axios.post(ajaxUrl.registerValitemail, {
+      axios.post(Config.registerValitemail, {
         email: value
       }).then((response) => {
         confirm = response.msg !== 'exist'//  exist代表被邮箱被占用
@@ -426,7 +426,7 @@ class Register extends React.Component {
     })
   }
   registermaf = (values) => {
-    axios.post(ajaxUrl.register, {
+    axios.post(Config.register, {
       params: {
         'maf_pwd': values.maf_pwd, // 注册密码
         'maf_name': values.maf_name, // 家长姓名
@@ -634,4 +634,4 @@ class Register extends React.Component {
     )
   }
 }
-export default Form.create()(Register)
+export default withRouter(Form.create()(Register))
