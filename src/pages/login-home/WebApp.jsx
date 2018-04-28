@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'
 import webStorage from 'webStorage'
+import {processStr} from 'utils'
 
 class WebApp extends React.Component {
   constructor (props) {
@@ -26,12 +27,6 @@ class WebApp extends React.Component {
     this.props.history.push('/operate-manage-home/all-app-detail-third?'+item.sw_id)
   }
 
-  processStr (str, n) {
-    let l = str.length
-    if (l <= n) return str
-    return str.slice(0, n) + '...'
-  }
-
   renderItem (item, index) {
     return (
       <Col span={5} key={index} style={{marginBottom: '15px'}}>
@@ -42,7 +37,7 @@ class WebApp extends React.Component {
           <div className='item-content'>
             <img className='app-img' src={Config.IMG_BASE_URL + item.sw_icon} />
             <div className='title'>{item.sw_name}</div>
-            <div className='content'>{this.processStr(item.sw_desc, 12)}</div>
+            <div className='content'>{processStr(item.sw_desc, 12)}</div>
             <div>
               <Button onClick={() => { this.handleAppClick(item) }}>查看详情<Icon type='arrow-right' /></Button>
             </div>

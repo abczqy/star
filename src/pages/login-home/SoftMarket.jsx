@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'
 import webStorage from 'webStorage'
+import {processStr} from 'utils'
 
 class SoftMarket extends React.Component {
   constructor (props) {
@@ -15,12 +16,6 @@ class SoftMarket extends React.Component {
     this.state = {
 
     }
-  }
-
-  processStr (str, n) {
-    let l = str.length
-    if (l <= n) return str
-    return str.slice(0, n) + '...'
   }
 
   renderItem (item, index) {
@@ -35,7 +30,7 @@ class SoftMarket extends React.Component {
                 <List.Item.Meta
                   avatar={<Avatar className='img' src={Config.IMG_BASE_URL + item.SW_ICON} />}
                   title={<a className='title' href='javascript:void(0);'>{item.SW_NAME}</a>}
-                  description={this.processStr(item.SW_DESC, 60)}
+                  description={processStr(item.SW_DESC, 60)}
                 />
               </List.Item>
             )}

@@ -12,6 +12,7 @@ import './Operateview.scss'
 import BottomHeader from 'components/common/BottomHeader'
 import webStorage from 'webStorage'
 import { withRouter } from 'react-router'
+import _ from 'lodash'
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -26,9 +27,12 @@ class LoginHome extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({
-      activeTab: this.getDefaultTabKey(nextProps.location.pathname)
-    })
+    // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
+    if (_.indexOf(['/unlogged/home', '/unlogged/newsList', '/unlogged/information'], nextProps.location.pathname) !== -1) {
+      this.setState({
+        activeTab: this.getDefaultTabKey(nextProps.location.pathname)
+      })
+    }
   }
 
   getDefaultTabKey (pathName) {

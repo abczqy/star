@@ -7,7 +7,7 @@ import './ThirdPartyAppDetail.css'
 import { Button, Icon, Carousel, Rate } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
-import axios from 'axios'
+import {thirdPartyAppDetail, relatedApplications} from 'services/all-app/'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
@@ -38,13 +38,14 @@ export default class ThirdPartyAppDetail extends React.Component {
       appId: a
     }, () => {
       this.getThirdPartyAppDetailData()
+      this.getRelatedApplications()
     })
   }
   // 获取应用详情数据
   getThirdPartyAppDetailData = () => {
-    axios.post(ajaxUrl.thirdPartyAppDetail, {
+    thirdPartyAppDetail({
       sw_id: this.state.appId
-    }).then((res) => {
+    }, (res) => {
       console.log(2222222, res.data)
       this.setState({
         appDetailData: res.data
@@ -59,7 +60,6 @@ export default class ThirdPartyAppDetail extends React.Component {
         this.setState({
           computerCarousel: bb
         })
-        this.getRelatedApplications()
       })
     }).catch((e) => { console.log(e) })
   }
@@ -94,10 +94,10 @@ export default class ThirdPartyAppDetail extends React.Component {
   }
   // 获取相关应用数据
   getRelatedApplications = () => {
-    axios.post(ajaxUrl.relatedApplications, {
+    relatedApplications({
       sw_type: this.state.appId,
       type: 'software'
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         relateData: res.appDetailData.sw_tpe
       })
