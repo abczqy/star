@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind,no-mixed-operators */
+/* eslint-disable react/jsx-no-bind,no-mixed-operators,no-useless-return */
 /**
  * 软件管理-运营中-续费
  */
@@ -7,6 +7,7 @@ import { Modal, Button, Row, Col, Radio, Upload, Icon, DatePicker, Select, messa
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import {appRenew} from 'services/software-manage'
+import _ from 'lodash'
 
 export default class BusiRenewWin extends React.Component {
   static propTypes = {
@@ -107,7 +108,7 @@ export default class BusiRenewWin extends React.Component {
     const { fileList } = this.state
     const formData = new FormData()
     formData.append('type', this.state.renewType)
-    formData.append('fa_id', this.props.record.fa_id || '')
+    formData.append('sw_id', this.props.record.fa_id || '')
     // 临时开通
     if (this.state.renewType === '0') {
       formData.append('contract_start', this.state.renewStartTime)
@@ -160,9 +161,15 @@ export default class BusiRenewWin extends React.Component {
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
-        }))
+        if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
+          message.warn('不支持该附件类型上传!')
+        } else if (file.size > 10 * 1024 * 1024) {
+          message.warn('文件大小不能超过10M')
+        } else {
+          this.setState(({ fileList }) => ({
+            fileList: [...fileList, file]
+          }))
+        }
         return false
       },
       fileList: this.state.fileList
@@ -229,10 +236,10 @@ export default class BusiRenewWin extends React.Component {
               <a href='javascript:void(0)' style={{color: 'red'}}>*</a>
               <span className='title'>财务审核凭证:</span>
               <Upload {...props}>
-                <Button>
+                <Button disabled={this.state.fileList.length >= 1}>
                   <Icon type='upload' /> 上传文件
                 </Button>
-                <span className='extend'>支持扩展名：.png .jpg ...</span>
+                <span className='extend'>支持扩展名：.jpg .png .pdf .bmp .webp</span>
               </Upload>
             </span>
           </Row>

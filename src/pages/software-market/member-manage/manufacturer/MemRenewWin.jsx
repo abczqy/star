@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind,no-mixed-operators,no-unused-expressions */
+/* eslint-disable react/jsx-no-bind,no-mixed-operators,no-unused-expressions,no-useless-return */
 /**
  * 会员管理-厂商-续签
  */
@@ -7,6 +7,7 @@ import { Modal, Button, Row, Col, Radio, Upload, Icon, DatePicker, Select, messa
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import {firmRenew} from 'services/software-manage'
+import _ from 'lodash'
 
 export default class MemRenewWin extends React.Component {
   static propTypes = {
@@ -160,9 +161,15 @@ export default class MemRenewWin extends React.Component {
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
-        }))
+        if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
+          message.warn('不支持该附件类型上传!')
+        } else if (file.size > 10 * 1024 * 1024) {
+          message.warn('文件大小不能超过10M')
+        } else {
+          this.setState(({ fileList }) => ({
+            fileList: [...fileList, file]
+          }))
+        }
         return false
       },
       fileList: this.state.fileList
@@ -231,10 +238,10 @@ export default class MemRenewWin extends React.Component {
               <a href='javascript:void(0)' style={{color: 'red'}}>*</a>
               <span className='title'>财务审核凭证:</span>
               <Upload {...props}>
-                <Button>
+                <Button disabled={this.state.fileList.length >= 1}>
                   <Icon type='upload' /> 上传文件
                 </Button>
-                <span className='extend'>支持扩展名：.png .jpg ...</span>
+                <span className='extend'>支持扩展名：.jpg .png .pdf .bmp .webp</span>
               </Upload>
             </span>
           </Row>

@@ -52,8 +52,9 @@ class LoginHome extends React.Component {
     }
     this.setState({
       activeTab: key
+    }, () => {
+      window.location.href = apiConfig.BASE_TAB + '/#' + link
     })
-    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
   // 退出系统
   signOut=() => {
