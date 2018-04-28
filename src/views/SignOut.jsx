@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* 退出 */
 import React from 'react'
 import {Modal, Button} from 'antd'
@@ -25,20 +26,20 @@ class SignOutModal extends React.Component {
   }
   saveOrSubmit =(value) => {
     axios.put(ajaxUrl.sessionLogout, {}).then((response) => {
-      console.log('退出成功', response)
       this.backHome()
-      webStorage.removeItem('STAR_WEB_SESSION_ID')
-      webStorage.removeItem('STAR_WEB_ROLE_CODE')
-      webStorage.removeItem('STAR_WEB_PERSON_INFO')
-      webStorage.removeItem('STAR_WEB_IS_LOGGED')
+      webStorage.clear()
       this.props.hiddenModal()
     })
   }
   backHome=() => {
     clearCookie()
-    this.props.history.push({
-      pathname: 'unlogged/home'
-    })
+    if (this.props.location.pathname === '/unlogged/home') {
+      window.location.reload()
+    } else {
+      this.props.history.push({
+        pathname: '/unlogged/home'
+      })
+    }
   }
 
   render () {
