@@ -7,9 +7,7 @@ import { Button, Icon, Tabs, Rate } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import axios from 'axios'
-// import PropTypes from 'prop-types'
 import HomeCarousel from './HomeCarousel'
-import { connect } from 'react-redux'
 import './TeacherHome.scss'
 const TabPane = Tabs.TabPane
 class TeacherHome extends Component {
@@ -147,7 +145,6 @@ class TeacherHome extends Component {
     }).catch((e) => { console.log(e) })
   }
   render () {
-    console.log(65656464, webStorage.getItem('STAR_WEB_ROLE_CODE'))
     return (
       <div className='logged-home'>
         <HomeCarousel />
@@ -353,16 +350,4 @@ class TeacherHome extends Component {
     )
   }
 }
-TeacherHome.propTypes = {
-  // roleCode: PropTypes.string
-}
-const mapStateToProps = state => ({
-  roleCode: state.role.code
-})
-
-const mapDispatchToProps = dispatch => ({
-})
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TeacherHome)
+export default TeacherHome

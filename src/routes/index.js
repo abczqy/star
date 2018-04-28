@@ -52,9 +52,9 @@ import MessageTopBar from 'views/message-notice/MessageTopBar'
 import MessageNotice from 'views/message-notice/MessageNotice'
 import MessageSetting from 'views/message-notice/MessageSetting'
 import MessageDetail from 'views/message-notice/MessageDetail'
-import TeacherHome from '../pages/after-logging-home/TeacherHome'
-import Register from '../pages/register/Register'
-import ForgetPass from '../pages/register/ForgetPass'
+import TeacherHome from 'pages/after-logging-home/TeacherHome'
+import Register from 'pages/register/Register'
+import ForgetPass from 'pages/register/ForgetPass'
 
 export default [{
   path: '/unlogged',

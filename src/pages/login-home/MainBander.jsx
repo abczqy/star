@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
-import axiosApi from '../../services'
+import {login} from 'services/portal'
 import PropTypes from 'prop-types'
 import apiConfig from '../../config'
 import webStorage from 'webStorage'
@@ -41,7 +41,7 @@ class MainBander extends React.Component {
       })
       return
     }
-    axiosApi.login({
+    login({
       userName: this.state.userName || '',
       userPassword: this.state.passWord || ''
     }, (response) => {
