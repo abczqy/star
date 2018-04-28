@@ -4,41 +4,77 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Input, Select, Button, Row, Col } from 'antd'
+import { Select, Button, Row, Col } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberEduSer.scss'
 
 const Option = Select.Option
 
 class SearchBarMemberEduSer extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+  /**
+   * 如果用动态从后台获取下拉菜单的方法
+   * 这里写个demo
+   * 接口留好 到时候 这样改造就行了
+   * 当然 后台请求到的数据 以props传给这里
+   * @param {array} optArrs 分组建传进来的arrays
+   */
+  getOptions = (optArrs) => {
+    return optArrs.map((Item, index) => {
+      return <Option value={Item}>{Item}</Option>
+    })
+  }
+
   render () {
     const {
+      searchParams,
       onBtnSearchClick,
-      onInput1Change,
-      onInput2Change,
-      onInput3Change,
-      onSelect2Change,
       onSelect1Change,
+      onSelect2Change,
+      onSelect3Change,
+      onSelect4Change,
+      onSelect5Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
           <Col span={3}>
-            <span className='input-label'>账号 </span>
-            <Input className='input' placeholder='请输入' onChange={onInput1Change} />
+            <span className='input-label'>账号</span>
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect1Change} >
+              {this.getOptions(searchParams.idArr)}
+            </Select>
           </Col>
           <Col span={5}>
-            <span className='input-label-1'>机构名称 </span>
-            <Input className='input-1' placeholder='请输入' onChange={onInput2Change} />
+            <span className='input-label'>机构名称</span>
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect2Change} >
+              {this.getOptions(searchParams.idArr)}
+            </Select>
           </Col>
           <Col span={5}>
-            <span className='input-label-2'>上级机构名称 </span>
-            <Input className='input-2' placeholder='请输入' onChange={onInput3Change} />
+            <span className='input-label'>上级机构名称</span>
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect3Change} >
+              {this.getOptions(searchParams.idArr)}
+            </Select>
           </Col>
           <Col span={3}>
             <span className='select-label-1'>所属级别 </span>
-            <Select defaultValue='all' className='select-1' onChange={onSelect1Change} >
+            <Select defaultValue='all' className='select-1' onChange={onSelect4Change} >
               <Option value='all'>全部</Option>
               <Option value='province'>省</Option>
               <Option value='city'>市</Option>
@@ -47,7 +83,7 @@ class SearchBarMemberEduSer extends Component {
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录 </span>
-            <Select defaultValue='all' className='select' onChange={onSelect2Change} >
+            <Select defaultValue='all' className='select' onChange={onSelect5Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='refuse'>不允许</Option>
@@ -66,12 +102,13 @@ class SearchBarMemberEduSer extends Component {
 }
 
 SearchBarMemberEduSer.propTypes = {
+  searchParams: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
-  onInput1Change: PropsTypes.func,
-  onInput2Change: PropsTypes.func,
-  onInput3Change: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
+  onSelect3Change: PropsTypes.func,
+  onSelect4Change: PropsTypes.func,
+  onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }
 

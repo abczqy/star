@@ -4,46 +4,82 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Input, Select, Button, Row, Col } from 'antd'
+import { Select, Button, Row, Col } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberTeac.scss'
 
 const Option = Select.Option
 
 class SearchBarMemberTeac extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+  /**
+   * 如果用动态从后台获取下拉菜单的方法
+   * 这里写个demo
+   * 接口留好 到时候 这样改造就行了
+   * 当然 后台请求到的数据 以props传给这里
+   * @param {array} optArrs 分组建传进来的arrays
+   */
+  getOptions = (optArrs) => {
+    return optArrs.map((Item, index) => {
+      return <Option value={Item}>{Item}</Option>
+    })
+  }
+
   render () {
     const {
+      searchParams,
       onBtnSearchClick,
-      onInput1Change,
-      onInput2Change,
-      onInput3Change,
+      onSelect1Change,
       onSelect2Change,
+      onSelect3Change,
+      onSelect4Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
-          <Col span={3}>
+          <Col span={4}>
             <span className='input-label'>账号</span>
-            <Input className='input' placeholder='请输入' onChange={onInput1Change} />
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect1Change} >
+              {this.getOptions(searchParams.idArr)}
+            </Select>
           </Col>
           <Col span={5}>
             <span className='input-label'>教师姓名</span>
-            <Input className='input' onChange={onInput2Change} />
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect2Change} >
+              {this.getOptions(['路小雨', '叶湘伦'])}
+            </Select>
           </Col>
           <Col span={5}>
             <span className='input-label'>学校名称</span>
-            <Input className='input' onChange={onInput3Change} />
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect3Change} >
+              {this.getOptions(['路小雨', '叶湘伦'])}
+            </Select>
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录</span>
-            <Select defaultValue='all' className='select' onChange={onSelect2Change} >
+            <Select defaultValue='all' className='select' onChange={onSelect4Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='refuse'>不允许</Option>
             </Select>
           </Col>
-          <Col span={5}>
+          <Col span={3}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
@@ -56,11 +92,12 @@ class SearchBarMemberTeac extends Component {
 }
 
 SearchBarMemberTeac.propTypes = {
+  searchParams: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
-  onInput1Change: PropsTypes.func,
-  onInput2Change: PropsTypes.func,
-  onInput3Change: PropsTypes.func,
+  onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
+  onSelect3Change: PropsTypes.func,
+  onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }
 
