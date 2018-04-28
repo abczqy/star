@@ -10,7 +10,7 @@
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
-import { Link } from 'react-router-config'
+import { Link } from 'react-router-dom'
 import {
   schGetData,
   schDelId,

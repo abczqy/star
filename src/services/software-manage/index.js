@@ -74,7 +74,7 @@ export function changeFaLoginState (params, sucFn) {
  * 会员管理-厂商-初始化厂商的密码
  */
 export function initFaPwd (params, sucFn) {
-  return axios.post('/factoryManage/updatepwd', {params})
+  return axios.post('/factoryManage/updatepwd', {...params})
     .then((res) => {
       sucFn(res)
     })
@@ -84,7 +84,7 @@ export function initFaPwd (params, sucFn) {
  * 会员管理-厂商-获取厂商详情
  */
 export function getFaDetails (params, sucFn) {
-  return axios.post('/factoryManage/getdetail', {params})
+  return axios.post('/factoryManage/getdetail', {...params})
     .then((res) => {
       sucFn(res)
     })
@@ -94,7 +94,7 @@ export function getFaDetails (params, sucFn) {
  * 会员管理-厂商-批量导出
  */
 export function faBatchLeadout (params, sucFn) {
-  return axios.post('/management/batchleadoutfa', {params})
+  return axios.post('/management/batchleadoutfa', {...params})
     .then((res) => {
       sucFn(res)
     })
@@ -205,6 +205,46 @@ export function initPaPwd (params, sucFn) {
  */
 export function delPaLoginId (params, sucFn) {
   axios.post('/parentmanage/updatestate', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学校-查询
+ */
+export function schGetData (params, sucFn) {
+  axios.post('/manage/school', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学校-删除
+ */
+export function schDelId (params, sucFn) {
+  axios.post('/manage/delete', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学校-密码重置
+ */
+export function schInitPwd (params, sucFn) {
+  axios.post('/manage/updatePassword', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-学校-批量导出
+ */
+export function schBatchLeadout (params, sucFn) {
+  axios.post('/manage/updatePassword', {...params})
     .then((res) => {
       sucFn(res)
     })
