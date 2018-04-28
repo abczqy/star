@@ -12,7 +12,8 @@ import BottomHeader from '../../components/common/BottomHeader'
 class ForgetPass extends React.Component {
   static propTypes = {
     location: PropTypes.object,
-    form: PropTypes.object
+    form: PropTypes.object,
+    history: PropTypes.object
   }
   constructor (props) {
     super(props)
@@ -31,8 +32,11 @@ class ForgetPass extends React.Component {
   backHome (link) {
     if (link === this.props.location.pathname) {
       window.location.reload()
+    } else {
+      this.props.history.push({
+        pathname: link
+      })
     }
-    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
   // 账号
   accountNum=(value) => {

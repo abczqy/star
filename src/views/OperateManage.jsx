@@ -9,8 +9,8 @@ import {Layout, Icon, Badge, Row} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
-import apiConfig from '../../config'
 import './Operateview.scss'
+import { withRouter } from 'react-router'
 import webStorage from 'webStorage'
 
 class OperateManage extends React.Component {
@@ -25,8 +25,11 @@ class OperateManage extends React.Component {
   handleTabChange (link) {
     if (link === this.props.location.pathname) {
       window.location.reload()
+    } else {
+      this.props.history.push({
+        pathname: link
+      })
     }
-    window.location.href = apiConfig.BASE_TAB + '/#' + link
   }
   // 退出系统
   signOut=() => {
@@ -151,4 +154,4 @@ class OperateManage extends React.Component {
   }
 }
 
-export default OperateManage
+export default withRouter(OperateManage)
