@@ -363,6 +363,12 @@ export function iteration (params, sucFn) {
  */
 export function addGatewayNavigation (params, sucFn) {
   return axios.post('/addGatewayNavigation', params)
+}
+/*
+ * 信息公开编辑
+ */
+export function informationEdListEdit (params, sucFn) {
+  return axios.post('/manage/editPublicInfo', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -372,33 +378,60 @@ export function addGatewayNavigation (params, sucFn) {
  */
 export function getGatewayNavigationList (params, sucFn) {
   return axios.get('/getGatewayNavigationList', params)
+}
+/*
+ * 信息公开新增
+ */
+export function informationEdListAdd (params, sucFn) {
+  return axios.post('/manage/addPublicInfo', params)
     .then(function (res) {
       sucFn(res)
     })
 }
 /**
+<<<<<<< Updated upstream
  * 平台首页-门户导航删除
  */
 export function deleteGatewayNavigation (params, sucFn) {
   return axios.post('/deleteGatewayNavigation', params)
+}
+/*
+ * 信息公开删除
+ */
+export function informationEdListDelete (params, id, sucFn) {
+  return axios.get(`/manage/deleteEduMsgList?InfoId=${id}`, params)
     .then(function (res) {
       sucFn(res)
     })
 }
+/*
 /**
  * 平台首页-banner图添加
  */
 export function addGatewayBanner (params, sucFn) {
   return axios.post('/addGatewayBanner', params)
+}
+/*
+ * 信息公开编辑的列表
+ */
+export function informationEdList (params, sucFn) {
+  return axios.post('/manage/getPublicInfo', params)
     .then(function (res) {
       sucFn(res)
     })
 }
 /**
+<<<<<<< Updated upstream
  * 平台首页-banner图查询
  */
 export function getGatewayBannerList (params, sucFn) {
   return axios.get('/getGatewayBannerList', params)
+}
+/*
+ * 用appId获取app数据接口
+ */
+export function appId (params, sucFn) {
+  return axios.post('/app/details', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -408,6 +441,39 @@ export function getGatewayBannerList (params, sucFn) {
  */
 export function deleteGatewayBanner (params, sucFn) {
   return axios.post('/deleteGatewayBanner', params)
+}
+/*
+ * 教育新闻列表
+ */
+export function newsList (params, sucFn) {
+  return axios.post('/application/newslist', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 教育新闻列表详情
+ */
+export function newsListDet (params, sucFn) {
+  return axios.post('/application/newdetial', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 信息公开列表
+ */
+export function information (params, sucFn) {
+  return axios.post('/application/infolist', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 信息公开列表编辑
+ */
+export function informationDet (params, sucFn) {
+  return axios.post('/application/infodetail', params)
     .then(function (res) {
       sucFn(res)
     })

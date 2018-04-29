@@ -16,6 +16,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
+import {informationDet} from 'services/software-manage'
 
 class InformationDet extends React.Component {
   constructor (props) {
@@ -43,16 +44,12 @@ class InformationDet extends React.Component {
       info_id: Number(a[a.length - 1])
     }
     console.log('游客的信息公开详情传递参数', value)
-    axios.post(ajaxUrl.informationDet,
-      value
-    ).then(item => {
+    informationDet(value, (response) => {
       this.setState({
-        infoData: item.data
+        infoData: response.data
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
       })
-    }).catch(err => {
-      console.log(err)
     })
 
     axios.get(ajaxUrl.detList).then(item => {

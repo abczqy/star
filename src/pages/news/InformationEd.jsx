@@ -4,7 +4,7 @@
  * 教育局的信息公开列表编辑
  */
 import React from 'react'
-import {Row, Col, Card, Pagination, Input, Select, Table, Button, Modal, Popconfirm, message} from 'antd'
+import {Row, Col, Card, Input, Select, Button, Modal, Popconfirm, message} from 'antd'
 import Policy from './PolicyEd'
 import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
@@ -14,8 +14,12 @@ import _ul from '../../assets/images/_ul.png'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import _ from 'lodash'
-import AJAX_HOST from '../../../static/Config'
+// import AJAX_HOST from '../../../static/Config'
 import webStorage from 'webStorage'
+import {processStr} from 'utils'
+import CustomPagingTable from '../../components/common/PagingTable'
+import {informationEdListDelete, informationEdList} from 'services/software-manage'
+
 const Search = Input.Search
 class InformationEd extends React.Component {
   constructor (props) {
@@ -46,14 +50,14 @@ class InformationEd extends React.Component {
         dataIndex: 'info_title',
         key: 'info_title',
         render (text, record, index) {
-          return <div style={{width: '160px', textOverflow: 'ellipsis', overflow: 'hidden'}}><i style={{overflow: 'hidden', width: '10000000000000000000000000000000000000000000000000000000px', fontStyle: 'normal', display: 'inline-block', textOverflow: 'ellipsis'}}>{text}</i></div>
+          return processStr(text, 8)
         }
       }, {
         title: '详情',
         dataIndex: 'info_desc',
         key: 'info_desc',
         render (text, record, index) {
-          return <div style={{width: '500px', textOverflow: 'ellipsis', overflow: 'hidden'}}><i style={{overflow: 'hidden', width: '10000000000000000000000000000000000000000000000000000000px', fontStyle: 'normal', display: 'inline-block', textOverflow: 'ellipsis'}}>{text}</i></div>
+          return processStr(text, 12)
         }
       }, {
         title: '状态',
@@ -61,22 +65,17 @@ class InformationEd extends React.Component {
         key: 'info_state',
         render (text, record, index) {
           if (record.info_state === 0) {
-            return <div style={{color: 'orange', width: '60px'}}>审核中</div>
+            return '审核中'
           } else if (record.info_state === 1) {
-            return <div style={{color: 'red', width: '60px'}}>已驳回</div>
+            return '已驳回'
           } else if (record.info_state === 2) {
-            return <div style={{color: 'green', width: '60px'}}>已发布</div>
+            return '已发布'
           }
         }
       }, {
         title: '发布时间',
         dataIndex: 'info_time',
-        key: 'info_time',
-        render (text, record, index) {
-          return (
-            <div style={{width: '90px'}}>{text}</div>
-          )
-        }
+        key: 'info_time'
       }, {
         title: '操作',
         dataIndex: 'do',
@@ -102,11 +101,9 @@ class InformationEd extends React.Component {
     console.log('点击删除')
     let value = record.info_id
     console.log('删除传送行传的id', value)
-    axios.get(AJAX_HOST + `/manage/deleteEduMsgList?InfoId=${value}`).then(item => {
-      message.success('您已经做好了决定并删除了这一条消息！')
-      console.log(item)
-    }).catch(err => {
-      console.log(err)
+    informationEdListDelete('', value, (response) => {
+      message.success(`信息删除成功!`)
+      console.log(response)
     })
   }
 
@@ -123,16 +120,11 @@ class InformationEd extends React.Component {
       state: this.state.select || ''
     }
     console.log('教育局信息公开获取数据传送信息', value)
-    axios.post(ajaxUrl.informationEdList,
-      value
-    ).then(item => {
+    informationEdList(value, (response) => {
+      console.log(response)
       this.setState({
-        tableData: item.data
-      }, () => {
-        console.log('this.state.tableData', this.state.tableData)
+        tableData: response.data
       })
-    }).catch(err => {
-      console.log(err)
     })
 
     axios.get(ajaxUrl.detList).then(item => {
@@ -170,32 +162,6 @@ class InformationEd extends React.Component {
   // 点击搜索
   search=() => {
     this.getList()
-  }
-  // 分页页码改变
-  ptChange=(page, pageSize) => {
-    console.log('页码改变', page, pageSize)
-    this.setState({
-      pageNum: page
-    }, () => {
-      this.getList()
-    })
-  }
-  // 每页展示数量改变
-  stChange=(current, size) => {
-    console.log('每页的数量改变', current, size)
-    this.setState({
-      pageSize: size
-    }, () => {
-      this.getList()
-    })
-  }
-  // 有关table的方法有问题
-  handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter)
-    this.setState({
-      filteredInfo: filters,
-      sortedInfo: sorter
-    })
   }
   // 状态选择
   stateValue = (value) => {
@@ -268,85 +234,97 @@ class InformationEd extends React.Component {
      })
    }
  }
- render () {
-   console.log('返回数据', this.state.tableData)
-   const dataT = [
-     {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
-   ]
-   return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
-     <div >
-       <Row>
-         <Col span={5} style={{width: '18%'}}>
-           <Row><div className='left-downer'>
-             <img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div>
-           </Row>
-           <Row><div className='left-downer'>
-             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-               <ul className='ul-margin'>
-                 {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                   return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
-                 })}
-               </ul>
-             </Card></div>
-           </Row>
-           <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
-         </Col>
-         <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px'}}>
-           <Row>
-             <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '98%'}}>
-               <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder='请查询状态' style={{ width: '60%' }} allowClear onChange={(value) => this.stateValue(value)}>
-                 {dataT.map((item, index) => {
-                   return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
-                 })}
-               </Select></Col>
-               <Col span={1} />
-               <Col span={12}>
-                 <Search
-                   mode='combobox'
-                   placeholder='搜索应用名称'
-                   style={{ width: '69%', marginRight: '10px' }}
-                   enterButton
-                   onChange={e => { return this.handleSearchTextChange(e) }}
-                   onSearch={() => { this.handBtnleFilter() }}
-                 /></Col>
-               <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
-             </div>
-           </Row>
-           <Row>
-             <div style={{marginBottom: '15px'}}>
-               <Table pagination={false} columns={this.columns} dataSource={this.state.tableData.data} onChange={this.handleChange} />
-             </div>
-           </Row>
-           <Row style={{marginBottom: '10px'}}>
-             <Col span={11} />
-             <Col >
-               {this.state.tableData.total > 5
-                 ? <Pagination
-                   total={this.state.tableData.total}
-                   showSizeChanger
-                   showQuickJumper
-                   onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                   onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                 /> : null}</Col>
-           </Row>
-         </Col>
-       </Row>
-     </div>
-     {this.state.visible
-       ? <Modal
-         title={this.state.title}
-         visible={this.state.visible}
-         onOk={this.handleOk}
-         onCancel={this.handleCancel}
-         width={'50%'}
-         height={'600px'}
-         maskClosable={false}
-         footer=''
-       >
-         <Policy ctrl={this.state.ctrl} record={this.state.record} getModalV={this.getModalV} />
-       </Modal> : null}
-   </div>
+ // 改变每页显示条数
+ onShowSizeChange = (pageNum, pageSize) => {
+   console.log(pageNum, pageSize)
+   this.setState({pageNum, pageSize}, () => {
+     this.getList()
+   })
  }
+// 页码
+onPageNumChange = (pageNum, pageSize) => {
+  console.log(pageNum, pageSize)
+  this.setState({pageNum, pageSize}, () => {
+    this.getList()
+  })
+}
+render () {
+  console.log('返回数据', this.state.tableData)
+  const dataT = [
+    {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
+  ]
+  return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
+    <div >
+      <Row>
+        <Col span={5} style={{width: '18%'}}>
+          <Row><div className='left-downer'>
+            <img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div>
+          </Row>
+          <Row><div className='left-downer'>
+            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
+              <ul className='ul-margin'>
+                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
+                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                })}
+              </ul>
+            </Card></div>
+          </Row>
+          <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+        </Col>
+        <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', overflow: 'hidden'}}>
+          <Row>
+            <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '98%'}}>
+              <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder='请查询状态' style={{ width: '60%' }} allowClear onChange={(value) => this.stateValue(value)}>
+                {dataT.map((item, index) => {
+                  return <Select.Option value={item.value} key={index}>{item.title}</Select.Option>
+                })}
+              </Select></Col>
+              <Col span={1} />
+              <Col span={12}>
+                <Search
+                  mode='combobox'
+                  placeholder='搜索应用名称'
+                  style={{ width: '69%', marginRight: '10px' }}
+                  enterButton
+                  onChange={e => { return this.handleSearchTextChange(e) }}
+                  onSearch={() => { this.handBtnleFilter() }}
+                /></Col>
+              <Col span={2} style={{marginLeft: '3%'}}><Button type='danger' onClick={this.add.bind(this, 'add')}>+信息添加</Button></Col>
+            </div>
+          </Row>
+          <div className='marketAnalysis-table'>
+            <CustomPagingTable
+              dataSource={this.state.tableData.data}
+              columns={this.columns}
+              pageVisible
+              //   loading={this.state.loading}
+              total={this.state.total}
+              // customCls='ant-table-body'
+              pageSize={this.state.pageSize}
+              pageNum={this.state.pageNum}
+              currentPage={this.state.currentPage}
+              onShowSizeChange={(current, pageSize) => this.onShowSizeChange(current, pageSize)}
+              onChange={(current, pageSize) => this.onPageNumChange(current, pageSize)}
+            />
+          </div>
+        </Col>
+      </Row>
+    </div>
+    {this.state.visible
+      ? <Modal
+        title={this.state.title}
+        visible={this.state.visible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+        width={'50%'}
+        height={'600px'}
+        maskClosable={false}
+        footer=''
+      >
+        <Policy ctrl={this.state.ctrl} record={this.state.record} getModalV={this.getModalV} />
+      </Modal> : null}
+  </div>
+}
 }
 
 export default InformationEd

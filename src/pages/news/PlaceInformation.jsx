@@ -16,6 +16,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
+import {information} from 'services/software-manage'
 
 class Information extends React.Component {
   constructor (props) {
@@ -68,16 +69,13 @@ class Information extends React.Component {
       county: ''
     }
     console.log('教育局的信息公开列表获取数据传的参数', value)
-    axios.post(ajaxUrl.information, value
-    ).then(item => {
+    information(value, (response) => {
       this.setState({
-        infoData: item.data
+        infoData: response.data
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
         console.log('this.state.infoData.list', this.state.infoData.list)
       })
-    }).catch(err => {
-      console.log(err)
     })
 
     axios.get(ajaxUrl.detList).then(item => {

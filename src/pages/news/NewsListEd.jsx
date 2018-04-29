@@ -13,6 +13,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
+import {newsList} from 'services/software-manage'
 class News extends React.Component {
   constructor (props) {
     super(props)
@@ -34,18 +35,13 @@ class News extends React.Component {
       pageNum: this.state.pages,
       pageSize: this.state.pageSize
     }
-
-    axios.post(ajaxUrl.newsList,
-      value
-    ).then(item => {
+    newsList(value, (response) => {
       this.setState({
-        newData: item.data
+        newData: response.data
       }, () => {
         console.log('获取数据存在state', this.state.newData)
         console.log('获取数据存在state', this.state.newData.list)
       })
-    }).catch(err => {
-      console.log(err)
     })
 
     axios.get(ajaxUrl.detList).then(item => {

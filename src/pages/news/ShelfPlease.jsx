@@ -256,15 +256,23 @@ class ShelfPlease extends React.Component {
   zH=() => {
     let a = []
     for (let i = 0; i < this.state.Edition; i++) {
-      let c = {
-        fileListOneC: this.state.fileListOneC[i], // 用来存软件版本的文件的系统版本
-        fileListOneF: this.state.fileListOneF[i] // 用来存软件版本的文件id
-      }
+      let c = this.state.fileListOneF[i] // 用来存软件版本的文件id
       a.push(c)
     }
-    console.log(a)
     return a
   }
+  // 整合软件版本数据
+  zHs=() => {
+    let a = []
+    for (let i = 0; i < this.state.Edition; i++) {
+      let c = {}
+      let w = this.state.fileListOneC[i]
+      c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
+      a.push(c)
+    }
+    return a
+  }
+
   // 提交表单啦
   submit=() => {
     const formData = new FormData()
@@ -282,9 +290,10 @@ class ShelfPlease extends React.Component {
     formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片
     formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
     formData.append('fin_audit', this.state.fileListSix)// 财务凭证
-    formData.append('copTypes', this.zH())// 软件版本的文件id和系统类别
+    formData.append('type', this.zHs())// 软件版本的文件id和系统类别
+    formData.append('copType', this.zH())// 软件版本的文件id和系统类别
     formData.append('fa_id', 'fa_123456')// 厂商Id
-    shelf(formData, (response) => { // 这个是我在别的页面引进来的ajax，这个是提交的
+    shelf(formData, (response) => {
       message.success(`上架申请成功!${response}`)
       console.log(response)
     })

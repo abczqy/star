@@ -16,6 +16,7 @@ import ajaxUrl from 'config'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
+import {newsListDet} from 'services/software-manage'
 class NewsDetailsEd extends React.Component {
   constructor (props) {
     super(props)
@@ -41,16 +42,13 @@ class NewsDetailsEd extends React.Component {
       news_id: Number(a[a.length - 1])
     }
     console.log(value)
-    axios.post(ajaxUrl.newsListDet,
-      value
-    ).then(item => {
+    newsListDet(value, (response) => {
       this.setState({
-        newData: item.data
+        newData: response.data
       }, () => {
         console.log('获取数据存在state', this.state.newData)
+        console.log('获取数据存在state', this.state.newData.list)
       })
-    }).catch(err => {
-      console.log(err)
     })
 
     axios.get(ajaxUrl.detList).then(item => {

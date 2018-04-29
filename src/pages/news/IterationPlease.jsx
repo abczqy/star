@@ -6,12 +6,8 @@ import React from 'react'
 import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
-// import Upload from './Upload'
-import axios from 'axios'
-import ajaxUrl from 'config'
-// import axios from 'axios'
-// import ajaxUrl from 'config'
-import {iteration} from 'services/software-manage'
+import {iteration, appId} from 'services/software-manage'
+import webStorage from 'webStorage'
 
 const { TextArea } = Input
 
@@ -19,6 +15,7 @@ class IterationPlease extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      viewHeight: 500,
       imgTitle: title,
       newV: '',
       type: '',
@@ -64,6 +61,38 @@ class IterationPlease extends React.Component {
     })
     this.renderEdition()
     this.getAppData(a[1])
+    this.getHeight()
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+      this.setState({
+        webStorage: false
+      }, () => {
+        this.getHeight()
+      })
+    } else {
+      this.setState({
+        webStorage: true
+      }, () => {
+        this.getHeight()
+      })
+    }
+  }
+  componentWillReceiveProps (nextProps) {
+    console.log('判断用户登录')
+    if (nextProps !== this.props) {
+      if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+        this.setState({
+          webStorage: false
+        }, () => {
+          this.getHeight()
+        })
+      } else {
+        this.setState({
+          webStorage: true
+        }, () => {
+          this.getHeight()
+        })
+      }
+    }
   }
   // 更新版本
   newV=(e) => {
@@ -75,18 +104,13 @@ class IterationPlease extends React.Component {
 // 获取app数据
 getAppData=(a) => {
   let value = {
-    sw_id: a
+    sw_id: Number(a)
   }
-  axios.post(ajaxUrl.appId,
-    value
-  ).then(item => {
+  appId(value, (response) => {
+    console.log(response)
     this.setState({
-      AppData: item
-    }, () => {
-      console.log(this.state.AppData)
+      AppData: response
     })
-  }).catch(err => {
-    console.log(err)
   })
 }
   // 软件描述
@@ -219,15 +243,23 @@ getAppData=(a) => {
 zH=() => {
   let a = []
   for (let i = 0; i < this.state.Edition; i++) {
-    let c = {
-      fileListOneC: this.state.fileListOneC[i], // 用来存软件版本的文件的系统版本
-      fileListOneF: this.state.fileListOneF[i] // 用来存软件版本的文件id
-    }
+    let c = this.state.fileListOneF[i] // 用来存软件版本的文件id
     a.push(c)
   }
-  console.log(a)
   return a
 }
+// 整合软件版本数据
+zHs=() => {
+  let a = []
+  for (let i = 0; i < this.state.Edition; i++) {
+    let c = {}
+    let w = this.state.fileListOneC[i]
+    c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
+    a.push(c)
+  }
+  return a
+}
+
   // 提交表单啦
   submit=() => {
     const formData = new FormData()
@@ -236,12 +268,22 @@ zH=() => {
     formData.append('updateTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD')) // 期望上架时间
     formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
     formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
-    formData.append('copTypes', this.zH())// 软件版本的文件id和系统类别
+    formData.append('type', this.zHs())// 软件版本的文件id和系统类别
+    formData.append('copType', this.zH())// 软件版本的文件id和系统类别
     formData.append('sw_id', '5564654654654')// 软件id
     // formData.append('sw_id', this.state.appId)// appId
+    console.log('迭代传的值？', this.zHs())
+    console.log('迭代传的值？', this.zH())
     iteration(formData, (response) => {
       console.log(response)
     })
+  }// 获取高度
+  getHeight=() => {
+    if (this.state.webStorage) {
+      this.setState({
+        viewHeight: window.innerHeight - 230
+      })
+    }
   }
   render () {
     const propsT = {
@@ -290,7 +332,7 @@ zH=() => {
       },
       fileListThree: this.state.fileListThree
     }
-    return <Card title='迭代申请' style={{marginLeft: '15%', width: '1300px'}}>
+    return <Card title='迭代申请' style={{marginLeft: '15%', width: '1300px', minHeight: this.state.viewHeight}}>
       <div >
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
