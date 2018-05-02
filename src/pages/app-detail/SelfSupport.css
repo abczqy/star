@@ -143,13 +143,12 @@
     border-radius: 5px;
     padding: 30px 30px;
 }
-.exhibition-outside .exhibition-inside {
+.exhibition-outside .exhibition-insidea {
     width: 100%;
     height: 100%;
-    background: pink;
     position: relative;
 }
-.exhibition-outside .exhibition-inside .exhibition-inside-left {
+.exhibition-outside .exhibition-insidea .exhibition-inside-left {
     font-size: 40px;
     width: 50px;
     height: 50px;
@@ -163,7 +162,7 @@
     top: 200px;
     cursor:pointer;
 }
-.exhibition-outside .exhibition-inside .exhibition-inside-right {
+.exhibition-outside .exhibition-insidea .exhibition-inside-right {
     font-size: 40px;
     width: 50px;
     height: 50px;
@@ -268,6 +267,11 @@
 }
 .app-detail .app-detail-relevant dl dd span {
     font-family: 'PingFangSC-Regular', 'PingFang SC';
+    display: block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     font-weight: 400;
     font-style: normal;
     color: #474747;
@@ -297,4 +301,7 @@
 }
 .app-detail .app-detail-relevant dl dd .ant-rate-star .anticon {
     color: #fadb14;
+}
+.exhibition-outside .ant-carousel .slick-slide {
+    background: #fff!important;
 }

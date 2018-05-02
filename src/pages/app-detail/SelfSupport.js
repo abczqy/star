@@ -30,12 +30,10 @@ export default class SelfSupport extends React.Component {
   }
   componentDidMount () {
     let a = this.props.location.search.replace('?', '')
-    console.log(1111111111111111, a)
     this.setState({
       appId: a
     }, () => {
       this.getThirdPartyAppDetailData()
-      this.getRelatedApplications()
     })
   }
   // 获取应用详情数据
@@ -46,6 +44,7 @@ export default class SelfSupport extends React.Component {
       this.setState({
         appDetailData: res.data
       }, () => {
+        this.getRelatedApplications()
         let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
         let bb = []
         for (let i in aa) {
@@ -89,11 +88,13 @@ export default class SelfSupport extends React.Component {
   // 获取相关应用数据
   getRelatedApplications = () => {
     relatedApplications({
-      sw_tpe: this.state.appId,
+      sw_tpe: this.state.appDetailData.sw_related,
       type: 'platform'
     }, (res) => {
       this.setState({
-        relateData: res.appDetailData.sw_tpe
+        relateData: res.data
+      }, () => {
+        console.log(99999999, this.state.relateData)
       })
     }).catch((e) => { console.log(e) })
   }
@@ -110,7 +111,6 @@ export default class SelfSupport extends React.Component {
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {
     if (type === 'computer') {
-      console.log(22222)
       let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
       let bb = []
       for (let i in aa) {
@@ -120,7 +120,6 @@ export default class SelfSupport extends React.Component {
         computerCarousel: bb
       })
     } else {
-      console.log(33333333)
       let cc = JSON.parse(this.state.appDetailData.sw_phone_photo)
       let dd = []
       for (let i in cc) {
@@ -132,7 +131,6 @@ export default class SelfSupport extends React.Component {
     }
   }
   render () {
-    console.log(777777, this.state.computerCarousel)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -178,9 +176,9 @@ export default class SelfSupport extends React.Component {
               <div onClick={() => this.handleSwitchCarousel('phone')}>手机展示</div>
             </div>
             <div className='exhibition-outside'>
-              <div className='exhibition-inside'>
+              <div className='exhibition-insidea'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                <div style={{width: '80%', marginLeft: '160px'}}>
+                <div style={{width: '82%', marginLeft: '160px'}}>
                   <Carousel ref='exhibition-inside-carousel'>
                     {this.state.computerCarousel.map((item, index, arr) => {
                       return (
@@ -215,46 +213,20 @@ export default class SelfSupport extends React.Component {
           </div>
           <div className='app-detail-relevant'>
             <h3>相关应用</h3>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
+            {this.state.relateData.map((item, index, arr) => {
+              return (
+                <dl key={index}>
+                  <dt>
+                    <img src={ajaxUrl.IMG_BASE_URL + item.sw_icon} />
+                  </dt>
+                  <dd>
+                    <span>{item.sw_name}</span>
+                    <div>{item.sw_desc}</div>
+                    <Rate disabled count={3} value={3} />
+                  </dd>
+                </dl>
+              )
+            })}
           </div>
         </div>
       </div>

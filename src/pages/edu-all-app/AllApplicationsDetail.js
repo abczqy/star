@@ -63,14 +63,12 @@ class AllApplicationsDetail extends React.Component {
   getPlatformAppData = () => {
     allAppPlatformList({
     }, (res) => {
-      console.log(2222222, res.data.data)
       this.setState({
         platformAppData: res.data.data
       }, () => {
         this.state.platformAppDataa = []
         for (let i in this.state.platformAppData) {
           this.state.platformAppDataa.push(this.state.platformAppData[i])
-          console.log(9999999999999, this.state.platformAppDataa)
         }
       })
     }).catch((e) => { console.log(e) })

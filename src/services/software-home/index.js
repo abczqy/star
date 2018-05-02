@@ -7,7 +7,16 @@ export function manufacturerSignInRankingList (params, sucFn) {
       sucFn(res)
     })
 }
-
+// 首页搜索
+export function homeSearch (params, sucFn) {
+  return axios.post('/details/search', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+    .then(function (d) {
+      sucFn(d)
+    })
+}
 // 首页老师推荐
 export function teacherRecommend (params, sucFn) {
   return axios.post('/app/teacherRecommendApp', {...params})

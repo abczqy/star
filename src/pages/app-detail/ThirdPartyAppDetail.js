@@ -33,12 +33,10 @@ export default class ThirdPartyAppDetail extends React.Component {
   }
   componentDidMount () {
     let a = this.props.location.search.replace('?', '')
-    console.log(1111111111111111, a)
     this.setState({
       appId: a
     }, () => {
       this.getThirdPartyAppDetailData()
-      this.getRelatedApplications()
     })
   }
   // 获取应用详情数据
@@ -46,16 +44,14 @@ export default class ThirdPartyAppDetail extends React.Component {
     thirdPartyAppDetail({
       sw_id: this.state.appId
     }, (res) => {
-      console.log(2222222, res.data)
       this.setState({
         appDetailData: res.data
       }, () => {
+        this.getRelatedApplications()
         let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
-        console.log(888, aa)
         let bb = []
         for (let i in aa) {
           bb.push(aa[i])
-          console.log(77777, bb)
         }
         this.setState({
           computerCarousel: bb
@@ -95,11 +91,11 @@ export default class ThirdPartyAppDetail extends React.Component {
   // 获取相关应用数据
   getRelatedApplications = () => {
     relatedApplications({
-      sw_type: this.state.appId,
+      sw_tpe: this.state.appDetailData.sw_related,
       type: 'software'
     }, (res) => {
       this.setState({
-        relateData: res.appDetailData.sw_tpe
+        relateData: res.data
       })
     }).catch((e) => { console.log(e) })
   }
@@ -110,7 +106,6 @@ export default class ThirdPartyAppDetail extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log('00000000', this.state.computerCarousel)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -131,7 +126,7 @@ export default class ThirdPartyAppDetail extends React.Component {
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
               <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>28.71M</span></div>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>5.3.0</span></div>
+              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
               <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
             </div>
             <div className='see-detail-item-jurisdiction'>
@@ -161,9 +156,9 @@ export default class ThirdPartyAppDetail extends React.Component {
               <div>手机展示</div>
             </div>
             <div className='exhibition-outside'>
-              <div className='exhibition-inside'>
+              <div className='exhibition-insideb'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                <div style={{width: '80%', marginLeft: '160px'}}>
+                <div style={{width: '82%', marginLeft: '160px'}}>
                   <Carousel ref='exhibition-inside-carousel'>
                     {this.state.computerCarousel.map((item, index, arr) => {
                       return (
@@ -198,47 +193,20 @@ export default class ThirdPartyAppDetail extends React.Component {
           </div>
           <div className='app-detail-relevant'>
             <h3>相关应用</h3>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-                {/* <Icon className='relevant-icon' type='star' /> */}
-              </dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
-            <dl>
-              <dt>
-                <img src='http://img3.imgtn.bdimg.com/it/u=3554140130,2754099239&fm=27&gp=0.jpg' />
-              </dt>
-              <dd>
-                <span>超级教师</span>
-                <div>1111111111111111111111111111111</div>
-                <Rate disabled count={3} value={3} />
-              </dd>
-            </dl>
+            {this.state.relateData.map((item, index, arr) => {
+              return (
+                <dl key={index}>
+                  <dt>
+                    <img src={ajaxUrl.IMG_BASE_URL + item.sw_icon} />
+                  </dt>
+                  <dd>
+                    <span>{item.sw_name}</span>
+                    <div>{item.sw_desc}</div>
+                    <Rate disabled count={3} value={3} />
+                  </dd>
+                </dl>
+              )
+            })}
           </div>
         </div>
       </div>

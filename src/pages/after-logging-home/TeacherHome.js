@@ -67,16 +67,14 @@ class TeacherHome extends Component {
   }
   // 排行榜获取数据
   handleRanking = (activeKey) => {
-    if (activeKey === 1) {
-      console.log(activeKey)
+    if (activeKey === '1') {
       this.setState({
         rankingType: 0
       }, () => {
         this.getRankingData()
       })
     }
-    if (activeKey === 2) {
-      console.log(activeKey)
+    if (activeKey === '2') {
       this.setState({
         rankingType: 1
       }, () => {
@@ -190,7 +188,7 @@ class TeacherHome extends Component {
                           <p className='dd-p'>{item.SW_DESC}</p>
                         </dd>
                       </dl>
-                      <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
+                      <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
                     </div>
                   )
                 })}
