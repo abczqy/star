@@ -21,6 +21,16 @@ export function modifyPassword (params, sucFn) {
 }
 
 /**
+ * 门户首页-Banner图片
+ */
+export function getPortalBannerImg (params, sucFn) {
+  return axios.get('/getPlatformBannerList')
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 门户首页-热门推荐
  */
 export function getRecommendApp (params, sucFn) {

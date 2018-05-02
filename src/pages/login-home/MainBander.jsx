@@ -6,9 +6,10 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
-import {login} from 'services/portal'
+import {login, getPortalBannerImg} from 'services/portal'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
+import Config from 'config'
 
 class MainBander extends React.Component {
   static propTypes = {
@@ -21,7 +22,8 @@ class MainBander extends React.Component {
       userName: '', // 用户名密码
       passWord: '', // 密码
       loginFormVisible: this.getDefaultLoginFormVisible(),
-      msgTip: '' // 用户登陆信息提示
+      msgTip: '', // 用户登陆信息提示
+      bannerImg: []
     }
   }
 
@@ -154,6 +156,10 @@ class MainBander extends React.Component {
     }
   }
 
+  componentDidMount () {
+    this.getPortalBannerImg()
+  }
+
   /**
    * 校验密码规则
    * @param rule
@@ -162,6 +168,18 @@ class MainBander extends React.Component {
    */
   validatorPas (rule, value, callback) {
     callback()
+  }
+
+  /**
+   * 获取门户首页Banner图片
+   */
+  getPortalBannerImg () {
+    getPortalBannerImg({}, (response) => {
+      let result = response.data
+      this.setState({
+        bannerImg: result.data || []
+      })
+    })
   }
 
   render () {
@@ -178,13 +196,14 @@ class MainBander extends React.Component {
     return (
       <div className='main-bander-container'>
         <div className='custom-slider'>
-          <Slider {...settings} className='custom-slider'>
-            <div>
-              <div className='main-banner1' />
-            </div>
-            <div>
-              <div className='main-banner2' />
-            </div>
+          <Slider {...settings}>
+            {
+              this.state.bannerImg.map((item, index, arr) => {
+                return (<div key={index} style={{height: '450px', width: '100%'}} >
+                  <img src={Config.IMG_BASE_URL + item.banner_url || ''} style={{height: '450px', width: '100%'}} />
+                </div>)
+              })
+            }
           </Slider>
         </div>
         {
