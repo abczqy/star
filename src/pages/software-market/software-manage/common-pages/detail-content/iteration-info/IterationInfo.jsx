@@ -54,7 +54,7 @@ class IterationInfo extends Component {
             </Col>
             <Col span={9}>
               <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
-              <span><Icon type='link' /></span>
+              <span><Icon type='paper-clip' /></span>
               <span>{swPath && swPath[0] ? swPath[0][1] : 'PC端.dmg'}</span>
               <span><Icon type='download' /></span>
             </Col>

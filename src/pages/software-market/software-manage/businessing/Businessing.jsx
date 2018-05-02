@@ -223,6 +223,15 @@ class Businessing extends Component {
   }
 
   handleOk = () => {
+    if (this.state.veriCode === '') {
+      message.info('请输入验证码!')
+      return
+    }
+
+    if (!this.state.veriStatus) {
+      message.warning('验证码输入错误!')
+      return
+    }
     // 当然 在关闭之前要提交表单
     const thiz = this
     const params = {
@@ -325,6 +334,13 @@ class Businessing extends Component {
     })
   }
 
+  // 获取验证码填写是否正确
+  getVeriStatus = (status) => {
+    this.setState({
+      veriStatus: status
+    })
+  }
+
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon } = this.state
     return (
@@ -347,10 +363,11 @@ class Businessing extends Component {
           }}
         />
         <div ref='AppStandOffElem' className='app-stand-off-wrap' />
-        <AppStandOffModal
+        {appOffModalCon.visible ? <AppStandOffModal
           getContainer={() => this.refs.AppStandOffElem}
           visible={appOffModalCon.visible}
           getVeriCode={this.getVeriCode}
+          getVeriStatus={this.getVeriStatus}
           footer={[
             <Button key='submit' type='primary' onClick={this.handleOk}>
               确认
@@ -358,7 +375,7 @@ class Businessing extends Component {
             <Button key='back' onClick={this.handleCancel}>取消</Button>
           ]}
           swName={appOffModalCon.swName}
-        />
+        /> : null}
         <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
         <div ref='appDetailElem' className='app-detail-wrap' />
         <AppDetailModal

@@ -1,8 +1,9 @@
+/* eslint-disable react/jsx-no-bind,react/prop-types,standard/no-callback-literal,no-undef,no-useless-return */
 /**
  * 应用下架的确认弹窗
  */
 import React, { Component } from 'react'
-import { Modal, Col, Row, Input, Icon } from 'antd'
+import { Modal, Col, Row, Input, Icon, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './AppStandOffModal.scss'
 
@@ -12,8 +13,37 @@ const modalConfig = {
 }
 
 class AppStandOffModal extends Component {
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({
+        verifyCode: new GVerify('v_container')
+      })
+    }, 100)
+  }
+  componentWillReceiveProps (nextProps) {
+    if (!nextProps.visible) {
+      console.log('new GVerify')
+      this.setState({
+        verifyCode: new GVerify('v_container')
+      })
+    }
+  }
   onChange = (e) => {
     this.props.getVeriCode(e.target.value)
+  }
+  onBlur = (e) => {
+    let verifyCode = this.state.verifyCode
+    var res = verifyCode.validate(e.target.value)
+    if (res) {
+      this.props.getVeriStatus(res)
+    } else {
+      this.props.getVeriStatus(res)
+      message.warning('验证码输入错误!')
+    }
+  }
+  refreshVeri = () => {
+    let verifyCode = this.state.verifyCode
+    verifyCode.refresh()
   }
   render () {
     const { getContainer, visible, footer, swName } = this.props
@@ -34,11 +64,16 @@ class AppStandOffModal extends Component {
         </Row>
         <Row gutter={16}>
           <Col offset={4} span={10}>
-            <Input placeholder='请输入验证码' onChange={this.onChange} />
+            <Input placeholder='请输入验证码' onChange={this.onChange} onBlur={this.onBlur} />
           </Col>
-          <Col span={10}>
-            <img src='./test-data/test-check-code.png' alt='src由父传入' />
+          <Col span={6}>
+            {/* <span className={this.state.phone_con_icon ? 'success succ' : 'fail false'}>{this.state.phone_con}</span> */}
+            <div id='v_container' style={{ width: 65, height: 27 }} />
+            {/* <img src='./test-data/test-check-code.png' alt='src由父传入' /> */}
             {/* <div className='check-code' /> */}
+          </Col>
+          <Col span={2}>
+            <a href='javascript:;' onClick={this.refreshVeri}><Icon type='reload' /></a>
           </Col>
         </Row>
       </Modal>
@@ -51,7 +86,8 @@ AppStandOffModal.propTypes = {
   visible: PropsTypes.bool,
   footer: PropsTypes.array,
   swName: PropsTypes.string,
-  getVeriCode: PropsTypes.func
+  getVeriCode: PropsTypes.func,
+  getVeriStatus: PropsTypes.func
 }
 
 export default AppStandOffModal
