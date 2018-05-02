@@ -73,7 +73,7 @@ class AppStandOffModal extends Component {
             {/* <div className='check-code' /> */}
           </Col>
           <Col span={2}>
-            <a href='javascript:;' onClick={this.refreshVeri}><Icon type='reload' /></a>
+            <a href='javascript:;' onClick={this.refreshVeri} alt='刷新'><Icon type='reload' /></a>
           </Col>
         </Row>
       </Modal>

@@ -56,7 +56,7 @@ class IterationInfo extends Component {
               <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
               <span>{swPath && swPath[0] ? swPath[0][1] : 'PC端.dmg'}</span>
-              <span><Icon type='download' /></span>
+              <a href='javascript:;'><Icon type='download' /></a>
             </Col>
             <Col span={2} offset={6}>
               版本号:
@@ -71,7 +71,7 @@ class IterationInfo extends Component {
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
                   <span><Icon type='link' /><span>{item && item[1]}</span></span>
-                  <span><Icon type='download' /></span>
+                  <a href='javascript:;'><Icon type='download' /></a>
                 </span>
               })}
             </Col>
