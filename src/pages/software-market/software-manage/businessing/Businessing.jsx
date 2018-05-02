@@ -86,7 +86,7 @@ class Businessing extends Component {
       key: 'stickTop',
       render: (text, record, index) => {
         return (
-          <Switch onChange={() => this.handleStick(record)} />
+          <Switch checked={record.sw_stick === 1} onChange={() => this.handleStick(record)} />
         )
       }
     }, {
@@ -213,7 +213,7 @@ class Businessing extends Component {
     const thiz = this
     const params = {
       sw_id: record && record.sw_id,
-      sw_stick: record.checked ? 1 : 0 // 需要置顶参数，还没返回
+      sw_stick: record.sw_stick ? 0 : 1
     }
     stick(params, (res) => {
       const data = res.data ? res.data : {}
