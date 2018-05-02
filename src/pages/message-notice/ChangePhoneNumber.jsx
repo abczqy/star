@@ -3,8 +3,8 @@
 import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
-import {updatePhoneNum, SMSVerification} from '../../services/topbar-mation'
-import '../Operateview.scss'
+import {updatePhoneNum, SMSVerification} from '../../services/topbar-mation/index'
+import '../../views/Operateview.scss'
 class ChangePhoneNumber extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,

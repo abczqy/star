@@ -5,7 +5,7 @@
  */
 import React from 'react'
 import {Card, Pagination} from 'antd'
-import '../Operateview.scss'
+import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
 import {getAllMessageList} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'

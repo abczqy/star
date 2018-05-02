@@ -3,8 +3,8 @@
 import React from 'react'
 import {Modal, Button, Form, Input, Select} from 'antd'
 import PropTypes from 'prop-types'
-import {relationAdd} from '../../services/topbar-mation'
-import '../Operateview.scss'
+import {relationAdd} from '../../services/topbar-mation/index'
+import '../../views/Operateview.scss'
 class AddbindModel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,

@@ -5,8 +5,8 @@
 import React from 'react'
 import {Card} from 'antd'
 import {getSearchString} from 'utils/index'
-import {getMessageListDetail} from '../../services/topbar-mation'
-import '../Operateview.scss'
+import {getMessageListDetail} from '../../services/topbar-mation/index'
+import '../../views/Operateview.scss'
 export default class MessageDetail extends React.Component {
   constructor (props) {
     super(props)

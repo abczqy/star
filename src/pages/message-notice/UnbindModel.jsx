@@ -2,8 +2,8 @@
 import React from 'react'
 import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
-import {relationdelete} from '../../services/topbar-mation'
-import '../Operateview.scss'
+import {relationdelete} from '../../services/topbar-mation/index'
+import '../../views/Operateview.scss'
 export default class UnbindModel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,

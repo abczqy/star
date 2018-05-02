@@ -3,8 +3,8 @@ import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import ajaxUrl from 'config'
-import '../Operateview.scss'
+import ajaxUrl from 'config/index'
+import '../../views/Operateview.scss'
 class ChangeFirmName extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,

@@ -7,12 +7,12 @@ import React from 'react'
 import {Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from 'components/common/BottomHeader'
-import SignOut from '../SignOut'
-import {getMessageCount} from '../../services/topbar-mation'
+import SignOut from '../../views/SignOut'
+import {getMessageCount} from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
 import { withRouter } from 'react-router'
 import 'components/common/bottom.scss'
-import '../Operateview.scss'
+import '../../views/Operateview.scss'
 
 class MessageTopBar extends React.Component {
   constructor (props) {

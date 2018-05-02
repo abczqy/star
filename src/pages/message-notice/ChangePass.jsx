@@ -2,8 +2,8 @@
 import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
-import {updateUserPassword} from '../../services/topbar-mation'
-import '../Operateview.scss'
+import {updateUserPassword} from '../../services/topbar-mation/index'
+import '../../views/Operateview.scss'
 class ChangePass extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,

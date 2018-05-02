@@ -15,9 +15,9 @@ import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {relationQueryStu} from '../../services/topbar-mation'
+import {relationQueryStu} from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
-import '../Operateview.scss'
+import '../../views/Operateview.scss'
 class MessageSetting extends React.Component {
   constructor (props) {
     super(props)
