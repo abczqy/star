@@ -32,10 +32,15 @@ class OperateManage extends React.Component {
     }
   }
 
-  handleTabChange (link) {
+  handleTabChange (link, tabKey) {
     if (link === this.props.location.pathname) {
       window.location.reload()
     } else {
+      if (tabKey) {
+        this.setState({
+          activeTab: tabKey
+        })
+      }
       this.props.history.push({
         pathname: link
       })
@@ -61,11 +66,11 @@ class OperateManage extends React.Component {
       src: '/operate-manage-home/home'
     }, {
       text: '全部应用',
-      tabKey: 'home',
+      tabKey: 'allApp',
       src: '/operate-manage-home/all-app/all-app'
     }, {
       text: '个人中心',
-      tabKey: 'home',
+      tabKey: 'peopleCenter',
       src: '/operate-manage-home/center'
     }]
     if (roleCode === 'parents') { // 家长
@@ -158,7 +163,7 @@ class OperateManage extends React.Component {
               <div className='header-container'>
                 {
                   tabArr.map((item, index) => {
-                    return <li key={index}><a className={this.state.activeTab === item.tabKey ? 'selected' : ''} onClick={this.handleTabChange.bind(this, item.src)}>{item.text}</a></li>
+                    return <li style={{textAlign: 'center'}} className={this.state.activeTab === item.tabKey ? 'selected' : ''} key={index}><a onClick={this.handleTabChange.bind(this, item.src, item.tabKey)}>{item.text}</a></li>
                   })
                 }
               </div>
