@@ -31,6 +31,16 @@ export function undercarriage (params, sucFn) {
 }
 
 /**
+ * 软件管理-运营中-置顶
+ */
+export function stick (params, sucFn) {
+  return axios.post('/management/stick', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-厂商-列表/查询
  */
 export function firmRenewList (params, sucFn) {

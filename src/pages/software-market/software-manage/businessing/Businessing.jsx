@@ -16,7 +16,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import {getAppListData, verifyDetail, undercarriage} from 'services/software-manage'
+import { getAppListData, verifyDetail, undercarriage, stick } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -74,8 +74,8 @@ class Businessing extends Component {
       key: 'sw_path'
     }, {
       title: '下载次数',
-      dataIndex: 'downloads',
-      key: 'downloads'
+      dataIndex: 'sw_downloads',
+      key: 'sw_downloads'
     }, {
       title: '变更时间',
       dataIndex: 'sw_update_time',
@@ -86,7 +86,7 @@ class Businessing extends Component {
       key: 'stickTop',
       render: (text, record, index) => {
         return (
-          <Switch />
+          <Switch onChange={() => this.handleStick(record)} />
         )
       }
     }, {
@@ -206,6 +206,20 @@ class Businessing extends Component {
   // 弹窗取消
   handleCancel = () => {
     this.closeModal()
+  }
+
+  // 置顶操作
+  handleStick (record) {
+    const thiz = this
+    const params = {
+      sw_id: record && record.sw_id,
+      sw_stick: record.checked ? 1 : 0 // 需要置顶参数，还没返回
+    }
+    stick(params, (res) => {
+      const data = res.data ? res.data : {}
+      message.success(data.info)
+      thiz.getTableDatas()
+    })
   }
 
   handleOk = () => {
