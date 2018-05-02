@@ -3,11 +3,12 @@
  *
  */
 import React from 'react'
-import {Input, Row, Col, Upload, Button, Icon, Modal} from 'antd'
+import {Input, Row, Col, Upload, Button, Icon, Modal, message} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config'
+// import axios from 'axios'
+// import ajaxUrl from 'config'
+import {informationEdListEdit, informationEdListAdd} from 'services/software-manage'
 
 const { TextArea } = Input
 class Policy extends React.Component {
@@ -21,6 +22,7 @@ class Policy extends React.Component {
     }
   }
   componentWillMount () {
+    console.log('传下来的内容', this.props.record)
     if (this.props.ctrl && this.props.ctrl === 'edit') {
       console.log('this.props.record', this.props.record.title)
       this.setState({
@@ -68,33 +70,25 @@ class Policy extends React.Component {
   }
   // 发送通知方法
   sendF=() => {
+    const formData = new FormData()
     if (this.props.ctrl && this.props.ctrl === 'edit') {
-      let value = {
-        title: this.state.input,
-        desc: this.state.context,
-        attachment: this.state.fileList
-      }
-      console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
-      axios.post(ajaxUrl.informationEdListEdit,
-        Object.assign(value, {id: this.props.record.info_id})
-      ).then(item => {
-        console.log(item)
-      }).catch(err => {
-        console.log(err)
+      formData.append('id', this.props.record.info_id)
+      formData.append('title', this.state.input)
+      formData.append('desc', this.state.context)
+      formData.append('attachment', this.state.fileList)
+
+      informationEdListEdit(formData, (response) => {
+        message.success(`信息编辑成功!`)
+        console.log(response)
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
-      let value = {
-        title: this.state.input,
-        desc: this.state.context,
-        attachment: this.state.fileList
-      }
-      console.log('要发送的内容', value)// 教育局信息公开编辑的编辑接口
-      axios.post(ajaxUrl.informationEdListAdd,
-        value
-      ).then(item => {
-        console.log(item)
-      }).catch(err => {
-        console.log(err)
+      formData.append('title', this.state.input)
+      formData.append('desc', this.state.context)
+      formData.append('attachment', this.state.fileList)
+
+      informationEdListAdd(formData, (response) => {
+        message.success(`信息添加成功!`)
+        console.log(response)
       })
     }
   }

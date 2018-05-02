@@ -12,6 +12,7 @@ import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
+import {newsList} from 'services/software-manage'
 
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
@@ -37,17 +38,13 @@ class News extends React.Component {
       pageNum: this.state.pages,
       pageSize: this.state.pageSize
     }
-    axios.post(ajaxUrl.newsList,
-      value
-    ).then(item => {
+    newsList(value, (response) => {
       this.setState({
-        newData: item.data
+        newData: response.data
       }, () => {
         console.log('获取数据存在state', this.state.newData)
         console.log('获取数据存在state', this.state.newData.list)
       })
-    }).catch(err => {
-      console.log(err)
     })
 
     axios.get(ajaxUrl.detList).then(item => { // 分享数据列表
@@ -190,7 +187,7 @@ class News extends React.Component {
                 </li>
             }) : ''}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
-              <Row style={{marginBottom: '10px'}}>
+              <Row style={{marginBottom: '10px', marginTop: '-10px'}}>
                 <Col span={12} />
                 <Col >
                   {this.state.newData ? (this.state.newData.total >= 5
@@ -200,8 +197,8 @@ class News extends React.Component {
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                       onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                    /> : null) : <Pagination total={50} showSizeChanger showQuickJumper onChange={(page, pageSize) => { this.ptChange(page, pageSize) }} onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                  /> }
+                    /> : null) : ''
+                  }
                 </Col>
               </Row>
             </li>

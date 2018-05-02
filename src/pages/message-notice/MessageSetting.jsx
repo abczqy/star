@@ -15,10 +15,9 @@ import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {relationQueryStu} from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
-import '../Operateview.scss'
+import '../../views/Operateview.scss'
 class MessageSetting extends React.Component {
   constructor (props) {
     super(props)
@@ -36,7 +35,6 @@ class MessageSetting extends React.Component {
     }
   }
   componentDidMount () {
-    console.log(111111111111, webStorage.getItem('STAR_WEB_PERSON_INFO'))
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
       this.getBindList()
     } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
@@ -45,9 +43,9 @@ class MessageSetting extends React.Component {
   }
   // 获取学生绑定数据接口 stuData 要在此接口返回
   getBindList=() => {
-    axios.post(ajaxUrl.relationQueryStu, {
+    relationQueryStu({
       maf_id: webStorage.getItem('STAR_WEB_PERSON_INFO').id
-    }).then((response) => {
+    }, (response) => {
       console.log('返回学生绑定信息', response)
       this.setState({
         stuData: response.data,

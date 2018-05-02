@@ -8,8 +8,6 @@ import PropTypes from 'prop-types'
 import { renderRoutes } from 'react-router-config'
 import { Link } from 'react-router-dom'
 const { Sider, Content } = Layout
-
-// import axiosApi from '../../../api'
 export default class AllApplications extends React.Component {
   constructor (props) {
     super(props)

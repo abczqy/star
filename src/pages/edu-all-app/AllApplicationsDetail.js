@@ -5,13 +5,13 @@
 import React from 'react'
 import { Carousel, Button, Icon } from 'antd'
 import ajaxUrl from 'config'
-import axios from 'axios'
 // import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import {allAppList, allAppPlatformList} from 'services/all-app/'
+import {homeCollection} from 'services/software-home/'
 import './AllApplicationsDetail.css'
 import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
-// import axiosApi from '../../../api'
 class AllApplicationsDetail extends React.Component {
   constructor (props) {
     super(props)
@@ -49,11 +49,11 @@ class AllApplicationsDetail extends React.Component {
   }
   // 获取软件应用数据
   getAllAppData = () => {
-    axios.post(ajaxUrl.allAppList, {
+    allAppList({
       appType: this.state.appType === '' ? 'all' : this.state.appType,
       timeOrd: this.state.shelfTimeSort,
       numOrd: this.state.downloadNum
-    }).then((res) => {
+    }, (res) => {
       this.setState({
         allAppListData: res.data.data
       })
@@ -61,8 +61,8 @@ class AllApplicationsDetail extends React.Component {
   }
   // 获取平台应用数据
   getPlatformAppData = () => {
-    axios.get(ajaxUrl.allAppPlatformList, {
-    }).then((res) => {
+    allAppPlatformList({
+    }, (res) => {
       console.log(2222222, res.data.data)
       this.setState({
         platformAppData: res.data.data
@@ -132,10 +132,10 @@ class AllApplicationsDetail extends React.Component {
   }
   // 发送收藏按钮请求
   postCollection = (id) => {
-    axios.post(ajaxUrl.homeCollection, {
+    homeCollection({
       sw_id: id,
       type: this.state.collectionType
-    }).then((res) => {
+    }, (res) => {
     }).catch((e) => { console.log(e) })
   }
   render () {

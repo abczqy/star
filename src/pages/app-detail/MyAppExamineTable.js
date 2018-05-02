@@ -7,8 +7,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, Popconfirm, Button } from 'antd'
 import { Link } from 'react-router-dom'
-import ajaxUrl from 'config'
-import axios from 'axios'
+import {myAppToExamine, myAppRevoke} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -80,7 +79,7 @@ class MyAppExamineTable extends Component {
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name // 应用名称
     }
-    axios.post(ajaxUrl.myAppToExamine, Object.assign(params, searchParams)).then((res) => {
+    myAppToExamine(Object.assign(params, searchParams), (res) => {
       console.log(2222222, res.data)
       this.setState({
         myAppInOperationData: res.data.list,
@@ -132,9 +131,9 @@ class MyAppExamineTable extends Component {
   }
   // 撤销操作确认
   confirm = (e) => {
-    axios.post(ajaxUrl.myAppRevoke, {
+    myAppRevoke({
       sw_id: e.sw_id
-    }).then((res) => {
+    }, (res) => {
       this.getMyAppInOperationData()
     }).catch((e) => { console.log(e) })
   }

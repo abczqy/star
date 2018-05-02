@@ -3,9 +3,8 @@
 import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config'
-import '../Operateview.scss'
+import {updatePhoneNum, SMSVerification} from '../../services/topbar-mation/index'
+import '../../views/Operateview.scss'
 class ChangePhoneNumber extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
@@ -56,10 +55,10 @@ class ChangePhoneNumber extends React.Component {
       }
       if (!err) {
         console.log('修改手机号', values)
-        axios.post(ajaxUrl.updatePhoneNum, {
+        updatePhoneNum({
           phoneNum: values.maf_phone_number,
           password: values.maf_pass
-        }).then((response) => {
+        }, (response) => {
           this.props.hiddenModal()
         })
         window.clearInterval(this.intervalcount)
@@ -131,9 +130,9 @@ class ChangePhoneNumber extends React.Component {
   }
   // 获取短信验证码
   getPhoneCode=(phoneNum) => {
-    axios.post(ajaxUrl.SMSVerification, {
+    SMSVerification({
       NUM: phoneNum
-    }).then((response) => {
+    }, (response) => {
       this.setState({
         phoneCode: response.data
       })

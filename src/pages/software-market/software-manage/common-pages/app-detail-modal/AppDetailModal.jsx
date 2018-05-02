@@ -24,7 +24,7 @@ class AppDetailModal extends Component {
         title={title}
         onCancel={onCancel}
       >
-        <SWRelate resData={resData} />
+        <SWRelate resData={resData} isBusiDeta />
         <BlankBar />
         <DevRelate resData={resData} />
         <BlankBar />

@@ -7,8 +7,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, Icon, Button, Modal, Checkbox } from 'antd'
 import { Link } from 'react-router-dom'
-import ajaxUrl from 'config'
-import axios from 'axios'
+import {myAppInOperation} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -85,7 +84,7 @@ class MyAppTable extends Component {
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name // 应用名称
     }
-    axios.post(ajaxUrl.myAppInOperation, Object.assign(params, searchParams)).then((res) => {
+    myAppInOperation(Object.assign(params, searchParams), (res) => {
       this.setState({
         myAppInOperationData: res.data.list,
         total: res.data.total

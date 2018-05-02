@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { Row, Col } from 'antd'
 import { BlankBar } from 'components/software-market'
 import PropsTypes from 'prop-types'
+import ajaxUrl from 'config'
 
 class VoucherRelate extends Component {
   render () {
@@ -17,20 +18,20 @@ class VoucherRelate extends Component {
             相关凭证
           </Col>
         </Row>
-        <BlankBar height='10px' />
+        <BlankBar height='20px' />
         <div className='relate-content'>
           <Row className='relate-move-L-4'>
             <Col span={2}>
               <span>软著凭证:</span>
             </Col>
             <Col span={6}>
-              <img alt='软著凭证图片' src={resData && resData.sw_copyright} />
+              <img alt='软著凭证图片' style={{width: 81, height: 55}} src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_copyright} />
             </Col>
             <Col span={2} offset={8}>
               <span>财务凭证:</span>
             </Col>
             <Col span={6}>
-              <img alt='财务凭证图片' src={resData && resData.fin_audit} />
+              <img alt='财务凭证图片' style={{width: 81, height: 55}} src={resData && ajaxUrl.IMG_BASE_URL + resData.fin_audit} />
             </Col>
           </Row>
         </div>

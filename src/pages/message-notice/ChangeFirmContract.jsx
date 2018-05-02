@@ -1,11 +1,11 @@
-/* 修改营业执照 */
+/* 修改厂商合同编号 */
 import React from 'react'
-import {Modal, Button, Form, Input, Upload, Icon} from 'antd'
+import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import ajaxUrl from 'config'
-import '../Operateview.scss'
-class ChangeFirmLicense extends React.Component {
+import ajaxUrl from 'config/index'
+import '../../views/Operateview.scss'
+class ChangeFirmContract extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
@@ -16,8 +16,7 @@ class ChangeFirmLicense extends React.Component {
     super(props)
     this.state = {
       confirmDirty: false,
-      type: 'text',
-      fileList: []
+      type: 'text'
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -32,33 +31,18 @@ class ChangeFirmLicense extends React.Component {
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
-      let params = this.getFormData()
       if (!err) {
-        axios.post(ajaxUrl.relationdelete, params).then((response) => {
-          console.log('修改营业执照', values)
-          thiz.props.getFirmList()
+        console.log('修改合同编号', values)
+        axios.post(ajaxUrl.relationdelete, {
+          params: {
+            maf_pass: values,
+            maf_firm_name: values
+          }
+        }).then((response) => {
+          this.props.getFirmList()
           this.props.hiddenModal()
         })
       }
-    })
-  }
-  /**
-   * 返回附件的参数
-   * @returns {*}
-   */
-  getFormData () {
-    const { fileList } = this.state
-    const formData = new FormData()
-    formData.append('sw_pss', '1')
-    fileList.forEach((file) => {
-      formData.append('files[]', file)
-    })
-    return formData
-  }
-  handlePreview = (file) => {
-    this.setState({
-      // previewImage: file.url || file.thumbUrl,
-      // previewVisible: true
     })
   }
   render () {
@@ -72,39 +56,11 @@ class ChangeFirmLicense extends React.Component {
         sm: { span: 14 }
       }
     }
-    const props = {
-      onRemove: (file) => {
-        console.log('移除附件')
-        this.setState(({ fileList }) => {
-          const index = fileList.indexOf(file)
-          const newFileList = fileList.slice()
-          newFileList.splice(index, 1)
-          return {
-            fileList: newFileList
-          }
-        })
-      },
-      beforeUpload: (file) => {
-        console.log('上传之前')
-        this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
-        }))
-        return false
-      },
-      fileList: this.state.fileList
-    }
     const { getFieldDecorator } = this.props.form
-    const { fileList } = this.state
-    const uploadButton = (
-      <div>
-        <Icon type='plus' />
-        <div className='ant-upload-text'>上传</div>
-      </div>
-    )
     return (
       <div>
         <Modal
-          title='修改营业执照'
+          title='修改合同编号'
           visible={this.props.visible}
           onCancel={this.props.hiddenModal}
           maskClosable={false}
@@ -130,17 +86,11 @@ class ChangeFirmLicense extends React.Component {
               </Form.Item>
               <Form.Item
                 {...formItemLayout}
-                label='请上传厂商营业执照'
+                label='请输入合同编号'
               >
-                <div style={{paddingLeft: '5px'}}>
-                  <Upload
-                    // action='//jsonplaceholder.typicode.com/posts/'
-                    listType='picture-card'
-                    {...props}
-                  >
-                    {fileList.length >= 1 ? null : uploadButton}
-                  </Upload>
-                </div>
+                {getFieldDecorator('maf_contract_number', {rules: [{required: true, message: '请输入合同编号!'}]})(
+                  <Input />
+                )}
               </Form.Item>
             </Form>
           </div>
@@ -149,4 +99,4 @@ class ChangeFirmLicense extends React.Component {
     )
   }
 }
-export default Form.create()(ChangeFirmLicense)
+export default Form.create()(ChangeFirmContract)

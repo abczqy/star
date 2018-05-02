@@ -5,10 +5,9 @@
  */
 import React from 'react'
 import {Card, Pagination} from 'antd'
-import '../Operateview.scss'
+import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
-import axios from 'axios'
-import Config from 'config'
+import {getAllMessageList} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
 class MessageNotice extends React.Component {
   constructor (props) {
@@ -39,10 +38,10 @@ class MessageNotice extends React.Component {
     this.getPageList()
   }
   getPageList =() => {
-    axios.post(Config.getAllMessageList, {
+    getAllMessageList({
       page: this.state.pageNum,
       pageSize: 5
-    }).then((response) => {
+    }, (response) => {
       this.setState({
         listData: response.data.data,
         total: response.data.count

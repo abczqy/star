@@ -12,13 +12,6 @@ const modalConfig = {
 }
 
 class AppStandOffModal extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-
-    }
-  }
-
   onChange = (e) => {
     this.props.getVeriCode(e.target.value)
   }

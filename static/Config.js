@@ -78,33 +78,9 @@ window.mungConfig = {
   allAppList: AJAX_HOST + '/app/appList',
   // 全部应用 - 平台应用
   allAppPlatformList: AJAX_HOST + '/app/platform',
-  // 教育新闻列表
-  newsList: AJAX_HOST + '/application/newslist',
-  // 教育新闻列表详情
-  newsListDet: AJAX_HOST + '/application/newdetial',
-  // 信息公开列表
-  information: AJAX_HOST + '/application/infolist',
-  // 信息公开列表详情
-  informationDet: AJAX_HOST + '/application/infodetail',
 
-  // 教育局信息公开列表编辑获取列表
-  informationEdList: AJAX_HOST + '/manage/getPublicInfo',
-  // 教育局信息公开列表编辑新增
-  informationEdListAdd: AJAX_HOST + '/manage/addPublicInfo',
-  // 教育局信息公开列表编辑编辑
-  informationEdListEdit: AJAX_HOST + '/manage/editPublicInfo',
-  // 教育局信息公开列表编辑删除
-  informationEdListDelete: AJAX_HOST + '/manage/deleteEduMsgList?InfoId="7"',
   // 分享列表接口
   detList: AJAX_HOST + '/application/detList', // 现在公告和详情页分享列表用的是这个
-  // 上传文件接口
-  Upload: AJAX_HOST + '/upload',
-  // 迭代申请接口
-  iteration: AJAX_HOST + '/updateSoft/querySw',
-  // 申请上架接口
-  shelf: AJAX_HOST + '/uploadSw/upload',
-  // 用appId获取app数据接口
-  appId: AJAX_HOST + '/app/details',
 
   /** *******************************注册************************************ */
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
@@ -165,6 +141,18 @@ window.mungConfig = {
   // 全部应用-应用详情-相关应用
   relatedApplications: AJAX_HOST + '/personal/relatedApp',
   // 我的应用详情 - 开发相关
-  developmentRelated: AJAX_HOST + '/personal/developer'
+  developmentRelated: AJAX_HOST + '/personal/developer',
+  // 门户首页-门户导航
+  addGatewayNavigation: AJAX_HOST + '/addGatewayNavigation',
+  // 门户导航-查询接口
+  getGatewayNavigationList: AJAX_HOST + '/getGatewayNavigationList',
+  // 门户导航-删除接口
+  deleteGatewayNavigation: AJAX_HOST + '/deleteGatewayNavigation',
+  // banner-新增接口
+  addGatewayBanner: AJAX_HOST + '/addGatewayBanner',
+  // banner-查询接口
+  getGatewayBannerList: AJAX_HOST + '/getGatewayBannerList',
+  // banner-删除接口
+  deleteGatewayBanner: AJAX_HOST + '/deleteGatewayBanner'
 
 }

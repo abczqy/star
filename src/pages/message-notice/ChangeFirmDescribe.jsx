@@ -1,11 +1,11 @@
-/* 修改厂商合同编号 */
+/* 修改厂商描述 */
 import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import ajaxUrl from 'config'
-import '../Operateview.scss'
-class ChangeFirmContract extends React.Component {
+import ajaxUrl from 'config/index'
+import '../../views/Operateview.scss'
+class ChangeFirmDescribe extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
@@ -15,7 +15,6 @@ class ChangeFirmContract extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      confirmDirty: false,
       type: 'text'
     }
   }
@@ -24,15 +23,17 @@ class ChangeFirmContract extends React.Component {
       this.props.form.resetFields()
     }
   }
-  // 点击表单后，改变type
-  changePasType = () => {
-    this.setState({ type: 'password' })
+  // 获取焦点后修改input type=password
+  changePasType=() => {
+    this.setState({
+      type: 'password'
+    })
   }
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('修改合同编号', values)
+        console.log('修改厂商描述', values)
         axios.post(ajaxUrl.relationdelete, {
           params: {
             maf_pass: values,
@@ -60,7 +61,7 @@ class ChangeFirmContract extends React.Component {
     return (
       <div>
         <Modal
-          title='修改合同编号'
+          title='修改厂商描述'
           visible={this.props.visible}
           onCancel={this.props.hiddenModal}
           maskClosable={false}
@@ -86,10 +87,12 @@ class ChangeFirmContract extends React.Component {
               </Form.Item>
               <Form.Item
                 {...formItemLayout}
-                label='请输入合同编号'
+                label='请输入厂商描述'
               >
-                {getFieldDecorator('maf_contract_number', {rules: [{required: true, message: '请输入合同编号!'}]})(
-                  <Input />
+                {getFieldDecorator('maf_firm_name', {rules: [{required: true, message: '请输入厂商描述!'}]})(
+                  <Input.TextArea
+                    autosize={{ minRows: 5, maxRows: 100 }}
+                  />
                 )}
               </Form.Item>
             </Form>
@@ -99,4 +102,4 @@ class ChangeFirmContract extends React.Component {
     )
   }
 }
-export default Form.create()(ChangeFirmContract)
+export default Form.create()(ChangeFirmDescribe)

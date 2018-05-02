@@ -3,8 +3,7 @@
 import React from 'react'
 import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {sessionLogout} from '../services/topbar-mation'
 import { withRouter } from 'react-router'
 import {clearCookie} from 'utils/cookie'
 import webStorage from 'webStorage'
@@ -21,11 +20,8 @@ class SignOutModal extends React.Component {
   }
   componentDidMount () {
   }
-  componentWillUnmount () {
-
-  }
   saveOrSubmit =(value) => {
-    axios.put(ajaxUrl.sessionLogout, {}).then((response) => {
+    sessionLogout({}, (response) => {
       this.backHome()
       webStorage.clear()
       this.props.hiddenModal()
