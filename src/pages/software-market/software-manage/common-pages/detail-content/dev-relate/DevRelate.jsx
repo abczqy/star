@@ -18,7 +18,7 @@ class DevRelate extends Component {
             开发人员相关信息
           </Col>
         </Row>
-        <BlankBar height='10px' />
+        <BlankBar height='20px' />
         <div className='relate-content'>
           <Row className='relate-move-L-7'>
             <Col span={1}>
@@ -34,6 +34,7 @@ class DevRelate extends Component {
               <span>{resData && resData.dev_idcard}</span>
             </Col>
           </Row>
+          <BlankBar height='20px' />
           <Row>
             <Col span={3} className='relate-move-L-3'>
               <span>联系人电话:</span>
@@ -48,6 +49,7 @@ class DevRelate extends Component {
               <span>{resData && resData.dev_contact}</span>
             </Col>
           </Row>
+          <BlankBar height='20px' />
           <Row>
             <Col span={3}>
               <span>手持身份证照片:</span>

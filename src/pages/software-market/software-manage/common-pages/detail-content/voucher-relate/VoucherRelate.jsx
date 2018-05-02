@@ -18,7 +18,7 @@ class VoucherRelate extends Component {
             相关凭证
           </Col>
         </Row>
-        <BlankBar height='10px' />
+        <BlankBar height='20px' />
         <div className='relate-content'>
           <Row className='relate-move-L-4'>
             <Col span={2}>

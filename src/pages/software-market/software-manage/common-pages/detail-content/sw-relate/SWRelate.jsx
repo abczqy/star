@@ -11,8 +11,9 @@ import ajaxUrl from 'config'
 
 class SWRelate extends Component {
   render () {
-    const { resData, isWaitItera } = this.props
+    const { resData, isWaitItera, isBusiDeta } = this.props
 
+    // +++转换接收到的兼容系统sw_path参数内容为数组+++
     // 第一步把获取到的sw_path去掉{}
     let path = []
     path = resData && resData.sw_path ? resData.sw_path.slice(1, -1) : []
@@ -31,6 +32,10 @@ class SWRelate extends Component {
       swPathRest.push(swPath[i])
     }
 
+    // 转换接收到的PC端界面截图sw_computer_photo参数类型为数组
+    let computerPho = []
+    computerPho = resData && resData.sw_computer_photo ? resData.sw_computer_photo.split(';') : []
+
     return (
       <div className='ralate-wrap'>
         <Row>
@@ -38,7 +43,7 @@ class SWRelate extends Component {
             软件相关
           </Col>
         </Row>
-        <BlankBar height='10px' />
+        <BlankBar height='20px' />
         <div className='relate-content'>
           <Row>
             <Col span={2} offset={1}>
@@ -54,6 +59,7 @@ class SWRelate extends Component {
               <span>{resData && resData.sw_time_real ? moment(resData.sw_time_real).format('YYYY-MM-DD') : '2099-9-9'}</span>
             </Col>
           </Row>
+          <BlankBar height='20px' />
           <Row>
             <Col span={2} offset={1}>
               <span>软件描述:</span>
@@ -62,7 +68,8 @@ class SWRelate extends Component {
               <span>{resData && resData.sw_desc ? resData.sw_desc : '描述描述描述描述描述描述描述描述描述'}</span>
             </Col>
           </Row>
-          {isWaitItera ? <Row>
+          <BlankBar height='20px' />
+          {isWaitItera || isBusiDeta ? <Row>
             <Col span={2} offset={1}>
               <span>兼容系统:</span>
             </Col>
@@ -79,9 +86,9 @@ class SWRelate extends Component {
               <span>V{resData.version}</span>
             </Col>
           </Row> : null}
-          {isWaitItera ? <Row>
+          {isWaitItera || isBusiDeta ? <Row>
             <Col span={9} offset={3}>
-              {swPathRest && swPathRest.map((item, index) => {
+              {swPathRest.length > 0 && swPathRest.map((item, index) => {
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
                   <span><Icon type='link' /></span>
@@ -91,20 +98,24 @@ class SWRelate extends Component {
               })}
             </Col>
           </Row> : null}
+          <BlankBar height='20px' />
           <Row>
             <Col span={2} offset={1}>
               <span>软件图标:</span>
             </Col>
             <Col>
-              <img style={{width: 48, height: 42}} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
+              <img style={{ width: 48, height: 42 }} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
             </Col>
           </Row>
-          {isWaitItera ? <Row className='sw-relate-move-L'>
+          <BlankBar height='20px' />
+          {isWaitItera || isBusiDeta ? <Row className='sw-relate-move-L'>
             <Col span={3}>
               <span>PC端界面截图:</span>
             </Col>
             <Col>
-              <img style={{width: 81, height: 55}} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_computer_photo} />
+              {computerPho.length > 0 && computerPho.map((item, index) => {
+                return <img style={{ width: 81, height: 55 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + item} />
+              })}
             </Col>
           </Row> : null}
         </div>
@@ -115,7 +126,8 @@ class SWRelate extends Component {
 
 SWRelate.propTypes = {
   resData: PropsTypes.object,
-  isWaitItera: PropsTypes.bool
+  isWaitItera: PropsTypes.bool,
+  isBusiDeta: PropsTypes.bool
 }
 
 export default SWRelate
