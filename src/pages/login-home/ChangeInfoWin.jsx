@@ -53,8 +53,15 @@ class _LoginForm extends React.Component {
    * 保存新的密码
    */
   saveNewPsw (obj) {
+    let thiz = this
     modifyPassword({password: obj.psw}, (response) => {
-      message.success('修改密码成功!')
+      let result = response.data
+      if (result.success) {
+        message.success('修改密码成功!')
+        thiz.props.handleChangeInfoOk()
+      } else {
+        message.success('修改密码失败!')
+      }
     })
   }
 

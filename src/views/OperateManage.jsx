@@ -12,6 +12,7 @@ import SignOut from './SignOut'
 import './Operateview.scss'
 import { withRouter } from 'react-router'
 import webStorage from 'webStorage'
+import _ from 'lodash'
 
 class OperateManage extends React.Component {
   constructor (props) {
@@ -19,6 +20,15 @@ class OperateManage extends React.Component {
     this.state = {
       activeTab: 'home',
       signOutVisible: false // 退出系统
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
+    if (_.indexOf(['/unlogged/home', '/unlogged/newsList', '/unlogged/information'], nextProps.location.pathname) !== -1) {
+      this.setState({
+        activeTab: this.getDefaultTabKey(nextProps.location.pathname)
+      })
     }
   }
 
@@ -44,16 +54,18 @@ class OperateManage extends React.Component {
   }
   getTabArr () {
     let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
-    console.log(44444, STAR_WEB_ROLE_CODE)
     let roleCode = STAR_WEB_ROLE_CODE || ''
     let baseTabArr = [{
       text: '首页',
+      tabKey: 'home',
       src: '/operate-manage-home/home'
     }, {
       text: '全部应用',
+      tabKey: 'home',
       src: '/operate-manage-home/all-app/all-app'
     }, {
       text: '个人中心',
+      tabKey: 'home',
       src: '/operate-manage-home/center'
     }]
     if (roleCode === 'parents') { // 家长
@@ -65,46 +77,59 @@ class OperateManage extends React.Component {
     } else if (roleCode === 'school') { // 学校
       return [{
         text: '首页',
+        tabKey: 'home',
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
+        tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '人员管理',
+        tabKey: 'peopleMang',
         src: '/operate-manage-home/member'
       }, {
         text: '个人中心',
+        tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
       }]
     } else if (roleCode === 'vendor') { // 厂商
       return [{
         text: '首页',
+        tabKey: 'home',
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
+        tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '我的应用',
+        tabKey: 'myApp',
         src: '/operate-manage-home/all-app-detail-mine'
       }, {
         text: '统计分析',
+        tabKey: 'statisAnaly',
         src: '/operate-manage-home/statis'
       }, {
         text: '市场分析',
+        tabKey: 'marketAnaly',
         src: '/operate-manage-home/market'
       }]
     } else if (roleCode === 'eduBureau') { // 教育局
       return [{
         text: '首页',
+        tabKey: 'home',
         src: '/operate-manage-home/home'
       }, {
         text: '全部应用',
+        tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
       }, {
         text: '个人中心',
+        tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
       }, {
         text: '政策通知',
+        tabKey: 'policyNotice',
         src: '/operate-manage-home/public/policy'
       }]
     }
@@ -133,7 +158,7 @@ class OperateManage extends React.Component {
               <div className='header-container'>
                 {
                   tabArr.map((item, index) => {
-                    return <li key={index}><a onClick={this.handleTabChange.bind(this, item.src)}>{item.text}</a></li>
+                    return <li key={index}><a className={this.state.activeTab === item.tabKey ? 'selected' : ''} onClick={this.handleTabChange.bind(this, item.src)}>{item.text}</a></li>
                   })
                 }
               </div>

@@ -14,7 +14,7 @@ export function login (params, sucFn) {
  * 修改密码
  */
 export function modifyPassword (params, sucFn) {
-  return axios.post('/control/updateUserPassword', {...params})
+  return axios.post('/updateFirstPassword', {...params})
     .then(function (res) {
       sucFn(res)
     })
