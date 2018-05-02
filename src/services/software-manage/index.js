@@ -41,6 +41,25 @@ export function stick (params, sucFn) {
 }
 
 /**
+ * 会员管理-账号-下拉菜单-获取数据
+ */
+export function getIdSelectList (params, sucFn) {
+  return axios.post('/manage/listRoleAccount', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-名称-下拉菜单-获取数据
+ */
+export function getNameSelectList (params, sucFn) {
+  return axios.post('/manage/listRoleName', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
  * 会员管理-厂商-列表/查询
  */
 export function firmRenewList (params, sucFn) {

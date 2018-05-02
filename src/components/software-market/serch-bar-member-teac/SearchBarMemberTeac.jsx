@@ -24,13 +24,15 @@ class SearchBarMemberTeac extends Component {
    */
   getOptions = (optArrs) => {
     return optArrs.map((Item, index) => {
-      return <Option value={Item}>{Item}</Option>
+      // 这里需要加一个key 不然会有告警
+      return <Option key={index} value={Item}>{Item}</Option>
     })
   }
 
   render () {
+    const arrTest = ['叶湘伦', '路小雨']
     const {
-      searchParams,
+      selectList,
       onBtnSearchClick,
       onSelect1Change,
       onSelect2Change,
@@ -48,7 +50,7 @@ class SearchBarMemberTeac extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect1Change} >
-              {this.getOptions(searchParams.idArr)}
+              {selectList.idList && this.getOptions(selectList.idList)}
             </Select>
           </Col>
           <Col span={5}>
@@ -58,7 +60,7 @@ class SearchBarMemberTeac extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect2Change} >
-              {this.getOptions(['路小雨', '叶湘伦'])}
+              {this.getOptions(arrTest)}
             </Select>
           </Col>
           <Col span={5}>
@@ -68,7 +70,7 @@ class SearchBarMemberTeac extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect3Change} >
-              {this.getOptions(['路小雨', '叶湘伦'])}
+              {this.getOptions(arrTest)}
             </Select>
           </Col>
           <Col span={4}>
@@ -92,7 +94,7 @@ class SearchBarMemberTeac extends Component {
 }
 
 SearchBarMemberTeac.propTypes = {
-  searchParams: PropsTypes.object,
+  selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,

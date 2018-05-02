@@ -15,10 +15,12 @@ import {
   thGetData,
   maDelId,
   maInitPwd,
-  thBatchLeadout
+  thBatchLeadout,
+  getIdSelectList,
+  getNameSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
-import { addKey2TableData } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -51,7 +53,8 @@ class Teacher extends Component {
       pagination,
       batchLeadParams: {
         idArrs: []
-      }
+      },
+      selectList: {}
     }
   }
 
@@ -126,11 +129,11 @@ class Teacher extends Component {
   getTableDatas = () => {
     thGetData(this.getParams(), (res) => {
       const data = res.data
-      console.log(`data: ${JSON.stringify(data)}`)
+      // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: addKey2TableData(data.list, 'th_id'),
-          total: data.total
+          data: data.list && addKey2TableData(data.list, 'th_id'),
+          total: data.total && data.total
         }
       })
     })
@@ -308,14 +311,18 @@ class Teacher extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+    // 请求下拉框的数据
+    getSelectList(getIdSelectList, 'teacher', 'idList', this)
+    getSelectList(getNameSelectList, 'teacher', 'nameList', this)
   }
 
   render () {
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
+    // console.log(`render:this.state.selectList.idList: ${JSON.stringify(this.state.selectList.idList)}`)
     return (
       <div className='software-wrap'>
         <SearchBarMemberTeac
-          searchParams={{idArr: ['全部', '1234', '5678']}}
+          selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
           onSelect2Change={this.onthNameChange}
           onSelect3Change={this.onSchNameChange}
