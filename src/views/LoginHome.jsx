@@ -6,8 +6,7 @@ import React from 'react'
 import { Badge, Icon } from 'antd'
 import { renderRoutes } from 'react-router-config'
 import SignOut from './SignOut'
-import axios from 'axios'
-import Config from 'config'
+import {getMessageCount} from '../services/topbar-mation'
 import './Operateview.scss'
 import BottomHeader from 'components/common/BottomHeader'
 import webStorage from 'webStorage'
@@ -42,8 +41,8 @@ class LoginHome extends React.Component {
   componentDidMount () {
   }
   // 未读消息数
-  getMessageCount=() => {
-    axios.post(Config.getMessageCount).then((response) => {
+  getMessageCo=() => {
+    getMessageCount({}, (response) => {
       console.log('返回未读消息数量', response)
       this.setState({
         messageCount: response.data.count
@@ -79,7 +78,7 @@ class LoginHome extends React.Component {
       refresh: !this.state.refresh
     }, () => {
       if (webStorage.getItem('STAR_WEB_IS_LOGGED')) {
-        this.getMessageCount()
+        this.getMessageCo()
       }
     })
   }

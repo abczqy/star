@@ -8,8 +8,7 @@ import {Icon, Badge} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from 'components/common/BottomHeader'
 import SignOut from '../SignOut'
-import axios from 'axios'
-import Config from 'config'
+import {getMessageCount} from '../../services/topbar-mation'
 import webStorage from 'webStorage'
 import { withRouter } from 'react-router'
 import 'components/common/bottom.scss'
@@ -24,11 +23,11 @@ class MessageTopBar extends React.Component {
     }
   }
   componentDidMount () {
-    this.getMessageCount()
+    this.getMessageCo()
   }
   // 未读消息数
-  getMessageCount=() => {
-    axios.post(Config.getMessageCount).then((response) => {
+  getMessageCo=() => {
+    getMessageCount({}, (response) => {
       console.log('返回未读消息数量', response)
       this.setState({
         messageCount: response.data.count

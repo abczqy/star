@@ -3,10 +3,9 @@
 import React from 'react'
 import {Card, Layout, Form, Input, Button, message} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import Config from 'config'
 import { withRouter } from 'react-router'
 import './register.scss'
+import {forgetThePassword, SMSVerification} from '../../services/topbar-mation'
 import BottomHeader from '../../components/common/BottomHeader'
 
 class ForgetPass extends React.Component {
@@ -128,9 +127,9 @@ class ForgetPass extends React.Component {
   }
   // 获取验证码
   getCode=(account) => {
-    axios.post(Config.SMSVerification, {
+    SMSVerification({
       user_id: account
-    }).then((response) => {
+    }, (response) => {
       this.setState({
         phoneCode: response.data
       })
@@ -293,14 +292,11 @@ class ForgetPass extends React.Component {
         })
       }
       if (!err) {
-        console.log('忘记密码', values)
-        axios.post(Config.relationdelete, {
-          params: {
-            user_id: values.maf_loginid,
-            idcard: values.maf_sad_idcard,
-            password: values.maf_pwd
-          }
-        }).then((response) => {
+        forgetThePassword({
+          user_id: values.maf_loginid,
+          idcard: values.maf_sad_idcard,
+          password: values.maf_pwd
+        }, (response) => {
           if (response.data === 'false') {
             message.error('没有此账号！')
           } else {

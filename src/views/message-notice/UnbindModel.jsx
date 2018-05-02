@@ -2,8 +2,7 @@
 import React from 'react'
 import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {relationdelete} from '../../services/topbar-mation'
 import '../Operateview.scss'
 export default class UnbindModel extends React.Component {
   static propTypes = {
@@ -20,10 +19,10 @@ export default class UnbindModel extends React.Component {
     }
   }
   saveOrSubmit =() => {
-    axios.post(ajaxUrl.relationdelete, {
+    relationdelete({
       maf_id: this.props.maf_id,
       maf_sad_account: this.props.stu_id
-    }).then((response) => {
+    }, (response) => {
       console.log('返回学生绑定信息', response)
       this.props.getBindList()
       this.props.hiddenModal()

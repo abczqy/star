@@ -3,8 +3,7 @@
 import React from 'react'
 import {Modal, Button, Form, Input, Select} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {relationAdd} from '../../services/topbar-mation'
 import '../Operateview.scss'
 class AddbindModel extends React.Component {
   static propTypes = {
@@ -41,20 +40,20 @@ class AddbindModel extends React.Component {
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('添加绑定', values)
-        axios.post(ajaxUrl.relationAdd, {
+        relationAdd({
           maf_id: this.props.maf_id,
           maf_sad: values.maf_sad, // 与学生的关系
           maf_sad_name: values.maf_sad_name, // 学生姓名
           maf_sad_idcard: values.maf_sad_idcard, // 学生身份证
           maf_sad_account: values.maf_sad_account, // 学生账号
           maf_sad_pwd: values.maf_sad_pwd
-        }).then((response) => {
+        }, (response) => {
           console.log('返回学生绑定信息', response)
           this.props.hiddenModal()
+          // 调用父页面的查询接口更新绑定列表
+          this.props.getBindList()
+          this.props.hiddenModal()
         })
-        // 调用父页面的查询接口更新绑定列表
-        this.props.getBindList()
-        this.props.hiddenModal()
       }
     })
   }

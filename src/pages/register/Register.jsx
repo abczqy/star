@@ -7,8 +7,7 @@ import {Card, Layout, Form, Input, Select, Button, Checkbox, message} from 'antd
 import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
 import RegisterModal from './RegisterSuccModal'
-import axios from 'axios'
-import Config from 'config'
+import {registerValitemail} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
 class Register extends React.Component {
   constructor (props) {
@@ -44,9 +43,10 @@ class Register extends React.Component {
     const value = e.target.value
     if (this.onLoginidChange(e)) {
       let confirm = ''
-      axios.post(Config.registerValitemail, {
+      // 请求邮箱是否占用接口
+      registerValitemail({
         email: value
-      }).then((response) => {
+      }, (response) => {
         confirm = response.msg !== 'exist'//  exist代表被邮箱被占用
         if (confirm) {
           this.setState({
@@ -65,7 +65,7 @@ class Register extends React.Component {
             checkemail_icon: false
           })
         }
-      }).catch((err) => {
+      }, (err) => {
         console.log(err)
         message.error('请求错误！')
         this.setState({
@@ -426,27 +426,25 @@ class Register extends React.Component {
     })
   }
   registermaf = (values) => {
-    axios.post(Config.register, {
-      params: {
-        'maf_pwd': values.maf_pwd, // 注册密码
-        'maf_name': values.maf_name, // 家长姓名
-        'maf_idcard': values.maf_idcard, // 身份证
-        'maf_sad': values.maf_sad, // 与学生关系
-        'maf_sad_name': values.maf_sad_name, // 学生姓名
-        'maf_sad_idcard': values.maf_sad_idcard, // 学生身份证号
-        'maf_sad_account': values.maf_sad_account, // 学生账号
-        'maf_sad_pwd': values.maf_sad_pwd, // 学生账号密码
-        'maf_phone': values.maf_phone, // 家长电话
-        'maf_email': values.maf_loginid, // 家长邮箱（家长邮箱和登录账号是同一个）
-        'maf_phone_code': values.maf_phone_code // 手机验证码
+    register({
+      'maf_pwd': values.maf_pwd, // 注册密码
+      'maf_name': values.maf_name, // 家长姓名
+      'maf_idcard': values.maf_idcard, // 身份证
+      'maf_sad': values.maf_sad, // 与学生关系
+      'maf_sad_name': values.maf_sad_name, // 学生姓名
+      'maf_sad_idcard': values.maf_sad_idcard, // 学生身份证号
+      'maf_sad_account': values.maf_sad_account, // 学生账号
+      'maf_sad_pwd': values.maf_sad_pwd, // 学生账号密码
+      'maf_phone': values.maf_phone, // 家长电话
+      'maf_email': values.maf_loginid, // 家长邮箱（家长邮箱和登录账号是同一个）
+      'maf_phone_code': values.maf_phone_code // 手机验证码
 
-      }
-    }).then((response) => {
+    }, (response) => {
       this.setState({
         registerVisible: true,
         accountSucc: response.account
       })
-    }).catch(e => { console.log(e) })
+    })
   }
   render () {
     const formItemLayout = {

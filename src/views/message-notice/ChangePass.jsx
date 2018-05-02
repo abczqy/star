@@ -2,8 +2,7 @@
 import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {updateUserPassword} from '../../services/topbar-mation'
 import '../Operateview.scss'
 class ChangePass extends React.Component {
   static propTypes = {
@@ -80,10 +79,10 @@ class ChangePass extends React.Component {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
-        axios.post(ajaxUrl.updateUserPassword, {
+        updateUserPassword({
           pwd: values.maf_new_pass,
           oldPwd: values.maf_old_pass
-        }).then((response) => {
+        }, (response) => {
           console.log('修改密码', response)
           if (response.data === 'ERROR') {
             message.error('您输入的旧密码不正确！')

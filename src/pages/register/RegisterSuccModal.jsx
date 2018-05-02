@@ -25,7 +25,7 @@ class RegisterSuccModal extends React.Component {
         if (this.state.clockTime === 0) {
           clearInterval(this.interval)
           this.props.history.push({
-            pathname: 'unlogged/home'
+            pathname: '/unlogged/home'
           })
         }
       })
@@ -40,7 +40,7 @@ class RegisterSuccModal extends React.Component {
   backHome=() => {
     window.clearInterval(this.interval)
     this.props.history.push({
-      pathname: 'unlogged/home'
+      pathname: '/unlogged/home'
     })
   }
   render () {

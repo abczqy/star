@@ -5,8 +5,7 @@
 import React from 'react'
 import {Card} from 'antd'
 import {getSearchString} from 'utils/index'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {getMessageListDetail} from '../../services/topbar-mation'
 import '../Operateview.scss'
 export default class MessageDetail extends React.Component {
   constructor (props) {
@@ -31,12 +30,9 @@ export default class MessageDetail extends React.Component {
   }
   // 获取详情
   getListDetail=() => {
-    axios.get(ajaxUrl.getMessageListDetail, {
-      params: {
-        MSG_ID: this.state.msg_id
-      }
-    }).then((response) => {
-      console.log('返回消息详情', response)
+    getMessageListDetail({
+      MSG_ID: this.state.msg_id
+    }, (response) => {
       this.setState({
         detailData: response.data[0]
       })
