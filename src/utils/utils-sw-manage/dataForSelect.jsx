@@ -9,8 +9,9 @@
 const getSelectList = (sunFn, typeVal, key, thiz) => {
   let list = {}
   // list['idList'] = ['123', '234', '345']
+  const reqParam = typeVal ? {type: typeVal} : null
   // 向后台请求数据
-  sunFn({type: typeVal}, (res) => {
+  sunFn(reqParam, (res) => {
     const data = res.data
     list[key] = data.data
   })

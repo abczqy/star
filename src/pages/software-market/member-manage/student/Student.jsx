@@ -15,10 +15,12 @@ import {
   changeStuToLogin,
   initStuPwd,
   delStuLoginId,
-  stBatchLeadout
+  stBatchLeadout,
+  getIdSelectList,
+  getNameSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberStu } from 'components/software-market'
-import { addKey2TableData } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -52,7 +54,8 @@ class Student extends Component {
       pagination,
       batchLeadParams: {
         idArrs: []
-      }
+      },
+      selectList: {}
     }
   }
 
@@ -362,13 +365,19 @@ class Student extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+    // 请求下拉框的数据
+    getSelectList(getIdSelectList, 'student', 'idList', this)
+    getSelectList(getNameSelectList, 'student', 'stuNameList', this)
+    getSelectList(getNameSelectList, 'school', 'schNameList', this)
+    getSelectList(getNameSelectList, 'parent', 'paNameList', this)
   }
 
   render () {
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberStu
+          selectList={{ ...selectList }}
           onInput1Change={this.onstuIdChange}
           onInput2Change={this.onStuNameChange}
           onInput3Change={this.onShNameChange}

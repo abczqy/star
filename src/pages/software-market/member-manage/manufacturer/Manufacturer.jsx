@@ -22,9 +22,12 @@ import {
   initFaPwd,
   getFaDetails,
   getFactoryDetail,
-  faBatchLeadout
+  faBatchLeadout,
+  getIdSelectList,
+  getNameSelectList,
+  getContractSelectList
 } from 'services/software-manage'
-import { addKey2TableData } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -63,7 +66,8 @@ class Manufacturer extends Component {
       },
       batchLeadParams: {
         faIdArrs: []
-      }
+      },
+      selectList: {}
     }
   }
 
@@ -229,13 +233,13 @@ class Manufacturer extends Component {
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onFaLoginidChange = (e) => {
+  onFaLoginidChange = (val) => {
     // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        faId: e.target.value
+        faId: val
       }
     })
   }
@@ -243,13 +247,13 @@ class Manufacturer extends Component {
   /**
    * 当搜索框‘厂商名称’值改变时回调
    */
-  onFaNameChange = (e) => {
+  onFaNameChange = (val) => {
     // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        faName: e.target.value
+        faName: val
       }
     })
   }
@@ -387,15 +391,6 @@ class Manufacturer extends Component {
     })
   }
 
-  /**
-   *获取一系列参数
-   */
-  // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
-  componentDidMount () {
-    this.getTableDatas()
-    // const thiz = this
-  }
-
   handleCloseMemRenewWin () {
     this.setState({
       memRenewWinVisible: false
@@ -449,19 +444,32 @@ class Manufacturer extends Component {
     })
   }
 
+  /**
+   *获取一系列参数
+   */
+  // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
+  componentDidMount () {
+    this.getTableDatas()
+    // 请求下拉框的数据
+    getSelectList(getIdSelectList, 'factory', 'idList', this)
+    getSelectList(getNameSelectList, 'factory', 'faNameList', this)
+    getSelectList(getContractSelectList, null, 'contractList', this)
+  }
+
   render () {
-    const { pagination, tableData, delModalCon, faDetModalCon } = this.state
+    const { pagination, tableData, delModalCon, faDetModalCon, selectList } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMember
           inputText1='账号 '
           inputText2='厂商名称 '
-          selectText1='合同状态 '
-          selectText2='允许登录 '
-          onInput1Change={this.onFaLoginidChange}
-          onInput2Change={this.onFaNameChange}
-          onSelect1Change={this.onNumDayChange}
-          onSelect2Change={this.onToLogin}
+          inputText3='合同状态 '
+          inputText4='允许登录 '
+          selectList={{...selectList}}
+          onSelect1Change={this.onFaLoginidChange}
+          onSelect2Change={this.onFaNameChange}
+          onSelect3Change={this.onNumDayChange}
+          onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
         />

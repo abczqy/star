@@ -30,7 +30,6 @@ class SearchBarMemberTeac extends Component {
   }
 
   render () {
-    const arrTest = ['叶湘伦', '路小雨']
     const {
       selectList,
       onBtnSearchClick,
@@ -60,7 +59,7 @@ class SearchBarMemberTeac extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect2Change} >
-              {this.getOptions(arrTest)}
+              {selectList.tchNameList && this.getOptions(selectList.tchNameList)}
             </Select>
           </Col>
           <Col span={5}>
@@ -70,7 +69,7 @@ class SearchBarMemberTeac extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect3Change} >
-              {this.getOptions(arrTest)}
+              {selectList.schNameList && this.getOptions(selectList.schNameList)}
             </Select>
           </Col>
           <Col span={4}>

@@ -313,7 +313,8 @@ class Teacher extends Component {
     this.getTableDatas()
     // 请求下拉框的数据
     getSelectList(getIdSelectList, 'teacher', 'idList', this)
-    getSelectList(getNameSelectList, 'teacher', 'nameList', this)
+    getSelectList(getNameSelectList, 'teacher', 'tchNameList', this)
+    getSelectList(getNameSelectList, 'school', 'schNameList', this)
   }
 
   render () {

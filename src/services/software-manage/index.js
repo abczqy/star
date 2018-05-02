@@ -59,6 +59,17 @@ export function getNameSelectList (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 会员管理-合同状态-下拉菜单-获取数据
+ */
+export function getContractSelectList (params, sucFn) {
+  return axios.post('/manage/listContract', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
 /**
  * 会员管理-厂商-列表/查询
  */
