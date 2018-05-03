@@ -70,7 +70,7 @@ class IterationInfo extends Component {
               {swPathRest && swPathRest.map((item, index) => {
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
-                  <span><Icon type='link' /><span>{item && item[1]}</span></span>
+                  <span><Icon type='paper-clip' /><span>{item && item[1]}</span></span>
                   <a href='javascript:;'><Icon type='download' /></a>
                 </span>
               })}
