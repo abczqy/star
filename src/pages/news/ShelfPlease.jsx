@@ -111,7 +111,7 @@ class ShelfPlease extends React.Component {
     for (let i = 0; i < this.state.Edition; i++) {
       const propsO = {
         onRemove: (file) => {
-          this.setState(({ fileListOneF }) => {
+          this.setState(({fileListOneF}) => {
             const index = fileListOneF.indexOf(file)
             const newFileList = fileListOneF.slice()
             newFileList.splice(index, 1)
@@ -123,7 +123,8 @@ class ShelfPlease extends React.Component {
           })
         },
         beforeUpload: (file) => {
-          this.setState(({ fileListOneF }) => ({
+          console.log('接受的文件格式？？？？？', file)
+          this.setState(({fileListOneF}) => ({
             fileListOneF: [...fileListOneF, file]
           }), () => {
             console.log('this.state.fileListOneF', this.state.fileListOneF)
@@ -153,7 +154,7 @@ class ShelfPlease extends React.Component {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ... （200px*200px）</span>
                   </Upload>
                 </Col>
               </Col>
@@ -180,7 +181,7 @@ class ShelfPlease extends React.Component {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ... （200px*200px）</span>
                   </Upload>
                 </Col>
               </Col>
@@ -290,11 +291,12 @@ class ShelfPlease extends React.Component {
     formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片
     formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
     formData.append('fin_audit', this.state.fileListSix)// 财务凭证
-    formData.append('type', this.zHs())// 软件版本的文件id和系统类别
-    formData.append('copType', this.zH())// 软件版本的文件id和系统类别
+    formData.append('type', this.zHs())// 软件版本的文件和系统类别
+    formData.append('copType', this.zH())// 软件版本的文件
     formData.append('fa_id', 'fa_123456')// 厂商Id
+    console.log('看看那是什么', this.zHs())
     shelf(formData, (response) => {
-      message.success(`上架申请成功!${response}`)
+      message.success(`上架申请成功!`)
       console.log(response)
     })
   }
@@ -322,8 +324,6 @@ class ShelfPlease extends React.Component {
           return {
             fileListTwo: newFileList
           }
-        }, () => {
-          console.log('this.state.fileListTwo', this.state.fileListTwo)
         })
       },
       beforeUpload: (file) => {
@@ -345,8 +345,6 @@ class ShelfPlease extends React.Component {
           return {
             fileListFour: newFileList
           }
-        }, () => {
-          console.log('fileListFour', this.state.fileListFour)
         })
       },
       beforeUpload: (file) => {
@@ -368,8 +366,6 @@ class ShelfPlease extends React.Component {
           return {
             fileListFive: newFileList
           }
-        }, () => {
-          console.log('fileListFive', this.state.fileListFive)
         })
       },
       beforeUpload: (file) => {
@@ -391,8 +387,6 @@ class ShelfPlease extends React.Component {
           return {
             fileListThree: newFileList
           }
-        }, () => {
-          console.log('fileListThree', this.state.fileListThree)
         })
       },
       beforeUpload: (file) => {
@@ -414,8 +408,6 @@ class ShelfPlease extends React.Component {
           return {
             fileListSix: newFileList
           }
-        }, () => {
-          console.log('this.state.fileListSix', this.state.fileListSix)
         })
       },
       beforeUpload: (file) => {
@@ -515,7 +507,7 @@ class ShelfPlease extends React.Component {
                     <Icon type='upload' /> 上传文件
                   </Button>
                   <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ... （400px*400px）</span>
                 </Upload>
               </Col>
             </Col>
@@ -606,7 +598,7 @@ class ShelfPlease extends React.Component {
                         <Icon type='upload' /> 上传文件
                       </Button>
                       <span className='extend'>
-                        <span style={{visibility: 'hidden'}}>无</span>支持扩展名：.png .jpg ...</span><a href='javascript:;'>下载模版</a>
+                        <span style={{visibility: 'hidden'}}>无</span>请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:;'>下载模版</a>
                     </Upload>
                   </Radio>
                 </Col>

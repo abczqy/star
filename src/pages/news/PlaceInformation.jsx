@@ -11,9 +11,6 @@ import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
-import _ from 'lodash'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import {information} from 'services/software-manage'
@@ -56,7 +53,8 @@ class Information extends React.Component {
         }
       ],
       infoData: false,
-      height: ''
+      height: '',
+      infoDatas: false
     }
   }
   getList=() => {
@@ -78,15 +76,17 @@ class Information extends React.Component {
       })
     })
 
-    axios.get(ajaxUrl.detList).then(item => {
+    let values = {
+      pageNum: 1,
+      pageSize: 100,
+      province: '',
+      city: '',
+      county: ''
+    }
+    information(values, (response) => {
       this.setState({
-        dataP: item.data.list,
-        img: item.data.img
-      }, () => {
-        console.log('获取分享列表数据存在state', this.state.dataP)
+        infoDatas: response.data
       })
-    }).catch(err => {
-      console.log(err)
     })
   }
   componentWillMount () {
@@ -175,7 +175,7 @@ class Information extends React.Component {
  getHeight=() => {
    if (this.state.webStorage) {
      this.setState({
-       viewHeight: window.innerHeight - 247
+       viewHeight: window.innerHeight - 230
      })
    } else {
      this.setState({
@@ -184,16 +184,16 @@ class Information extends React.Component {
    }
  }
  render () {
-   return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
+   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
      <div >
        <Row>
          <Col span={5} style={{width: '18%'}}>
            <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></a></div></Row>
            <Row><div className='left-downer'>
              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-               <ul className='ul-margin'>
-                 {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                   return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+               <ul>
+                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
+                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                  })}
                </ul>
              </Card></div>

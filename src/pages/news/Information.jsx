@@ -11,8 +11,6 @@ import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import {information} from 'services/software-manage'
@@ -54,8 +52,9 @@ class Information extends React.Component {
           }]
         }
       ],
-      infoData: {},
-      height: ''
+      infoData: false,
+      height: '',
+      infoDatas: false
     }
   }
 
@@ -112,15 +111,17 @@ class Information extends React.Component {
       })
     })
 
-    axios.get(ajaxUrl.detList).then(item => {
+    let values = {
+      pageNum: 1,
+      pageSize: 100,
+      province: '',
+      city: '',
+      county: ''
+    }
+    information(values, (response) => {
       this.setState({
-        dataP: item.data.list,
-        img: item.data.img
-      }, () => {
-        console.log('获取分享列表数据存在state', this.state.dataP)
+        infoDatas: response.data
       })
-    }).catch(err => {
-      console.log(err)
     })
   }
   // 标题的点击事件
@@ -235,8 +236,8 @@ class Information extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul>
-                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                {this.state.infoData && this.state.infoData.list.map((item, index) => {
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}
               </ul>
             </Card>

@@ -8,11 +8,10 @@ import {Row, Col, Card, Pagination} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
-import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
-import {newsList} from 'services/software-manage'
+import {newsList, information} from 'services/software-manage'
 
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
@@ -29,7 +28,8 @@ class News extends React.Component {
       newData: null,
       height: '',
       heights: '',
-      webStorage: false
+      webStorage: false,
+      infoData: false
     }
   }
   getList = () => {
@@ -47,15 +47,17 @@ class News extends React.Component {
       })
     })
 
-    axios.get(ajaxUrl.detList).then(item => { // 分享数据列表
+    let values = {
+      pageNum: 1,
+      pageSize: 100,
+      province: '',
+      city: '',
+      county: ''
+    }
+    information(values, (response) => {
       this.setState({
-        dataP: item.data.list,
-        img: item.data.img
-      }, () => {
-        console.log('获取分享列表数据存在state', this.state.dataP)
+        infoData: response.data
       })
-    }).catch(err => {
-      console.log(err)
     })
   }
   componentDidMount () {
@@ -188,7 +190,7 @@ class News extends React.Component {
             }) : ''}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
               <Row style={{marginBottom: '10px', marginTop: '-10px'}}>
-                <Col span={12} />
+                <Col span={8} />
                 <Col >
                   {this.state.newData ? (this.state.newData.total >= 5
                     ? <Pagination
@@ -211,8 +213,8 @@ class News extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul>
-                {this.state.dataP && this.state.dataP.map((item, index) => {
-                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                {this.state.infoData && this.state.infoData.list.map((item, index) => {
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}
               </ul>
             </Card>
@@ -221,7 +223,6 @@ class News extends React.Component {
             <img src={this.state.imgT} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
-
       </div>
     )
   }

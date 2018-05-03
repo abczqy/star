@@ -13,10 +13,8 @@ import fen from '../../assets/images/u1415.png'
 import _ul from '../../assets/images/_ul.png'
 import shareContent from '../../utils/shareContent'
 import _ from 'lodash'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import webStorage from 'webStorage'
-import {newsListDet} from 'services/software-manage'
+import {newsListDet, newsList, information} from 'services/software-manage'
 // import _ from 'lodash'
 
 class NewsDetails extends React.Component {
@@ -35,7 +33,9 @@ class NewsDetails extends React.Component {
         positionO: '新闻列表',
         positionT: '国内新闻',
         a: '政策法规新要求.doc'
-      }
+      },
+      newDatas: null,
+      infoData: false
     }
   }
   componentDidMount () {
@@ -82,22 +82,30 @@ class NewsDetails extends React.Component {
     newsListDet(value, (response) => {
       this.setState({
         newData: response.data
-      }, () => {
-        console.log('获取数据存在state', this.state.newData)
-        console.log('获取数据存在state', this.state.newData.list)
       })
     })
 
-    axios.get(ajaxUrl.detList).then(item => {
-      console.log(item)
+    let values = {
+      pageNum: 1,
+      pageSize: 100
+    }
+    newsList(values, (response) => {
       this.setState({
-        dataP: item.data.list,
-        img: item.data.img
-      }, () => {
-        console.log('获取分享列表数据存在state', this.state.dataP)
+        newDatas: response.data
       })
-    }).catch(err => {
-      console.log(err)
+    })
+
+    let valuez = {
+      pageNum: 1,
+      pageSize: 100,
+      province: '',
+      city: '',
+      county: ''
+    }
+    information(valuez, (response) => {
+      this.setState({
+        infoData: response.data
+      })
     })
   }
   // 更多的点击事件
@@ -171,8 +179,8 @@ render () {
                 <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
               </div>
               <ul className='details-li-ul-down'>
-                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                  return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item}</li> : null
+                {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
+                  return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item.news_title}</li> : null
                 })}
               </ul>
             </div>
@@ -182,8 +190,8 @@ render () {
         <div className='center-public-info'>
           <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
             <ul>
-              {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+              {this.state.infoData && this.state.infoData.list.map((item, index) => {
+                return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
               })}
             </ul>
           </Card>

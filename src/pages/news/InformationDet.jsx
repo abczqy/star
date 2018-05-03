@@ -12,11 +12,9 @@ import _ul from '../../assets/images/_ul.png'
 import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
 import _ from 'lodash'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
-import {informationDet} from 'services/software-manage'
+import {informationDet, newsList, information} from 'services/software-manage'
 
 class InformationDet extends React.Component {
   constructor (props) {
@@ -34,7 +32,9 @@ class InformationDet extends React.Component {
         positionO: '信息公开',
         positionT: '国内新闻',
         a: '政策法规新要求.doc'
-      }
+      },
+      newDatas: false,
+      infoDatas: false
     }
   }
   getList=() => {
@@ -52,15 +52,27 @@ class InformationDet extends React.Component {
       })
     })
 
-    axios.get(ajaxUrl.detList).then(item => {
+    let values = {
+      pageNum: 1,
+      pageSize: 100
+    }
+    newsList(values, (response) => {
       this.setState({
-        dataP: item.data.list,
-        img: item.data.img
-      }, () => {
-        console.log('获取分享列表数据存在state', this.state.dataP)
+        newDatas: response.data
       })
-    }).catch(err => {
-      console.log(err)
+    })
+
+    let valuez = {
+      pageNum: 1,
+      pageSize: 100,
+      province: '',
+      city: '',
+      county: ''
+    }
+    information(valuez, (response) => {
+      this.setState({
+        infoDatas: response.data
+      })
     })
   }
   componentDidMount () {
@@ -171,8 +183,8 @@ class InformationDet extends React.Component {
                   <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
                 </div>
                 <ul className='details-li-ul-down'>
-                  {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item}</li> : null
+                  {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
+                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item.news_title}</li> : null
                   })}
                 </ul>
               </div>
@@ -182,8 +194,8 @@ class InformationDet extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul>
-                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                {(!_.isEmpty(this.state.infoDatas)) && this.state.infoDatas.list.map((item, index) => {
+                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li>
                 })}
               </ul>
             </Card>

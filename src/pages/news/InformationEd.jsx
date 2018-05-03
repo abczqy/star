@@ -226,7 +226,7 @@ class InformationEd extends React.Component {
  getHeight=() => {
    if (this.state.webStorage) {
      this.setState({
-       viewHeight: window.innerHeight - 248
+       viewHeight: window.innerHeight - 230
      })
    } else {
      this.setState({
@@ -253,7 +253,7 @@ render () {
   const dataT = [
     {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
   ]
-  return <div style={{margin: 'auto', width: '100%', marginLeft: '6%', height: this.state.viewHeight}}>
+  return <div style={{margin: 'auto', width: '90%', marginLeft: '6%', height: this.state.viewHeight}}>
     <div >
       <Row>
         <Col span={5} style={{width: '18%'}}>

@@ -404,7 +404,7 @@ export function iterVeriDetail (params, sucFn) {
  * 软件时长-上架申请
  */
 export function shelf (params, sucFn) {
-  return axios.post('/uploadSw/upload', params)
+  return axios.post('/AppStore/upload', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -413,7 +413,7 @@ export function shelf (params, sucFn) {
  * 迭代申请
  */
 export function iteration (params, sucFn) {
-  return axios.post('/updateSoft/update', params)
+  return axios.post('/AppStore/query', params)
     .then(function (res) {
       sucFn(res)
     })
