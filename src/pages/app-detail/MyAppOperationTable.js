@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, Icon, Button, Modal, Checkbox } from 'antd'
 import { Link } from 'react-router-dom'
-import {myAppInOperation} from 'services/my-app/'
+import {myAppInOperation, applicationTypeData} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -21,6 +21,7 @@ class MyAppTable extends Component {
       checked: false,
       btnDisable: true,
       myAppInOperationData: [],
+      appTypeData: [],
       total: 0,
       pageSize: 10,
       pageNum: 1,
@@ -74,6 +75,7 @@ class MyAppTable extends Component {
   componentDidMount () {
     this.props.form.validateFields()
     this.getMyAppInOperationData()
+    this.getApplicationTypeData()
   }
   // 我的应用-运营中
   getMyAppInOperationData = (searchParams) => {
@@ -93,16 +95,22 @@ class MyAppTable extends Component {
       })
     }).catch((e) => { console.log(e) })
   }
+  // 获取应用类型下拉框数据
+  getApplicationTypeData = () => {
+    applicationTypeData({}, (res) => {
+      this.setState({
+        appTypeData: res.data.type
+      })
+    }).catch((e) => { console.log(e) })
+  }
   // 改变每页显示条数
   onShowSizeChange = (pageNum, pageSize) => {
-    console.log(pageNum, pageSize)
     this.setState({pageNum, pageSize}, () => {
       this.getMyAppInOperationData()
     })
   }
   // 页码
   onPageNumChange = (pageNum, pageSize) => {
-    console.log(pageNum, pageSize)
     this.setState({pageNum, pageSize}, () => {
       this.getMyAppInOperationData()
     })
@@ -166,7 +174,6 @@ class MyAppTable extends Component {
         span: 15
       }
     }
-    const aaaaaaaa = ['教育类', '教辅类', '管理类', '其他类']
     return (
       <Card>
         <Form>
@@ -180,7 +187,7 @@ class MyAppTable extends Component {
               >
                 {getFieldDecorator('progressState')(
                   <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
-                    { aaaaaaaa.map((item, index, data) => {
+                    { this.state.appTypeData.map((item, index, data) => {
                       return <Option key={index} value={item}>{item}</Option>
                     })}
                   </Select>

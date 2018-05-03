@@ -66,6 +66,44 @@
                         margin-right: 4.7%;
                         float: left;
                         margin-top: 10px;
+                        .downloadIcon {
+                            width: 20px;
+                            height: 20px;
+                            background: #08A1E9;
+                            color: #fff;
+                            line-height: 20px;
+                            border-top-left-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            float: left
+                        }
+                        .downloadButton {
+                            width: 60px;
+                            height: 20px;
+                            line-height: 18px;
+                            font-size: 10px;
+                            text-align: center;
+                            border-bottom-left-radius: 0;
+                            border-top-left-radius: 0;
+                            border-bottom-right-radius: 4px;
+                            border-top-right-radius: 4px;
+                            background-color: #40B3F9;
+                            border: 0;
+                            float: left
+                        }
+                        .openButton {
+                            width: 60px;
+                            height: 20px;
+                            line-height: 18px;
+                            font-size: 10px;
+                            text-align: center;
+                            border-bottom-left-radius: 4px;
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-top-right-radius: 4px;
+                            background-color: #7ED321;
+                            border: 0;
+                            float: left
+                        }
                         .list-item {
                             width: 220px;
                             height: 74px;

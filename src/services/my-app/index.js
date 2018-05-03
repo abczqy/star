@@ -7,6 +7,13 @@ export function myAppInOperation (params, sucFn) {
       sucFn(res)
     })
 }
+// 应用类型下拉框
+export function applicationTypeData (params, sucFn) {
+  return axios.get('/management/apptype', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 // 我的应用-审核中
 export function myAppToExamine (params, sucFn) {
   return axios.post('/application/myappexamine', {...params})

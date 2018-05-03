@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, Popconfirm, Button } from 'antd'
 import { Link } from 'react-router-dom'
-import {myAppToExamine, myAppRevoke} from 'services/my-app/'
+import {myAppToExamine, myAppRevoke, applicationTypeData} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -18,6 +18,7 @@ class MyAppExamineTable extends Component {
     super(props)
     this.state = {
       myAppInOperationData: [],
+      appTypeData: [],
       total: 0,
       pageSize: 10,
       pageNum: 1,
@@ -69,6 +70,7 @@ class MyAppExamineTable extends Component {
   componentDidMount () {
     this.props.form.validateFields()
     this.getMyAppInOperationData()
+    this.getApplicationTypeData()
   }
   // 我的应用-运营中
   getMyAppInOperationData = (searchParams) => {
@@ -86,6 +88,14 @@ class MyAppExamineTable extends Component {
         total: res.data.total
       }, () => {
         console.log(this.state.myAppInOperationData)
+      })
+    }).catch((e) => { console.log(e) })
+  }
+  // 获取应用类型下拉框数据
+  getApplicationTypeData = () => {
+    applicationTypeData({}, (res) => {
+      this.setState({
+        appTypeData: res.data.type
       })
     }).catch((e) => { console.log(e) })
   }
@@ -147,7 +157,6 @@ class MyAppExamineTable extends Component {
         span: 15
       }
     }
-    const aaaaaaaa = ['全部', '教育', '辅助', '管理', '其他']
     return (
       <Card>
         <Form>
@@ -161,7 +170,7 @@ class MyAppExamineTable extends Component {
               >
                 {getFieldDecorator('progressState')(
                   <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
-                    { aaaaaaaa.map((item, index, data) => {
+                    { this.state.appTypeData.map((item, index, data) => {
                       return <Option key={index} value={item}>{item}</Option>
                     })}
                   </Select>
