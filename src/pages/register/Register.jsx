@@ -3,17 +3,16 @@
  * 家长注册
  */
 import React from 'react'
-import {Card, Layout, Form, Input, Select, Button, Checkbox, message} from 'antd'
+import {Card, Layout, Form, Input, Select, Button, Checkbox} from 'antd'
 import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
 import RegisterModal from './RegisterSuccModal'
-import {registerValitemail} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
 class Register extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      relationshipData: [{code: '1', name: '父子'}, {code: '2', name: '母子'}],
+      relationshipData: [{code: '父亲', name: '父亲'}, {code: '母亲', name: '母亲'}, {code: '其他', name: '其他'}],
       confirmDirty: false,
       checkemail_icon: false,
       checkpass: '最短8位，包含字母、数字或者英文符号至少两种',
@@ -39,43 +38,7 @@ class Register extends React.Component {
     this.props.history.push({pathname: link})
   }
   // 校验邮箱
-  handlemialonblur = (e) => {
-    const value = e.target.value
-    if (this.onLoginidChange(e)) {
-      let confirm = ''
-      // 请求邮箱是否占用接口
-      registerValitemail({
-        email: value
-      }, (response) => {
-        confirm = response.msg !== 'exist'//  exist代表被邮箱被占用
-        if (confirm) {
-          this.setState({
-            checkemail_icon: true,
-            checkemail: ''
-          })
-        } else if (value === '') {
-          this.setState({
-            checkemail_icon: false,
-            checkemail: '请输入有效的邮箱地址'
-          })
-        } else if (value && !confirm) {
-          // eslint-disable-next-line
-          this.setState({
-            checkemail: '该邮箱已绑定其他用户',
-            checkemail_icon: false
-          })
-        }
-      }, (err) => {
-        console.log(err)
-        message.error('请求错误！')
-        this.setState({
-          checkemail: '',
-          checkemail_icon: false
-        })
-      })
-    }
-  }
-  onLoginidChange =(e) => {
+  handlemialonblur =(e) => {
     const value = e.target.value
     // eslint-disable-next-line
     let reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/

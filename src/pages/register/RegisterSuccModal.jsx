@@ -31,9 +31,9 @@ class RegisterSuccModal extends React.Component {
       })
     }, 1000)
   }
-  componentWillUnmount () {
-    window.clearInterval(this.interval)
-  }
+  // componentWillUnmount () {
+  //   window.clearInterval(this.interval)
+  // }
   saveOrSubmit =(value) => {
     this.props.hiddenModal()
   }

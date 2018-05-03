@@ -130,9 +130,7 @@ class ChangePhoneNumber extends React.Component {
   }
   // 获取短信验证码
   getPhoneCode=(phoneNum) => {
-    SMSVerification({
-      NUM: phoneNum
-    }, (response) => {
+    SMSVerification({'phone': phoneNum}, (response) => {
       this.setState({
         phoneCode: response.data
       })

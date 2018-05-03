@@ -116,7 +116,45 @@ export function forgetThePassword (params, sucFn) {
  * 忘记密码-获取短信验证码
  */
 export function SMSVerification (params, sucFn) {
-  return axios.post('/SMSVerification', {...params})
+  return axios.get('/SMSVerification', {params: params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 人员管理-教师管理-学生管理列表
+ */
+export function applicationteacherlist (params, url, sucFn) {
+  return axios.post(url, {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 人员管理- 教师编辑
+ */
+export function teacherUpdate (params, sucFn) {
+  return axios.post('/manage/teacher/update', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 人员管理- 教师删除
+ */
+export function teacherDelete (params, sucFn) {
+  return axios.post('/manage/teacher/delete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 人员管理-批量导入
+ */
+export function batchImport (params, sucFn) {
+  return axios.post('/application/batchleadin', {...params})
     .then(function (res) {
       sucFn(res)
     })

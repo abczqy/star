@@ -10,6 +10,7 @@ import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
 import GlobalSearch from '../pages/after-logging-home/GlobalSearch'
+import {getMessageCount} from '../services/topbar-mation/index'
 import './Operateview.scss'
 import { withRouter } from 'react-router'
 import webStorage from 'webStorage'
@@ -20,10 +21,10 @@ class OperateManage extends React.Component {
     super(props)
     this.state = {
       activeTab: 'home',
-      signOutVisible: false // 退出系统
+      signOutVisible: false, // 退出系统
+      messageCount: '0'
     }
   }
-
   componentWillReceiveProps (nextProps) {
     // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
     if (_.indexOf(['/unlogged/home', '/unlogged/newsList', '/unlogged/information'], nextProps.location.pathname) !== -1) {
@@ -32,7 +33,18 @@ class OperateManage extends React.Component {
       })
     }
   }
-
+  componentDidMount () {
+    this.getMessageCo()
+  }
+  // 未读消息数
+  getMessageCo=() => {
+    getMessageCount({}, (response) => {
+      console.log('返回未读消息数量', response)
+      this.setState({
+        messageCount: response.data.count
+      })
+    })
+  }
   handleTabChange (link, tabKey) {
     if (link === this.props.location.pathname) {
       window.location.reload()
@@ -149,7 +161,7 @@ class OperateManage extends React.Component {
           <div style={{height: '30px'}}>
             <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您，{ webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客') : '游客'}</div>
             <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
-              <Badge count={5} >
+              <Badge count={this.state.messageCount} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
               <Icon type='setting' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/setting')} />

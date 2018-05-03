@@ -30,7 +30,7 @@ window.mungConfig = {
   templateDownload: AJAX_HOST + '/templateDownload',
 
   // 人员管理-批量导入
-  batchImport: AJAX_HOST + '',
+  batchImport: AJAX_HOST + '/application/batchleadin',
 
   // 运营管理/软件管理-运营中
   Business: AJAX_HOST + '/management/applistm',

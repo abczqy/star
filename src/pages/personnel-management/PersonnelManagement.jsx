@@ -25,7 +25,7 @@ class PersonnelManagement extends Component {
     }
     this.uploadProps = {
       name: 'file',
-      data: '', // 参数
+      data: {name: 'teachers'}, // 参数
       action: ajaxUrl.batchImport,
       onChange (info) {
         if (info.file.status === 'done') {

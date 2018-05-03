@@ -8,30 +8,30 @@ import moment from 'moment'
 import axios from 'axios'
 import _ from 'lodash'
 import ajaxUrl from 'config/index'
-import { Table, Modal, Input, Form, Button, DatePicker } from 'antd'
+import { Table, Modal, Input, Form, Button, DatePicker, message } from 'antd'
 import './PersonManageTable.scss'
-
+import {applicationteacherlist, teacherUpdate, teacherDelete} from '../../../services/topbar-mation'
 const FormItem = Form.Item
 const teacherColumns = {
   th_name: '教师姓名',
-  th_loginid: '账号',
+  th_id: '账号',
   th_sex: '性别',
   th_idcard: '身份证号码',
-  th_class: '教学年级',
+  th_grade: '教学年级',
   th_time: '执教时间',
   th_duty: '行政职务',
   th_phone: '联系方式'
 }
 
 const studentColumns = {
-  name: '学生姓名',
-  username: '账号',
-  sex: '性别',
-  grad: '年级',
-  class: '班级',
-  contact: '紧急联系人',
-  relationship: '与本人关系',
-  phone: '紧急联系人联系方式'
+  stu_name: '学生姓名',
+  stu_id: '账号',
+  stu_sex: '性别',
+  stu_grade: '年级',
+  stu_class: '班级',
+  maf_name: '紧急联系人',
+  maf_stu_sad: '与本人关系',
+  maf_phone: '紧急联系人联系方式'
 }
 
 class PersonManageTable extends Component {
@@ -51,40 +51,49 @@ class PersonManageTable extends Component {
     let columnsObj = {
       teacher: [{
         title: '教师姓名',
-        dataIndex: 'name'
+        dataIndex: 'th_name',
+        key: '1'
         // width: 150
       }, {
         title: '账号',
-        dataIndex: 'username'
+        dataIndex: 'th_id',
+        key: '2'
         // width: 150
       }, {
         title: '性别',
-        dataIndex: 'sex'
+        dataIndex: 'th_sex',
+        key: '3'
         // width: 150
       }, {
         title: '身份证号码',
-        dataIndex: 'th_idcard'
+        dataIndex: 'th_idcard',
+        key: '4'
         // width: 150
       }, {
         title: '教学年级',
-        dataIndex: 'grad'
+        dataIndex: 'th_grade',
+        key: '5'
         // width: 150
       }, {
         title: '执教时间',
-        dataIndex: 'date',
+        dataIndex: 'th_time',
+        key: '6',
         render: date => moment(date).format('YYYY-MM-DD')
         // width: 150
       }, {
         title: '行政职务',
-        dataIndex: 'duty'
+        dataIndex: 'th_duty',
+        key: '7'
         // width: 150
       }, {
         title: '联系方式',
-        dataIndex: 'phone'
+        dataIndex: 'th_phone',
+        key: '8'
         // width: 150
       }, {
         title: '操作',
         dataIndex: 'id',
+        key: 'op',
         render: (id, record) => (
           <div className='opt-box' >
             <span className='edit' onClick={() => { this.openEditModal(record, 'teacher') }} >编辑</span>
@@ -95,39 +104,48 @@ class PersonManageTable extends Component {
       }],
       student: [{
         title: '学生姓名',
-        dataIndex: 'name'
+        dataIndex: 'stu_name',
+        key: 'stu_name'
         // width: 150
       }, {
         title: '账号',
-        dataIndex: 'username'
+        dataIndex: 'stu_id',
+        key: 'stu_id'
         // width: 150
       }, {
         title: '性别',
-        dataIndex: 'sex'
+        dataIndex: 'stu_sex',
+        key: 'stu_sex'
         // width: 150
       }, {
         title: '年级',
-        dataIndex: 'grad'
+        dataIndex: 'stu_grade',
+        key: 'stu_grade'
         // width: 150
       }, {
         title: '班级',
-        dataIndex: 'class'
+        dataIndex: 'stu_class',
+        key: 'stu_class'
         // width: 150
       }, {
         title: '紧急联系人',
-        dataIndex: 'contact'
+        dataIndex: 'maf_name',
+        key: 'maf_name'
         // width: 150
       }, {
         title: '与本人关系',
-        dataIndex: 'relationship '
+        dataIndex: 'maf_stu_sad ',
+        key: 'maf_stu_sad'
         // width: 150
       }, {
         title: '紧急联系人联系方式',
-        dataIndex: 'phone'
+        dataIndex: 'maf_phone',
+        key: 'maf_phone'
         // width: 150
       }, {
         title: '操作',
         dataIndex: 'id',
+        key: 'd',
         render: (id, record) => (
           <div className='opt-box' >
             <span className='edit' onClick={() => { this.openEditModal(record, 'student') }} >编辑</span>
@@ -145,24 +163,22 @@ class PersonManageTable extends Component {
 
   // 获取人员列表数据
   getPeopleDatas = (params, role) => {
-    let url = role === 'teacher' ? 'teacherManagement' : 'studentManagement'
-    let reqUrl = ajaxUrl[url]
+    let url = role === 'teacher' ? '/application/teacherlist' : '/application/studentlist'
     // console.log(reqUrl)
-    axios.get(reqUrl, {
-      params: {
-        pageNum: params.pageNum,
-        pageSize: params.pageSize,
-        text: params.text
-      }
-    }).then(res => {
-      let data = res.data
+    applicationteacherlist({
+      pageNum: params.pageNum,
+      pageSize: params.pageSize,
+      th_info: params.text
+    }, url, (response) => {
+      let data = response.data
       this.setState({
         tableData: {
-          data: data.data,
+          data: data.list,
           total: data.total
         }
       })
-    }).catch(e => { console.log(e) })
+    }
+    )
   }
 
   // 打开编辑弹窗
@@ -185,9 +201,9 @@ class PersonManageTable extends Component {
   // 删除
   delete = (id, role) => {
     if (role === 'teacher') {
-      axios.post(ajaxUrl.teacherUpdate, {
+      teacherDelete({
         'th_id': id
-      }).then((response) => {
+      }, (response) => {
       })
     } else {
       axios.post(ajaxUrl.teacherUpdate, {
@@ -235,7 +251,9 @@ class PersonManageTable extends Component {
             label={`${columns[item]}:`}
             key={item}
           >
-            {this.props.form.getFieldDecorator(item, {
+            {this.props.form.getFieldDecorator(item, item === 'th_time' ? {
+              initialValue: moment(this.editRecord[item], 'YYYY-MM-DD')
+            } : {
               initialValue: this.editRecord[item]
             })(
               item === 'th_time' ? <DatePicker format='YYYY-MM-DD'
@@ -266,7 +284,7 @@ class PersonManageTable extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         if (this.role === 'teacher') {
-          axios.post(ajaxUrl.teacherUpdate, {
+          teacherUpdate({
             'th_name': values.th_name,
             'th_loginid': values.th_loginid,
             'th_sex': values.th_sex,
@@ -276,7 +294,9 @@ class PersonManageTable extends Component {
             'th_duty': values.th_duty,
             'th_phone': values.th_phone,
             'th_id': this.editRecord.th_id
-          }).then((response) => {
+          }, (response) => {
+            message.success('修改信息成功！')
+            this.getPeopleDatas(this.props.tableParams, 'teacher')
             this.editCancel()
           })
         } else {
@@ -318,7 +338,9 @@ class PersonManageTable extends Component {
     return (
       <div className='person-manage-table' >
         <Table
-          rowKey='id'
+          rowKey={(record, index) => {
+            return index
+          }}
           className='data-table'
           dataSource={tableData.data}
           columns={this.state.tableColumns}
