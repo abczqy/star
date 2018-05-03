@@ -15,17 +15,15 @@ class IterationInfo extends Component {
   render () {
     const { resData } = this.props
 
-    // 第一步把获取到的sw_path去掉{}
-    let path = []
-    path = resData.sw_path0 ? resData.sw_path0.slice(1, -1) : []
-    // 第二步以逗号为分隔符分割
+    // +++转换接收到的兼容系统sw_path0参数内容为数组+++
+    // 第一步把获取到的sw_path0以逗号为分隔符分割
     let pathArray = []
-    pathArray = path.length > 0 ? path.split(',') : []
+    pathArray = resData && resData.sw_path0 ? resData.sw_path0.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
     for (let i = 0; i < pathArray.length; i++) {
-      // 第三步以冒号为分隔符分割
+      // 第二步以冒号为分隔符分割
       swPath.push(pathArray[i].split(':'))
     }
     // 给swPathRest赋值
@@ -36,9 +34,6 @@ class IterationInfo extends Component {
     // 转换接收到的PC端界面截图sw_computer_photo参数类型为数组
     let computerPho = []
     computerPho = resData && resData.sw_photo0 ? resData.sw_photo0.split(';') : []
-    console.log('sw_computer_photo:', resData.sw_computer_photo)
-    console.log('computerPho:', computerPho)
-
     return (
       <div className='ralate-wrap'>
         <Row>
@@ -55,8 +50,8 @@ class IterationInfo extends Component {
             <Col span={9}>
               <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
-              <span>{swPath && swPath[0] ? swPath[0][1] : 'PC端.dmg'}</span>
-              <a href='javascript:;'><Icon type='download' /></a>
+              <span>{swPath && swPath[0] ? swPath[0][1].substr(1) : 'PC端.dmg'}</span>
+              <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a>
             </Col>
             <Col span={2} offset={6}>
               版本号:
@@ -68,10 +63,12 @@ class IterationInfo extends Component {
           <Row>
             <Col span={9} offset={3}>
               {swPathRest && swPathRest.map((item, index) => {
+                let fileName = item && item[1].substr(1)
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
-                  <span><Icon type='paper-clip' /><span>{item && item[1]}</span></span>
-                  <a href='javascript:;'><Icon type='download' /></a>
+                  <span><Icon type='paper-clip' /></span>
+                  <span>{fileName}</span>
+                  <a href={item && ajaxUrl.IMG_BASE_URL + item[1]}><Icon type='download' /></a>
                 </span>
               })}
             </Col>

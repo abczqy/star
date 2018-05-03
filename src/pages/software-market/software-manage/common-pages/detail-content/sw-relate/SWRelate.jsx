@@ -14,17 +14,14 @@ class SWRelate extends Component {
     const { resData, isWaitItera, isBusiDeta } = this.props
 
     // +++转换接收到的兼容系统sw_path参数内容为数组+++
-    // 第一步把获取到的sw_path去掉{}
-    let path = []
-    path = resData && resData.sw_path ? resData.sw_path.slice(1, -1) : []
-    // 第二步以逗号为分隔符分割
+    // 第一步把获取到的sw_path以逗号为分隔符分割
     let pathArray = []
-    pathArray = path.length > 0 ? path.split(',') : []
+    pathArray = resData && resData.sw_path ? resData.sw_path.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
     for (let i = 0; i < pathArray.length; i++) {
-      // 第三步以冒号为分隔符分割
+      // 第二步以冒号为分隔符分割
       swPath.push(pathArray[i].split(':'))
     }
     // 给swPathRest赋值
@@ -76,8 +73,8 @@ class SWRelate extends Component {
             <Col span={9}>
               <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
-              <span>{swPath && swPath[0] ? swPath[0][1] : 'PC端.dmg'}</span>
-              {!isBusiDeta ? <a href='javascript:;'><Icon type='download' /></a> : null}
+              <span>{swPath && swPath[0] ? swPath[0][1].substr(1) : 'PC端.dmg'}</span>
+              {!isBusiDeta ? <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a> : null}
             </Col>
             <Col span={2} offset={6}>
               版本号:
@@ -89,11 +86,12 @@ class SWRelate extends Component {
           {isWaitItera || isBusiDeta ? <Row>
             <Col span={9} offset={3}>
               {swPathRest.length > 0 && swPathRest.map((item, index) => {
+                let fileName = item && item[1].substr(1)
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
-                  <span><Icon type='link' /></span>
-                  <span>{item && item[1]}</span>
-                  {!isBusiDeta ? <a href='javascript:;'><Icon type='download' /></a> : null}
+                  <span><Icon type='paper-clip' /></span>
+                  <span>{fileName}</span>
+                  {!isBusiDeta ? <a href={item && ajaxUrl.IMG_BASE_URL + item[1]}><Icon type='download' /></a> : null}
                 </span>
               })}
             </Col>
