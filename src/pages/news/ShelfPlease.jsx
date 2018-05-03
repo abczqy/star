@@ -266,9 +266,11 @@ class ShelfPlease extends React.Component {
   zHs=() => {
     let a = []
     for (let i = 0; i < this.state.Edition; i++) {
-      let c = {}
+      let c = []
       let w = this.state.fileListOneC[i]
-      c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
+      c.push(w)
+      c.push(this.state.fileListOneF[i].name)
+      // c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
       a.push(c)
     }
     return a
@@ -286,15 +288,36 @@ class ShelfPlease extends React.Component {
     formData.append('conPeople', this.state.conPeople)// 主要联系人
     formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话
     formData.append('sw_type', this.state.radio)// 软件版权类别
-    formData.append('sw_icon', this.state.fileListTwo)// 软件图标
-    formData.append('sw_computer_photo', this.state.fileListThree)// pc图片
-    formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片
-    formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
-    formData.append('fin_audit', this.state.fileListSix)// 财务凭证
-    formData.append('type', this.zHs())// 软件版本的文件和系统类别
-    formData.append('copType', this.zH())// 软件版本的文件
+    this.state.fileListTwo.forEach((file) => {
+      formData.append('sw_icon', file)
+    })
+    // formData.append('sw_icon', this.state.fileListTwo)// 软件图标
+    this.state.fileListThree.forEach((file) => {
+      formData.append('sw_computer_photo', file)
+    })
+    // formData.append('sw_computer_photo', this.state.fileListThree)// pc图片
+    this.state.fileListFour.forEach((file) => {
+      formData.append('idNumber_photo', file)
+    })
+    // formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片
+    this.state.fileListFive.forEach((file) => {
+      formData.append('sw_copyright', file)
+    })
+    // formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
+    this.state.fileListSix.forEach((file) => {
+      formData.append('fin_audit', file)
+    })
+    // formData.append('fin_audit', this.state.fileListSix)// 财务凭证
+    this.zH().forEach((file) => {
+      formData.append('copType', file)
+    })
+    // formData.append('copType', this.zH())// 软件版本的文件
+    this.zHs().forEach((a) => {
+      formData.append('type', a)
+    })
+    // formData.append('type', this.zHs())// 软件版本的文件和系统类别
     formData.append('fa_id', 'fa_123456')// 厂商Id
-    console.log('看看那是什么', this.zHs())
+    // console.log('看看那是什么', this.zHs())
     shelf(formData, (response) => {
       message.success(`上架申请成功!`)
       console.log(response)
