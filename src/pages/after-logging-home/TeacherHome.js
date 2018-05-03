@@ -27,7 +27,17 @@ class TeacherHome extends Component {
       hotData: [],
       teacherMoreNum: 8,
       hotMoreNum: 8,
-      collectionType: 'cancel'
+      collectionType: 'cancel',
+      downloadIcon: {
+        display: 'none'
+      },
+      downloadButton: {
+        display: 'none'
+      },
+      openButton: {
+        display: 'block'
+      },
+      jump: '/operate-manage-home/all-app-detail-third'
     }
   }
   componentDidMount () {
@@ -99,6 +109,21 @@ class TeacherHome extends Component {
     }, (res) => {
       this.setState({
         hotData: res.data.data
+      }, () => {
+        if (this.state.hotData.length > 0) {
+          this.setState({
+            downloadButton: {
+              display: 'none'
+            },
+            downloadIcon: {
+              display: 'none'
+            },
+            openButton: {
+              display: 'block'
+            },
+            jump: '/operate-manage-home/all-app-detail'
+          })
+        }
       })
     }).catch((e) => { console.log(e) })
   }
@@ -143,6 +168,7 @@ class TeacherHome extends Component {
     }).catch((e) => { console.log(e) })
   }
   render () {
+    console.log(1111111111111, this.state.jump)
     return (
       <div className='logged-home'>
         <HomeCarousel />
@@ -165,7 +191,14 @@ class TeacherHome extends Component {
                           <p className='dd-p'>{item.SW_DESC}</p>
                         </dd>
                       </dl>
-                      <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
+                      <p style={{float: 'right'}}>
+                        <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
+                          <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
+                          <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
+                          <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
+                        </Link>
+                        <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+                      </p>
                     </div>
                   )
                 })}
@@ -188,7 +221,14 @@ class TeacherHome extends Component {
                           <p className='dd-p'>{item.SW_DESC}</p>
                         </dd>
                       </dl>
-                      <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
+                      <p style={{float: 'right'}}>
+                        <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
+                          <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
+                          <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
+                          <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
+                        </Link>
+                        <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+                      </p>
                     </div>
                   )
                 })}

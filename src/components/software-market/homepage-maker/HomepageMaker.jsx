@@ -78,9 +78,9 @@ class HomepageMaker extends Component {
         this.setState({
           count: res.data.pageCount,
           data: res.data.data
-
         })
       })
+      console.log(this.state.data)
     })
   }
   /**
@@ -101,7 +101,6 @@ class HomepageMaker extends Component {
 
   componentDidMount () {
     this.getList()
-    console.log(this.state.data)
   }
   // 获取input输入值
   getInputValue = (e) => {
@@ -125,13 +124,13 @@ class HomepageMaker extends Component {
   }
   // 保存新增
   addHomepage = () => {
-    let params = {
-      navigation_title: this.state.navigationTitle,
-      navigation_url: this.state.navigationUrl
-    }
+    // let params = {
+    //   navigation_title: this.state.navigationTitle,
+    //   navigation_url: this.state.navigationUrl
+    // }
     if (this.state.navigationTitle !== '' && this.state.navigationUrl !== '') {
       console.log(this.state.navigationUrl)
-      addGatewayNavigation(params, res => {
+      addGatewayNavigation({navigation_title: ['222', 'aaa'], navigation_url: ['222', 'qqq']}, res => {
         this.setState({
           newData: []
         })

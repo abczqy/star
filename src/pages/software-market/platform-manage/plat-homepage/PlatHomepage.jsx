@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BannerMaker, SWMaker } from 'components/software-market'
+import { BannerMaker, HotPush } from 'components/software-market'
 import './PlatHomepage.scss'
 
 class PlatHomepage extends Component {
@@ -9,7 +9,7 @@ class PlatHomepage extends Component {
         <BannerMaker
           header={{title: 'Banner 图'}}
         />
-        <SWMaker
+        <HotPush
           header={{title: '热门推荐'}}
           boxTitle='推送'
         />

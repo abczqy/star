@@ -7,7 +7,7 @@ import './ThirdPartyAppDetail.css'
 import { Button, Icon, Carousel, Rate } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
-import {thirdPartyAppDetail, relatedApplications} from 'services/all-app/'
+import {thirdPartyAppDetail} from 'services/all-app/'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
@@ -47,14 +47,13 @@ export default class ThirdPartyAppDetail extends React.Component {
       this.setState({
         appDetailData: res.data
       }, () => {
-        this.getRelatedApplications()
-        let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
         let bb = []
-        for (let i in aa) {
-          bb.push(aa[i])
+        for (let i in this.state.appDetailData.sw_computer_photo) {
+          bb.push(this.state.appDetailData.sw_computer_photo[i])
         }
         this.setState({
-          computerCarousel: bb
+          computerCarousel: bb,
+          relateData: this.state.appDetailData.sw_related
         })
       })
     }).catch((e) => { console.log(e) })
@@ -88,17 +87,37 @@ export default class ThirdPartyAppDetail extends React.Component {
       })
     }
   }
-  // 获取相关应用数据
-  getRelatedApplications = () => {
-    relatedApplications({
-      sw_tpe: this.state.appDetailData.sw_related,
-      type: 'software'
-    }, (res) => {
+  // pc展示  手机展示  切换
+  handleSwitchCarousel = (type) => {
+    if (type === 'computer') {
+      let bb = []
+      for (let i in this.state.appDetailData.sw_computer_photo) {
+        bb.push(this.state.appDetailData.sw_computer_photo[i])
+      }
       this.setState({
-        relateData: res.data
+        computerCarousel: bb
       })
-    }).catch((e) => { console.log(e) })
+    } else {
+      let dd = []
+      for (let i in this.state.appDetailData.sw_phone_photo) {
+        dd.push(this.state.appDetailData.sw_phone_photo[i])
+      }
+      this.setState({
+        computerCarousel: dd
+      })
+    }
   }
+  // // 获取相关应用数据
+  // getRelatedApplications = () => {
+  //   relatedApplications({
+  //     sw_tpe: this.state.appDetailData.sw_related,
+  //     type: 'software'
+  //   }, (res) => {
+  //     this.setState({
+  //       relateData: res.data
+  //     })
+  //   }).catch((e) => { console.log(e) })
+  // }
   handleLeftClick = () => {
     this.refs['exhibition-inside-carousel'].prev()
   }
@@ -125,7 +144,7 @@ export default class ThirdPartyAppDetail extends React.Component {
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>28.71M</span></div>
+              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
               <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
               <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
             </div>
@@ -152,8 +171,8 @@ export default class ThirdPartyAppDetail extends React.Component {
           <div className='app-detail-exhibition'>
             <div className='exhibition-title'>
               <h3>软件展示</h3>
-              <div>pc展示</div>
-              <div>手机展示</div>
+              <div onClick={() => this.handleSwitchCarousel('computer')}>pc展示</div>
+              <div onClick={() => this.handleSwitchCarousel('phone')}>手机展示</div>
             </div>
             <div className='exhibition-outside'>
               <div className='exhibition-insideb'>

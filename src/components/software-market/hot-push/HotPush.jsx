@@ -3,7 +3,7 @@ import PropsTypes from 'prop-types'
 import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
-import './SWMaker.scss'
+import './HotPush.scss'
 import {verifyDetail} from 'services/software-manage'
 
 const Panel = Collapse.Panel
@@ -19,9 +19,9 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-const dataa = [{sw_id: '11', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
+const dataa = [{sw_id: '11', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: 'http://p1663488m8.imwork.net:15206/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: 'http://p1663488m8.imwork.net:15206/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: 'http://p1663488m8.imwork.net:15206/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
 
-class SWMaker extends Component {
+class HotPush extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -34,7 +34,7 @@ class SWMaker extends Component {
         visible: false,
         swName: ''
       },
-      boxList: [1, 2, 3, 4, 5, 6],
+      boxList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       imgList: []
     }
     // 表格的列信息
@@ -92,7 +92,7 @@ class SWMaker extends Component {
     if (record.sw_check) {
       console.log(record.sw_check)
       let b = this.copyArray(this.state.imgList)
-      if (b.length < 4) {
+      if (b.length < 12) {
         let c = record.sw_path
         b.push(c)
         this.setState({
@@ -210,7 +210,7 @@ class SWMaker extends Component {
     )
   }
 }
-SWMaker.propTypes = {
+HotPush.propTypes = {
   header: PropsTypes.object
 }
-export default SWMaker
+export default HotPush

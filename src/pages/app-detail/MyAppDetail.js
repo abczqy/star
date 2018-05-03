@@ -49,10 +49,11 @@ export default class MyAppDetail extends React.Component {
         // let shishi = this.state.appDetailData.sw_path.replace(/\//g, '')
         // eslint-disable-next-line no-eval
         // let ceshi = eval('(' + shishi + ')')
-        let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
+        // let a = this.state.appDetailData.sw_computer_photo + ''
+        // let aa = JSON.parse(a)
         let bb = []
-        for (let i in aa) {
-          bb.push(aa[i])
+        for (let i in this.state.appDetailData.sw_computer_photo) {
+          bb.push(this.state.appDetailData.sw_computer_photo[i])
         }
         this.setState({
           computerCarousel: bb
@@ -109,21 +110,17 @@ export default class MyAppDetail extends React.Component {
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {
     if (type === 'computer') {
-      console.log(22222)
-      let aa = JSON.parse(this.state.appDetailData.sw_computer_photo)
       let bb = []
-      for (let i in aa) {
-        bb.push(aa[i])
+      for (let i in this.state.appDetailData.sw_computer_photo) {
+        bb.push(this.state.appDetailData.sw_computer_photo[i])
       }
       this.setState({
         computerCarousel: bb
       })
     } else {
-      console.log(33333333)
-      let cc = JSON.parse(this.state.appDetailData.sw_phone_photo)
       let dd = []
-      for (let i in cc) {
-        dd.push(cc[i])
+      for (let i in this.state.appDetailData.sw_phone_photo) {
+        dd.push(this.state.appDetailData.sw_phone_photo[i])
       }
       this.setState({
         computerCarousel: dd
@@ -132,12 +129,9 @@ export default class MyAppDetail extends React.Component {
   }
   // 处理兼容系统字段
   handleCompatibleSystem = (data) => {
-    // 第一步把获取到的sw_path去掉{}
-    let path = []
-    path = data ? data.slice(1, -1) : []
     // 第二步以逗号为分隔符分割
     let pathArray = []
-    pathArray = path.length > 0 ? path.split(',') : []
+    pathArray = data.length > 0 ? data.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
@@ -154,7 +148,6 @@ export default class MyAppDetail extends React.Component {
     })
   }
   render () {
-    console.log('00000000', this.state.compatibleSystem)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -172,37 +165,11 @@ export default class MyAppDetail extends React.Component {
               <span className='header-titlea'>兼容系统：{
                 this.state.compatibleSystem.map((item, index, arr) => {
                   return (
-                    <span>{arr[index][0]}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span key={index}>{arr[index][0]}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   )
                 })
               }</span>
             </p>
-          </div>
-          <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
-            <div className='see-detail-item-top'>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>28.71M</span></div>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>5.3.0</span></div>
-              <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
-            </div>
-            <div className='see-detail-item-jurisdiction'>
-              <span className='jurisdiction-title'>权限详情:</span>
-              <ul className='jurisdiction-list'>
-                <li className='jurisdiction-list-detail'>（基于网络的）粗略位置</li>
-                <li className='jurisdiction-list-detail'>精准的(GPS)位置</li>
-                <li className='jurisdiction-list-detail'>查看网络状态</li>
-                <li className='jurisdiction-list-detail'>查看 Wi-Fi 状态</li>
-                <li className='jurisdiction-list-detail'>创建蓝牙连接</li>
-                <li className='jurisdiction-list-detail'>蓝牙管理</li>
-                <li className='jurisdiction-list-detail'>拍摄照片和视频</li>
-                <li className='jurisdiction-list-detail'>更改网络连接性</li>
-                <li className='jurisdiction-list-detail'>更改 Wi-Fi 状态</li>
-                <li className='jurisdiction-list-detail'>完全的互联网访问权限</li>
-                <li className='jurisdiction-list-detail'>装载和卸载文件系统</li>
-                <li className='jurisdiction-list-detail'>开机时自动启动</li>
-                <li className='jurisdiction-list-detail'>使用帐户的身份验证凭据</li>
-                <li className='jurisdiction-list-detail'>修改全局系统设置</li>
-              </ul>
-            </div>
           </div>
           <div className='app-detail-exhibition'>
             <div className='exhibition-title'>
@@ -230,19 +197,6 @@ export default class MyAppDetail extends React.Component {
                         </div>
                       )
                     })}
-                    {/* <div>
-                      <div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=5a0f156f57b5c9ea7df305e3e538b622/cf1b9d16fdfaaf519d4aa2db805494eef01f7a2c.jpg' />
-                        </div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=5a0f156f57b5c9ea7df305e3e538b622/cf1b9d16fdfaaf519d4aa2db805494eef01f7a2c.jpg' />
-                        </div>
-                        <div style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src='https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=5a0f156f57b5c9ea7df305e3e538b622/cf1b9d16fdfaaf519d4aa2db805494eef01f7a2c.jpg' />
-                        </div>
-                      </div>
-                    </div> */}
                   </Carousel>
                 </div>
                 <Icon onClick={this.handleRightClick} className='exhibition-inside-right' type='right' />
