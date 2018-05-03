@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { Col, Row, Upload, Button, Icon, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
-import {deleteGatewayNavigation} from 'services/software-manage'
+import {deleteGatewayBanner} from 'services/software-manage'
 
 // const { Header, Content } = Layout
 
@@ -35,7 +35,7 @@ class BannerBox extends Component {
   onDelete = (value) => {
     let a = value.toString()
     let params = { 'navigation_id': a }
-    deleteGatewayNavigation(params, res => {
+    deleteGatewayBanner(params, res => {
       console.log(res.data)
       if (res.data) {
         this.props.getList()
@@ -79,7 +79,7 @@ class BannerBox extends Component {
 BannerBox.propTypes = {
   orderNum: PropsTypes.number,
   title: PropsTypes.string,
-  id: PropsTypes.string,
+  id: PropsTypes.number,
   getList: PropsTypes.func,
   datas: PropsTypes.object
 }

@@ -64,17 +64,18 @@ class BannerMaker extends Component {
   }
   // 保存新增banner图
   addBanner = () => {
-    // const formData = new FormData()
-    // formData.append('file', this.state.fileList)
-    let list = this.state.fileList
-    let a = list[0].uid
-    let b = list[0].name
-    let c = list[0].size
-    let d = list[0].type
+    const formData = new FormData()
+    this.state.fileList.forEach((file) => {
+      formData.append('file', file)
+    })
+    // let list = this.state.fileList
+    // let a = list[0].uid
+    // let b = list[0].name
+    // let c = list[0].size
+    // let d = list[0].type
     console.log(this.state.fileList)
-    console.log(a, b, c, d)
-    let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
-    addGatewayBanner(params, res => {
+    // let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
+    addGatewayBanner(formData, res => {
       this.setState({
         bannerNewData: []
       })

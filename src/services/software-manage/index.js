@@ -423,6 +423,9 @@ export function iteration (params, sucFn) {
  */
 export function addGatewayNavigation (params, sucFn) {
   return axios.post('/addGatewayNavigation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
 }
 /*
  * 信息公开编辑
@@ -438,6 +441,9 @@ export function informationEdListEdit (params, sucFn) {
  */
 export function getGatewayNavigationList (params, sucFn) {
   return axios.get('/getGatewayNavigationList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
 }
 /*
  * 信息公开新增
@@ -449,11 +455,13 @@ export function informationEdListAdd (params, sucFn) {
     })
 }
 /**
-<<<<<<< Updated upstream
  * 平台首页-门户导航删除
  */
 export function deleteGatewayNavigation (params, sucFn) {
   return axios.post('/deleteGatewayNavigation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
 }
 /*
  * 信息公开删除
@@ -470,6 +478,9 @@ export function informationEdListDelete (params, id, sucFn) {
  */
 export function addGatewayBanner (params, sucFn) {
   return axios.post('/addGatewayBanner', params)
+    .then(function (res) {
+      sucFn(res)
+    })
 }
 /*
  * 信息公开编辑的列表
@@ -481,11 +492,13 @@ export function informationEdList (params, sucFn) {
     })
 }
 /**
-<<<<<<< Updated upstream
  * 平台首页-banner图查询
  */
 export function getGatewayBannerList (params, sucFn) {
   return axios.get('/getGatewayBannerList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
 }
 /*
  * 用appId获取app数据接口
@@ -501,6 +514,9 @@ export function appId (params, sucFn) {
  */
 export function deleteGatewayBanner (params, sucFn) {
   return axios.post('/deleteGatewayBanner', params)
+    .then(function (res) {
+      sucFn(res)
+    })
 }
 /*
  * 教育新闻列表
