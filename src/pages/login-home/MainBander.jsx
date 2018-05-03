@@ -23,7 +23,9 @@ class MainBander extends React.Component {
       passWord: '', // 密码
       loginFormVisible: this.getDefaultLoginFormVisible(),
       msgTip: '', // 用户登陆信息提示
-      bannerImg: []
+      bannerImg: [],
+      levelList: [], // 年级下拉列表值
+      dutyList: []// 行政职务下拉列表值
     }
   }
 
@@ -65,7 +67,7 @@ class MainBander extends React.Component {
             this.setState({
               loginFormVisible: false
             })
-            this.props.showSureWin(this.getSureInfoData(response.personInfo))
+            this.props.showSureWin(this.getSureInfoData(data.personInfo || {}, data.roleCode))
           } else if (data.roleCode === 'parents') { // 如果是家长  关闭登录form框
             this.setState({
               loginFormVisible: false
@@ -94,42 +96,49 @@ class MainBander extends React.Component {
     })
   }
 
-  getSureInfoData (personInfo) {
+  getSureInfoData (personInfo, roleCode) {
     let data = []
     for (let i in personInfo) {
       if (i === 'name') {
         data.push({
-          type: '姓名',
+          text: roleCode === 'students' ? '学生姓名' : '教师姓名',
+          type: 'name',
           value: personInfo[i]
         })
       } else if (i === 'sex') {
         data.push({
-          type: '性别',
+          text: '性别',
+          type: 'sex',
           value: personInfo[i]
         })
       } else if (i === 'birth') {
         data.push({
-          type: '出生日期',
+          text: '出生日期',
+          type: 'birth',
           value: personInfo[i]
         })
       } else if (i === 'school') {
         data.push({
-          type: '学校',
+          text: '学校',
+          type: 'school',
           value: personInfo[i]
         })
       } else if (i === 'iden') {
         data.push({
-          type: '身份证号',
+          text: '身份证号',
+          type: 'iden',
           value: personInfo[i]
         })
       } else if (i === 'class') {
         data.push({
-          type: '年级',
+          text: '年级',
+          type: 'class',
           value: personInfo[i]
         })
       } else if (i === 'duty') {
         data.push({
-          type: '行政职务',
+          text: '行政职务',
+          type: 'duty',
           value: personInfo[i]
         })
       }

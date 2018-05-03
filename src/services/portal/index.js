@@ -11,6 +11,26 @@ export function login (params, sucFn) {
 }
 
 /**
+ * 更新用户信息
+ */
+export function updateUserInfo (params, sucFn) {
+  return axios.post('/', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 获取年级{grade}、教师职位{teacher_duty}下拉列表数据
+ */
+export function getUserInfoList (params, sucFn) {
+  return axios.get('/getCodeTable/' + params.type, {})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 修改密码
  */
 export function modifyPassword (params, sucFn) {

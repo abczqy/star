@@ -177,20 +177,24 @@ class Home extends React.Component {
             <AppCount data={this.state.appCountData || []} />
           </Col>
         </Row>
-        <ChangeInfoOkWin visible={this.state.changeInfoOkWinVisible}
-          handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
-          handleClose={() => { this.handleChangeVisible('changeInfoOkWinVisible', false) }}
-        />
-        <SureInfoWin visible={this.state.sureInfoWinVisible} data={this.state.sureDate}
+        {
+          this.state.changeInfoOkWinVisible ? <ChangeInfoOkWin visible={this.state.changeInfoOkWinVisible}
+            handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
+            handleClose={() => { this.handleChangeVisible('changeInfoOkWinVisible', false) }}
+          /> : null
+        }
+        {this.state.sureInfoWinVisible ? <SureInfoWin visible={this.state.sureInfoWinVisible} data={this.state.sureDate}
           handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
           handleClose={() => { this.handleChangeVisible('sureInfoWinVisible', false) }}
-          handleInfoOk={() => { this.handleInfoOk() }} />
-        <ChangeInfoWin visible={this.state.changeInfoWinVisible}
-          handleClose={() => { this.handleChangeVisible('changeInfoWinVisible', false) }}
-          handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
-          handleBack={() => { this.handleBack() }}
-          handleChangeInfoOk={() => { this.handleChangeInfoOk() }}
-        />
+          handleInfoOk={() => { this.handleInfoOk() }} /> : null}
+        {
+          this.state.changeInfoWinVisible ? <ChangeInfoWin visible={this.state.changeInfoWinVisible}
+            handleClose={() => { this.handleChangeVisible('changeInfoWinVisible', false) }}
+            handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
+            handleBack={() => { this.handleBack() }}
+            handleChangeInfoOk={() => { this.handleChangeInfoOk() }}
+          /> : null
+        }
       </div>
     )
   }
