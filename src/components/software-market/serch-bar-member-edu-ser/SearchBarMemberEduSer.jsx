@@ -30,7 +30,7 @@ class SearchBarMemberEduSer extends Component {
 
   render () {
     const {
-      searchParams,
+      selectList,
       onBtnSearchClick,
       onSelect1Change,
       onSelect2Change,
@@ -49,7 +49,7 @@ class SearchBarMemberEduSer extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect1Change} >
-              {this.getOptions(searchParams.idArr)}
+              {selectList.idList && this.getOptions(selectList.idList)}
             </Select>
           </Col>
           <Col span={5}>
@@ -59,26 +59,27 @@ class SearchBarMemberEduSer extends Component {
               placeholder='请输入'
               showSearch
               onChange={onSelect2Change} >
-              {this.getOptions(searchParams.idArr)}
+              {selectList.eduNameList && this.getOptions(selectList.eduNameList)}
             </Select>
           </Col>
           <Col span={5}>
-            <span className='input-label'>上级机构名称</span>
+            <span className='select-label'>上级机构名称</span>
             <Select
-              className='input'
+              className='select'
               placeholder='请输入'
               showSearch
               onChange={onSelect3Change} >
-              {this.getOptions(searchParams.idArr)}
+              {selectList.eduUpperList && this.getOptions(selectList.eduUpperList)}
             </Select>
           </Col>
           <Col span={3}>
-            <span className='select-label-1'>所属级别 </span>
-            <Select defaultValue='all' className='select-1' onChange={onSelect4Change} >
-              <Option value='all'>全部</Option>
-              <Option value='province'>省</Option>
-              <Option value='city'>市</Option>
-              <Option value='county'>县</Option>
+            <span className='select-label-2'>所属级别 </span>
+            <Select
+              className='select-2'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect4Change} >
+              {selectList.eduClassList && this.getOptions(selectList.eduClassList)}
             </Select>
           </Col>
           <Col span={4}>
@@ -102,7 +103,7 @@ class SearchBarMemberEduSer extends Component {
 }
 
 SearchBarMemberEduSer.propTypes = {
-  searchParams: PropsTypes.object,
+  selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,

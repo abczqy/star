@@ -15,10 +15,14 @@ import {
   eduGetData,
   eduBatchLeadout,
   maDelId,
-  maInitPwd
+  maInitPwd,
+  getIdSelectList,
+  getNameSelectList,
+  getEduUpperSelectList,
+  getEduClassSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberEduSer } from 'components/software-market'
-import { addKey2TableData } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -52,7 +56,8 @@ class EducationalServices extends Component {
       pagination,
       batchLeadParams: {
         idArrs: []
-      }
+      },
+      selectList: {}
     }
   }
 
@@ -317,14 +322,19 @@ class EducationalServices extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+    // 请求下拉框的数据
+    getSelectList(getIdSelectList, 'edu', 'idList', this)
+    getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
+    getEduUpperSelectList(getNameSelectList, null, 'eduUpperList', this)
+    getEduClassSelectList(getNameSelectList, null, 'eduClassList', this)
   }
 
   render () {
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberEduSer
-          searchParams={{idArr: ['全部', '1234', '5678']}}
+          selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
           onSelect2Change={this.onInstChange}
           onSelect3Change={this.onHighInstChange}

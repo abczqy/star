@@ -15,10 +15,12 @@ import {
   schGetData,
   maDelId,
   maInitPwd,
-  schBatchLeadout
+  schBatchLeadout,
+  getIdSelectList,
+  getNameSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberSch } from 'components/software-market'
-import { addKey2TableData } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -48,7 +50,11 @@ class School extends Component {
         eduServices: '',
         loginType: ''
       },
-      pagination
+      pagination,
+      batchLeadParams: {
+        idArrs: []
+      },
+      selectList: {}
     }
   }
 
@@ -141,13 +147,12 @@ class School extends Component {
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onIdChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onIdChange = (val) => {
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        shId: e.target.value
+        shId: val
       }
     })
   }
@@ -155,13 +160,12 @@ class School extends Component {
   /**
    * 当搜索框‘厂商名称’值改变时回调
    */
-  onSchNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onSchNameChange = (val) => {
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        shName: e.target.value
+        shName: val
       }
     })
   }
@@ -315,17 +319,22 @@ class School extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+    // 请求下拉框的数据
+    getSelectList(getIdSelectList, 'school', 'idList', this)
+    getSelectList(getNameSelectList, 'school', 'schNameList', this)
+    getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
   }
 
   render () {
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberSch
-          onInput1Change={this.onIdChange}
-          onInput2Change={this.onSchNameChange}
-          onSelect1Change={this.onBelongChange}
-          onSelect2Change={this.onToLogin}
+          selectList={{ ...selectList }}
+          onSelect1Change={this.onIdChange}
+          onSelect2Change={this.onSchNameChange}
+          onSelect3Change={this.onBelongChange}
+          onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
         />

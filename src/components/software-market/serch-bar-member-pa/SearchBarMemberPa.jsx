@@ -4,21 +4,39 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Input, Select, Button, Row, Col } from 'antd'
+import { Select, Button, Row, Col } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberPa.scss'
 
 const Option = Select.Option
 
 class SearchBarMemberPa extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+  /**
+   * 如果用动态从后台获取下拉菜单的方法
+   * 这里写个demo
+   * 接口留好 到时候 这样改造就行了
+   * 当然 后台请求到的数据 以props传给这里
+   * @param {array} optArrs 分组建传进来的arrays
+   */
+  getOptions = (optArrs) => {
+    return optArrs.map((Item, index) => {
+      // 这里需要加一个key 不然会有告警
+      return <Option key={index} value={Item}>{Item}</Option>
+    })
+  }
   render () {
     const {
+      selectList,
       onBtnSearchClick,
-      onInput1Change,
-      onInput2Change,
-      onInput3Change,
       onSelect1Change,
       onSelect2Change,
+      onSelect3Change,
+      onSelect4Change,
+      onSelect5Change,
       onBtnBatchExport
     } = this.props
     return (
@@ -26,19 +44,37 @@ class SearchBarMemberPa extends Component {
         <Row gutter={16}>
           <Col span={3}>
             <span className='input-label'>账号</span>
-            <Input className='input' placeholder='请输入' onChange={onInput1Change} />
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect1Change} >
+              {selectList.idList && this.getOptions(selectList.idList)}
+            </Select>
           </Col>
           <Col span={5}>
             <span className='input-label'>学生姓名</span>
-            <Input className='input' placeholder='请输入' onChange={onInput2Change} />
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect2Change} >
+              {selectList.stuNameList && this.getOptions(selectList.stuNameList)}
+            </Select>
           </Col>
           <Col span={4}>
             <span className='select-label'>家长姓名</span>
-            <Input className='select' placeholder='请输入' onChange={onInput3Change} />
+            <Select
+              className='select'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect3Change} >
+              {selectList.paNameList && this.getOptions(selectList.paNameList)}
+            </Select>
           </Col>
           <Col span={4}>
             <span className='select-label'>选择角色</span>
-            <Select defaultValue='all' className='select' onChange={onSelect1Change} >
+            <Select defaultValue='all' className='select' onChange={onSelect4Change} >
               <Option value='all'>全部</Option>
               <Option value='father'>父亲</Option>
               <Option value='mother'>母亲</Option>
@@ -46,7 +82,7 @@ class SearchBarMemberPa extends Component {
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录</span>
-            <Select defaultValue='all' className='select' onChange={onSelect2Change} >
+            <Select defaultValue='all' className='select' onChange={onSelect5Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='defuse'>不允许</Option>
@@ -65,12 +101,13 @@ class SearchBarMemberPa extends Component {
 }
 
 SearchBarMemberPa.propTypes = {
+  selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
-  onInput1Change: PropsTypes.func,
-  onInput2Change: PropsTypes.func,
-  onInput3Change: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
+  onSelect3Change: PropsTypes.func,
+  onSelect4Change: PropsTypes.func,
+  onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }
 

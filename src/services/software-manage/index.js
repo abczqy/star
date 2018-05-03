@@ -71,6 +71,26 @@ export function getContractSelectList (params, sucFn) {
 }
 
 /**
+ * 会员管理-上级机构-下拉菜单-获取数据
+ */
+export function getEduUpperSelectList (params, sucFn) {
+  return axios.post('/manage/educational/listEduUpperName', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-所属级别-下拉菜单-获取数据
+ */
+export function getEduClassSelectList (params, sucFn) {
+  return axios.post('/manage/educational/listEduClassName', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-厂商-列表/查询
  */
 export function firmRenewList (params, sucFn) {

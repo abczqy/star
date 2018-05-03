@@ -15,10 +15,12 @@ import {
   paBatchLeadout,
   changePaToLogin,
   initPaPwd,
-  delPaLoginId
+  delPaLoginId,
+  getIdSelectList,
+  getNameSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberPa } from 'components/software-market'
-import { addKey2TableData } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -52,7 +54,8 @@ class Parent extends Component {
       pagination,
       batchLeadParams: {
         idArrs: []
-      }
+      },
+      selectList: {}
     }
   }
 
@@ -148,13 +151,12 @@ class Parent extends Component {
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onIdChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onIdChange = (val) => {
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafId: e.target.value
+        mafId: val
       }
     })
   }
@@ -162,24 +164,22 @@ class Parent extends Component {
   /**
    * 当搜索框‘学生’值改变时回调
    */
-  onStuNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onStuNameChange = (val) => {
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        stuName: e.target.value
+        stuName: val
       }
     })
   }
 
-  onPaNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onPaNameChange = (val) => {
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafName: e.target.value
+        mafName: val
       }
     })
   }
@@ -359,18 +359,23 @@ class Parent extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+    // 请求下拉框的数据
+    getSelectList(getIdSelectList, 'student', 'idList', this)
+    getSelectList(getNameSelectList, 'student', 'stuNameList', this)
+    getSelectList(getNameSelectList, 'parent', 'paNameList', this)
   }
 
   render () {
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberPa
-          onInput1Change={this.onIdChange}
-          onInput2Change={this.onStuNameChange}
-          onInput3Change={this.onPaNameChange}
-          onSelect1Change={this.onRoleChange}
-          onSelect2Change={this.onToLogin}
+          selectList={{ ...selectList }}
+          onSelect1Change={this.onIdChange}
+          onSelect2Change={this.onStuNameChange}
+          onSelect3Change={this.onPaNameChange}
+          onSelect4Change={this.onRoleChange}
+          onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
         />

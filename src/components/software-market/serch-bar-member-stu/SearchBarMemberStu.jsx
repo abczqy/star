@@ -48,7 +48,7 @@ class SearchBarMemberStu extends Component {
           <Col span={4}>
             <span className='select-label'>学校名称</span>
             <Select
-              className='input'
+              className='select'
               placeholder='请输入'
               showSearch
               onChange={onSelect3Change} >
@@ -58,7 +58,7 @@ class SearchBarMemberStu extends Component {
           <Col span={4}>
             <span className='select-label'>家长姓名</span>
             <Select
-              className='input'
+              className='select'
               placeholder='请输入'
               showSearch
               onChange={onSelect4Change} >
