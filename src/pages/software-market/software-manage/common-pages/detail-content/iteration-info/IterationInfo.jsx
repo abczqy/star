@@ -50,7 +50,7 @@ class IterationInfo extends Component {
             <Col span={9}>
               <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
-              <span>{swPath && swPath[0] ? swPath[0][1].substr(1) : 'PC端.dmg'}</span>
+              <span>{swPath && swPath[0] ? swPath[0][1].substr(swPath[0][1].lastIndexOf('/') + 1) : 'PC端.dmg'}</span>
               <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a>
             </Col>
             <Col span={2} offset={6}>
@@ -63,7 +63,7 @@ class IterationInfo extends Component {
           <Row>
             <Col span={9} offset={3}>
               {swPathRest && swPathRest.map((item, index) => {
-                let fileName = item && item[1].substr(1)
+                let fileName = item && item[1].substr(item[1].lastIndexOf('/') + 1)
                 return <span key={index}>
                   <span>{item && item[0]}:</span>
                   <span><Icon type='paper-clip' /></span>
