@@ -128,3 +128,7 @@ body {
 .operManaPlat-body > .ant-layout{
     height: 100vh
 }
+
+.operManaPlat-body > .ant-layout >.sider-bar > .ant-layout-sider{
+  overflow: auto;
+}
