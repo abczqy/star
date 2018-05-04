@@ -89,7 +89,7 @@ class IterationInfo extends Component {
             </Col>
             <Col span={6}>
               {computerPho.length > 0 && computerPho.map((item, index) => {
-                return <img style={{ width: 81, height: 55 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + item} />
+                return <img key={index} style={{ width: 81, height: 55 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + item} />
               })}
             </Col>
             <Col span={3} offset={6}>
