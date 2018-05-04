@@ -141,6 +141,8 @@ class NewsList extends Component {
     // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
     delBatchNewsList({news_id: idArrs}, (res) => {
       console.log(`${res.data.info}`)
+      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+      this.getTableDatas()
     })
   }
 

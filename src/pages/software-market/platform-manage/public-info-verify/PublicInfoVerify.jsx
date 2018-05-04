@@ -4,8 +4,11 @@
 import React, { Component } from 'react'
 import { Table, Icon } from 'antd'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {
+  getEmInfoList,
+  passBatchEmInfoList
+} from 'services/software-manage'
+import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, PublicInfoVerifyBar } from 'components/software-market'
 
 /**
@@ -19,47 +22,6 @@ const pagination = {
   // text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
- * 表格的columns -- 后面用json文件配置出去 --参照bdq
- * 做到配置项与组件的分离
- * 组件要用时只需要引入即可
- * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
- */
-const columns = [{
-  title: '信息标题',
-  dataIndex: 'info_title',
-  key: 'info_title'
-}, {
-  title: '信息描述',
-  dataIndex: 'info_desc',
-  key: 'info_desc'
-}, {
-  title: '上传时间',
-  dataIndex: 'info_time',
-  key: 'info_time'
-}, {
-  title: '附件',
-  dataIndex: 'info_id',
-  key: 'info_id',
-  render: (text, record, index) => {
-    return (
-      <Icon type='link' />
-    )
-  }
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  render: (text, record, index) => {
-    return (
-      <span>
-        <Link to='/software-market-home/platform-manage/public-verify-detail'>编辑</Link>
-      </span>
-    )
-  }
-}]
-
 class PublicInfoVerify extends Component {
   constructor (props) {
     super(props)
@@ -67,32 +29,123 @@ class PublicInfoVerify extends Component {
       tableData: {
         data: [],
         total: 0
+      },
+      reqParam: {
+        pageNum: 1,
+        pageSize: 15,
+        startTime: '',
+        endTime: '',
+        keywords: ''
+      },
+      batchLeadParams: {
+        idArrs: []
       }
     }
   }
+
+  getColumns = () => {
+    return (
+      [{
+        title: '信息标题',
+        dataIndex: 'info_title',
+        key: 'info_title'
+      }, {
+        title: '信息描述',
+        dataIndex: 'info_desc',
+        key: 'info_desc'
+      }, {
+        title: '上传时间',
+        dataIndex: 'info_time',
+        key: 'info_time'
+      }, {
+        title: '附件',
+        dataIndex: 'info_id',
+        key: 'info_id',
+        render: (text, record, index) => {
+          return (
+            <Icon type='link' />
+          )
+        }
+      }, {
+        title: '操作',
+        dataIndex: 'options',
+        key: 'options',
+        render: (text, record, index) => {
+          return (
+            <span>
+              <Link to='/software-market-home/platform-manage/public-verify-detail'>编辑</Link>
+            </span>
+          )
+        }
+      }]
+    )
+  }
+  /**
+   * 构建请求参数
+   */
+  getParams = () => {
+    const {
+      pageNum,
+      pageSize,
+      startTime,
+      endTime,
+      keywords
+    } = this.state.reqParam
+    // 最后都要赋空
+    return {
+      pageNum: pageNum || 1,
+      pageSize: pageSize || 15,
+      start_time: startTime || '',
+      end_time: endTime || '',
+      keywords: keywords || ''
+    }
+  }
+
   /**
    * 获取新闻列表中的数据
    */
   getTableDatas = () => {
-    axios.get(ajaxUrl.information, {
-      params: {
-        pageNum: 1,
-        pageSize: 10,
-        province: '四川省',
-        city: '成都市',
-        county: '青羊区'
-      }
-    }).then((res) => {
+    getEmInfoList(this.getParams(), (res) => {
       const data = res.data
       // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list,
-          total: data.total
+          data: data.list && addKey2TableData(data.list, 'info_id'),
+          total: data.total && data.total
         }
       })
-      // 给每一条记录加上key值
-    }).catch((e) => { console.log(e) })
+    })
+  }
+
+  /**
+   * 当点击'批量删除'按钮时的回调
+   */
+  onBatchDel = () => {
+    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
+    const { idArrs } = this.state.batchLeadParams
+    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
+    passBatchEmInfoList({info_id: idArrs}, (res) => {
+      console.log(`${res.data.info}`)
+      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+      this.getTableDatas()
+    })
+  }
+
+  /**
+   * 多选选项变化
+   */
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    // 从view中得到数据 并把th_id提取出来组合为一个新数组
+    let idArr = []
+    selectedRows.map((val, index) => {
+      idArr.push(val.info_id)
+    })
+    // 将th_id得到的新数组映射到state中
+    this.setState({
+      batchLeadParams: {
+        idArrs: idArr
+      }
+    })
   }
 
   componentDidMount () {
@@ -102,12 +155,18 @@ class PublicInfoVerify extends Component {
     const { tableData } = this.state
     return (
       <div className='software-wrap'>
-        <PublicInfoVerifyBar />
+        <PublicInfoVerifyBar
+          onBtn1Click={this.onBatchDel}
+        />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={pagination}
+          rowSelection={{
+            fixed: true,
+            onChange: this.rowSelectChange
+          }}
         />
       </div>
     )
