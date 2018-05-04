@@ -53,7 +53,7 @@ export default class ThirdPartyAppDetail extends React.Component {
         }
         this.setState({
           computerCarousel: bb,
-          relateData: this.state.appDetailData.sw_related
+          relateData: this.state.appDetailData.sw_related || []
         })
       })
     }).catch((e) => { console.log(e) })
