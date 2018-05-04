@@ -77,7 +77,8 @@ class BannerMaker extends Component {
     // let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
     addGatewayBanner(formData, res => {
       this.setState({
-        bannerNewData: []
+        bannerNewData: [],
+        fileList: []
       })
       if (res.data) {
         message.success('图片保存成功')
@@ -157,11 +158,11 @@ class BannerMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-              } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList} /></div>)
+              } id={item.banner_id} url={item.banner_url} type={item.banner_type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
-              } id={item.banner_id} datas={datas} dataa={item.banner_title} datab={item.banner_url} getList={this.getList} visible={this.state.visible} /></div>)
+              } datas={datas} getList={this.getList} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
           </Panel>

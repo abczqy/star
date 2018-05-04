@@ -48,7 +48,7 @@ class NewsBar extends Component {
 }
 
 NewsBar.propTypes = {
-  onBtn1Click: PropsTypes.object
+  onBtn1Click: PropsTypes.func
 }
 
 export default NewsBar

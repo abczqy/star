@@ -7,6 +7,7 @@ import { Col, Row, Upload, Button, Icon, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
 import {deleteGatewayBanner} from 'services/software-manage'
+import ajaxUrl from 'config'
 
 // const { Header, Content } = Layout
 
@@ -25,12 +26,6 @@ import {deleteGatewayBanner} from 'services/software-manage'
 //   thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
 // }]
 
-// const uploadConfig = {
-//   action: '//jsonplaceholder.typicode.com/posts/',
-//   listType: 'picture',
-//   defaultFileList: [...fileList]
-// }
-
 class BannerBox extends Component {
   onDelete = (value) => {
     let a = value.toString()
@@ -46,7 +41,19 @@ class BannerBox extends Component {
     })
   }
   render () {
-    const { title, orderNum, id, datas } = this.props
+    const { title, orderNum, id, url, type } = this.props
+    const fileList = [{
+      uid: id,
+      name: type,
+      status: 'done',
+      url: ajaxUrl.IMG_BASE_URL + url,
+      thumbUrl: ajaxUrl.IMG_BASE_URL + url
+    }]
+    const aaa = {
+      action: 'http://p1663488m8.imwork.net:49784/addGatewayBanner',
+      listType: 'picture',
+      defaultFileList: [...fileList]
+    }
     return (
       <div className='box-wrap'>
         <div className='banner-box-content-wrap '>
@@ -57,7 +64,7 @@ class BannerBox extends Component {
               </span>
             </Col>
             <Col span={19}>
-              <Upload {...datas} >
+              <Upload {...aaa} disabled>
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
@@ -81,7 +88,10 @@ BannerBox.propTypes = {
   title: PropsTypes.string,
   id: PropsTypes.number,
   getList: PropsTypes.func,
-  datas: PropsTypes.object
+  bannerData: PropsTypes.array,
+  datas: PropsTypes.object,
+  url: PropsTypes.string,
+  type: PropsTypes.string
 }
 
 export default BannerBox

@@ -32,7 +32,7 @@ import './BannerNewBox.scss'
 
 class BannerNewBox extends Component {
   render () {
-    const { title, orderNum, datas } = this.props
+    const { title, orderNum, datas, disabled } = this.props
 
     return (
       <div className='box-wrap'>
@@ -45,7 +45,7 @@ class BannerNewBox extends Component {
                 </span>
               </Col>
               <Col span={19}>
-                <Upload {...datas} >
+                <Upload {...datas} disabled={disabled} >
                   <Button>
                     <Icon type='upload' /> 上传文件
                   </Button>
@@ -69,7 +69,8 @@ BannerNewBox.propTypes = {
   orderNum: PropsTypes.number,
   title: PropsTypes.string,
   getList: PropsTypes.func,
-  datas: PropsTypes.object
+  datas: PropsTypes.object,
+  disabled: PropsTypes.bool
 }
 
 export default BannerNewBox

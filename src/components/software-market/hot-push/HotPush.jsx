@@ -20,7 +20,7 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-const dataa = [{sw_id: '11', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
+const dataa = [{sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '2', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '4', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '6', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '8', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
 
 class HotPush extends Component {
   constructor (props) {
@@ -107,11 +107,8 @@ class HotPush extends Component {
       let bb = this.copyArray(this.state.imgList)
       console.log(record.sw_check + '11111111111111' + bb)
       let cc = ajaxUrl.IMG_BASE_URL + record.sw_path
-      for (var i = 0; i < bb.length; i++) {
-        if (bb[i] === cc) {
-          bb.splice(i, 1)
-        }
-      }
+      let index = bb.indexOf(cc)
+      bb.splice(index, 1)
       console.log(bb)
       this.setState({
         imgList: bb
@@ -139,6 +136,18 @@ class HotPush extends Component {
       inputValue: this.state.pagination.text
     }, () => {
 
+    })
+  }
+  /**
+   * 页码变化时回调
+   */
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      },
+      searchValue: this.state.pagination.text
     })
   }
    // 显示‘详情’弹窗

@@ -107,11 +107,8 @@ class SWMaker extends Component {
       let bb = this.copyArray(this.state.imgList)
       console.log(record.sw_check + '11111111111111' + bb)
       let cc = ajaxUrl.IMG_BASE_URL + record.sw_path
-      for (var i = 0; i < bb.length; i++) {
-        if (bb[i] === cc) {
-          bb.splice(i, 1)
-        }
-      }
+      let index = bb.indexOf(cc)
+      bb.splice(index, 1)
       console.log(bb)
       this.setState({
         imgList: bb
@@ -139,6 +136,18 @@ class SWMaker extends Component {
       inputValue: this.state.pagination.text
     }, () => {
 
+    })
+  }
+  /**
+   * 页码变化时回调
+   */
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      },
+      searchValue: this.state.pagination.text
     })
   }
    // 显示‘详情’弹窗
