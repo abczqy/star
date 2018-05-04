@@ -91,6 +91,8 @@ class PublicInfo extends Component {
   delNews = (record) => {
     // console.log(`record.info_id: ${record.info_id}`)
     delPubInfoList({info_id: record.info_id}, (res) => {
+      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+      this.getTableDatas()
       const data = res.data
       console.log(`${data.info}`)
     })

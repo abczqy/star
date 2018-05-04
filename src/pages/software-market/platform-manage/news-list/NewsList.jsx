@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { Table, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 // import PropsTypes from 'prop-types'
+import ajaxUrl from 'config'
 import {
   getNewsList,
   delNewsList,
@@ -68,10 +69,11 @@ class NewsList extends Component {
         key: 'news_time'
       }, {
         title: '新闻图片',
+        width: 150,
         dataIndex: 'news_picture',
         key: 'news_picture',
         render: (text, record, index) => (
-          <img src={text} />
+          <img className='img-table-box' src={ajaxUrl.IMG_BASE_URL + '/' + text} />
         )
       }, {
         title: '操作',
@@ -96,6 +98,8 @@ class NewsList extends Component {
   delNews = (record) => {
     // console.log(`record.news_id: ${record.news_id}`)
     delNewsList({news_id: record.news_id}, (res) => {
+      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+      this.getTableDatas()
       const data = res.data
       console.log(`${data.info}`)
     })

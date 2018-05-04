@@ -74,7 +74,7 @@ export function updateNewsList (params, sucFn) {
  * 平台管理-新闻列表-删除
  */
 export function delNewsList (params, sucFn) {
-  return axios.post('/management/infolistdelete', {...params})
+  return axios.post('/management/newslistdelete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -84,7 +84,7 @@ export function delNewsList (params, sucFn) {
  * 平台管理-新闻列表-批量删除
  */
 export function delBatchNewsList (params, sucFn) {
-  return axios.post('/management/infolistbatchdelete', {...params})
+  return axios.post('/management/newslistbatchdelete', {...params})
     .then(function (res) {
       sucFn(res)
     })
