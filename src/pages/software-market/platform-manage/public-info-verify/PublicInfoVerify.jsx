@@ -10,6 +10,7 @@ import {
 } from 'services/software-manage'
 import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, PublicInfoVerifyBar } from 'components/software-market'
+import './PublicInfoVerify.scss'
 
 /**
    * 表格分页器设置-默认值
@@ -51,8 +52,14 @@ class PublicInfoVerify extends Component {
         key: 'info_title'
       }, {
         title: '信息描述',
+        width: 300,
         dataIndex: 'info_desc',
-        key: 'info_desc'
+        key: 'info_desc',
+        render: (text, record, index) => {
+          return (
+            <span className='desc-box'>{text}</span>
+          )
+        }
       }, {
         title: '上传时间',
         dataIndex: 'info_time',
@@ -154,7 +161,7 @@ class PublicInfoVerify extends Component {
   render () {
     const { tableData } = this.state
     return (
-      <div className='software-wrap'>
+      <div className='software-wrap list-wrap'>
         <PublicInfoVerifyBar
           onBtn1Click={this.onBatchDel}
         />

@@ -12,6 +12,7 @@ import {
 } from 'services/software-manage'
 import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, NewsBar } from 'components/software-market'
+import './NewsList.scss'
 
 /**
    * 表格分页器设置-默认值
@@ -53,9 +54,14 @@ class NewsList extends Component {
         key: 'news_title'
       }, {
         title: '新闻描述',
-        width: 200,
+        width: 300,
         dataIndex: 'news_desc',
-        key: 'news_desc'
+        key: 'news_desc',
+        render: (text, record, index) => {
+          return (
+            <span className='desc-box'>{text}</span>
+          )
+        }
       }, {
         title: '上传时间',
         dataIndex: 'news_time',
