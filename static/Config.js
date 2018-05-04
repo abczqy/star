@@ -16,23 +16,6 @@ window.mungConfig = {
   // 市场分析-词云图
   hotSearch: AJAX_HOST + '/hotSearch', // wyl 待修改
 
-  // 人员管理-教师管理列表
-  teacherManagement: AJAX_HOST + '/personnelManagement',
-
-  // 人员管理- 教师编辑
-  teacherUpdate: AJAX_HOST + '/manage/teacher/update',
-  // 人员管理 -删除教师
-  teacherDelete: AJAX_HOST + '/manage/teacher/delete',
-
-  // 人员管理-学生管理列表
-  studentManagement: AJAX_HOST + '/studentManagement',
-
-  // 人员管理-模板下载
-  templateDownload: AJAX_HOST + '/templateDownload',
-
-  // 人员管理-批量导入
-  batchImport: AJAX_HOST + '/application/batchleadin',
-
   // 个人中心-我的应用
   personalApps: AJAX_HOST + '/personal/apps',
 
@@ -64,33 +47,6 @@ window.mungConfig = {
   allAppList: AJAX_HOST + '/app/appList',
   // 全部应用 - 平台应用
   allAppPlatformList: AJAX_HOST + '/app/platform',
-
-  /** *******************************注册************************************ */
-  registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
-  register: AJAX_HOST + '/register/registermaf', // 注册按钮
-  /* 账号设置 */
-  // 家长注册接口-查询与家长绑定的学生
-  relationQueryStu: AJAX_HOST + '/addRelation/queryStu',
-  // 家长注册接口-与学生绑定
-  relationAdd: AJAX_HOST + '/addRelation/add',
-  // 家长注册接口-查询与家长绑定的学生
-  relationdelete: AJAX_HOST + '/addRelation/delete',
-  // 登出
-  sessionLogout: AJAX_HOST + '/session/logout',
-  // 消息通知列表
-  getAllMessageList: AJAX_HOST + '/getAllMessageList',
-  // 未读消息数
-  getMessageCount: AJAX_HOST + '/getUnreadMessageCount',
-  // 消息通知列表详情
-  getMessageListDetail: AJAX_HOST + '/getMessageDetail',
-  // 账号设置-密码修改
-  updateUserPassword: AJAX_HOST + '/control/updateUserPassword',
-  // 账号设置-手机验证
-  updatePhoneNum: AJAX_HOST + '/updatePhoneNum',
-  // 忘记密码
-  forgetThePassword: AJAX_HOST + '/control/updateUserPassword',
-  // 获取短信验证码
-  SMSVerification: AJAX_HOST + '/SMSVerification',
 
   // 应用详情（第三方）
   thirdPartyAppDetail: AJAX_HOST + '/app/details',
