@@ -21,22 +21,25 @@ class PersonnelManagement extends Component {
     this.state = {
       tableParams,
       inputValue: '',
-      role: 'teacher'
+      role: 'teacher',
+      updateList: 0
     }
     this.uploadProps = {
-      name: 'file',
-      data: {name: 'teachers'}, // 参数
-      action: ajaxUrl.batchImport,
-      onChange (info) {
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} 上传成功`)
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} 上传失败`)
-        }
-      }
+      name: 'teachers',
+      action: ajaxUrl.API_BASE_URL + '/application/batchleadin',
+      onChange: this.onChange
     }
   }
-
+  onChange=(info) => {
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} 导入成功`)
+      this.setState({
+        updateList: this.state.updateList + 1
+      })
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} 导入失败`)
+    }
+  }
   // pageSize 变化的回调
   onShowSizeChange = (current, size) => {
     // console.log(current, size)
@@ -89,8 +92,26 @@ class PersonnelManagement extends Component {
   roleChange = (obj) => {
     if (obj.key !== this.state.role) {
       this.setState({
-        role: obj.key
+        role: obj.key,
+        inputValue: '',
+        tableParams: {
+          ...this.state.tableParams,
+          text: ''
+        }
       })
+      if (obj.key === 'student') {
+        this.uploadProps = {
+          name: 'student',
+          action: ajaxUrl.API_BASE_URL + '/application/batchleadins',
+          onChange: this.onChange
+        }
+      } else {
+        this.uploadProps = {
+          name: 'teachers',
+          action: ajaxUrl.API_BASE_URL + '/application/batchleadin',
+          onChange: this.onChange
+        }
+      }
     }
   }
 
@@ -153,6 +174,7 @@ class PersonnelManagement extends Component {
             onShowSizeChange={this.onShowSizeChange}
             pageNumChange={this.pageNumChange}
             role={this.state.role}
+            updateList={this.state.updateList}
           />
         </div>
         {/* 下载 */}

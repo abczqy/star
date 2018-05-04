@@ -130,6 +130,19 @@
           float: left;
         }
       }
+      .list-img-err{
+        width: 5vw;
+        display: inline-block;
+        padding: 25px 0 0 20px ;
+        float: left;
+        i{
+          width: 3.5vh;
+          height: 3.5vh;
+          background: url("../assets/images/notice/u5113.png") no-repeat center;
+          background-size: 100% 100%;
+          float: left;
+        }
+      }
       .safe-name{
         border-bottom: 1px solid #F2F2F2;
         .tit{

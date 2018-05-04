@@ -49,7 +49,7 @@ class ChangePhoneNumber extends React.Component {
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
-      if (values.maf_phone_con !== thiz.state.phoneCode) {
+      if (values.maf_con_code !== undefined && (values.maf_con_code !== thiz.state.phoneCode)) {
         message.error('短信验证码不正确！')
         return
       }
@@ -59,7 +59,12 @@ class ChangePhoneNumber extends React.Component {
           phoneNum: values.maf_phone_number,
           password: values.maf_pass
         }, (response) => {
-          this.props.hiddenModal()
+          if (response.data !== true) {
+            message.success('修改手机成功！')
+            this.props.hiddenModal()
+          } else {
+            message.error(response.data.msg)
+          }
         })
         window.clearInterval(this.intervalcount)
       }
@@ -132,7 +137,7 @@ class ChangePhoneNumber extends React.Component {
   getPhoneCode=(phoneNum) => {
     SMSVerification({'phone': phoneNum}, (response) => {
       this.setState({
-        phoneCode: response.data
+        phoneCode: response.data && response.data.toString()
       })
     })
   }

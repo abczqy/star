@@ -23,6 +23,15 @@ export function register (params, sucFn) {
     })
 }
 /**
+ * 注册用户协议
+ */
+export function getRegisterAgreement (params, sucFn) {
+  return axios.get('/register/getRegisterAgreement', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
  * 账号设置-查询与家长绑定的学生
  */
 export function relationQueryStu (params, sucFn) {
@@ -95,6 +104,15 @@ export function updateUserPassword (params, sucFn) {
     })
 }
 /**
+ * 账号设置-返回手机绑定默认消息
+ */
+export function whetherOrNotToVerify (params, sucFn) {
+  return axios.get('/whetherOrNotToVerify', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
  * // 账号设置-手机验证
  */
 export function updatePhoneNum (params, sucFn) {
@@ -104,10 +122,19 @@ export function updatePhoneNum (params, sucFn) {
     })
 }
 /**
+ * // 账号设置-修改厂商名称
+ */
+export function updateVendorName (params, sucFn) {
+  return axios.post('/updateVendorName', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
  * 忘记密码
  */
 export function forgetThePassword (params, sucFn) {
-  return axios.post('/control/updateUserPassword', {...params})
+  return axios.post('/forgetThePassword', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -116,7 +143,7 @@ export function forgetThePassword (params, sucFn) {
  * 忘记密码-获取短信验证码
  */
 export function SMSVerification (params, sucFn) {
-  return axios.get('/SMSVerification', {params: params})
+  return axios.post('/SMSVerification', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -146,6 +173,24 @@ export function teacherUpdate (params, sucFn) {
  */
 export function teacherDelete (params, sucFn) {
   return axios.post('/manage/teacher/delete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 人员管理- 学生编辑
+ */
+export function sutdentUpdate (params, sucFn) {
+  return axios.post('/manage/student/update', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 人员管理- 学生删除
+ */
+export function sutdentDelete (params, sucFn) {
+  return axios.post('/manage/student/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })

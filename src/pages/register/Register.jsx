@@ -8,6 +8,8 @@ import './register.scss'
 import BottomHeader from '../../components/common/BottomHeader'
 import RegisterModal from './RegisterSuccModal'
 import { withRouter } from 'react-router'
+// import apiConfig from '../../config'
+import {register, SMSVerification} from '../../services/topbar-mation'
 class Register extends React.Component {
   constructor (props) {
     super(props)
@@ -23,7 +25,8 @@ class Register extends React.Component {
       checked: false,
       nextgetCode: true, // 第二次获取验证码
       submitbtn: false, // 注册按钮
-      registerVisible: false
+      registerVisible: false,
+      type: 'text'
     }
   }
   componentDidMount () {
@@ -259,6 +262,7 @@ class Register extends React.Component {
     // eslint-disable-next-line camelcase
     let maf_phone_con = form.getFieldValue('maf_phone_con')
     if (this.handlPhoneonblur(phoneNum)) {
+      this.getCode(phoneNum)
       console.log('获取验证码成功')
       this.setState({
         nextgetCode: !this.state.nextgetCode
@@ -283,6 +287,16 @@ class Register extends React.Component {
       })
     }
   }
+  // 获取验证码
+  getCode=(phoneNum) => {
+    SMSVerification({
+      phone: phoneNum
+    }, (response) => {
+      this.setState({
+        phoneCode: response.data && response.data.toString()
+      })
+    })
+  }
   // 手机验证码
   handlPhonecheckonblur=(e) => {
     let value = e.target.value
@@ -305,7 +319,6 @@ class Register extends React.Component {
       agree: !this.state.checked,
       submitbtn: !this.state.checked
     }, () => {
-      console.log('11111111111', this.state.agree)
     })
   }
   // 查看用户协议
@@ -317,6 +330,10 @@ class Register extends React.Component {
     this.setState({
       registerVisible: false
     })
+  }
+  // 点击表单后，改变type
+  changeType = () => {
+    this.setState({ type: 'password' })
   }
   saveOrSubmit =() => {
     let thiz = this
@@ -382,6 +399,13 @@ class Register extends React.Component {
           phonecheck: '请输入正确的验证码！'
         })
       }
+      if (values.maf_phone_code !== '' && (values.maf_phone_code !== this.state.phoneCode)) {
+        this.setState({
+          phonecheck_icon: false,
+          phonecheck: '短信验证码不正确！'
+        })
+        return
+      }
       if (!err && agree) {
         this.registermaf(values)
         console.log('注册', values)
@@ -405,7 +429,7 @@ class Register extends React.Component {
     }, (response) => {
       this.setState({
         registerVisible: true,
-        accountSucc: response.account
+        accountSucc: response.data.maf_id
       })
     })
   }
@@ -456,7 +480,7 @@ class Register extends React.Component {
                       required: true, message: ' '
                     }]
                   })(
-                    <Input placeholder='请输入密码' onChange={this.validateToNextPassword} />
+                    <Input placeholder='请输入密码' type={this.state.type} onClick={this.changeType} onChange={this.validateToNextPassword} />
                   )}
                   <span className={this.state.checkpass_icon ? 'success' : 'fail'}>{this.state.checkpass}</span>
                 </Form.Item>
@@ -469,7 +493,7 @@ class Register extends React.Component {
                       required: true, message: ' '
                     }]
                   })(
-                    <Input onBlur={this.handleConfirmBlur}onChange={this.compareToFirstPassword} />
+                    <Input onBlur={this.handleConfirmBlur} type={this.state.type} onClick={this.changeType} onChange={this.compareToFirstPassword} />
                   )}
                   <span className={this.state.confirmpass_icon ? 'success' : 'fail'}>{this.state.checkconfirm}</span>
                 </Form.Item>
