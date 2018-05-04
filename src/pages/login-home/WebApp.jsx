@@ -53,7 +53,9 @@ class WebApp extends React.Component {
         <Row type='flex' justify='space-around'>
           {
             this.props.data.map((item, index, arr) => {
-              return this.renderItem(item, index)
+              if (index < 4) {
+                return this.renderItem(item, index)
+              }
             })
           }
         </Row>

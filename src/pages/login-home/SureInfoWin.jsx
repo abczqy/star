@@ -41,10 +41,6 @@ class SureInfoWin extends React.Component {
     </Col>)
   }
 
-  handleChange () {
-
-  }
-
   getEditCompParams (item) {
     let obj = {
       rules: [{
