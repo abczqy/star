@@ -91,15 +91,15 @@ class Businessing extends Component {
       }
     }, {
       title: '缴费状态',
-      dataIndex: 'expire',
-      key: 'expire',
+      dataIndex: 'num_day',
+      key: 'num_day',
       render: (text, record, index) => {
-        // 这里的这个100 是临时量 其实应该用全局的标准 可以用redux管理起来 作为全局量使用 或 给出设置的界面
-        // 鼠标悬浮在上面 会出现 还差多少天到期
-        if (text > 100) {
+        if (record.num_day === '正常') {
           return <span className='normal-color' >正常</span>
-        } else {
-          return <span className='warn-color' >已过期</span>
+        } else if (record.num_day === '已过期') {
+          return <span className='alert-color' >已过期</span>
+        } else if (record.num_day <= '30') {
+          return <span className='warn-color' >`余${record.num_day}天`</span>
         }
       }
     }, {
@@ -139,7 +139,7 @@ class Businessing extends Component {
       let result = response.data
       this.setState({
         tableData: {
-          data: this.getSwPath(result.data),
+          data: this.getSwPath(result.list),
           total: result.total
         }
       })

@@ -60,7 +60,7 @@ class IterationVerify extends Component {
       const data = res.data
       this.setState({
         tableData: {
-          data: this.getSwPath(data.data),
+          data: this.getSwPath(data.list),
           total: data.total
         }
       })
