@@ -19,12 +19,44 @@ import _ from 'lodash'
 class OperateManage extends React.Component {
   constructor (props) {
     super(props)
+    let pathName = this.props.location.pathname
     this.state = {
-      activeTab: 'home',
+      activeTab: this.getDefaultTabKey(pathName),
       signOutVisible: false, // 退出系统
       messageCount: '0'
     }
   }
+
+  getDefaultTabKey (pathName) {
+    let activeTab
+    switch (pathName) {
+      case '/operate-manage-home/home':// 首页
+        activeTab = 'home'
+        break
+      case '/operate-manage-home/all-app/all-app':// 全部应用
+        activeTab = 'allApp'
+        break
+      case '/operate-manage-home/center':// 个人中心
+        activeTab = 'peopleCenter'
+        break
+      case '/operate-manage-home/member':// 人员管理
+        activeTab = 'peopleMang'
+        break
+      case '/operate-manage-home/all-app-detail-mine':// 我的应用
+        activeTab = 'myApp'
+        break
+      case '/operate-manage-home/statis':// 统计分析
+        activeTab = 'statisAnaly'
+        break
+      case '/operate-manage-home/market':// 市场分析
+        activeTab = 'marketAnaly'
+        break
+      default:
+        activeTab = 'home'
+    }
+    return activeTab
+  }
+
   componentWillReceiveProps (nextProps) {
     // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
     if (_.indexOf(['/unlogged/home', '/unlogged/newsList', '/unlogged/information'], nextProps.location.pathname) !== -1) {
