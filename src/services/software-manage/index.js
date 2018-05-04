@@ -14,7 +14,7 @@ export function getAppListData (params, sucFn) {
  * 软件管理-应用类型下拉框获取
  */
 export function getApptype (params, sucFn) {
-  return axios.post('/management/apptype', {...params})
+  return axios.get('/management/apptype', {...params})
     .then(function (res) {
       sucFn(res)
     })
