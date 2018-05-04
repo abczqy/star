@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import {updateUserInfo, getUserInfoList} from 'services/portal'
 import webStorage from 'webStorage'
+import moment from 'moment'
+import Birth from 'components/common/Birth'
 
 class SureInfoWin extends React.Component {
   static propTypes = {
@@ -26,8 +28,32 @@ class SureInfoWin extends React.Component {
         value: '0'
       }],
       dutyList: [], // 职务下拉列表的值
-      classList: [] // 年级下拉列表的值
+      classList: [], // 年级下拉列表的值
+      allMonth: this.getAllMonth(),
+      allDays: this.getAllDays()
     }
+  }
+
+  getAllDays () {
+    let arr = []
+    for (let i = 1; i <= 31; i++) {
+      arr.push({
+        text: i + '日',
+        value: i
+      })
+    }
+    return arr
+  }
+
+  getAllMonth () {
+    let arr = []
+    for (let i = 1; i <= 12; i++) {
+      arr.push({
+        text: i + '月',
+        value: i
+      })
+    }
+    return arr
   }
 
   renderItem (item, index) {
@@ -35,10 +61,22 @@ class SureInfoWin extends React.Component {
     return (<Col key={index} span={12} className='sure-info-item'>
       <Form.Item label={item.text}>
         {getFieldDecorator(item.type, this.getEditCompParams(item))(
-          this.state.isEdit ? this.getEditComp(item) : <span>{item.value}</span>
+          this.state.isEdit ? this.getEditComp(item) : this.getCompValue(item)
         )}
       </Form.Item>
     </Col>)
+  }
+
+  getCompValue (item) {
+    if (item.type === 'birth') { // 出生年月
+      if (item.value) {
+        return <span>{moment(item.value).format('YYYY年MM月DD日')}</span>
+      } else {
+        return <span />
+      }
+    } else {
+      return <span>{item.value}</span>
+    }
   }
 
   getEditCompParams (item) {
@@ -66,6 +104,15 @@ class SureInfoWin extends React.Component {
         obj.initialValue = item.value
       } else if (this.state.classList.length > 0) {
         obj.initialValue = this.state.classList[0].value
+      }
+    } else if (item.type === 'birth') { // 出生年月
+      if (item.value) {
+        let tem = moment(item.value)
+        obj.initialValue = {
+          year: tem.year(),
+          month: tem.month(),
+          day: tem.date()
+        }
       }
     } else { // 其他
       if (item.value) {
@@ -106,6 +153,10 @@ class SureInfoWin extends React.Component {
           }
         </Select>
       )
+    } else if (item.type === 'birth') { // 出生年月
+      return (
+        <Birth />
+      )
     } else {
       return <Input placeholder={'请输入' + item.text} />
     }
@@ -126,7 +177,18 @@ class SureInfoWin extends React.Component {
   handleSave () {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        updateUserInfo(values, (response) => {
+        let obj = {}
+        for (let i in values) {
+          if (i === 'birth') {
+            obj['birth'] = moment(values[i].year + '-' + values[i].month + '-' + values[i].day).format('YYYY-MM-DD')
+          } else {
+            obj[i] = values[i]
+          }
+        }
+        updateUserInfo({
+          type: webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students' ? 'students' : 'teacher',
+          params: obj
+        }, (response) => {
           let result = response.data
           if (result.success) {
             message.success('更新成功!')
@@ -186,7 +248,7 @@ class SureInfoWin extends React.Component {
     let thiz = this
     return (
       <Modal
-        width='560px'
+        width='720px'
         title='确认信息'
         visible={this.props.visible}
         onCancel={thiz.props.handleClose}

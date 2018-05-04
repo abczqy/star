@@ -14,7 +14,7 @@ export function login (params, sucFn) {
  * 更新用户信息
  */
 export function updateUserInfo (params, sucFn) {
-  return axios.post('/', {...params})
+  return axios.post('/control/update/' + params.type, {...params.params})
     .then(function (res) {
       sucFn(res)
     })
