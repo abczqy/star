@@ -15,6 +15,7 @@ import shareContent from '../../utils/shareContent'
 import _ from 'lodash'
 import webStorage from 'webStorage'
 import {newsListDet, newsList, information} from 'services/software-manage'
+import moment from 'moment'
 // import _ from 'lodash'
 
 class NewsDetails extends React.Component {
@@ -158,7 +159,7 @@ render () {
             <Col span={24}>
               <div className='details-right-div'>
                 <p className='details-right-title'>{this.state.newData ? this.state.newData.news_title : '1'}</p>
-                <span className='details-right-time'>发布时间:{this.state.newData ? this.state.newData.news_time : '时间'}</span>
+                <span className='details-right-time'>发布时间:{this.state.newData ? moment(this.state.newData.news_time).format('YYYY-MM-DD') : '时间'}</span>
                 <div className='details-right-div-div'>
                   {this.state.newData ? this.state.newData.news_desc : '文章'}
                 </div>
@@ -189,7 +190,7 @@ render () {
       <div id='left-container'>
         <div className='center-public-info'>
           <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-            <ul>
+            <ul className='ul-margin'>
               {this.state.infoData && this.state.infoData.list.map((item, index) => {
                 return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
               })}

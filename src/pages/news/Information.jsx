@@ -12,6 +12,7 @@ import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
 import webStorage from 'webStorage'
+import moment from 'moment'
 import {processStr} from 'utils'
 import {information} from 'services/software-manage'
 class Information extends React.Component {
@@ -197,7 +198,7 @@ class Information extends React.Component {
                   <Row>
                     <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
                     <Col span={4}><span className='span-top'>发布者 : {item.info_per}</span></Col>
-                    <Col span={3}><span className='span-top'>{item.info_time}</span></Col>
+                    <Col span={3}><span className='span-top'>{moment(item.info_time).format('YYYY-MM-DD')}</span></Col>
                   </Row>
                   <Row>
                     <Col span={23}>
@@ -235,7 +236,7 @@ class Information extends React.Component {
           </div>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-              <ul>
+              <ul className='ul-margin'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}

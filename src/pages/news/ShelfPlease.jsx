@@ -60,7 +60,9 @@ class ShelfPlease extends React.Component {
       fileListThree: [], // 用来存PC端界面截图的文件id
       fileListFour: [], // 用来存身份证照片文件id
       fileListFive: [], // 用来存软件版权的文件id
-      fileListSix: [] // 用来存财务审核凭证的文件id
+      fileListSix: [], // 用来存财务审核凭证的文件id
+      conPeopleNumBlur: false,
+      idNumberBlur: false
     }
   }
   componentWillMount () {
@@ -154,7 +156,7 @@ class ShelfPlease extends React.Component {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ... （200px*200px）</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.exe..</span>
                   </Upload>
                 </Col>
               </Col>
@@ -181,7 +183,7 @@ class ShelfPlease extends React.Component {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.png .jpg ... （200px*200px）</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.exe..</span>
                   </Upload>
                 </Col>
               </Col>
@@ -229,9 +231,27 @@ class ShelfPlease extends React.Component {
   // 存身份证号
   idNumber=(e) => {
     let {value} = e.target
+
     this.setState({
       idNumber: value
     })
+  }
+  // 身份证校验
+  idNumberBlur=(e) => {
+    console.log('aaaaaaaaaaaa')
+    let {value} = e.target
+    var regu = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+    var re = new RegExp(regu)
+    if (re.test(value)) {
+      this.setState({
+        idNumberBlur: true
+      })
+    } else {
+      message.error('请输入身份证号格式不正确')
+      this.setState({
+        idNumberBlur: false
+      })
+    }
   }
   // 存联系人
   conPeople=(e) => {
@@ -246,6 +266,23 @@ class ShelfPlease extends React.Component {
     this.setState({
       conPeopleNum: value
     })
+  }
+  // 手机校验
+  conPeopleNumBlur = (e) => {
+    console.log('aaaaaaaaaaaa')
+    let {value} = e.target
+    var regu = /^1[34578]\d{9}$/
+    var re = new RegExp(regu)
+    if (re.test(value)) {
+      this.setState({
+        conPeopleNumBlur: true
+      })
+    } else {
+      message.error('请输入手机号格式不正确')
+      this.setState({
+        conPeopleNumBlur: false
+      })
+    }
   }
   // 存单选框
   radio = (e) => {
@@ -269,7 +306,7 @@ class ShelfPlease extends React.Component {
       let c = []
       let w = this.state.fileListOneC[i]
       c.push(w)
-      c.push(this.state.fileListOneF[i].name)
+      c.push(this.state.fileListOneF[i] ? this.state.fileListOneF[i].name : '')
       // c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
       a.push(c)
     }
@@ -278,50 +315,57 @@ class ShelfPlease extends React.Component {
 
   // 提交表单啦
   submit=() => {
-    const formData = new FormData()
-    formData.append('rname', this.state.rname)// 软件名称
-    formData.append('rType', this.state.type)// 软件类型
-    formData.append('rDescribe', this.state.rDescribe)// 软件描述
-    formData.append('hopeTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD'))// 期望上架时间
-    formData.append('name', this.state.name)// 开发相关名字
-    formData.append('idNumber', this.state.idNumber)// 身份证号
-    formData.append('conPeople', this.state.conPeople)// 主要联系人
-    formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话
-    formData.append('sw_type', this.state.radio)// 软件版权类别
-    this.state.fileListTwo.forEach((file) => {
-      formData.append('sw_icon', file)
-    })
-    // formData.append('sw_icon', this.state.fileListTwo)// 软件图标
-    this.state.fileListThree.forEach((file) => {
-      formData.append('sw_computer_photo', file)
-    })
-    // formData.append('sw_computer_photo', this.state.fileListThree)// pc图片
-    this.state.fileListFour.forEach((file) => {
-      formData.append('idNumber_photo', file)
-    })
-    // formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片
-    this.state.fileListFive.forEach((file) => {
-      formData.append('sw_copyright', file)
-    })
-    // formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
-    this.state.fileListSix.forEach((file) => {
-      formData.append('fin_audit', file)
-    })
-    // formData.append('fin_audit', this.state.fileListSix)// 财务凭证
-    this.zH().forEach((file) => {
-      formData.append('copType', file)
-    })
-    // formData.append('copType', this.zH())// 软件版本的文件
-    this.zHs().forEach((a) => {
-      formData.append('type', a)
-    })
-    // formData.append('type', this.zHs())// 软件版本的文件和系统类别
-    formData.append('fa_id', 'fa_123456')// 厂商Id
-    // console.log('看看那是什么', this.zHs())
-    shelf(formData, (response) => {
-      message.success(`上架申请成功!`)
-      console.log(response)
-    })
+    if (!(this.state.conPeopleNumBlur && this.state.idNumberBlur)) {
+      message.error('身份证号或者手机号填写有误')
+    } else if (this.state.rname && this.state.type && this.state.rDescribe && this.state.name && this.state.idNumber && this.state.conPeople && this.state.fileListTwo.length !== 0 && this.state.fileListFour.length !== 0 && this.state.fileListOneC.length !== 0 && this.state.fileListOneF.length !== 0) {
+      console.log('全填完了')
+      const formData = new FormData()
+      formData.append('rname', this.state.rname)// 软件名称*
+      formData.append('rType', this.state.type)// 软件类型*
+      formData.append('rDescribe', this.state.rDescribe)// 软件描述*
+      formData.append('hopeTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD'))// 期望上架时间
+      formData.append('name', this.state.name)// 开发相关名字*
+      formData.append('idNumber', this.state.idNumber)// 身份证号*
+      formData.append('conPeople', this.state.conPeople)// 主要联系人*
+      formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话*
+      formData.append('sw_type', this.state.radio)// 软件版权类别
+      this.state.fileListTwo.forEach((file) => {
+        formData.append('sw_icon', file)
+      })
+      // formData.append('sw_icon', this.state.fileListTwo)// 软件图标*
+      this.state.fileListThree.forEach((file) => {
+        formData.append('sw_computer_photo', file)
+      })
+      // formData.append('sw_computer_photo', this.state.fileListThree)// pc图片
+      this.state.fileListFour.forEach((file) => {
+        formData.append('idNumber_photo', file)
+      })
+      // formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片*
+      this.state.fileListFive.forEach((file) => {
+        formData.append('sw_copyright', file)
+      })
+      // formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
+      this.state.fileListSix.forEach((file) => {
+        formData.append('fin_audit', file)
+      })
+      // formData.append('fin_audit', this.state.fileListSix)// 财务凭证
+      this.zH().forEach((file) => {
+        formData.append('copType', file)
+      })
+      // formData.append('copType', this.zH())// 软件版本的文件*
+      this.zHs().forEach((a) => {
+        formData.append('type', a)
+      })
+      // formData.append('type', this.zHs())// 软件版本的文件和系统类别*
+      formData.append('fa_id', 'fa_123456')// 厂商Id
+      // console.log('看看那是什么', this.zHs())
+      shelf(formData, (response) => {
+        message.success(`上架申请成功!`)
+        console.log(response)
+      })
+    } else {
+      message.error('请填写完带有*号的填写项')
+    }
   }
   render () {
     const data = [
@@ -499,7 +543,7 @@ class ShelfPlease extends React.Component {
                     <Icon type='upload' /> 上传文件
                   </Button>
                   <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ... （200px*200px）</span>
                 </Upload></Col>
             </Col>
             <Col span={8}>
@@ -552,7 +596,7 @@ class ShelfPlease extends React.Component {
                 <span style={{color: 'red'}}>* </span>身份证号 :
               </Col>
               <Col span={17}>
-                <Input placeholder='请输入身份证号' style={{ width: 200 }} onChange={this.idNumber} value={this.state.idNumber} /></Col>
+                <Input placeholder='请输入身份证号' style={{ width: 200 }} onBlur={this.idNumberBlur} onChange={this.idNumber} value={this.state.idNumber} /></Col>
             </Col>
           </Row>
           <Row className='Wxd'>
@@ -584,7 +628,7 @@ class ShelfPlease extends React.Component {
                 <span style={{color: 'red'}}>* </span>联系人电话 :
               </Col>
               <Col span={18}>
-                <Input placeholder='请输入联系人电话' style={{ width: 200 }} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
+                <Input placeholder='请输入联系人电话' style={{ width: 200 }} onBlur={this.conPeopleNumBlur} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
             </Col>
           </Row>
           <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
@@ -605,13 +649,13 @@ class ShelfPlease extends React.Component {
                         <Icon type='upload' /> 上传文件
                       </Button>
                       <span className='extend'>
-                        <span style={{visibility: 'hidden'}}>无</span>支持扩展名：.png .jpg ...</span>
+                        <span style={{visibility: 'hidden'}} />支持扩展名：.png .jpg ...</span>
                     </Upload>
                   </Radio>
                   <span style={{visibility: 'hidden'}}>*PC无无555555555555555555555555555555555555555555555555呜呜呜呜呜</span>
                 </Col>
-                <Col span={2} />
-                <Col span={10}>
+                <Col span={1} />
+                <Col span={14}>
                   <span style={{visibility: 'hidden'}}>6</span>
                   <Radio value={2}>
                     <span >开发者权利声明 :</span>
@@ -621,7 +665,7 @@ class ShelfPlease extends React.Component {
                         <Icon type='upload' /> 上传文件
                       </Button>
                       <span className='extend'>
-                        <span style={{visibility: 'hidden'}}>无</span>请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:;'>下载模版</a>
+                        <span style={{visibility: 'hidden'}} />请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:;'>下载模版</a>
                     </Upload>
                   </Radio>
                 </Col>

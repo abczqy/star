@@ -57,6 +57,8 @@ class News extends React.Component {
     information(values, (response) => {
       this.setState({
         infoData: response.data
+      }, () => {
+        console.log('图片', this.state.infoData)
       })
     })
   }
@@ -152,7 +154,7 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '60%'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='120' height='120' alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -170,7 +172,7 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '60%'}} alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='120' height='120' alt='' /></Col>
                     <Col span={16}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
@@ -212,7 +214,7 @@ class News extends React.Component {
           </div>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-              <ul>
+              <ul className='ul-margin'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}

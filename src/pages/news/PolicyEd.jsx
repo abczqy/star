@@ -6,6 +6,7 @@ import React from 'react'
 import {Input, Row, Col, Upload, Button, Icon, Modal, message} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
 import {informationEdListEdit, informationEdListAdd} from 'services/software-manage'
@@ -64,27 +65,42 @@ class Policy extends React.Component {
   }
   // 发送通知按钮
   open=() => {
-    this.setState({
-      visible: true
-    })
+    if (this.state.input && this.state.context) {
+      console.log('全填完了')
+      this.setState({
+        visible: true
+      })
+    } else {
+      message.error('请填写完带有*号的填写项')
+    }
   }
   // 发送通知方法
   sendF=() => {
     const formData = new FormData()
     if (this.props.ctrl && this.props.ctrl === 'edit') {
-      formData.append('id', this.props.record.info_id)
-      formData.append('title', this.state.input)
-      formData.append('desc', this.state.context)
-      formData.append('attachment', this.state.fileList)
-
-      informationEdListEdit(formData, (response) => {
+      let value = {
+        id: this.props.record.info_id,
+        title: this.state.input,
+        desc: this.state.context,
+        attachment: this.state.fileList
+      }
+      // formData.append('id', this.props.record.info_id)
+      // formData.append('title', this.state.input)
+      // formData.append('desc', this.state.context)
+      // this.state.fileList.forEach((file) => {
+      //   formData.append('attachment', file)
+      // })
+      informationEdListEdit(value, (response) => {
         message.success(`信息编辑成功!`)
         console.log(response)
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
       formData.append('title', this.state.input)
       formData.append('desc', this.state.context)
-      formData.append('attachment', this.state.fileList)
+      this.state.fileList.forEach((file) => {
+        formData.append('attachment', file)
+      })
+      // formData.append('attachment', this.state.fileList)
 
       informationEdListAdd(formData, (response) => {
         message.success(`信息添加成功!`)
@@ -131,9 +147,15 @@ class Policy extends React.Component {
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
-        }))
+        if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
+          message.warn('不支持该附件类型上传!')
+        } else if (file.size > 10 * 1024 * 1024) {
+          message.warn('文件大小不能超过10M')
+        } else {
+          this.setState(({ fileList }) => ({
+            fileList: [...fileList, file]
+          }))
+        }
         return false
       },
       fileList: this.state.fileList
@@ -143,7 +165,7 @@ class Policy extends React.Component {
         <Row>
           <div style={{marginBottom: '15px', height: '45px', marginTop: '8px'}}>
             <Col span={3}><span style={{color: 'red'}}>*</span>通知标题 : </Col>
-            <Col span={8}><Input placeholder='请输入关键字' value={this.state.input} onChange={this.onChangeI} /></Col>
+            <Col span={8}><Input placeholder='请输入关键字' value={this.state.input} onChange={this.onChangeI} /><span><img src='' alt='' /></span></Col>
           </div>
         </Row>
         <Row>
@@ -160,7 +182,7 @@ class Policy extends React.Component {
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
-                <span className='extend'><span style={{visibility: 'hidden'}}>无无</span>支持扩展名：.png .jpg ...</span>
+                <span className='extend'><span style={{visibility: 'hidden'}}>无无</span>支持扩展名：.rar .zip ...（10M以内）</span>
               </Upload>
             </Col>
           </Row>

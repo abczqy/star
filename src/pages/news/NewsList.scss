@@ -3,13 +3,14 @@
   color: rgb(85, 162, 224);
   height:25px;
   line-height: 20px;
-  width:180px; 
+  width:100%; 
   white-space:nowrap; 
   text-overflow:ellipsis; 
   overflow: hidden; 
 }
 .ul-margin{
-  margin-left: -16px;
+  width:100%;
+  margin-left: -23px;
   font-size: 20px;
   list-style-image:url('../../assets/images/_ul.png')
 }
@@ -19,7 +20,8 @@
 .span-color{
   color:black;
   font-size: 12px;
-  margin-left: 5px
+  margin-left: 5px;
+  width:100%
 }
 .span-colors{
   color:black;
@@ -67,6 +69,7 @@
   color: rgb(85, 162, 224);
   // margin-left: -100px;
   height:20px;
+  width:60%
 }
 .details-li-ul{
   font-size: 28px;

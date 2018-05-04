@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon} from 'antd'
+import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon, message} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 import {iteration, appId} from 'services/software-manage'
@@ -57,10 +57,10 @@ class IterationPlease extends React.Component {
   componentWillMount () {
     let a = window.location.href.split('?')
     this.setState({
-      appId: a[1]
+      appId: String(a[1])
     })
     this.renderEdition()
-    this.getAppData(a[1])
+    this.getAppData(String(a[1]))
     this.getHeight()
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
       this.setState({
@@ -104,7 +104,7 @@ class IterationPlease extends React.Component {
 // 获取app数据
 getAppData=(a) => {
   let value = {
-    sw_id: Number(a)
+    sw_id: a
   }
   appId(value, (response) => {
     console.log(response)
@@ -183,7 +183,7 @@ getAppData=(a) => {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无呜呜呜无无无无</span>支持扩展名：.exe..</span>
                   </Upload>
                 </Col>
               </Col>
@@ -210,7 +210,7 @@ getAppData=(a) => {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无呜呜呜无无无无无</span>支持扩展名：.exe..</span>
                   </Upload>
                 </Col>
               </Col>
@@ -252,9 +252,11 @@ zH=() => {
 zHs=() => {
   let a = []
   for (let i = 0; i < this.state.Edition; i++) {
-    let c = {}
+    let c = []
     let w = this.state.fileListOneC[i]
-    c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
+    c.push(w)
+    c.push(this.state.fileListOneF[i] ? this.state.fileListOneF[i].name : '')
+    // c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
     a.push(c)
   }
   return a
@@ -262,21 +264,36 @@ zHs=() => {
 
   // 提交表单啦
   submit=() => {
-    const formData = new FormData()
-    formData.append('newV', this.state.newV)// 软件图标
-    formData.append('rDescribe_new', this.state.rDescribe)// 软件描述
-    formData.append('updateTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD')) // 期望上架时间
-    formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
-    formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
-    formData.append('type', this.zHs())// 软件版本的文件id和系统类别
-    formData.append('copType', this.zH())// 软件版本的文件id和系统类别
-    formData.append('sw_id', '5564654654654')// 软件id
-    // formData.append('sw_id', this.state.appId)// appId
-    console.log('迭代传的值？', this.zHs())
-    console.log('迭代传的值？', this.zH())
-    iteration(formData, (response) => {
-      console.log(response)
-    })
+    if (this.state.newV && this.state.rDescribe && this.state.fileListOneC.length !== 0 && this.state.fileListOneF.length !== 0) {
+      console.log('全填写完啦')
+      const formData = new FormData()
+      formData.append('newV', this.state.newV)// 软件图标
+      formData.append('rDescribe_new', this.state.rDescribe)// 软件描述
+      formData.append('updateTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD')) // 期望上架时间
+      this.state.fileListThree.forEach((file) => {
+        formData.append('sw_computer_photo_new', file)
+      })
+      // formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
+      this.state.fileListTwo.forEach((file) => {
+        formData.append('sw_icon_new', file)
+      })
+      // formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
+      this.zHs().forEach((file) => {
+        formData.append('type', file)
+      })
+      // formData.append('type', this.zHs())// 软件版本的文件id和系统类别
+      this.zH().forEach((file) => {
+        formData.append('copType', file)
+      })
+      // formData.append('copType', this.zH())// 软件版本的文件id和系统类别
+      formData.append('sw_id', '5564654654654')// 软件id
+      // formData.append('sw_id', this.state.appId)// appId
+      iteration(formData, (response) => {
+        console.log(response)
+      })
+    } else {
+      message.error('请填写完带有*号的填写项')
+    }
   }// 获取高度
   getHeight=() => {
     if (this.state.webStorage) {
@@ -332,7 +349,7 @@ zHs=() => {
       },
       fileListThree: this.state.fileListThree
     }
-    return <Card title='迭代申请' style={{marginLeft: '15%', width: '1300px', minHeight: this.state.viewHeight}}>
+    return <Card title='迭代申请' style={{marginLeft: '12%', width: '80%', minHeight: this.state.viewHeight}}>
       <div >
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
@@ -387,7 +404,7 @@ zHs=() => {
             <Col span={23}>
               <span style={{visibility: 'hidden'}}>*PC无无无</span>
               <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
-              <span style={{visibility: 'hidden'}}>无</span>
+              <span style={{visibility: 'hidden'}}>无无无 </span>
               <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
           </Row>
           <Row className='Wxd'>
@@ -410,8 +427,8 @@ zHs=() => {
             <Row className='Wxd'>
               <Col span={12}>
                 <Col span={6}>
-                  <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                  <span style={{color: 'red'}}>* </span>软件图标 :
+                  <span style={{visibility: 'hidden'}}>** PC无无无</span>
+                  软件图标 :
                 </Col>
                 <Col span={9}>
                   <Upload {...propsT}>
@@ -419,7 +436,7 @@ zHs=() => {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （200px*200px）</span>
                   </Upload></Col>
               </Col>
             </Row>
@@ -435,7 +452,7 @@ zHs=() => {
                       <Icon type='upload' /> 上传文件
                     </Button>
                     <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无</span>支持扩展名：.png .jpg ...</span>
+                      <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （400px*400px）</span>
                   </Upload>
                 </Col>
               </Col>

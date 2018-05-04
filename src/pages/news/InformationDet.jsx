@@ -14,6 +14,7 @@ import fen from '../../assets/images/u1415.png'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
+import moment from 'moment'
 import {informationDet, newsList, information} from 'services/software-manage'
 
 class InformationDet extends React.Component {
@@ -54,7 +55,7 @@ class InformationDet extends React.Component {
 
     let values = {
       pageNum: 1,
-      pageSize: 100
+      pageSize: 10
     }
     newsList(values, (response) => {
       this.setState({
@@ -159,7 +160,7 @@ class InformationDet extends React.Component {
               <Col span={24}>
                 <div className='details-right-div'>
                   <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1'}</p>
-                  <span className='details-right-time'>发布时间:{this.state.infoData ? this.state.infoData.info_time : '时间'}</span>
+                  <span className='details-right-time'>发布时间:{this.state.infoData ? moment(this.state.infoData.info_time).format('YYYY-MM-DD') : '时间'}</span>
                   <div className='details-right-div-div'>
                     {this.state.infoData ? this.state.infoData.info_desc : '文章'}
                   </div>
@@ -193,7 +194,7 @@ class InformationDet extends React.Component {
         <div id='left-container'>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-              <ul>
+              <ul className='ul-margin'>
                 {(!_.isEmpty(this.state.infoDatas)) && this.state.infoDatas.list.map((item, index) => {
                   return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li>
                 })}
