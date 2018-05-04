@@ -66,7 +66,7 @@ class BannerMaker extends Component {
   addBanner = () => {
     const formData = new FormData()
     this.state.fileList.forEach((file) => {
-      formData.append('file', file)
+      formData.append('file_upload', file)
     })
     // let list = this.state.fileList
     // let a = list[0].uid

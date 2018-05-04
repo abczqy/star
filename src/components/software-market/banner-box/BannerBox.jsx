@@ -34,7 +34,7 @@ import {deleteGatewayBanner} from 'services/software-manage'
 class BannerBox extends Component {
   onDelete = (value) => {
     let a = value.toString()
-    let params = { 'navigation_id': a }
+    let params = { 'banner_id': a }
     deleteGatewayBanner(params, res => {
       console.log(res.data)
       if (res.data) {

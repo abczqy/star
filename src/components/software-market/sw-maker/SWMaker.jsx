@@ -5,6 +5,7 @@ import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/softwa
 import { AppDetailModal } from 'pages/software-market'
 import './SWMaker.scss'
 import {verifyDetail} from 'services/software-manage'
+import ajaxUrl from 'config'
 
 const Panel = Collapse.Panel
 
@@ -19,7 +20,7 @@ const pagination = {
   text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-const dataa = [{sw_id: '11', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
+const dataa = [{sw_id: '11', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/1.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: 'http://p1663488m8.imwork.net:15206/image/1.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
 
 class SWMaker extends Component {
   constructor (props) {
@@ -54,7 +55,7 @@ class SWMaker extends Component {
       title: '图片',
       dataIndex: 'sw_path',
       key: 'sw_path',
-      render: (text) => <img style={{width: '50px', height: '40px'}} src={text} />
+      render: (text) => <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} />
     }, {
       title: '选择',
       dataIndex: 'sw_check',
@@ -92,19 +93,20 @@ class SWMaker extends Component {
     if (record.sw_check) {
       console.log(record.sw_check)
       let b = this.copyArray(this.state.imgList)
-      if (b.length < 4) {
-        let c = record.sw_path
+      if (b.length < 6) {
+        let c = ajaxUrl.IMG_BASE_URL + record.sw_path
         b.push(c)
         this.setState({
           imgList: b
         })
       } else {
+        record.sw_check = 0
         message.warning('已达推送上限')
       }
     } else if (record.sw_check === 0) {
       let bb = this.copyArray(this.state.imgList)
       console.log(record.sw_check + '11111111111111' + bb)
-      let cc = record.sw_path
+      let cc = ajaxUrl.IMG_BASE_URL + record.sw_path
       for (var i = 0; i < bb.length; i++) {
         if (bb[i] === cc) {
           bb.splice(i, 1)
