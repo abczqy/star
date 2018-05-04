@@ -83,6 +83,8 @@ class LoginHome extends React.Component {
     })
   }
   render () {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    let roleCode = STAR_WEB_ROLE_CODE || ''
     return (
       <div className='xingyun'>
         <div style={{height: '100%'}}>
@@ -107,8 +109,20 @@ class LoginHome extends React.Component {
             <div className='header-container'>
               <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
               </li>
-              <li><a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a></li>
-              <li><a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a></li>
+              <li>
+                {
+                  roleCode === 'eduBureau'
+                    ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
+                    : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
+                }
+              </li>
+              <li>
+                {
+                  roleCode === 'eduBureau'
+                    ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
+                    : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
+                }
+              </li>
             </div>
           </div>
           <div className='content-container' >
