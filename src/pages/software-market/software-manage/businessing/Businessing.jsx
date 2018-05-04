@@ -210,7 +210,7 @@ class Businessing extends Component {
     // console.log(`record: ${Obj2String(record)}`)
     this.setState({
       appOffModalCon: {
-        ...this.state.AppOffModalCon,
+        ...this.state.appOffModalCon,
         visible: true,
         swName: record.sw_name,
         swId: record.sw_id
@@ -222,7 +222,7 @@ class Businessing extends Component {
   closeModal = () => {
     this.setState({
       appOffModalCon: {
-        ...this.state.AppOffModalCon,
+        ...this.state.appOffModalCon,
         visible: false
       }
     })
@@ -400,9 +400,7 @@ class Businessing extends Component {
             onChange: this.pageNumChange
           }}
         />
-        <div ref='AppStandOffElem' className='app-stand-off-wrap' />
         {appOffModalCon.visible ? <AppStandOffModal
-          getContainer={() => this.refs.AppStandOffElem}
           visible={appOffModalCon.visible}
           getVeriCode={this.getVeriCode}
           getVeriStatus={this.getVeriStatus}

@@ -20,14 +20,7 @@ class AppStandOffModal extends Component {
       })
     }, 100)
   }
-  componentWillReceiveProps (nextProps) {
-    if (!nextProps.visible) {
-      console.log('new GVerify')
-      this.setState({
-        verifyCode: new GVerify('v_container')
-      })
-    }
-  }
+
   onChange = (e) => {
     this.props.getVeriCode(e.target.value)
   }
