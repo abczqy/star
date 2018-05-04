@@ -152,7 +152,7 @@ class NewsDetailsEd extends React.Component {
         <Col span={5} style={{width: '18%'}}>
           <div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-              <ul className='ul-margin'>
+              <ul className='ul-margin super3'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}

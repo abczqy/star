@@ -148,7 +148,7 @@ class News extends React.Component {
             <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '95%', height: '120px'}} alt='' /></div></Row>
           <Row><div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-              <ul className='ul-margin'>
+              <ul className='ul-margin super2'>
                 {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}
