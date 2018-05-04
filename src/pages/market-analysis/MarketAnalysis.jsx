@@ -3,12 +3,11 @@
  */
 import React, { Component } from 'react'
 import { Card, Menu } from 'antd'
-import axios from 'axios'
 import _ from 'lodash'
-import ajaxUrl from 'config'
 import MarketAnalysisTable from './marketAnalysis-table/MarketAnalysisTable'
 import MarketAnalysisWordCloud from './market-analysis-wordCloud/MarketAnalysisWordCloud'
 import Empty from '../../components/common/Empty'
+import {marketAnalysis} from '../../services/market-analysis'
 import './MarketAnalysis.scss'
 
 // const TabPane = Tabs.TabPane
@@ -33,12 +32,12 @@ class MarketAnalysis extends Component {
 
   // 获取表格数据
   getTableData = (type) => {
-    axios.post(ajaxUrl.MarketAnalysis, {type}).then(res => {
-      let resDatas = _.cloneDeep(res.data.data)
+    marketAnalysis({type}, res => {
+      let resDatas = _.cloneDeep(res.data)
       this.setState({
         tableDatas: resDatas
       })
-    }).catch(e => { console.log(e) })
+    })
   }
 
   // 获取关键字热搜数据
