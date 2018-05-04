@@ -39,11 +39,17 @@ class LoginHome extends React.Component {
     return temArr[temArr.length - 1] || 'home'
   }
   componentDidMount () {
+    if (webStorage.getItem('Unread_Message')) {
+      this.setState({
+        messageCount: webStorage.getItem('Unread_Message')
+      })
+    }
   }
   // 未读消息数
   getMessageCo=() => {
     getMessageCount({}, (response) => {
       console.log('返回未读消息数量', response)
+      webStorage.setItem('Unread_Message', response.data.count)
       this.setState({
         messageCount: response.data.count
       })

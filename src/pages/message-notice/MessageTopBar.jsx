@@ -54,6 +54,12 @@ class MessageTopBar extends React.Component {
       [type]: false
     })
   }
+  // 当子页面MessageNotice信息阅读后实时更新未读消息数量
+  updateMessageCount (value) {
+    this.setState({
+      messageCount: value
+    })
+  }
   render () {
     return (
       <div className='xingyun'>
@@ -73,7 +79,9 @@ class MessageTopBar extends React.Component {
           <div className='xingyun-logo' />
         </div>
         <div>
-          {renderRoutes(this.props.route.childRoutes)}
+          {renderRoutes(this.props.route.childRoutes, {
+            updateMessageCount: (value) => { this.updateMessageCount(value) }
+          })}
         </div>
         <SignOut
           visible={this.state.signOutVisible}

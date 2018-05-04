@@ -15,7 +15,7 @@ import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {relationQueryStu} from '../../services/topbar-mation/index'
+import {relationQueryStu, whetherOrNotToVerify} from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
 import '../../views/Operateview.scss'
 class MessageSetting extends React.Component {
@@ -31,15 +31,26 @@ class MessageSetting extends React.Component {
       changeFirmName: false, // 厂商名称
       changeFirmDescribe: false, // 厂商描述
       changeFirmContract: false, // 厂商合同号
-      changeFirmLicense: false // 营业执照
+      changeFirmLicense: false, // 营业执照
+      phoneCheck: false,
+      userSafeDate: []
     }
   }
   componentDidMount () {
+    this.getUsermation()
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
       this.getBindList()
     } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
       this.getFrimList()
     }
+  }
+  getUsermation=() => {
+    whetherOrNotToVerify({}, (response) => {
+      console.log(response.data)
+      this.setState({
+        userSafeDate: response.data
+      })
+    })
   }
   // 获取学生绑定数据接口 stuData 要在此接口返回
   getBindList=() => {
@@ -129,12 +140,26 @@ class MessageSetting extends React.Component {
     })
   }
   render () {
-    let phone = '18339966666'
-    let mtel = phone.substr(0, 4) + '*****' + phone.substr(8)
-    let name = '李小俊'
-    let strname = '**' + name.substr(name.length - 1)
-    let idcard = '135841235484123547'
-    let strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
+    let phone = ''
+    let mtel = ''
+    let idcard = ''
+    let strIdcard = ''
+    let name = ''
+    let strname = ''
+    if (this.state.userSafeDate.length > 0) {
+      let userData = this.state.userSafeDate[0]
+      phone = userData.NUM
+      mtel = phone.substr(0, 4) + '*****' + phone.substr(8)
+      idcard = userData.IDCARD
+      strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
+      name = userData.NAME
+      strname = '**' + name.substr(name.length - 1)
+    }
+    // let mtel = phone.substr(0, 4) + '*****' + phone.substr(8)
+    // let name = '李小俊'
+    // let strname = '**' + name.substr(name.length - 1)
+    // // let idcard = this.state.userSafeDate && this.state.userSafeDate.IDCARD
+    // let strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
     // let userType = this.props.roleCode
     let model
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
@@ -227,7 +252,7 @@ class MessageSetting extends React.Component {
               </div>
             </div>
             <div className='safe_item'>
-              <div className='list-img'>
+              <div className={phone !== '' ? 'list-img' : 'list-img-err'} >
                 <i />
               </div>
               <div className='safe-name'>

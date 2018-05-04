@@ -2,8 +2,7 @@
 import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config/index'
+import {updateVendorName} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 class ChangeFirmName extends React.Component {
   static propTypes = {
@@ -34,13 +33,10 @@ class ChangeFirmName extends React.Component {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('修改厂商名称', values)
-        axios.post(ajaxUrl.relationdelete, {
-          params: {
-            maf_pass: values,
-            maf_firm_name: values
-          }
-        }).then((response) => {
+        updateVendorName({
+          password: values.maf_pass,
+          vendorName: values.maf_firm_name
+        }, (response) => {
           // 修改后调用刷新父页面
           this.props.getFirmList()
           this.props.hiddenModal()

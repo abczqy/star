@@ -10,10 +10,10 @@ import { renderRoutes } from 'react-router-config'
 import {
   Businessing
 } from 'pages/software-market'
-import ImgSoft from '../../static/operation-statistical/images/extra/u103.png'
-import ImgMemb from '../../static/operation-statistical/images/extra/u15.png'
-import ImgPlat from '../../static/operation-statistical/images/extra/u57.png'
-import ImgOper from '../../static/operation-statistical/images/extra/u83.png'
+import ImgSoft from '../assets/images/operationMana/u103.png'
+import ImgMemb from '../assets/images/operationMana/u15.png'
+import ImgPlat from '../assets/images/operationMana/u57.png'
+import ImgOper from '../assets/images/operationMana/u83.png'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout

@@ -130,15 +130,19 @@ class ForgetPass extends React.Component {
     SMSVerification({
       user_id: account
     }, (response) => {
-      this.setState({
-        phoneCode: response.data
-      })
+      if (response.data === false) {
+        message.error('账号不存在，或者手机未绑定！')
+      } else {
+        this.setState({
+          phoneCode: response.data && response.data.toString()
+        })
+      }
     })
   }
   // 手机验证码
   handlPhonecheckonblur=(e) => {
     let value = e.target.value
-    if (value !== '' && value !== undefined) {
+    if (value !== '' && value !== undefined && value === this.state.phoneCode) {
       this.setState({
         phonecheck_icon: true,
         phonecheck: ''
@@ -295,7 +299,8 @@ class ForgetPass extends React.Component {
         forgetThePassword({
           user_id: values.maf_loginid,
           idcard: values.maf_sad_idcard,
-          password: values.maf_pwd
+          password: values.maf_pwd,
+          phone: values.maf_phone
         }, (response) => {
           if (response.data === 'false') {
             message.error('没有此账号！')
@@ -382,7 +387,7 @@ class ForgetPass extends React.Component {
                   {getFieldDecorator('fog_phone_code', {rules: [{required: true, message: ' '}]})(
                     <Input onBlur={this.handlPhonecheckonblur} />
                   )}
-                  <span className={this.state.phonecheck_icon ? '' : 'fail'}>{this.state.phonecheck}</span>
+                  <span className={this.state.phonecheck_icon ? 'success' : 'fail'}>{this.state.phonecheck}</span>
                 </Form.Item>
                 <Form.Item
                   {...formItemLayout}

@@ -5,16 +5,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import axios from 'axios'
 import _ from 'lodash'
-import ajaxUrl from 'config/index'
 import { Table, Modal, Input, Form, Button, DatePicker, message } from 'antd'
 import './PersonManageTable.scss'
-import {applicationteacherlist, teacherUpdate, teacherDelete} from '../../../services/topbar-mation'
+import {applicationteacherlist, teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from '../../../services/topbar-mation'
 const FormItem = Form.Item
 const teacherColumns = {
   th_name: '教师姓名',
-  th_id: '账号',
+  // th_id: '账号',
   th_sex: '性别',
   th_idcard: '身份证号码',
   th_grade: '教学年级',
@@ -25,7 +23,7 @@ const teacherColumns = {
 
 const studentColumns = {
   stu_name: '学生姓名',
-  stu_id: '账号',
+  // stu_id: '账号',
   stu_sex: '性别',
   stu_grade: '年级',
   stu_class: '班级',
@@ -97,7 +95,7 @@ class PersonManageTable extends Component {
         render: (id, record) => (
           <div className='opt-box' >
             <span className='edit' onClick={() => { this.openEditModal(record, 'teacher') }} >编辑</span>
-            <span className='delete' onClick={() => { this.delete(id, 'teacher') }}>删除</span>
+            <span className='delete' onClick={() => { this.delete(record.th_id, 'teacher') }}>删除</span>
           </div>
         )
         // width: 150
@@ -149,7 +147,7 @@ class PersonManageTable extends Component {
         render: (id, record) => (
           <div className='opt-box' >
             <span className='edit' onClick={() => { this.openEditModal(record, 'student') }} >编辑</span>
-            <span className='delete' onClick={() => { this.delete(id, 'student') }}>删除</span>
+            <span className='delete' onClick={() => { this.delete(record.stu_id, 'student') }}>删除</span>
           </div>
         )
         // width: 150
@@ -204,14 +202,17 @@ class PersonManageTable extends Component {
       teacherDelete({
         'th_id': id
       }, (response) => {
+        message.success('删除成功！')
+        this.getPeopleDatas(this.props.tableParams, 'teacher')
       })
     } else {
-      axios.post(ajaxUrl.teacherUpdate, {
-        'th_id': id
-      }).then((response) => {
+      sutdentDelete({
+        'stu_id': id
+      }, (response) => {
+        message.success('删除成功！')
+        this.getPeopleDatas(this.props.tableParams, 'student')
       })
     }
-    console.log('删除', id, role)
   }
 
   // 创建编辑表单
@@ -226,10 +227,10 @@ class PersonManageTable extends Component {
         columns = teacherColumns
         formItemLayout = {
           labelCol: {
-            span: 5
+            span: 7
           },
           wrapperCol: {
-            span: 19
+            span: 14
           }
         }
       } else if (this.role === 'student') {
@@ -239,7 +240,7 @@ class PersonManageTable extends Component {
             span: 7
           },
           wrapperCol: {
-            span: 17
+            span: 14
           }
         }
       }
@@ -300,17 +301,18 @@ class PersonManageTable extends Component {
             this.editCancel()
           })
         } else {
-          axios.post(ajaxUrl.teacherUpdate, {
-            'th_name': values.th_name,
-            'th_loginid': values.th_loginid,
-            'th_sex': values.th_sex,
-            'th_idcard': values.th_idcard,
-            'th_class': values.th_class,
-            'th_time': values.th_time,
-            'th_duty': values.th_duty,
-            'th_phone': values.th_phone,
-            'th_id': this.editRecord.th_id
-          }).then((response) => {
+          sutdentUpdate({
+            'maf_name': values.maf_name,
+            'maf_phone': values.maf_phone,
+            'maf_stu_sad': values.maf_stu_sad,
+            'stu_class': values.stu_class,
+            'stu_grade': values.stu_grade,
+            'stu_id': this.editRecord.stu_id,
+            'stu_name': values.stu_name,
+            'stu_sex': values.stu_sex
+          }, (response) => {
+            message.success('修改信息成功！')
+            this.getPeopleDatas(this.props.tableParams, 'student')
             this.editCancel()
           })
         }
@@ -324,12 +326,15 @@ class PersonManageTable extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.tableParams !== nextProps.tableParams) {
+    if ((this.props.role === nextProps.role) && (this.props.tableParams !== nextProps.tableParams)) {
+      this.getPeopleDatas(nextProps.tableParams, this.props.role)
+    }
+    if (this.props.updateList !== nextProps.updateList) {
       this.getPeopleDatas(nextProps.tableParams, this.props.role)
     }
     if (this.props.role !== nextProps.role) {
       this.getColumns(nextProps.role)
-      this.getPeopleDatas(this.props.tableParams, nextProps.role)
+      this.getPeopleDatas(nextProps.tableParams, nextProps.role)
     }
   }
 
@@ -377,7 +382,8 @@ PersonManageTable.propTypes = {
   pageNumChange: PropTypes.func,
   role: PropTypes.string,
   form: PropTypes.object,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  updateList: PropTypes.number
 }
 
 const PersonManageForm = Form.create()(PersonManageTable)

@@ -18,13 +18,11 @@ class SignOutModal extends React.Component {
     this.state = {
     }
   }
-  componentDidMount () {
-  }
   saveOrSubmit =(value) => {
     sessionLogout({}, (response) => {
       this.backHome()
+      // this.props.hiddenModal()
       webStorage.clear()
-      this.props.hiddenModal()
     })
   }
   backHome=() => {
@@ -35,6 +33,7 @@ class SignOutModal extends React.Component {
       this.props.history.push({
         pathname: '/unlogged/home'
       })
+      window.location.reload()
     }
   }
 

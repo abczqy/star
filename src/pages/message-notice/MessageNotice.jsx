@@ -7,8 +7,9 @@ import React from 'react'
 import {Card, Pagination} from 'antd'
 import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
-import {getAllMessageList} from '../../services/topbar-mation'
+import {getAllMessageList, getMessageCount} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
+import webStorage from 'webStorage'
 class MessageNotice extends React.Component {
   constructor (props) {
     super(props)
@@ -19,18 +20,24 @@ class MessageNotice extends React.Component {
     }
   }
 
-  handleTabChange (link, id) {
+  handleTabChange (link, id, ready) {
+    if (ready === '0') {
+      getMessageCount({msg_id: id}, (response) => {
+        webStorage.setItem('Unread_Message', response.data.count)
+        this.props.updateMessageCount(response.data.count)
+      })
+    }
     if (link === '审核通过') {
       // 审核通过跳转到我的应用
       this.props.history.push({
-        pathname: 'operate-manage-home/all-app-detail-mine'
+        pathname: '/operate-manage-home/all-app-detail-mine'
       })
     } else if (link === '消息通知') {
       this.props.history.push({pathname: 'detail', search: '?id=' + id})
     } else if (link === '申请驳回') {
       // 审核驳回跳转到上架申请
       this.props.history.push({
-        pathname: 'operate-manage-home/please'
+        pathname: '/operate-manage-home/please'
       })
     }
   }
@@ -68,13 +75,13 @@ class MessageNotice extends React.Component {
                     <i />
                   </div>
                 </div>
-                <div className='notice-count' onClick={() => { this.handleTabChange(item.MSG_STATE, item.MSG_ID) }}>
+                <div className='notice-count' onClick={() => { this.handleTabChange(item.MSG_STATE, item.MSG_ID, item.hasRead) }}>
                   <div>
                     <h4>
                       {item.MSG_STATE}
                       <span>{item.MSG_DATE}</span>
                     </h4>
-                    <p>{item.MSG_TITLE.replace(/(.{80}).*/, '$1....')}<a style={{display: item.MSG_STATE === '消息通知' ? 'none' : ''}}>{item.msg_state === '审核通过' ? '点击查看' : '点击修改'}</a></p>
+                    <p>{item.MSG_TITLE.replace(/(.{80}).*/, '$1....')}<a style={{display: item.MSG_STATE === '消息通知' ? 'none' : ''}}>{item.MSG_STATE === '审核通过' ? '点击查看' : '点击修改'}</a></p>
                   </div>
                 </div>
               </div>
