@@ -50,7 +50,7 @@ export default class SelfSupport extends React.Component {
         }
         this.setState({
           computerCarousel: bb,
-          relateData: this.state.appDetailData.sw_related
+          relateData: this.state.appDetailData.sw_related || []
         })
       })
     }).catch((e) => { console.log(e) })
@@ -210,7 +210,7 @@ export default class SelfSupport extends React.Component {
           </div>
           <div className='app-detail-relevant'>
             <h3>相关应用</h3>
-            {this.state.relateData.map((item, index, arr) => {
+            {this.state.relateData.length > 0 && this.state.relateData.map((item, index, arr) => {
               return (
                 <dl key={index}>
                   <dt>

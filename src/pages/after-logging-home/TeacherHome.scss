@@ -208,7 +208,7 @@
                         display: block;
                         color: #fff;
                         border-radius: 5px;
-                        background: #CC9900;
+                        // background: #CC9900;
                         text-align: center;
                         float: left;
                         margin-right: 5px;
@@ -275,13 +275,12 @@
                         margin-right: 12px;
                         width: 40px;
                         text-align: center;
-                        background: #00CC33;
                         border: 0;
                     }
                 }
             }
             .ant-tabs-tabpane {
-                height: 450px;
+                height: 480px;
                 background: #fff;
             }
         }

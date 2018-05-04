@@ -136,55 +136,13 @@ class AllApplicationsDetail extends React.Component {
     }, (res) => {
     }).catch((e) => { console.log(e) })
   }
+  loadNextFunc = () => {}
+  // 打开按钮页面跳转
+  handleChangeJump = (item) => {
+    window.open(item.sw_url)
+  }
   render () {
-    // const dataa = [{
-    //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
-    //   title: '教育活动'
-    // },
-    // {
-    //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
-    //   title: '教育活动'
-    // },
-    // {
-    //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
-    //   title: '教育活动'
-    // },
-    // {
-    //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
-    //   title: '教育活动'
-    // },
-    // {
-    //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
-    //   title: '教育活动'
-    // },
-    // {
-    //   src: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg',
-    //   title: '教育活动'
-    // }]
-    // const datab = [{
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '实验室'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '实验室'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '实验室'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '实验室'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '实验室'
-    // },
-    // {
-    //   src: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg',
-    //   title: '实验室'
-    // }]
+    let total = this.state.allAppListData.length
     const items = this.state.allAppListData.map((item, index) => {
       return (
         <div key={index} className='software-application'>
@@ -195,7 +153,7 @@ class AllApplicationsDetail extends React.Component {
               <p>{item.SW_DESC}</p>
             </dd>
           </dl>
-          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#40B3F9'}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
+          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
         </div>
       )
     })
@@ -212,6 +170,15 @@ class AllApplicationsDetail extends React.Component {
                     <div key={index}>
                       <div>
                         { this.state.platformAppDataa[index].map((item, index, arr) => {
+                          let a = { height: '26px', lineHeight: '20px' }
+                          let b = { height: '26px', lineHeight: '20px' }
+                          if (item.isOpen === 'true') {
+                            a = { height: '26px', lineHeight: '20px', display: 'none' }
+                            b = { height: '26px', lineHeight: '20px', marginLeft: '16px', backgroundColor: '#7ED321', display: 'block' }
+                          } else {
+                            a = { height: '26px', lineHeight: '20px', marginLeft: '16px', display: 'block' }
+                            b = { height: '26px', lineHeight: '20px', display: 'none' }
+                          }
                           return (
                             <dl key={index} className='carousel-detail-item'>
                               <dt>
@@ -219,7 +186,8 @@ class AllApplicationsDetail extends React.Component {
                               </dt>
                               <dd>
                                 <span>{item.SW_NAME}</span>
-                                <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button>
+                                <Button style={a} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button>
+                                <Button onClick={this.handleChangeJump(item)} style={b} type='primary'>打开</Button>
                               </dd>
                             </dl>
                           )
@@ -228,43 +196,6 @@ class AllApplicationsDetail extends React.Component {
                     </div>
                   )
                 })}
-                {/* <div>
-                  <div>
-                    { this.state.page0.map((item, index, arr) => {
-                      return (
-                        <dl key={index} className='carousel-detail-item'>
-                          <dt>
-                            <img src={item.SW_ICON} />
-                          </dt>
-                          <dd>
-                            <span>{item.SW_NAME}</span>
-                            <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button>
-                          </dd>
-                        </dl>
-                      )
-                    }) }
-                  </div>
-                </div> */}
-                {/* <div>
-                  <div>
-                    { this.state.page1.map((item, index, arr) => {
-                      return (
-                        <dl key={index} className='carousel-detail-item'>
-                          <dt>
-                            <img src={item.SW_ICON} />
-                          </dt>
-                          <dd>
-                            <span>{item.SW_NAME}</span>
-                            <Button style={{ height: '26px', lineHeight: '20px' }} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button>
-                          </dd>
-                        </dl>
-                      )
-                    }) }
-                  </div>
-                </div>
-                <div><div>3</div></div>
-                <div><div>4</div></div>
-                <div><div>5</div></div> */}
               </Carousel>
             </div>
             <div className='all-app-right-arrow' onClick={this.onClickRight}> &gt; </div>
@@ -276,20 +207,10 @@ class AllApplicationsDetail extends React.Component {
             <p style={{float: 'right', marginTop: '10px'}}><span style={{cursor: 'pointer'}} onClick={this.handleShelfTime}>上架时间</span><Icon className='arrowhead-rotation' type='swap' /><span style={{marginLeft: 10, cursor: 'pointer'}} onClick={this.handleDownloadNum}>下载量</span><Icon className='arrowhead-rotation' type='swap' /></p>
           </p>
           <div style={{overflow: 'auto', height: 550, width: 1020}}>
-            {/* <div className='software-application'>
-              <dl>
-                <dt><img src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1119189850,3457576052&fm=27&gp=0.jpg' /></dt>
-                <dd>
-                  <span>超级教师</span>
-                  <p>1111111111111333333333333333333333333333</p>
-                </dd>
-              </dl>
-              <p style={{float: 'right'}}><Icon style={{backgroundColor: '#3399FF', color: '#FFF', width: 20, height: 20, lineHeight: '20px'}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderTopRightRadius: 0, backgroundColor: '#6699FF'}} type='primary'>下载</Button><Icon style={{width: 20, height: 20, backgroundColor: '#FFCC00', lineHeight: '20px', color: '#fff', marginLeft: '10px'}} type='star-o' /></p>
-            </div> */}
             <LimitedInfiniteScroll
               limit={5}
               pageStart={0}
-              hasMore={true || items.length < 100}
+              hasMore={total === undefined || items.length < total}
               spinLoader={<div className='loader'>Loading...</div>}
               mannualLoader={<span style={{fontSize: 20, lineHeight: 1.5, marginTop: 20, marginBottom: 20, display: 'inline-block'}}>Load More</span>}
               // noMore={<div className='loader'>No More Items</div>}

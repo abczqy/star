@@ -9,8 +9,13 @@ import ajaxUrl from 'config'
 import {manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
+import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
 const TabPane = Tabs.TabPane
 class TeacherHome extends Component {
+  static propTypes = {
+    history: PropTypes.object
+  }
   constructor (props) {
     super(props)
     this.state = {
@@ -37,7 +42,8 @@ class TeacherHome extends Component {
       openButton: {
         display: 'block'
       },
-      jump: '/operate-manage-home/all-app-detail-third'
+      jump: '/operate-manage-home/all-app-detail-third',
+      aaa: '开通'
     }
   }
   componentDidMount () {
@@ -64,14 +70,22 @@ class TeacherHome extends Component {
       this.setState({
         rankingData: res.data.data
       }, () => {
-        let newArr = []
-        for (var i = 0; i < this.state.rankingData.length; i++) {
-          newArr.push(this.state.rankingData[i])
-        }
-        newArr.splice(0, 3)
-        this.setState({
-          rankingDataSplice: newArr
-        })
+        // for (var i = 0; i < 2; i++) {
+        //   if (this.state.rankingData[i].isSelfSupport === 'true') {
+        //     this.setState({
+        //       aaa: '开通',
+
+        //     })
+        //   }
+        // }
+        // let newArr = []
+        // for (var i = 0; i < this.state.rankingData.length; i++) {
+        //   newArr.push(this.state.rankingData[i])
+        // }
+        // newArr.splice(0, 3)
+        // this.setState({
+        //   rankingDataSplice: newArr
+        // })
       })
     }).catch((e) => { console.log(e) })
   }
@@ -167,8 +181,164 @@ class TeacherHome extends Component {
     }, (res) => {
     }).catch((e) => { console.log(e) })
   }
+  // 排行榜
+  // handleRankingIsSelfSupport = (item, index) => {
+  //   let a = {}
+  //   let d = {}
+  //   let e = {}
+  //   let b = {}
+  //   let c = ''
+  //   if (item.isSelfSupport === 'false') {
+  //     a = {display: 'blick', backgroundColor: '#40B3F9'}
+  //     d = {display: 'none'}
+  //     e = {display: 'none'}
+  //     c = '/operate-manage-home/all-app-detail-third'
+  //   } else {
+  //     if (item.isSelfSupport === 'true' && item.isOpen === 'true') {
+  //       a = {display: 'none'}
+  //       d = {display: 'none'}
+  //       e = {display: 'block', backgroundColor: '#7ED321'}
+  //     } else {
+  //       a = {display: 'none'}
+  //       d = {display: 'block'}
+  //       e = {display: 'none'}
+  //       c = '/operate-manage-home/all-app-detail'
+  //     }
+  //   }
+  //   if (index === 0) {
+  //     b = {backgroundColor: '#CC9900'}
+  //   } else if (index === 1) {
+  //     b = {backgroundColor: '#FF9933'}
+  //   } else if (index === 2) {
+  //     b = {backgroundColor: '#FFCC33'}
+  //   } else {
+  //     b = {backgroundColor: '#33CCFF'}
+  //   }
+  //   return (
+  //     <div className='lista' key={index}>
+  //       <p className='lista-title'>
+  //         <span className='title-num' style={b}>{index + 1}</span>
+  //         <span className='title-detaila'>{item.SW_NAME}</span>
+  //         <div className='app-install'>
+  //           <dl className='app-install-dl'>
+  //             <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+  //             <dd className='app-install-dd'>
+  //               <p className='download-num'>下载次数： {item.SW_DOWNLOADS}</p>
+  //               <Rate disabled value={item.SW_STAR} />
+  //             </dd>
+  //           </dl>
+  //           <Button style={a} className='install-button' type='primary'><Link to={{pathname: c, search: item.SW_ID}}>安装</Link></Button>
+  //           <Button style={d} className='install-button' type='primary'><Link to={{pathname: c, search: item.SW_ID}}>开通</Link></Button>
+  //           <Button onClick={this.handleRankingOpen(item)} style={e} className='install-button' type='primary'>打开</Button>
+  //         </div>
+  //       </p>
+  //     </div>
+  //   )
+  // }
+
+  handleRankingIsSelfSupport = (item, index) => {
+    let b = {}
+
+    if (index === 0) {
+      b = {backgroundColor: '#CC9900'}
+    } else if (index === 1) {
+      b = {backgroundColor: '#FF9933'}
+    } else if (index === 2) {
+      b = {backgroundColor: '#FFCC33'}
+    } else {
+      b = {backgroundColor: '#33CCFF'}
+    }
+    return (
+      <div className='lista' key={index}>
+        <p className='lista-title'>
+          <span className='title-num' style={b}>{index + 1}</span>
+          <span className='title-detaila'>{item.SW_NAME}</span>
+          <div className='app-install'>
+            <dl className='app-install-dl'>
+              <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+              <dd className='app-install-dd'>
+                <p className='download-num'>下载次数： {item.SW_DOWNLOADS}</p>
+                <Rate disabled value={item.SW_STAR} />
+              </dd>
+            </dl>
+            <Button type='primary' className='install-button' onClick={(item) => { this.handleBtnClick(item) }}>{this.getBtnText(item)}</Button>
+          </div>
+        </p>
+      </div>
+    )
+  }
+
+  handleBtnClick (item) {
+    if (item.isSelfSupport === 'false') {
+      this.props.history.push({
+        pathname: '/operate-manage-home/all-app-detail-third',
+        search: item.SW_ID
+      })
+    } else {
+      if (item.isSelfSupport === 'true' && item.isOpen === 'true') {
+        window.open(item.sw_url)
+      } else {
+        this.props.history.push({
+          pathname: '/operate-manage-home/all-app-detail',
+          search: item.SW_ID
+        })
+      }
+    }
+  }
+  getBtnText (item) {
+    if (item.isSelfSupport === 'false') {
+      return '安装'
+    } else {
+      if (item.isSelfSupport === 'true' && item.isOpen === 'true') {
+        return '打开'
+      } else {
+        return '开通'
+      }
+    }
+  }
+  // 老师推荐
+  handleTeacherIsSelfSupport = (item, index) => {
+    return (
+      <div key={index} className='list'>
+        <dl className='list-item'>
+          <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+          <dd className='dl-dd'>
+            <span className='dd-title'>{item.SW_NAME}</span>
+            <p className='dd-p'>{item.SW_DESC}</p>
+          </dd>
+        </dl>
+        <p style={{float: 'right'}}>
+          <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
+            <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
+            <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
+            <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
+          </Link>
+          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+        </p>
+      </div>
+    )
+  }
+  // 热门推荐
+  handleHotRecomIsSelfSupport = (item, index) => {
+    return (
+      <div key={index} className='list'>
+        <dl className='list-item'>
+          <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+          <dd className='dl-dd'>
+            <span className='dd-title'>{item.SW_NAME}</span>
+            <p className='dd-p'>{item.SW_DESC}</p>
+          </dd>
+        </dl>
+        <p style={{float: 'right'}}>
+          <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
+          <Button className='downloadButton' style={this.state.downloadButton} type='primary'><Link to={{pathname: this.state.jump, search: item.SW_ID}}>下载</Link></Button>
+          <Button className='openButton' style={this.state.openButton} type='primary'><Link to={{pathname: this.state.jump, search: item.SW_ID}}>开通</Link></Button>
+          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+        </p>
+      </div>
+    )
+  }
   render () {
-    console.log(1111111111111, this.state.jump)
     return (
       <div className='logged-home'>
         <HomeCarousel />
@@ -182,25 +352,26 @@ class TeacherHome extends Component {
               </div>
               <div className='popular-recommendation-item'>
                 {this.state.teacherData && this.state.teacherData.map((item, index, arr) => {
-                  return (
-                    <div key={index} className='list'>
-                      <dl className='list-item'>
-                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
-                        <dd className='dl-dd'>
-                          <span className='dd-title'>{item.SW_NAME}</span>
-                          <p className='dd-p'>{item.SW_DESC}</p>
-                        </dd>
-                      </dl>
-                      <p style={{float: 'right'}}>
-                        <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
-                          <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
-                          <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
-                          <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
-                        </Link>
-                        <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
-                      </p>
-                    </div>
-                  )
+                  return this.handleTeacherIsSelfSupport(item, index)
+                  // return (
+                  //   <div key={index} className='list'>
+                  //     <dl className='list-item'>
+                  //       <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+                  //       <dd className='dl-dd'>
+                  //         <span className='dd-title'>{item.SW_NAME}</span>
+                  //         <p className='dd-p'>{item.SW_DESC}</p>
+                  //       </dd>
+                  //     </dl>
+                  //     <p style={{float: 'right'}}>
+                  //       <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
+                  //         <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
+                  //         <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
+                  //         <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
+                  //       </Link>
+                  //       <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+                  //     </p>
+                  //   </div>
+                  // )
                 })}
               </div>
             </div>
@@ -212,25 +383,26 @@ class TeacherHome extends Component {
               </div>
               <div className='popular-recommendation-item'>
                 {this.state.hotData && this.state.hotData.map((item, index, arr) => {
-                  return (
-                    <div key={index} className='list'>
-                      <dl className='list-item'>
-                        <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
-                        <dd className='dl-dd'>
-                          <span className='dd-title'>{item.SW_NAME}</span>
-                          <p className='dd-p'>{item.SW_DESC}</p>
-                        </dd>
-                      </dl>
-                      <p style={{float: 'right'}}>
-                        <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
-                          <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
-                          <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
-                          <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
-                        </Link>
-                        <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
-                      </p>
-                    </div>
-                  )
+                  return this.handleHotRecomIsSelfSupport(item, index)
+                  // return (
+                  //   <div key={index} className='list'>
+                  //     <dl className='list-item'>
+                  //       <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+                  //       <dd className='dl-dd'>
+                  //         <span className='dd-title'>{item.SW_NAME}</span>
+                  //         <p className='dd-p'>{item.SW_DESC}</p>
+                  //       </dd>
+                  //     </dl>
+                  //     <p style={{float: 'right'}}>
+                  //       <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
+                  //         <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
+                  //         <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
+                  //         <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
+                  //       </Link>
+                  //       <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+                  //     </p>
+                  //   </div>
+                  // )
                 })}
               </div>
             </div>
@@ -242,143 +414,13 @@ class TeacherHome extends Component {
             </div>
             <Tabs style={{width: '100%'}} type='card' onChange={this.handleRanking}>
               <TabPane tab='新应用' key='1'>
-                <div className='lista'>
-                  <p className='lista-title'>
-                    <span className='title-num'>1</span>
-                    <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_NAME : ''}</span>
-                    <div className='app-install'>
-                      <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[0].SW_ICON) : ''} /></dt>
-                        <dd className='app-install-dd'>
-                          <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_DOWNLOADS : ''}</p>
-                          <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[0].SW_STAR : 0} />
-                        </dd>
-                      </dl>
-                      <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_ID : ''}}>安装</Link></Button>
-                    </div>
-                  </p>
-                </div>
-                <div className='lista'>
-                  <p className='lista-title'>
-                    <span className='title-num' style={{backgroundColor: '#FF9933'}}>2</span>
-                    <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_NAME : ''}</span>
-                    <div id='bbbbbb' className='app-install'>
-                      <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[1].SW_ICON) : ''} /></dt>
-                        <dd className='app-install-dd'>
-                          <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_DOWNLOADS : ''}</p>
-                          <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[1].SW_STAR : 0} />
-                        </dd>
-                      </dl>
-                      <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_ID : ''}}>安装</Link></Button>
-                    </div>
-                  </p>
-                </div>
-                <div className='lista'>
-                  <p className='lista-title'>
-                    <span className='title-num' style={{backgroundColor: '#FFCC33'}}>3</span>
-                    <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_NAME : ''}</span>
-                    <div className='app-install'>
-                      <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[2].SW_ICON) : ''} /></dt>
-                        <dd className='app-install-dd'>
-                          <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_DOWNLOADS : ''}</p>
-                          <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[2].SW_STAR : 0} />
-                        </dd>
-                      </dl>
-                      <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_ID : ''}}>安装</Link></Button>
-                    </div>
-                  </p>
-                </div>
-                {this.state.rankingDataSplice && this.state.rankingDataSplice.map((item, index, arr) => {
-                  return (
-                    <div className='lista' key={index}>
-                      <p className='lista-title'>
-                        <span className='title-num' style={{backgroundColor: '#33CCFF'}}>{index + 4}</span>
-                        <span className='title-detaila'>{item.SW_NAME}</span>
-                        <div className='app-install'>
-                          <dl className='app-install-dl'>
-                            <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
-                            <dd className='app-install-dd'>
-                              <p className='download-num'>下载次数： {item.SW_DOWNLOADS}</p>
-                              <Rate disabled value={item.SW_STAR} />
-                            </dd>
-                          </dl>
-                          <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}>安装</Link></Button>
-                        </div>
-                      </p>
-                    </div>
-                  )
+                {this.state.rankingData && this.state.rankingData.map((item, index, arr) => {
+                  return this.handleRankingIsSelfSupport(item, index)
                 })}
               </TabPane>
               <TabPane tab='经典排行' key='2'>
-                <div className='lista'>
-                  <p className='lista-title'>
-                    <span className='title-num'>1</span>
-                    <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_NAME : ''}</span>
-                    <div className='app-install'>
-                      <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[0].SW_ICON) : ''} /></dt>
-                        <dd className='app-install-dd'>
-                          <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_DOWNLOADS : ''}</p>
-                          <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[0].SW_STAR : 0} />
-                        </dd>
-                      </dl>
-                      <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: this.state.rankingData.length > 0 ? this.state.rankingData[0].SW_ID : ''}}>安装</Link></Button>
-                    </div>
-                  </p>
-                </div>
-                <div className='lista'>
-                  <p className='lista-title'>
-                    <span className='title-num' style={{backgroundColor: '#FF9933'}}>2</span>
-                    <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_NAME : ''}</span>
-                    <div id='bbbbbb' className='app-install'>
-                      <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[1].SW_ICON) : ''} /></dt>
-                        <dd className='app-install-dd'>
-                          <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_DOWNLOADS : ''}</p>
-                          <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[1].SW_STAR : 0} />
-                        </dd>
-                      </dl>
-                      <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: this.state.rankingData.length > 0 ? this.state.rankingData[1].SW_ID : ''}}>安装</Link></Button>
-                    </div>
-                  </p>
-                </div>
-                <div className='lista'>
-                  <p className='lista-title'>
-                    <span className='title-num' style={{backgroundColor: '#FFCC33'}}>3</span>
-                    <span className='title-detaila'>{this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_NAME : ''}</span>
-                    <div className='app-install'>
-                      <dl className='app-install-dl'>
-                        <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={this.state.rankingData.length > 0 ? (ajaxUrl.IMG_BASE_URL + this.state.rankingData[2].SW_ICON) : ''} /></dt>
-                        <dd className='app-install-dd'>
-                          <p className='download-num'>下载次数： {this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_DOWNLOADS : ''}</p>
-                          <Rate disabled value={this.state.rankingData.length > 1 ? this.state.rankingData[2].SW_STAR : 0} />
-                        </dd>
-                      </dl>
-                      <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: this.state.rankingData.length > 0 ? this.state.rankingData[2].SW_ID : ''}}>安装</Link></Button>
-                    </div>
-                  </p>
-                </div>
-                {this.state.rankingDataSplice && this.state.rankingDataSplice.map((item, index, arr) => {
-                  return (
-                    <div className='lista' key={index}>
-                      <p className='lista-title'>
-                        <span className='title-num' style={{backgroundColor: '#33CCFF'}}>{index + 4}</span>
-                        <span className='title-detaila'>{item.SW_NAME}</span>
-                        <div className='app-install'>
-                          <dl className='app-install-dl'>
-                            <dt className='app-install-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
-                            <dd className='app-install-dd'>
-                              <p className='download-num'>下载次数： {item.SW_DOWNLOADS}</p>
-                              <Rate disabled value={item.SW_STAR} />
-                            </dd>
-                          </dl>
-                          <Button className='install-button' type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}>安装</Link></Button>
-                        </div>
-                      </p>
-                    </div>
-                  )
+                {this.state.rankingData && this.state.rankingData.map((item, index, arr) => {
+                  return this.handleRankingIsSelfSupport(item, index)
                 })}
               </TabPane>
             </Tabs>
@@ -388,4 +430,4 @@ class TeacherHome extends Component {
     )
   }
 }
-export default TeacherHome
+export default withRouter(TeacherHome)
