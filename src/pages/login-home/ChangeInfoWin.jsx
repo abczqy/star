@@ -132,6 +132,7 @@ export default class ChangeInfoWin extends React.Component {
           <Col span={4} />
           <Col span={16}>
             <LoginForm
+              handleChangeInfoOk={this.props.handleChangeInfoOk}
               handleBack={this.props.handleBack}
               handleChangeVisible={this.props.handleChangeVisible} />
           </Col>

@@ -3,13 +3,13 @@
  * 老师学生确认信息弹框
  */
 import React from 'react'
-import { Row, Col, Modal, Button, Input, Form, Select, message } from 'antd'
+import { Row, Col, Modal, Button, Input, Form, Select, message, DatePicker } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import {updateUserInfo, getUserInfoList} from 'services/portal'
 import webStorage from 'webStorage'
 import moment from 'moment'
-import Birth from 'components/common/Birth'
+import _ from 'lodash'
 
 class SureInfoWin extends React.Component {
   static propTypes = {
@@ -102,12 +102,7 @@ class SureInfoWin extends React.Component {
       }
     } else if (item.type === 'birth') { // 出生年月
       if (item.value) {
-        let tem = moment(item.value)
-        obj.initialValue = {
-          year: tem.year(),
-          month: tem.month(),
-          day: tem.date()
-        }
+        obj.initialValue = moment(item.value, 'YYYY-MM-DD') || null
       }
     } else if (item.type === 'school') { // 学校
       if (item.value) {
@@ -154,7 +149,7 @@ class SureInfoWin extends React.Component {
       )
     } else if (item.type === 'birth') { // 出生年月
       return (
-        <Birth />
+        <DatePicker />
       )
     } else if (item.type === 'school') { // 学校
       return (
@@ -189,9 +184,11 @@ class SureInfoWin extends React.Component {
         let obj = {}
         for (let i in values) {
           if (i === 'birth') {
-            obj['birth'] = moment(values[i].year + '-' + values[i].month + '-' + values[i].day).format('YYYY-MM-DD')
+            obj[i] = values[i] ? values[i].format('YYYY-MM-DD') : ''
           } else if (i === 'grade' || i === 'school') {
             obj[i + 'Id'] = values[i]
+          } else if (i === 'sex') {
+            obj[i] = values[i] === '0' ? '女' : '男'
           } else {
             obj[i] = values[i]
           }
@@ -237,11 +234,11 @@ class SureInfoWin extends React.Component {
           type: 'birth',
           value: personInfo[i]
         })
-      } else if (i === 'school') {
+      } else if (i === 'schoolId') {
         data.push({
           text: '学校',
           type: 'school',
-          value: personInfo[i]
+          value: _.find(this.state.schoolList || [], ['value', personInfo[i]]).text
         })
       } else if (i === 'iden') {
         data.push({
@@ -249,17 +246,17 @@ class SureInfoWin extends React.Component {
           type: 'iden',
           value: personInfo[i]
         })
-      } else if (i === 'grade') {
+      } else if (i === 'gradeId') {
         data.push({
           text: '年级',
           type: 'grade',
-          value: personInfo[i]
+          value: _.find(this.state.gradeList || [], ['value', personInfo[i]]).text
         })
-      } else if (i === 'duty') {
+      } else if (i === 'dutyId') {
         data.push({
           text: '行政职务',
           type: 'duty',
-          value: personInfo[i]
+          value: _.find(this.state.dutyList || [], ['value', personInfo[i]]).text
         })
       }
     }
