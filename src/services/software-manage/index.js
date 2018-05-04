@@ -563,7 +563,7 @@ export function shelf (params, sucFn) {
  * 迭代申请
  */
 export function iteration (params, sucFn) {
-  return axios.post('/AppStore/query', params)
+  return axios.post('/AppStore/update', params)
     .then(function (res) {
       sucFn(res)
     })

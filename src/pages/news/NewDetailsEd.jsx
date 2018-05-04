@@ -14,6 +14,7 @@ import _ul from '../../assets/images/_ul.png'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
+import moment from 'moment'
 import {newsListDet, newsList, information} from 'services/software-manage'
 class NewsDetailsEd extends React.Component {
   constructor (props) {
@@ -150,7 +151,7 @@ class NewsDetailsEd extends React.Component {
         <Col span={5} style={{width: '18%'}}>
           <div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-              <ul >
+              <ul className='ul-margin'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}
@@ -170,7 +171,7 @@ class NewsDetailsEd extends React.Component {
               <Col span={24}>
                 <div className='details-right-div'>
                   <p className='details-right-title'>{this.state.newData ? this.state.newData.news_title : '1'}</p>
-                  <span className='details-right-time'>发布时间:{this.state.newData ? this.state.newData.news_time : '时间'}</span>
+                  <span className='details-right-time'>发布时间:{this.state.newData ? moment(this.state.newData.news_time).format('YYYY-MM-DD') : '时间'}</span>
                   <div className='details-right-div-div'>
                     {this.state.newData ? this.state.newData.news_desc : '文章'}
                   </div>

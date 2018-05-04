@@ -11,14 +11,12 @@ import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
 import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import _ from 'lodash'
 // import AJAX_HOST from '../../../static/Config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import CustomPagingTable from '../../components/common/PagingTable'
-import {informationEdListDelete, informationEdList} from 'services/software-manage'
+import {informationEdListDelete, informationEdList, information} from 'services/software-manage'
 
 const Search = Input.Search
 class InformationEd extends React.Component {
@@ -41,7 +39,8 @@ class InformationEd extends React.Component {
       img: '', // 公告图片
       tableData: [],
       record: {},
-      webStorage: false
+      webStorage: false,
+      infoData: false
     }
     let thiz = this
     this.columns = [
@@ -65,11 +64,11 @@ class InformationEd extends React.Component {
         key: 'info_state',
         render (text, record, index) {
           if (record.info_state === 0) {
-            return '审核中'
+            return <span style={{color: '#ff7947'}}>审核中</span>
           } else if (record.info_state === 1) {
-            return '已驳回'
+            return <span style={{color: 'red'}}>已驳回</span>
           } else if (record.info_state === 2) {
-            return '已发布'
+            return <span style={{color: 'green'}}>已发布</span>
           }
         }
       }, {
@@ -127,15 +126,17 @@ class InformationEd extends React.Component {
       })
     })
 
-    axios.get(ajaxUrl.detList).then(item => {
+    let values = {
+      pageNum: 1,
+      pageSize: 100,
+      province: '',
+      city: '',
+      county: ''
+    }
+    information(values, (response) => {
       this.setState({
-        dataP: item.data.list,
-        img: item.data.img
-      }, () => {
-        console.log('获取分享列表数据存在state', this.state.dataP)
+        infoData: response.data
       })
-    }).catch(err => {
-      console.log(err)
     })
   }
   componentWillMount () {
@@ -253,7 +254,7 @@ render () {
   const dataT = [
     {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
   ]
-  return <div style={{margin: 'auto', width: '90%', marginLeft: '6%', height: this.state.viewHeight}}>
+  return <div style={{margin: 'auto', width: '90%', marginLeft: '8%', height: this.state.viewHeight}}>
     <div >
       <Row>
         <Col span={5} style={{width: '18%'}}>
@@ -263,8 +264,8 @@ render () {
           <Row><div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
               <ul className='ul-margin'>
-                {(!_.isEmpty(this.state.dataP)) && this.state.dataP.map((item, index) => {
-                  return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item}</span></li>
+                {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                 })}
               </ul>
             </Card></div>
