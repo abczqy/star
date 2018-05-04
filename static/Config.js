@@ -68,9 +68,6 @@ window.mungConfig = {
   // 全部应用 - 平台应用
   allAppPlatformList: AJAX_HOST + '/app/platform',
 
-  // 分享列表接口
-  detList: AJAX_HOST + '/application/detList', // 现在公告和详情页分享列表用的是这个
-
   /** *******************************注册************************************ */
   registerValitemail: AJAX_HOST + '/register/vailEmail', // 校验邮箱是否被占用
   register: AJAX_HOST + '/register/registermaf', // 注册按钮
