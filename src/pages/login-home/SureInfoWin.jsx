@@ -28,7 +28,8 @@ class SureInfoWin extends React.Component {
         value: '0'
       }],
       dutyList: [], // 职务下拉列表的值
-      classList: [], // 年级下拉列表的值
+      gradeList: [], // 年级下拉列表的值
+      schoolList: [], // 学校下拉列表
       allMonth: this.getAllMonth(),
       allDays: this.getAllDays()
     }
@@ -90,20 +91,14 @@ class SureInfoWin extends React.Component {
     if (item.type === 'sex') { // 性别
       if (item.value) {
         obj.initialValue = item.value
-      } else if (this.state.sexList.length > 0) {
-        obj.initialValue = this.state.sexList[0].value
       }
     } else if (item.type === 'duty') { // 职务
       if (item.value) {
         obj.initialValue = item.value
-      } else if (this.state.dutyList.length > 0) {
-        obj.initialValue = this.state.dutyList[0].value
       }
     } else if (item.type === 'level') { // 年级
       if (item.value) {
         obj.initialValue = item.value
-      } else if (this.state.classList.length > 0) {
-        obj.initialValue = this.state.classList[0].value
       }
     } else if (item.type === 'birth') { // 出生年月
       if (item.value) {
@@ -113,6 +108,10 @@ class SureInfoWin extends React.Component {
           month: tem.month(),
           day: tem.date()
         }
+      }
+    } else if (item.type === 'school') { // 学校
+      if (item.value) {
+        obj.initialValue = item.value
       }
     } else { // 其他
       if (item.value) {
@@ -143,11 +142,11 @@ class SureInfoWin extends React.Component {
           }
         </Select>
       )
-    } else if (item.type === 'class') { // 年级
+    } else if (item.type === 'grade') { // 年级
       return (
         <Select>
           {
-            this.state.classList.map((item, index, arr) => {
+            this.state.gradeList.map((item, index, arr) => {
               return <Select.Option key={index} value={item.value}>{item.text}</Select.Option>
             })
           }
@@ -156,6 +155,16 @@ class SureInfoWin extends React.Component {
     } else if (item.type === 'birth') { // 出生年月
       return (
         <Birth />
+      )
+    } else if (item.type === 'school') { // 学校
+      return (
+        <Select>
+          {
+            this.state.schoolList.map((item, index, arr) => {
+              return <Select.Option key={index} value={item.value}>{item.text}</Select.Option>
+            })
+          }
+        </Select>
       )
     } else {
       return <Input placeholder={'请输入' + item.text} />
@@ -181,6 +190,8 @@ class SureInfoWin extends React.Component {
         for (let i in values) {
           if (i === 'birth') {
             obj['birth'] = moment(values[i].year + '-' + values[i].month + '-' + values[i].day).format('YYYY-MM-DD')
+          } else if (i === 'grade' || i === 'school') {
+            obj[i + 'Id'] = values[i]
           } else {
             obj[i] = values[i]
           }
@@ -194,6 +205,8 @@ class SureInfoWin extends React.Component {
             message.success('更新成功!')
             this.setState({
               isEdit: false
+            }, () => {
+              this.props.updateSureWinData(this.getSureInfoData(obj), webStorage.getItem('STAR_WEB_ROLE_CODE'))
             })
           } else {
             message.success('更新失败!')
@@ -201,6 +214,56 @@ class SureInfoWin extends React.Component {
         })
       }
     })
+  }
+
+  getSureInfoData (personInfo, roleCode) {
+    let data = []
+    for (let i in personInfo) {
+      if (i === 'name') {
+        data.push({
+          text: roleCode === 'students' ? '学生姓名' : '教师姓名',
+          type: 'name',
+          value: personInfo[i]
+        })
+      } else if (i === 'sex') {
+        data.push({
+          text: '性别',
+          type: 'sex',
+          value: personInfo[i]
+        })
+      } else if (i === 'birth') {
+        data.push({
+          text: '出生日期',
+          type: 'birth',
+          value: personInfo[i]
+        })
+      } else if (i === 'school') {
+        data.push({
+          text: '学校',
+          type: 'school',
+          value: personInfo[i]
+        })
+      } else if (i === 'iden') {
+        data.push({
+          text: '身份证号',
+          type: 'iden',
+          value: personInfo[i]
+        })
+      } else if (i === 'grade') {
+        data.push({
+          text: '年级',
+          type: 'grade',
+          value: personInfo[i]
+        })
+      } else if (i === 'duty') {
+        data.push({
+          text: '行政职务',
+          type: 'duty',
+          value: personInfo[i]
+        })
+      }
+    }
+    return data
   }
 
   /**
@@ -214,7 +277,26 @@ class SureInfoWin extends React.Component {
 
   componentDidMount () {
     this.getUserInfoList()
+    this.getUserSchool()
   }
+
+  getUserSchool () {
+    getUserInfoList({
+      type: 'school'
+    }, (response) => {
+      let result = response.data
+      if (result.success) {
+        result.data.forEach((item, index, arr) => {
+          item.text = item.CODE_DESC
+          item.value = item.CODE
+        })
+        this.setState({
+          schoolList: result.data || []
+        })
+      }
+    })
+  }
+
   getUserInfoList () {
     let type, roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
     if (roleCode === 'students') {
@@ -227,18 +309,20 @@ class SureInfoWin extends React.Component {
         type
       }, (response) => {
         let result = response.data
-        result.forEach((item, index, arr) => {
-          item.text = item.CODE_DESC
-          item.value = item.CODE
-        })
-        if (type === 'grade') {
-          this.setState({
-            classList: result || []
+        if (result.success) {
+          result.data.forEach((item, index, arr) => {
+            item.text = item.CODE_DESC
+            item.value = item.CODE
           })
-        } else if (type === 'teacher_duty') {
-          this.setState({
-            dutyList: result || []
-          })
+          if (type === 'grade') {
+            this.setState({
+              gradeList: result.data || []
+            })
+          } else if (type === 'teacher_duty') {
+            this.setState({
+              dutyList: result.data || []
+            })
+          }
         }
       })
     }

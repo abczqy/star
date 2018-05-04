@@ -129,10 +129,10 @@ class MainBander extends React.Component {
           type: 'iden',
           value: personInfo[i]
         })
-      } else if (i === 'class') {
+      } else if (i === 'grade') {
         data.push({
           text: '年级',
-          type: 'class',
+          type: 'grade',
           value: personInfo[i]
         })
       } else if (i === 'duty') {

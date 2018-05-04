@@ -107,6 +107,12 @@ class Home extends React.Component {
     })
   }
 
+  updateSureWinData (data) {
+    this.setState({
+      sureDate: data || []
+    })
+  }
+
   handleInfoOk () {
     this.setState({
       changeInfoWinVisible: true,
@@ -184,6 +190,7 @@ class Home extends React.Component {
           /> : null
         }
         {this.state.sureInfoWinVisible ? <SureInfoWin visible={this.state.sureInfoWinVisible} data={this.state.sureDate}
+          updateSureWinData={(data) => { this.updateSureWinData(data) }}
           handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
           handleClose={() => { this.handleChangeVisible('sureInfoWinVisible', false) }}
           handleInfoOk={() => { this.handleInfoOk() }} /> : null}
