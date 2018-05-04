@@ -181,7 +181,7 @@ class SWMaker extends Component {
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} />} key='1' >
-            <SearchBar list={this.state.imgList} />
+            <SearchBar />
             <BlankBar />
             <SWBox list={this.state.imgList} boxList={this.state.boxList} />
             <BlankBar />

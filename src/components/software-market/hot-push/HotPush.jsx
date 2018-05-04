@@ -100,6 +100,7 @@ class HotPush extends Component {
           imgList: b
         })
       } else {
+        record.sw_check = 0
         message.warning('已达推送上限')
       }
     } else if (record.sw_check === 0) {
@@ -180,7 +181,7 @@ class HotPush extends Component {
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} />} key='1' >
-            <SearchBar list={this.state.imgList} />
+            <SearchBar />
             <BlankBar />
             <SWBox list={this.state.imgList} boxList={this.state.boxList} />
             <BlankBar />
