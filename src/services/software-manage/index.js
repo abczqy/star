@@ -41,6 +41,146 @@ export function stick (params, sucFn) {
 }
 
 /**
+ * 平台管理-新闻列表-表格数据获取
+ */
+export function getNewsList (params, sucFn) {
+  return axios.post('/management/newslistget', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-新闻列表-添加
+ */
+export function insertNewsList (params, sucFn) {
+  return axios.post('/management/insertnews', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-新闻列表-编辑
+ */
+export function updateNewsList (params, sucFn) {
+  return axios.post('/management/newsListUpdate', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-新闻列表-删除
+ */
+export function delNewsList (params, sucFn) {
+  return axios.post('/management/infolistdelete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-新闻列表-批量删除
+ */
+export function delBatchNewsList (params, sucFn) {
+  return axios.post('/management/infolistbatchdelete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开-表格数据获取
+ */
+export function getPubInfoList (params, sucFn) {
+  return axios.post('/management/infolistm', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开-添加
+ */
+export function insertPubInfoList (params, sucFn) {
+  return axios.post('/management/insertinfo', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开-编辑
+ */
+export function updatePubInfoList (params, sucFn) {
+  return axios.post('/management/infoexamedit', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开-删除
+ */
+export function delPubInfoList (params, sucFn) {
+  return axios.post('/management/infolistdelete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开-批量删除
+ */
+export function delBatchPubInfoList (params, sucFn) {
+  return axios.post('/management/infolistbatchdelete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开审核-表格数据获取
+ */
+export function getEmInfoList (params, sucFn) {
+  return axios.post('/management/infolistem', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开审核-编辑/详情
+ */
+export function detEmInfoList (params, sucFn) {
+  return axios.post('/management/infoexamedit', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开审核-通过/驳回
+ */
+export function passEmInfoList (params, sucFn) {
+  return axios.post('/management/infoexame', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开审核-批量通过
+ */
+export function passBatchEmInfoList (params, sucFn) {
+  return axios.post('/management/infoexamebatch', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 会员管理-账号-下拉菜单-获取数据
  */
 export function getIdSelectList (params, sucFn) {

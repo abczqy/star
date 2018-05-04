@@ -4,8 +4,13 @@
 import React, { Component } from 'react'
 import { Table, Divider } from 'antd'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-import ajaxUrl from 'config'
+// import PropsTypes from 'prop-types'
+import {
+  getNewsList,
+  delNewsList,
+  delBatchNewsList
+} from 'services/software-manage'
+import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, NewsBar } from 'components/software-market'
 
 /**
@@ -19,47 +24,6 @@ const pagination = {
   // text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
- * 表格的columns -- 后面用json文件配置出去 --参照bdq
- * 做到配置项与组件的分离
- * 组件要用时只需要引入即可
- * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
- */
-const columns = [{
-  title: '新闻标题',
-  dataIndex: 'news_title',
-  key: 'news_title'
-}, {
-  title: '新闻描述',
-  dataIndex: 'news_desc',
-  key: 'news_desc'
-}, {
-  title: '上传时间',
-  dataIndex: 'news_time',
-  key: 'news_time'
-}, {
-  title: '新闻图片',
-  dataIndex: 'news_img',
-  key: 'news_img',
-  render: (text, record, index) => (
-    <img src={text} />
-  )
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  render: (text, record, index) => {
-    return (
-      <span>
-        <Link to='/software-market-home/platform-manage/news-list-edit' >编辑</Link>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>删除</a>
-      </span>
-    )
-  }
-}]
-
 class NewsList extends Component {
   constructor (props) {
     super(props)
@@ -67,7 +31,88 @@ class NewsList extends Component {
       tableData: {
         data: [],
         total: 0
+      },
+      reqParam: {
+        pageNum: 1,
+        pageSize: 15,
+        startTime: '',
+        endTime: '',
+        keywords: ''
+      },
+      batchLeadParams: {
+        idArrs: []
       }
+    }
+  }
+
+  getColumns = () => {
+    return (
+      [{
+        title: '新闻标题',
+        dataIndex: 'news_title',
+        key: 'news_title'
+      }, {
+        title: '新闻描述',
+        width: 200,
+        dataIndex: 'news_desc',
+        key: 'news_desc'
+      }, {
+        title: '上传时间',
+        dataIndex: 'news_time',
+        key: 'news_time'
+      }, {
+        title: '新闻图片',
+        dataIndex: 'news_picture',
+        key: 'news_picture',
+        render: (text, record, index) => (
+          <img src={text} />
+        )
+      }, {
+        title: '操作',
+        dataIndex: 'options',
+        key: 'options',
+        render: (text, record, index) => {
+          return (
+            <span>
+              <Link to='/software-market-home/platform-manage/news-list-edit'>编辑</Link>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
+            </span>
+          )
+        }
+      }]
+    )
+  }
+
+  /**
+   * 删除某条新闻
+   */
+  delNews = (record) => {
+    // console.log(`record.news_id: ${record.news_id}`)
+    delNewsList({news_id: record.news_id}, (res) => {
+      const data = res.data
+      console.log(`${data.info}`)
+    })
+  }
+
+  /**
+   * 构建请求参数
+   */
+  getParams = () => {
+    const {
+      pageNum,
+      pageSize,
+      startTime,
+      endTime,
+      keywords
+    } = this.state.reqParam
+    // 最后都要赋空
+    return {
+      pageNum: pageNum || 1,
+      pageSize: pageSize || 15,
+      start_time: startTime || '',
+      end_time: endTime || '',
+      keywords: keywords || ''
     }
   }
 
@@ -75,29 +120,45 @@ class NewsList extends Component {
    * 获取新闻列表中的数据
    */
   getTableDatas = () => {
-    axios.post(ajaxUrl.newsList, {
-      params: {
-        pageNum: 1,
-        pageSize: 10
-      }
-    }).then((res) => {
+    getNewsList(this.getParams(), (res) => {
       const data = res.data
       // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list,
-          total: data.total
+          data: data.list && addKey2TableData(data.list, 'news_id'),
+          total: data.total && data.total
         }
       })
-      // 给每一条表格数据加上key
-      // data.list.map((item, index) => {
-      //   this.setState({
-      //     tableData: {
-      //       data[index].key: item.news_id
-      //     }
-      //   })
-      // })
-    }).catch((e) => { console.log(e) })
+    })
+  }
+
+  /**
+   * 当点击'批量删除'按钮时的回调
+   */
+  onBatchDel = () => {
+    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
+    const { idArrs } = this.state.batchLeadParams
+    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
+    delBatchNewsList({news_id: idArrs}, (res) => {
+      console.log(`${res.data.info}`)
+    })
+  }
+
+  /**
+   * 多选选项变化
+   */
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    // 从view中得到数据 并把th_id提取出来组合为一个新数组
+    let idArr = []
+    selectedRows.map((val, index) => {
+      idArr.push(val.news_id)
+    })
+    // 将th_id得到的新数组映射到state中
+    this.setState({
+      batchLeadParams: {
+        idArrs: idArr
+      }
+    })
   }
 
   componentDidMount () {
@@ -106,17 +167,28 @@ class NewsList extends Component {
   render () {
     const { tableData } = this.state
     return (
-      <div className='software-wrap'>
-        <NewsBar />
+      <div className='software-wrap list-wrap'>
+        <NewsBar
+          onBtn1Click={this.onBatchDel}
+        />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={pagination}
+          rowSelection={{
+            fixed: true,
+            onChange: this.rowSelectChange
+          }}
         />
       </div>
     )
   }
 }
 
+// NewsList.propTypes = {
+//   history: PropsTypes.array
+// }
+
+// export default withRouter(NewsList)
 export default NewsList
