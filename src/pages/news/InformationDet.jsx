@@ -198,7 +198,7 @@ class InformationDet extends React.Component {
         <div id='left-container'>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-              <ul className='ul-margin'>
+              <ul className='ul-margin super'>
                 {(!_.isEmpty(this.state.infoDatas)) && this.state.infoDatas.list.map((item, index) => {
                   return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li>
                 })}

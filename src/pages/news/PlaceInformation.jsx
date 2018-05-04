@@ -193,7 +193,7 @@ class Information extends React.Component {
            <Row><div className='left-downer'><a onClick={this.handleTabChange.bind(this)}><img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></a></div></Row>
            <Row><div className='left-downer'>
              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
-               <ul className='ul-margin'>
+               <ul className='ul-margin super4'>
                  {this.state.infoData && this.state.infoData.list.map((item, index) => {
                    return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
                  })}
