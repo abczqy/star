@@ -33,9 +33,6 @@ window.mungConfig = {
   // 人员管理-批量导入
   batchImport: AJAX_HOST + '/application/batchleadin',
 
-  // 运营管理/会员管理-厂商
-  getFactory: AJAX_HOST + '/factoryManage/getFactory',
-
   // 个人中心-我的应用
   personalApps: AJAX_HOST + '/personal/apps',
 
