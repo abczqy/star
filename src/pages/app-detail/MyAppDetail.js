@@ -68,7 +68,7 @@ export default class MyAppDetail extends React.Component {
       sw_id: this.state.appDetailId
     }, (res) => {
       this.setState({
-        developmentRelated: res.data
+        developmentRelated: res.data || []
       })
     }).catch((e) => { console.log(e) })
   }
