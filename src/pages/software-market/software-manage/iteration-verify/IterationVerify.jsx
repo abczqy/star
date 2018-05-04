@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { iterVerify, iterVeriDetail, waitVeriExam } from 'services/software-manage'
+import { iterVerify, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -43,7 +43,8 @@ class IterationVerify extends Component {
       },
       sw_type: '教辅类', // 软件类型
       sw_name: '',
-      sw_time: '' // 期望上架时间
+      sw_time: '', // 期望上架时间
+      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
     }
   }
 
@@ -63,6 +64,17 @@ class IterationVerify extends Component {
           data: this.getSwPath(data.list),
           total: data.total
         }
+      })
+    })
+  }
+
+  // 应用类型下拉框数据获取
+  getSelectOptions () {
+    const thiz = this
+    getApptype({}, (res) => {
+      const data = res.data
+      thiz.setState({
+        options: data.type
       })
     })
   }
@@ -259,10 +271,11 @@ class IterationVerify extends Component {
 
   componentDidMount () {
     this.getTableDatas()
+    this.getSelectOptions()
   }
 
   render () {
-    const { tableData, pagination, detModalCon } = this.state
+    const { tableData, pagination, detModalCon, options } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -270,6 +283,7 @@ class IterationVerify extends Component {
           onSearch={this.getSearchData}
           onBtnClick={this.getSearchData}
           onSelectChange={this.onSelect}
+          options={options}
         />
         <BlankBar />
         <Table

@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getExamList, verifyDetail, waitVeriExam } from 'services/software-manage'
+import { getExamList, verifyDetail, waitVeriExam, getApptype } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -42,7 +42,8 @@ class WaitVerify extends Component {
         resData: {}
       },
       sw_type: '',
-      sw_name: ''
+      sw_name: '',
+      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
     }
   }
 
@@ -67,6 +68,17 @@ class WaitVerify extends Component {
       })
     }
     )
+  }
+
+  // 应用类型下拉框数据获取
+  getSelectOptions () {
+    const thiz = this
+    getApptype({}, (res) => {
+      const data = res.data
+      thiz.setState({
+        options: data.type
+      })
+    })
   }
 
   // 获取只有系统名称的sw_path参数内容
@@ -246,10 +258,11 @@ class WaitVerify extends Component {
 
   componentDidMount () {
     this.getTableDatas()
+    this.getSelectOptions()
   }
 
   render () {
-    const { tableData, pagination, detModalCon } = this.state
+    const { tableData, pagination, detModalCon, options } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -257,6 +270,7 @@ class WaitVerify extends Component {
           onSearch={this.getSearchData}
           onBtnClick={this.getSearchData}
           onSelectChange={this.onSelect}
+          options={options}
         />
         <BlankBar />
         <Table

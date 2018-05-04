@@ -16,7 +16,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import { getAppListData, verifyDetail, undercarriage, stick } from 'services/software-manage'
+import { getAppListData, verifyDetail, undercarriage, stick, getApptype } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -53,7 +53,8 @@ class Businessing extends Component {
         visible: false,
         swName: ''
       },
-      veriCode: '' // 验证码
+      veriCode: '', // 验证码
+      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
     }
     // 表格的列信息
     this.columns = [{
@@ -98,8 +99,8 @@ class Businessing extends Component {
           return <span className='normal-color' >正常</span>
         } else if (record.num_day === '已过期') {
           return <span className='alert-color' >已过期</span>
-        } else if (record.num_day <= '30') {
-          return <span className='warn-color' >`余${record.num_day}天`</span>
+        } else {
+          return <span className='warn-color' >{record.num_day}</span>
         }
       }
     }, {
@@ -336,6 +337,18 @@ class Businessing extends Component {
 
   componentDidMount () {
     this.getTableDatas()
+    this.getSelectOptions()
+  }
+
+  // 应用类型下拉框数据获取
+  getSelectOptions () {
+    const thiz = this
+    getApptype({}, (res) => {
+      const data = res.data
+      thiz.setState({
+        options: data.type
+      })
+    })
   }
 
   handleCloseBusiRenewWin () {
@@ -366,7 +379,7 @@ class Businessing extends Component {
   }
 
   render () {
-    const { tableData, pagination, appOffModalCon, appDetailModalCon } = this.state
+    const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -374,6 +387,7 @@ class Businessing extends Component {
           onSearch={this.getSearchData}
           onBtnClick={this.getSearchData}
           onSelectChange={this.onSelect}
+          options={options}
         />
         <BlankBar />
         <Table
