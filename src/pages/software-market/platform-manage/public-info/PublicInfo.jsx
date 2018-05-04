@@ -4,8 +4,12 @@
 import React, { Component } from 'react'
 import { Table, Divider, Icon } from 'antd'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-import ajaxUrl from 'config'
+import {
+  getPubInfoList,
+  delPubInfoList,
+  delBatchPubInfoList
+} from 'services/software-manage'
+import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, PublicInfoBar } from 'components/software-market'
 
 /**
@@ -19,49 +23,6 @@ const pagination = {
   // text: '' // 用来赋空翻页后的search框--需要这样吗
 }
 
-/**
- * 表格的columns -- 后面用json文件配置出去 --参照bdq
- * 做到配置项与组件的分离
- * 组件要用时只需要引入即可
- * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
- * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
- */
-const columns = [{
-  title: '信息标题',
-  dataIndex: 'info_title',
-  key: 'info_title'
-}, {
-  title: '发布者',
-  dataIndex: 'info_per',
-  key: 'info_per'
-}, {
-  title: '上传时间',
-  dataIndex: 'info_time',
-  key: 'info_time'
-}, {
-  title: '附件',
-  dataIndex: 'info_id',
-  key: 'info_id',
-  render: (text, record, index) => {
-    return (
-      <Icon type='link' />
-    )
-  }
-}, {
-  title: '操作',
-  dataIndex: 'options',
-  key: 'options',
-  render: (text, record, index) => {
-    return (
-      <span>
-        <Link to='/software-market-home/platform-manage/public-info-edit'>编辑</Link>
-        <Divider type='vertical' />
-        <a href='javascript:void(0)' onClick={() => alert('详情')}>删除</a>
-      </span>
-    )
-  }
-}]
-
 class PublicInfo extends Component {
   constructor (props) {
     super(props)
@@ -69,7 +30,94 @@ class PublicInfo extends Component {
       tableData: {
         data: [],
         total: 0
+      },
+      reqParam: {
+        pageNum: 1,
+        pageSize: 15,
+        startTime: '',
+        endTime: '',
+        infoPer: '',
+        keywords: ''
+      },
+      batchLeadParams: {
+        idArrs: []
       }
+    }
+  }
+
+  getColumns = () => {
+    return (
+      [{
+        title: '信息标题',
+        dataIndex: 'info_title',
+        key: 'info_title'
+      }, {
+        title: '发布者',
+        dataIndex: 'info_per',
+        key: 'info_per'
+      }, {
+        title: '上传时间',
+        dataIndex: 'info_time',
+        key: 'info_time'
+      }, {
+        title: '附件',
+        dataIndex: 'info_id',
+        key: 'info_id',
+        render: (text, record, index) => {
+          return (
+            <Icon type='link' />
+          )
+        }
+      }, {
+        title: '操作',
+        dataIndex: 'options',
+        key: 'options',
+        render: (text, record, index) => {
+          return (
+            <span>
+              <Link to='/software-market-home/platform-manage/public-info-edit'>编辑</Link>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
+            </span>
+          )
+        }
+      }]
+    )
+  }
+
+  /**
+   * 删除某条
+   */
+  delNews = (record) => {
+    // console.log(`record.info_id: ${record.info_id}`)
+    delPubInfoList({info_id: record.info_id}, (res) => {
+      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+      this.getTableDatas()
+      const data = res.data
+      console.log(`${data.info}`)
+    })
+  }
+
+  /**
+   * 构建请求参数
+   */
+  getParams = () => {
+    const {
+      pageNum,
+      pageSize,
+      startTime,
+      endTime,
+      infoPer,
+      keywords
+    } = this.state.reqParam
+    // 最后都要赋空
+    return {
+      pageNum: pageNum || 1,
+      pageSize: pageSize || 15,
+      start_time: startTime || '',
+      end_time: endTime || '',
+      info_per: infoPer || '',
+      keywords: keywords || ''
     }
   }
 
@@ -77,40 +125,69 @@ class PublicInfo extends Component {
    * 获取新闻列表中的数据
    */
   getTableDatas = () => {
-    axios.get(ajaxUrl.information, {
-      params: {
-        pageNum: 1,
-        pageSize: 10,
-        province: '四川省',
-        city: '成都市',
-        county: '青羊区'
-      }
-    }).then((res) => {
+    getPubInfoList(this.getParams(), (res) => {
       const data = res.data
       // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list,
-          total: data.total
+          data: data.list && addKey2TableData(data.list, 'info_id'),
+          total: data.total && data.total
         }
       })
-      // 给每一条记录加上key值
-    }).catch((e) => { console.log(e) })
+    })
+  }
+
+  /**
+   * 当点击'批量删除'按钮时的回调
+   */
+  onBatchDel = () => {
+    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
+    const { idArrs } = this.state.batchLeadParams
+    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
+    delBatchPubInfoList({info_id: idArrs}, (res) => {
+      // 刷新下列表数据
+      this.getTableDatas()
+      console.log(`${res.data.info}`)
+    })
+  }
+
+  /**
+   * 多选选项变化
+   */
+  rowSelectChange = (selectedRowKeys, selectedRows) => {
+    // 从view中得到数据 并把th_id提取出来组合为一个新数组
+    let idArr = []
+    selectedRows.map((val, index) => {
+      idArr.push(val.info_id)
+    })
+    // 将th_id得到的新数组映射到state中
+    this.setState({
+      batchLeadParams: {
+        idArrs: idArr
+      }
+    })
   }
 
   componentDidMount () {
     this.getTableDatas()
   }
+
   render () {
     const { tableData } = this.state
     return (
       <div className='software-wrap'>
-        <PublicInfoBar />
+        <PublicInfoBar
+          onBtn1Click={this.onBatchDel}
+        />
         <BlankBar />
         <Table
-          columns={columns}
+          columns={this.getColumns()}
           dataSource={tableData.data}
           pagination={pagination}
+          rowSelection={{
+            fixed: true,
+            onChange: this.rowSelectChange
+          }}
         />
       </div>
     )

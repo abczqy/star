@@ -16,7 +16,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import { getAppListData, verifyDetail, undercarriage, stick } from 'services/software-manage'
+import { getAppListData, verifyDetail, undercarriage, stick, getApptype } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -53,7 +53,8 @@ class Businessing extends Component {
         visible: false,
         swName: ''
       },
-      veriCode: '' // 验证码
+      veriCode: '', // 验证码
+      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
     }
     // 表格的列信息
     this.columns = [{
@@ -91,15 +92,15 @@ class Businessing extends Component {
       }
     }, {
       title: '缴费状态',
-      dataIndex: 'expire',
-      key: 'expire',
+      dataIndex: 'num_day',
+      key: 'num_day',
       render: (text, record, index) => {
-        // 这里的这个100 是临时量 其实应该用全局的标准 可以用redux管理起来 作为全局量使用 或 给出设置的界面
-        // 鼠标悬浮在上面 会出现 还差多少天到期
-        if (text > 100) {
+        if (record.num_day === '正常') {
           return <span className='normal-color' >正常</span>
+        } else if (record.num_day === '已过期') {
+          return <span className='alert-color' >已过期</span>
         } else {
-          return <span className='warn-color' >已过期</span>
+          return <span className='warn-color' >{record.num_day}</span>
         }
       }
     }, {
@@ -139,12 +140,36 @@ class Businessing extends Component {
       let result = response.data
       this.setState({
         tableData: {
-          data: result.data,
+          data: this.getSwPath(result.list),
           total: result.total
         }
       })
     })
   }
+
+    // 获取只有系统名称的sw_path参数内容
+    getSwPath = (data) => {
+      data.map((item, index) => {
+        let con = item.sw_path
+        let version = ''
+        let pathArray = []
+        // 把sw_path字段内容用逗号分割,获得多个系统名称和下载路径混合的字符串
+        pathArray = con ? con.split(',') : []
+        pathArray.map((pathIt, pathIn) => {
+          // 把系统名称和下载路径混合字符串再用冒号分割,以便只取到系统名称
+          let pathVer = pathIt.split(':')
+          // 遍历取出每个系统名称，并拼接在一起
+          if (pathIn > 0) {
+            version += (',' + pathVer[0])
+          } else {
+            version += pathVer[0]
+          }
+          // 把拼接后的多个系统重新赋值给sw_path字段
+          item.sw_path = version
+        })
+      })
+      return data
+    }
 
   // 显示‘详情’弹窗
   showAppDetailModal = (record) => {
@@ -312,6 +337,18 @@ class Businessing extends Component {
 
   componentDidMount () {
     this.getTableDatas()
+    this.getSelectOptions()
+  }
+
+  // 应用类型下拉框数据获取
+  getSelectOptions () {
+    const thiz = this
+    getApptype({}, (res) => {
+      const data = res.data
+      thiz.setState({
+        options: data.type
+      })
+    })
   }
 
   handleCloseBusiRenewWin () {
@@ -342,7 +379,7 @@ class Businessing extends Component {
   }
 
   render () {
-    const { tableData, pagination, appOffModalCon, appDetailModalCon } = this.state
+    const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -350,6 +387,7 @@ class Businessing extends Component {
           onSearch={this.getSearchData}
           onBtnClick={this.getSearchData}
           onSelectChange={this.onSelect}
+          options={options}
         />
         <BlankBar />
         <Table

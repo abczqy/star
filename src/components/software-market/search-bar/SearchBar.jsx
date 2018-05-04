@@ -16,7 +16,7 @@ const Option = Select.Option
 
 class SearchBar extends Component {
   render () {
-    const { onSearch, onSeachChange, onBtnClick, onSelectChange } = this.props
+    const { onSearch, onSeachChange, onBtnClick, onSelectChange, options } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
@@ -27,9 +27,9 @@ class SearchBar extends Component {
               style={{ width: '75%' }}
               onChange={onSelectChange}
             >
-              <Option value='all'>全部</Option>
-              <Option value='edu'>教育类</Option>
-              <Option value='teachAid'>教辅类</Option>
+              {options.map((item, index) => {
+                return <Option key={index} value={item}>{item}</Option>
+              })}
             </Select>
           </Col>
           <Col span={6}>
@@ -51,7 +51,12 @@ SearchBar.propTypes = {
   onSearch: PropsTypes.func,
   onBtnClick: PropsTypes.func,
   onSeachChange: PropsTypes.func,
-  onSelectChange: PropsTypes.func
+  onSelectChange: PropsTypes.func,
+  options: PropsTypes.array
+}
+
+SearchBar.defaultProps = {
+  options: ['全部', '教育类', '教辅类']
 }
 
 export default SearchBar

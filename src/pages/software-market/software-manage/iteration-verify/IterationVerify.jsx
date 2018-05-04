@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { iterVerify, iterVeriDetail, waitVeriExam } from 'services/software-manage'
+import { iterVerify, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -43,7 +43,8 @@ class IterationVerify extends Component {
       },
       sw_type: '教辅类', // 软件类型
       sw_name: '',
-      sw_time: '' // 期望上架时间
+      sw_time: '', // 期望上架时间
+      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
     }
   }
 
@@ -60,11 +61,46 @@ class IterationVerify extends Component {
       const data = res.data
       this.setState({
         tableData: {
-          data: data.data,
+          data: this.getSwPath(data.list),
           total: data.total
         }
       })
     })
+  }
+
+  // 应用类型下拉框数据获取
+  getSelectOptions () {
+    const thiz = this
+    getApptype({}, (res) => {
+      const data = res.data
+      thiz.setState({
+        options: data.type
+      })
+    })
+  }
+
+  // 获取只有系统名称的sw_path参数内容
+  getSwPath = (data) => {
+    data.map((item, index) => {
+      let con = item.sw_path
+      let version = ''
+      let pathArray = []
+      // 把sw_path字段内容用逗号分割,获得多个系统名称和下载路径混合的字符串
+      pathArray = con ? con.split(',') : []
+      pathArray.map((pathIt, pathIn) => {
+        // 把系统名称和下载路径混合字符串再用冒号分割,以便只取到系统名称
+        let pathVer = pathIt.split(':')
+        // 遍历取出每个系统名称，并拼接在一起
+        if (pathIn > 0) {
+          version += (',' + pathVer[0])
+        } else {
+          version += pathVer[0]
+        }
+        // 把拼接后的多个系统重新赋值给sw_path字段
+        item.sw_path = version
+      })
+    })
+    return data
   }
   /**
  * 表格的columns -- 后面用json文件配置出去 --参照bdq
@@ -235,10 +271,11 @@ class IterationVerify extends Component {
 
   componentDidMount () {
     this.getTableDatas()
+    this.getSelectOptions()
   }
 
   render () {
-    const { tableData, pagination, detModalCon } = this.state
+    const { tableData, pagination, detModalCon, options } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -246,6 +283,7 @@ class IterationVerify extends Component {
           onSearch={this.getSearchData}
           onBtnClick={this.getSearchData}
           onSelectChange={this.onSelect}
+          options={options}
         />
         <BlankBar />
         <Table

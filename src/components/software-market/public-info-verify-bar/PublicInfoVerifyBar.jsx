@@ -3,12 +3,14 @@
  */
 import React, { Component } from 'react'
 import { Input, Button, Row, Col, DatePicker } from 'antd'
+import PropsTypes from 'prop-types'
 import './PublicInfoVerifyBar.scss'
 
 const Search = Input.Search
 
 class PublicInfoVerifyBar extends Component {
   render () {
+    const { onBtn1Click } = this.props
     return (
       <div className='news-bar-wrap'>
         <Row gutter={16}>
@@ -29,12 +31,16 @@ class PublicInfoVerifyBar extends Component {
             <Button type='primary'>搜索</Button>
           </Col>
           <Col span={2}>
-            <Button className='bar-btn add-btn' type='primary'>批量通过</Button>
+            <Button className='bar-btn add-btn' type='primary' onClick={onBtn1Click}>批量通过</Button>
           </Col>
         </Row>
       </div>
     )
   }
+}
+
+PublicInfoVerifyBar.propTypes = {
+  onBtn1Click: PropsTypes.object
 }
 
 export default PublicInfoVerifyBar
