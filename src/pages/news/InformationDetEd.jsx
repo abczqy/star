@@ -16,6 +16,7 @@ import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
 import moment from 'moment'
 import {informationDet, newsList, information} from 'services/software-manage'
+import ajaxUrl from 'config'
 
 class InformationDetEd extends React.Component {
   constructor (props) {
@@ -162,7 +163,7 @@ class InformationDetEd extends React.Component {
              </ul>
            </Card>
          </div>
-         <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
+         <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '95%', marginTop: '10px'}} alt='' />
        </Col>
        <Col span={15} style={{width: '68%', marginTop: '10px'}}>
          <div style={{backgroundColor: '#fff', width: '100%'}}>
@@ -182,9 +183,12 @@ class InformationDetEd extends React.Component {
                    <div style={{marginBottom: '30px'}}>
                      {this.state.infoData ? this.state.infoData.info_desc : '1' }
                    </div>
-                   <div style={{width: '700px', alignContent: 'right'}}>
-                     <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
-                   </div>
+                   {this.state.infoData
+                     ? <div style={{width: '700px', alignContent: 'right'}}>
+                       <span>下载附件 :
+                         <a src={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
+                       </span>
+                     </div> : ''}
                  </div>
                </div>
              </Col>

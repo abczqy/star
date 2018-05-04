@@ -17,6 +17,7 @@ import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import CustomPagingTable from '../../components/common/PagingTable'
 import {informationEdListDelete, informationEdList, information} from 'services/software-manage'
+import ajaxUrl from 'config'
 
 const Search = Input.Search
 class InformationEd extends React.Component {
@@ -259,7 +260,7 @@ render () {
       <Row>
         <Col span={5} style={{width: '18%'}}>
           <Row><div className='left-downer'>
-            <img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div>
+            <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '95%', height: '120px'}} alt='' /></div>
           </Row>
           <Row><div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
@@ -270,7 +271,7 @@ render () {
               </ul>
             </Card></div>
           </Row>
-          <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+          <Row><img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
         <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', overflow: 'hidden'}}>
           <Row>

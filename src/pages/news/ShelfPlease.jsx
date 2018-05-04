@@ -21,7 +21,7 @@ class ShelfPlease extends React.Component {
     this.state = {
       imgTitle: title,
       rname: '',
-      type: '',
+      type: null,
       rDescribe: '',
       Edition: 1,
       renderEdition: [],
@@ -371,15 +371,19 @@ class ShelfPlease extends React.Component {
     const data = [
       {
         key: '1',
-        value: '类型1'
+        value: '教育类'
       },
       {
         key: '2',
-        value: '类型2'
+        value: '教辅类'
       },
       {
         key: '3',
-        value: '类型3'
+        value: '管理类'
+      },
+      {
+        key: '4',
+        value: '其他'
       }
     ]
     const propsT = {
@@ -502,7 +506,7 @@ class ShelfPlease extends React.Component {
                 <span style={{color: 'red'}}>* </span>类型 :
               </Col>
               <Col span={20}>
-                <Select placeholder='教育类' style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
+                <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
                   {data.map((item, index) => {
                     return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                   })}

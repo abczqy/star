@@ -13,7 +13,9 @@ import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
+import ajaxUrl from 'config'
 import {information} from 'services/software-manage'
+import _ from 'lodash'
 
 class Information extends React.Component {
   constructor (props) {
@@ -25,7 +27,7 @@ class Information extends React.Component {
       imgH: hand,
       imgP: people,
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 5,
       dataP: false, // 公告和分享的list
       img: '', // 公告图片
       options: [
@@ -198,7 +200,7 @@ class Information extends React.Component {
                </ul>
              </Card></div>
            </Row>
-           <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+           <Row><img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
          </Col>
          <Col span={16} style={{width: '68%', minHeight: '820px'}}>
            <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: `${this.state.heights}`, backgroundColor: '#fff'}}>
@@ -224,11 +226,13 @@ class Information extends React.Component {
                  <Col span={12} />
                  <Col >
                    <Pagination
+                     current={this.state.pageNum}
                      total={this.state.infoData.total}
                      showSizeChanger
+                     pageSize={5}
                      showQuickJumper
                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                     onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                     //  onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                    /></Col>
                </Row>
              </li>

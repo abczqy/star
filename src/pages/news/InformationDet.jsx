@@ -15,6 +15,7 @@ import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
 import moment from 'moment'
+import ajaxUrl from 'config'
 import {informationDet, newsList, information} from 'services/software-manage'
 
 class InformationDet extends React.Component {
@@ -164,9 +165,12 @@ class InformationDet extends React.Component {
                   <div className='details-right-div-div'>
                     {this.state.infoData ? this.state.infoData.info_desc : '文章'}
                   </div>
-                  <div style={{width: '700px', alignContent: 'right'}}>
-                    <span>下载附件 : <a src='javascript:0;'>{this.state.dataRight.a}</a></span>
-                  </div>
+                  {this.state.infoData
+                    ? <div style={{width: '700px', alignContent: 'right'}}>
+                      <span>下载附件 :
+                        <a src={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
+                      </span>
+                    </div> : ''}
                 </div>
               </Col>
             </Row>
@@ -202,7 +206,7 @@ class InformationDet extends React.Component {
             </Card>
           </div>
           <div className='bottom-img'>
-            <img src={this.state.imgT} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+            <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ class News extends React.Component {
     this.state = {
       viewHeight: 500,
       pageSize: 5,
-      pages: 1,
+      pageNum: 1,
       imgO: img,
       imgT: img,
       dataP: false, // 公告和分享的list
@@ -32,7 +32,7 @@ class News extends React.Component {
   getList = () => {
     console.log('获取数据')
     let value = {
-      pageNum: this.state.pages,
+      pageNum: this.state.pageNum,
       pageSize: this.state.pageSize
     }
     newsList(value, (response) => {
@@ -144,7 +144,8 @@ class News extends React.Component {
     return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
       <Row>
         <Col span={5} style={{width: '18%'}}>
-          <Row><div className='left-downer' ><img src={this.state.imgO} style={{width: '95%', height: '120px'}} alt='' /></div></Row>
+          <Row><div className='left-downer' >
+            <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '95%', height: '120px'}} alt='' /></div></Row>
           <Row><div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
               <ul className='ul-margin'>
@@ -154,7 +155,7 @@ class News extends React.Component {
               </ul>
             </Card></div>
           </Row>
-          <Row><img src={this.state.imgT} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+          <Row><img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
         <Col span={15} style={{width: '68%', height: this.state.viewHeight}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px', backgroundColor: '#fff'}}>
@@ -204,11 +205,13 @@ class News extends React.Component {
                 <Col >
                   {this.state.newData.total >= 5
                     ? <Pagination
+                      current={this.state.pageNum}
                       total={this.state.newData.total}
                       showSizeChanger
+                      pageSize={5}
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                      // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                     /> : null}</Col>
               </Row>
             </li>

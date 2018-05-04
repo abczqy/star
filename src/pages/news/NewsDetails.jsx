@@ -16,6 +16,7 @@ import _ from 'lodash'
 import webStorage from 'webStorage'
 import {newsListDet, newsList, information} from 'services/software-manage'
 import moment from 'moment'
+import ajaxUrl from 'config'
 // import _ from 'lodash'
 
 class NewsDetails extends React.Component {
@@ -198,7 +199,7 @@ render () {
           </Card>
         </div>
         <div className='bottom-img'>
-          <img src={this.state.imgT} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+          <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
         </div>
       </div>
 

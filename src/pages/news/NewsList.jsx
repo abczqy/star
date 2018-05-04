@@ -11,6 +11,7 @@ import _ul from '../../assets/images/_ul.png'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
+import _ from 'lodash'
 import {newsList, information} from 'services/software-manage'
 
 // import { renderRoutes } from 'react-router-config'
@@ -20,7 +21,7 @@ class News extends React.Component {
     this.state = {
       viewHeight: 500,
       pageSize: 5,
-      pages: 1,
+      pageNum: 1,
       imgO: img,
       imgT: img,
       dataP: false, // 公告和分享的list
@@ -35,7 +36,7 @@ class News extends React.Component {
   getList = () => {
     console.log('获取数据')
     let value = {
-      pageNum: this.state.pages,
+      pageNum: this.state.pageNum,
       pageSize: this.state.pageSize
     }
     newsList(value, (response) => {
@@ -191,16 +192,18 @@ class News extends React.Component {
                 </li>
             }) : ''}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
-              <Row style={{marginBottom: '10px', marginTop: '-10px'}}>
+              <Row style={{marginBottom: '10px'}}>
                 <Col span={8} />
                 <Col >
                   {this.state.newData ? (this.state.newData.total >= 5
                     ? <Pagination
+                      current={this.state.pageNum}
+                      pageSize={5}
                       total={this.state.newData.total}// {this.state.newData.total}
                       showSizeChanger
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                      // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                     /> : null) : ''
                   }
                 </Col>
@@ -210,7 +213,7 @@ class News extends React.Component {
         </div>
         <div id='left-container'>
           <div className='top-img' >
-            <img src={this.state.imgO} style={{width: '98%', height: '120px'}} alt='' />
+            <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '98%', height: '120px'}} alt='' />
           </div>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
@@ -222,7 +225,7 @@ class News extends React.Component {
             </Card>
           </div>
           <div className='bottom-img'>
-            <img src={this.state.imgT} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+            <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
       </div>

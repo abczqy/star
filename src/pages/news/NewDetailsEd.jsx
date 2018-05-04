@@ -15,6 +15,7 @@ import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
 import moment from 'moment'
+import ajaxUrl from 'config'
 import {newsListDet, newsList, information} from 'services/software-manage'
 class NewsDetailsEd extends React.Component {
   constructor (props) {
@@ -158,7 +159,7 @@ class NewsDetailsEd extends React.Component {
               </ul>
             </Card>
           </div>
-          <img src={this.state.imgT} style={{width: '95%', marginTop: '10px'}} alt='' />
+          <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '95%', marginTop: '10px'}} alt='' />
         </Col>
         <Col span={15} style={{width: '68%', marginTop: '10px', minHeight: '790px'}}>
           <div style={{backgroundColor: '#fff', width: '100%'}}>

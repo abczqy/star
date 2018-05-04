@@ -14,6 +14,7 @@ import _ from 'lodash'
 import webStorage from 'webStorage'
 import moment from 'moment'
 import {processStr} from 'utils'
+import ajaxUrl from 'config'
 import {information} from 'services/software-manage'
 class Information extends React.Component {
   constructor (props) {
@@ -25,7 +26,7 @@ class Information extends React.Component {
       imgH: hand,
       imgP: people,
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 5,
       selete: false, // 选择地区
       dataP: false, // 公告和分享的list
       imgG: '', // 公告图片
@@ -185,12 +186,16 @@ class Information extends React.Component {
         <div id='right-container' style={{height: this.state.viewHeight}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', backgroundColor: '#fff'}}>
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
-              <span className='information-fabu'>
+              <Col span={18}>
+                <span className='information-fabu'>
                   发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />
-              </span>
-              <span className='information-dianji' style={{marginLeft: '59%', fontSize: '12px'}}>
-                <img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选
-              </span>
+                </span>
+              </Col>
+              <Col span={6} style={{marginTop: '8px'}}>
+                <span className='information-dianji' style={{fontSize: '12px'}}>
+                  <img src={this.state.imgH} style={{width: '20px'}} alt='' />点击蓝色字段，可切换级别筛选
+                </span>
+              </Col>
             </li>
             {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
               return <li style={{listStyle: 'none', width: '100%', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}} key={index}>
@@ -219,11 +224,13 @@ class Information extends React.Component {
                 <Col >
                   {this.state.infoData.total >= 5
                     ? <Pagination
+                      current={this.state.pageNum}
+                      pageSize={5}
                       total={this.state.infoData.total}// {this.state.newData.total}
                       showSizeChanger
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                      // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                       // pageSizeOptions={5}
                     /> : null}</Col>
               </Row>
@@ -232,7 +239,7 @@ class Information extends React.Component {
         </div>
         <div id='left-container'>
           <div className='top-img' >
-            <img src={this.state.imgO} style={{width: '98%', height: '120px'}} alt='' />
+            <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '98%', height: '120px'}} alt='' />
           </div>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
@@ -244,7 +251,7 @@ class Information extends React.Component {
             </Card>
           </div>
           <div className='bottom-img'>
-            <img src={this.state.imgT} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+            <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
 
