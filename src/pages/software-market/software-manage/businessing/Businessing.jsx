@@ -139,12 +139,36 @@ class Businessing extends Component {
       let result = response.data
       this.setState({
         tableData: {
-          data: result.data,
+          data: this.getSwPath(result.data),
           total: result.total
         }
       })
     })
   }
+
+    // 获取只有系统名称的sw_path参数内容
+    getSwPath = (data) => {
+      data.map((item, index) => {
+        let con = item.sw_path
+        let version = ''
+        let pathArray = []
+        // 把sw_path字段内容用逗号分割,获得多个系统名称和下载路径混合的字符串
+        pathArray = con ? con.split(',') : []
+        pathArray.map((pathIt, pathIn) => {
+          // 把系统名称和下载路径混合字符串再用冒号分割,以便只取到系统名称
+          let pathVer = pathIt.split(':')
+          // 遍历取出每个系统名称，并拼接在一起
+          if (pathIn > 0) {
+            version += (',' + pathVer[0])
+          } else {
+            version += pathVer[0]
+          }
+          // 把拼接后的多个系统重新赋值给sw_path字段
+          item.sw_path = version
+        })
+      })
+      return data
+    }
 
   // 显示‘详情’弹窗
   showAppDetailModal = (record) => {
