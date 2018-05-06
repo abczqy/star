@@ -237,13 +237,13 @@ class TeacherHome extends Component {
   }
   // 热门推荐
   handleHotRecomIsSelfSupport = (item, index) => {
-    let jump = ''
+    let jumpa = ''
     if (item.isSelfSupport === 'false') {
-      jump = '/operate-manage-home/all-app-detail-third'
+      jumpa = '/operate-manage-home/all-app-detail-third'
     } else {
       if (item.isSelfSupport === 'true' && item.isOpen === 'true') {
       } else {
-        jump = '/operate-manage-home/all-app-detail'
+        jumpa = '/operate-manage-home/all-app-detail'
       }
     }
     return (
@@ -257,8 +257,8 @@ class TeacherHome extends Component {
         </dl>
         <p style={{float: 'right'}}>
           {item.isSelfSupport === 'false' ? <Icon className='downloadIcon' type='download' /> : null}
-          {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>下载</Link></Button> : null}
-          {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>开通</Link></Button> : null}
+          {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>下载</Link></Button> : null}
+          {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>开通</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button onClick={this.handleHotOpen(item)} className='openUpButton' type='primary'>打开</Button> : null}
           <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
         </p>
