@@ -64,7 +64,7 @@ export function getRecommendApp (params, sucFn) {
  * 门户首页-软件市场
  */
 export function getSoftMarketList (params, sucFn) {
-  return axios.get('/getSoftMarketList')
+  return axios.get('/getSoftwareMarketShow')
     .then(function (res) {
       sucFn(res)
     })
