@@ -36,6 +36,21 @@ class OperateManage extends React.Component {
       case '/operate-manage-home/all-app/all-app':// 全部应用
         activeTab = 'allApp'
         break
+      case '/operate-manage-home/all-app-detail':// 应用详情
+        activeTab = 'allApp'
+        break
+      case '/operate-manage-home/all-app-detail-third':
+        activeTab = 'allApp'
+        break
+      case '/operate-manage-home/please':
+        activeTab = 'allApp'
+        break
+      case '/operate-manage-home/iteration':
+        activeTab = 'allApp'
+        break
+      case '/operate-manage-home/all-app':
+        activeTab = 'allApp'
+        break
       case '/operate-manage-home/center':// 个人中心
         activeTab = 'peopleCenter'
         break
