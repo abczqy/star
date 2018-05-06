@@ -175,11 +175,12 @@ class Information extends React.Component {
   // 获取高度
  getHeight=() => {
    this.setState({
-     viewHeight: window.innerHeight - 230
+     viewHeight: window.innerHeight - 214,
+     viewHeights: window.innerHeight - 300
    })
  }
  render () {
-   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
+   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
      <div >
        <Row>
          <Col span={5} style={{width: '18%'}}>
@@ -195,8 +196,8 @@ class Information extends React.Component {
            </Row>
            <Row><img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
          </Col>
-         <Col span={16} style={{width: '68%', minHeight: '820px'}}>
-           <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: this.state.viewHeight, backgroundColor: '#fff'}}>
+         <Col span={16} style={{width: '68%'}}>
+           <ul className='ul-top' style={{width: '100%', marginTop: '10px', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>
              {this.state.infoData && this.state.infoData.list.map((item, index) => {
                return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                  <Col span={24}>

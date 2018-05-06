@@ -155,19 +155,21 @@ class News extends React.Component {
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
-        viewHeight: window.innerHeight - 237
+        viewHeight: window.innerHeight - 237,
+        viewHeights: window.innerHeight - 300
       })
     } else {
       this.setState({
-        viewHeight: window.innerHeight - 193
+        viewHeight: window.innerHeight - 193,
+        viewHeights: window.innerHeight - 250
       })
     }
   }
   render () {
     return (
-      <div className='news-list-container' style={{height: this.state.viewHeight}}>
+      <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container'>
-          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0', height: this.state.viewHeight}}>
+          <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0', minHeight: this.state.viewHeights}}>
             {this.state.newData ? this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
@@ -208,8 +210,8 @@ class News extends React.Component {
                   </Row>
                 </li>
             }) : ''}
-            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
-              <Row style={{marginBottom: '10px'}}>
+            <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '10px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
+              <Row >
                 <Col span={8} />
                 <Col >
                   {this.state.newData ? (this.state.newData.total >= 5

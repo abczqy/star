@@ -141,11 +141,13 @@ class InformationDet extends React.Component {
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
-        viewHeight: window.innerHeight - 223
+        viewHeight: window.innerHeight - 223,
+        viewHeights: window.innerHeight - 300
       })
     } else {
       this.setState({
-        viewHeight: window.innerHeight - 193
+        viewHeight: window.innerHeight - 193,
+        viewHeights: window.innerHeight - 250
       })
     }
   }
@@ -165,9 +167,9 @@ class InformationDet extends React.Component {
   }
   render () {
     return (
-      <div className='news-list-container' style={{height: this.state.viewHeight}}>
+      <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container' style={{height: this.state.viewHeight}}>
-          <div style={{backgroundColor: '#fff', width: '100%'}}>
+          <div style={{backgroundColor: '#fff', width: '100%', minHeight: this.state.viewHeights}}>
             <Row>
               <ul className='details-li-ul'>
                 <li className='details-li-hover'><span className='span-colors'>当前位置: <a onClick={this.position.bind(this)}>{this.state.dataRight.positionO}</a> / {this.state.dataRight.positionT}</span></li>

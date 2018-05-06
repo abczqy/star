@@ -143,11 +143,13 @@ class InformationDetEd extends React.Component {
  getHeight=() => {
    if (this.state.webStorage) {
      this.setState({
-       viewHeight: window.innerHeight - 214
+       viewHeight: window.innerHeight - 214,
+       viewHeights: window.innerHeight - 300
      })
    } else {
      this.setState({
-       viewHeight: window.innerHeight - 193
+       viewHeight: window.innerHeight - 193,
+       viewHeights: window.innerHeight - 250
      })
    }
  }
@@ -166,7 +168,7 @@ class InformationDetEd extends React.Component {
    })
  }
  render () {
-   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
+   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
      <div >
        <Col span={5} style={{width: '18%'}}>
          <div className='left-downer'>
@@ -181,7 +183,7 @@ class InformationDetEd extends React.Component {
          <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' />
        </Col>
        <Col span={15} style={{width: '68%', marginTop: '10px'}}>
-         <div style={{backgroundColor: '#fff', width: '100%', height: this.state.viewHeight}}>
+         <div style={{backgroundColor: '#fff', width: '100%', minHeight: this.state.viewHeights}}>
            <Row>
              <ul className='details-li-ul'>
                <li className='details-li-hover'>

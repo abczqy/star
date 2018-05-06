@@ -134,11 +134,13 @@ class News extends React.Component {
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
-        viewHeight: window.innerHeight - 214
+        viewHeight: window.innerHeight - 214,
+        viewHeights: window.innerHeight - 300
       })
     } else {
       this.setState({
-        viewHeight: window.innerHeight - 193
+        viewHeight: window.innerHeight - 193,
+        viewHeights: window.innerHeight - 250
       })
     }
   }
@@ -150,7 +152,7 @@ class News extends React.Component {
     })
   }
   render () {
-    return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
+    return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
       <Row>
         <Col span={5} style={{width: '18%'}}>
           <Row><div className='left-downer' >
@@ -166,7 +168,7 @@ class News extends React.Component {
           </Row>
           <Row><img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
-        <Col span={15} style={{width: '68%', minHeight: '790px', backgroundColor: '#fff'}}>
+        <Col span={15} style={{width: '68%', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0

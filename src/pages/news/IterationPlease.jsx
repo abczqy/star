@@ -286,7 +286,7 @@ zHs=() => {
         formData.append('copType', file)
       })
       // formData.append('copType', this.zH())// 软件版本的文件id和系统类别
-      formData.append('sw_id', '5564654654654')// 软件id
+      formData.append('sw_id', this.state.appId ? this.state.appId : '')// 软件id
       // formData.append('sw_id', this.state.appId)// appId
       iteration(formData, (response) => {
         console.log(response)
