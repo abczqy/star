@@ -117,27 +117,16 @@ class TeacherHome extends Component {
     })
   }
   // 处理收藏按钮
-  handleCollection = (id) => {
-    /* if (this.state.collectionType === 'cancel') {
-      this.setState({
-        collectionType: 'collect'
-      }, () => {
-        this.postCollection(id)
-      })
-    } else {
-      this.setState({
-        collectionType: 'cancel'
-      }, () => {
-        this.postCollection(id)
-      })
-    } */
-  }
-  // 发送收藏按钮请求
-  postCollection = (id) => {
+  handleCollection = (id, isCollect) => {
     homeCollection({
       sw_id: id,
-      type: 'collect'
+      type: isCollect === 'false' ? 'collect' : 'cancel'
     }, (res) => {
+      console.log(777777, res.data.result)
+      if (res.data.result === 'success') {
+        this.getTeacherData()
+        this.getHotData()
+      }
     }).catch((e) => { console.log(e) })
   }
 
@@ -227,7 +216,7 @@ class TeacherHome extends Component {
           {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>下载</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>开通</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button onClick={this.handleHotOpen(item)} className='openUpButton' type='primary'>打开</Button> : null}
-          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
         </p>
       </div>
     )
@@ -260,7 +249,7 @@ class TeacherHome extends Component {
           {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>下载</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>开通</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button onClick={this.handleHotOpen(item)} className='openUpButton' type='primary'>打开</Button> : null}
-          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
         </p>
       </div>
     )
@@ -283,25 +272,6 @@ class TeacherHome extends Component {
               <div className='popular-recommendation-item'>
                 {this.state.teacherData && this.state.teacherData.map((item, index, arr) => {
                   return this.handleTeacherIsSelfSupport(item, index)
-                  // return (
-                  //   <div key={index} className='list'>
-                  //     <dl className='list-item'>
-                  //       <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
-                  //       <dd className='dl-dd'>
-                  //         <span className='dd-title'>{item.SW_NAME}</span>
-                  //         <p className='dd-p'>{item.SW_DESC}</p>
-                  //       </dd>
-                  //     </dl>
-                  //     <p style={{float: 'right'}}>
-                  //       <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
-                  //         <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
-                  //         <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
-                  //         <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
-                  //       </Link>
-                  //       <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
-                  //     </p>
-                  //   </div>
-                  // )
                 })}
               </div>
             </div>
@@ -314,25 +284,6 @@ class TeacherHome extends Component {
               <div className='popular-recommendation-item'>
                 {this.state.hotData && this.state.hotData.map((item, index, arr) => {
                   return this.handleHotRecomIsSelfSupport(item, index)
-                  // return (
-                  //   <div key={index} className='list'>
-                  //     <dl className='list-item'>
-                  //       <dt className='dl-dt'><img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
-                  //       <dd className='dl-dd'>
-                  //         <span className='dd-title'>{item.SW_NAME}</span>
-                  //         <p className='dd-p'>{item.SW_DESC}</p>
-                  //       </dd>
-                  //     </dl>
-                  //     <p style={{float: 'right'}}>
-                  //       <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
-                  //         <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
-                  //         <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
-                  //         <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
-                  //       </Link>
-                  //       <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
-                  //     </p>
-                  //   </div>
-                  // )
                 })}
               </div>
             </div>

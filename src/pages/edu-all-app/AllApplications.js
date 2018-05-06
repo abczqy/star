@@ -66,7 +66,7 @@ export default class AllApplications extends React.Component {
               </Menu.Item>
             </Menu>
           </Sider>
-          <Layout style={{minHeight: '800px', _height: '800px'}}>
+          <Layout style={{minHeight: '800px', _height: '800px', width: '80%'}}>
             <Content>
               {
                 renderRoutes(this.props.route.childRoutes)

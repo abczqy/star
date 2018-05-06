@@ -113,27 +113,15 @@ class AllApplicationsDetail extends React.Component {
     }
   }
   // 处理收藏按钮
-  handleCollection = (id) => {
-    if (this.state.collectionType === 'cancel') {
-      this.setState({
-        collectionType: 'collect'
-      }, () => {
-        this.postCollection(id)
-      })
-    } else {
-      this.setState({
-        collectionType: 'cancel'
-      }, () => {
-        this.postCollection(id)
-      })
-    }
-  }
-  // 发送收藏按钮请求
-  postCollection = (id) => {
+  handleCollection = (id, isCollect) => {
     homeCollection({
       sw_id: id,
-      type: this.state.collectionType
+      type: isCollect === 'false' ? 'collect' : 'cancel'
     }, (res) => {
+      console.log(777777, res.data.result)
+      if (res.data.result === 'success') {
+        this.getAllAppData()
+      }
     }).catch((e) => { console.log(e) })
   }
   loadNextFunc = () => {}
@@ -153,12 +141,12 @@ class AllApplicationsDetail extends React.Component {
               <p>{item.SW_DESC}</p>
             </dd>
           </dl>
-          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' /></p>
+          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} /></p>
         </div>
       )
     })
     return (
-      <div className='gundongtiao' style={{ width: 1000, marginLeft: '6%' }}>
+      <div className='gundongtiao' style={{ overflow: 'auto', width: 1020, marginLeft: '6%' }}>
         <div>
           <span style={{ fontSize: 20 }}>平台应用</span>
           <div className='all-app-carousel'>

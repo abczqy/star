@@ -7,7 +7,7 @@
     overflow: hidden;
   }
   .all-app-carousel-detail {
-    width: 1000px;
+    width: 900px;
     margin-left: 50px;
   }
   .ant-carousel .slick-slide div {
@@ -20,6 +20,7 @@
     position: relative;
     height: 150px;
     width: 1000px;
+    overflow: auto;
     background: #fff;
     margin-top: 10px;
   }
