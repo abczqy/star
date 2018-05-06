@@ -284,12 +284,11 @@ class Businessing extends Component {
    */
   onShowSizeChange = (current, size) => {
     this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: current,
-        pageSize: size
-      },
-      inputValue: this.state.pagination.text
+      // pagination: {
+      //   ...this.state.pagination,
+      // }
+      pageNum: current,
+      pageSize: size
     }, () => {
       this.getTableDatas()
     })
@@ -300,22 +299,9 @@ class Businessing extends Component {
    */
   pageNumChange = (page, pageSize) => {
     this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      },
-      searchValue: this.state.pagination.text
+      pageNum: page
     }, () => {
       this.getTableDatas()
-    })
-  }
-
-  /**
-   * 搜索输入框变化的回调
-   */
-  inputChange = (val) => {
-    this.setState({
-      searchValue: val
     })
   }
 

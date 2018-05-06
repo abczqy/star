@@ -44,7 +44,9 @@ class IterationVerify extends Component {
       sw_type: '', // 软件类型
       sw_name: '',
       sw_time: '', // 期望上架时间
-      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
+      options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
+      pageNum: 1,
+      pageSize: 10
     }
   }
 
@@ -53,8 +55,8 @@ class IterationVerify extends Component {
    */
   getTableDatas = () => {
     iterVerify({
-      pageNum: 1,
-      pageSize: 10,
+      pageNum: this.state.pageNum,
+      pageSize: this.state.pageSize,
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name// 应用名称
     }, (res) => {
@@ -240,11 +242,7 @@ class IterationVerify extends Component {
    */
   pageNumChange = (page, pageSize) => {
     this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      },
-      searchValue: this.state.pagination.text
+      pageNum: page
     }, () => {
       this.getTableDatas()
     })

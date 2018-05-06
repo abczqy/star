@@ -35,7 +35,6 @@ class WaitVerify extends Component {
         total: 0
       },
       pagination,
-      searchValue: '',
       detModalCon: {
         visible: false,
         swName: '',
@@ -43,7 +42,9 @@ class WaitVerify extends Component {
       },
       sw_type: '',
       sw_name: '',
-      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
+      options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
+      pageNum: 1,
+      pageSize: 10
     }
   }
 
@@ -52,8 +53,8 @@ class WaitVerify extends Component {
    */
   getTableDatas = () => {
     getExamList({
-      pageNum: 1,
-      pageSize: 10,
+      pageNum: this.state.pageNum,
+      pageSize: this.state.pageSize,
       sw_type: this.state.sw_type,
       sw_name: this.state.sw_name
     }, (res) => {
@@ -227,11 +228,7 @@ class WaitVerify extends Component {
    */
   pageNumChange = (page, pageSize) => {
     this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      },
-      searchValue: this.state.pagination.text
+      pageNum: page
     }, () => {
       this.getTableDatas()
     })
