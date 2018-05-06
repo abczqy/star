@@ -18,11 +18,13 @@ class NewsAndInfo extends React.Component {
   // eslint-disable-next-line react/prop-types
   handleNewsTitleClick (item) {
     this.props.history.push('/unlogged/newsDetails?' + item.news_id)
+    this.props.changeActiveTab('newsList')
   }
 
   // eslint-disable-next-line react/prop-types
   handleInfoTitleClick (item) {
     this.props.history.push('/unlogged/informationDet?' + item.info_id)
+    this.props.changeActiveTab('information')
   }
 
   getMonth (str) {

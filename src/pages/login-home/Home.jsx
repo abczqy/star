@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line react/jsx-no-bind
 /**
  * 游客登陆-首页
@@ -179,7 +180,7 @@ class Home extends React.Component {
         </Row>
         <Row style={{background: 'white'}}>
           <Col span={24}>
-            <NewsAndInfo infoData={this.state.infoData || []} newsData={this.state.newsData || []} />
+            <NewsAndInfo changeActiveTab={this.props.changeActiveTab} infoData={this.state.infoData || []} newsData={this.state.newsData || []} />
           </Col>
         </Row>
         <Row>

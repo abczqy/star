@@ -69,6 +69,13 @@ class LoginHome extends React.Component {
     }
     return activeTab
   }
+
+  changeActiveTab (activeTab) {
+    this.setState({
+      activeTab
+    })
+  }
+
   componentDidMount () {
     if (webStorage.getItem('Unread_Message')) {
       this.setState({
@@ -164,7 +171,8 @@ class LoginHome extends React.Component {
           </div>
           <div className='content-container' >
             {renderRoutes(this.props.route.childRoutes, {
-              updatePage: () => { this.updatePage() }
+              updatePage: () => { this.updatePage() },
+              changeActiveTab: (activeTab) => { this.changeActiveTab(activeTab) }
             })}
           </div>
           <BottomHeader />
