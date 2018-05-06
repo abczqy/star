@@ -16,7 +16,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import { getAppListData, verifyDetail, undercarriage, stick, getApptype } from 'services/software-manage'
+import { getAppListData, verifyDetail, undercarriage, stick, getApptype, getRenewDetail } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -358,9 +358,18 @@ class Businessing extends Component {
   }
 
   showBusiRenewWin (record) {
-    this.setState({
-      busiRenewWinVisible: true,
-      busiRenewRecord: record
+    getRenewDetail({
+      sw_id: record.sw_id
+    }, (response) => {
+      let result = response.data
+      if (result.success) {
+        this.setState({
+          busiRenewWinVisible: true,
+          busiRenewRecord: result.data
+        })
+      } else {
+        message.error('请求软件详情失败!')
+      }
     })
   }
 

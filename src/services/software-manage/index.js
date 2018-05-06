@@ -21,6 +21,16 @@ export function getApptype (params, sucFn) {
 }
 
 /**
+ * 软件管理-运营中-获取续费弹窗详情
+ */
+export function getRenewDetail (params, sucFn) {
+  return axios.post('/management/apprenewdetail', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 软件管理-运营中-续费
  */
 export function appRenew (params, sucFn) {

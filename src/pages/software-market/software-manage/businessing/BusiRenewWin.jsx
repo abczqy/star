@@ -193,10 +193,12 @@ export default class BusiRenewWin extends React.Component {
           </Row>
           <Row gutter={22}>
             <Col span={12}>
-              <span className='contract-title'>合同起止日期:<span className='contract-value'>2017年4月10日 - 2018年4月10日</span></span>
+              <span className='contract-title'>合同起止日期:<span className='contract-value'>
+                {this.props.record.sw_time_real ? moment(this.props.record.sw_time_real).format('YYYY年MM月DD日') : ''} -
+                {this.props.record.expire_time ? moment(this.props.record.expire_time).format('YYYY年MM月DD日') : ''}</span></span>
             </Col>
             <Col span={12}>
-              <span className='contract-title'>合同状态:<span className='contract-value' style={{color: '#FF6600'}}>余{this.props.record.expire || 0}天</span></span>
+              <span className='contract-title'>合同状态:<span className='contract-value' style={{color: '#FF6600'}}>{this.props.record.num_day || ''}</span></span>
             </Col>
           </Row>
           <Row className='contract-status'>
