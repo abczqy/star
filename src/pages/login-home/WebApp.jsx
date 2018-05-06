@@ -3,7 +3,7 @@
  *
  */
 import React from 'react'
-import { Row, Col, Button, Icon, message } from 'antd'
+import { Row, Col, Button, message } from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'
@@ -24,7 +24,11 @@ class WebApp extends React.Component {
       message.warning('请先登录!')
       return
     }
-    this.props.history.push('/operate-manage-home/all-app-detail?'+item.sw_id)
+    if (item.user_id) {
+      window.open(item.sw_path)
+    } else {
+      this.props.history.push('/operate-manage-home/all-app-detail?'+item.sw_id)
+    }
   }
 
   renderItem (item, index) {
@@ -40,7 +44,7 @@ class WebApp extends React.Component {
               <div className='title'>{item.sw_name}</div>
               <div className='content'>{processStr(item.sw_desc, 12)}</div>
               <div>
-                <Button onClick={() => { this.handleAppClick(item) }}>查看详情<Icon type='arrow-right' /></Button>
+                <Button onClick={() => { this.handleAppClick(item) }}>{item.user_id ? '打开':'开通'}</Button>
               </div>
             </div>
           </div>
