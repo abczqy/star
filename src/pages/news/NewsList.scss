@@ -10,10 +10,9 @@
 }
 .ul-margin{
   width:100%;
-  margin-left: -23px;
+  padding: 0px;
   font-size: 20px;
   list-style-image:url('../../assets/images/_ul.png');
-  height:346px;
 }
 .span-color:hover{
   background-color: rgb(144, 197, 240)
@@ -48,7 +47,7 @@
   color:rgb(238, 136, 30);
   font-size: 16px;
   margin-top:20px;
-  height:13px;
+  min-height:13px;
 }
 .details-right-div{
   width:60%;
@@ -224,24 +223,3 @@
   line-height: 18px;
 }
 
-.super{
-  height:480px!important;
-}
-.super1{
-  height:340px!important;
-}
-.super2{
-  height:370px!important;
-}
-.super3{
-  height:430px!important;
-}
-.super4{
-  height:370px!important;
-}
-.super5{
-  height:370px!important;
-}
-.super6{
-  height:430px!important;
-}

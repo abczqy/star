@@ -98,7 +98,9 @@ class News extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    console.log('更多')
+    this.props.history.push({
+      pathname: '/operate-manage-home/public'
+    })
   }
   // 分页页码改变
   ptChange=(page, pageSize) => {
@@ -140,6 +142,14 @@ class News extends React.Component {
       })
     }
   }
+  // a标签的跳转方法哦~
+  handleTabChanges (e) {
+    console.log('123123123123123213', e.target.text)
+    this.props.history.push({
+      pathname: '/operate-manage-home/informationDetEd',
+      search: e.target.text.split(' ')[0]
+    })
+  }
   render () {
     return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
       <Row>
@@ -150,7 +160,7 @@ class News extends React.Component {
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
               <ul className='ul-margin super2'>
                 {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
                 })}
               </ul>
             </Card></div>
@@ -163,8 +173,8 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
-                    <Col span={16}>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
                         <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
@@ -181,8 +191,8 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} style={{width: '135px'}} alt='' /></Col>
-                    <Col span={16}>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
                         <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
@@ -207,8 +217,9 @@ class News extends React.Component {
                     ? <Pagination
                       current={this.state.pageNum}
                       total={this.state.newData.total}
+                      defaultPageSize={5}
+                      pageSizeOptions={['5']}
                       showSizeChanger
-                      pageSize={5}
                       showQuickJumper
                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                       // onShowSizeChange={(current, size) => { this.stChange(current, size) }}

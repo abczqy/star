@@ -130,10 +130,7 @@ class Information extends React.Component {
   title =() => {
     console.log('右边的标题')
   }
-  // 更多的点击事件
-  more=() => {
-    console.log('更多')
-  }
+
   // 分页页码改变
   ptChange=(page, pageSize) => {
     console.log('页码改变', page, pageSize)
@@ -163,6 +160,15 @@ class Information extends React.Component {
   }
   // a连接的页面跳转方法呦
   handleTabChange (e) {
+    console.log('123123213123213213', e.target)
+    this.props.history.push({
+      pathname: '/unlogged/informationDet',
+      search: e.target.text.split(' ')[0]
+    })
+  }
+  // a标签的跳转方法哦~
+  handleTabChanges (e) {
+    console.log('123123123123123213', e.target.text)
     this.props.history.push({
       pathname: '/unlogged/informationDet',
       search: e.target.text.split(' ')[0]
@@ -179,6 +185,12 @@ class Information extends React.Component {
         viewHeight: window.innerHeight - 193
       })
     }
+  }
+  // 更多的点击事件
+  more=() => {
+    this.props.history.push({
+      pathname: '/unlogged/information'
+    })
   }
   render () {
     return (
@@ -225,7 +237,8 @@ class Information extends React.Component {
                   {this.state.infoData.total >= 5
                     ? <Pagination
                       current={this.state.pageNum}
-                      pageSize={5}
+                      defaultPageSize={5}
+                      pageSizeOptions={['5']}
                       total={this.state.infoData.total}// {this.state.newData.total}
                       showSizeChanger
                       showQuickJumper
@@ -245,7 +258,7 @@ class Information extends React.Component {
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super1'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
                 })}
               </ul>
             </Card>

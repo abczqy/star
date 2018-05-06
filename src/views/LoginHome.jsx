@@ -118,14 +118,14 @@ class LoginHome extends React.Component {
               <li>
                 {
                   roleCode === 'eduBureau'
-                    ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
+                    ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/edu', 'newsList')}><span>教育新闻</span></a>
                     : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
                 }
               </li>
               <li>
                 {
                   roleCode === 'eduBureau'
-                    ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
+                    ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/public', 'information')}><span>信息公开</span></a>
                     : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
                 }
               </li>

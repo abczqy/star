@@ -64,6 +64,7 @@ class News extends React.Component {
     })
   }
   componentDidMount () {
+    this.getH()
     this.getList()
     this.getHeight()
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
@@ -104,7 +105,9 @@ class News extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    console.log('更多')
+    this.props.history.push({
+      pathname: '/unlogged/information'
+    })
   }
   // 分页页码改变
   ptChange=(page, pageSize) => {
@@ -129,10 +132,24 @@ class News extends React.Component {
   // a标签的跳转方法哦~
   handleTabChange (e) {
     console.log('111111111111111', this.props)
+    console.log('123123123123123213', e.target.text)
     this.props.history.push({
       pathname: '/unlogged/newsDetails',
       search: e.target.text.split(' ')[0]
     })
+  }
+  // a标签的跳转方法哦~
+  handleTabChanges (e) {
+    console.log('123123123123123213', e.target.text)
+    this.props.history.push({
+      pathname: '/unlogged/informationDet',
+      search: e.target.text.split(' ')[0]
+    })
+  }
+  // 获取高度
+  getH=() => {
+    let a = document.getElementById('ulul').offsetHeight
+    console.log('公告的高度', a)
   }
   // 获取高度
   getHeight=() => {
@@ -155,8 +172,8 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='120' height='120' alt='' /></Col>
-                    <Col span={16}>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
                         <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
@@ -173,8 +190,8 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='120' height='120' alt='' /></Col>
-                    <Col span={16}>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
                         <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
@@ -198,7 +215,8 @@ class News extends React.Component {
                   {this.state.newData ? (this.state.newData.total >= 5
                     ? <Pagination
                       current={this.state.pageNum}
-                      pageSize={5}
+                      defaultPageSize={5}
+                      pageSizeOptions={['5']}
                       total={this.state.newData.total}// {this.state.newData.total}
                       showSizeChanger
                       showQuickJumper
@@ -215,11 +233,11 @@ class News extends React.Component {
           <div className='top-img' >
             <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '98%', height: '120px'}} alt='' />
           </div>
-          <div className='center-public-info'>
+          <div className='center-public-info' id='ulul'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super1'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
                 })}
               </ul>
             </Card>

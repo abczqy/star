@@ -116,7 +116,9 @@ class InformationDetEd extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    console.log('更多')
+    this.props.history.push({
+      pathname: '/operate-manage-home/public'
+    })
   }
   // 点击当前位置(教育新闻)
   position (e) {
@@ -149,7 +151,21 @@ class InformationDetEd extends React.Component {
      })
    }
  }
-
+  // a标签的跳转方法哦~
+ handleTabChanges (e) {
+   console.log('123123123123123213', e.target.text)
+   this.props.history.push({
+     pathname: '/operate-manage-home/informationDetEd',
+     search: e.target.text.split(' ')[0]
+   })
+ }
+ // a标签的跳转方法哦~
+ handleTabChangess (e) {
+   this.props.history.push({
+     pathname: '/operate-manage-home/NewDetailsEd',
+     search: e.target.text.split(' ')[0]
+   })
+ }
  render () {
    return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
      <div >
@@ -158,12 +174,12 @@ class InformationDetEd extends React.Component {
            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
              <ul className='ul-margin super6'>
                {(!_.isEmpty(this.state.infoDatas)) && this.state.infoDatas.list.map((item, index) => {
-                 return <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li>
+                 return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
                })}
              </ul>
            </Card>
          </div>
-         <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '95%', marginTop: '10px'}} alt='' />
+         <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' />
        </Col>
        <Col span={15} style={{width: '68%', marginTop: '10px'}}>
          <div style={{backgroundColor: '#fff', width: '100%'}}>
@@ -186,7 +202,7 @@ class InformationDetEd extends React.Component {
                    {this.state.infoData
                      ? <div style={{width: '700px', alignContent: 'right'}}>
                        <span>下载附件 :
-                         <a src={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
+                         <a href={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
                        </span>
                      </div> : ''}
                  </div>
@@ -208,7 +224,7 @@ class InformationDetEd extends React.Component {
              <div>
                <ul className='details-li-ul-down'>
                  {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
-                   return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item.news_title}</li> : null
+                   return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></li> : null
                  })}
                </ul>
              </div>
