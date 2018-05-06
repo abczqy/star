@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { Menu, Input, Button, Row, Col, Upload, message } from 'antd'
 // import axios from 'axios'
 import ajaxUrl from 'config'
+import webStorage from 'webStorage'
 import PersonManageTable from './person-manage-table/PersonManageTable'
 import './PersonnelManagement.scss'
 
@@ -27,7 +28,7 @@ class PersonnelManagement extends Component {
     }
     this.uploadProps = {
       name: 'teachers',
-      action: ajaxUrl.API_BASE_URL + '/application/batchleadin',
+      action: ajaxUrl.API_BASE_URL + '/application/batchleadin?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID'),
       onChange: this.onChange
     }
   }
@@ -103,7 +104,7 @@ class PersonnelManagement extends Component {
       if (obj.key === 'student') {
         this.uploadProps = {
           name: 'student',
-          action: ajaxUrl.API_BASE_URL + '/application/batchleadins',
+          action: ajaxUrl.API_BASE_URL + '/application/batchleadins?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID'),
           onChange: this.onChange
         }
         this.setState({
@@ -112,7 +113,7 @@ class PersonnelManagement extends Component {
       } else {
         this.uploadProps = {
           name: 'teachers',
-          action: ajaxUrl.API_BASE_URL + '/application/batchleadin',
+          action: ajaxUrl.API_BASE_URL + '/application/batchleadin?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID'),
           onChange: this.onChange
         }
         this.setState({
