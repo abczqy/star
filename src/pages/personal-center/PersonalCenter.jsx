@@ -11,6 +11,7 @@ import ApplicationCard from './application-card/ApplicationCard'
 import Empty from '../../components/common/Empty'
 import webStorage from 'webStorage'
 import './PersonalCenter.scss'
+import { studentAppsDelete } from 'services/software-market'
 
 class PersonalCenter extends Component {
   constructor (props) {
@@ -58,7 +59,11 @@ class PersonalCenter extends Component {
     let checkIds = []
     for (var i in checks) {
       if (checks[i].checked) {
-        checkIds.push(checks[i].value)
+        if (type === 'studentApps') {
+          checkIds.push(checks[i].value - 0)
+        } else {
+          checkIds.push(checks[i].value)
+        }
       }
     }
     if (checkIds.length > 0) { // 选择了至少一个应用
@@ -80,21 +85,37 @@ class PersonalCenter extends Component {
         default:
           break
       }
-      axios.post(deleteUrl, {// 发送删除请求
-        sw_List: checkIds
-      }).then(res => {
-        console.log(res.data)
-        if (res.data.result === 'success') {
-          message.success('成功删除应用')
-          this.getApps(getDataUrl, type)// 刷新当前类应用列表
-          this.setState({
-            deleteActive: {
-              ...this.state.deleteActive,
-              [type]: false
-            }
-          })
-        }
-      }).catch(e => { console.log(e) })
+      if (type === 'studentApps') {
+        studentAppsDelete({sw_List: checkIds}, (res) => {
+          console.log(res.data)
+          if (res.data.result === 'success') {
+            message.success('成功删除应用')
+            this.getApps(getDataUrl, type)// 刷新当前类应用列表
+            this.setState({
+              deleteActive: {
+                ...this.state.deleteActive,
+                [type]: false
+              }
+            })
+          }
+        })
+      } else {
+        axios.post(deleteUrl, {// 发送删除请求
+          sw_List: checkIds
+        }).then(res => {
+          console.log(res.data)
+          if (res.data.result === 'success') {
+            message.success('成功删除应用')
+            this.getApps(getDataUrl, type)// 刷新当前类应用列表
+            this.setState({
+              deleteActive: {
+                ...this.state.deleteActive,
+                [type]: false
+              }
+            })
+          }
+        }).catch(e => { console.log(e) })
+      }
     } else {
       message.info('请选择要删除的应用')
     }
@@ -233,7 +254,13 @@ class PersonalCenter extends Component {
       if (openStatus) { // 展开状态
         return this.createAppList(appList, type)
       } else { // 收起状态 应用列表大于十个
-        return this.createAppList(_.take(appList, 10), type)
+        let list = []
+        if (type === 'studentApps') {
+          list = appList.list.slice(0, 10)
+        } else {
+          list = _.take(appList, 10)
+        }
+        return this.createAppList(list, type)
       }
     }
   }

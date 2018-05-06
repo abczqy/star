@@ -31,9 +31,6 @@ window.mungConfig = {
   // 个人中心-我的收藏删除
   personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete',
 
-  // 个人中心-学生应用删除
-  studentAppsDelete: AJAX_HOST + '/personal/collections/delete', // wyl 待修改
-
   // 个人中心-学生应用收藏/取消收藏
   studentAppsCollect: AJAX_HOST + '/app/collect',
 
