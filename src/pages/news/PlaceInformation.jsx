@@ -15,7 +15,7 @@ import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import ajaxUrl from 'config'
 import {information} from 'services/software-manage'
-import _ from 'lodash'
+// import _ from 'lodash'
 
 class Information extends React.Component {
   constructor (props) {
@@ -114,9 +114,13 @@ class Information extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    this.props.history.push({
-      pathname: '/unlogged/public'
-    })
+    if (this.props.location.pathname !== '/unlogged/public') {
+      this.props.history.push({
+        pathname: '/unlogged/public'
+      })
+    } else {
+      window.location.reload()
+    }
   }
   // 分页页码改变
   ptChange=(page, pageSize) => {
@@ -194,7 +198,7 @@ class Information extends React.Component {
                </ul>
              </Card></div>
            </Row>
-           <Row><img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+           <Row><img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
          </Col>
          <Col span={16} style={{width: '68%'}}>
            <ul className='ul-top' style={{width: '100%', marginTop: '10px', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>

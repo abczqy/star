@@ -190,9 +190,13 @@ class Information extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    this.props.history.push({
-      pathname: '/unlogged/information'
-    })
+    if (this.props.location.pathname !== '/unlogged/information') {
+      this.props.history.push({
+        pathname: '/unlogged/information'
+      })
+    } else {
+      window.location.reload()
+    }
   }
   render () {
     return (
@@ -254,7 +258,7 @@ class Information extends React.Component {
         </div>
         <div id='left-container'>
           <div className='top-img' >
-            <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '98%', height: '120px'}} alt='' />
+            <img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture : ''} style={{width: '98%', height: '120px'}} alt='' />
           </div>
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
@@ -266,7 +270,7 @@ class Information extends React.Component {
             </Card>
           </div>
           <div className='bottom-img'>
-            <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+            <img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
 

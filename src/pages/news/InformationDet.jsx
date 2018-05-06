@@ -95,6 +95,21 @@ class InformationDet extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
+    if (nextProps !== this.props) {
+      console.log('获取数据')
+      let a = window.location.href.split('?')
+      let value = {
+        info_id: Number(a[a.length - 1])
+      }
+      console.log('游客的信息公开详情传递参数', value)
+      informationDet(value, (response) => {
+        this.setState({
+          infoData: response.data
+        }, () => {
+          console.log('this.state.infoData', this.state.infoData)
+        })
+      })
+    }
     console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
@@ -224,7 +239,7 @@ class InformationDet extends React.Component {
             </Card>
           </div>
           <div className='bottom-img'>
-            <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+            <img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
       </div>

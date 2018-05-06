@@ -58,6 +58,22 @@ class NewsDetails extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
+    if (nextProps !== this.props) {
+      console.log('获取数据')
+      let a = window.location.href.split('?')
+      let value = {
+        news_id: Number(a[a.length - 1])
+      }
+      console.log(value)
+      newsListDet(value, (response) => {
+        this.setState({
+          newData: response.data
+        }, () => {
+          console.log('获取数据存在state', this.state.newData)
+          console.log('获取数据存在state', this.state.newData.list)
+        })
+      })
+    }
     console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
@@ -218,7 +234,7 @@ render () {
           </Card>
         </div>
         <div className='bottom-img'>
-          <img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+          <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
         </div>
       </div>
 
