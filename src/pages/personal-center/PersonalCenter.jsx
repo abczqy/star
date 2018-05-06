@@ -59,11 +59,7 @@ class PersonalCenter extends Component {
     let checkIds = []
     for (var i in checks) {
       if (checks[i].checked) {
-        if (type === 'studentApps') {
-          checkIds.push(checks[i].value - 0)
-        } else {
-          checkIds.push(checks[i].value)
-        }
+        checkIds.push(checks[i].value)
       }
     }
     if (checkIds.length > 0) { // 选择了至少一个应用
