@@ -116,6 +116,8 @@ class NewsList extends Component {
       endTime,
       keywords
     } = this.state.reqParam
+    // 这里需要一个函数-satrtTime和endTime不能有一个为空 - 在搜索这个动作下
+    // 所以校验肯定不使加在这里的
     // 最后都要赋空
     return {
       pageNum: pageNum || 1,
@@ -173,15 +175,70 @@ class NewsList extends Component {
     })
   }
 
+  /**
+   * 设置state中的时间属性
+   */
+  setDateState = (field, val) => {
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        [field]: val ? val.format('YYYY-MM-DD') : ''
+      }
+    })
+  }
+
+  /**
+   * 开始时间-选择器-点击回调
+   */
+  onStartChange = (val) => {
+    // console.log(`val: ${val.format('YYYY-MM-DD')}`)
+    this.setDateState('startTime', val)
+  }
+
+  /**
+   * 结束时间-选择器-点击回调
+   */
+  onEndChange = (val) => {
+    this.setDateState('endTime', val)
+  }
+
+  /**
+   * 当Input的值变化时回调
+   */
+  onInputChange = (e) => {
+    console.log(`有 onchange函数 ${this.Obj2String(e.target.value)}`)
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        keywords: e.target.value
+      }
+    })
+  }
+
+  /**
+   * 搜索-按钮-点击回调
+   */
+  onSearch = () => {
+    // 需要对state.reqParam中的startTime和endTime进行校验-两个必须同时为空或者存在
+    // 刷新表格
+    this.getTableDatas()
+  }
+
   componentDidMount () {
     this.getTableDatas()
   }
   render () {
-    const { tableData } = this.state
+    const { tableData, reqParam } = this.state
+    console.log(`state.datePick-start: ${reqParam.startTime}`)
+    console.log(`state.datePick-end: ${reqParam.endTime}`)
     return (
       <div className='software-wrap list-wrap'>
         <NewsBar
+          onBtn2Click={this.onSearch}
           onBtn1Click={this.onBatchDel}
+          onStartChange={this.onStartChange}
+          onEndChange={this.onEndChange}
+          onInputChange={this.onInputChange}
         />
         <BlankBar />
         <Table
