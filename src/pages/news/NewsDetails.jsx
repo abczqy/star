@@ -112,7 +112,9 @@ class NewsDetails extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    console.log('更多')
+    this.props.history.push({
+      pathname: '/unlogged/information'
+    })
   }
   // 点击当前位置(教育新闻)
   position (e) {
@@ -145,6 +147,21 @@ getHeight=() => {
       viewHeight: window.innerHeight - 193
     })
   }
+}
+// a标签的跳转方法哦~
+handleTabChanges (e) {
+  console.log('123123123123123213', e.target.text)
+  this.props.history.push({
+    pathname: '/unlogged/informationDet',
+    search: e.target.text.split(' ')[0]
+  })
+}
+// a标签的跳转方法哦~
+handleTabChangess (e) {
+  this.props.history.push({
+    pathname: '/unlogged/newsDetails',
+    search: e.target.text.split(' ')[0]
+  })
 }
 render () {
   return (
@@ -182,7 +199,7 @@ render () {
               </div>
               <ul className='details-li-ul-down'>
                 {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
-                  return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /> {item.news_title}</li> : null
+                  return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></li> : null
                 })}
               </ul>
             </div>
@@ -193,7 +210,7 @@ render () {
           <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
             <ul className='ul-margin super'>
               {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
+                return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
               })}
             </ul>
           </Card>

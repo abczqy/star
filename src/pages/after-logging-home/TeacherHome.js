@@ -34,13 +34,16 @@ class TeacherHome extends Component {
       hotMoreNum: 8,
       collectionType: 'cancel',
       downloadIcon: {
-        display: 'none'
+        display: ''
       },
       downloadButton: {
-        display: 'none'
+        display: ''
       },
       openButton: {
-        display: 'block'
+        display: ''
+      },
+      openUpButton: {
+        display: ''
       },
       jump: '/operate-manage-home/all-app-detail-third',
       aaa: '开通'
@@ -123,21 +126,6 @@ class TeacherHome extends Component {
     }, (res) => {
       this.setState({
         hotData: res.data.data
-      }, () => {
-        if (this.state.hotData.length > 0) {
-          this.setState({
-            downloadButton: {
-              display: 'none'
-            },
-            downloadIcon: {
-              display: 'none'
-            },
-            openButton: {
-              display: 'block'
-            },
-            jump: '/operate-manage-home/all-app-detail'
-          })
-        }
       })
     }).catch((e) => { console.log(e) })
   }
@@ -261,7 +249,7 @@ class TeacherHome extends Component {
                 <Rate disabled value={item.SW_STAR} />
               </dd>
             </dl>
-            <Button type='primary' className='install-button' onClick={(item) => { this.handleBtnClick(item) }}>{this.getBtnText(item)}</Button>
+            <Button type='primary' className='install-button' onClick={() => { this.handleBtnClick(item) }}>{this.getBtnText(item)}</Button>
           </div>
         </p>
       </div>
@@ -269,6 +257,7 @@ class TeacherHome extends Component {
   }
 
   handleBtnClick (item) {
+    console.log(2222222, item)
     if (item.isSelfSupport === 'false') {
       this.props.history.push({
         pathname: '/operate-manage-home/all-app-detail-third',
@@ -298,6 +287,47 @@ class TeacherHome extends Component {
   }
   // 老师推荐
   handleTeacherIsSelfSupport = (item, index) => {
+    let downloadButton = {}
+    let downloadIcon = {}
+    let openButton = {}
+    let openUpButton = {}
+    let jump = ''
+    if (item.isSelfSupport === 'false') {
+      downloadButton = {display: 'block'}
+      downloadIcon = {display: 'block'}
+      openButton = {display: 'none'}
+      openUpButton = {display: 'none'}
+      jump = '/operate-manage-home/all-app-detail-third'
+    } else {
+      if (item.isSelfSupport === 'true' && item.isOpen === 'true') {
+        downloadButton = {
+          display: 'none'
+        }
+        downloadIcon = {
+          display: 'none'
+        }
+        openButton = {
+          display: 'none'
+        }
+        openUpButton = {
+          display: 'block'
+        }
+      } else {
+        downloadButton = {
+          display: 'none'
+        }
+        downloadIcon = {
+          display: 'none'
+        }
+        openButton = {
+          display: 'block'
+        }
+        openUpButton = {
+          display: 'none'
+        }
+        jump = '/operate-manage-home/all-app-detail'
+      }
+    }
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
@@ -308,18 +338,61 @@ class TeacherHome extends Component {
           </dd>
         </dl>
         <p style={{float: 'right'}}>
-          <Link to={{pathname: this.state.jump, search: item.SW_ID}}>
-            <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
-            <Button className='downloadButton' style={this.state.downloadButton} type='primary'>下载</Button>
-            <Button className='openButton' style={this.state.openButton} type='primary'>开通</Button>
-          </Link>
-          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+          <Icon className='downloadIcon' style={downloadIcon} type='download' />
+          <Button className='downloadButton' style={downloadButton} type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>下载</Link></Button>
+          <Button className='openButton' style={openButton} type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>开通</Link></Button>
+          <Button onClick={this.handleTeacherOpen(item)} className='openUpButton' style={openUpButton} type='primary'>打开</Button>
+          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
         </p>
       </div>
     )
   }
+  handleTeacherOpen = (item) => {
+    window.open(item.sw_url)
+  }
   // 热门推荐
   handleHotRecomIsSelfSupport = (item, index) => {
+    let downloadButton = {}
+    let downloadIcon = {}
+    let openButton = {}
+    let openUpButton = {}
+    let jump = ''
+    if (item.isSelfSupport === 'false') {
+      downloadButton = {display: 'block'}
+      downloadIcon = {display: 'block'}
+      openButton = {display: 'none'}
+      openUpButton = {display: 'none'}
+      jump = '/operate-manage-home/all-app-detail-third'
+    } else {
+      if (item.isSelfSupport === 'true' && item.isOpen === 'true') {
+        downloadButton = {
+          display: 'none'
+        }
+        downloadIcon = {
+          display: 'none'
+        }
+        openButton = {
+          display: 'none'
+        }
+        openUpButton = {
+          display: 'block'
+        }
+      } else {
+        downloadButton = {
+          display: 'none'
+        }
+        downloadIcon = {
+          display: 'none'
+        }
+        openButton = {
+          display: 'block'
+        }
+        openUpButton = {
+          display: 'none'
+        }
+        jump = '/operate-manage-home/all-app-detail'
+      }
+    }
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
@@ -330,13 +403,17 @@ class TeacherHome extends Component {
           </dd>
         </dl>
         <p style={{float: 'right'}}>
-          <Icon className='downloadIcon' style={this.state.downloadIcon} type='download' />
-          <Button className='downloadButton' style={this.state.downloadButton} type='primary'><Link to={{pathname: this.state.jump, search: item.SW_ID}}>下载</Link></Button>
-          <Button className='openButton' style={this.state.openButton} type='primary'><Link to={{pathname: this.state.jump, search: item.SW_ID}}>开通</Link></Button>
-          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
+          <Icon className='downloadIcon' style={downloadIcon} type='download' />
+          <Button className='downloadButton' style={downloadButton} type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>下载</Link></Button>
+          <Button className='openButton' style={openButton} type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>开通</Link></Button>
+          <Button onClick={this.handleHotOpen(item)} className='openUpButton' style={openUpButton} type='primary'>打开</Button>
+          <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID)} type='star-o' />
         </p>
       </div>
     )
+  }
+  handleHotOpen = (item) => {
+    window.open(item.sw_url)
   }
   render () {
     return (

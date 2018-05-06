@@ -114,7 +114,9 @@ class Information extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    console.log('更多')
+    this.props.history.push({
+      pathname: '/operate-manage-home/public'
+    })
   }
   // 分页页码改变
   ptChange=(page, pageSize) => {
@@ -195,7 +197,7 @@ class Information extends React.Component {
              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
                <ul className='ul-margin super4'>
                  {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><span className='span-color'>{item.info_title}</span></li> : ''
+                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
                  })}
                </ul>
              </Card></div>
@@ -229,7 +231,8 @@ class Information extends React.Component {
                      current={this.state.pageNum}
                      total={this.state.infoData.total}
                      showSizeChanger
-                     pageSize={5}
+                     defaultPageSize={5}
+                     pageSizeOptions={['5']}
                      showQuickJumper
                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                      //  onShowSizeChange={(current, size) => { this.stChange(current, size) }}

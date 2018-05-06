@@ -82,7 +82,6 @@ class MyAppIterationTable extends Component {
     let params = {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize,
-      fa_id: 'fa_123456', // 厂商id
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name // 应用名称
     }
