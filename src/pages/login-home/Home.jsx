@@ -47,29 +47,33 @@ class Home extends React.Component {
     // 门户首页-热门推荐
     getRecommendApp({}, (response) => {
       let result = response.data
-      this.setState({
-        webAppData: result.data
-      })
+      if (result.success) {
+        this.setState({
+          webAppData: result.data || []
+        })
+      }
     })
     // 门户首页-软件市场
     getSoftMarketList({}, (response) => {
       let result = response.data
-      this.setState({
-        softMarketData: result.data
-      })
+      if (result.success) {
+        this.setState({
+          softMarketData: result.data || []
+        })
+      }
     })
     // 门户首页-教育新闻
     getNewsNoticeList({}, (response) => {
       let result = response.data
       this.setState({
-        newsData: result.data
+        newsData: result.data || []
       })
     })
     // 门户首页-信息公开
     getPublicNoticeList({}, (response) => {
       let result = response.data
       this.setState({
-        infoData: result.data
+        infoData: result.data || []
       })
     })
     // 门户首页-应用总数统计
