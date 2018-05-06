@@ -101,7 +101,7 @@ export default class SelfSupport extends React.Component {
   }
 
   handleClick () {
-    window.open(this.state.appDetailData.sw_path, '_blank')
+    window.open(this.state.appDetailData.sw_path)
   }
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {

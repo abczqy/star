@@ -141,7 +141,7 @@ export default class ThirdPartyAppDetail extends React.Component {
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
             <div>
-              <Button className='header-button'>windows 32位<Icon style={{color: '#fff'}} type='download' /></Button>
+              <Link to={this.state.appDetailData.sw_path ? this.state.appDetailData.sw_path[0].win10 : ''}><Button className='header-button'>windows 32位<Icon style={{color: '#fff'}} type='download' /></Button></Link>
               <Button className='header-button'>windows 64位<Icon style={{color: '#fff'}} type='download' /></Button>
               <Button className='header-button'>ios系统<Icon style={{color: '#fff'}} type='download' /></Button>
               <Button className='header-button'>安卓系统<Icon style={{color: '#fff'}} type='download' /></Button>

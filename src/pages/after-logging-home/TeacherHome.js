@@ -118,7 +118,6 @@ class TeacherHome extends Component {
   }
   // 处理收藏按钮
   handleCollection = (id) => {
-    alert('gggggg')
     /* if (this.state.collectionType === 'cancel') {
       this.setState({
         collectionType: 'collect'
@@ -137,7 +136,7 @@ class TeacherHome extends Component {
   postCollection = (id) => {
     homeCollection({
       sw_id: id,
-      type: this.state.collectionType
+      type: 'collect'
     }, (res) => {
     }).catch((e) => { console.log(e) })
   }
