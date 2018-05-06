@@ -181,12 +181,12 @@ class InformationDet extends React.Component {
                   <div className='details-right-div-div'>
                     {this.state.infoData ? this.state.infoData.info_desc : '文章'}
                   </div>
-                  {this.state.infoData
+                  {/* {this.state.infoData
                     ? <div style={{width: '700px', alignContent: 'right'}}>
                       <span>下载附件 :
                         <a href={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
                       </span>
-                    </div> : ''}
+                    </div> : ''} */}
                 </div>
               </Col>
             </Row>

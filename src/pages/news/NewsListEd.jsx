@@ -134,7 +134,7 @@ class News extends React.Component {
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
-        viewHeight: window.innerHeight - 230
+        viewHeight: window.innerHeight - 214
       })
     } else {
       this.setState({
@@ -144,7 +144,6 @@ class News extends React.Component {
   }
   // a标签的跳转方法哦~
   handleTabChanges (e) {
-    console.log('123123123123123213', e.target.text)
     this.props.history.push({
       pathname: '/unlogged/informationDetEd',
       search: e.target.text.split(' ')[0]
@@ -167,8 +166,8 @@ class News extends React.Component {
           </Row>
           <Row><img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
-        <Col span={15} style={{width: '68%', height: this.state.viewHeight}}>
-          <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px', backgroundColor: '#fff'}}>
+        <Col span={15} style={{width: '68%', minHeight: '790px', backgroundColor: '#fff'}}>
+          <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px'}}>
             {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>

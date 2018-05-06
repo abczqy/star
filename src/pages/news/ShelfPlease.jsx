@@ -669,7 +669,7 @@ class ShelfPlease extends React.Component {
                         <Icon type='upload' /> 上传文件
                       </Button>
                       <span className='extend'>
-                        <span style={{visibility: 'hidden'}} />请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:;'>下载模版</a>
+                        <span style={{visibility: 'hidden'}} />请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:0;'>下载模版</a>
                     </Upload>
                   </Radio>
                 </Col>

@@ -114,7 +114,7 @@ class NewsDetailsEd extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/operate-manage-home/public'
+      pathname: '/unlogged/public'
     })
   }
   // 点击当前位置(教育新闻)
@@ -140,7 +140,7 @@ class NewsDetailsEd extends React.Component {
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
-        viewHeight: window.innerHeight - 230
+        viewHeight: window.innerHeight - 214
       })
     } else {
       this.setState({
@@ -152,14 +152,14 @@ class NewsDetailsEd extends React.Component {
   handleTabChanges (e) {
     console.log('123123123123123213', e.target.text)
     this.props.history.push({
-      pathname: '/operate-manage-home/informationDetEd',
+      pathname: '/unlogged/informationDetEd',
       search: e.target.text.split(' ')[0]
     })
   }
   // a标签的跳转方法哦~
   handleTabChangess (e) {
     this.props.history.push({
-      pathname: '/operate-manage-home/NewDetailsEd',
+      pathname: '/unlogged/NewDetailsEd',
       search: e.target.text.split(' ')[0]
     })
   }

@@ -88,6 +88,9 @@ export default [{
   }, {
     path: '/unlogged/informationDetEd', // 教育局信息公开详情
     component: Logged(InformationDetEd)
+  }, {
+    path: '/unlogged/informationEd', // 信息公开编辑
+    component: Logged(InformationEd)
   }]
 }, {
   path: '/operate-manage-home', // 登陆后-运营管理入口
@@ -95,9 +98,6 @@ export default [{
   childRoutes: [{
     path: '/operate-manage-home/home',
     component: Logged(TeacherHome)
-  }, {
-    path: '/operate-manage-home/informationEd',
-    component: Logged(InformationEd)
   }, {
     path: '/operate-manage-home/please', // 上架
     component: Logged(Please)

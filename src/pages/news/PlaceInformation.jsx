@@ -115,7 +115,7 @@ class Information extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/operate-manage-home/public'
+      pathname: '/unlogged/public'
     })
   }
   // 分页页码改变
@@ -140,11 +140,8 @@ class Information extends React.Component {
   }
   // 跳到信息公开编辑
   handleTabChange (e) {
-    // if (link === this.props.location.pathname) {
-    //   window.location.reload()
-    // }
     this.props.history.push({
-      pathname: '/operate-manage-home/informationEd'
+      pathname: '/unlogged/informationEd'
       // search: e.target.text.split(' ')[0]
     }
     )
@@ -152,7 +149,7 @@ class Information extends React.Component {
   // 跳到（信息公开列表）// 政策发布
   handleTabChanges (e) {
     this.props.history.push({
-      pathname: '/operate-manage-home/informationDetEd',
+      pathname: '/unlogged/informationDetEd',
       search: e.target.text.split(' ')[0]
     }
     )
@@ -177,15 +174,9 @@ class Information extends React.Component {
   }
   // 获取高度
  getHeight=() => {
-   if (this.state.webStorage) {
-     this.setState({
-       viewHeight: window.innerHeight - 230
-     })
-   } else {
-     this.setState({
-       viewHeight: window.innerHeight - 193
-     })
-   }
+   this.setState({
+     viewHeight: window.innerHeight - 230
+   })
  }
  render () {
    return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', height: this.state.viewHeight}}>
@@ -205,7 +196,7 @@ class Information extends React.Component {
            <Row><img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
          </Col>
          <Col span={16} style={{width: '68%', minHeight: '820px'}}>
-           <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: `${this.state.heights}`, backgroundColor: '#fff'}}>
+           <ul className='ul-top' style={{width: '100%', marginTop: '10px', height: this.state.viewHeight, backgroundColor: '#fff'}}>
              {this.state.infoData && this.state.infoData.list.map((item, index) => {
                return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                  <Col span={24}>
@@ -227,16 +218,17 @@ class Information extends React.Component {
                <Row>
                  <Col span={12} />
                  <Col >
-                   <Pagination
-                     current={this.state.pageNum}
-                     total={this.state.infoData.total}
-                     showSizeChanger
-                     defaultPageSize={5}
-                     pageSizeOptions={['5']}
-                     showQuickJumper
-                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                   {this.state.infoData.total > 5
+                     ? <Pagination
+                       current={this.state.pageNum}
+                       total={this.state.infoData.total}
+                       showSizeChanger
+                       defaultPageSize={5}
+                       pageSizeOptions={['5']}
+                       showQuickJumper
+                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                      //  onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                   /></Col>
+                     /> : ''}</Col>
                </Row>
              </li>
            </ul>

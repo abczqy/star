@@ -84,10 +84,10 @@ class InformationEd extends React.Component {
           return (
             <div style={{width: '90px'}}>
               <span style={{width: '32px', display: 'inline-block'}}>
-                <a href='javascript:;' onClick={() => thiz.edit(record, 'edit')}>
+                <a href='javascript:0;' onClick={() => thiz.edit(record, 'edit')}>
             编辑</a></span>
               <Popconfirm title='您确定要删除这条信息吗?' style={{width: '200px'}} onConfirm={() => thiz.confirmUp(record)} onCancel={thiz.cancelUp} okText='Yes' cancelText='No'>
-                <span ><a href='javascript:;' >
+                <span ><a href='javascript:0;' >
             删除</a></span>
               </Popconfirm>
 
@@ -160,7 +160,7 @@ class InformationEd extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/operate-manage-home/public'
+      pathname: '/unlogged/public'
     })
   }
   // 点击搜索
@@ -256,7 +256,7 @@ onPageNumChange = (pageNum, pageSize) => {
 handleTabChanges (e) {
   console.log('123123123123123213', e.target.text)
   this.props.history.push({
-    pathname: '/operate-manage-home/informationDetEd',
+    pathname: '/unlogged/informationDetEd',
     search: e.target.text.split(' ')[0]
   })
 }

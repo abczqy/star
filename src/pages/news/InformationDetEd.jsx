@@ -143,7 +143,7 @@ class InformationDetEd extends React.Component {
  getHeight=() => {
    if (this.state.webStorage) {
      this.setState({
-       viewHeight: window.innerHeight - 230
+       viewHeight: window.innerHeight - 214
      })
    } else {
      this.setState({
@@ -153,16 +153,15 @@ class InformationDetEd extends React.Component {
  }
   // a标签的跳转方法哦~
  handleTabChanges (e) {
-   console.log('123123123123123213', e.target.text)
    this.props.history.push({
-     pathname: '/unlogged/public',
+     pathname: '/unlogged/informationDetEd',
      search: e.target.text.split(' ')[0]
    })
  }
  // a标签的跳转方法哦~
  handleTabChangess (e) {
    this.props.history.push({
-     pathname: '/unlogged/edu',
+     pathname: '/unlogged/NewDetailsEd',
      search: e.target.text.split(' ')[0]
    })
  }
@@ -182,7 +181,7 @@ class InformationDetEd extends React.Component {
          <img src={(!_.isEmpty(this.state.infoDatas)) && ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' />
        </Col>
        <Col span={15} style={{width: '68%', marginTop: '10px'}}>
-         <div style={{backgroundColor: '#fff', width: '100%'}}>
+         <div style={{backgroundColor: '#fff', width: '100%', height: this.state.viewHeight}}>
            <Row>
              <ul className='details-li-ul'>
                <li className='details-li-hover'>
@@ -199,12 +198,12 @@ class InformationDetEd extends React.Component {
                    <div style={{marginBottom: '30px'}}>
                      {this.state.infoData ? this.state.infoData.info_desc : '1' }
                    </div>
-                   {this.state.infoData
+                   {/* {this.state.infoData
                      ? <div style={{width: '700px', alignContent: 'right'}}>
                        <span>下载附件 :
                          <a href={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
                        </span>
-                     </div> : ''}
+                     </div> : ''} */}
                  </div>
                </div>
              </Col>
