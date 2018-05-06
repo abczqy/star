@@ -176,7 +176,7 @@ class Information extends React.Component {
  getHeight=() => {
    this.setState({
      viewHeight: window.innerHeight - 214,
-     viewHeights: window.innerHeight - 300
+     viewHeights: window.innerHeight - 230
    })
  }
  render () {

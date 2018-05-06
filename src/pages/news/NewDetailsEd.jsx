@@ -141,12 +141,12 @@ class NewsDetailsEd extends React.Component {
     if (this.state.webStorage) {
       this.setState({
         viewHeight: window.innerHeight - 214,
-        viewHeights: window.innerHeight - 300
+        viewHeights: window.innerHeight - 235
       })
     } else {
       this.setState({
         viewHeight: window.innerHeight - 193,
-        viewHeights: window.innerHeight - 250
+        viewHeights: window.innerHeight - 220
       })
     }
   }

@@ -156,12 +156,12 @@ class News extends React.Component {
     if (this.state.webStorage) {
       this.setState({
         viewHeight: window.innerHeight - 237,
-        viewHeights: window.innerHeight - 300
+        viewHeights: window.innerHeight - 260
       })
     } else {
       this.setState({
         viewHeight: window.innerHeight - 193,
-        viewHeights: window.innerHeight - 250
+        viewHeights: window.innerHeight - 240
       })
     }
   }
@@ -174,7 +174,7 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='110' alt='' /></Col>
                     <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>

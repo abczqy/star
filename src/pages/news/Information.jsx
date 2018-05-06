@@ -179,12 +179,12 @@ class Information extends React.Component {
     if (this.state.webStorage) {
       this.setState({
         viewHeight: window.innerHeight - 223,
-        viewHeights: window.innerHeight - 300
+        viewHeights: window.innerHeight - 240
       })
     } else {
       this.setState({
         viewHeight: window.innerHeight - 193,
-        viewHeights: window.innerHeight - 250
+        viewHeights: window.innerHeight - 220
       })
     }
   }
