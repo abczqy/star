@@ -26,7 +26,7 @@ window.mungConfig = {
   studentApps: AJAX_HOST + '/personal/student/app',
 
   // 个人中心-我的应用删除
-  personalAppsDelete: AJAX_HOST + '/personal/apps/delete',
+  personalAppsDelete: AJAX_HOST + '/personal/delete',
 
   // 个人中心-我的收藏删除
   personalCollectionsDelete: AJAX_HOST + '/personal/collections/delete',
