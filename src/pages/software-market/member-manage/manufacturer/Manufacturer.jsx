@@ -11,7 +11,7 @@
 import React, { Component } from 'react'
 import { Table, Switch, Divider, Icon, Popover, Button } from 'antd'
 // import axios from 'axios'
-// import ajaxUrl from 'config'
+import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
@@ -440,6 +440,7 @@ class Manufacturer extends Component {
     const { faIdArrs } = this.state.batchLeadParams
     console.log(`faIdArrs: ${JSON.stringify(faIdArrs)}`)
     faBatchLeadout({fa_id: faIdArrs}, (res) => {
+      window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
       console.log(`${res.data.info}`)
     })
   }

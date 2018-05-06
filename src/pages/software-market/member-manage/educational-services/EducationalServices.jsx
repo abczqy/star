@@ -11,6 +11,7 @@
 import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
 import { Link } from 'react-router-dom'
+import ajaxUrl from 'config'
 import {
   eduGetData,
   eduBatchLeadout,
@@ -64,22 +65,22 @@ class EducationalServices extends Component {
   getColumns = () => {
     return ([{
       title: '机构名称',
-      dataIndex: 'edu_name',
-      key: 'edu_name',
+      dataIndex: 'EDU_NAME',
+      key: 'EDU_NAME',
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'edu_id',
-      key: 'edu_id',
+      dataIndex: 'EDU_ID',
+      key: 'EDU_ID',
       width: 200
     }, {
       title: '所属级别',
-      dataIndex: 'edu_class',
-      key: 'edu_class'
+      dataIndex: 'EDU_PWD',
+      key: 'EDU_PWD'
     }, {
       title: '上级机构名称',
-      dataIndex: 'edu_upper',
-      key: 'edu_upper'
+      dataIndex: 'EDU_UPPER',
+      key: 'EDU_UPPER'
     }, {
       title: '允许登录',
       dataIndex: 'to_login',
@@ -122,11 +123,11 @@ class EducationalServices extends Component {
     return {
       pageSize: pageSize || 15,
       pageNum: pageNum || 1,
-      edu_id: eduId || '',
-      edu_name: eduName || '',
-      edu_class: eduClass || '',
-      edu_upper: eduUpper || '',
-      login_type: loginType || ''
+      EDU_ID: eduId || '',
+      EDU_NAME: eduName || '',
+      EDU_PWD: eduClass || '',
+      EDU_UPPER: eduUpper || '',
+      TO_LOGIN: loginType || ''
     }
   }
 
@@ -141,7 +142,7 @@ class EducationalServices extends Component {
       console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: addKey2TableData(data.list, 'edu_id'),
+          data: addKey2TableData(data.list, 'EDU_ID'),
           total: data.total
         }
       })
@@ -265,7 +266,8 @@ class EducationalServices extends Component {
     // 从state中获取实时的stu_id数组的值 作为请求参数传给后台
     const { idArrs } = this.state.batchLeadParams
     console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
-    eduBatchLeadout({edu_id: idArrs}, (res) => {
+    eduBatchLeadout({EDU_ID: idArrs}, (res) => {
+      window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
       console.log(`${res.data.info}`)
     })
   }
@@ -274,12 +276,12 @@ class EducationalServices extends Component {
    * 多选选项变化
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
-    // 从view中得到数据 并把edu_id提取出来组合为一个新数组
+    // 从view中得到数据 并把EDU_ID提取出来组合为一个新数组
     let idArr = []
     selectedRows.map((val, index) => {
-      idArr.push(val.edu_id)
+      idArr.push(val.EDU_ID)
     })
-    // 将edu_id得到的新数组映射到state中
+    // 将EDU_ID得到的新数组映射到state中
     this.setState({
       batchLeadParams: {
         idArrs: idArr

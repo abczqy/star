@@ -494,7 +494,7 @@ export function schGetData (params, sucFn) {
  * 会员管理-学校-批量导出
  */
 export function schBatchLeadout (params, sucFn) {
-  axios.post('/manage/updatePassword', {...params})
+  axios.post(' /management/batchleadouts', {...params})
     .then((res) => {
       sucFn(res)
     })
@@ -514,7 +514,7 @@ export function thGetData (params, sucFn) {
  * 会员管理-教师-批量导出
  */
 export function thBatchLeadout (params, sucFn) {
-  axios.post('/manage/teacher', {...params})
+  axios.post('/management/batchleadoutth', {...params})
     .then((res) => {
       sucFn(res)
     })

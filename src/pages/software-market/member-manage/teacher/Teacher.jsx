@@ -11,6 +11,7 @@
 import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
 import { Link } from 'react-router-dom'
+import ajaxUrl from 'config'
 import {
   thGetData,
   maDelId,
@@ -256,6 +257,7 @@ class Teacher extends Component {
     const { idArrs } = this.state.batchLeadParams
     // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
     thBatchLeadout({th_id: idArrs}, (res) => {
+      window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
       console.log(`${res.data.info}`)
     })
   }
