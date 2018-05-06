@@ -173,11 +173,11 @@ class AllApplicationsDetail extends React.Component {
                           let a = { height: '26px', lineHeight: '20px' }
                           let b = { height: '26px', lineHeight: '20px' }
                           if (item.isOpen === 'true') {
-                            a = { height: '26px', lineHeight: '20px', display: 'none' }
-                            b = { height: '26px', lineHeight: '20px', marginLeft: '16px', backgroundColor: '#7ED321', display: 'block' }
+                            a = { height: '26px', lineHeight: '20px' }
+                            b = { height: '26px', lineHeight: '20px', backgroundColor: '#7ED321' }
                           } else {
-                            a = { height: '26px', lineHeight: '20px', marginLeft: '16px', display: 'block' }
-                            b = { height: '26px', lineHeight: '20px', display: 'none' }
+                            a = { height: '26px', lineHeight: '20px' }
+                            b = { height: '26px', lineHeight: '20px' }
                           }
                           return (
                             <dl key={index} className='carousel-detail-item'>
@@ -186,8 +186,8 @@ class AllApplicationsDetail extends React.Component {
                               </dt>
                               <dd>
                                 <span>{item.SW_NAME}</span>
-                                <Button style={a} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button>
-                                <Button onClick={this.handleChangeJump(item)} style={b} type='primary'>打开</Button>
+                                {item.isOpen === 'false' ? <Button style={a} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button> : null}
+                                {item.isOpen === 'true' ? <Button onClick={this.handleChangeJump(item)} style={b} type='primary'>打开</Button> : null}
                               </dd>
                             </dl>
                           )
