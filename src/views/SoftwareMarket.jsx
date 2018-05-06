@@ -3,7 +3,7 @@
  * 软件市场入口
  */
 import React from 'react'
-import { Layout, Menu } from 'antd'
+import { Layout, Menu, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
@@ -14,6 +14,7 @@ import ImgSoft from '../assets/images/operationMana/u103.png'
 import ImgMemb from '../assets/images/operationMana/u15.png'
 import ImgPlat from '../assets/images/operationMana/u57.png'
 import ImgOper from '../assets/images/operationMana/u83.png'
+import SignOut from './SignOut'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
@@ -22,7 +23,8 @@ export default class SoftwareMarket extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      subMenuKey: '0'
+      subMenuKey: '0',
+      signOutVisible: false // 退出系统
     }
   }
 
@@ -45,13 +47,26 @@ export default class SoftwareMarket extends React.Component {
     }
   }
 
+  // 退出系统
+  signOut=() => {
+    this.setState({
+      signOutVisible: true
+    })
+  }
+  hiddenModal (type) {
+    this.setState({
+      [type]: false
+    })
+  }
+
   render () {
     return (
       <div className='xingyun'>
         <div className='operManaPlat-body' >
           <Layout>
             <Header style={{ padding: '15px 2%', background: 'white', height: '65px' }}>
-              <div className='logo' />
+              <div className='logo' style={{ float: 'left' }} />
+              <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} /></div>
             </Header>
             <Layout className='sider-bar'>
               <Sider width={200}>
@@ -133,6 +148,10 @@ export default class SoftwareMarket extends React.Component {
             </Layout>
           </Layout>
         </div>
+        <SignOut
+          visible={this.state.signOutVisible}
+          hiddenModal={() => { this.hiddenModal('signOutVisible') }}
+        />
       </div>
     )
   }
