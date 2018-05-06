@@ -177,10 +177,6 @@ class OperateManage extends React.Component {
         text: '个人中心',
         tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
-      }, {
-        text: '政策通知',
-        tabKey: 'policyNotice',
-        src: '/operate-manage-home/public/policy'
       }]
     }
   }

@@ -65,49 +65,20 @@ class TeacherHome extends Component {
 
   // }
   // 获取排行榜数据
-  getRankingData = () => {
+  getRankingData = (activeKey) => {
     manufacturerSignInRankingList({
       num: 10,
-      chartType: this.state.rankingType
+      chartType: activeKey === '1' ? 0 : 1
     }, (res) => {
       this.setState({
         rankingData: res.data.data
       }, () => {
-        // for (var i = 0; i < 2; i++) {
-        //   if (this.state.rankingData[i].isSelfSupport === 'true') {
-        //     this.setState({
-        //       aaa: '开通',
-
-        //     })
-        //   }
-        // }
-        // let newArr = []
-        // for (var i = 0; i < this.state.rankingData.length; i++) {
-        //   newArr.push(this.state.rankingData[i])
-        // }
-        // newArr.splice(0, 3)
-        // this.setState({
-        //   rankingDataSplice: newArr
-        // })
       })
     }).catch((e) => { console.log(e) })
   }
   // 排行榜获取数据
   handleRanking = (activeKey) => {
-    if (activeKey === '1') {
-      this.setState({
-        rankingType: 0
-      }, () => {
-        this.getRankingData()
-      })
-    }
-    if (activeKey === '2') {
-      this.setState({
-        rankingType: 1
-      }, () => {
-        this.getRankingData()
-      })
-    }
+    this.getRankingData(activeKey)
   }
   // 获取老师推荐数据
   getTeacherData = () => {
@@ -147,7 +118,8 @@ class TeacherHome extends Component {
   }
   // 处理收藏按钮
   handleCollection = (id) => {
-    if (this.state.collectionType === 'cancel') {
+    alert('gggggg')
+    /* if (this.state.collectionType === 'cancel') {
       this.setState({
         collectionType: 'collect'
       }, () => {
@@ -159,7 +131,7 @@ class TeacherHome extends Component {
       }, () => {
         this.postCollection(id)
       })
-    }
+    } */
   }
   // 发送收藏按钮请求
   postCollection = (id) => {
