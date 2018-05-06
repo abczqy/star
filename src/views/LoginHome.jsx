@@ -35,8 +35,39 @@ class LoginHome extends React.Component {
   }
 
   getDefaultTabKey (pathName) {
-    let temArr = pathName.split('/')
-    return temArr[temArr.length - 1] || 'home'
+    let activeTab
+    switch (pathName) {
+      case '/unlogged/home':// 首页
+        activeTab = 'home'
+        break
+      case '/unlogged/newsList':// 教育新闻
+        activeTab = 'newsList'
+        break
+      case '/unlogged/newsDetails':// 教育新闻详情
+        activeTab = 'newsList'
+        break
+      case '/unlogged/information':// 信息公开
+        activeTab = 'information'
+        break
+      case '/unlogged/informationDet':// 信息公开详情
+        activeTab = 'information'
+        break
+      case '/unlogged/edu':// 教育局教育新闻
+        activeTab = 'newsList'
+        break
+      case '/unlogged/NewDetailsEd':// 教育局教育新闻详情
+        activeTab = 'newsList'
+        break
+      case '/unlogged/public':// 教育局信息公开
+        activeTab = 'information'
+        break
+      case '/unlogged/informationDetEd':// 教育局信息公开详情
+        activeTab = 'information'
+        break
+      default:
+        activeTab = 'home'
+    }
+    return activeTab
   }
   componentDidMount () {
     if (webStorage.getItem('Unread_Message')) {

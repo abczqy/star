@@ -117,7 +117,7 @@ class InformationDetEd extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/operate-manage-home/public'
+      pathname: '/unlogged/public'
     })
   }
   // 点击当前位置(教育新闻)
@@ -155,14 +155,14 @@ class InformationDetEd extends React.Component {
  handleTabChanges (e) {
    console.log('123123123123123213', e.target.text)
    this.props.history.push({
-     pathname: '/operate-manage-home/informationDetEd',
+     pathname: '/unlogged/public',
      search: e.target.text.split(' ')[0]
    })
  }
  // a标签的跳转方法哦~
  handleTabChangess (e) {
    this.props.history.push({
-     pathname: '/operate-manage-home/NewDetailsEd',
+     pathname: '/unlogged/edu',
      search: e.target.text.split(' ')[0]
    })
  }
