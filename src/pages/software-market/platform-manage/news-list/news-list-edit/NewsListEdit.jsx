@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Icon, Button } from 'antd'
+import { Card, Icon, Button, Col, Row, Input, Upload } from 'antd'
 import { Link } from 'react-router-dom'
 import PropsTypes from 'prop-types'
 import Editor from 'wangeditor'
 import {
   getNewsListForEdit
 } from 'services/software-manage'
-import { NewsEditBar, BlankBar } from 'components/software-market'
+import { BlankBar } from 'components/software-market'
 import './NewsListEdit.scss'
 
 class NewsListEdit extends Component {
@@ -57,10 +57,26 @@ class NewsListEdit extends Component {
       <div className='news-list-wrap' >
         <Card title='编辑新闻' extra={<Link to='/software-market-home/platform-manage/news-list'><Icon type='double-left' />返回列表页</Link>}>
           <div className='edit-head-wrap'>
-            <NewsEditBar
-              title={data.news_title}
-              imgUrl={data.news_picture}
-            />
+            <div className='edit-bar-wrap' >
+              <Row gutter={16}>
+                <Col span={12}>
+                  <span className='edit-bar-left-label'>通知标题: </span>
+                  <Input className='edit-bar-right-Input' placeholder={'' + data.news_title} />
+                </Col>
+                <Col span={6}>
+                  <span className='pic-card-label'>上传图片: </span>
+                  <Upload listType='picture-card' {...this.uploadParams} className='pic-card' >
+                    <Icon type='upload' />
+                  </Upload>
+                </Col>
+                <Col span={6}>
+                  <Upload {...this.uploadParams} >
+                    <Button className='upload-btn'><Icon type='upload' />上传文件</Button>
+                  </Upload>
+                  <span className='marks-font-type'>支持扩展名: .jpg .png (100px * 180px)</span>
+                </Col>
+              </Row>
+            </div>
           </div>
           <BlankBar />
           <div className='rich-editor-wrap' >
