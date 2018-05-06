@@ -267,7 +267,7 @@ render () {
   const dataT = [
     {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
   ]
-  return <div style={{margin: 'auto', width: '90%', marginLeft: '8%', minHeight: this.state.viewHeight}}>
+  return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
     <div >
       <Row>
         <Col span={5} style={{width: '18%'}}>

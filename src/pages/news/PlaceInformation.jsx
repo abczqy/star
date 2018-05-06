@@ -184,7 +184,7 @@ class Information extends React.Component {
    })
  }
  render () {
-   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
+   return <div style={{margin: 'auto', width: '90%', marginLeft: '12%', minHeight: this.state.viewHeight}}>
      <div >
        <Row>
          <Col span={5} style={{width: '18%'}}>
