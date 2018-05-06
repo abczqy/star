@@ -216,7 +216,6 @@ class OperateManage extends React.Component {
             </div>
             {renderRoutes(this.props.route.childRoutes)}
           </Layout>
-
           <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
           </Row>

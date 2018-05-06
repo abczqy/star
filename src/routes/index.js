@@ -76,6 +76,18 @@ export default [{
   }, {
     path: '/unlogged/informationDet',
     component: InformationDet
+  }, {
+    path: '/unlogged/edu', // 教育局教育新闻
+    component: Logged(NewsListEd)
+  }, {
+    path: '/unlogged/NewDetailsEd', // 教育局教育新闻详情
+    component: Logged(NewDetailsEd)
+  }, {
+    path: '/unlogged/public', // 教育局信息公开
+    component: Logged(PlaceInformation)
+  }, {
+    path: '/unlogged/informationDetEd', // 教育局信息公开详情
+    component: Logged(InformationDetEd)
   }]
 }, {
   path: '/operate-manage-home', // 登陆后-运营管理入口
@@ -83,18 +95,6 @@ export default [{
   childRoutes: [{
     path: '/operate-manage-home/home',
     component: Logged(TeacherHome)
-  }, {
-    path: '/operate-manage-home/edu',
-    component: Logged(NewsListEd)
-  }, {
-    path: '/operate-manage-home/NewDetailsEd',
-    component: Logged(NewDetailsEd)
-  }, {
-    path: '/operate-manage-home/public',
-    component: Logged(PlaceInformation)
-  }, {
-    path: '/operate-manage-home/informationDetEd',
-    component: Logged(InformationDetEd)
   }, {
     path: '/operate-manage-home/informationEd',
     component: Logged(InformationEd)

@@ -118,7 +118,7 @@ class NewsDetailsEd extends React.Component {
   // 点击当前位置(教育新闻)
   position (e) {
     this.props.history.push({
-      pathname: '/operate-manage-home/edu'
+      pathname: '/unlogged/edu'
     }
     )
   }
