@@ -13,6 +13,7 @@ import ChangeFirmName from './ChangeFirmName'
 import ChangeFirmDescribe from './ChangeFirmDescribe'
 import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
+import LookFirmLicense from './LookFirmLicense'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Config from 'config'
@@ -33,8 +34,10 @@ class MessageSetting extends React.Component {
       changeFirmDescribe: false, // 厂商描述
       changeFirmContract: false, // 厂商合同号
       changeFirmLicense: false, // 营业执照
+      lookFirmLicense: false, // 查看营业执照
       phoneCheck: false,
-      userSafeDate: []
+      userSafeDate: [],
+      licensePhoto: '' // 查看营业执照地址
     }
   }
   componentDidMount () {
@@ -135,6 +138,13 @@ class MessageSetting extends React.Component {
       changeFirmLicense: true
     })
   }
+  /* 查看营业执照 */
+  lookFirmLicense =(va) => {
+    this.setState({
+      lookFirmLicense: true,
+      licensePhoto: va
+    })
+  }
   render () {
     let phone = ''
     let mtel = ''
@@ -220,7 +230,7 @@ class MessageSetting extends React.Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>营业执照</span>
-              <span className='word f-color'>
+              <span className='word f-color' onClick={() => { this.lookFirmLicense(firmData && firmData.fa_contract) }}>
                 <img style={{height: '50px'}} src={Config.IMG_BASE_URL + (firmData && firmData.fa_contract)} />
               </span>
               <a className='modify' onClick={this.changeFirmLicense}>重新上传</a>
@@ -312,6 +322,12 @@ class MessageSetting extends React.Component {
           visible={this.state.changeFirmLicense}
           hiddenModal={this.hiddenModal.bind(this, 'changeFirmLicense')}
           getFirmList={this.getFrimList}
+        /> : null}
+        {/* 营业执照图片 */}
+        {this.state.lookFirmLicense ? <LookFirmLicense
+          visible={this.state.lookFirmLicense}
+          hiddenModal={this.hiddenModal.bind(this, 'lookFirmLicense')}
+          licensePhoto={this.state.licensePhoto}
         /> : null}
       </div>
     )

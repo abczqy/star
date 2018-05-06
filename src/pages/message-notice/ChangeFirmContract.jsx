@@ -1,6 +1,6 @@
 /* 修改厂商合同编号 */
 import React from 'react'
-import {Modal, Button, Form, Input} from 'antd'
+import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
 import {updateFactoryNum} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
@@ -34,11 +34,15 @@ class ChangeFirmContract extends React.Component {
         console.log('修改合同编号', values)
         updateFactoryNum({
           fa_pwd: values.maf_pass,
-          fa_con_num: values.maf_firm_name
+          fa_con_num: values.maf_contract_number
         }, (response) => {
-          // 修改后调用刷新父页面
-          this.props.getFirmList()
-          this.props.hiddenModal()
+          if (response.data.SUCCESS) {
+            // 修改后调用刷新父页面
+            this.props.getFirmList()
+            this.props.hiddenModal()
+          } else {
+            message.error(response.data.msg)
+          }
         })
       }
     })

@@ -1,6 +1,6 @@
 /* 修改厂商名称 */
 import React from 'react'
-import {Modal, Button, Form, Input} from 'antd'
+import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
 import {updateVendorName} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
@@ -37,9 +37,13 @@ class ChangeFirmName extends React.Component {
           fa_pwd: values.maf_pass,
           fa_name: values.maf_firm_name
         }, (response) => {
-          // 修改后调用刷新父页面
-          this.props.getFirmList()
-          this.props.hiddenModal()
+          if (response.data.SUCCESS) {
+            // 修改后调用刷新父页面
+            this.props.getFirmList()
+            this.props.hiddenModal()
+          } else {
+            message.error(response.data.msg)
+          }
         })
       }
     })

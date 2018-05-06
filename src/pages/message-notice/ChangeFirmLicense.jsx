@@ -3,6 +3,7 @@ import React from 'react'
 import {Modal, Button, Form, Input, Upload, Icon} from 'antd'
 import PropTypes from 'prop-types'
 import {updateFactoryContract} from '../../services/topbar-mation/index'
+// import { addGatewayBanner } from 'services/software-manage'
 import '../../views/Operateview.scss'
 class ChangeFirmLicense extends React.Component {
   static propTypes = {
@@ -37,14 +38,6 @@ class ChangeFirmLicense extends React.Component {
           this.props.getFirmList()
           this.props.hiddenModal()
         })
-        /* addGatewayBanner({
-          fa_pwd: values.maf_pass,
-          fa_license: params
-        }, (response) => {
-          // 修改后调用刷新父页面
-          this.props.getFirmList()
-          this.props.hiddenModal()
-        }) */
       }
     })
   }

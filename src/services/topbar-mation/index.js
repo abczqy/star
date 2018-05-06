@@ -161,7 +161,7 @@ export function updateFactoryNum (params, sucFn) {
  * // 账号设置-修改厂商营业执照
  */
 export function updateFactoryContract (params, sucFn) {
-  return axios.post('/factoryManage/updateFactoryContract', {...params})
+  return axios.post('/factoryManage/updateFactoryContract', {params})
     .then(function (res) {
       sucFn(res)
     })
