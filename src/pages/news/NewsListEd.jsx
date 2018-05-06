@@ -152,7 +152,7 @@ class News extends React.Component {
     })
   }
   render () {
-    return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
+    return <div style={{width: '90%', marginLeft: '12%', minHeight: this.state.viewHeight}}>
       <Row>
         <Col span={5} style={{width: '18%'}}>
           <Row><div className='left-downer' >
