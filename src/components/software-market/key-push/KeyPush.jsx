@@ -4,7 +4,7 @@ import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './KeyPush.scss'
-import {verifyDetail} from 'services/software-manage'
+import {getSoftwareDetail, getKeyPushList, saveKeyPush, getApptype} from 'services/software-manage'
 import ajaxUrl from 'config'
 
 const Panel = Collapse.Panel
@@ -20,17 +20,18 @@ const pagination = {
   text: ''
 }
 
-const dataa = [{sw_id: '11', sw_name: '知乎1', sw_type: '管理类', sw_check: 0, sw_path: '/image/1.jpg', fa_name: '北京东方国信1'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/22.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/3.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/23.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/image/33.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}, {sw_id: '11', sw_name: '知乎2', sw_type: '管理类', sw_path: '/image/24.jpg', sw_check: 0, fa_name: '北京东方国信2'}, {sw_id: '11', sw_path: '/image/12.jpg', sw_name: '知乎3', sw_type: '管理类', sw_check: 0, fa_name: '北京东方国信3'}]
-
 class KeyPush extends Component {
   constructor (props) {
     super(props)
     this.state = {
       tableData: {
-        data: dataa
+        data: []
       },
       pagination,
       expand: false,
+      searchValue: '',
+      type: '',
+      options: ['全部', '教育类', '教辅类'],
       appDetailModalCon: {
         visible: false,
         swName: ''
@@ -41,28 +42,28 @@ class KeyPush extends Component {
     // 表格的列信息
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'SW_NAME',
+      key: 'SW_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      key: 'sw_type'
+      dataIndex: 'SW_TYPE',
+      key: 'SW_TYPE'
     }, {
       title: '供应商',
       dataIndex: 'fa_name',
       key: 'fa_name'
     }, {
       title: '图片',
-      dataIndex: 'sw_path',
-      key: 'sw_path',
+      dataIndex: 'SW_ICON',
+      key: 'SW_ICON',
       render: (text) => <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} />
     }, {
       title: '选择',
-      dataIndex: 'sw_check',
-      key: 'sw_check',
+      dataIndex: 'sw_key_push',
+      key: 'sw_key_push',
       render: (text, record, index) => {
         return (
-          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.sw_check === 1} />
+          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.sw_key_push === 1} />
         )
       }
     }, {
@@ -88,32 +89,67 @@ class KeyPush extends Component {
    * 点击选择状态
    */
   checkClick = (record) => {
-    const a = record.sw_check ? 0 : 1
-    record.sw_check = a
-    if (record.sw_check) {
-      console.log(record.sw_check)
-      let b = this.copyArray(this.state.imgList)
-      if (b.length < 4) {
-        let c = ajaxUrl.IMG_BASE_URL + record.sw_path
-        b.push(c)
-        this.setState({
-          imgList: b
-        })
-      } else {
-        record.sw_check = 0
-        message.warning('已达推送上限')
-      }
-    } else if (record.sw_check === 0) {
-      let bb = this.copyArray(this.state.imgList)
-      console.log(record.sw_check + '11111111111111' + bb)
-      let cc = ajaxUrl.IMG_BASE_URL + record.sw_path
-      let index = bb.indexOf(cc)
-      bb.splice(index, 1)
-      console.log(bb)
-      this.setState({
-        imgList: bb
-      })
+    const a = record.sw_key_push ? 0 : 1
+    record.sw_key_push = a
+    const b = record.sw_key_push.toString()
+    const params = {
+      sw_id: record.sw_id,
+      state: b
     }
+    saveKeyPush(params, res => {
+      if (record.sw_key_push) {
+        console.log(record.sw_key_push)
+        let b = this.copyArray(this.state.imgList)
+        if (b.length < 4) {
+          let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
+          b.push(c)
+          this.setState({
+            imgList: b
+          })
+        } else {
+          record.sw_key_push = 0
+          message.warning('已达推送上限')
+        }
+      } else if (record.sw_key_push === 0) {
+        let bb = this.copyArray(this.state.imgList)
+        console.log(record.sw_key_push + '11111111111111' + bb)
+        let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
+        let index = bb.indexOf(cc)
+        bb.splice(index, 1)
+        console.log(bb)
+        this.setState({
+          imgList: bb
+        })
+      }
+    })
+  }
+  /**
+   * 当select的值变化时回调
+   */
+  onSelect = (val) => {
+    this.setState({
+      type: val
+    })
+  }
+  getSearchData = () => {
+    this.getList()
+  }
+
+  inputChange = (e) => {
+    let value = e.target.value
+    this.setState({
+      searchValue: value
+    })
+  }
+  // 应用类型下拉框数据获取
+  getSelectOptions () {
+    const thiz = this
+    getApptype({}, (res) => {
+      const data = res.data
+      thiz.setState({
+        options: data.type
+      })
+    })
   }
   /**
    * 展开时修改相应的state
@@ -138,6 +174,40 @@ class KeyPush extends Component {
 
     })
   }
+  // 获取数据列表
+  getList = () => {
+    let params = {
+      apptype: this.state.type || '',
+      appName: this.state.searchValue || ''
+    }
+    getKeyPushList(params, res => {
+      res.data.map((item, index) => {
+        let b = this.copyArray(this.state.imgList)
+        b.push(ajaxUrl.IMG_BASE_URL + item.SW_ICON)
+        if (item.sw_key_push === 1) {
+          this.setState({
+            imgList: b
+          })
+          console.log(this.state.imgList)
+        }
+      })
+      this.setState({
+        tableData: {
+          data: []
+        }
+      }, () => {
+        this.setState({
+          tableData: {
+            data: res.data
+          }
+        })
+      })
+    })
+  }
+  componentDidMount () {
+    this.getList()
+    this.getSelectOptions()
+  }
   /**
    * 页码变化时回调
    */
@@ -159,7 +229,7 @@ class KeyPush extends Component {
        sw_id: record.sw_id
      }
 
-     verifyDetail(params, (res) => {
+     getSoftwareDetail(params, (res) => {
        const resData = res.data
        // 通过state将数据res传给子组件
        thiz.setState({
@@ -183,14 +253,19 @@ class KeyPush extends Component {
     })
   }
   render () {
-    const { expand, tableData, pagination, appDetailModalCon } = this.state
+    const { expand, tableData, pagination, appDetailModalCon, options } = this.state
     const { header } = this.props
     const { title } = header
     return (
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} />} key='1' >
-            <SearchBar />
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options} />/>
             <BlankBar />
             <SWBox list={this.state.imgList} boxList={this.state.boxList} />
             <BlankBar />

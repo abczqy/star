@@ -14,26 +14,6 @@ class SWBox extends Component {
               {list.length >= item ? <img src={list[index]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '40px', color: '#999'}} type='plus' />}
             </div></Col>)
           })}
-          {/* <Col span={2}>
-            <div className='sw-box-icon'>
-              {list.length >= 1 ? <img src={list[0]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '40px', color: '#999'}} type='plus' />}
-            </div>
-          </Col>
-          <Col span={2}>
-            <div className='sw-box-icon'>
-              {list.length >= 2 ? <img src={list[1]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '40px', color: '#999'}} type='plus' />}
-            </div>
-          </Col>
-          <Col span={2}>
-            <div className='sw-box-icon'>
-              {list.length >= 3 ? <img src={list[2]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '40px', color: '#999'}} type='plus' />}
-            </div>
-          </Col>
-          <Col span={2}>
-            <div className='sw-box-icon'>
-              {list.length >= 4 ? <img src={list[3]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '40px', color: '#999'}} type='plus' />}
-            </div>
-          </Col> */}
         </Row>
       </div>
     )

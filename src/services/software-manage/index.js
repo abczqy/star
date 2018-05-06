@@ -744,3 +744,66 @@ export function informationDet (params, sucFn) {
       sucFn(res)
     })
 }
+/**
+ * 重点推介查询
+ */
+export function getKeyPushList (params, sucFn) {
+  return axios.post('/getKeyPushList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 重点推介状态保存
+ */
+export function saveKeyPush (params, sucFn) {
+  return axios.post('/saveKeyPush', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 软件市场查询
+ */
+export function getSoftMarketList (params, sucFn) {
+  return axios.post('/getSoftMarketList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 软件市场保存
+ */
+export function saveSoftwareMarket (params, sucFn) {
+  return axios.post('/saveSoftwareMarket', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 热门推介查询
+ */
+export function getPopularRecommendationList (params, sucFn) {
+  return axios.post('/getPopularRecommendationList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 热门推介保存
+ */
+export function savePopularRecommendation (params, sucFn) {
+  return axios.post('/savePopularRecommendation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 重点推介、软件市场、热门推介详情页
+ */
+export function getSoftwareDetail (params, sucFn) {
+  return axios.post('/getSoftwareDetail', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

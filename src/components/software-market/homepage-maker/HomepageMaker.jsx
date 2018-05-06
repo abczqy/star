@@ -124,13 +124,13 @@ class HomepageMaker extends Component {
   }
   // 保存新增
   addHomepage = () => {
-    // let params = {
-    //   navigation_title: this.state.navigationTitle,
-    //   navigation_url: this.state.navigationUrl
-    // }
+    let params = {
+      navigation_title: this.state.navigationTitle,
+      navigation_url: this.state.navigationUrl
+    }
     if (this.state.navigationTitle !== '' && this.state.navigationUrl !== '') {
       console.log(this.state.navigationUrl)
-      addGatewayNavigation({navigation_title: ['222', 'aaa'], navigation_url: ['222', 'qqq']}, res => {
+      addGatewayNavigation(params, res => {
         this.setState({
           newData: []
         })
