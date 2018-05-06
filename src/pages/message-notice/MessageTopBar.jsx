@@ -28,7 +28,7 @@ class MessageTopBar extends React.Component {
   // 未读消息数
   getMessageCo=() => {
     getMessageCount({}, (response) => {
-      console.log('返回未读消息数量', response)
+      webStorage.setItem('Unread_Message', response.data.count)
       this.setState({
         messageCount: response.data.count
       })

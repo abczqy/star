@@ -59,7 +59,7 @@ class ChangePhoneNumber extends React.Component {
           phoneNum: values.maf_phone_number,
           password: values.maf_pass
         }, (response) => {
-          if (response.data !== true) {
+          if (response.data === true) {
             message.success('修改手机成功！')
             this.props.hiddenModal()
           } else {
