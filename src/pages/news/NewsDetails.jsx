@@ -184,7 +184,7 @@ handleTabChangess (e) {
 render () {
   return (
     <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
-      <div id='right-container' style={{height: this.state.viewHeight}}>
+      <div id='right-container' style={{minHeight: this.state.viewHeight}}>
         <div style={{backgroundColor: '#fff', width: '100%', minHeight: this.state.viewHeights}}>
           <Row>
             <ul className='details-li-ul'>
