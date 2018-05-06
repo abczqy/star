@@ -215,12 +215,12 @@ class InformationDetEd extends React.Component {
                    <div style={{marginBottom: '30px'}}>
                      {this.state.infoData ? this.state.infoData.info_desc : '1' }
                    </div>
-                   {/* {this.state.infoData
+                   {this.state.infoData
                      ? <div style={{width: '700px', alignContent: 'right'}}>
                        <span>下载附件 :
-                         <a href={this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
+                         <a href={ajaxUrl.IMG_BASE_URL + this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
                        </span>
-                     </div> : ''} */}
+                     </div> : ''}
                  </div>
                </div>
              </Col>
