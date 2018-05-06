@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
 import {thirdPartyAppDetail} from 'services/all-app/'
 // import { renderRoutes } from 'react-router-config'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // const { Sider, Content } = Layout
 export default class ThirdPartyAppDetail extends React.Component {
   constructor (props) {
@@ -32,6 +32,14 @@ export default class ThirdPartyAppDetail extends React.Component {
     location: PropTypes.object
   }
   componentDidMount () {
+    let a = this.props.location.search.replace('?', '')
+    this.setState({
+      appId: a
+    }, () => {
+      this.getThirdPartyAppDetailData()
+    })
+  }
+  componentWillReceiveProps () {
     let a = this.props.location.search.replace('?', '')
     this.setState({
       appId: a
@@ -144,8 +152,8 @@ export default class ThirdPartyAppDetail extends React.Component {
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
+              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
+              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
               <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
             </div>
             <div className='see-detail-item-jurisdiction'>
@@ -177,7 +185,7 @@ export default class ThirdPartyAppDetail extends React.Component {
             <div className='exhibition-outside'>
               <div className='exhibition-insideb'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                <div style={{width: '82%', marginLeft: '160px'}}>
+                <div style={{width: '82%', marginLeft: '13%'}}>
                   <Carousel ref='exhibition-inside-carousel'>
                     {this.state.computerCarousel.map((item, index, arr) => {
                       return (
@@ -185,7 +193,7 @@ export default class ThirdPartyAppDetail extends React.Component {
                           <div>
                             {this.state.computerCarousel[index].map((item, index, arr) => {
                               return (
-                                <div key={index} style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
+                                <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
                                   <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
                                 </div>
                               )
@@ -219,7 +227,7 @@ export default class ThirdPartyAppDetail extends React.Component {
                     <img src={ajaxUrl.IMG_BASE_URL + item.sw_icon} />
                   </dt>
                   <dd>
-                    <span>{item.sw_name}</span>
+                    <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.sw_id}}><span>{item.sw_name}</span></Link>
                     <div>{item.sw_desc}</div>
                     <Rate disabled count={3} value={3} />
                   </dd>

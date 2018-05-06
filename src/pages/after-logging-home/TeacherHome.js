@@ -396,7 +396,7 @@ class TeacherHome extends Component {
             <div className='popular-recommendation' style={this.state.obj}>
               <div className='popular-recommendation-title'>
                 <h3 className='chinese'>老师推荐</h3>
-                <span className='english'>Hot recommendation</span>
+                <span className='english'>Teacher recommendation</span>
                 <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>

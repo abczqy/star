@@ -8,6 +8,7 @@ import ajaxUrl from 'config'
 import {selfSupportAppDetail} from 'services/all-app/'
 import { Button, Icon, Carousel, Rate } from 'antd'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 export default class SelfSupport extends React.Component {
   constructor (props) {
     super(props)
@@ -29,6 +30,14 @@ export default class SelfSupport extends React.Component {
     location: PropTypes.object
   }
   componentDidMount () {
+    let a = this.props.location.search.replace('?', '')
+    this.setState({
+      appId: a
+    }, () => {
+      this.getThirdPartyAppDetailData()
+    })
+  }
+  componentWillReceiveProps () {
     let a = this.props.location.search.replace('?', '')
     this.setState({
       appId: a
@@ -84,19 +93,6 @@ export default class SelfSupport extends React.Component {
       })
     }
   }
-  // // 获取相关应用数据
-  // getRelatedApplications = () => {
-  //   relatedApplications({
-  //     sw_tpe: this.state.appDetailData.sw_related,
-  //     type: 'platform'
-  //   }, (res) => {
-  //     this.setState({
-  //       relateData: res.data
-  //     }, () => {
-  //       console.log(99999999, this.state.relateData)
-  //     })
-  //   }).catch((e) => { console.log(e) })
-  // }
   handleLeftClick = () => {
     this.refs['exhibition-inside-carousel'].prev()
   }
@@ -105,7 +101,7 @@ export default class SelfSupport extends React.Component {
   }
 
   handleClick () {
-    window.open(this.state.appDetailData.sw_path)
+    window.open(this.state.appDetailData.sw_path, '_blank')
   }
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {
@@ -136,15 +132,15 @@ export default class SelfSupport extends React.Component {
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
-            <Button className='header-button' onClick={() => { this.handleClick() }}>开通</Button>
+            {this.state.appDetailData.sw_path === '' ? null : <Button className='header-button' onClick={() => { this.handleClick() }}>{this.state.appDetailData.isOpen === 'fasle' ? '开通' : '打开'}</Button>}
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
             </div>
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
-              <div style={{float: 'left', marginRight: '300px'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
+              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
+              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
               <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
             </div>
             <div className='see-detail-item-jurisdiction'>
@@ -176,7 +172,7 @@ export default class SelfSupport extends React.Component {
             <div className='exhibition-outside'>
               <div className='exhibition-insidea'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                <div style={{width: '82%', marginLeft: '160px'}}>
+                <div style={{width: '82%', marginLeft: '13%'}}>
                   <Carousel ref='exhibition-inside-carousel'>
                     {this.state.computerCarousel.map((item, index, arr) => {
                       return (
@@ -184,7 +180,7 @@ export default class SelfSupport extends React.Component {
                           <div>
                             {this.state.computerCarousel[index].map((item, index, arr) => {
                               return (
-                                <div key={index} style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
+                                <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
                                   <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
                                 </div>
                               )
@@ -218,7 +214,7 @@ export default class SelfSupport extends React.Component {
                     <img src={ajaxUrl.IMG_BASE_URL + item.sw_icon} />
                   </dt>
                   <dd>
-                    <span>{item.sw_name}</span>
+                    <Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.sw_id}}><span>{item.sw_name}</span></Link>
                     <div>{item.sw_desc}</div>
                     <Rate disabled count={3} value={3} />
                   </dd>

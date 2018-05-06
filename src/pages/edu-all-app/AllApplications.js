@@ -7,6 +7,7 @@ import { Layout, Menu } from 'antd'
 import PropTypes from 'prop-types'
 import { renderRoutes } from 'react-router-config'
 import { Link } from 'react-router-dom'
+import allApp from '../../assets/images/all-app/u2835.png'
 const { Sider, Content } = Layout
 export default class AllApplications extends React.Component {
   constructor (props) {
@@ -38,7 +39,7 @@ export default class AllApplications extends React.Component {
   render () {
     return (
       <div>
-        <div style={{width: '100%', height: '250px'}}><img style={{width: '100%', height: '100%'}} src='https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2126622145,1468696620&fm=27&gp=0.jpg' /></div>
+        <div style={{width: '100%', height: '300px'}}><img style={{width: '100%', height: '100%'}} src={allApp} /></div>
         <Layout style={{marginLeft: '10%', marginTop: '20px'}}>
           <Sider >
             <Menu
