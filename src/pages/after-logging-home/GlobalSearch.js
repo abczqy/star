@@ -5,57 +5,68 @@ import React, { Component } from 'react'
 import { Select, Icon } from 'antd'
 import './GlobalSearch.scss'
 import {homeSearch} from 'services/software-home/'
+import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
+// import PropTypes from 'prop-types'
 const Option = Select.Option
 let timeout
 // let currentValue
+function fetch (value, callback) {
+  if (timeout) {
+    clearTimeout(timeout)
+    timeout = null
+  }
+  let currentValue = value
+  function fake () {
+    homeSearch({
+      keyword: value
+    }, (res) => {
+      if (currentValue === value) {
+        const result = res.data.list
+        console.log(22222, result)
+        const data = []
+        result.forEach((r) => {
+          data.push({
+            value: r.SW_NAME,
+            text: r.SW_NAME,
+            id: r.SW_ID
+          })
+        })
+        callback(data)
+      }
+    })
+  }
+
+  timeout = setTimeout(fake, 300)
+}
 class GlobalSearch extends Component {
+  static propTypes = {
+    // history: PropTypes.object
+  }
   constructor (props) {
     super(props)
     this.state = {
+      teacherData: [],
       data: [],
       value: ''
     }
   }
   handleChange = (value) => {
     this.setState({ value })
-    this.fetch(value, data => this.setState({ data }))
+    fetch(value, data => this.setState({ data }))
   }
-  fetch = (value, callback) => {
-    if (timeout) {
-      clearTimeout(timeout)
-      timeout = null
-    }
-    let currentValue = value
-    function fake () {
-      homeSearch({
-        keyword: value
-      }, (res) => {
-        console.log(111111111111111111, res.data)
-        res.json()
-        this.setState({
-          teacherData: res.data.list
-        })
-      }, (d) => {
-        if (currentValue === value) {
-          const result = d.result
-          const data = []
-          result.forEach((r) => {
-            data.push({
-              value: r[0],
-              text: r[0]
-            })
-          })
-          callback(data)
-        }
-      }).catch((e) => { console.log(e) })
-    }
-
-    timeout = setTimeout(fake, 300)
+  handleOnselect = (d) => {
+    console.log('099999999999999', d)
+    // this.props.history.push({
+    //   pathname: '/operate-manage-home/all-app-detail-third',
+    //   search: d.SW_ID
+    // })
   }
   render () {
-    const options = this.state.data.map(d => {
+    console.log(888888, this.state.data)
+    const options = this.state.data.map((d, index, arr) => {
       return (
-        <Option key={d.value}>{d.text}</Option>
+        <Option key={d.value}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: d.id}}>{d.text}</Link></Option>
       )
     })
     return (
@@ -78,4 +89,4 @@ class GlobalSearch extends Component {
   }
 }
 
-export default GlobalSearch
+export default withRouter(GlobalSearch)

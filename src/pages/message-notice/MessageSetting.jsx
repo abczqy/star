@@ -140,10 +140,12 @@ class MessageSetting extends React.Component {
   }
   /* 查看营业执照 */
   lookFirmLicense =(va) => {
-    this.setState({
-      lookFirmLicense: true,
-      licensePhoto: va
-    })
+    if (va) {
+      this.setState({
+        lookFirmLicense: true,
+        licensePhoto: va
+      })
+    }
   }
   render () {
     let phone = ''

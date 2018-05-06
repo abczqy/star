@@ -56,9 +56,10 @@ export default class MyAppDetail extends React.Component {
           bb.push(this.state.appDetailData.sw_computer_photo[i])
         }
         this.setState({
-          computerCarousel: bb
+          computerCarousel: bb,
+          compatibleSystem: this.state.appDetailData.sw_path || []
         })
-        this.handleCompatibleSystem(this.state.appDetailData.sw_path)
+        // this.handleCompatibleSystem(this.state.appDetailData.sw_path)
       })
     }).catch((e) => { console.log(e) })
   }
@@ -165,7 +166,7 @@ export default class MyAppDetail extends React.Component {
               <span className='header-titlea'>兼容系统：{
                 this.state.compatibleSystem.map((item, index, arr) => {
                   return (
-                    <span key={index}>{arr[index][0]}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span key={index}>{Object.keys(arr[index])}&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   )
                 })
               }</span>
@@ -180,7 +181,7 @@ export default class MyAppDetail extends React.Component {
             <div className='exhibition-outside'>
               <div className='exhibition-inside'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                <div style={{width: '80%', marginLeft: '160px'}}>
+                <div style={{width: '82%', marginLeft: '13%'}}>
                   <Carousel ref='exhibition-inside-carousel'>
                     {this.state.computerCarousel.map((item, index, arr) => {
                       return (
@@ -188,7 +189,7 @@ export default class MyAppDetail extends React.Component {
                           <div>
                             {this.state.computerCarousel[index].map((item, index, arr) => {
                               return (
-                                <div key={index} style={{width: 300, height: 448, backgroundColor: '#ccc', marginRight: '50px', float: 'left'}}>
+                                <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
                                   <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
                                 </div>
                               )

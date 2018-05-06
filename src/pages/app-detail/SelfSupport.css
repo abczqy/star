@@ -45,7 +45,8 @@
     background: #fff;
     z-index: 10;
     width: 100%;
-    height: 230px;
+    min-height: 230px;
+    _height: 230px;
     position: absolute;
     left: 0;
     top: 30px;
@@ -56,11 +57,13 @@
     transform: translate(0, 60px);
     transition: 0.5s;
 }
-.see-detail-itemb {
+.app-detail .see-detail-itemb {
     background: #fff;
     z-index: 10;
     width: 100%;
-    height: 230px;
+    min-height: 230px;
+    _height: 230px;
+    overflow: hidden;
     position: absolute;
     left: 0;
     top: 30px;
@@ -71,9 +74,14 @@
     transform: translate(0,130px);
     transition: 0.5s;
 }
+.app-detail .see-detail-item-top {
+    height: 30px;
+}
 .app-detail .see-detail-item-jurisdiction {
     width: 100%;
-    height: 100px;
+    min-height: 200px;
+    _height: 200px;
+    overflow: hidden;
     margin-top: 10px;
     float: left;
 }
@@ -87,7 +95,8 @@
 }
 .app-detail .see-detail-item-jurisdiction .jurisdiction-list {
     width: 95%;
-    height: 150px;
+    min-height: 150px;
+    overflow: hidden;
     float: left;
 }
 .app-detail .see-detail-item-jurisdiction .jurisdiction-list .jurisdiction-list-detail {
@@ -100,7 +109,7 @@
     color: #666666;
     font-size: 14px;
     font-weight: 400;
-    margin-right: 140px;
+    margin-right: 15%;
     margin-bottom: 20px;
 }
 .app-detail .app-detail-exhibition {

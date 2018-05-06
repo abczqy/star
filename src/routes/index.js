@@ -13,7 +13,6 @@ import NewDetailsEd from 'pages/news/NewDetailsEd'// 教育局的新闻列表详
 import PlaceInformation from 'pages/news/PlaceInformation'// 教育局的信息公开
 import InformationDetEd from 'pages/news/InformationDetEd'// 教育局的信息公开详情
 import InformationEd from 'pages/news/InformationEd'// 教育局的信息列表编辑
-import Policy from 'pages/news/Policy'// 页面式的政策发布
 import Please from 'pages/news/ShelfPlease'// 上架流程
 import Iteration from 'pages/news/IterationPlease'// 迭代申请
 import {
@@ -107,12 +106,6 @@ export default [{
   }, {
     path: '/operate-manage-home/member',
     component: Logged(PersonnelManagement)
-  }, {
-    path: '/operate-manage-home/informationDet',
-    component: Logged(InformationDet)
-  }, {
-    path: '/operate-manage-home/public/policy',
-    component: Logged(Policy)
   }, {
     path: '/operate-manage-home/center',
     component: Logged(PersonalCenter)

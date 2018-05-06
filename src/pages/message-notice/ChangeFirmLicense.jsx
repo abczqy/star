@@ -1,6 +1,6 @@
 /* 修改营业执照 */
 import React from 'react'
-import {Modal, Button, Form, Input, Upload, Icon} from 'antd'
+import {Modal, Button, Form, Input, Upload, Icon, message} from 'antd'
 import PropTypes from 'prop-types'
 import {updateFactoryContract} from '../../services/topbar-mation/index'
 // import { addGatewayBanner } from 'services/software-manage'
@@ -32,11 +32,15 @@ class ChangeFirmLicense extends React.Component {
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
-      let params = this.getFormData()
+      let params = this.getFormData(values.maf_pass)
       if (!err) {
         updateFactoryContract(params, (response) => {
-          this.props.getFirmList()
-          this.props.hiddenModal()
+          if (response.data.SUCCESS) {
+            this.props.getFirmList()
+            this.props.hiddenModal()
+          } else {
+            message.error(response.data.msg)
+          }
         })
       }
     })
@@ -45,11 +49,11 @@ class ChangeFirmLicense extends React.Component {
    * 返回附件的参数
    * @returns {*}
    */
-  getFormData () {
+  getFormData (pass) {
     const { fileList } = this.state
     const formData = new FormData()
     // formData.append('sw_pss', '1')
-    formData.append('fa_pwd', '1')
+    formData.append('fa_pwd', pass)
     fileList.forEach((file) => {
       formData.append('fa_license', file)
     })

@@ -11,3 +11,12 @@ export function marketAnalysis (params, sucFn) {
       sucFn(res)
     })
 }
+/**
+ * 市场分析-关键词搜索
+ */
+export function wordCloud (params, sucFn) {
+  return axios.get('/wordcloud', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
