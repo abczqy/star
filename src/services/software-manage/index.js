@@ -664,7 +664,7 @@ export function getGatewayBannerList (params, sucFn) {
  * 用appId获取app数据接口
  */
 export function appId (params, sucFn) {
-  return axios.post('/app/details', params)
+  return axios.post('/AppStore/query', params)
     .then(function (res) {
       sucFn(res)
     })
