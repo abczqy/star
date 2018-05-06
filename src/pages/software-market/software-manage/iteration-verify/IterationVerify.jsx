@@ -41,7 +41,7 @@ class IterationVerify extends Component {
         swName: '',
         resData: {}
       },
-      sw_type: '教辅类', // 软件类型
+      sw_type: '', // 软件类型
       sw_name: '',
       sw_time: '', // 期望上架时间
       options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
