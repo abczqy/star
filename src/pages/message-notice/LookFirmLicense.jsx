@@ -27,7 +27,7 @@ class LookFirmLicense extends React.Component {
           height='30vw'
         >
           <div className='looklicense' style={{textAlign: 'center'}}>
-            <img src={Config.IMG_BASE_URL + this.props.licensePhoto} />
+            <img style={{width: '30vw'}} src={Config.IMG_BASE_URL + this.props.licensePhoto} />
           </div>
         </Modal>
       </div>

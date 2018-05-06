@@ -7,7 +7,7 @@ import _ from 'lodash'
 import MarketAnalysisTable from './marketAnalysis-table/MarketAnalysisTable'
 import MarketAnalysisWordCloud from './market-analysis-wordCloud/MarketAnalysisWordCloud'
 import Empty from '../../components/common/Empty'
-import {marketAnalysis} from '../../services/market-analysis'
+import {marketAnalysis, wordCloud} from '../../services/market-analysis'
 import './MarketAnalysis.scss'
 
 // const TabPane = Tabs.TabPane
@@ -42,11 +42,11 @@ class MarketAnalysis extends Component {
 
   // 获取关键字热搜数据
   gethotSearch=() => {
-    // axios.post(ajaxUrl.hotSearch, {}).then(res => {
-    //   this.setState({
-    //     hotSearchDatas: res.data.data
-    //   })
-    // }).catch(e => { console.log(e) })
+    wordCloud({}, res => {
+      this.setState({
+        hotSearchDatas: res.data.list
+      })
+    })
   }
 
   componentDidMount () {
