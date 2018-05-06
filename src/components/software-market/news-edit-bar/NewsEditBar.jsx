@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import PropsTypes from 'prop-types'
 import { Col, Row, Input, Upload, Button, Icon } from 'antd'
+// import ajaxUrl from 'config'
 import './NewsEditBar.scss'
 
 class NewsEditBar extends Component {
@@ -7,12 +9,13 @@ class NewsEditBar extends Component {
 
   }
   render () {
+    const { title } = this.props
     return (
       <div className='edit-bar-wrap' >
         <Row gutter={16}>
           <Col span={12}>
             <span className='edit-bar-left-label'>通知标题: </span>
-            <Input className='edit-bar-right-Input' placeholder='请输入通知标题' />
+            <Input className='edit-bar-right-Input' placeholder='请输入通知标题' value={title} />
           </Col>
           <Col span={6}>
             <span className='pic-card-label'>上传图片: </span>
@@ -30,6 +33,10 @@ class NewsEditBar extends Component {
       </div>
     )
   }
+}
+
+NewsEditBar.propTypes = {
+  title: PropsTypes.string
 }
 
 export default NewsEditBar

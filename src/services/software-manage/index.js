@@ -81,6 +81,16 @@ export function insertNewsList (params, sucFn) {
 }
 
 /**
+ * 平台管理-新闻列表-编辑-为编辑页获取数据
+ */
+export function getNewsListForEdit (params, sucFn) {
+  return axios.post('/management/editnews', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 平台管理-新闻列表-编辑
  */
 export function updateNewsList (params, sucFn) {
@@ -131,6 +141,16 @@ export function insertPubInfoList (params, sucFn) {
 }
 
 /**
+ * 平台管理-信息公开-编辑-为编辑页获取数据
+ */
+export function getPubInfoForEdit (params, sucFn) {
+  return axios.post('/management/editinfo', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 平台管理-信息公开-编辑
  */
 export function updatePubInfoList (params, sucFn) {
@@ -165,6 +185,16 @@ export function delBatchPubInfoList (params, sucFn) {
  */
 export function getEmInfoList (params, sucFn) {
   return axios.post('/management/infolistem', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开审核-详情-为详情页获取数据
+ */
+export function getEmInfoForEdit (params, sucFn) {
+  return axios.post('/management/infoexamedit', {...params})
     .then(function (res) {
       sucFn(res)
     })

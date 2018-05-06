@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Table, Divider } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 // import PropsTypes from 'prop-types'
 import ajaxUrl from 'config'
 import {
@@ -82,7 +82,7 @@ class NewsList extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to='/software-market-home/platform-manage/news-list-edit'>编辑</Link>
+              <Link to={{pathname: '/software-market-home/platform-manage/news-list-edit', search: '?' + record.news_id}}>编辑</Link>
               <Divider type='vertical' />
               <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
             </span>
@@ -260,4 +260,4 @@ class NewsList extends Component {
 // }
 
 // export default withRouter(NewsList)
-export default NewsList
+export default withRouter(NewsList)
