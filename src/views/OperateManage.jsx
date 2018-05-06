@@ -196,6 +196,12 @@ class OperateManage extends React.Component {
     }
   }
 
+  changeActiveTab (activeTab) {
+    this.setState({
+      activeTab
+    })
+  }
+
   render () {
     let tabArr = this.getTabArr() || []
     return (
@@ -225,7 +231,9 @@ class OperateManage extends React.Component {
                 }
               </div>
             </div>
-            {renderRoutes(this.props.route.childRoutes)}
+            {renderRoutes(this.props.route.childRoutes, {
+              changeActiveTab: (activeTab) => { this.changeActiveTab(activeTab) }
+            })}
           </Layout>
           <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
