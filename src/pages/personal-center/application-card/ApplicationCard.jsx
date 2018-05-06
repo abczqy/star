@@ -6,11 +6,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 // import _ from 'lodash'
-import { Badge, Icon, Dropdown, Modal, Menu } from 'antd'
+import { Badge, Icon, Dropdown, Modal, Menu, message } from 'antd'
 import axios from 'axios'
 import ajaxUrl from 'config'
 import './ApplicationCard.scss'
 import warnPng from '../../../assets/images/personal/warn.png'
+import { teacShare } from 'services/software-market'
 
 class ApplicationCard extends Component {
   constructor (props) {
@@ -21,8 +22,8 @@ class ApplicationCard extends Component {
     this.shareMenu = (
       <Menu className='share-list' onClick={this.share}>
         <Menu.Item key='all'>全部</Menu.Item>
-        <Menu.Item key='parent'>仅家长</Menu.Item>
-        <Menu.Item key='student'>仅学生</Menu.Item>
+        <Menu.Item key='maf'>仅家长</Menu.Item>
+        <Menu.Item key='stu'>仅学生</Menu.Item>
       </Menu>
     )
     this.shareObject = ''
@@ -30,14 +31,21 @@ class ApplicationCard extends Component {
 
   // 选择分享对象
   share = (type) => {
-    // console.log('share', type)
-    this.shareObject = type
+    console.log('share', type.key)
+    this.shareObject = type.key
     this.setShareConfirmVisible(true)
   }
 
   // 确定分享
   shareEnsure = () => {
     // console.log('确定分享')
+    teacShare({
+      sw_id: this.props.content.SW_ID,
+      type: this.shareObject
+    }, (res) => {
+      const data = res.data
+      message.success(data.info)
+    })
   }
 
   // 取消分享
@@ -186,9 +194,9 @@ class ApplicationCard extends Component {
           <img className='warn-img' src={warnPng} />
           <div className='confirm-info'>
             {
-              this.shareObject === 'parent'
+              this.shareObject === 'maf'
                 ? '确认将此软件分享给所有家长？'
-                : this.shareObject === 'student'
+                : this.shareObject === 'stu'
                   ? '确认将此软件分享给所有学生？'
                   : '确认将此软件分享给所有学生和家长？'
             }
