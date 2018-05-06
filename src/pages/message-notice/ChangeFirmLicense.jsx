@@ -33,6 +33,10 @@ class ChangeFirmLicense extends React.Component {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       let params = this.getFormData(values.maf_pass)
+      if (this.state.fileList.length === 0) {
+        message.error('请上传营业执照！')
+        return
+      }
       if (!err) {
         updateFactoryContract(params, (response) => {
           if (response.data.SUCCESS) {
@@ -128,7 +132,7 @@ class ChangeFirmLicense extends React.Component {
                 {...formItemLayout}
                 label='请输入密码'
               >
-                {getFieldDecorator('maf_pass', {rules: [{required: false, message: '请输入密码!'}]})(
+                {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入密码!'}]})(
                   <Input type={this.state.type} onClick={this.changePasType} />
                 )}
               </Form.Item>

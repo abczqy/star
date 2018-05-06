@@ -22,7 +22,8 @@ class PersonnelManagement extends Component {
       tableParams,
       inputValue: '',
       role: 'teacher',
-      updateList: 0
+      updateList: 0,
+      filepath: '/image/attach/2.xls'
     }
     this.uploadProps = {
       name: 'teachers',
@@ -105,18 +106,23 @@ class PersonnelManagement extends Component {
           action: ajaxUrl.API_BASE_URL + '/application/batchleadins',
           onChange: this.onChange
         }
+        this.setState({
+          filepath: '/image/attach/1.xls'
+        })
       } else {
         this.uploadProps = {
           name: 'teachers',
           action: ajaxUrl.API_BASE_URL + '/application/batchleadin',
           onChange: this.onChange
         }
+        this.setState({
+          filepath: '/image/attach/2.xls'
+        })
       }
     }
   }
 
   componentDidMount () {
-
   }
 
   render () {
@@ -186,7 +192,7 @@ class PersonnelManagement extends Component {
             height: '0px'
           }}
         />
-        <form ref='downloadForm' action={ajaxUrl.templateDownload} target='download-frame' style={{ visibility: 'none' }}>
+        <form ref='downloadForm' action={ajaxUrl.IMG_BASE_URL + this.state.filepath} target='download-frame' style={{ visibility: 'none' }}>
           <input type='hidden' name='fileId' value='' />
         </form>
       </div>
