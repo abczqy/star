@@ -178,11 +178,13 @@ class Information extends React.Component {
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
-        viewHeight: window.innerHeight - 223
+        viewHeight: window.innerHeight - 223,
+        viewHeights: window.innerHeight - 300
       })
     } else {
       this.setState({
-        viewHeight: window.innerHeight - 193
+        viewHeight: window.innerHeight - 193,
+        viewHeights: window.innerHeight - 250
       })
     }
   }
@@ -194,9 +196,9 @@ class Information extends React.Component {
   }
   render () {
     return (
-      <div className='news-list-container' style={{height: this.state.viewHeight}}>
-        <div id='right-container' style={{height: this.state.viewHeight}}>
-          <ul className='ul-top' style={{width: '100%', padding: '0', backgroundColor: '#fff'}}>
+      <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
+        <div id='right-container'>
+          <ul className='ul-top' style={{width: '100%', padding: '0', backgroundColor: '#fff', minHeight: this.state.viewHeights}}>
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <Col span={18}>
                 <span className='information-fabu'>

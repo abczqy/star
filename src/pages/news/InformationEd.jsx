@@ -230,11 +230,13 @@ class InformationEd extends React.Component {
  getHeight=() => {
    if (this.state.webStorage) {
      this.setState({
-       viewHeight: window.innerHeight - 230
+       viewHeight: window.innerHeight - 214,
+       viewHeights: window.innerHeight - 300
      })
    } else {
      this.setState({
-       viewHeight: window.innerHeight - 193
+       viewHeight: window.innerHeight - 193,
+       viewHeights: window.innerHeight - 250
      })
    }
  }
@@ -265,7 +267,7 @@ render () {
   const dataT = [
     {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
   ]
-  return <div style={{margin: 'auto', width: '90%', marginLeft: '8%', height: this.state.viewHeight}}>
+  return <div style={{margin: 'auto', width: '90%', marginLeft: '8%', minHeight: this.state.viewHeight}}>
     <div >
       <Row>
         <Col span={5} style={{width: '18%'}}>
@@ -283,7 +285,7 @@ render () {
           </Row>
           <Row><img src={(!_.isEmpty(this.state.infoData)) && ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
         </Col>
-        <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', overflow: 'hidden'}}>
+        <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', overflow: 'hidden', minHeight: this.state.viewHeights}}>
           <Row>
             <div style={{height: '50px', borderBottom: '1px solid #ddd', width: '98%'}}>
               <Col span={7}><span style={{width: '40px', display: 'inline-block'}}> 状态 : </span><Select placeholder='请查询状态' style={{ width: '60%' }} allowClear onChange={(value) => this.stateValue(value)}>
