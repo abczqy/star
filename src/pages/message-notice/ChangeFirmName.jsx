@@ -34,8 +34,8 @@ class ChangeFirmName extends React.Component {
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         updateVendorName({
-          password: values.maf_pass,
-          vendorName: values.maf_firm_name
+          fa_pwd: values.maf_pass,
+          fa_name: values.maf_firm_name
         }, (response) => {
           // 修改后调用刷新父页面
           this.props.getFirmList()

@@ -2,8 +2,7 @@
 import React from 'react'
 import {Modal, Button, Form, Input, Upload, Icon} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config/index'
+import {updateFactoryContract} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 class ChangeFirmLicense extends React.Component {
   static propTypes = {
@@ -34,11 +33,18 @@ class ChangeFirmLicense extends React.Component {
     thiz.props.form.validateFields((err, values) => {
       let params = this.getFormData()
       if (!err) {
-        axios.post(ajaxUrl.relationdelete, params).then((response) => {
-          console.log('修改营业执照', values)
-          thiz.props.getFirmList()
+        updateFactoryContract(params, (response) => {
+          this.props.getFirmList()
           this.props.hiddenModal()
         })
+        /* addGatewayBanner({
+          fa_pwd: values.maf_pass,
+          fa_license: params
+        }, (response) => {
+          // 修改后调用刷新父页面
+          this.props.getFirmList()
+          this.props.hiddenModal()
+        }) */
       }
     })
   }
@@ -49,9 +55,10 @@ class ChangeFirmLicense extends React.Component {
   getFormData () {
     const { fileList } = this.state
     const formData = new FormData()
-    formData.append('sw_pss', '1')
+    // formData.append('sw_pss', '1')
+    formData.append('fa_pwd', '1')
     fileList.forEach((file) => {
-      formData.append('files[]', file)
+      formData.append('fa_license', file)
     })
     return formData
   }
@@ -124,7 +131,7 @@ class ChangeFirmLicense extends React.Component {
                 {...formItemLayout}
                 label='请输入密码'
               >
-                {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入密码!'}]})(
+                {getFieldDecorator('maf_pass', {rules: [{required: false, message: '请输入密码!'}]})(
                   <Input type={this.state.type} onClick={this.changePasType} />
                 )}
               </Form.Item>

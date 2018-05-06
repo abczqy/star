@@ -2,8 +2,7 @@
 import React from 'react'
 import {Modal, Button, Form, Input} from 'antd'
 import PropTypes from 'prop-types'
-import axios from 'axios'
-import ajaxUrl from 'config/index'
+import {updateFactoryDesc} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 class ChangeFirmDescribe extends React.Component {
   static propTypes = {
@@ -34,12 +33,11 @@ class ChangeFirmDescribe extends React.Component {
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('修改厂商描述', values)
-        axios.post(ajaxUrl.relationdelete, {
-          params: {
-            maf_pass: values,
-            maf_firm_name: values
-          }
-        }).then((response) => {
+        updateFactoryDesc({
+          fa_pwd: values.maf_pass,
+          fa_desc: values.maf_firm_name
+        }, (response) => {
+          // 修改后调用刷新父页面
           this.props.getFirmList()
           this.props.hiddenModal()
         })

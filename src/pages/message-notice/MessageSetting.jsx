@@ -15,7 +15,8 @@ import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
 // import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {relationQueryStu, whetherOrNotToVerify} from '../../services/topbar-mation/index'
+import Config from 'config'
+import {relationQueryStu, whetherOrNotToVerify, queryFactoryMsg} from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
 import '../../views/Operateview.scss'
 class MessageSetting extends React.Component {
@@ -23,7 +24,7 @@ class MessageSetting extends React.Component {
     super(props)
     this.state = {
       stuMation: [], // 家长权限下
-      firmData: [], // 厂商
+      firmData: {}, // 厂商
       unbindVisible: false,
       addbindVisible: false,
       changePassVisible: false,
@@ -66,20 +67,15 @@ class MessageSetting extends React.Component {
   }
   // 厂商权限下，获取厂商基本信息模块
   getFrimList=() => {
-    // axios.post(ajaxUrl.registerValitemail, {
-    //   params: {stu: '123'}
-    // }).then((response) => {
-    //   console.log('返回厂商信息', response)
-    //   this.setState({
-    //     firmData: [{
-    //       firmid: '1',
-    //       firmName: '福州市第一实验小学',
-    //       firmDiscribe: '这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述。',
-    //       firmContract: 'HT217897438927189470',
-    //       photo: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1713110334,402977652&fm=27&gp=0.jpg'
-    //     }]
-    //   })
-    // })
+    queryFactoryMsg({}, (response) => {
+      this.setState({
+        firmData: response.data,
+        fa_name: response.data.fa_name,
+        fa_desc: response.data.fa_desc,
+        fa_con_num: response.data.fa_con_num,
+        fa_contract: response.data.fa_contract
+      })
+    })
   }
   hiddenModal (type) {
     this.setState({
@@ -155,12 +151,6 @@ class MessageSetting extends React.Component {
       name = userData.NAME
       strname = '**' + name.substr(name.length - 1)
     }
-    // let mtel = phone.substr(0, 4) + '*****' + phone.substr(8)
-    // let name = '李小俊'
-    // let strname = '**' + name.substr(name.length - 1)
-    // // let idcard = this.state.userSafeDate && this.state.userSafeDate.IDCARD
-    // let strIdcard = idcard.substr(0, 2) + '**************' + idcard.substr(14)
-    // let userType = this.props.roleCode
     let model
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents') {
       let stuData = this.state.stuData
@@ -188,7 +178,7 @@ class MessageSetting extends React.Component {
         </Card>
       )
     } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
-      let firmData = this.state.firmData[0]
+      let firmData = this.state.firmData
       model = (<Card title='基本信息' className='message-setting-card'>
         <div className='setting-body'>
           <div className='safe_item'>
@@ -197,7 +187,7 @@ class MessageSetting extends React.Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>厂商名称</span>
-              <span className='word f-color'>{firmData && firmData.firmName}</span>
+              <span className='word f-color'>{firmData && firmData.fa_name}</span>
               <a className='modify' onClick={this.changefirmname}> 修改</a>
             </div>
           </div>
@@ -209,7 +199,7 @@ class MessageSetting extends React.Component {
               <span className='tit'>厂商描述</span>
               <div className='word f-color describe' >
                 <span style={{height: '1rem'}} />
-                {firmData && firmData.firmDiscribe}
+                {firmData && firmData.fa_desc}
               </div>
               <a className='modify' onClick={this.changefirmdescribe}> 修改</a>
             </div>
@@ -220,7 +210,7 @@ class MessageSetting extends React.Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>合同编号</span>
-              <span className='word f-color'>{firmData && firmData.firmContract}</span>
+              <span className='word f-color'>{firmData && firmData.fa_con_num}</span>
               <a className='modify' onClick={this.changeFirmcontract}> 修改</a>
             </div>
           </div>
@@ -230,7 +220,9 @@ class MessageSetting extends React.Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>营业执照</span>
-              <span className='word f-color'><img style={{height: '50px'}} src={firmData && firmData.photo} /></span>
+              <span className='word f-color'>
+                <img style={{height: '50px'}} src={Config.IMG_BASE_URL + (firmData && firmData.fa_contract)} />
+              </span>
               <a className='modify' onClick={this.changeFirmLicense}>重新上传</a>
             </div>
           </div>
@@ -257,7 +249,8 @@ class MessageSetting extends React.Component {
               </div>
               <div className='safe-name'>
                 <span className='tit'>手机验证</span>
-                <span className='word f-color'>您验证的手机：{mtel}若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
+                <span className={phone === '' ? 'word f-color' : 'pbonehidden'}><span className='t-color'>您未绑定手机，请绑定！避免账户被盗</span></span>
+                <span className={phone !== '' ? 'word f-color' : 'pbonehidden'}>您验证的手机：{mtel}若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
                 <a className='modify' onClick={this.changephone}> 修改</a>
               </div>
             </div>

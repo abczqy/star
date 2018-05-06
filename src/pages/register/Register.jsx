@@ -26,7 +26,9 @@ class Register extends React.Component {
       nextgetCode: true, // 第二次获取验证码
       submitbtn: false, // 注册按钮
       registerVisible: false,
-      type: 'text'
+      type: 'text',
+      codeBtnText: '获取验证码',
+      countTime: 60
     }
   }
   componentDidMount () {
@@ -226,6 +228,7 @@ class Register extends React.Component {
         phonemsg: '',
         phone_icon: true
       })
+      return true
     } else {
       this.setState({
         phone_con_icon: false,
@@ -261,21 +264,23 @@ class Register extends React.Component {
     let phoneNum = form.getFieldValue('maf_phone')
     // eslint-disable-next-line camelcase
     let maf_phone_con = form.getFieldValue('maf_phone_con')
-    if (this.handlPhoneonblur(phoneNum)) {
+    if (this.handlPhoneonblur(phoneNum) && this.handlPhonecodeonblur(maf_phone_con)) {
       this.getCode(phoneNum)
+      this.Countdown()
+      this.state.verifyCode.refresh()
       console.log('获取验证码成功')
       this.setState({
         nextgetCode: !this.state.nextgetCode
       }, () => {
         if (this.state.nextgetCode) {
-          var parent = document.getElementById('v_container')
-          var child = document.getElementById('verifyCanvas')
-          parent.removeChild(child)
-          form.setFieldsValue({maf_phone_con: ''})
+          // var parent = document.getElementById('v_container')
+          // var child = document.getElementById('verifyCanvas')
+          // parent.removeChild(child)
+          // form.setFieldsValue({maf_phone_con: ''})
           this.setState({
-            verifyCode: new GVerify('v_container')
+            // verifyCode: new GVerify('v_container')
           }, () => {
-            this.handlPhonecodeonblur(maf_phone_con)
+            // this.handlPhonecodeonblur(maf_phone_con)
           })
         }
       })
@@ -296,6 +301,30 @@ class Register extends React.Component {
         phoneCode: response.data && response.data.toString()
       })
     })
+  }
+  // 倒计时
+  Countdown=() => {
+    this.intervalcode = setInterval(() => {
+      this.setState({
+        Countdown: false,
+        countTime: this.state.countTime - 1,
+        codeBtnText: this.state.countTime - 1 + 's',
+        getcode_btn: false
+      }, () => {
+        if (this.state.countTime === 0) {
+          window.clearInterval(this.intervalcode)
+          this.setState({
+            Countdown: true,
+            countTime: 60,
+            codeBtnText: '获取验证码',
+            getcode_btn: true
+          })
+        }
+      })
+    }, 1000)
+  }
+  componentWillUnmount () {
+    window.clearInterval(this.intervalcode)
   }
   // 手机验证码
   handlPhonecheckonblur=(e) => {
@@ -581,7 +610,7 @@ class Register extends React.Component {
                   {getFieldDecorator('maf_phone', {rules: [{required: true, message: ' '}]})(
                     <Input placeholder='请输入手机号'onBlur={(e) => { this.handlPhoneonblur(e.target.value) }} />
                   )}
-                  <Button className='maf_phone' disabled={!this.state.getcode_btn} onClick={this.getPhoneCode}>获取验证码</Button>
+                  <Button className='maf_phone' style={{width: 92}} disabled={!this.state.getcode_btn} onClick={this.getPhoneCode}>{this.state.codeBtnText}</Button>
                   <span className={this.state.phone_icon ? '' : 'fail'}>{this.state.phonemsg}</span>
                 </Form.Item>
                 <Form.Item

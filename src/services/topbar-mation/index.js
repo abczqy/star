@@ -122,10 +122,46 @@ export function updatePhoneNum (params, sucFn) {
     })
 }
 /**
+ * // 账号设置-获取厂商默认值
+ */
+export function queryFactoryMsg (params, sucFn) {
+  return axios.get('/factoryManage/queryFactoryMsg', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
  * // 账号设置-修改厂商名称
  */
 export function updateVendorName (params, sucFn) {
-  return axios.post('/updateVendorName', {...params})
+  return axios.post('/factoryManage/updateFactoryName', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * // 账号设置-修改厂商描述
+ */
+export function updateFactoryDesc (params, sucFn) {
+  return axios.post('/factoryManage/updateFactoryDesc', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * // 账号设置-修改厂商合同号
+ */
+export function updateFactoryNum (params, sucFn) {
+  return axios.post('/factoryManage/updateFactoryNum', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * // 账号设置-修改厂商营业执照
+ */
+export function updateFactoryContract (params, sucFn) {
+  return axios.post('/factoryManage/updateFactoryContract', {...params})
     .then(function (res) {
       sucFn(res)
     })
