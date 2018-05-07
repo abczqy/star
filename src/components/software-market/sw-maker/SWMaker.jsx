@@ -105,6 +105,7 @@ class SWMaker extends Component {
           let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
           b.push(c)
           console.log(b)
+          message.success('推送成功')
           this.setState({
             imgList: b
           })
@@ -119,6 +120,7 @@ class SWMaker extends Component {
         let index = bb.indexOf(cc)
         bb.splice(index, 1)
         console.log(bb)
+        message.success('已取消推送')
         this.setState({
           imgList: bb
         })
@@ -163,19 +165,17 @@ class SWMaker extends Component {
   // 获取数据列表
   getList = () => {
     let params = {
-      apptype: this.state.type || '',
-      appName: this.state.searchValue || ''
+      appType: this.state.type,
+      appName: this.state.searchValue
     }
     getSoftMarketList(params, res => {
       res.data.data.map((item, index) => {
         let b = this.copyArray(this.state.imgList)
-        console.log(b, item)
         b.push(ajaxUrl.IMG_BASE_URL + item.SW_ICON)
         if (item.SW_MARKET_SHOW === 1) {
           this.setState({
             imgList: b
           })
-          console.log(this.state.imgList)
         }
       })
       this.setState({
@@ -231,7 +231,23 @@ class SWMaker extends Component {
     })
   }
   getSearchData = () => {
-    this.getList()
+    let params = {
+      appType: this.state.type,
+      appName: this.state.searchValue
+    }
+    getSoftMarketList(params, res => {
+      this.setState({
+        tableData: {
+          data: []
+        }
+      }, () => {
+        this.setState({
+          tableData: {
+            data: res.data.data
+          }
+        })
+      })
+    })
   }
 
   inputChange = (e) => {
@@ -250,6 +266,9 @@ class SWMaker extends Component {
       })
     })
   }
+  addpage = () => {
+    message.success('保存成功')
+  }
 
   componentDidMount () {
     this.getList()
@@ -262,7 +281,7 @@ class SWMaker extends Component {
     return (
       <div className='hp-maker'>
         <Collapse onChange={this.onExpand}>
-          <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} />} key='1' >
+          <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addpage} />} key='1' >
             <SearchBar
               onSeachChange={this.inputChange}
               onSearch={this.getSearchData}

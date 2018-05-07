@@ -130,6 +130,7 @@
 .app-detail .app-detail-exhibition .exhibition-title div {
     width: 68px;
     height: 24px;
+    cursor:pointer;
     line-height: 22px;
     text-align: center;
     border-radius: 2px;

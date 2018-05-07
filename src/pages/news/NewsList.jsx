@@ -166,6 +166,8 @@ class News extends React.Component {
     }
   }
   render () {
+    const topImg = '/image/infot.png'
+    const bottomImg = '/image/infob.png'
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container'>
@@ -233,7 +235,7 @@ class News extends React.Component {
         </div>
         <div id='left-container'>
           <div className='top-img' >
-            <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '98%', height: '120px'}} alt='' />
+            <img src={ajaxUrl.IMG_BASE_URL + topImg} style={{width: '98%', height: '120px'}} alt='' />
           </div>
           <div className='center-public-info' id='ulul'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
@@ -245,7 +247,7 @@ class News extends React.Component {
             </Card>
           </div>
           <div className='bottom-img'>
-            <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+            <img src={ajaxUrl.IMG_BASE_URL + bottomImg} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
           </div>
         </div>
       </div>

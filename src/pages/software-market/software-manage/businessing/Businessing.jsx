@@ -25,8 +25,7 @@ const pagination = {
   pageNum: 1,
   pageSize: 10,
   showQuickJumper: true,
-  showSizeChanger: true,
-  text: '' // 用来赋空翻页后的search框--需要这样吗
+  showSizeChanger: true
 }
 
 class Businessing extends Component {
@@ -45,8 +44,6 @@ class Businessing extends Component {
         swName: '',
         swId: ''
       },
-      pageNum: 1,
-      pageSize: 10,
       busiRenewWinVisible: false, // 续费弹窗
       busiRenewRecord: null, // 当前选择行的值
       appDetailModalCon: {
@@ -125,8 +122,8 @@ class Businessing extends Component {
    */
   getParams () {
     return {
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
       sw_type: this.state.type || '',
       sw_name: this.state.searchValue || ''
     }
@@ -147,29 +144,29 @@ class Businessing extends Component {
     })
   }
 
-    // 获取只有系统名称的sw_path参数内容
-    getSwPath = (data) => {
-      data.map((item, index) => {
-        let con = item.sw_path
-        let version = ''
-        let pathArray = []
-        // 把sw_path字段内容用逗号分割,获得多个系统名称和下载路径混合的字符串
-        pathArray = con ? con.split(',') : []
-        pathArray.map((pathIt, pathIn) => {
-          // 把系统名称和下载路径混合字符串再用冒号分割,以便只取到系统名称
-          let pathVer = pathIt.split(':')
-          // 遍历取出每个系统名称，并拼接在一起
-          if (pathIn > 0) {
-            version += (',' + pathVer[0])
-          } else {
-            version += pathVer[0]
-          }
-          // 把拼接后的多个系统重新赋值给sw_path字段
-          item.sw_path = version
-        })
+  // 获取只有系统名称的sw_path参数内容
+  getSwPath = (data) => {
+    data.map((item, index) => {
+      let con = item.sw_path
+      let version = ''
+      let pathArray = []
+      // 把sw_path字段内容用逗号分割,获得多个系统名称和下载路径混合的字符串
+      pathArray = con ? con.split(',') : []
+      pathArray.map((pathIt, pathIn) => {
+        // 把系统名称和下载路径混合字符串再用冒号分割,以便只取到系统名称
+        let pathVer = pathIt.split(':')
+        // 遍历取出每个系统名称，并拼接在一起
+        if (pathIn > 0) {
+          version += (',' + pathVer[0])
+        } else {
+          version += pathVer[0]
+        }
+        // 把拼接后的多个系统重新赋值给sw_path字段
+        item.sw_path = version
       })
-      return data
-    }
+    })
+    return data
+  }
 
   // 显示‘详情’弹窗
   showAppDetailModal = (record) => {
@@ -284,11 +281,11 @@ class Businessing extends Component {
    */
   onShowSizeChange = (current, size) => {
     this.setState({
-      // pagination: {
-      //   ...this.state.pagination,
-      // }
-      pageNum: current,
-      pageSize: size
+      pagination: {
+        ...this.state.pagination,
+        pageNum: current,
+        pageSize: size
+      }
     }, () => {
       this.getTableDatas()
     })
@@ -299,7 +296,10 @@ class Businessing extends Component {
    */
   pageNumChange = (page, pageSize) => {
     this.setState({
-      pageNum: page
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
     }, () => {
       this.getTableDatas()
     })
@@ -388,7 +388,6 @@ class Businessing extends Component {
         <Table
           columns={this.columns}
           dataSource={tableData.data}
-          scroll={{x: 0, y: 0}}
           pagination={{
             ...pagination,
             total: this.state.tableData.total,

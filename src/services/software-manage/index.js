@@ -664,7 +664,7 @@ export function informationEdListDelete (params, id, sucFn) {
 }
 /*
 /**
- * 平台首页-banner图添加
+ * 平台首页-门户banner图添加
  */
 export function addGatewayBanner (params, sucFn) {
   return axios.post('/addGatewayBanner', params)
@@ -682,7 +682,7 @@ export function informationEdList (params, sucFn) {
     })
 }
 /**
- * 平台首页-banner图查询
+ * 平台首页-门户banner图查询
  */
 export function getGatewayBannerList (params, sucFn) {
   return axios.get('/getGatewayBannerList', params)
@@ -700,7 +700,7 @@ export function appId (params, sucFn) {
     })
 }
 /**
- * 平台首页-banner图删除
+ * 平台首页-门户banner图删除
  */
 export function deleteGatewayBanner (params, sucFn) {
   return axios.post('/deleteGatewayBanner', params)
@@ -794,6 +794,33 @@ export function getPopularRecommendationList (params, sucFn) {
  */
 export function savePopularRecommendation (params, sucFn) {
   return axios.post('/savePopularRecommendation', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台banner删除
+ */
+export function deletePlatformBanner (params, sucFn) {
+  return axios.post('/deletePlatformBanner', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台banner查询
+ */
+export function getPlatformBannerList (params, sucFn) {
+  return axios.get('/getPlatformBannerList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台banner增加
+ */
+export function addPlatformBanner (params, sucFn) {
+  return axios.post('/addPlatformBanner', params)
     .then(function (res) {
       sucFn(res)
     })
