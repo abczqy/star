@@ -60,7 +60,7 @@ class PublicInfoBar extends Component {
 }
 
 PublicInfoBar.propTypes = {
-  onBtn1Click: PropsTypes.object
+  onBtn1Click: PropsTypes.func
 }
 
 export default PublicInfoBar

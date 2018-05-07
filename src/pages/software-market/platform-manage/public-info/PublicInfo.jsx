@@ -3,7 +3,8 @@
  */
 import React, { Component } from 'react'
 import { Table, Divider, Icon } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import ajaxUrl from 'config'
 import {
   getPubInfoList,
   delPubInfoList,
@@ -61,11 +62,11 @@ class PublicInfo extends Component {
         key: 'info_time'
       }, {
         title: '附件',
-        dataIndex: 'info_id',
-        key: 'info_id',
+        dataIndex: 'info_attachment',
+        key: 'info_attachment',
         render: (text, record, index) => {
           return (
-            <Icon type='link' />
+            <a href={ajaxUrl.IMG_BASE_URL + '/' + text} target='_blank'><Icon type='link' /></a>
           )
         }
       }, {
@@ -75,7 +76,7 @@ class PublicInfo extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to='/software-market-home/platform-manage/public-info-edit'>编辑</Link>
+              <Link to={{pathname: '/software-market-home/platform-manage/public-info-edit', search: '?' + record.info_id}}>编辑</Link>
               <Divider type='vertical' />
               <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
             </span>
@@ -194,4 +195,4 @@ class PublicInfo extends Component {
   }
 }
 
-export default PublicInfo
+export default withRouter(PublicInfo)

@@ -17,7 +17,7 @@ class NewsListEdit extends Component {
     this.state = {
       data: {},
       fileList: [],
-      newsTilte: null
+      newsTitle: null
     }
   }
 
@@ -42,7 +42,7 @@ class NewsListEdit extends Component {
   getTitle = (e) => {
     console.log(`e.target.value: ${e.target.value}`)
     this.setState({
-      newsTilte: e.target.value
+      newsTitle: e.target.value
     })
   }
 
@@ -107,7 +107,7 @@ class NewsListEdit extends Component {
         <div className='ant-upload-text'>Upload</div>
       </div>
     )
-    const props = {
+    const upLoadProps = {
       onRemove: (file) => {
         console.log('移除附件')
         this.setState(({ fileList }) => {
@@ -138,14 +138,14 @@ class NewsListEdit extends Component {
                   <span className='edit-bar-left-label'>通知标题: </span>
                   <Input
                     className='edit-bar-right-Input'
-                    placeholder={'' + data.news_title}
+                    placeholder={data.news_title}
                     onChange={this.getTitle}
                   />
                 </Col>
                 <Col span={6}>
                   <span className='pic-card-label'>上传图片: </span>
                   <Upload
-                    listType='picture-card' {...props} >
+                    listType='picture-card' {...upLoadProps} >
                     {fileList.length >= 1 ? null : uploadButton}
                   </Upload>
                 </Col>

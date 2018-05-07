@@ -8,6 +8,7 @@
  * 图片就是<img src='' style='' />
  */
 import React, { Component } from 'react'
+import PropsTypes from 'prop-types'
 import Editor from 'wangeditor'
 
 /**
@@ -20,9 +21,6 @@ import Editor from 'wangeditor'
 class RichEditor extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      contentText: ''
-    }
     this.editor = {}
   }
 
@@ -31,25 +29,14 @@ class RichEditor extends Component {
    */
   setText = (msg) => {
     // msg 要不要处理一下 正则什么的 加上<p>标签
-    this.setState({
-      contentText: msg
-    })
-    this.editor.text.html(this.state.contentText)
+    this.editor.txt.html(msg)
   }
 
   /**
-   * 获取输入的内容(将值传给父组件 -- 父组件通过表单提交)
-   * 返回值是当前state.contantText
-   * 不过 这里用state存起来貌似没什么用
+   * 获取输入的内容
    */
   getText = () => {
-    // console.log(`rich-editor中的文本：${this.editor.txt.text()}`)
-    // console.log(`rich-editor中的html：${this.editor.txt.html()}`)
-    const contentText = this.editor.txt.text()
-    this.setState({
-      contentText: contentText
-    })
-    return this.state.contentText
+    return this.editor.txt.text()
   }
 
   componentDidMount () {
@@ -60,6 +47,22 @@ class RichEditor extends Component {
     // this.editor.customConfig = editorConfig
   }
 
+  componentWillReceiveProps (nextProps) {
+    const { content } = nextProps
+    content && this.setText(content)
+    if (nextProps.test) {
+      this.props.func(this.editor.txt.text())
+    }
+  }
+
+  componentWillUnmount () {
+    // 这里我们对父组件传回来的操作量operType进行判断
+    // const { operFunc, operType } = this.props
+    // 当oper为true的时候 提交数据 操作函数也由父组件传进来
+    // 当oper为false的时候 不操作
+    console.log(`我已被更新1:富文本编辑器的内容是：\n${this.getText()}`)
+  }
+
   render () {
     return (
       <div className='rich-editor-wrap' >
@@ -67,6 +70,14 @@ class RichEditor extends Component {
       </div>
     )
   }
+}
+
+RichEditor.propTypes = {
+  content: PropsTypes.string,
+  func: PropsTypes.func,
+  test: PropsTypes.bool
+  // operType: PropsTypes.bool,
+  // operFunc: PropsTypes.func
 }
 
 export default RichEditor
