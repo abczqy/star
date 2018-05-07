@@ -74,7 +74,7 @@ class SearchBarMemberPa extends Component {
           </Col>
           <Col span={4}>
             <span className='select-label'>选择角色</span>
-            <Select defaultValue='all' className='select' onChange={onSelect4Change} >
+            <Select className='select' onChange={onSelect4Change} >
               {selectList.roleList && this.getOptions(selectList.roleList)}
             </Select>
           </Col>
