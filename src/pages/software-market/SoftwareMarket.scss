@@ -1,14 +1,15 @@
 .software-wrap {
   width: 100%;
-  min-height: calc(100vh - 185px);
+  // min-height: calc(100vh - 185px);
   .ant-table-wrapper{
-    min-height: calc(100vh - 242px);
+    // min-height: calc(100vh - 242px);
     .ant-spin-nested-loading{
-      min-height: calc(100vh - 242px);
+      // min-height: calc(100vh - 242px);
       .ant-spin-container{
-        min-height: calc(100vh - 242px);
-        .ant-table{
-          min-height: calc(100vh - 274.2px);
+        // min-height: calc(100vh - 242px);
+        .ant-table .ant-table-body{
+          height: calc(100vh - 300.2px);
+          overflow-y: auto
         }
       }
     }
