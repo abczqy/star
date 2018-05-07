@@ -32,7 +32,7 @@ class AllApplicationsDetail extends React.Component {
       }
   }
   static propTypes = {
-    location: PropTypes.abj
+    location: PropTypes.object
   }
   componentDidMount () {
     this.getAllAppData()
@@ -52,7 +52,9 @@ class AllApplicationsDetail extends React.Component {
     allAppList({
       appType: this.state.appType === '' ? 'all' : this.state.appType,
       timeOrd: this.state.shelfTimeSort,
-      numOrd: this.state.downloadNum
+      numOrd: this.state.downloadNum,
+      pageNum: 1,
+      pageSize: 20
     }, (res) => {
       this.setState({
         allAppListData: res.data.data
@@ -127,7 +129,7 @@ class AllApplicationsDetail extends React.Component {
   loadNextFunc = () => {}
   // 打开按钮页面跳转
   handleChangeJump = (item) => {
-    window.open(item.sw_url)
+    // window.open(item.sw_url)
   }
   render () {
     let total = this.state.allAppListData.length
@@ -141,7 +143,15 @@ class AllApplicationsDetail extends React.Component {
               <p>{item.SW_DESC}</p>
             </dd>
           </dl>
-          <p style={{float: 'right'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}><Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' /><Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>下载</Button></Link><Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} /></p>
+          <p style={{float: 'right'}}>
+            <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}>
+              <Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' />
+              <Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>
+          下载
+              </Button>
+            </Link>
+            <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
+          </p>
         </div>
       )
     })
@@ -158,7 +168,6 @@ class AllApplicationsDetail extends React.Component {
                     <div key={index}>
                       <div>
                         { this.state.platformAppDataa[index].map((item, index, arr) => {
-                          let a = { height: '26px', lineHeight: '20px' }
                           return (
                             <dl key={index} className='carousel-detail-item'>
                               <dt>
@@ -166,8 +175,20 @@ class AllApplicationsDetail extends React.Component {
                               </dt>
                               <dd>
                                 <span className='name'>{item.SW_NAME}</span>
-                                {item.isOpen === 'false' ? <Button style={a} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button> : null}
-                                {item.isOpen === 'true' ? <Button onClick={this.handleChangeJump(item)} style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}} className='open' type='primary'>打开</Button> : null}
+                                {
+                                  item.isOpen === 'false'
+                                    ? <Button
+                                      style={{ height: '26px', lineHeight: '20px' }}
+                                      type='primary'>
+                                      <Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link>
+                                    </Button>
+                                    : <Button
+                                      // onClick={this.handleChangeJump(item)}
+                                      style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}}
+                                      className='open'
+                                      type='primary'
+                                    ><a to={item.sw_url} target='_blank'>打开</a></Button>
+                                }
                               </dd>
                             </dl>
                           )
@@ -181,11 +202,11 @@ class AllApplicationsDetail extends React.Component {
             <div className='all-app-right-arrow' onClick={this.onClickRight}> &gt; </div>
           </div>
         </div>
-        <div style={{ marginTop: 10 }}>
-          <p>
+        <div style={{ marginTop: 10, width: 1019, overflow: 'auto' }}>
+          <div>
             <span style={{ fontSize: 20 }}>软件应用</span>
             <p style={{float: 'right', marginTop: '10px'}}><span style={{cursor: 'pointer'}} onClick={this.handleShelfTime}>上架时间</span><Icon className='arrowhead-rotation' type='swap' /><span style={{marginLeft: 10, cursor: 'pointer'}} onClick={this.handleDownloadNum}>下载量</span><Icon className='arrowhead-rotation' type='swap' /></p>
-          </p>
+          </div>
           <div style={{overflow: 'auto', height: 550, width: 1020}}>
             <LimitedInfiniteScroll
               limit={5}

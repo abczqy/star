@@ -144,7 +144,7 @@ class TeacherHome extends Component {
     }
     return (
       <div className='lista' key={index}>
-        <p className='lista-title'>
+        <div className='lista-title'>
           <span className='title-num' style={b}>{index + 1}</span>
           <span className='title-detaila'>{item.SW_NAME}</span>
           <div className='app-install'>
@@ -157,7 +157,7 @@ class TeacherHome extends Component {
             </dl>
             <Button type='primary' className='install-button' onClick={() => { this.handleBtnClick(item) }}>{this.getBtnText(item)}</Button>
           </div>
-        </p>
+        </div>
       </div>
     )
   }
@@ -215,7 +215,7 @@ class TeacherHome extends Component {
           {item.isSelfSupport === 'false' ? <Icon className='downloadIcon' type='download' /> : null}
           {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>下载</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>开通</Link></Button> : null}
-          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button onClick={this.handleHotOpen(item)} className='openUpButton' type='primary'>打开</Button> : null}
+          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button className='openUpButton' type='primary'><a to={item.sw_url} target='_blank'>打开</a></Button> : null}
           <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
         </p>
       </div>
@@ -248,15 +248,15 @@ class TeacherHome extends Component {
           {item.isSelfSupport === 'false' ? <Icon className='downloadIcon' type='download' /> : null}
           {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>下载</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>开通</Link></Button> : null}
-          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button onClick={this.handleHotOpen(item)} className='openUpButton' type='primary'>打开</Button> : null}
+          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button className='openUpButton' type='primary'><a to={item.sw_url} target='_blank'>打开</a></Button> : null}
           <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
         </p>
       </div>
     )
   }
-  handleHotOpen = (item) => {
-    window.open(item.sw_url)
-  }
+  // handleHotOpen = (item) => {
+  //   window.open(item.sw_url)
+  // }
   render () {
     return (
       <div className='logged-home'>
