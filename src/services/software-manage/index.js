@@ -154,7 +154,7 @@ export function getPubInfoForEdit (params, sucFn) {
  * 平台管理-信息公开-编辑
  */
 export function updatePubInfoList (params, sucFn) {
-  return axios.post('/management/infoexamedit', params)
+  return axios.post('/management/infoedit', params)
     .then(function (res) {
       sucFn(res)
     })
