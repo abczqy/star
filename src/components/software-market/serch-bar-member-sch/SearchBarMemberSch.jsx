@@ -11,6 +11,23 @@ import './SearchBarMemberSch.scss'
 const Option = Select.Option
 
 class SearchBarMemberSch extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+  /**
+   * 如果用动态从后台获取下拉菜单的方法
+   * 这里写个demo
+   * 接口留好 到时候 这样改造就行了
+   * 当然 后台请求到的数据 以props传给这里
+   * @param {array} optArrs 分组建传进来的arrays
+   */
+  getOptions = (optArrs) => {
+    return optArrs.map((Item, index) => {
+      // 这里需要加一个key 不然会有告警
+      return <Option key={index} value={Item}>{Item}</Option>
+    })
+  }
   render () {
     const {
       selectList,

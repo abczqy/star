@@ -524,7 +524,7 @@ export function thBatchLeadout (params, sucFn) {
  * 会员管理-教育机构-查询
  */
 export function eduGetData (params, sucFn) {
-  axios.post('/manage/educational', {...params})
+  axios.post('/manage/educationalPage', {...params})
     .then((res) => {
       sucFn(res)
     })
