@@ -3,7 +3,8 @@
  */
 import React, { Component } from 'react'
 import { Table, Icon } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import ajaxUrl from 'config'
 import {
   getEmInfoList,
   passBatchEmInfoList
@@ -66,11 +67,13 @@ class PublicInfoVerify extends Component {
         key: 'info_time'
       }, {
         title: '附件',
-        dataIndex: 'info_id',
-        key: 'info_id',
+        dataIndex: 'info_attachment',
+        key: 'info_attachment',
         render: (text, record, index) => {
           return (
-            <Icon type='link' />
+            <a href={ajaxUrl.IMG_BASE_URL + '/' + text} target='_blank'>
+              <Icon type='link' />
+            </a>
           )
         }
       }, {
@@ -80,7 +83,7 @@ class PublicInfoVerify extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to='/software-market-home/platform-manage/public-verify-detail'>编辑</Link>
+              <Link to={{pathname: '/software-market-home/platform-manage/public-verify-detail', search: '?' + record.info_id}}>编辑</Link>
             </span>
           )
         }
@@ -180,4 +183,4 @@ class PublicInfoVerify extends Component {
   }
 }
 
-export default PublicInfoVerify
+export default withRouter(PublicInfoVerify)

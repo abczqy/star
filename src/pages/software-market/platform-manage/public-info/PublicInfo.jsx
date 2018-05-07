@@ -66,7 +66,9 @@ class PublicInfo extends Component {
         key: 'info_attachment',
         render: (text, record, index) => {
           return (
-            <a href={ajaxUrl.IMG_BASE_URL + '/' + text} target='_blank'><Icon type='link' /></a>
+            <a href={ajaxUrl.IMG_BASE_URL + '/' + text} target='_blank'>
+              <Icon type='link' />
+            </a>
           )
         }
       }, {

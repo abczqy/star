@@ -191,17 +191,7 @@ export function getEmInfoList (params, sucFn) {
 }
 
 /**
- * 平台管理-信息公开审核-详情-为详情页获取数据
- */
-export function getEmInfoForEdit (params, sucFn) {
-  return axios.post('/management/infoexamedit', {...params})
-    .then(function (res) {
-      sucFn(res)
-    })
-}
-
-/**
- * 平台管理-信息公开审核-编辑/详情
+ * 平台管理-信息公开审核-为详情页获取数据
  */
 export function detEmInfoList (params, sucFn) {
   return axios.post('/management/infoexamedit', {...params})
