@@ -20,7 +20,7 @@ export default class AllApplications extends React.Component {
   }
   static propTypes = {
     visible: PropTypes.bool,
-    route: PropTypes.arr
+    route: PropTypes.object
   }
   changeMode = (value) => {
     this.setState({

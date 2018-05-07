@@ -28,7 +28,7 @@ export default class MyAppDetail extends React.Component {
     }
   }
   static propTypes = {
-    location: PropTypes.abj
+    location: PropTypes.object
   }
   componentDidMount () {
     let a = this.props.location.search.replace('?', '')
@@ -166,7 +166,7 @@ export default class MyAppDetail extends React.Component {
               <span className='header-titlea'>兼容系统：{
                 this.state.compatibleSystem.map((item, index, arr) => {
                   return (
-                    <span key={index}>{Object.keys(arr[index])}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span key={index}>{Object.keys(arr[index])}&nbsp;&nbsp;</span>
                   )
                 })
               }</span>
@@ -226,7 +226,7 @@ export default class MyAppDetail extends React.Component {
           </div>
           <div className='app-detail-relevanta'>
             <h3>历史版本</h3>
-            <p>
+            <div>
               <p className='relevant-introduce'>
                 <span>超级教师 3.0</span>
                 <span>2018年3月1日</span>
@@ -239,7 +239,7 @@ export default class MyAppDetail extends React.Component {
                 <span>超级教师 1.0</span>
                 <span>2018年1月1日</span>
               </p>
-            </p>
+            </div>
           </div>
         </div>
       </div>
