@@ -27,7 +27,7 @@ import {
   getNameSelectList,
   getContractSelectList
 } from 'services/software-manage'
-import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -262,22 +262,11 @@ class Manufacturer extends Component {
    * 当下拉选择框‘合同状态’值改变时回调
    */
   onNumDayChange = (val) => {
-    // console.log(`合同状态val: ${val}`)
-    let numDayState = ''
-    if (val === 'normal') {
-      numDayState = '正常'
-    } else if (val === 'expire') {
-      numDayState = '已过期'
-    } else if (val === 'all') {
-      numDayState = '全部'
-    } else if (val === 'remain10') {
-      numDayState = '剩余10天内'
-    }
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        numDay: numDayState
+        numDay: val
       }
     })
   }
@@ -452,9 +441,9 @@ class Manufacturer extends Component {
   componentDidMount () {
     this.getTableDatas()
     // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'factory', 'idList', this)
-    getSelectList(getNameSelectList, 'factory', 'faNameList', this)
-    getSelectList(getContractSelectList, null, 'contractList', this)
+    getSelectList(getIdSelectList, 'firm', 'idList', this)
+    getSelectList(getNameSelectList, 'firm', 'faNameList', this)
+    getSelectListWithNoParam(getContractSelectList, 'contractList', this)
   }
 
   render () {

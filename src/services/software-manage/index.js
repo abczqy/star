@@ -243,8 +243,18 @@ export function getNameSelectList (params, sucFn) {
 /**
  * 会员管理-合同状态-下拉菜单-获取数据
  */
-export function getContractSelectList (params, sucFn) {
-  return axios.post('/manage/listContract', {...params})
+export function getContractSelectList (sucFn) {
+  return axios.get('/manage/listContract')
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 会员管理-家长-选择角色-下拉菜单-获取数据
+ */
+export function getRoleSelectList (sucFn) {
+  return axios.get('/manage/listRole')
     .then(function (res) {
       sucFn(res)
     })
@@ -253,8 +263,8 @@ export function getContractSelectList (params, sucFn) {
 /**
  * 会员管理-上级机构-下拉菜单-获取数据
  */
-export function getEduUpperSelectList (params, sucFn) {
-  return axios.post('/manage/educational/listEduUpperName', {...params})
+export function getEduUpperSelectList (sucFn) {
+  return axios.get('/manage/educational/listEduUpperName')
     .then(function (res) {
       sucFn(res)
     })
@@ -263,8 +273,8 @@ export function getEduUpperSelectList (params, sucFn) {
 /**
  * 会员管理-所属级别-下拉菜单-获取数据
  */
-export function getEduClassSelectList (params, sucFn) {
-  return axios.post('/manage/educational/listEduClassName', {...params})
+export function getEduClassSelectList (sucFn) {
+  return axios.get('/manage/educational/listClass')
     .then(function (res) {
       sucFn(res)
     })

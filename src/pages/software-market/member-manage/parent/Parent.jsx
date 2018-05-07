@@ -18,10 +18,11 @@ import {
   initPaPwd,
   delPaLoginId,
   getIdSelectList,
-  getNameSelectList
+  getNameSelectList,
+  getRoleSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberPa } from 'components/software-market'
-import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -189,20 +190,11 @@ class Parent extends Component {
    * 当下拉选择框"选择角色"值改变时回调
    */
   onRoleChange = (val) => {
-    console.log(`val: ${val}`)
-    let relation = ''
-    if (val === 'all') {
-      relation = ''
-    } else if (val === 'father') {
-      relation = '父亲'
-    } else if (val === 'mother') {
-      relation = '母亲'
-    }
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafStuSad: relation
+        mafStuSad: val
       }
     })
   }
@@ -365,6 +357,7 @@ class Parent extends Component {
     getSelectList(getIdSelectList, 'student', 'idList', this)
     getSelectList(getNameSelectList, 'student', 'stuNameList', this)
     getSelectList(getNameSelectList, 'parent', 'paNameList', this)
+    getSelectListWithNoParam(getRoleSelectList, 'roleList', this)
   }
 
   render () {

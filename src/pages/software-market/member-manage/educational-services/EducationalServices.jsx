@@ -23,7 +23,7 @@ import {
   getEduClassSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberEduSer } from 'components/software-market'
-import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
+import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -327,8 +327,8 @@ class EducationalServices extends Component {
     // 请求下拉框的数据
     getSelectList(getIdSelectList, 'edu', 'idList', this)
     getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
-    getEduUpperSelectList(getNameSelectList, null, 'eduUpperList', this)
-    getEduClassSelectList(getNameSelectList, null, 'eduClassList', this)
+    getSelectListWithNoParam(getEduUpperSelectList, 'eduUpperList', this)
+    getSelectListWithNoParam(getEduClassSelectList, 'eduClassList', this)
   }
 
   render () {
