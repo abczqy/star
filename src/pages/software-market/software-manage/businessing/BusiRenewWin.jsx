@@ -108,7 +108,7 @@ export default class BusiRenewWin extends React.Component {
     const { fileList } = this.state
     const formData = new FormData()
     formData.append('type', this.state.renewType)
-    formData.append('sw_id', this.props.record.fa_id || '')
+    formData.append('sw_id', this.props.record.sw_id || '')
     // 临时开通
     if (this.state.renewType === '0') {
       formData.append('contract_start', this.state.renewStartTime)
