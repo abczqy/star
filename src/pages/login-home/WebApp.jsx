@@ -44,7 +44,7 @@ class WebApp extends React.Component {
               <div className='title'>{item.sw_name}</div>
               <div className='content'>{processStr(item.sw_desc, 12)}</div>
               <div>
-                <Button onClick={() => { this.handleAppClick(item) }}>{item.user_id ? '打开':'开通'}</Button>
+                <Button type='primary' style={item.user_id ? {backgroundColor: '#7ED321', border: 0} : {border: 0}} onClick={() => { this.handleAppClick(item) }}>{item.user_id ? '打开':'开通'}</Button>
               </div>
             </div>
           </div>

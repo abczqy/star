@@ -64,6 +64,9 @@ class LoginHome extends React.Component {
       case '/unlogged/informationDetEd':// 教育局信息公开详情
         activeTab = 'information'
         break
+      case '/operate-manage-home/home':// 软件市场
+        activeTab = 'appStore'
+        break
       default:
         activeTab = 'home'
     }
@@ -153,6 +156,8 @@ class LoginHome extends React.Component {
             <div className='header-container'>
               <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
               </li>
+              {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
+              </li>}
               <li>
                 {
                   roleCode === 'eduBureau'
