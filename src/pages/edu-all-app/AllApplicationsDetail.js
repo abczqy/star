@@ -159,23 +159,15 @@ class AllApplicationsDetail extends React.Component {
                       <div>
                         { this.state.platformAppDataa[index].map((item, index, arr) => {
                           let a = { height: '26px', lineHeight: '20px' }
-                          let b = { height: '26px', lineHeight: '20px' }
-                          if (item.isOpen === 'true') {
-                            a = { height: '26px', lineHeight: '20px' }
-                            b = { height: '26px', lineHeight: '20px', backgroundColor: '#7ED321' }
-                          } else {
-                            a = { height: '26px', lineHeight: '20px' }
-                            b = { height: '26px', lineHeight: '20px' }
-                          }
                           return (
                             <dl key={index} className='carousel-detail-item'>
                               <dt>
                                 <img src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} />
                               </dt>
                               <dd>
-                                <span>{item.SW_NAME}</span>
+                                <span className='name'>{item.SW_NAME}</span>
                                 {item.isOpen === 'false' ? <Button style={a} type='primary'><Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.SW_ID}}>开通</Link></Button> : null}
-                                {item.isOpen === 'true' ? <Button onClick={this.handleChangeJump(item)} style={b} type='primary'>打开</Button> : null}
+                                {item.isOpen === 'true' ? <Button onClick={this.handleChangeJump(item)} style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}} className='open' type='primary'>打开</Button> : null}
                               </dd>
                             </dl>
                           )
