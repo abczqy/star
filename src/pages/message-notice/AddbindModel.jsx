@@ -16,7 +16,14 @@ class AddbindModel extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      relationshipData: [{code: '1', name: '父子'}, {code: '2', name: '师生'}]
+      relationshipData: [
+        {code: '1', name: '父亲'},
+        {code: '2', name: '母亲'},
+        {code: '3', name: '祖父'},
+        {code: '4', name: '祖母'},
+        {code: '5', name: '外祖父'},
+        {code: '6', name: '外祖母'}
+      ]
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -95,7 +102,7 @@ class AddbindModel extends React.Component {
                 {getFieldDecorator('maf_sad', {rules: [{required: true, message: '请选择'}]})(
                   <Select style={{ width: 120 }} placeholder='请选择'>
                     {this.state.relationshipData.map((item, index, arr) => {
-                      return <Select.Option value={item.code} key={item.code}>{item.name}</Select.Option>
+                      return <Select.Option value={item.name} key={item.code}>{item.name}</Select.Option>
                     })}
                   </Select>
                 )}
