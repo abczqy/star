@@ -186,7 +186,7 @@ class SureInfoWin extends React.Component {
           if (i === 'birth') {
             obj[i] = values[i] ? values[i].format('YYYY-MM-DD') : ''
           } else if (i === 'grade' || i === 'school') {
-            obj[i + 'Id'] = values[i]
+            obj[i + 'Id'] = values[i] + 0
           } else if (i === 'sex') {
             obj[i] = values[i] === '0' ? '女' : '男'
           } else {
