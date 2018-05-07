@@ -108,6 +108,13 @@ class LoginHome extends React.Component {
       })
     })
   }
+  // 跳转到个人中心
+  handlePerson (link) {
+    let per = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    if (per !== 'operator' && per !== 'vendor') {
+      this.handleTabChange(link)
+    }
+  }
   // 退出系统
   signOut=() => {
     this.setState({
@@ -138,7 +145,9 @@ class LoginHome extends React.Component {
           {
             webStorage.getItem('STAR_WEB_IS_LOGGED') ? (
               <div style={{height: '30px', width: '100%'}}>
-                <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您,{ webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客') : '游客'}</div>
+                <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>欢迎您,
+                  <span onClick={this.handlePerson.bind(this, '/operate-manage-home/center')}>{ webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客') : '游客'}</span>
+                </div>
                 <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
                   <Badge count={this.state.messageCount} >
                     <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />

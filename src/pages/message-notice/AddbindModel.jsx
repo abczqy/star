@@ -1,7 +1,7 @@
 /* eslint-disable no-undef,standard/no-callback-literal */
 /* 添加绑定弹出框 */
 import React from 'react'
-import {Modal, Button, Form, Input, Select} from 'antd'
+import {Modal, Button, Form, Input, Select, message} from 'antd'
 import PropTypes from 'prop-types'
 import {relationAdd} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
@@ -22,7 +22,8 @@ class AddbindModel extends React.Component {
         {code: '3', name: '祖父'},
         {code: '4', name: '祖母'},
         {code: '5', name: '外祖父'},
-        {code: '6', name: '外祖母'}
+        {code: '6', name: '外祖母'},
+        {code: '7', name: '其他'}
       ]
     }
   }
@@ -55,11 +56,15 @@ class AddbindModel extends React.Component {
           maf_sad_account: values.maf_sad_account, // 学生账号
           maf_sad_pwd: values.maf_sad_pwd
         }, (response) => {
-          console.log('返回学生绑定信息', response)
-          this.props.hiddenModal()
-          // 调用父页面的查询接口更新绑定列表
-          this.props.getBindList()
-          this.props.hiddenModal()
+          if (response.data.SUCCESS) {
+            message.success(response.data.msg)
+            this.props.hiddenModal()
+            // 调用父页面的查询接口更新绑定列表
+            this.props.getBindList()
+            this.props.hiddenModal()
+          } else {
+            message.error(response.data.msg)
+          }
         })
       }
     })
