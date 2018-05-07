@@ -268,7 +268,7 @@ class SWMaker extends Component {
               onSearch={this.getSearchData}
               onBtnClick={this.getSearchData}
               onSelectChange={this.onSelect}
-              options={options} />/>
+              options={options} />
             <BlankBar />
             <SWBox list={this.state.imgList} boxList={this.state.boxList} />
             <BlankBar />
