@@ -181,7 +181,7 @@ class School extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        num_day: val
+        eduServices: val
       }
     })
   }
@@ -253,6 +253,7 @@ class School extends Component {
    * 当点击'搜索按钮时的回调'
    */
   search = () => {
+    console.log(`开始搜索: ${JSON.stringify(this.getParams())}`)
     this.getTableDatas()
   }
 

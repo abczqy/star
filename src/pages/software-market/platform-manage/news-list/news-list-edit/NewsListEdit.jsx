@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon, Button, Col, Row, Input, Upload } from 'antd'
+import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
 import PropsTypes from 'prop-types'
 import Editor from 'wangeditor'
@@ -17,9 +17,7 @@ class NewsListEdit extends Component {
     this.state = {
       data: {},
       fileList: [],
-      postParam: {
-        newsTilte: null
-      }
+      newsTilte: null
     }
   }
 
@@ -42,11 +40,9 @@ class NewsListEdit extends Component {
    * 获取标题的并写入state中
    */
   getTitle = (e) => {
+    console.log(`e.target.value: ${e.target.value}`)
     this.setState({
-      postParam: {
-        ...this.state.postParam,
-        newsTilte: e.target.value
-      }
+      newsTilte: e.target.value
     })
   }
 
@@ -54,11 +50,12 @@ class NewsListEdit extends Component {
    * 返回附件的参数
    * @returns {*}
    */
-  getFormData (pass) {
-    const { fileList, data, postParam } = this.state
+  getFormData () {
+    const { fileList, data, newsTitle } = this.state
+    console.log(`postParam.newsTitle: ${newsTitle}`)
     const formData = new FormData()
     formData.append('news_id', data.news_id)
-    formData.append('news_title', postParam.news_title)
+    formData.append('news_title', newsTitle)
     formData.append('news_desc', this.getRichText())
     fileList.forEach((file) => {
       formData.append('news_picture', file)
@@ -72,7 +69,7 @@ class NewsListEdit extends Component {
   subMit = () => {
     const param = this.getFormData()
     updateNewsList(param, (res) => {
-      console.log(`${res.data.info}`)
+      message.success(`${res.data.info}`)
     })
   }
 
@@ -87,6 +84,7 @@ class NewsListEdit extends Component {
       const data = res.data
       this.setState({
         data: data,
+        newsTitle: data.news_title,
         fileList: [{
           uid: -1,
           name: 'xxx.png',
@@ -102,6 +100,7 @@ class NewsListEdit extends Component {
   }
 
   render () {
+    const { data, fileList } = this.state
     const uploadButton = (
       <div>
         <Icon type='plus' />
@@ -127,9 +126,8 @@ class NewsListEdit extends Component {
         }))
         return false
       },
-      fileList: this.state.fileList
+      fileList: fileList
     }
-    const { data, fileList } = this.state
     return (
       <div className='news-list-wrap' >
         <Card title='编辑新闻' extra={<Link to='/software-market-home/platform-manage/news-list'><Icon type='double-left' />返回列表页</Link>}>
@@ -147,10 +145,7 @@ class NewsListEdit extends Component {
                 <Col span={6}>
                   <span className='pic-card-label'>上传图片: </span>
                   <Upload
-                    listType='picture-card'
-                    {...props}
-                    fileList={fileList}
-                  >
+                    listType='picture-card' {...props} >
                     {fileList.length >= 1 ? null : uploadButton}
                   </Upload>
                 </Col>

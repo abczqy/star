@@ -74,7 +74,7 @@ export function getNewsList (params, sucFn) {
  * 平台管理-新闻列表-添加
  */
 export function insertNewsList (params, sucFn) {
-  return axios.post('/management/insertnews', {...params})
+  return axios.post('/management/insertnews', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -94,7 +94,7 @@ export function getNewsListForEdit (params, sucFn) {
  * 平台管理-新闻列表-编辑
  */
 export function updateNewsList (params, sucFn) {
-  return axios.post('/management/newsListUpdate', {...params})
+  return axios.post('/management/newsListUpdate', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -134,7 +134,7 @@ export function getPubInfoList (params, sucFn) {
  * 平台管理-信息公开-添加
  */
 export function insertPubInfoList (params, sucFn) {
-  return axios.post('/management/insertinfo', {...params})
+  return axios.post('/management/insertinfo', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -154,7 +154,7 @@ export function getPubInfoForEdit (params, sucFn) {
  * 平台管理-信息公开-编辑
  */
 export function updatePubInfoList (params, sucFn) {
-  return axios.post('/management/infoexamedit', {...params})
+  return axios.post('/management/infoexamedit', params)
     .then(function (res) {
       sucFn(res)
     })

@@ -125,7 +125,7 @@ class Manufacturer extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续费</a>
+            <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续签</a>
             <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.showFaDetModal(record)}>详情</a>
             <Divider type='vertical' />

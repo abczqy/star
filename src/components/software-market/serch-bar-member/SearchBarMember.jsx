@@ -35,8 +35,8 @@ class SearchBarMember extends Component {
       onBtnSearchClick,
       inputText1,
       inputText2,
-      selectText1,
-      selectText2,
+      inputText3,
+      inputText4,
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
@@ -66,8 +66,8 @@ class SearchBarMember extends Component {
               {selectList.faNameList && this.getOptions(selectList.faNameList)}
             </Select>
           </Col>
-          <Col span={4}>
-            <span className='select-label'>{selectText1}</span>
+          <Col span={5}>
+            <span className='select-label'>{inputText3}</span>
             <Select
               className='input'
               placeholder='请输入'
@@ -77,14 +77,14 @@ class SearchBarMember extends Component {
             </Select>
           </Col>
           <Col span={4}>
-            <span className='select-label'>{selectText2}</span>
+            <span className='select-label'>{inputText4}</span>
             <Select defaultValue='all' className='select' onChange={onSelect4Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='refuse'>不允许</Option>
             </Select>
           </Col>
-          <Col span={6}>
+          <Col span={5}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
@@ -100,8 +100,8 @@ SearchBarMember.propTypes = {
   selectList: PropsTypes.object,
   inputText1: PropsTypes.string,
   inputText2: PropsTypes.string,
-  selectText1: PropsTypes.string,
-  selectText2: PropsTypes.string,
+  inputText3: PropsTypes.string,
+  inputText4: PropsTypes.string,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
