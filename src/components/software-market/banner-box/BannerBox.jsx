@@ -3,10 +3,9 @@
  * 或者  横排公用一个div的上下border
  */
 import React, { Component } from 'react'
-import { Col, Row, Upload, Button, Icon, message } from 'antd'
+import { Col, Row, Upload, Button, Icon } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
-import {deleteGatewayBanner} from 'services/software-manage'
 import ajaxUrl from 'config'
 
 // const { Header, Content } = Layout
@@ -27,30 +26,17 @@ import ajaxUrl from 'config'
 // }]
 
 class BannerBox extends Component {
-  onDelete = (value) => {
-    let a = value.toString()
-    let params = { 'banner_id': a }
-    deleteGatewayBanner(params, res => {
-      console.log(res.data)
-      if (res.data) {
-        this.props.getList()
-        message.success('删除成功')
-      } else {
-        message.error('删除失败')
-      }
-    })
-  }
   render () {
-    const { title, orderNum, id, url, type } = this.props
+    const { title, orderNum, id, url, onDelete } = this.props
     const fileList = [{
       uid: id,
-      name: type,
+      name: url,
       status: 'done',
       url: ajaxUrl.IMG_BASE_URL + url,
       thumbUrl: ajaxUrl.IMG_BASE_URL + url
     }]
     const aaa = {
-      action: 'http://p1663488m8.imwork.net:49784/addGatewayBanner',
+      action: '333333333',
       listType: 'picture',
       defaultFileList: [...fileList]
     }
@@ -74,7 +60,7 @@ class BannerBox extends Component {
           </Row>
           <Row gutter={16}>
             <Col span={2} offset={7}>
-              <Button size='small' onClick={() => this.onDelete(id)} > 删除</Button>
+              <Button size='small' onClick={() => onDelete(id)} > 删除</Button>
             </Col>
           </Row>
         </div>
@@ -91,7 +77,8 @@ BannerBox.propTypes = {
   bannerData: PropsTypes.array,
   datas: PropsTypes.object,
   url: PropsTypes.string,
-  type: PropsTypes.string
+  type: PropsTypes.string,
+  onDelete: PropsTypes.func
 }
 
 export default BannerBox

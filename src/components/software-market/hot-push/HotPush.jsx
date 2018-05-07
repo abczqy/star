@@ -100,11 +100,10 @@ class HotPush extends Component {
       if (record.sw_popular_recommendation) {
         console.log(record.sw_popular_recommendation)
         let b = this.copyArray(this.state.imgList)
-        console.log(b)
         if (b.length < 12) {
           let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
           b.push(c)
-          console.log(b)
+          message.success('推送成功')
           this.setState({
             imgList: b
           })
@@ -118,7 +117,7 @@ class HotPush extends Component {
         let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
         let index = bb.indexOf(cc)
         bb.splice(index, 1)
-        console.log(bb)
+        message.success('已取消推送')
         this.setState({
           imgList: bb
         })
@@ -157,7 +156,23 @@ class HotPush extends Component {
     })
   }
   getSearchData = () => {
-    this.getList()
+    let params = {
+      apptype: this.state.type || '',
+      appName: this.state.searchValue || ''
+    }
+    getPopularRecommendationList(params, res => {
+      this.setState({
+        tableData: {
+          data: []
+        }
+      }, () => {
+        this.setState({
+          tableData: {
+            data: res.data
+          }
+        })
+      })
+    })
   }
 
   inputChange = (e) => {
@@ -191,7 +206,6 @@ class HotPush extends Component {
           this.setState({
             imgList: b
           })
-          console.log(this.state.imgList)
         }
       })
       this.setState({

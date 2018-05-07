@@ -16,6 +16,7 @@ export { default as PublicInfoAddBar } from './public-info-add-bar/PublicInfoAdd
 export { default as PublicInfoEditBar } from './public-info-edit-bar/PublicInfoEditBar'
 export { default as PublicInfoVerifyView } from './public-info-verify-view/PublicInfoVerifyView'
 export { default as BannerMaker } from './banner-maker/BannerMaker'
+export { default as PlatformBanner } from './platform-banner/PlatformBanner'
 export { default as SWMaker } from './sw-maker/SWMaker'
 export { default as KeyPush } from './key-push/KeyPush'
 export { default as HotPush } from './hot-push/HotPush'

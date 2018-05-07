@@ -46,12 +46,12 @@ class KeyPush extends Component {
       key: 'SW_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'SW_TYPE',
-      key: 'SW_TYPE'
+      dataIndex: 'APPTYPE',
+      key: 'APPTYPE'
     }, {
       title: '供应商',
-      dataIndex: 'fa_name',
-      key: 'fa_name'
+      dataIndex: 'SUPPLIER',
+      key: 'SUPPLIER'
     }, {
       title: '图片',
       dataIndex: 'SW_ICON',
@@ -93,7 +93,7 @@ class KeyPush extends Component {
     record.sw_key_push = a
     const b = record.sw_key_push.toString()
     const params = {
-      sw_id: record.sw_id,
+      sw_id: record.SW_ID,
       state: b
     }
     saveKeyPush(params, res => {
@@ -103,6 +103,7 @@ class KeyPush extends Component {
         if (b.length < 4) {
           let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
           b.push(c)
+          message.success('推送成功')
           this.setState({
             imgList: b
           })
@@ -116,7 +117,7 @@ class KeyPush extends Component {
         let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
         let index = bb.indexOf(cc)
         bb.splice(index, 1)
-        console.log(bb)
+        message.success('已取消推送')
         this.setState({
           imgList: bb
         })
@@ -132,7 +133,23 @@ class KeyPush extends Component {
     })
   }
   getSearchData = () => {
-    this.getList()
+    let params = {
+      appType: this.state.type || '',
+      appName: this.state.searchValue || ''
+    }
+    getKeyPushList(params, res => {
+      this.setState({
+        tableData: {
+          data: []
+        }
+      }, () => {
+        this.setState({
+          tableData: {
+            data: res.data
+          }
+        })
+      })
+    })
   }
 
   inputChange = (e) => {
@@ -177,7 +194,7 @@ class KeyPush extends Component {
   // 获取数据列表
   getList = () => {
     let params = {
-      apptype: this.state.type || '',
+      appType: this.state.type || '',
       appName: this.state.searchValue || ''
     }
     getKeyPushList(params, res => {
@@ -188,7 +205,6 @@ class KeyPush extends Component {
           this.setState({
             imgList: b
           })
-          console.log(this.state.imgList)
         }
       })
       this.setState({

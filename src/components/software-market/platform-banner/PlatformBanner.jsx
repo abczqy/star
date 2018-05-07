@@ -7,12 +7,12 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { Collapse, message } from 'antd'
 import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox } from 'components/software-market'
-import './BannerMaker.scss'
-import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner } from 'services/software-manage'
+import './PlatformBanner.scss'
+import { addPlatformBanner, getPlatformBannerList, deletePlatformBanner } from 'services/software-manage'
 
 const Panel = Collapse.Panel
 
-class BannerMaker extends Component {
+class PlatformBanner extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -75,7 +75,7 @@ class BannerMaker extends Component {
     // let d = list[0].type
     console.log(this.state.fileList)
     // let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
-    addGatewayBanner(formData, res => {
+    addPlatformBanner(formData, res => {
       this.setState({
         bannerNewData: [],
         fileList: []
@@ -100,7 +100,7 @@ class BannerMaker extends Component {
   onDelete = (value) => {
     let a = value.toString()
     let params = { 'banner_id': a }
-    deleteGatewayBanner(params, res => {
+    deletePlatformBanner(params, res => {
       console.log(res.data)
       if (res.data) {
         this.getList()
@@ -111,7 +111,7 @@ class BannerMaker extends Component {
     })
   }
   getList = () => {
-    getGatewayBannerList({}, res => {
+    getPlatformBannerList({}, res => {
       let f = []
       this.setState({
         bannerData: [],
@@ -171,7 +171,7 @@ class BannerMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-              } id={item.banner_id} url={item.banner_url} type={item.banner_type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
+              } id={item.banner_id} url={item.banner_url} type={item.banner_type} datas={datas} onDelete={this.onDelete} bannerData={bannerData} datab={item.banner_url} getList={this.getList} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
@@ -185,8 +185,8 @@ class BannerMaker extends Component {
   }
 }
 
-BannerMaker.propTypes = {
+PlatformBanner.propTypes = {
   header: PropsTypes.object
 }
 
-export default BannerMaker
+export default PlatformBanner
