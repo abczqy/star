@@ -263,7 +263,7 @@ class School extends Component {
     // 从state中获取实时的stu_id数组的值 作为请求参数传给后台
     const { idArrs } = this.state.batchLeadParams
     console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
-    schBatchLeadout({stu_id: idArrs}, (res) => {
+    schBatchLeadout({sh_id: idArrs}, (res) => {
       window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
       console.log(`${res.data.info}`)
     })

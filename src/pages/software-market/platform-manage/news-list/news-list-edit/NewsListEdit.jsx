@@ -70,7 +70,7 @@ class NewsListEdit extends Component {
    * 添加
    */
   subMit = () => {
-    const param = this.getFormData
+    const param = this.getFormData()
     updateNewsList(param, (res) => {
       console.log(`${res.data.info}`)
     })

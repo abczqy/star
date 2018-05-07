@@ -494,7 +494,7 @@ export function schGetData (params, sucFn) {
  * 会员管理-学校-批量导出
  */
 export function schBatchLeadout (params, sucFn) {
-  axios.post(' /management/batchleadouts', {...params})
+  axios.post('/management/batchleadouts', {...params})
     .then((res) => {
       sucFn(res)
     })
