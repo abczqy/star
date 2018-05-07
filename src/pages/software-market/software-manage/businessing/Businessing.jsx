@@ -388,6 +388,7 @@ class Businessing extends Component {
         <Table
           columns={this.columns}
           dataSource={tableData.data}
+          scroll={{x: 0, y: 0}}
           pagination={{
             ...pagination,
             total: this.state.tableData.total,
