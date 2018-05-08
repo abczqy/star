@@ -4,7 +4,7 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import {Card, Icon} from 'antd'
+import {Card, Icon, Button} from 'antd'
 import Unbind from './UnbindModel'
 import Addbind from './AddbindModel'
 import ChangePass from './ChangePass'
@@ -15,10 +15,10 @@ import ChangeFirmContract from './ChangeFirmContract'
 import ChangeFirmLicense from './ChangeFirmLicense'
 import LookFirmLicense from './LookFirmLicense'
 // import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import Config from 'config'
 import {relationQueryStu, whetherOrNotToVerify, queryFactoryMsg} from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
+import { withRouter } from 'react-router'
 import '../../views/Operateview.scss'
 class MessageSetting extends React.Component {
   constructor (props) {
@@ -46,6 +46,15 @@ class MessageSetting extends React.Component {
       this.getBindList()
     } else if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor') {
       this.getFrimList()
+    }
+  }
+  handleTabChange (link) {
+    if (link === this.props.location.pathname) {
+      window.location.reload()
+    } else {
+      this.props.history.push({
+        pathname: link
+      })
     }
   }
   getUsermation=() => {
@@ -279,6 +288,9 @@ class MessageSetting extends React.Component {
         </Card>
         {/* 家长 ,厂商 */}
         { model}
+        <div style={{textAlign: 'center', marginTop: '20px'}}>
+          <Button type='primary'onClick={this.handleTabChange.bind(this, '/unlogged/home')}>返回门户首页</Button>
+        </div>
         <Unbind
           visible={this.state.unbindVisible}
           hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
@@ -335,12 +347,4 @@ class MessageSetting extends React.Component {
     )
   }
 }
-MessageSetting.propTypes = {
-  // roleCode: PropTypes.string
-}
-const mapStateToProps = state => ({
-  // roleCode: state.role.code
-})
-export default connect(
-  mapStateToProps
-)(MessageSetting)
+export default withRouter(MessageSetting)
