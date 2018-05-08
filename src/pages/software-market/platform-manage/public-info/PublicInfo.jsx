@@ -33,13 +33,12 @@ class PublicInfo extends Component {
         total: 0
       },
       reqParam: {
-        pageNum: 1,
-        pageSize: 15,
         startTime: '',
         endTime: '',
         infoPer: '',
         keywords: ''
       },
+      pagination,
       batchLeadParams: {
         idArrs: []
       }
@@ -106,8 +105,6 @@ class PublicInfo extends Component {
    */
   getParams = () => {
     const {
-      pageNum,
-      pageSize,
       startTime,
       endTime,
       infoPer,
@@ -115,8 +112,8 @@ class PublicInfo extends Component {
     } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageNum: pageNum || 1,
-      pageSize: pageSize || 15,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
       start_time: startTime || '',
       end_time: endTime || '',
       info_per: infoPer || '',
@@ -171,24 +168,110 @@ class PublicInfo extends Component {
     })
   }
 
+  /**
+   * 设置state中的时间属性
+   */
+  setDateState = (field, val) => {
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        [field]: val ? val.format('YYYY-MM-DD') : ''
+      }
+    })
+  }
+
+  /**
+   * 开始时间-选择器-点击回调
+   */
+  onStartChange = (val) => {
+    // console.log(`val: ${val.format('YYYY-MM-DD')}`)
+    this.setDateState('startTime', val)
+  }
+
+  /**
+   * 结束时间-选择器-点击回调
+   */
+  onEndChange = (val) => {
+    this.setDateState('endTime', val)
+  }
+
+  /**
+   * 当Input的值变化时回调
+   */
+  onInputChange = (e) => {
+    console.log(`有 onchange函数 ${this.Obj2String(e.target.value)}`)
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        keywords: e.target.value
+      }
+    })
+  }
+
+  /**
+   * 搜索-按钮-点击回调
+   */
+  onSearch = () => {
+    // 需要对state.reqParam中的startTime和endTime进行校验-两个必须同时为空或者存在
+    // 刷新表格
+    this.getTableDatas()
+  }
+
+  /**
+   * pageSize 变化时回调
+   */
+  onShowSizeChange = (current, size) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: current,
+        pageSize: size
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  /**
+   * 页码变化时回调
+   */
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
   componentDidMount () {
     this.getTableDatas()
   }
 
   render () {
-    const { tableData } = this.state
+    const { tableData, pagination } = this.state
     return (
       <div className='software-wrap'>
         <PublicInfoBar
           onBtn1Click={this.onBatchDel}
+          onBtn2Click={this.onSearch}
+          onStartChange={this.onStartChange}
+          onEndChange={this.onEndChange}
+          onInputChange={this.onInputChange}
         />
         <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}
-          pagination={pagination}
+          pagination={{
+            ...pagination,
+            total: this.state.tableData.total,
+            onShowSizeChange: this.onShowSizeChange,
+            onChange: this.pageNumChange
+          }}
           rowSelection={{
-            fixed: true,
             onChange: this.rowSelectChange
           }}
         />

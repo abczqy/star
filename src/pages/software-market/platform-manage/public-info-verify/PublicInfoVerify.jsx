@@ -32,6 +32,7 @@ class PublicInfoVerify extends Component {
         data: [],
         total: 0
       },
+      pagination,
       reqParam: {
         pageNum: 1,
         pageSize: 15,
@@ -158,11 +159,40 @@ class PublicInfoVerify extends Component {
     })
   }
 
+  /**
+   * pageSize 变化时回调
+   */
+  onShowSizeChange = (current, size) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: current,
+        pageSize: size
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  /**
+   * 页码变化时回调
+   */
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
   componentDidMount () {
     this.getTableDatas()
   }
   render () {
-    const { tableData } = this.state
+    const { tableData, pagination } = this.state
     return (
       <div className='software-wrap list-wrap'>
         <PublicInfoVerifyBar
@@ -172,9 +202,13 @@ class PublicInfoVerify extends Component {
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}
-          pagination={pagination}
+          pagination={{
+            ...pagination,
+            total: this.state.tableData.total,
+            onShowSizeChange: this.onShowSizeChange,
+            onChange: this.pageNumChange
+          }}
           rowSelection={{
-            fixed: true,
             onChange: this.rowSelectChange
           }}
         />

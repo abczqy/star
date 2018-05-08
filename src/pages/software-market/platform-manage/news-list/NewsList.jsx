@@ -34,6 +34,7 @@ class NewsList extends Component {
         data: [],
         total: 0
       },
+      pagination,
       reqParam: {
         pageNum: 1,
         pageSize: 15,
@@ -110,8 +111,6 @@ class NewsList extends Component {
    */
   getParams = () => {
     const {
-      pageNum,
-      pageSize,
       startTime,
       endTime,
       keywords
@@ -120,8 +119,8 @@ class NewsList extends Component {
     // 所以校验肯定不使加在这里的
     // 最后都要赋空
     return {
-      pageNum: pageNum || 1,
-      pageSize: pageSize || 15,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
       start_time: startTime || '',
       end_time: endTime || '',
       keywords: keywords || ''
@@ -191,7 +190,7 @@ class NewsList extends Component {
    * 开始时间-选择器-点击回调
    */
   onStartChange = (val) => {
-    // console.log(`val: ${val.format('YYYY-MM-DD')}`)
+    // console.log(`开始时间val: ${val.format('YYYY-MM-DD')}`)
     this.setDateState('startTime', val)
   }
 
@@ -199,6 +198,7 @@ class NewsList extends Component {
    * 结束时间-选择器-点击回调
    */
   onEndChange = (val) => {
+    // console.log(`结束时间val: ${val.format('YYYY-MM-DD')}`)
     this.setDateState('endTime', val)
   }
 
@@ -216,6 +216,35 @@ class NewsList extends Component {
   }
 
   /**
+   * pageSize 变化时回调
+   */
+  onShowSizeChange = (current, size) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: current,
+        pageSize: size
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  /**
+   * 页码变化时回调
+   */
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  /**
    * 搜索-按钮-点击回调
    */
   onSearch = () => {
@@ -228,7 +257,7 @@ class NewsList extends Component {
     this.getTableDatas()
   }
   render () {
-    const { tableData, reqParam } = this.state
+    const { tableData, reqParam, pagination } = this.state
     console.log(`state.datePick-start: ${reqParam.startTime}`)
     console.log(`state.datePick-end: ${reqParam.endTime}`)
     return (
@@ -244,9 +273,13 @@ class NewsList extends Component {
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}
-          pagination={pagination}
+          pagination={{
+            ...pagination,
+            total: this.state.tableData.total,
+            onShowSizeChange: this.onShowSizeChange,
+            onChange: this.pageNumChange
+          }}
           rowSelection={{
-            fixed: true,
             onChange: this.rowSelectChange
           }}
         />
