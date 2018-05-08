@@ -109,7 +109,7 @@ class ApplicationCard extends Component {
         </Badge>
         {/* 应用文字介绍 */}
         <div className='info'>
-          <div className='name'>{this.props.content.SW_NAME}</div>
+          <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
           <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
         </div>
         {/* 更新 */}
