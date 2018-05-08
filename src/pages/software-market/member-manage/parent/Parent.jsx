@@ -381,7 +381,6 @@ class Parent extends Component {
             onChange: this.pageNumChange
           }}
           rowSelection={{
-            fixed: true,
             onChange: this.rowSelectChange
           }}
         />
