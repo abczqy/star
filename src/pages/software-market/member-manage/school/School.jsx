@@ -44,8 +44,6 @@ class School extends Component {
         total: 0
       },
       reqParam: {
-        pageSize: 15,
-        pageNum: 1,
         shId: '',
         shName: '',
         eduServices: '',
@@ -91,7 +89,7 @@ class School extends Component {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
-      width: 200,
+      width: 260,
       render: (text, record, index) => {
         return (
           <span>
@@ -110,16 +108,14 @@ class School extends Component {
 
   getParams = () => {
     const {
-      pageSize,
-      pageNum,
       shId,
       shName,
       eduServices,
       loginType
     } = this.state.reqParam
     return {
-      pageSize: pageSize || 15,
-      pageNum: pageNum || 1,
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
       sh_id: shId || '',
       shName: shName || '',
       eduServices: eduServices || '',

@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Icon, Popover, Button } from 'antd'
+import { Table, Switch, Divider, Button } from 'antd'
 // import axios from 'axios'
 import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
@@ -31,12 +31,14 @@ import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
-   * 表格的columns -- 后面用json文件配置出去 --参照bdq
-   * 做到配置项与组件的分离
-   * 组件要用时只需要引入即可
-   * 这里的key值什么的 最后肯定是要和后台数据字典对对齐的
-   * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
+   * 表格分页器设置-默认值
    */
+const pagination = {
+  pageNum: 1,
+  pageSize: 10,
+  showQuickJumper: true,
+  showSizeChanger: true
+}
 
 class Manufacturer extends Component {
   constructor (props) {
@@ -47,13 +49,12 @@ class Manufacturer extends Component {
         total: 0
       },
       reqParam: {
-        pageSize: 15,
-        pageNum: 1,
         faName: '', // 临时值 后面赋空
         faId: '',
         toLogin: '',
         numDay: ''
       },
+      pagination,
       memRenewWinVisible: false,
       memRenewRecord: {},
       delModalCon: {
@@ -73,17 +74,17 @@ class Manufacturer extends Component {
 
   /**
    * 表格分页器设置-默认值
-   */
-  getPagination = () => {
-    const { pageSize, pageNum } = this.state.reqParam
-    return {
-      pageNum: pageNum,
-      pageSize: pageSize,
-      showQuickJumper: true,
-      showSizeChanger: true,
-      text: '' // 用来赋空翻页后的search框--需要这样吗
-    }
-  }
+  //  */
+  // getPagination = () => {
+  //   const { pageSize, pageNum } = this.state.pagination
+  //   return {
+  //     pageNum: pageNum,
+  //     pageSize: pageSize,
+  //     showQuickJumper: true,
+  //     showSizeChanger: true,
+  //     text: '' // 用来赋空翻页后的search框--需要这样吗
+  //   }
+  // }
 
   getColumns () {
     return [{
@@ -121,7 +122,7 @@ class Manufacturer extends Component {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
-      width: 200,
+      width: 280,
       render: (text, record, index) => {
         return (
           <span>
@@ -129,31 +130,29 @@ class Manufacturer extends Component {
             <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.showFaDetModal(record)}>详情</a>
             <Divider type='vertical' />
-            <Popover placement='rightTop' content={this.getPopContent(record)} trigger='click'>
-              <a href='javascript:void(0)'>
-                <Icon type='ellipsis' />
-              </a>
-            </Popover>
+            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a>
+            <Divider type='vertical' />
+            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a>
           </span>
         )
       }
     }]
   }
 
-  getPopContent = (record) => {
-    return (<div>
-      <div><a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a></div>
-      <Divider className='slim-divid' />
-      <div><a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a></div>
-    </div>)
-  }
+  // getPopContent = (record) => {
+  //   return (<div>
+  //     <div><a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a></div>
+  //     <Divider className='slim-divid' />
+  //     <div><a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a></div>
+  //   </div>)
+  // }
 
   getParams = () => {
-    const { pageSize, pageNum, faName, faId, toLogin, numDay } = this.state.reqParam
+    const { faName, faId, toLogin, numDay } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageSize: pageSize,
-      pageNum: pageNum,
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
       fa_name: faName || '',
       fa_id: faId || '',
       to_login: toLogin || '',

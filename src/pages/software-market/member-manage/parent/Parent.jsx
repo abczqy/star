@@ -45,8 +45,6 @@ class Parent extends Component {
         total: 0
       },
       reqParam: {
-        pageSize: 15,
-        pageNum: 1,
         mafName: '',
         stuName: '',
         mafStuSad: '',
@@ -112,8 +110,6 @@ class Parent extends Component {
 
   getParams = () => {
     const {
-      pageSize,
-      pageNum,
       mafName,
       mafId,
       stuName,
@@ -122,8 +118,8 @@ class Parent extends Component {
     } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageSize: pageSize || 15,
-      pageNum: pageNum || 1,
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
       maf_name: mafName || '',
       stu_name: stuName || '',
       maf_stu_sad: mafStuSad || '',
