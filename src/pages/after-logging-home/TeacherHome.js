@@ -50,7 +50,7 @@ class TeacherHome extends Component {
     }
   }
   componentDidMount () {
-    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students') {
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher') {
       this.setState({
         obj: {
           display: 'block'
