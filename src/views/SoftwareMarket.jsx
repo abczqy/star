@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * 有身份登陆进来的首页
  * 软件市场入口
@@ -15,11 +16,12 @@ import ImgMemb from '../assets/images/operationMana/u15.png'
 import ImgPlat from '../assets/images/operationMana/u57.png'
 // import ImgOper from '../assets/images/operationMana/u83.png'
 import SignOut from './SignOut'
+import { withRouter } from 'react-router'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
 // import { withRouter } from 'react-router-dom'
-export default class SoftwareMarket extends React.Component {
+class SoftwareMarket extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -59,13 +61,22 @@ export default class SoftwareMarket extends React.Component {
     })
   }
 
+  /**
+   * 点击logo回到门户首页
+   */
+  handleLogoClick () {
+    this.props.history.push({
+      pathname: '/unlogged/home'
+    })
+  }
+
   render () {
     return (
       <div className='xingyun'>
         <div className='operManaPlat-body' >
           <Layout>
             <Header style={{ padding: '15px 2%', background: 'white', height: '65px' }}>
-              <div className='logo' style={{ float: 'left' }} />
+              <div className='logo' style={{ float: 'left' }} onClick={() => { this.handleLogoClick() }} />
               <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} /></div>
             </Header>
             <Layout className='sider-bar'>
@@ -160,3 +171,5 @@ export default class SoftwareMarket extends React.Component {
 SoftwareMarket.propTypes = {
   route: PropTypes.object
 }
+
+export default withRouter(SoftwareMarket)
