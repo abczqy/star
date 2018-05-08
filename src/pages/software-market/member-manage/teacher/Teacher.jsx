@@ -44,8 +44,6 @@ class Teacher extends Component {
         total: 0
       },
       reqParam: {
-        pageSize: 15,
-        pageNum: 1,
         thId: '',
         thName: '',
         toLogin: '',
@@ -104,8 +102,6 @@ class Teacher extends Component {
 
   getParams = () => {
     const {
-      pageSize,
-      pageNum,
       thId,
       thName,
       toLogin,
@@ -113,8 +109,8 @@ class Teacher extends Component {
     } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageSize: pageSize || 15,
-      pageNum: pageNum || 1,
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
       th_id: thId || '',
       th_name: thName || '',
       to_login: toLogin || '',

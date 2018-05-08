@@ -46,8 +46,6 @@ class EducationalServices extends Component {
         total: 0
       },
       reqParam: {
-        pageSize: 15,
-        pageNum: 1,
         eduId: '',
         eduName: '',
         eduClass: '',
@@ -65,22 +63,22 @@ class EducationalServices extends Component {
   getColumns = () => {
     return ([{
       title: '机构名称',
-      dataIndex: 'EDU_NAME',
-      key: 'EDU_NAME',
+      dataIndex: 'edu_name',
+      key: 'edu_name',
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'EDU_ID',
-      key: 'EDU_ID',
+      dataIndex: 'edu_id',
+      key: 'edu_id',
       width: 200
     }, {
       title: '所属级别',
-      dataIndex: 'EDU_PWD',
-      key: 'EDU_PWD'
+      dataIndex: 'edu_pwd',
+      key: 'edu_pwd'
     }, {
       title: '上级机构名称',
-      dataIndex: 'EDU_UPPER',
-      key: 'EDU_UPPER'
+      dataIndex: 'edu_upper',
+      key: 'edu_upper'
     }, {
       title: '允许登录',
       dataIndex: 'to_login',
@@ -111,8 +109,6 @@ class EducationalServices extends Component {
 
   getParams = () => {
     const {
-      pageSize,
-      pageNum,
       eduId,
       eduName,
       eduClass,
@@ -121,13 +117,13 @@ class EducationalServices extends Component {
     } = this.state.reqParam
     // 最后都要赋空
     return {
-      pageSize: pageSize || 15,
-      pageNum: pageNum || 1,
-      EDU_ID: eduId || '',
-      EDU_NAME: eduName || '',
-      EDU_PWD: eduClass || '',
-      EDU_UPPER: eduUpper || '',
-      TO_LOGIN: loginType || ''
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      edu_id: eduId || '',
+      edu_name: eduName || '',
+      edu_pwd: eduClass || '',
+      edu_upper: eduUpper || '',
+      to_login: loginType || ''
     }
   }
 
@@ -142,7 +138,7 @@ class EducationalServices extends Component {
       console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: addKey2TableData(data.list, 'EDU_ID'),
+          data: addKey2TableData(data.list, 'edu_id'),
           total: data.total
         }
       })
@@ -276,12 +272,12 @@ class EducationalServices extends Component {
    * 多选选项变化
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
-    // 从view中得到数据 并把EDU_ID提取出来组合为一个新数组
+    // 从view中得到数据 并把edu_id提取出来组合为一个新数组
     let idArr = []
     selectedRows.map((val, index) => {
-      idArr.push(val.EDU_ID)
+      idArr.push(val.edu_id)
     })
-    // 将EDU_ID得到的新数组映射到state中
+    // 将edu_id得到的新数组映射到state中
     this.setState({
       batchLeadParams: {
         idArrs: idArr
