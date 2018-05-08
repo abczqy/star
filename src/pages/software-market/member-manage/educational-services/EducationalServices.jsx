@@ -73,8 +73,8 @@ class EducationalServices extends Component {
       width: 200
     }, {
       title: '所属级别',
-      dataIndex: 'edu_pwd',
-      key: 'edu_pwd'
+      dataIndex: 'edu_class',
+      key: 'edu_class'
     }, {
       title: '上级机构名称',
       dataIndex: 'edu_upper',
@@ -121,7 +121,7 @@ class EducationalServices extends Component {
       pageNum: this.state.pagination.pageNum,
       edu_id: eduId || '',
       edu_name: eduName || '',
-      edu_pwd: eduClass || '',
+      edu_class: eduClass || '',
       edu_upper: eduUpper || '',
       to_login: loginType || ''
     }
