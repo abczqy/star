@@ -43,15 +43,19 @@ class ShelfPlease extends React.Component {
       dataL: [
         {
           key: '1',
-          value: 'Windows7'
+          value: 'Wind32'
         },
         {
           key: '2',
-          value: 'Windows8'
+          value: 'Win64'
         },
         {
           key: '3',
-          value: 'phone'
+          value: 'ios'
+        },
+        {
+          key: '4',
+          value: 'android'
         }
       ],
       fileListOneC: [], // 用来存软件版本的文件的系统版本
@@ -508,7 +512,7 @@ class ShelfPlease extends React.Component {
               <Col span={20}>
                 <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
                   {data.map((item, index) => {
-                    return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
+                    return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
                   })}
                 </Select>
               </Col>

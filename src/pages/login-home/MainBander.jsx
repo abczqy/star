@@ -55,6 +55,7 @@ class MainBander extends React.Component {
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
         webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+        window.location.reload()
         // 清空提示信息
         this.setState({
           msgTip: ''

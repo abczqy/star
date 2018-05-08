@@ -186,8 +186,10 @@ class HotPush extends Component {
     const thiz = this
     getApptype({}, (res) => {
       const data = res.data
+      const a = this.copyArray(data.type)
+      a.unshift('')
       thiz.setState({
-        options: data.type
+        options: a
       })
     })
   }

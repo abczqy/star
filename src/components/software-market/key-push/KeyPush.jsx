@@ -92,8 +92,9 @@ class KeyPush extends Component {
     const a = record.sw_key_push ? 0 : 1
     record.sw_key_push = a
     const b = record.sw_key_push.toString()
+    const c = record.SW_ID
     const params = {
-      sw_id: record.SW_ID,
+      sw_id: c,
       state: b
     }
     saveKeyPush(params, res => {
@@ -163,8 +164,10 @@ class KeyPush extends Component {
     const thiz = this
     getApptype({}, (res) => {
       const data = res.data
+      const a = this.copyArray(data.type)
+      a.unshift('')
       thiz.setState({
-        options: data.type
+        options: a
       })
     })
   }
@@ -242,7 +245,7 @@ class KeyPush extends Component {
      const thiz = this
      // 获取对应的后台数据
      const params = {
-       sw_id: record.sw_id
+       sw_id: record.SW_ID
      }
 
      getSoftwareDetail(params, (res) => {
