@@ -187,7 +187,7 @@ class AllApplicationsDetail extends React.Component {
                                       style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}}
                                       className='open'
                                       type='primary'
-                                    ><a to={item.sw_url} target='_blank'>打开</a></Button>
+                                    ><a href={item.sw_url} target='_blank'>打开</a></Button>
                                 }
                               </dd>
                             </dl>

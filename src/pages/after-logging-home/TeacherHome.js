@@ -215,7 +215,7 @@ class TeacherHome extends Component {
           {item.isSelfSupport === 'false' ? <Icon className='downloadIcon' type='download' /> : null}
           {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>下载</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jump, search: item.SW_ID}}>开通</Link></Button> : null}
-          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button className='openUpButton' type='primary'><a to={item.sw_url} target='_blank'>打开</a></Button> : null}
+          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button className='openUpButton' type='primary'><a href={item.sw_url} target='_blank'>打开</a></Button> : null}
           <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
         </p>
       </div>
@@ -248,7 +248,7 @@ class TeacherHome extends Component {
           {item.isSelfSupport === 'false' ? <Icon className='downloadIcon' type='download' /> : null}
           {item.isSelfSupport === 'false' ? <Button className='downloadButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>下载</Link></Button> : null}
           {item.isSelfSupport === 'true' && item.isOpen === 'false' ? <Button className='openButton' type='primary'><Link to={{pathname: jumpa, search: item.SW_ID}}>开通</Link></Button> : null}
-          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button className='openUpButton' type='primary'><a to={item.sw_url} target='_blank'>打开</a></Button> : null}
+          {item.isSelfSupport === 'true' && item.isOpen === 'true' ? <Button className='openUpButton' type='primary'><a href={item.sw_url} target='_blank'>打开</a></Button> : null}
           <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
         </p>
       </div>
