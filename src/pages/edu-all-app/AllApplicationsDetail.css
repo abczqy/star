@@ -20,7 +20,7 @@
     position: relative;
     height: 150px;
     width: 1000px;
-    overflow: auto;
+    /* overflow: auto; */
     background: #fff;
     margin-top: 10px;
   }

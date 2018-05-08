@@ -202,7 +202,7 @@ class AllApplicationsDetail extends React.Component {
             <div className='all-app-right-arrow' onClick={this.onClickRight}> &gt; </div>
           </div>
         </div>
-        <div style={{ marginTop: 10, width: 1019, overflow: 'auto' }}>
+        <div style={{ marginTop: 10, width: 1019 }}>
           <div>
             <span style={{ fontSize: 20 }}>软件应用</span>
             <p style={{float: 'right', marginTop: '10px'}}><span style={{cursor: 'pointer'}} onClick={this.handleShelfTime}>上架时间</span><Icon className='arrowhead-rotation' type='swap' /><span style={{marginLeft: 10, cursor: 'pointer'}} onClick={this.handleDownloadNum}>下载量</span><Icon className='arrowhead-rotation' type='swap' /></p>
