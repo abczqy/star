@@ -14,7 +14,15 @@ class Register extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      relationshipData: [{code: '父亲', name: '父亲'}, {code: '母亲', name: '母亲'}, {code: '其他', name: '其他'}],
+      relationshipData: [
+        {code: '父亲', name: '父亲'},
+        {code: '母亲', name: '母亲'},
+        {code: '祖父', name: '祖父'},
+        {code: '祖母', name: '祖母'},
+        {code: '外祖父', name: '外祖父'},
+        {code: '外祖母', name: '外祖母'},
+        {code: '其他', name: '其他'}
+      ],
       confirmDirty: false,
       checkemail_icon: false,
       checkpass: '最短8位，包含字母、数字或者英文符号至少两种',

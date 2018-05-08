@@ -14,6 +14,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import { iterVerify, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
+import webStorage from 'webStorage'
 
 /**
    * 表格分页器设置-默认值
@@ -145,9 +146,10 @@ class IterationVerify extends Component {
       dataIndex: 'options',
       key: 'options',
       render: (text, record, index) => {
+        const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
         return (
           <span>
-            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>详情</a>
+            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>{roleCode === 'operator' ? '审核' : '详情'}</a>
           </span>
         )
       }

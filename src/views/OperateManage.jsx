@@ -209,6 +209,15 @@ class OperateManage extends React.Component {
     })
   }
 
+  /**
+   * 点击logo回到门户首页
+   */
+  handleLogoClick () {
+    this.props.history.push({
+      pathname: '/unlogged/home'
+    })
+  }
+
   render () {
     let tabArr = this.getTabArr() || []
     return (
@@ -227,7 +236,7 @@ class OperateManage extends React.Component {
             </div>
           </div>
           <div className='xingyun-header'>
-            <div className='xingyun-logo' />
+            <div className='xingyun-logo' onClick={() => { this.handleLogoClick() }} />
             <GlobalSearch />
           </div>
           <Layout className='xingyun-iden-top-bar'>
