@@ -188,6 +188,56 @@ class PublicInfoVerify extends Component {
     })
   }
 
+  /**
+   * 设置state中的时间属性
+   */
+  setDateState = (field, val) => {
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        [field]: val ? val.format('YYYY-MM-DD') : ''
+      }
+    })
+  }
+
+  /**
+   * 开始时间-选择器-点击回调
+   */
+  onStartChange = (val) => {
+    // console.log(`开始时间val: ${val.format('YYYY-MM-DD')}`)
+    this.setDateState('startTime', val)
+  }
+
+  /**
+   * 结束时间-选择器-点击回调
+   */
+  onEndChange = (val) => {
+    // console.log(`结束时间val: ${val.format('YYYY-MM-DD')}`)
+    this.setDateState('endTime', val)
+  }
+
+  /**
+   * 当Input的值变化时回调
+   */
+  onInputChange = (e) => {
+    console.log(`有 onchange函数 ${this.Obj2String(e.target.value)}`)
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        keywords: e.target.value
+      }
+    })
+  }
+
+  /**
+   * 搜索-按钮-点击回调
+   */
+  onSearch = () => {
+    // 需要对state.reqParam中的startTime和endTime进行校验-两个必须同时为空或者存在
+    // 刷新表格
+    this.getTableDatas()
+  }
+
   componentDidMount () {
     this.getTableDatas()
   }
@@ -197,6 +247,10 @@ class PublicInfoVerify extends Component {
       <div className='software-wrap list-wrap'>
         <PublicInfoVerifyBar
           onBtn1Click={this.onBatchDel}
+          onBtn2Click={this.onSearch}
+          onStartChange={this.onStartChange}
+          onEndChange={this.onEndChange}
+          onInputChange={this.onInputChange}
         />
         <BlankBar />
         <Table

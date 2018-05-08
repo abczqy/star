@@ -208,6 +208,15 @@ class PublicInfo extends Component {
     })
   }
 
+  onInfoPerChange = (val) => {
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        infoPer: val
+      }
+    })
+  }
+
   /**
    * 搜索-按钮-点击回调
    */
@@ -260,6 +269,7 @@ class PublicInfo extends Component {
           onStartChange={this.onStartChange}
           onEndChange={this.onEndChange}
           onInputChange={this.onInputChange}
+          onSelectChange={this.onInfoPerChange}
         />
         <BlankBar />
         <Table

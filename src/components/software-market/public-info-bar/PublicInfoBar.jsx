@@ -17,6 +17,7 @@ class PublicInfoBar extends Component {
       onStartChange,
       onEndChange,
       onInputChange,
+      onSelectChange,
       onBtn2Click
     } = this.props
     return (
@@ -47,6 +48,7 @@ class PublicInfoBar extends Component {
             <Select
               defaultValue='all'
               style={{ width: '70%' }}
+              onChange={onSelectChange}
             >
               <Option value='all'>全部</Option>
               <Option value='provinceEduDepart'>省教育厅</Option>
@@ -80,6 +82,7 @@ PublicInfoBar.propTypes = {
   onStartChange: PropsTypes.func,
   onEndChange: PropsTypes.func,
   onInputChange: PropsTypes.func,
+  onSelectChange: PropsTypes.func,
   onBtn2Click: PropsTypes.func
 }
 

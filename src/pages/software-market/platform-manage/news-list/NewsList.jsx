@@ -216,6 +216,15 @@ class NewsList extends Component {
   }
 
   /**
+   * 搜索-按钮-点击回调
+   */
+  onSearch = () => {
+    // 需要对state.reqParam中的startTime和endTime进行校验-两个必须同时为空或者存在
+    // 刷新表格
+    this.getTableDatas()
+  }
+
+  /**
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
@@ -242,15 +251,6 @@ class NewsList extends Component {
     }, () => {
       this.getTableDatas()
     })
-  }
-
-  /**
-   * 搜索-按钮-点击回调
-   */
-  onSearch = () => {
-    // 需要对state.reqParam中的startTime和endTime进行校验-两个必须同时为空或者存在
-    // 刷新表格
-    this.getTableDatas()
   }
 
   componentDidMount () {
