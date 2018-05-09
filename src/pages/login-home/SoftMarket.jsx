@@ -8,7 +8,8 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'
 import webStorage from 'webStorage'
-import {processStr} from 'utils'
+import { processStr } from 'utils'
+import { Link } from 'react-router-dom'
 
 class SoftMarket extends React.Component {
   constructor (props) {
@@ -19,22 +20,30 @@ class SoftMarket extends React.Component {
   }
 
   renderItem (item, index) {
+    let jump = ''
+    if (item.isSelfSupport === 'false') {
+      jump = '/operate-manage-home/all-app-detail-third'
+    } else {
+      jump = '/operate-manage-home/all-app-detail'
+    }
     return (
       <Col span={7} key={index}>
         <div className='item'>
-          <List
-            className='soft-market-list-container'
-            dataSource={[item]}
-            renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Avatar className='img' src={Config.IMG_BASE_URL + item.SW_ICON} />}
-                  title={<a className='title' href='javascript:void(0);'>{item.SW_NAME}</a>}
-                  description={processStr(item.SW_DESC, 60)}
-                />
-              </List.Item>
-            )}
-          />
+          <Link to={{pathname: jump, search: item.SW_ID}}>
+            <List
+              className='soft-market-list-container'
+              dataSource={[item]}
+              renderItem={item => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<Avatar className='img' src={Config.IMG_BASE_URL + item.SW_ICON} />}
+                    title={<span className='title' >{item.SW_NAME}</span>}
+                    description={processStr(item.SW_DESC, 60)}
+                  />
+                </List.Item>
+              )}
+            />
+          </Link>
         </div>
       </Col>
     )
@@ -58,7 +67,7 @@ class SoftMarket extends React.Component {
         <Row>
           <Col span={24}>
             <div className='soft-market-header'>
-              <span style={{cursor: 'pointer'}} onClick={() => { this.goToSoftMarket() }}>
+              <span style={{ cursor: 'pointer' }} onClick={() => { this.goToSoftMarket() }}>
                 <div>软件市场</div>
                 <div>Software Market</div>
               </span>
