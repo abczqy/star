@@ -102,8 +102,8 @@ class ApplicationCard extends Component {
           )
         }
         {/* 应用图标 */}
-        {this.props.content.ISSELFSUPPORT
-          ? <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
+        {this.props.type === 'myApps'
+          ? <Link to={this.props.content.ISSELFSUPPORT ? { pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID } : { pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
             <Badge dot={this.props.update} >
               <span className='appLogo'>
                 <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
@@ -114,18 +114,14 @@ class ApplicationCard extends Component {
               <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
               <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
             </div>
-          </Link> : <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
-            <Badge dot={this.props.update} >
-              <span className='appLogo'>
-                <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
-              </span>
-            </Badge>
-            {/* 应用文字介绍 */}
-            <div className='info'>
-              <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
-              <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
-            </div>
-          </Link>}
+          </Link> : <div><Badge dot={this.props.update} >
+            <span className='appLogo'>
+              <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
+            </span>
+          </Badge>{/* 应用文字介绍 */}<div className='info'>
+            <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
+            <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
+          </div></div>}
         {/* 更新 */}
         {
           this.props.update && (
@@ -195,9 +191,9 @@ class ApplicationCard extends Component {
                 )
               }
               {this.props.content.ISSELFSUPPORT
-                ? <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
+                ? <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
                   <span className='plr6'>开通</span>
-                </Link> : <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
+                </Link> : <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
                   <span className='plr6'>开通</span>
                 </Link>}
 
