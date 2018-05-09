@@ -4,11 +4,11 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import {Icon, Badge} from 'antd'
+import { Icon, Badge } from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from 'components/common/BottomHeader'
 import SignOut from '../../views/SignOut'
-import {getMessageCount} from '../../services/topbar-mation/index'
+import { getMessageCount } from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
 import { withRouter } from 'react-router'
 import 'components/common/bottom.scss'
@@ -26,7 +26,7 @@ class MessageTopBar extends React.Component {
     this.getMessageCo()
   }
   // 未读消息数
-  getMessageCo=() => {
+  getMessageCo = () => {
     getMessageCount({}, (response) => {
       webStorage.setItem('Unread_Message', response.data.count)
       this.setState({
@@ -51,7 +51,7 @@ class MessageTopBar extends React.Component {
     }
   }
   // 退出系统
-  signOut=() => {
+  signOut = () => {
     this.setState({
       signOutVisible: true
     })
@@ -68,13 +68,15 @@ class MessageTopBar extends React.Component {
     })
   }
   render () {
+    let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    let roleCode = STAR_WEB_ROLE_CODE || ''
     return (
       <div className='xingyun'>
-        <div style={{height: '30px', width: '100%'}}>
-          <div style={{marginLeft: '10%', float: 'left', lineHeight: '30px'}}>
+        <div style={{ height: '30px', width: '100%' }}>
+          <div style={{ marginLeft: '10%', float: 'left', lineHeight: '30px' }}>
             欢迎您 , <span onClick={this.handlePerson.bind(this, '/operate-manage-home/center')}>{webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').name || '游客') : '游客'
             }</span></div>
-          <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
+          <div style={{ height: '30px', float: 'right', marginRight: '10%' }} className='header-bar-icon'>
             <Badge count={this.state.messageCount} >
               <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
             </Badge>
@@ -84,6 +86,28 @@ class MessageTopBar extends React.Component {
         </div>
         <div className='xingyun-header' onClick={this.handleTabChange.bind(this, '/unlogged/home')}>
           <div className='xingyun-logo' />
+        </div>
+        <div className='xingyun-top-header'>
+          <div className='header-container'>
+            <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
+            </li>
+            {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
+            </li>}
+            <li>
+              {
+                roleCode === 'eduBureau'
+                  ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/edu', 'newsList')}><span>教育新闻</span></a>
+                  : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
+              }
+            </li>
+            <li>
+              {
+                roleCode === 'eduBureau'
+                  ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/public', 'information')}><span>信息公开</span></a>
+                  : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
+              }
+            </li>
+          </div>
         </div>
         <div>
           {renderRoutes(this.props.route.childRoutes, {

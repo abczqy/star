@@ -4,7 +4,7 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import {Card, Icon, Button} from 'antd'
+import {Card, Icon} from 'antd'
 import Unbind from './UnbindModel'
 import Addbind from './AddbindModel'
 import ChangePass from './ChangePass'
@@ -288,9 +288,9 @@ class MessageSetting extends React.Component {
         </Card>
         {/* 家长 ,厂商 */}
         { model}
-        <div style={{textAlign: 'center', marginTop: '20px'}}>
+        {/* <div style={{textAlign: 'center', marginTop: '20px'}}>
           <Button type='primary'onClick={this.handleTabChange.bind(this, '/unlogged/home')}>返回门户首页</Button>
-        </div>
+        </div> */}
         <Unbind
           visible={this.state.unbindVisible}
           hiddenModal={this.hiddenModal.bind(this, 'unbindVisible')}
