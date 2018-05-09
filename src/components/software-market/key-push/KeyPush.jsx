@@ -89,19 +89,43 @@ class KeyPush extends Component {
    * 点击选择状态
    */
   checkClick = (record) => {
-    const a = record.sw_key_push ? 0 : 1
-    record.sw_key_push = a
-    const b = record.sw_key_push.toString()
-    const c = record.SW_ID
-    const params = {
-      sw_id: c,
-      state: b
-    }
-    saveKeyPush(params, res => {
-      if (record.sw_key_push) {
-        console.log(record.sw_key_push)
-        let b = this.copyArray(this.state.imgList)
-        if (b.length < 4) {
+    if (this.state.imgList.length >= 4) {
+      if (record.sw_key_push === 0) {
+        message.warning('已达推送上限')
+      } else {
+        record.sw_key_push = 0
+        const params = {
+          sw_id: record.SW_ID,
+          state: '0'
+        }
+        saveKeyPush(params, res => {
+          if (res.data) {
+            let bb = this.copyArray(this.state.imgList)
+            let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
+            let index = bb.indexOf(cc)
+            bb.splice(index, 1)
+            message.success('已取消推送')
+            this.setState({
+              imgList: bb
+            })
+          } else {
+            message.warning('取消失败')
+          }
+        })
+      }
+    } else {
+      const a = record.sw_key_push ? 0 : 1
+      record.sw_key_push = a
+      const b = record.sw_key_push.toString()
+      const c = record.SW_ID
+      const params = {
+        sw_id: c,
+        state: b
+      }
+      saveKeyPush(params, res => {
+        if (record.sw_key_push) {
+          console.log(record.sw_key_push)
+          let b = this.copyArray(this.state.imgList)
           let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
           b.push(c)
           message.success('推送成功')
@@ -109,21 +133,18 @@ class KeyPush extends Component {
             imgList: b
           })
         } else {
-          record.sw_key_push = 0
-          message.warning('已达推送上限')
+          let bb = this.copyArray(this.state.imgList)
+          console.log(record.sw_key_push + '11111111111111' + bb)
+          let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
+          let index = bb.indexOf(cc)
+          bb.splice(index, 1)
+          message.success('已取消推送')
+          this.setState({
+            imgList: bb
+          })
         }
-      } else if (record.sw_key_push === 0) {
-        let bb = this.copyArray(this.state.imgList)
-        console.log(record.sw_key_push + '11111111111111' + bb)
-        let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-        let index = bb.indexOf(cc)
-        bb.splice(index, 1)
-        message.success('已取消推送')
-        this.setState({
-          imgList: bb
-        })
-      }
-    })
+      })
+    }
   }
   /**
    * 当select的值变化时回调

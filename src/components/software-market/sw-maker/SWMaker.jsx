@@ -89,19 +89,43 @@ class SWMaker extends Component {
    * 点击选择状态
    */
   checkClick = (record) => {
-    const a = record.SW_MARKET_SHOW ? 0 : 1
-    record.SW_MARKET_SHOW = a
-    const b = record.SW_MARKET_SHOW.toString()
-    const params = {
-      sw_id: record.SW_ID,
-      state: b
-    }
-    saveSoftwareMarket(params, res => {
-      if (record.SW_MARKET_SHOW) {
-        console.log(record.SW_MARKET_SHOW)
-        let b = this.copyArray(this.state.imgList)
-        console.log(b)
-        if (b.length < 6) {
+    if (this.state.imgList.length >= 6) {
+      if (record.SW_MARKET_SHOW === 0) {
+        message.warning('已达推送上限')
+      } else {
+        record.SW_MARKET_SHOW = 0
+        const params = {
+          sw_id: record.SW_ID,
+          state: '0'
+        }
+        saveSoftwareMarket(params, res => {
+          if (res.data) {
+            let bb = this.copyArray(this.state.imgList)
+            let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
+            let index = bb.indexOf(cc)
+            bb.splice(index, 1)
+            message.success('已取消推送')
+            this.setState({
+              imgList: bb
+            })
+          } else {
+            message.warning('取消失败')
+          }
+        })
+      }
+    } else {
+      const a = record.SW_MARKET_SHOW ? 0 : 1
+      record.SW_MARKET_SHOW = a
+      const b = record.SW_MARKET_SHOW.toString()
+      const params = {
+        sw_id: record.SW_ID,
+        state: b
+      }
+      saveSoftwareMarket(params, res => {
+        if (record.SW_MARKET_SHOW) {
+          console.log(record.SW_MARKET_SHOW)
+          let b = this.copyArray(this.state.imgList)
+          console.log(b)
           let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
           b.push(c)
           console.log(b)
@@ -110,22 +134,19 @@ class SWMaker extends Component {
             imgList: b
           })
         } else {
-          record.SW_MARKET_SHOW = 0
-          message.warning('已达推送上限')
+          let bb = this.copyArray(this.state.imgList)
+          console.log(record.SW_MARKET_SHOW + '11111111111111' + bb)
+          let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
+          let index = bb.indexOf(cc)
+          bb.splice(index, 1)
+          console.log(bb)
+          message.success('已取消推送')
+          this.setState({
+            imgList: bb
+          })
         }
-      } else if (record.SW_MARKET_SHOW === 0) {
-        let bb = this.copyArray(this.state.imgList)
-        console.log(record.SW_MARKET_SHOW + '11111111111111' + bb)
-        let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-        let index = bb.indexOf(cc)
-        bb.splice(index, 1)
-        console.log(bb)
-        message.success('已取消推送')
-        this.setState({
-          imgList: bb
-        })
-      }
-    })
+      })
+    }
   }
   /**
    * 展开时修改相应的state
