@@ -50,25 +50,25 @@ class Register extends React.Component {
     }
     this.props.history.push({pathname: link})
   }
-  // 校验邮箱
-  handlemialonblur =(e) => {
-    const value = e.target.value
-    // eslint-disable-next-line
-    let reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
-    if (value && reg.test(value)) {
-      this.setState({
-        checkemail_icon: true,
-        checkemail: ''
-      })
-      return true
-    } else {
-      this.setState({
-        checkemail_icon: false,
-        checkemail: '请输入有效的邮箱地址'
-      })
-      return false
-    }
-  }
+  // // 校验邮箱
+  // handlemialonblur =(e) => {
+  //   const value = e.target.value
+  //   // eslint-disable-next-line
+  //   let reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+  //   if (value && reg.test(value)) {
+  //     this.setState({
+  //       checkemail_icon: true,
+  //       checkemail: ''
+  //     })
+  //     return true
+  //   } else {
+  //     this.setState({
+  //       checkemail_icon: false,
+  //       checkemail: '请输入有效的邮箱地址'
+  //     })
+  //     return false
+  //   }
+  // }
 
   // 校验第二次密码
   validateToNextPassword = (e) => {
@@ -302,6 +302,7 @@ class Register extends React.Component {
   }
   // 获取验证码
   getCode=(phoneNum) => {
+    console.log('是手机号？', phoneNum)
     SMSVerification({
       phone: phoneNum
     }, (response) => {
@@ -376,12 +377,12 @@ class Register extends React.Component {
     let thiz = this
     let agree = thiz.state.agree
     thiz.props.form.validateFields((err, values) => {
-      if (values.maf_loginid === undefined) {
-        this.setState({
-          checkemail_icon: false,
-          checkemail: '请输入有效的邮箱地址'
-        })
-      }
+      // if (values.maf_loginid === undefined) {
+      //   this.setState({
+      //     checkemail_icon: false,
+      //     checkemail: '请输入有效的邮箱地址'
+      //   })
+      // }
       if (values.confirm === undefined) {
         this.setState({
           confirmpass_icon: false,
@@ -460,7 +461,7 @@ class Register extends React.Component {
       'maf_sad_account': values.maf_sad_account, // 学生账号
       'maf_sad_pwd': values.maf_sad_pwd, // 学生账号密码
       'maf_phone': values.maf_phone, // 家长电话
-      'maf_email': values.maf_loginid, // 家长邮箱（家长邮箱和登录账号是同一个）
+      // 'maf_email': values.maf_loginid, // 家长邮箱（家长邮箱和登录账号是同一个）
       'maf_phone_code': values.maf_phone_code // 手机验证码
 
     }, (response) => {
@@ -495,7 +496,7 @@ class Register extends React.Component {
           <Card title='家长注册' bordered={false} className='register-card'>
             <div>
               <Form>
-                <Form.Item
+                {/* <Form.Item
                   {...formItemLayout}
                   label='电子邮箱'
                 >
@@ -507,7 +508,7 @@ class Register extends React.Component {
                     <Input placeholder='请输邮箱地址' onBlur={this.handlemialonblur} onChange={this.onLoginidChange} />
                   )}
                   <span className={this.state.checkemail_icon ? 'success' : 'fail'}>{this.state.checkemail}</span>
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item
                   {...formItemLayout}
                   label='密码'

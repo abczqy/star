@@ -42,19 +42,19 @@ class ShelfPlease extends React.Component {
       }],
       dataL: [
         {
-          key: '1',
-          value: 'Wind32'
+          key: 'win32',
+          value: 'Win32'
         },
         {
-          key: '2',
+          key: 'win64',
           value: 'Win64'
         },
         {
-          key: '3',
+          key: 'ios',
           value: 'ios'
         },
         {
-          key: '4',
+          key: 'android',
           value: 'android'
         }
       ],
@@ -374,19 +374,19 @@ class ShelfPlease extends React.Component {
   render () {
     const data = [
       {
-        key: '1',
+        key: '教育类',
         value: '教育类'
       },
       {
-        key: '2',
+        key: '教辅类',
         value: '教辅类'
       },
       {
-        key: '3',
+        key: '管理类',
         value: '管理类'
       },
       {
-        key: '4',
+        key: '其他',
         value: '其他'
       }
     ]

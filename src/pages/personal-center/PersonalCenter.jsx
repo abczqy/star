@@ -53,6 +53,11 @@ class PersonalCenter extends Component {
       this.setState({
         [state]: list
       })
+      if (res.data) {
+        this.setState({
+          [state]: res.data
+        })
+      }
     }).catch(e => { console.log(e) })
   }
 
@@ -194,54 +199,57 @@ class PersonalCenter extends Component {
 
   // 生成APP列表
   createAppList=(appList, type) => {
-    console.log(type)
+    console.log('type', type)
+    console.log('appList', appList)
     let list = []
-    appList.forEach((item, index) => {
-      let download = false
-      let open = false
-      let collection = false
-      let setUp = false
-      if (type === 'myApps') { // 配饰按钮显示
-        if (item.isSelfSupport) {
-          open = true
-        }
-      } else if (type === 'myCollections') {
-        if (item.isSelfSupport) {
-          setUp = true
-        } else {
-          download = true
-        }
-      } else if (type === 'studentApps') {
-        if (item.isSelfSupport) {
-          if (item.isOpen) {
+    if (appList.length !== 0) {
+      appList.forEach((item, index) => {
+        let download = false
+        let open = false
+        let collection = false
+        let setUp = false
+        if (type === 'myApps') { // 配饰按钮显示
+          if (item.isSelfSupport) {
             open = true
-          } else {
-            setUp = true
           }
-        } else {
-          download = true
+        } else if (type === 'myCollections') {
+          if (item.isSelfSupport) {
+            setUp = true
+          } else {
+            download = true
+          }
+        } else if (type === 'studentApps') {
+          if (item.isSelfSupport) {
+            if (item.isOpen) {
+              open = true
+            } else {
+              setUp = true
+            }
+          } else {
+            download = true
+          }
+          collection = true
         }
-        collection = true
-      }
-      // download open collection setUp
-      let app = (
-        <Col span={6} key={index}>
-          <ApplicationCard
-            type={type}
-            content={item}
-            share={this.role === 'teacher'}
-            deleteCheck={this.state.deleteActive[type]}
-            download={download}
-            open={open}
-            collection={collection}
-            setUp={setUp}
-            refresh={this.getApps}
+        // download open collection setUp
+        let app = (
+          <Col span={6} key={index}>
+            <ApplicationCard
+              type={type}
+              content={item}
+              share={this.role === 'teacher'}
+              deleteCheck={this.state.deleteActive[type]}
+              download={download}
+              open={open}
+              collection={collection}
+              setUp={setUp}
+              refresh={this.getApps}
 
-          />
-        </Col>
-      )
-      list.push(app)
-    })
+            />
+          </Col>
+        )
+        list.push(app)
+      })
+    }
     return list
   }
 

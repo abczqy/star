@@ -34,16 +34,20 @@ class IterationPlease extends React.Component {
       }],
       dataL: [
         {
-          key: '1',
-          value: 'Windows7'
+          key: 'win32',
+          value: 'Win32'
         },
         {
-          key: '2',
-          value: 'Windows8'
+          key: 'win64',
+          value: 'Win64'
         },
         {
-          key: '3',
-          value: 'phone'
+          key: 'ios',
+          value: 'ios'
+        },
+        {
+          key: 'android',
+          value: 'android'
         }
       ],
       AppData: null,

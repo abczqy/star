@@ -31,6 +31,7 @@ export default class SelfSupport extends React.Component {
   }
   componentDidMount () {
     let a = this.props.location.search.replace('?', '')
+    console.log('取来的帐号', a)
     this.setState({
       appId: a
     }, () => {
@@ -128,19 +129,19 @@ export default class SelfSupport extends React.Component {
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
+          <img src={this.state.appDetailData && ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
           <div className='app-detail-header-right'>
-            <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
-            <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
-            {this.state.appDetailData.sw_path === '' ? null : <Button className='header-button' onClick={() => { this.handleClick() }}>{this.state.appDetailData.isOpen === 'fasle' ? '开通' : '打开'}</Button>}
+            <h2 className='header-title'>{this.state.appDetailData && this.state.appDetailData.sw_name}</h2>
+            <p className='header-classification'>分类：{this.state.appDetailData && this.state.appDetailData.sw_type}</p>
+            {this.state.appDetailData && this.state.appDetailData.sw_path === '' ? null : <Button className='header-button' onClick={() => { this.handleClick() }}>{this.state.appDetailData && this.state.appDetailData.isOpen === 'fasle' ? '开通' : '打开'}</Button>}
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
             </div>
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
-              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
-              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
+              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData && this.state.appDetailData.sw_size}M</span></div>
+              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData && this.state.appDetailData.version}</span></div>
               <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
             </div>
             <div className='see-detail-item-jurisdiction'>
@@ -197,7 +198,7 @@ export default class SelfSupport extends React.Component {
           </div>
           <div className='app-detail-introduceaaa'>
             <h3>应用介绍</h3>
-            <p>{this.state.appDetailData.sw_desc}</p>
+            <p>{this.state.appDetailData && this.state.appDetailData.sw_desc}</p>
             {/* <p>产品团队始终坚持在内容和设计上与时俱进、不断突破，曾荣登新周刊"优化生活特别奖"、新京报"年度公益奖"、DCCI"最学习奖"，并于2015年中国产业互联网峰会中荣获"最具价值在线教育平台"称号。· 课程资源好又多：作为中国最大最全的课程视频平台，拥有来自国内外顶尖学府的海量名师名课，覆盖文学艺术、历史哲学、经济社会、物理化学、心理管理、计算机技术等二十多个专业领域；作为TED官方合作伙伴，向国内用户提供最新最赞的TED演讲；引人入胜又发人深省的纪录片、轻松易学的可汗学院，无数好内容就在这里等着你。 </p>
             <p>翻译实力坚强：拥有超过三百人的庞大翻译团队，具备各类专业素质的高级翻译人才，将在第一时间向您献出最优质的字幕翻译服务，再也不用因为看不懂国外好课而捉急了。</p> */}
           </div>
