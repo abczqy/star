@@ -102,16 +102,30 @@ class ApplicationCard extends Component {
           )
         }
         {/* 应用图标 */}
-        <Badge dot={this.props.update} >
-          <span className='appLogo'>
-            <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
-          </span>
-        </Badge>
-        {/* 应用文字介绍 */}
-        <div className='info'>
-          <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
-          <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
-        </div>
+        {this.props.content.ISSELFSUPPORT
+          ? <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
+            <Badge dot={this.props.update} >
+              <span className='appLogo'>
+                <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
+              </span>
+            </Badge>
+            {/* 应用文字介绍 */}
+            <div className='info'>
+              <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
+              <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
+            </div>
+          </Link> : <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
+            <Badge dot={this.props.update} >
+              <span className='appLogo'>
+                <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
+              </span>
+            </Badge>
+            {/* 应用文字介绍 */}
+            <div className='info'>
+              <div className='name ellipsis' title={this.props.content.SW_NAME} >{this.props.content.SW_NAME}</div>
+              <div className='description ellipsis'>{this.props.content.SW_DESC}</div>
+            </div>
+          </Link>}
         {/* 更新 */}
         {
           this.props.update && (
@@ -135,10 +149,14 @@ class ApplicationCard extends Component {
                     </span>
                 )
               }
-              <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
-                <Icon type='download' className='plr6' />
-                <span className='plr6'>下载</span>
-              </Link>
+              {this.props.content.ISSELFSUPPORT
+                ? <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
+                  <Icon type='download' className='plr6' />
+                  <span className='plr6'>下载</span>
+                </Link> : <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
+                  <Icon type='download' className='plr6' />
+                  <span className='plr6'>下载</span>
+                </Link>}
             </div>
           )
         }
@@ -176,9 +194,13 @@ class ApplicationCard extends Component {
                     </span>
                 )
               }
-              <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
-                <span className='plr6'>开通</span>
-              </Link>
+              {this.props.content.ISSELFSUPPORT
+                ? <Link to={{ pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
+                  <span className='plr6'>开通</span>
+                </Link> : <Link to={{ pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
+                  <span className='plr6'>开通</span>
+                </Link>}
+
             </div>
           )
         }
