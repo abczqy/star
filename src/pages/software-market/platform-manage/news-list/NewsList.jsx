@@ -206,7 +206,7 @@ class NewsList extends Component {
    * 当Input的值变化时回调
    */
   onInputChange = (e) => {
-    console.log(`有 onchange函数 ${this.Obj2String(e.target.value)}`)
+    console.log(`有 onchange函数 ${e.target.value}`)
     this.setState({
       reqParam: {
         ...this.state.reqParam,
