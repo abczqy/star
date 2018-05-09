@@ -243,7 +243,6 @@ class PersonalCenter extends Component {
               collection={collection}
               setUp={setUp}
               refresh={this.getApps}
-
             />
           </Col>
         )
