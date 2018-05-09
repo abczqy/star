@@ -46,8 +46,12 @@ class PersonalCenter extends Component {
       num: 0
     }).then(res => {
       // console.log(url, res.data.data)
+      let list = res.data
+      if (state === 'studentApps') {
+        list = res.data.list
+      }
       this.setState({
-        [state]: res.data
+        [state]: list
       })
     }).catch(e => { console.log(e) })
   }
@@ -250,13 +254,7 @@ class PersonalCenter extends Component {
       if (openStatus) { // 展开状态
         return this.createAppList(appList, type)
       } else { // 收起状态 应用列表大于十个
-        let list = []
-        if (type === 'studentApps') {
-          list = appList.list.slice(0, 10)
-        } else {
-          list = _.take(appList, 10)
-        }
-        return this.createAppList(list, type)
+        return this.createAppList(_.take(appList, 12), type)
       }
     }
   }
