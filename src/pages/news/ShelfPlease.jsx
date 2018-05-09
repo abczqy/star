@@ -374,8 +374,8 @@ class ShelfPlease extends React.Component {
   render () {
     const data = [
       {
-        key: '教育类',
-        value: '教育类'
+        key: '教学类',
+        value: '教学类'
       },
       {
         key: '教辅类',
