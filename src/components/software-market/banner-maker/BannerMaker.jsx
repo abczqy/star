@@ -5,13 +5,18 @@
  */
 import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
-import { Collapse, message } from 'antd'
-import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox } from 'components/software-market'
+import { Collapse, message, Table, Row, Col, Input, Button, Switch } from 'antd'
+import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox, BlankBar } from 'components/software-market'
 import './BannerMaker.scss'
 import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner } from 'services/software-manage'
 
 const Panel = Collapse.Panel
-
+const pagination = {
+  pageNum: 1,
+  pageSize: 10,
+  showQuickJumper: true,
+  showSizeChanger: true
+}
 class BannerMaker extends Component {
   constructor (props) {
     super(props)
@@ -21,8 +26,42 @@ class BannerMaker extends Component {
       fileList: [],
       visible: false,
       bannerData: [],
-      bannerNewData: []
+      bannerNewData: [],
+      schName: '',
+      keyValue: '',
+      dataList: [{sw_shName: '福建学校', sw_zone: '福建', def_ban: 1}],
+      pagination,
+      total: 0
     }
+
+    // 表格的列信息
+    this.columns = [{
+      title: '学校机构',
+      dataIndex: 'sw_shName',
+      key: 'sw_shName'
+    }, {
+      title: '区域',
+      dataIndex: 'sw_zone',
+      key: 'sw_zone'
+    }, {
+      title: '默认banner',
+      dataIndex: 'def_ban',
+      key: 'def_ban',
+      render: (text, record, index) => {
+        return (
+          <Switch checked={record.sw_stick === 1} onChange={() => this.handleDefault(record)} />
+        )
+      }
+    }, {
+      title: '操作',
+      dataIndex: 'sw_path',
+      key: 'sw_path',
+      render: (text, record, index) => (
+        <span>
+          <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin(record)}>操作</a>
+        </span>
+      )
+    }]
   }
   /**
    * 展开时修改相应的state
@@ -31,6 +70,11 @@ class BannerMaker extends Component {
     this.setState({
       expand: !this.state.expand
     })
+  }
+
+  // 处理是否是默认banner
+  handleDefault = () => {
+
   }
 
   copyArray = (arr) => {
@@ -142,10 +186,73 @@ class BannerMaker extends Component {
   //   return (<BannerBox orderNum={num} />)
   // }
 
+  // 输入学校名称onChange
+  onSchoolNameChange = (e) => {
+    let value = e.target.value
+    this.setState({
+      schName: value
+    })
+  }
+
+  // 搜索
+  getSearchData = () => {
+
+  }
+
+  // 关键字输入
+  onKeyValChange = (e) => {
+    let value = e.target.value
+    this.setState({
+      keyValue: value
+    })
+  }
+
+  /**
+   * pageSize 变化时回调
+   */
+  onShowSizeChange = (current, size) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: current,
+        pageSize: size
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  /**
+   * 页码变化时回调
+   */
+  pageNumChange = (page, pageSize) => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
+    }, () => {
+      this.getTableDatas()
+    })
+  }
+
+  // 获取学校list
+  getTableDatas = () => {
+    const params = {
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize
+    }
+    console.log(params)
+    this.setState({
+      dataList: []
+    })
+  }
+
   render () {
-    const { expand, bannerData, bannerNewData } = this.state
+    const { expand, bannerData, bannerNewData, pagination } = this.state
     const { header } = this.props
     const { title } = header
+    const Search = Input.Search
     const datas = {
       onRemove: (file) => {
         this.setState(({ fileList }) => {
@@ -178,6 +285,38 @@ class BannerMaker extends Component {
               } datas={datas} getList={this.getList} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
+            <div style={{clear: 'both'}} />
+            <BlankBar />
+            <div>
+              <div>
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <span>学校机构:</span>
+                    <Input placeholder='福州实验小学' onChange={this.onSchNameChange} style={{width: '75%'}} />
+                  </Col>
+                  <Col span={6}>
+                    <Search
+                      onSearch={this.getSearchData}
+                      onChange={this.onKeyValChange}
+                    />
+                  </Col>
+                  <Col span={4}>
+                    <Button type='primary' onClick={this.getSearchData}>搜索</Button>
+                  </Col>
+                </Row>
+              </div>
+              <BlankBar />
+              <Table
+                columns={this.columns}
+                dataSource={this.state.dataList}
+                pagination={{
+                  ...pagination,
+                  total: this.state.total,
+                  onShowSizeChange: this.onShowSizeChange,
+                  onChange: this.pageNumChange
+                }}
+              />
+            </div>
           </Panel>
         </Collapse>
       </div>
