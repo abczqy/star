@@ -277,7 +277,7 @@ class TeacherHome extends Component {
             </div>
             <div className='popular-recommendation'>
               <div className='popular-recommendation-title'>
-                <h3 className='chinese'>热门推荐</h3>
+                <h3 className='chinese'>系统推荐</h3>
                 <span className='english'>Hot recommendation</span>
                 <span className='more' onClick={this.handleHotMor}>更多 > ></span>
               </div>
@@ -299,7 +299,7 @@ class TeacherHome extends Component {
                   return this.handleRankingIsSelfSupport(item, index)
                 })}
               </TabPane>
-              <TabPane tab='经典排行' key='2'>
+              <TabPane tab='下载排行' key='2'>
                 {this.state.rankingData && this.state.rankingData.map((item, index, arr) => {
                   return this.handleRankingIsSelfSupport(item, index)
                 })}
