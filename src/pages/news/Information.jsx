@@ -136,7 +136,7 @@ class Information extends React.Component {
   onChangeF =(value) => {
     console.log(value)
     this.setState({
-      selete: value
+      selete: String(value)
     }, () => {
       this.getList()
     })
