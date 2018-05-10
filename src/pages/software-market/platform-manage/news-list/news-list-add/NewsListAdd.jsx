@@ -48,10 +48,11 @@ class NewsListAdd extends Component {
    */
   getFormData () {
     const { fileList, newsTitle } = this.state
-    console.log(`postParam.newsTitle: ${newsTitle}`)
+    const title = encodeURI(newsTitle)
+    const desc = encodeURI(this.getRichText())
     const formData = new FormData()
-    formData.append('news_title', newsTitle)
-    formData.append('news_desc', this.getRichText())
+    formData.append('news_title', title)
+    formData.append('news_desc', desc)
     fileList.forEach((file) => {
       formData.append('news_picture', file)
     })
