@@ -834,3 +834,13 @@ export function getSoftwareDetail (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 学校banner list
+ */
+export function getSchoolInfoList (params, sucFn) {
+  return axios.post('/getSchoolInfoList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}

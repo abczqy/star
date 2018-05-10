@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Modal, Button, message } from 'antd'
 import PropsTypes from 'prop-types'
-import { HomepageAdd, BannerBox, BannerNewBox } from 'components/software-market'
+import { HomepageAdd, BannerNewBox } from 'components/software-market'
 import './BannerMaker.scss'
-import { addGatewayBanner } from 'services/software-manage'
+import { addGatewayBanner, deleteGatewayBanner } from 'services/software-manage'
 
 class BannerModel extends Component {
   constructor (props) {
@@ -14,6 +14,21 @@ class BannerModel extends Component {
       bannerNewData: []
     }
   }
+
+  // componentWillReceiveProps (nextProps) {
+  //   if (nextProps.visible) {
+  //     getGatewayBannerList({sh_id: this.props.sh_id}, (res) => {
+  //       this.setState({
+  //         bannerData: []
+  //       }, () => {
+  //         this.setState({
+  //           bannerData: res.data.data
+  //         })
+  //       })
+  //       console.log(this.state.bannerData)
+  //     })
+  //   }
+  // }
 
   onAdd = () => {
     let a = 0
@@ -37,6 +52,20 @@ class BannerModel extends Component {
     return result
   }
 
+  onDelete = (value) => {
+    let a = value.toString()
+    let params = { 'banner_id': a }
+    deleteGatewayBanner(params, res => {
+      console.log(res.data)
+      if (res.data) {
+        this.getList()
+        message.success('删除成功')
+      } else {
+        message.error('删除失败')
+      }
+    })
+  }
+
   /**
    * 渲染“添加小方块”
    * @param { int } count 渲染多少个出来 默认是3个
@@ -58,6 +87,7 @@ class BannerModel extends Component {
     const formData = new FormData()
     this.state.fileList.forEach((file) => {
       formData.append('file_upload', file)
+      formData.append('sh_id', this.props.sh_id)
     })
     // let list = this.state.fileList
     // let a = list[0].uid
@@ -70,6 +100,8 @@ class BannerModel extends Component {
       this.setState({
         bannerNewData: [],
         fileList: []
+      }, () => {
+        this.props.handleClose()
       })
       if (res.data) {
         message.success('图片保存成功')
@@ -82,7 +114,7 @@ class BannerModel extends Component {
   }
 
   render () {
-    const { bannerData } = this.props
+    // const { bannerData } = this.state
     const { header } = this.props
     const { title } = header
     const datas = {
@@ -117,10 +149,10 @@ class BannerModel extends Component {
         ]}
       >
         <div className='hp-maker'>
-          {bannerData.map((item, index) => {
+          {/* {bannerData.map((item, index) => {
             return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
             } id={item.banner_id} url={item.banner_url} type={item.banner_type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
-          })}
+          })} */}
           {bannerNewData.map((item, index) => {
             return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
             } datas={datas} getList={this.getList} /></div>)
@@ -135,8 +167,8 @@ class BannerModel extends Component {
 BannerModel.propTypes = {
   visible: PropsTypes.bool,
   handleClose: PropsTypes.func,
-  bannerData: PropsTypes.array,
-  header: PropsTypes.string
+  header: PropsTypes.string,
+  sh_id: PropsTypes.string
 }
 
 export default BannerModel
