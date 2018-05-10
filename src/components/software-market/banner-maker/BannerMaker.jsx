@@ -9,6 +9,7 @@ import { Collapse, message, Table, Row, Col, Input, Button, Switch } from 'antd'
 import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox, BlankBar } from 'components/software-market'
 import './BannerMaker.scss'
 import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner } from 'services/software-manage'
+import BannerModel from './BannerModel'
 
 const Panel = Collapse.Panel
 const pagination = {
@@ -29,7 +30,7 @@ class BannerMaker extends Component {
       bannerNewData: [],
       schName: '',
       keyValue: '',
-      dataList: [{sw_shName: '福建学校', sw_zone: '福建', def_ban: 1}],
+      dataList: [{ sw_shName: '福建学校', sw_zone: '福建', def_ban: 1 }],
       pagination,
       total: 0
     }
@@ -58,7 +59,7 @@ class BannerMaker extends Component {
       key: 'sw_path',
       render: (text, record, index) => (
         <span>
-          <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin(record)}>操作</a>
+          <a href='javascript:void(0)' onClick={() => this.showModal()}>操作</a>
         </span>
       )
     }]
@@ -248,6 +249,20 @@ class BannerMaker extends Component {
     })
   }
 
+  // 隐藏弹出的bannerModel
+  handleClose = () => {
+    this.setState({
+      visible: false
+    })
+  }
+
+  // 显示编辑bannerModal
+  showModal = () => {
+    this.setState({
+      visible: true
+    })
+  }
+
   render () {
     const { expand, bannerData, bannerNewData, pagination } = this.state
     const { header } = this.props
@@ -285,14 +300,14 @@ class BannerMaker extends Component {
               } datas={datas} getList={this.getList} /></div>)
             })}
             <div className='float-box'>{this.getPanelAdd()}</div>
-            <div style={{clear: 'both'}} />
+            <div style={{ clear: 'both' }} />
             <BlankBar />
             <div>
               <div>
                 <Row gutter={16}>
                   <Col span={8}>
                     <span>学校机构:</span>
-                    <Input placeholder='福州实验小学' onChange={this.onSchNameChange} style={{width: '75%'}} />
+                    <Input placeholder='福州实验小学' onChange={this.onSchNameChange} style={{ width: '75%' }} />
                   </Col>
                   <Col span={6}>
                     <Search
@@ -319,6 +334,12 @@ class BannerMaker extends Component {
             </div>
           </Panel>
         </Collapse>
+        <BannerModel
+          visible={this.state.visible}
+          handleClose={() => this.handleClose()}
+          header={title}
+          bannerData={bannerData}
+        />
       </div>
     )
   }
