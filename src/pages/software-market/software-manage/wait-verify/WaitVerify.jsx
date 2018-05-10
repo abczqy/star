@@ -23,8 +23,7 @@ const pagination = {
   pageNum: 1,
   pageSize: 10,
   showQuickJumper: true,
-  showSizeChanger: true,
-  text: '' // 用来赋空翻页后的search框--需要这样吗
+  showSizeChanger: true
 }
 
 class WaitVerify extends Component {
@@ -54,8 +53,8 @@ class WaitVerify extends Component {
    */
   getTableDatas = () => {
     getExamList({
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
       sw_type: this.state.sw_type,
       sw_name: this.state.sw_name
     }, (res) => {
@@ -219,8 +218,7 @@ class WaitVerify extends Component {
         ...this.state.pagination,
         pageNum: current,
         pageSize: size
-      },
-      inputValue: this.state.pagination.text
+      }
     }, () => {
       this.getTableDatas()
     })
@@ -231,7 +229,10 @@ class WaitVerify extends Component {
    */
   pageNumChange = (page, pageSize) => {
     this.setState({
-      pageNum: page
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
     }, () => {
       this.getTableDatas()
     })

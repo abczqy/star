@@ -23,8 +23,7 @@ const pagination = {
   pageNum: 1,
   pageSize: 10,
   showQuickJumper: true,
-  showSizeChanger: true,
-  text: '' // 用来赋空翻页后的search框--需要这样吗
+  showSizeChanger: true
 }
 
 class IterationVerify extends Component {
@@ -56,8 +55,8 @@ class IterationVerify extends Component {
    */
   getTableDatas = () => {
     iterVerify({
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name// 应用名称
     }, (res) => {
@@ -235,8 +234,7 @@ class IterationVerify extends Component {
         ...this.state.pagination,
         pageNum: current,
         pageSize: size
-      },
-      inputValue: this.state.pagination.text
+      }
     }, () => {
       this.getTableDatas()
     })
@@ -247,7 +245,10 @@ class IterationVerify extends Component {
    */
   pageNumChange = (page, pageSize) => {
     this.setState({
-      pageNum: page
+      pagination: {
+        ...this.state.pagination,
+        pageNum: page
+      }
     }, () => {
       this.getTableDatas()
     })
