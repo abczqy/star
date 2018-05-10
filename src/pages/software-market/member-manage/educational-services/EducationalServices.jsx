@@ -316,18 +316,25 @@ class EducationalServices extends Component {
       this.getTableDatas()
     })
   }
-
+  // 改变数据
+  getChange=() => {
+    let {selectList} = this.state
+    selectList.eduClassList.push('全部')
+  }
   /**
    *获取一系列参数
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
+
     // 请求下拉框的数据
     getSelectList(getIdSelectList, 'edu', 'idList', this)
     getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
     getSelectListWithNoParam(getEduUpperSelectList, 'eduUpperList', this)
+
     getSelectListWithNoParam(getEduClassSelectList, 'eduClassList', this)
+    // this.getChange()
   }
 
   render () {

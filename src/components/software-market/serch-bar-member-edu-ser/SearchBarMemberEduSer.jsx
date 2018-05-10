@@ -24,7 +24,11 @@ class SearchBarMemberEduSer extends Component {
    */
   getOptions = (optArrs) => {
     return optArrs.map((Item, index) => {
-      return <Option value={Item}>{Item}</Option>
+      if (Item === '全部') {
+        return <Option value={''}>{Item}</Option>
+      } else {
+        return <Option value={Item}>{Item}</Option>
+      }
     })
   }
 
