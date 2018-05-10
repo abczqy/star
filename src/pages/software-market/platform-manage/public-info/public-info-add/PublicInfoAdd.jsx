@@ -49,9 +49,11 @@ class PublicInfoAdd extends Component {
   getFormData () {
     const { fileList, infoTitle } = this.state
     console.log(`postParam.infoTitle: ${infoTitle}`)
+    const title = encodeURI(infoTitle)
+    const desc = encodeURI(this.getRichText())
     const formData = new FormData()
-    formData.append('info_title', infoTitle)
-    formData.append('info_desc', this.getRichText())
+    formData.append('info_title', title)
+    formData.append('info_desc', desc)
     fileList.forEach((file) => {
       formData.append('info_attach', file)
     })
