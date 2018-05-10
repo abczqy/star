@@ -324,13 +324,13 @@ class ShelfPlease extends React.Component {
     } else if (this.state.rname && this.state.type && this.state.rDescribe && this.state.name && this.state.idNumber && this.state.conPeople && this.state.fileListTwo.length !== 0 && this.state.fileListFour.length !== 0 && this.state.fileListOneC.length !== 0 && this.state.fileListOneF.length !== 0) {
       console.log('全填完了')
       const formData = new FormData()
-      formData.append('rname', this.state.rname)// 软件名称*
-      formData.append('rType', this.state.type)// 软件类型*
-      formData.append('rDescribe', this.state.rDescribe)// 软件描述*
+      formData.append('rname', encodeURI(this.state.rname))// 软件名称*
+      formData.append('rType', encodeURI(this.state.type))// 软件类型*
+      formData.append('rDescribe', encodeURI(this.state.rDescribe))// 软件描述*
       formData.append('hopeTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD'))// 期望上架时间
-      formData.append('name', this.state.name)// 开发相关名字*
+      formData.append('name', encodeURI(this.state.name))// 开发相关名字*
       formData.append('idNumber', this.state.idNumber)// 身份证号*
-      formData.append('conPeople', this.state.conPeople)// 主要联系人*
+      formData.append('conPeople', encodeURI(this.state.conPeople))// 主要联系人*
       formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话*
       formData.append('sw_type', this.state.radio)// 软件版权类别
       this.state.fileListTwo.forEach((file) => {

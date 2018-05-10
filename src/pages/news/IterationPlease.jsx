@@ -272,7 +272,7 @@ zHs=() => {
       console.log('全填写完啦')
       const formData = new FormData()
       formData.append('newV', this.state.newV)// 软件图标
-      formData.append('rDescribe_new', this.state.rDescribe)// 软件描述
+      formData.append('rDescribe_new', encodeURI(this.state.rDescribe))// 软件描述
       formData.append('updateTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD')) // 期望上架时间
       this.state.fileListThree.forEach((file) => {
         formData.append('sw_computer_photo_new', file)
