@@ -149,10 +149,11 @@ class EducationalServices extends Component {
    * 当搜索框‘账号’值改变时回调
    */
   onIdChange = (val) => {
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        eduId: val
+        eduId: value
       }
     })
   }
@@ -161,10 +162,11 @@ class EducationalServices extends Component {
    * 当搜索框‘厂商名称’值改变时回调
    */
   onInstChange = (val) => {
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        eduName: val
+        eduName: value
       }
     })
   }
@@ -175,10 +177,11 @@ class EducationalServices extends Component {
   onHighInstChange = (val) => {
     console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        eduUpper: val
+        eduUpper: value
       }
     })
   }

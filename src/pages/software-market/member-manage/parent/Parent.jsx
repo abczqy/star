@@ -151,10 +151,11 @@ class Parent extends Component {
    */
   onIdChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafId: val
+        mafId: value
       }
     })
   }
@@ -164,20 +165,22 @@ class Parent extends Component {
    */
   onStuNameChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        stuName: val
+        stuName: value
       }
     })
   }
 
   onPaNameChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafName: val
+        mafName: value
       }
     })
   }
@@ -187,10 +190,11 @@ class Parent extends Component {
    */
   onRoleChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafStuSad: val
+        mafStuSad: value
       }
     })
   }

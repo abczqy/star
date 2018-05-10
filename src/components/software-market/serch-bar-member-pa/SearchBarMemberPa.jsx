@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col } from 'antd'
+import { Select, Button, Row, Col, Input } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberPa.scss'
 
@@ -30,7 +30,7 @@ class SearchBarMemberPa extends Component {
   }
   render () {
     const {
-      selectList,
+      // selectList,
       onBtnSearchClick,
       onSelect1Change,
       onSelect2Change,
@@ -44,39 +44,39 @@ class SearchBarMemberPa extends Component {
         <Row gutter={16}>
           <Col span={3}>
             <span className='input-label'>账号</span>
-            <Select
+            <Input
               className='input'
               placeholder='请输入'
               showSearch
               onChange={onSelect1Change} >
-              {selectList.idList && this.getOptions(selectList.idList)}
-            </Select>
+              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+            </Input>
           </Col>
           <Col span={5}>
             <span className='input-label'>学生姓名</span>
-            <Select
+            <Input
               className='input'
               placeholder='请输入'
               showSearch
               onChange={onSelect2Change} >
-              {selectList.stuNameList && this.getOptions(selectList.stuNameList)}
-            </Select>
+              {/* {selectList.stuNameList && this.getOptions(selectList.stuNameList)} */}
+            </Input>
           </Col>
           <Col span={4}>
             <span className='select-label'>家长姓名</span>
-            <Select
+            <Input
               className='select'
               placeholder='请输入'
               showSearch
               onChange={onSelect3Change} >
-              {selectList.paNameList && this.getOptions(selectList.paNameList)}
-            </Select>
+              {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
+            </Input>
           </Col>
           <Col span={4}>
             <span className='select-label'>选择角色</span>
-            <Select className='select' onChange={onSelect4Change} >
-              {selectList.roleList && this.getOptions(selectList.roleList)}
-            </Select>
+            <Input className='select' onChange={onSelect4Change} >
+              {/* {selectList.roleList && this.getOptions(selectList.roleList)} */}
+            </Input>
           </Col>
           <Col span={4}>
             <span className='select-label'>允许登录</span>
@@ -99,7 +99,7 @@ class SearchBarMemberPa extends Component {
 }
 
 SearchBarMemberPa.propTypes = {
-  selectList: PropsTypes.object,
+  // selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,

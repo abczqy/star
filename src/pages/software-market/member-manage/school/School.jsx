@@ -58,52 +58,53 @@ class School extends Component {
   }
 
   getColumns = () => {
-    return ([{
-      title: '学校名称',
-      dataIndex: 'sh_name',
-      key: 'sh_name',
-      width: 200
-    }, {
-      title: '账号',
-      dataIndex: 'sh_id',
-      key: 'sh_id',
-      width: 200
-    }, {
-      title: '所属教育机构',
-      dataIndex: 'edu_name',
-      key: 'edu_name'
-    }, {
-      title: '允许登录',
-      dataIndex: 'to_login',
-      key: 'to_login',
-      render: (text, record, index) => {
-        let check = true
-        if (text === '0') {
-          check = false
+    return ([
+      {
+        title: '学校名称',
+        dataIndex: 'sh_name',
+        key: 'sh_name',
+        width: 200
+      }, {
+        title: '账号',
+        dataIndex: 'sh_id',
+        key: 'sh_id',
+        width: 200
+      }, {
+        title: '所属教育机构',
+        dataIndex: 'edu_name',
+        key: 'edu_name'
+      }, {
+        title: '允许登录',
+        dataIndex: 'to_login',
+        key: 'to_login',
+        render: (text, record, index) => {
+          let check = true
+          if (text === '0') {
+            check = false
+          }
+          return (
+            <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+          )
         }
-        return (
-          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
-        )
-      }
-    }, {
-      title: '操作',
-      dataIndex: 'options',
-      key: 'options',
-      width: 260,
-      render: (text, record, index) => {
-        return (
-          <span>
-            <Link to='/software-market-home/member-manage/teacher'>教师</Link>
-            <Divider type='vertical' />
-            <Link to='/software-market-home/member-manage/student'>学生</Link>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delId(record)}>删除</a>
-          </span>
-        )
-      }
-    }])
+      }, {
+        title: '操作',
+        dataIndex: 'options',
+        key: 'options',
+        width: 260,
+        render: (text, record, index) => {
+          return (
+            <span>
+              <Link to='/software-market-home/member-manage/teacher'>教师</Link>
+              <Divider type='vertical' />
+              <Link to='/software-market-home/member-manage/student'>学生</Link>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.delId(record)}>删除</a>
+            </span>
+          )
+        }
+      }])
   }
 
   getParams = () => {
@@ -146,23 +147,25 @@ class School extends Component {
    */
   onIdChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        shId: val
+        shId: value
       }
     })
   }
 
   /**
-   * 当搜索框‘厂商名称’值改变时回调
+   * 当搜索框‘学校名称’值改变时回调
    */
   onSchNameChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        shName: val
+        shName: value
       }
     })
   }
@@ -174,10 +177,11 @@ class School extends Component {
   onBelongChange = (val) => {
     console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        eduServices: val
+        eduServices: value
       }
     })
   }

@@ -87,56 +87,57 @@ class Manufacturer extends Component {
   // }
 
   getColumns () {
-    return [{
-      title: '厂商名称',
-      dataIndex: 'fa_name',
-      key: 'fa_name',
-      width: 200
-    }, {
-      title: '账号',
-      dataIndex: 'fa_id',
-      key: 'fa_id',
-      width: 200
-    }, {
-      title: '在运营软件数',
-      dataIndex: 'num',
-      key: 'num'
-    }, {
-      title: '合同状态',
-      dataIndex: 'num_day',
-      key: 'num_day'
-    }, {
-      title: '允许登录',
-      dataIndex: 'to_login',
-      key: 'to_login',
-      render: (text, record, index) => {
-        let check = true
-        if (text === '0') {
-          check = false
+    return [
+      {
+        title: '厂商名称',
+        dataIndex: 'fa_name',
+        key: 'fa_name',
+        width: 200
+      }, {
+        title: '账号',
+        dataIndex: 'fa_id',
+        key: 'fa_id',
+        width: 200
+      }, {
+        title: '在运营软件数',
+        dataIndex: 'num',
+        key: 'num'
+      }, {
+        title: '合同状态',
+        dataIndex: 'num_day',
+        key: 'num_day'
+      }, {
+        title: '允许登录',
+        dataIndex: 'to_login',
+        key: 'to_login',
+        render: (text, record, index) => {
+          let check = true
+          if (text === '0') {
+            check = false
+          }
+          return (
+            <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+          )
         }
-        return (
-          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
-        )
-      }
-    }, {
-      title: '操作',
-      dataIndex: 'options',
-      key: 'options',
-      width: 280,
-      render: (text, record, index) => {
-        return (
-          <span>
-            <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续签</a>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.showFaDetModal(record)}>详情</a>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a>
-          </span>
-        )
-      }
-    }]
+      }, {
+        title: '操作',
+        dataIndex: 'options',
+        key: 'options',
+        width: 280,
+        render: (text, record, index) => {
+          return (
+            <span>
+              <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续签</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.showFaDetModal(record)}>详情</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a>
+            </span>
+          )
+        }
+      }]
   }
 
   // getPopContent = (record) => {
@@ -232,13 +233,14 @@ class Manufacturer extends Component {
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onFaLoginidChange = (val) => {
+  onFaLoginidChange = (e) => {
     // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
+    let value = e.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        faId: val
+        faId: value
       }
     })
   }
@@ -249,10 +251,11 @@ class Manufacturer extends Component {
   onFaNameChange = (val) => {
     // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        faName: val
+        faName: value
       }
     })
   }

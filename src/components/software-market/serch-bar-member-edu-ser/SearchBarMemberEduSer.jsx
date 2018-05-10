@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col } from 'antd'
+import { Select, Button, Row, Col, Input } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberEduSer.scss'
 
@@ -44,33 +44,33 @@ class SearchBarMemberEduSer extends Component {
         <Row gutter={16}>
           <Col span={3}>
             <span className='input-label'>账号</span>
-            <Select
+            <Input
               className='input'
               placeholder='请输入'
               showSearch
               onChange={onSelect1Change} >
-              {selectList.idList && this.getOptions(selectList.idList)}
-            </Select>
+              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+            </Input>
           </Col>
           <Col span={5}>
             <span className='input-label'>机构名称</span>
-            <Select
+            <Input
               className='input'
               placeholder='请输入'
               showSearch
               onChange={onSelect2Change} >
-              {selectList.eduNameList && this.getOptions(selectList.eduNameList)}
-            </Select>
+              {/* {selectList.eduNameList && this.getOptions(selectList.eduNameList)} */}
+            </Input>
           </Col>
           <Col span={5}>
             <span className='select-label'>上级机构名称</span>
-            <Select
+            <Input
               className='select'
               placeholder='请输入'
               showSearch
               onChange={onSelect3Change} >
-              {selectList.eduUpperList && this.getOptions(selectList.eduUpperList)}
-            </Select>
+              {/* {selectList.eduUpperList && this.getOptions(selectList.eduUpperList)} */}
+            </Input>
           </Col>
           <Col span={3}>
             <span className='select-label-2'>所属级别 </span>

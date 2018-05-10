@@ -58,46 +58,47 @@ class Teacher extends Component {
   }
 
   getClomus = () => {
-    return ([{
-      title: '教师姓名',
-      dataIndex: 'th_name',
-      key: 'th_name',
-      width: 200
-    }, {
-      title: '账号',
-      dataIndex: 'th_id',
-      key: 'th_id',
-      width: 200
-    }, {
-      title: '所属教育机构',
-      dataIndex: 'sh_name',
-      key: 'sh_name'
-    }, {
-      title: '允许登录',
-      dataIndex: 'to_login',
-      key: 'to_login',
-      render: (text, record, index) => {
-        return (
-          <Switch />
-        )
-      }
-    }, {
-      title: '操作',
-      dataIndex: 'options',
-      key: 'options',
-      width: 200,
-      render: (text, record, index) => {
-        return (
-          <span>
-            <Link to='/software-market-home/member-manage/student'>学生</Link>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
-            <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
-          </span>
-        )
-      }
-    }])
+    return ([
+      {
+        title: '教师姓名',
+        dataIndex: 'th_name',
+        key: 'th_name',
+        width: 200
+      }, {
+        title: '账号',
+        dataIndex: 'th_id',
+        key: 'th_id',
+        width: 200
+      }, {
+        title: '学校名称',
+        dataIndex: 'sh_name',
+        key: 'sh_name'
+      }, {
+        title: '允许登录',
+        dataIndex: 'to_login',
+        key: 'to_login',
+        render: (text, record, index) => {
+          return (
+            <Switch />
+          )
+        }
+      }, {
+        title: '操作',
+        dataIndex: 'options',
+        key: 'options',
+        width: 200,
+        render: (text, record, index) => {
+          return (
+            <span>
+              <Link to='/software-market-home/member-manage/student'>学生</Link>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+            </span>
+          )
+        }
+      }])
   }
 
   getParams = () => {
@@ -142,10 +143,11 @@ class Teacher extends Component {
   onIdChange = (val) => {
     // 修改state.reqParams中对应的值
     // 暂时val和显示的值是一个 看后台传入的数据结构
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        thId: val
+        thId: value
       }
     })
   }
@@ -155,10 +157,11 @@ class Teacher extends Component {
    */
   onthNameChange = (val) => {
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        thName: val
+        thName: value
       }
     })
   }
@@ -169,10 +172,11 @@ class Teacher extends Component {
   onSchNameChange = (val) => {
     console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        shName: val
+        shName: value
       }
     })
   }
