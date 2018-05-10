@@ -130,9 +130,7 @@ class InformationEd extends React.Component {
     let values = {
       pageNum: 1,
       pageSize: 100,
-      province: '',
-      city: '',
-      county: ''
+      info_class: ''
     }
     information(values, (response) => {
       this.setState({

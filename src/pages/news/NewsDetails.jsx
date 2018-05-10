@@ -116,9 +116,7 @@ class NewsDetails extends React.Component {
     let valuez = {
       pageNum: 1,
       pageSize: 100,
-      province: '',
-      city: '',
-      county: ''
+      info_class: ''
     }
     information(valuez, (response) => {
       this.setState({

@@ -64,9 +64,7 @@ class Information extends React.Component {
     let value = {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10,
-      province: '',
-      city: '',
-      county: ''
+      info_class: ''
     }
     console.log('教育局的信息公开列表获取数据传的参数', value)
     information(value, (response) => {
@@ -81,9 +79,7 @@ class Information extends React.Component {
     let values = {
       pageNum: 1,
       pageSize: 100,
-      province: '',
-      city: '',
-      county: ''
+      info_class: ''
     }
     information(values, (response) => {
       this.setState({
