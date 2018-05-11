@@ -283,6 +283,9 @@ class WaitVerify extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
+          rowKey={(record, index) => {
+            return index
+          }}
         />
         <div ref='waitDetailElem' className='wait-detail-wrap' />
         <WaitDetailModal

@@ -369,6 +369,9 @@ class Teacher extends Component {
           rowSelection={{
             onChange: this.rowSelectChange
           }}
+          rowKey={(record, index) => {
+            return index
+          }}
         />
       </div>
     )

@@ -395,6 +395,9 @@ class Businessing extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
+          rowKey={(record, index) => {
+            return index
+          }}
         />
         {appOffModalCon.visible ? <AppStandOffModal
           visible={appOffModalCon.visible}
