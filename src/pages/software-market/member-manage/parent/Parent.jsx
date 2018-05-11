@@ -84,7 +84,7 @@ class Parent extends Component {
       key: 'to_login',
       render: (text, record, index) => {
         let check = true
-        if (text === '0') {
+        if (text === 0) {
           check = false
         }
         return (
@@ -206,11 +206,11 @@ class Parent extends Component {
     console.log(`val: ${val}`)
     let loginAllow = 0
     if (val === 'allow') {
-      loginAllow = 1
-    } else if (val === 'refuse') {
-      loginAllow = 1
+      loginAllow = '1'
+    } else if (val === 'defuse') {
+      loginAllow = '0'
     } else if (val === 'all') {
-      loginAllow = null
+      loginAllow = ''
     }
     // 修改state.reqParams中对应的值
     this.setState({

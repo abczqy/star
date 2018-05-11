@@ -83,7 +83,7 @@ class Student extends Component {
       key: 'to_login',
       render: (text, record, index) => {
         let check = true
-        if (text === '0') {
+        if (text === 0) {
           check = false
         }
         return (
