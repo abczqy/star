@@ -147,7 +147,7 @@ class School extends Component {
   handleToLogin = (record) => {
     const thiz = this
     const params = {
-      id: record && record.edu_id,
+      id: record && record.sh_id,
       to_login: record.to_login ? 0 : 1
     }
     toLogin(params, (res) => {
