@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Modal, Button, message } from 'antd'
 import PropsTypes from 'prop-types'
-import { HomepageAdd, BannerNewBox } from 'components/software-market'
+import { HomepageAdd, BannerNewBox, BannerBox } from 'components/software-market'
 import './BannerMaker.scss'
-import { addGatewayBanner, deleteGatewayBanner } from 'services/software-manage'
+import { addGatewayBanner, deleteGatewayBanner, getSchoolBannerList } from 'services/software-manage'
 
 class BannerModel extends Component {
   constructor (props) {
@@ -11,24 +11,48 @@ class BannerModel extends Component {
     this.state = {
       bannerData: [],
       fileList: [],
-      bannerNewData: []
+      bannerNewData: [],
+      sh_id: ''
     }
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   if (nextProps.visible) {
-  //     getGatewayBannerList({sh_id: this.props.sh_id}, (res) => {
-  //       this.setState({
-  //         bannerData: []
-  //       }, () => {
-  //         this.setState({
-  //           bannerData: res.data.data
-  //         })
-  //       })
-  //       console.log(this.state.bannerData)
-  //     })
-  //   }
-  // }
+  componentWillReceiveProps (nextProps) {
+    console.log('nextProps:', nextProps, 'state.sh_id:', this.state.sh_id)
+    if (nextProps.visible && this.state.sh_id !== nextProps.sh_id) {
+      this.setState({
+        sh_id: nextProps.sh_id
+      }, () => {
+        this.getList()
+      })
+    }
+  }
+
+  getList = () => {
+    getSchoolBannerList({sh_id: this.state.sh_id}, (res) => {
+      this.setState({
+        bannerData: []
+      }, () => {
+        this.setState({
+          bannerData: this.splitBannerUrl(res.data.banner_url)
+        })
+      })
+      console.log(this.state.bannerData)
+    })
+  }
+
+  // 拆分获取到的banner_url
+  splitBannerUrl = (bannerUrl) => {
+    let data = bannerUrl.split(',')
+    let retData = []
+    for (let i = 0; i < data.length; i++) {
+      let item = {}
+      item.banner_url = data[i]
+      item.id = i
+      retData.push(item)
+    }
+    console.log(retData)
+    return retData
+  }
 
   onAdd = () => {
     let a = 0
@@ -114,7 +138,7 @@ class BannerModel extends Component {
   }
 
   render () {
-    // const { bannerData } = this.state
+    const { bannerData } = this.state
     const { header } = this.props
     const { title } = header
     const datas = {
@@ -149,10 +173,10 @@ class BannerModel extends Component {
         ]}
       >
         <div className='hp-maker'>
-          {/* {bannerData.map((item, index) => {
+          {bannerData.map((item, index) => {
             return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-            } id={item.banner_id} url={item.banner_url} type={item.banner_type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
-          })} */}
+            } id={item.id} url={item.banner_url} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
+          })}
           {bannerNewData.map((item, index) => {
             return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
             } datas={datas} getList={this.getList} /></div>)

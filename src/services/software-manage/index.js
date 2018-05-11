@@ -846,10 +846,20 @@ export function getSchoolInfoList (params, sucFn) {
 }
 
 /**
- * 学校banner list
+ * 学校banner 是否使用默认banner
  */
 export function updateBannerIsDefault (params, sucFn) {
   return axios.post('/updateBannerIsDefault', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 根据学校id获得该学校所属banner图
+ */
+export function getSchoolBannerList (params, sucFn) {
+  return axios.post('/getSchoolBannerList', params)
     .then(function (res) {
       sucFn(res)
     })
