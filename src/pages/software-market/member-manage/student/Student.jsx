@@ -149,28 +149,33 @@ class Student extends Component {
   /**
    * 当搜索框‘账号’值改变时回调
    */
-  onstuIdChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+  onstuIdChange = (val) => {
+    // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
+    let value = val.target.value
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        stuId: e.target.value
+        stuId: value
       }
+    }, () => {
+      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
   /**
-   * 当搜索框‘厂商名称’值改变时回调
+   * 当搜索框‘学生名字’值改变时回调
    */
   onStuNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+    // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
         stuName: e.target.value
       }
+    }, () => {
+      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
@@ -185,6 +190,8 @@ class Student extends Component {
         ...this.state.reqParam,
         num_day: val
       }
+    }, () => {
+      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
@@ -207,6 +214,8 @@ class Student extends Component {
         ...this.state.reqParam,
         toLogin: loginAllow
       }
+    }, () => {
+      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
@@ -241,7 +250,7 @@ class Student extends Component {
   }
   // 学校名称改变
   onShNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+    // console.log(`e: ${this.Obj2String(e.target.value)}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
@@ -253,12 +262,13 @@ class Student extends Component {
 
   // 家长名称改变
   onPaNameChange = (e) => {
-    console.log(`e: ${this.Obj2String(e.target.value)}`)
+    // console.log(`e: ${this.Obj2String(e.target.value)}`)
+    let value = e.target.value
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        mafName: e.target.value
+        mafName: value
       }
     })
   }
@@ -376,11 +386,11 @@ class Student extends Component {
       <div className='software-wrap'>
         <SearchBarMemberStu
           selectList={{ ...selectList }}
-          onInput1Change={this.onstuIdChange}
-          onInput2Change={this.onStuNameChange}
-          onInput3Change={this.onShNameChange}
-          onInput4Change={this.onPaNameChange}
-          onSelect2Change={this.onToLogin}
+          onSelect1Change={this.onstuIdChange}
+          onSelect2Change={this.onStuNameChange}
+          onSelect3Change={this.onShNameChange}
+          onSelect4Change={this.onPaNameChange}
+          onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
         />
