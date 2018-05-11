@@ -103,7 +103,6 @@ class BannerModel extends Component {
       bannerNewData: [],
       fileList: []
     })
-    this.getList()
   }
 
   // 保存新增banner图

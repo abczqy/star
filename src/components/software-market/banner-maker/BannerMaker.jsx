@@ -153,7 +153,6 @@ class BannerMaker extends Component {
       bannerNewData: [],
       fileList: []
     })
-    this.getList()
   }
   onDelete = (value) => {
     let a = value.toString()
