@@ -56,7 +56,8 @@ class EducationalServices extends Component {
       batchLeadParams: {
         idArrs: []
       },
-      selectList: {}
+      selectList: {},
+      edu_id: ''
     }
   }
 
@@ -96,7 +97,7 @@ class EducationalServices extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <Link to='/software-market-home/member-manage/school'>学校</Link>
+            <Link to={{pathname: '/software-market-home/member-manage/school', search: record.edu_id}}>学校</Link>
             <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
@@ -135,8 +136,10 @@ class EducationalServices extends Component {
   getTableDatas = () => {
     eduGetData(this.getParams(), (res) => {
       const data = res.data
+      console.log('教育机构的数据', data)
       console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
+        // edu_id:,
         tableData: {
           data: addKey2TableData(data.list, 'edu_id'),
           total: data.total

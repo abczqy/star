@@ -94,9 +94,9 @@ class School extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to='/software-market-home/member-manage/teacher'>教师</Link>
+              <Link to={{pathname: '/software-market-home/member-manage/teacher', search: record.sh_id}}>教师</Link>
               <Divider type='vertical' />
-              <Link to='/software-market-home/member-manage/student'>学生</Link>
+              <Link to={{pathname: '/software-market-home/member-manage/student', search: record.sh_id}}>学生</Link>
               <Divider type='vertical' />
               <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
               <Divider type='vertical' />
@@ -108,6 +108,7 @@ class School extends Component {
   }
 
   getParams = () => {
+    let a = window.location.href.split('?')
     const {
       shId,
       shName,
@@ -120,7 +121,8 @@ class School extends Component {
       sh_id: shId || '',
       shName: shName || '',
       eduServices: eduServices || '',
-      loginType: loginType || ''
+      loginType: loginType || '',
+      id: a[1] || ''
     }
   }
 

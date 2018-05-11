@@ -109,6 +109,7 @@ class Student extends Component {
   }
 
   getParams = () => {
+    let a = window.location.href.split('?')
     const {
       stuName,
       stuId,
@@ -124,7 +125,9 @@ class Student extends Component {
       stu_id: stuId || '',
       maf_name: mafName || '',
       to_login: toLogin || '',
-      sh_name: shName || ''
+      sh_name: shName || '',
+      sh_id: a[1] && a[1].indexOf('th') ? a[1] : '',
+      th_id: a[1] && a[1].indexOf('sh') ? a[1] : ''
     }
   }
 

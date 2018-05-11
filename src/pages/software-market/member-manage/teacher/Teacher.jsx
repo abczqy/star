@@ -90,7 +90,7 @@ class Teacher extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to='/software-market-home/member-manage/student'>学生</Link>
+              <Link to={{pathname: '/software-market-home/member-manage/student', search: record.th_id}}>学生</Link>
               <Divider type='vertical' />
               <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
               <Divider type='vertical' />
@@ -102,6 +102,7 @@ class Teacher extends Component {
   }
 
   getParams = () => {
+    let a = window.location.href.split('?')
     const {
       thId,
       thName,
@@ -115,7 +116,8 @@ class Teacher extends Component {
       th_id: thId || '',
       th_name: thName || '',
       to_login: toLogin || '',
-      sh_name: shName || ''
+      sh_name: shName || '',
+      id: a[1] || ''
     }
   }
 
