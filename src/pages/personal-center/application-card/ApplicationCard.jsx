@@ -76,7 +76,7 @@ class ApplicationCard extends Component {
   }
 
   render () {
-    // console.log(this.props.deleteCheck)
+    // console.log('这是什么？', this.props.content.ISSELFSUPPORT)
     return (
       <div className='application-card'>
         {/* 分享 */}
@@ -103,7 +103,7 @@ class ApplicationCard extends Component {
         }
         {/* 应用图标 */}
         {this.props.type === 'myApps'
-          ? <Link to={this.props.content.ISSELFSUPPORT ? { pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID } : { pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID }} >
+          ? <Link to={this.props.content.ISSELFSUPPORT && this.props.content.ISSELFSUPPORT === 'true' ? { pathname: '/operate-manage-home/all-app-detail', search: this.props.content.SW_ID } : { pathname: '/operate-manage-home/all-app-detail-third', search: this.props.content.SW_ID }} >
             <Badge dot={this.props.update} >
               <span className='appLogo'>
                 <img src={ajaxUrl.IMG_BASE_URL + this.props.content.SW_ICON} alt='' />
