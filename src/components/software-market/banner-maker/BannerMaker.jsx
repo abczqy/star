@@ -8,7 +8,7 @@ import PropsTypes from 'prop-types'
 import { Collapse, message, Table, Row, Col, Input, Button, Switch } from 'antd'
 import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox, BlankBar } from 'components/software-market'
 import './BannerMaker.scss'
-import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner } from 'services/software-manage'
+import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner, getSchoolInfoList, updateBannerIsDefault } from 'services/software-manage'
 import BannerModel from './BannerModel'
 
 const Panel = Collapse.Panel
@@ -23,7 +23,6 @@ class BannerMaker extends Component {
     super(props)
     this.state = {
       boxList: [1, 2, 3],
-      count: 0,
       fileList: [],
       visible: false,
       bannerData: [],
@@ -32,25 +31,26 @@ class BannerMaker extends Component {
       keyValue: '',
       dataList: [{ sw_shName: '福建学校', sw_zone: '福建', def_ban: 1 }],
       pagination,
-      total: 0
+      total: 0,
+      sh_id: ''
     }
 
     // 表格的列信息
     this.columns = [{
       title: '学校机构',
-      dataIndex: 'sw_shName',
-      key: 'sw_shName'
+      dataIndex: 'sh_name',
+      key: 'sh_name'
     }, {
       title: '区域',
-      dataIndex: 'sw_zone',
-      key: 'sw_zone'
+      dataIndex: 'sh_area',
+      key: 'sh_area'
     }, {
       title: '默认banner',
       dataIndex: 'def_ban',
       key: 'def_ban',
       render: (text, record, index) => {
         return (
-          <Switch checked={record.sw_stick === 1} onChange={() => this.handleDefault(record)} />
+          <Switch checked={record.isDefault === 1} onChange={() => this.handleDefault(record)} />
         )
       }
     }, {
@@ -59,7 +59,7 @@ class BannerMaker extends Component {
       key: 'sw_path',
       render: (text, record, index) => (
         <span>
-          <a href='javascript:void(0)' onClick={() => this.showModal()}>操作</a>
+          {record.isDefault === 1 ? null : <a href='javascript:void(0)' onClick={() => this.showModal(record)}>操作</a>}
         </span>
       )
     }]
@@ -74,8 +74,20 @@ class BannerMaker extends Component {
   }
 
   // 处理是否是默认banner
-  handleDefault = () => {
-
+  handleDefault = (record) => {
+    const thiz = this
+    const params = {
+      sh_id: record && record.sh_id,
+      isDefault: record.isDefault ? 0 : 1
+    }
+    updateBannerIsDefault(params, (res) => {
+      const data = res.data ? res.data : {}
+      console.log(data)
+      if (data.SUCCESS) {
+        message.success(data.msg)
+        thiz.getSchoolList()
+      }
+    })
   }
 
   copyArray = (arr) => {
@@ -112,6 +124,7 @@ class BannerMaker extends Component {
     const formData = new FormData()
     this.state.fileList.forEach((file) => {
       formData.append('file_upload', file)
+      formData.append('sh_id', '')
     })
     // let list = this.state.fileList
     // let a = list[0].uid
@@ -157,27 +170,35 @@ class BannerMaker extends Component {
   }
   getList = () => {
     getGatewayBannerList({}, res => {
-      let f = []
       this.setState({
-        bannerData: [],
-        count: 0
+        bannerData: []
       }, () => {
         this.setState({
-          count: res.data.pageCount,
           bannerData: res.data.data
         })
       })
-      for (var i = 1; i < this.state.count + 1; i++) {
-        f.push(i)
-      }
-      this.setState({
-        boxList: f
-      })
-      console.log(this.state.bannerData, f)
+      console.log(this.state.bannerData)
     })
   }
   componentDidMount () {
     this.getList()
+    this.getSchoolList()
+  }
+
+  getSchoolList = () => {
+    const parmas = {
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      sh_name: this.state.schName,
+      sh_keyword: this.state.keyValue
+    }
+    getSchoolInfoList(parmas, (res) => {
+      let data = res.data.list
+      console.log(data)
+      this.setState({
+        dataList: data
+      })
+    })
   }
   /**
    * 渲染小方块
@@ -188,8 +209,9 @@ class BannerMaker extends Component {
   // }
 
   // 输入学校名称onChange
-  onSchoolNameChange = (e) => {
+  onSchNameChange = (e) => {
     let value = e.target.value
+    console.log(value)
     this.setState({
       schName: value
     })
@@ -197,7 +219,7 @@ class BannerMaker extends Component {
 
   // 搜索
   getSearchData = () => {
-
+    this.getSchoolList()
   }
 
   // 关键字输入
@@ -219,7 +241,7 @@ class BannerMaker extends Component {
         pageSize: size
       }
     }, () => {
-      this.getTableDatas()
+      this.getSchoolList()
     })
   }
 
@@ -233,19 +255,7 @@ class BannerMaker extends Component {
         pageNum: page
       }
     }, () => {
-      this.getTableDatas()
-    })
-  }
-
-  // 获取学校list
-  getTableDatas = () => {
-    const params = {
-      pageNum: this.state.pagination.pageNum,
-      pageSize: this.state.pagination.pageSize
-    }
-    console.log(params)
-    this.setState({
-      dataList: []
+      this.getSchoolList()
     })
   }
 
@@ -257,9 +267,10 @@ class BannerMaker extends Component {
   }
 
   // 显示编辑bannerModal
-  showModal = () => {
+  showModal = (record) => {
     this.setState({
-      visible: true
+      visible: true,
+      sh_id: record.sh_id
     })
   }
 
@@ -338,7 +349,7 @@ class BannerMaker extends Component {
           visible={this.state.visible}
           handleClose={() => this.handleClose()}
           header={title}
-          bannerData={bannerData}
+          sh_id={this.state.sh_id}
         />
       </div>
     )
