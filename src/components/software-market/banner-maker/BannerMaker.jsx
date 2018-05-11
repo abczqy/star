@@ -192,10 +192,11 @@ class BannerMaker extends Component {
       sh_keyword: this.state.keyValue
     }
     getSchoolInfoList(parmas, (res) => {
-      let data = res.data.list
+      let data = res.data
       console.log(data)
       this.setState({
-        dataList: data
+        dataList: data.list,
+        total: data.total
       })
     })
   }
