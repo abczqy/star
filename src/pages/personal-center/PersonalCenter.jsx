@@ -49,6 +49,7 @@ class PersonalCenter extends Component {
       let list = res.data
       if (state === 'studentApps') {
         list = res.data.list
+        console.log('学生数据', list)
       }
       this.setState({
         [state]: list

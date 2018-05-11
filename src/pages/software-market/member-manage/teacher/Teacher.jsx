@@ -208,7 +208,7 @@ class Teacher extends Component {
    * 当下拉选择框‘允许登录’值改变时回调
    */
   onToLogin = (val) => {
-    console.log(`val: ${val}`)
+    console.log('允许筛选选的值', val)
     let loginAllow = ''
     if (val === 'allow') {
       loginAllow = '1'
@@ -221,8 +221,10 @@ class Teacher extends Component {
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        to_login: loginAllow
+        toLogin: loginAllow
       }
+    }, () => {
+      console.log('111111', this.state.reqParam)
     })
   }
 

@@ -225,10 +225,18 @@ class EducationalServices extends Component {
    */
   onToLogin = (val) => {
     // 修改state.reqParams中对应的值
+    let loginAllow = ''
+    if (val === 'allow') {
+      loginAllow = '1'
+    } else if (val === 'refuse') {
+      loginAllow = '0'
+    } else if (val === 'all') {
+      loginAllow = ''
+    }
     this.setState({
       reqParam: {
         ...this.state.reqParam,
-        loginType: val
+        loginType: loginAllow
       }
     })
   }
