@@ -403,7 +403,7 @@ class Student extends Component {
           dataSource={tableData.data}
           pagination={{
             ...pagination,
-            total: this.state.tableData.total,
+            total: Number(this.state.tableData.total),
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}

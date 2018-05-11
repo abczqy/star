@@ -47,7 +47,7 @@ class SearchBarMemberStu extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect1Change} >
               {/* {selectList.idList && this.getOptions(selectList.idList)} */}
             </Input>
@@ -57,7 +57,7 @@ class SearchBarMemberStu extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect2Change} >
               {/* {selectList.stuNameList && this.getOptions(selectList.stuNameList)} */}
             </Input>
@@ -67,7 +67,7 @@ class SearchBarMemberStu extends Component {
             <Input
               className='select'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect3Change} >
               {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
             </Input>
@@ -77,7 +77,7 @@ class SearchBarMemberStu extends Component {
             <Input
               className='select'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect4Change} >
               {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
             </Input>

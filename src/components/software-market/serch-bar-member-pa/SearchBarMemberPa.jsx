@@ -47,7 +47,7 @@ class SearchBarMemberPa extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect1Change} >
               {/* {selectList.idList && this.getOptions(selectList.idList)} */}
             </Input>
@@ -57,7 +57,7 @@ class SearchBarMemberPa extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect2Change} >
               {/* {selectList.stuNameList && this.getOptions(selectList.stuNameList)} */}
             </Input>
@@ -67,14 +67,14 @@ class SearchBarMemberPa extends Component {
             <Input
               className='select'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect3Change} >
               {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
             </Input>
           </Col>
           <Col span={4}>
             <span className='select-label'>选择角色</span>
-            <Input className='select' onChange={onSelect4Change} showSearch placeholder='请输入' >
+            <Input className='select' onChange={onSelect4Change} placeholder='请输入' >
               {/* {selectList.roleList && this.getOptions(selectList.roleList)} */}
             </Input>
           </Col>

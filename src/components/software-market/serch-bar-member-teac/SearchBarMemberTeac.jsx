@@ -47,7 +47,7 @@ class SearchBarMemberTeac extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect1Change} >
               {/* {selectList.idList && this.getOptions(selectList.idList)} */}
             </Input>
@@ -57,7 +57,7 @@ class SearchBarMemberTeac extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect2Change} >
               {/* {selectList.tchNameList && this.getOptions(selectList.tchNameList)} */}
             </Input>
@@ -67,7 +67,7 @@ class SearchBarMemberTeac extends Component {
             <Input
               className='input'
               placeholder='请输入'
-              showSearch
+              // showSearch
               onChange={onSelect3Change} >
               {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
             </Input>
