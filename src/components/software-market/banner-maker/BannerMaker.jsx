@@ -8,7 +8,7 @@ import PropsTypes from 'prop-types'
 import { Collapse, message, Table, Row, Col, Input, Button, Switch } from 'antd'
 import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox, BlankBar } from 'components/software-market'
 import './BannerMaker.scss'
-import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner, getSchoolInfoList } from 'services/software-manage'
+import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner, getSchoolInfoList, updateBannerIsDefault } from 'services/software-manage'
 import BannerModel from './BannerModel'
 
 const Panel = Collapse.Panel
@@ -59,7 +59,7 @@ class BannerMaker extends Component {
       key: 'sw_path',
       render: (text, record, index) => (
         <span>
-          <a href='javascript:void(0)' onClick={() => this.showModal(record)}>操作</a>
+          {record.isDefault === 1 ? null : <a href='javascript:void(0)' onClick={() => this.showModal(record)}>操作</a>}
         </span>
       )
     }]
@@ -74,8 +74,20 @@ class BannerMaker extends Component {
   }
 
   // 处理是否是默认banner
-  handleDefault = () => {
-
+  handleDefault = (record) => {
+    const thiz = this
+    const params = {
+      sh_id: record && record.sh_id,
+      isDefault: record.isDefault ? 0 : 1
+    }
+    updateBannerIsDefault(params, (res) => {
+      const data = res.data ? res.data : {}
+      console.log(data)
+      if (data.SUCCESS) {
+        message.success(data.msg)
+        thiz.getSchoolList()
+      }
+    })
   }
 
   copyArray = (arr) => {

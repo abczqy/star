@@ -844,3 +844,13 @@ export function getSchoolInfoList (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 学校banner list
+ */
+export function updateBannerIsDefault (params, sucFn) {
+  return axios.post('/updateBannerIsDefault', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
