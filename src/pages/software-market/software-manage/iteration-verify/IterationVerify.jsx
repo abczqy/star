@@ -78,8 +78,6 @@ class IterationVerify extends Component {
       data.push('全部')
       thiz.setState({
         options: data
-      }, () => {
-        console.log('看看数据类型', this.state.options)
       })
     })
   }

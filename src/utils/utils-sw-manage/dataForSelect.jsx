@@ -48,9 +48,9 @@ const getSelectListWithNoParam = (sunFn, key, thiz) => {
         thiz.state.selectList.eduClassList.push('全部')
       })
 
-      console.log(`工具函数中-请求回调内-原始数据：${data.list}`)
-      console.log(`工具函数中-请求回调内-添加数据：${list[key]}`)
-      console.log(`工具函数中：${JSON.stringify(list)}`)
+      // console.log(`工具函数中-请求回调内-原始数据：${data.list}`)
+      // console.log(`工具函数中-请求回调内-添加数据：${list[key]}`)
+      // console.log(`工具函数中：${JSON.stringify(list)}`)
     })
   } else {
     sunFn((res) => {
@@ -65,9 +65,9 @@ const getSelectListWithNoParam = (sunFn, key, thiz) => {
         }
       })
 
-      console.log(`工具函数中-请求回调内-原始数据：${data.list}`)
-      console.log(`工具函数中-请求回调内-添加数据：${list[key]}`)
-      console.log(`工具函数中：${JSON.stringify(list)}`)
+      // console.log(`工具函数中-请求回调内-原始数据：${data.list}`)
+      // console.log(`工具函数中-请求回调内-添加数据：${list[key]}`)
+      // console.log(`工具函数中：${JSON.stringify(list)}`)
     })
   }
   // 加个key ??
