@@ -3,7 +3,7 @@ import { Modal, Button, message } from 'antd'
 import PropsTypes from 'prop-types'
 import { HomepageAdd, BannerNewBox, BannerBox } from 'components/software-market'
 import './BannerMaker.scss'
-import { addGatewayBanner, deleteGatewayBanner, getSchoolBannerList } from 'services/software-manage'
+import { addGatewayBanner, getSchoolBannerList, deleteSchoolBannerList } from 'services/software-manage'
 
 class BannerModel extends Component {
   constructor (props) {
@@ -42,15 +42,19 @@ class BannerModel extends Component {
 
   // 拆分获取到的banner_url
   splitBannerUrl = (bannerUrl) => {
-    let data = bannerUrl.split(',')
+    let data = bannerUrl && bannerUrl.split(',')
     let retData = []
-    for (let i = 0; i < data.length; i++) {
-      let item = {}
-      item.banner_url = data[i]
-      item.id = i
-      retData.push(item)
+    if (!data) {
+      return retData
     }
-    console.log(retData)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] !== 'null') {
+        let item = {}
+        item.banner_url = data[i]
+        item.id = i
+        retData.push(item)
+      }
+    }
     return retData
   }
 
@@ -77,17 +81,34 @@ class BannerModel extends Component {
   }
 
   onDelete = (value) => {
-    let a = value.toString()
-    let params = { 'banner_id': a }
-    deleteGatewayBanner(params, res => {
+    let bannerUrl = this.getDelBanUrl(value)
+    let params = {
+      sh_id: this.state.sh_id,
+      banner_url: bannerUrl
+    }
+    deleteSchoolBannerList(params, res => {
       console.log(res.data)
       if (res.data) {
         this.getList()
-        message.success('删除成功')
+        message.success(res.data.info)
       } else {
         message.error('删除失败')
       }
     })
+  }
+
+  // 获得上传的删除参数
+  getDelBanUrl = (id) => {
+    let data = this.state.bannerData
+    let retStr = ''
+    for (let i = 0; i < data.length; i++) {
+      if (i !== id) {
+        retStr += (data[i].banner_url + ',')
+      }
+    }
+    retStr = retStr.slice(0, -1)
+    console.log(retStr)
+    return retStr
   }
 
   /**
@@ -112,13 +133,7 @@ class BannerModel extends Component {
       formData.append('file_upload', file)
       formData.append('sh_id', this.props.sh_id)
     })
-    // let list = this.state.fileList
-    // let a = list[0].uid
-    // let b = list[0].name
-    // let c = list[0].size
-    // let d = list[0].type
     console.log(this.state.fileList)
-    // let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
     addGatewayBanner(formData, res => {
       this.setState({
         bannerNewData: [],
@@ -133,6 +148,15 @@ class BannerModel extends Component {
         message.success('图片保存失败')
       }
       console.log(res)
+    })
+  }
+
+  // 点击关闭
+  handleClose = () => {
+    this.setState({
+      sh_id: ''
+    }, () => {
+      this.props.handleClose()
     })
   }
 
@@ -165,7 +189,7 @@ class BannerModel extends Component {
         width='60%'
         title='编辑banner'
         visible={this.props.visible}
-        onCancel={this.props.handleClose}
+        onCancel={this.handleClose}
         footer={[
           <Button key='submit' type='primary' onClick={this.addBanner}>保存</Button>,
           <Button key='back' onClick={this.recerve}>撤销修改</Button>

@@ -874,3 +874,13 @@ export function getSchoolBannerList (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 根据学校id删除学校所属banner图
+ */
+export function deleteSchoolBannerList (params, sucFn) {
+  return axios.post('/deleteSchoolBannerList', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
