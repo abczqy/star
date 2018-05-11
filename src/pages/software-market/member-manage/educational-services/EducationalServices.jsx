@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
+import { Table, Switch, Divider, message } from 'antd'
 import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
@@ -17,13 +17,18 @@ import {
   eduBatchLeadout,
   maDelId,
   maInitPwd,
-  getIdSelectList,
-  getNameSelectList,
-  getEduUpperSelectList,
-  getEduClassSelectList
+  toLogin
+  // getIdSelectList,
+  // getNameSelectList,
+  // getEduUpperSelectList,
+  // getEduClassSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberEduSer } from 'components/software-market'
-import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
+import {
+// addKey2TableData
+// getSelectList,
+// getSelectListWithNoParam
+} from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -86,7 +91,7 @@ class EducationalServices extends Component {
       key: 'to_login',
       render: (text, record, index) => {
         return (
-          <Switch />
+          <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
         )
       }
     }, {
@@ -97,7 +102,7 @@ class EducationalServices extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <Link to={{pathname: '/software-market-home/member-manage/school', search: record.edu_id}}>学校</Link>
+            <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.edu_id }}>学校</Link>
             <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
@@ -128,6 +133,23 @@ class EducationalServices extends Component {
     }
   }
 
+  // 允许登录状态切换
+  handleToLogin = (record) => {
+    const thiz = this
+    const params = {
+      id: record && record.edu_id,
+      to_login: record.to_login ? 0 : 1
+    }
+    toLogin(params, (res) => {
+      const data = res.data ? res.data : {}
+      console.log(data)
+      if (data.SUCCESS) {
+        message.success(data.msg)
+        thiz.getSchoolList()
+      }
+    })
+  }
+
   /**
    * 获取运营中的应用列表数据
    * 问题：如何把fa_id 转换为数据dataSource中每条数据的key
@@ -136,12 +158,10 @@ class EducationalServices extends Component {
   getTableDatas = () => {
     eduGetData(this.getParams(), (res) => {
       const data = res.data
-      console.log('教育机构的数据', data)
-      console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         // edu_id:,
         tableData: {
-          data: addKey2TableData(data.list, 'edu_id'),
+          data: data.list,
           total: data.total
         }
       })
@@ -178,7 +198,6 @@ class EducationalServices extends Component {
    * 当下拉选择框‘合同状态’值改变时回调
    */
   onHighInstChange = (val) => {
-    console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
@@ -205,7 +224,6 @@ class EducationalServices extends Component {
    * 当下拉选择框‘允许登录’值改变时回调
    */
   onToLogin = (val) => {
-    console.log(`val: ${val}`)
     // 修改state.reqParams中对应的值
     this.setState({
       reqParam: {
@@ -267,10 +285,8 @@ class EducationalServices extends Component {
   onBatchLeadout = () => {
     // 从state中获取实时的stu_id数组的值 作为请求参数传给后台
     const { idArrs } = this.state.batchLeadParams
-    console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
-    eduBatchLeadout({edu_id: idArrs}, (res) => {
+    eduBatchLeadout({ edu_id: idArrs }, (res) => {
       window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
-      console.log(`${res.data.info}`)
     })
   }
 
@@ -320,8 +336,8 @@ class EducationalServices extends Component {
     })
   }
   // 改变数据
-  getChange=() => {
-    let {selectList} = this.state
+  getChange = () => {
+    let { selectList } = this.state
     selectList.eduClassList.push('全部')
   }
   /**
@@ -332,11 +348,11 @@ class EducationalServices extends Component {
     this.getTableDatas()
 
     // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'edu', 'idList', this)
-    getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
-    getSelectListWithNoParam(getEduUpperSelectList, 'eduUpperList', this)
+    // getSelectList(getIdSelectList, 'edu', 'idList', this)
+    // getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
+    // getSelectListWithNoParam(getEduUpperSelectList, 'eduUpperList', this)
 
-    getSelectListWithNoParam(getEduClassSelectList, 'eduClassList', this)
+    // getSelectListWithNoParam(getEduClassSelectList, 'eduClassList', this)
     // this.getChange()
   }
 

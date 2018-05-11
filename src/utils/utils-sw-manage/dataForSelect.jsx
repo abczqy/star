@@ -9,7 +9,7 @@
 const getSelectList = (sunFn, typeVal, key, thiz) => {
   // list['idList'] = ['123', '234', '345']
   const reqParam = typeVal ? {type: typeVal} : null
-  console.log(`reqParam: ${JSON.stringify(reqParam)}`)
+  // console.log(`reqParam: ${JSON.stringify(reqParam)}`)
   // 向后台请求数据
   sunFn(reqParam, (res) => {
     const data = res.data
@@ -23,9 +23,9 @@ const getSelectList = (sunFn, typeVal, key, thiz) => {
       }
     })
 
-    console.log(`工具函数中-请求回调内-原始数据：${data.list}`)
-    console.log(`工具函数中-请求回调内-添加数据：${list[key]}`)
-    console.log(`工具函数中：${JSON.stringify(list)}`)
+    // console.log(`工具函数中-请求回调内-原始数据：${data.list}`)
+    // console.log(`工具函数中-请求回调内-添加数据：${list[key]}`)
+    // console.log(`工具函数中：${JSON.stringify(list)}`)
   })
   // 加个key ??
 }

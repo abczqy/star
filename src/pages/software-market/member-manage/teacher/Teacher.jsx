@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
+import { Table, Switch, Divider, message } from 'antd'
 import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
@@ -17,11 +17,15 @@ import {
   maDelId,
   maInitPwd,
   thBatchLeadout,
-  getIdSelectList,
-  getNameSelectList
+  // getIdSelectList,
+  // getNameSelectList
+  toLogin
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
-import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
+import {
+  addKey2TableData
+  // getSelectList
+} from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -79,7 +83,7 @@ class Teacher extends Component {
         key: 'to_login',
         render: (text, record, index) => {
           return (
-            <Switch />
+            <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
           )
         }
       }, {
@@ -136,6 +140,23 @@ class Teacher extends Component {
           total: data.total && data.total
         }
       })
+    })
+  }
+
+  // 允许登录状态切换
+  handleToLogin = (record) => {
+    const thiz = this
+    const params = {
+      id: record && record.edu_id,
+      to_login: record.to_login ? 0 : 1
+    }
+    toLogin(params, (res) => {
+      const data = res.data ? res.data : {}
+      console.log(data)
+      if (data.SUCCESS) {
+        message.success(data.msg)
+        thiz.getSchoolList()
+      }
     })
   }
 
@@ -316,9 +337,9 @@ class Teacher extends Component {
   componentDidMount () {
     this.getTableDatas()
     // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'teacher', 'idList', this)
-    getSelectList(getNameSelectList, 'teacher', 'tchNameList', this)
-    getSelectList(getNameSelectList, 'school', 'schNameList', this)
+    // getSelectList(getIdSelectList, 'teacher', 'idList', this)
+    // getSelectList(getNameSelectList, 'teacher', 'tchNameList', this)
+    // getSelectList(getNameSelectList, 'school', 'schNameList', this)
   }
 
   render () {

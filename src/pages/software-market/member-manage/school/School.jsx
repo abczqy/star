@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
+import { Table, Switch, Divider, message } from 'antd'
 import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
@@ -17,11 +17,15 @@ import {
   maDelId,
   maInitPwd,
   schBatchLeadout,
-  getIdSelectList,
-  getNameSelectList
+  // getIdSelectList,
+  // getNameSelectList,
+  toLogin
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberSch } from 'components/software-market'
-import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
+import {
+  addKey2TableData
+  // getSelectList
+} from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -78,12 +82,8 @@ class School extends Component {
         dataIndex: 'to_login',
         key: 'to_login',
         render: (text, record, index) => {
-          let check = true
-          if (text === '0') {
-            check = false
-          }
           return (
-            <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+            <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
           )
         }
       }, {
@@ -134,13 +134,29 @@ class School extends Component {
   getTableDatas = () => {
     schGetData(this.getParams(), (res) => {
       const data = res.data
-      console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
           data: addKey2TableData(data.list, 'sh_id'),
           total: data.total
         }
       })
+    })
+  }
+
+  // 允许登录状态切换
+  handleToLogin = (record) => {
+    const thiz = this
+    const params = {
+      id: record && record.edu_id,
+      to_login: record.to_login ? 0 : 1
+    }
+    toLogin(params, (res) => {
+      const data = res.data ? res.data : {}
+      console.log(data)
+      if (data.SUCCESS) {
+        message.success(data.msg)
+        thiz.getSchoolList()
+      }
     })
   }
 
@@ -325,9 +341,9 @@ class School extends Component {
   componentDidMount () {
     this.getTableDatas()
     // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'school', 'idList', this)
-    getSelectList(getNameSelectList, 'school', 'schNameList', this)
-    getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
+    // getSelectList(getIdSelectList, 'school', 'idList', this)
+    // getSelectList(getNameSelectList, 'school', 'schNameList', this)
+    // getSelectList(getNameSelectList, 'edu', 'eduNameList', this)
   }
 
   render () {

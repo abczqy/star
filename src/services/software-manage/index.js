@@ -541,6 +541,16 @@ export function eduBatchLeadout (params, sucFn) {
 }
 
 /**
+ * 会员管理-学校、老师、教育机构允许登录状态改变接口
+ */
+export function toLogin (params, sucFn) {
+  axios.post('/manage/toLogin', {...params})
+    .then((res) => {
+      sucFn(res)
+    })
+}
+
+/**
  * 软件管理-待审核
  */
 export function getExamList (params, sucFn) {

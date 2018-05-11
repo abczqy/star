@@ -17,7 +17,6 @@ const Option = Select.Option
 class SearchBar extends Component {
   render () {
     const { onSearch, onSeachChange, onBtnClick, onSelectChange, options } = this.props
-    console.log(options)
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
