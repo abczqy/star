@@ -155,7 +155,7 @@ class Teacher extends Component {
       console.log(data)
       if (data.SUCCESS) {
         message.success(data.msg)
-        thiz.getSchoolList()
+        thiz.getTableDatas()
       }
     })
   }
