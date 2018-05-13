@@ -5,8 +5,8 @@
 import React from 'react'
 import './SelfSupport.css'
 import ajaxUrl from 'config'
-import {selfSupportAppDetail} from 'services/all-app/'
-import { Button, Icon, Carousel, Rate } from 'antd'
+import {selfSupportAppDetail, openPlatformAppByUser} from 'services/all-app/'
+import { Button, Icon, Carousel, Rate, message } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 export default class SelfSupport extends React.Component {
@@ -102,7 +102,27 @@ export default class SelfSupport extends React.Component {
   }
 
   handleClick () {
-    window.open(this.state.appDetailData.sw_path)
+    if (this.state.appDetailData.isOpen === 'false') {
+      const params = {
+        sw_id: this.state.appId
+      }
+      openPlatformAppByUser(params, (res) => {
+        let data = res.data
+        if (data.success) {
+          message.success(data.msg)
+          this.setState({
+            appDetailData: {
+              ...this.state.appDetailData,
+              isOpen: 'true'
+            }
+          })
+        } else {
+          message.warning('开通失败!')
+        }
+      })
+    } else {
+      window.open(this.state.appDetailData.sw_path)
+    }
   }
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {
@@ -133,7 +153,7 @@ export default class SelfSupport extends React.Component {
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData && this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData && this.state.appDetailData.sw_type}</p>
-            {this.state.appDetailData && this.state.appDetailData.sw_path === '' ? null : <Button className='header-button' onClick={() => { this.handleClick() }}>{this.state.appDetailData && this.state.appDetailData.isOpen === 'fasle' ? '开通' : '打开'}</Button>}
+            {this.state.appDetailData && this.state.appDetailData.sw_path === '' ? null : <Button className='header-button' onClick={() => { this.handleClick() }}>{this.state.appDetailData && this.state.appDetailData.isOpen === 'false' ? '开通' : '打开'}</Button>}
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
             </div>

@@ -36,3 +36,11 @@ export function relatedApplications (params, sucFn) {
       sucFn(res)
     })
 }
+
+// 全部应用-应用详情-开通
+export function openPlatformAppByUser (params, sucFn) {
+  return axios.post('/app/openPlatformAppByUser', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
