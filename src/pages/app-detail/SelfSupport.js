@@ -153,7 +153,7 @@ export default class SelfSupport extends React.Component {
           <div className='app-detail-header-right'>
             <h2 className='header-title'>{this.state.appDetailData && this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData && this.state.appDetailData.sw_type}</p>
-            {this.state.appDetailData && this.state.appDetailData.sw_path === '' ? null : <Button className='header-button' onClick={() => { this.handleClick() }}>{this.state.appDetailData && this.state.appDetailData.isOpen === 'false' ? '开通' : '打开'}</Button>}
+            {this.state.appDetailData && this.state.appDetailData.sw_path === '' ? null : <Button className={this.state.appDetailData && this.state.appDetailData.isOpen === 'false' ? 'open-button clear' : 'open-button open'} onClick={() => { this.handleClick() }}>{this.state.appDetailData && this.state.appDetailData.isOpen === 'false' ? '开通' : '打开'}</Button>}
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
             </div>

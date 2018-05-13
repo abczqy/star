@@ -32,11 +32,19 @@
     color: #999;
     margin-bottom: 4px;
 }
-.app-detail .header-button {
+.app-detail .open-button {
     width: 100px;
     color: #fff;
+}
+
+.app-detail .open{
     background: #6DB421;
 }
+
+.app-detail .clear{
+    background: #08A1E9;
+}
+
 .app-detail .header-see-detail {
     float: right;
     margin-top: 10px;
