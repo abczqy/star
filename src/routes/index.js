@@ -58,6 +58,9 @@ import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default [{
+  path: '/',
+  component: Home
+}, {
   path: '/unlogged',
   component: LoginHome,
   childRoutes: [{
