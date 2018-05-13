@@ -38,8 +38,8 @@ export default class SelfSupport extends React.Component {
       this.getThirdPartyAppDetailData()
     })
   }
-  componentWillReceiveProps () {
-    let a = this.props.location.search.replace('?', '')
+  componentWillReceiveProps (nextprops) {
+    let a = nextprops.location.search.replace('?', '')
     this.setState({
       appId: a
     }, () => {
