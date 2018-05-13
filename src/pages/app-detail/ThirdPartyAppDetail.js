@@ -134,6 +134,7 @@ export default class ThirdPartyAppDetail extends React.Component {
   }
   render () {
     console.log(111111, this.state.appDetailData.sw_path ? this.state.appDetailData.sw_path[0].win32 : '')
+    console.log('ajaxUrl.IMG_BASE_URL:', ajaxUrl.IMG_BASE_URL)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -142,10 +143,10 @@ export default class ThirdPartyAppDetail extends React.Component {
             <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
             <div>
-              <Link to={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].win32 : ''}><Button className='header-button'>windows 32位<Icon style={{color: '#fff'}} type='download' /></Button></Link>
-              <Link to={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].win64 : ''}><Button className='header-button'>windows 64位<Icon style={{color: '#fff'}} type='download' /></Button></Link>
-              <Link to={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].ios : ''}><Button className='header-button'>ios系统<Icon style={{color: '#fff'}} type='download' /></Button></Link>
-              <Link to={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].android : ''}><Button className='header-button'>安卓系统<Icon style={{color: '#fff'}} type='download' /></Button></Link>
+              <a href={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].win32 : ''}><Button className='header-button'>windows 32位<Icon style={{color: '#fff'}} type='download' /></Button></a>
+              <a href={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[1].win64 : ''}><Button className='header-button'>windows 64位<Icon style={{color: '#fff'}} type='download' /></Button></a>
+              <a href={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].ios : ''}><Button className='header-button'>ios系统<Icon style={{color: '#fff'}} type='download' /></Button></a>
+              <a href={this.state.appDetailData.sw_path ? ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_path[0].android : ''}><Button className='header-button'>安卓系统<Icon style={{color: '#fff'}} type='download' /></Button></a>
             </div>
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
