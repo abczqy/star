@@ -24,7 +24,7 @@ export function thirdPartyAppDetail (params, sucFn) {
 
 // 应用详情 (自营)
 export function selfSupportAppDetail (params, sucFn) {
-  return axios.post('/app/details', {...params})
+  return axios.post('/app/platform/details', {...params})
     .then(function (res) {
       sucFn(res)
     })
