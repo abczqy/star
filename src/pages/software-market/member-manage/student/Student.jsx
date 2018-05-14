@@ -110,6 +110,9 @@ class Student extends Component {
 
   getParams = () => {
     let a = window.location.href.split('?')
+    console.log(`a[1].indexOf('th'): ${a[1].indexOf('th')}`)
+    console.log(`a[1].indexOf('tch'): ${a[1].indexOf('tch')}`)
+    console.log(`(a[1].indexOf('th') + a[1].indexOf('tch')) === -2 ? '' : a[1]: ${(a[1].indexOf('th') + a[1].indexOf('tch')) === -2 ? '' : a[1]}`)
     const {
       stuName,
       stuId,
@@ -127,7 +130,7 @@ class Student extends Component {
       to_login: toLogin || '',
       sh_name: shName || '',
       sh_id: a[1] && (a[1].indexOf('sch') ? '' : a[1]),
-      th_id: a[1] && (a[1].indexOf('th') ? '' : a[1])
+      th_id: a[1] && ((a[1].indexOf('th') + a[1].indexOf('tch')) === -2 ? '' : a[1])
     }
   }
 
