@@ -21,13 +21,13 @@ class SoftMarket extends React.Component {
 
   renderItem (item, index) {
     let jump = ''
-    // item.isSelfSupport 后来后台没有传这个字段好像
-    // if (item.isSelfSupport === 'false') {
-    //   jump = '/operate-manage-home/all-app-detail-third'
-    // } else {
-    //   jump = '/operate-manage-home/all-app-detail'
-    // }
-    jump = '/operate-manage-home/all-app-detail-third'
+
+    if (item.isSelfSupport === 'true') {
+      jump = '/operate-manage-home/all-app-detail'
+    } else {
+      jump = '/operate-manage-home/all-app-detail-third'
+    }
+
     return (
       <Col span={7} key={index}>
         <div className='item'>
