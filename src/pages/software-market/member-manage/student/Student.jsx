@@ -126,8 +126,8 @@ class Student extends Component {
       maf_name: mafName || '',
       to_login: toLogin || '',
       sh_name: shName || '',
-      sh_id: a[1] && a[1].indexOf('th') ? a[1] : '',
-      th_id: a[1] && a[1].indexOf('sh') ? a[1] : ''
+      sh_id: a[1] && (a[1].indexOf('sch') ? '' : a[1]),
+      th_id: a[1] && (a[1].indexOf('th') ? '' : a[1])
     }
   }
 
