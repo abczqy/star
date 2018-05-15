@@ -4,14 +4,13 @@
 
 import React, { Component } from 'react'
 import { Card, Row, Col, Divider, message } from 'antd'
-import axios from 'axios'
-import ajaxUrl from 'config'
 import _ from 'lodash'
 import ApplicationCard from './application-card/ApplicationCard'
 import Empty from '../../components/common/Empty'
 import webStorage from 'webStorage'
 import './PersonalCenter.scss'
 import { studentAppsDelete } from 'services/software-market'
+import { personalApps, personalCollections, personalStudentApp, personalAppsDelete, personalCollectionsDelete } from '../../services/software-market/index'
 
 class PersonalCenter extends Component {
   constructor (props) {
@@ -40,26 +39,43 @@ class PersonalCenter extends Component {
     console.log(this.role)
   }
 
-  // 获取应用数据
-  getApps = (url, state) => {
-    axios.post(url, {
+  // 获取我的应用列表数据
+  getMyApps = () => {
+    personalApps({
       num: 0
-    }).then(res => {
-      // console.log(url, res.data.data)
+    }, (res) => {
       let list = res.data
-      if (state === 'studentApps') {
+      this.setState({
+        myApps: list
+      })
+    })
+  }
+
+  // 获取我的收藏列表数据
+  getMyCollections = () => {
+    personalCollections({
+      num: 0
+    }, (res) => {
+      let list = res.data
+      this.setState({
+        myCollections: list
+      })
+    })
+  }
+
+  // 获取学生应用列表数据
+  getStudentApps = () => {
+    personalStudentApp({
+      num: 0
+    }, (res) => {
+      let list = []
+      if (res.data.list) {
         list = res.data.list
-        console.log('学生数据', list)
       }
       this.setState({
-        [state]: list
+        studentApps: list
       })
-      if (res.data) {
-        this.setState({
-          [state]: res.data
-        })
-      }
-    }).catch(e => { console.log(e) })
+    })
   }
 
   // 确认删除
@@ -73,60 +89,69 @@ class PersonalCenter extends Component {
       }
     }
     if (checkIds.length > 0) { // 选择了至少一个应用
-      let deleteUrl = ''
-      let getDataUrl = ''
-      switch (type) { // 根据类型区分删除URL和刷新的URL
-        case 'myApps':
-          deleteUrl = ajaxUrl.personalAppsDelete
-          getDataUrl = ajaxUrl.personalApps
-          break
-        case 'myCollections':
-          deleteUrl = ajaxUrl.personalCollectionsDelete
-          getDataUrl = ajaxUrl.personalCollections
-          break
-        case 'studentApps':
-          deleteUrl = ajaxUrl.studentAppsDelete
-          getDataUrl = ajaxUrl.studentApps
-          break
-        default:
-          break
-      }
       if (type === 'studentApps') {
-        studentAppsDelete({sw_List: checkIds}, (res) => {
-          console.log(res.data)
-          if (res.data.result === 'success') {
-            message.success('成功删除应用')
-            this.getApps(getDataUrl, type)// 刷新当前类应用列表
-            this.setState({
-              deleteActive: {
-                ...this.state.deleteActive,
-                [type]: false
-              }
-            })
-          }
-        })
-      } else {
-        axios.post(deleteUrl, {// 发送删除请求
-          sw_List: checkIds
-        }).then(res => {
-          console.log(res.data)
-          if (res.data.result === 'success') {
-            message.success('成功删除应用')
-            this.getApps(getDataUrl, type)// 刷新当前类应用列表
-            this.setState({
-              deleteActive: {
-                ...this.state.deleteActive,
-                [type]: false
-              }
-            })
-          }
-        }).catch(e => { console.log(e) })
+        this.deleteStudentApps()
+      } else if (type === 'myApps') {
+        this.deletePersonalApps()
+      } else if (type === 'myCollections') {
+        this.deletePersonalCollections()
       }
     } else {
       message.info('请选择要删除的应用')
     }
     // console.log(checkIds)
   }
+
+  // 我的应用删除
+  deletePersonalApps = (checkIds) => {
+    personalAppsDelete({ sw_List: checkIds }, (res) => {
+      console.log(res.data)
+      if (res.data.result === 'success') {
+        message.success('成功删除应用')
+        this.getMyApps()// 刷新当前类应用列表
+        this.setState({
+          deleteActive: {
+            ...this.state.deleteActive,
+            myApps: false
+          }
+        })
+      }
+    })
+  }
+
+    // 我的收藏删除
+    deletePersonalCollections = (checkIds) => {
+      personalCollectionsDelete({ sw_List: checkIds }, (res) => {
+        console.log(res.data)
+        if (res.data.result === 'success') {
+          message.success('成功删除应用')
+          this.getMyCollections()// 刷新当前类应用列表
+          this.setState({
+            deleteActive: {
+              ...this.state.deleteActive,
+              myCollections: false
+            }
+          })
+        }
+      })
+    }
+
+    // 学生应用删除
+    deleteStudentApps = (checkIds) => {
+      studentAppsDelete({ sw_List: checkIds }, (res) => {
+        console.log(res.data)
+        if (res.data.result === 'success') {
+          message.success('成功删除应用')
+          this.getStudentApps()// 刷新当前类应用列表
+          this.setState({
+            deleteActive: {
+              ...this.state.deleteActive,
+              studentApps: false
+            }
+          })
+        }
+      })
+    }
 
   // 取消删除
   deleteCancel = (type) => {
@@ -199,7 +224,7 @@ class PersonalCenter extends Component {
   }
 
   // 生成APP列表
-  createAppList=(appList, type) => {
+  createAppList = (appList, type) => {
     console.log('type', type)
     console.log('appList', appList)
     let list = []
@@ -268,10 +293,10 @@ class PersonalCenter extends Component {
   }
 
   init = () => {
-    this.getApps(ajaxUrl.personalApps, 'myApps')
-    this.getApps(ajaxUrl.personalCollections, 'myCollections')
+    this.getMyApps()
+    this.getMyCollections()
     if (this.role === 'parents') {
-      this.getApps(ajaxUrl.studentApps, 'studentApps')
+      this.getStudentApps()
     }
   }
 

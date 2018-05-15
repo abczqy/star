@@ -10,30 +10,9 @@ window.mungConfig = {
   USER_COUNT: 'http://localhost:8080/static/operation-statistical/statistics/userStatistics.html', // 后台管理系统->运营统计->用户统计
   APP_COUNT: 'http://localhost:8080/static/operation-statistical/statistics/appStatistics.html', // 后台管理系统->运营统计->应用统计
   /** *******************************软件市场************************************ */
-  // 市场分析-表格
-  MarketAnalysis: AJAX_HOST + '/getMarketAnalysisList',
-
-  // 市场分析-词云图
-  hotSearch: AJAX_HOST + '/hotSearch', // wyl 待修改
-
-  // 个人中心-我的应用
-  personalApps: AJAX_HOST + '/personal/apps',
-
-  // 个人中心-我的收藏
-  personalCollections: AJAX_HOST + '/personal/collections',
-
-  // 个人中心-学生应用
-  studentApps: AJAX_HOST + '/personal/student/app',
-
-  // 个人中心-我的应用删除
-  personalAppsDelete: AJAX_HOST + '/personal/delete',
-
-  // 个人中心-我的收藏删除
-  personalCollectionsDelete: AJAX_HOST + '/personal/collect/delete',
 
   // 个人中心-学生应用收藏/取消收藏
   studentAppsCollect: AJAX_HOST + '/app/collect',
-
   // 分享列表接口
   detList: AJAX_HOST + '/application/detList', // 现在公告和详情页分享列表用的是这个
 
