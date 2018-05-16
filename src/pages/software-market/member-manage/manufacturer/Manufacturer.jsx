@@ -386,6 +386,7 @@ class Manufacturer extends Component {
     this.setState({
       memRenewWinVisible: false
     })
+    this.getTableDatas()
   }
 
   /**
