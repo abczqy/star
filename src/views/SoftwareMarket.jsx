@@ -14,7 +14,7 @@ import {
 import ImgSoft from '../assets/images/operationMana/u103.png'
 import ImgMemb from '../assets/images/operationMana/u15.png'
 import ImgPlat from '../assets/images/operationMana/u57.png'
-// import ImgOper from '../assets/images/operationMana/u83.png'
+import ImgOper from '../assets/images/operationMana/u83.png'
 import SignOut from './SignOut'
 import { withRouter } from 'react-router'
 
@@ -139,14 +139,14 @@ class SoftwareMarket extends React.Component {
                       <Link to='/software-market-home/platform-manage/plat-homepage'>平台首页</Link>
                     </Menu.Item>
                   </SubMenu>
-                  {/* <SubMenu key='sub4' title={<span><img style={{ width: 14, height: 14, marginRight: 10, marginTop: -3 }} src={ImgOper} />运营统计</span>}>
+                  <SubMenu key='sub4' title={<span><img style={{ width: 14, height: 14, marginRight: 10, marginTop: -3 }} src={ImgOper} />运营统计</span>}>
                     <Menu.Item key='sub4-apply'>
                       <Link to='/software-market-home/platform-manage/app-count'>应用统计</Link>
                     </Menu.Item>
                     <Menu.Item key='sub4-satis'>
                       <Link to='/software-market-home/platform-manage/user-count'>用户统计</Link>
                     </Menu.Item>
-                  </SubMenu> */}
+                  </SubMenu>
                 </Menu>
               </Sider>
               <Layout style={{ padding: '20px ' }}>
