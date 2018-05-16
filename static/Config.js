@@ -41,18 +41,6 @@ window.mungConfig = {
   // 获取短信验证码
   SMSVerification: AJAX_HOST + '/SMSVerification',
 
-  // 统计分析-软件下载量变化
-  softwareDownload: AJAX_HOST + '/getDownloadStatisticalAnalysisList',
-
-  // 统计分析-应用类型占比
-  softwareType: AJAX_HOST + '/getAppTypeStatisticalAnalysisList',
-
-  // 统计分析-当月应用下载型占比
-  softwareDownloadConst: AJAX_HOST + '/getAppTypeMonthStatisticalAnalysisList',
-
-  // 统计分析-全部软件下拉列表
-  getAllAppCode: AJAX_HOST + '/getAppStatisticalAnalysisList',
-
   // 门户首页-门户导航
   addGatewayNavigation: AJAX_HOST + '/addGatewayNavigation',
   // 门户导航-查询接口

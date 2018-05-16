@@ -5,12 +5,11 @@
 import React, { Component } from 'react'
 import './StatisticalAnalysis.scss'
 import { Row, Col, Card, DatePicker, Button, Select } from 'antd'
-import axios from 'axios'
 import _ from 'lodash'
-import ajaxUrl from 'config'
 import Empty from '../../components/common/Empty'
 import Echarts from '../../components/common/Echarts'
 import getEchartsOptions from '../../utils/getEchartsOptions'
+import {softwareDownload, softwareType, softwareDownloadConst, getAllAppCode} from '../../services/software-market/index'
 
 const Option = Select.Option
 
@@ -52,12 +51,12 @@ class StatisticalAnalysis extends Component {
 
   // 软件下载量变化-折线图
   getDownloadLineData=(params) => {
-    axios.post(ajaxUrl.softwareDownload, {
+    softwareDownload({
       time1: '',
       time2: '',
       sw_id: '',
       ...params
-    }).then(res => {
+    }, (res) => {
       // console.log('软件下载量变化-折线图', res.data)
       let data = res.data
       if (data && data.length > 0) {
@@ -76,25 +75,24 @@ class StatisticalAnalysis extends Component {
           downloadLineData: targetData
         })
       }
-    }).catch(e => { console.log(e) })
+    })
   }
 
   // 应用类型占比-扇形图
   getAppTypeRadioData=() => {
-    axios.post(ajaxUrl.softwareType, {}).then(res => {
-      // console.log(res.data)
+    softwareType({}, (res) => {
       let data = res.data
       if (data && data.length > 0) {
         this.setState({
           appTypeRadioData: res.data
         })
       }
-    }).catch(e => { console.log(e) })
+    })
   }
 
   // 当月应用下载型占比-扇形图
   getDownloadTypeRadioData=() => {
-    axios.post(ajaxUrl.softwareDownloadConst, {}).then(res => {
+    softwareDownloadConst({}, (res) => {
       // console.log(res.data)
       let data = res.data
       if (data && data.length > 0) {
@@ -102,12 +100,12 @@ class StatisticalAnalysis extends Component {
           downloadTypeRadioData: res.data
         })
       }
-    }).catch(e => { console.log(e) })
+    })
   }
 
   // 获取统计分析全部软件下拉列表
   getAllApps=() => {
-    axios.post(ajaxUrl.getAllAppCode, {}).then(res => {
+    getAllAppCode({}, (res) => {
       // console.log('全部软件下拉列表', res.data)
       let data = res.data
       if (data && data.length > 0) {
@@ -115,7 +113,7 @@ class StatisticalAnalysis extends Component {
           allAppCode: res.data
         })
       }
-    }).catch(e => { console.log(e) })
+    })
   }
 
   // 应用选择

@@ -1,5 +1,7 @@
 import {axios} from '../../utils'
 
+// +++++++++++++++++++++++++软件市场/个人中心接口+++++++++++++++++++++++++
+
 /**
  * 软件市场/个人中心/学生应用删除
  */
@@ -80,5 +82,44 @@ export function appCollect (params, sucFn) {
     })
 }
 
-// 个人中心-学生应用收藏/取消收藏
-// studentAppsCollect: AJAX_HOST + '/app/collect'
+// +++++++++++++++++++++++++软件市场/统计分析接口++++++++++++++++++++++++
+
+/**
+ * 统计分析-软件下载量变化
+ */
+export function softwareDownload (params, sucFn) {
+  return axios.post('/getDownloadStatisticalAnalysisList', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 统计分析-应用类型占比
+ */
+export function softwareType (params, sucFn) {
+  return axios.post('/getAppTypeStatisticalAnalysisList', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 统计分析-当月应用下载型占比
+ */
+export function softwareDownloadConst (params, sucFn) {
+  return axios.post('/getAppTypeMonthStatisticalAnalysisList', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 统计分析-全部软件下拉列表
+ */
+export function getAllAppCode (params, sucFn) {
+  return axios.post('/getAppStatisticalAnalysisList', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
