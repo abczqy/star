@@ -294,7 +294,7 @@ export function firmRenewList (params, sucFn) {
  * 会员管理-厂商-厂商详情
  */
 export function getFactoryDetail (params, sucFn) {
-  return axios.post('/factoryManage/getdetail', params)
+  return axios.post('/factoryManage/queryFactoryDetail', params)
     .then(function (res) {
       sucFn(res)
     })

@@ -398,7 +398,7 @@ class Manufacturer extends Component {
     }, (response) => {
       let result = response.data
       this.setState({
-        memRenewRecord: result.data || {},
+        memRenewRecord: result || {},
         memRenewWinVisible: true
       })
     })
