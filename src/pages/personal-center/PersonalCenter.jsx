@@ -239,7 +239,7 @@ class PersonalCenter extends Component {
             open = true
           }
         } else if (type === 'myCollections') {
-          if (item.isSelfSupport) {
+          if (item.isSelfSupport === 'true') {
             setUp = true
           } else {
             download = true
@@ -268,7 +268,7 @@ class PersonalCenter extends Component {
               open={open}
               collection={collection}
               setUp={setUp}
-              refresh={this.getApps}
+              refresh={this.refreshApps}
             />
           </Col>
         )
@@ -276,6 +276,15 @@ class PersonalCenter extends Component {
       })
     }
     return list
+  }
+
+  // 刷新app列表
+  refreshApps = (type) => {
+    if (type === 'myCollections') {
+      this.getMyCollections()
+    } else if (type === 'studentApps') {
+      this.getStudentApps()
+    }
   }
 
   // 判断应用列表数量

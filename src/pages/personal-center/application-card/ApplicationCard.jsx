@@ -7,11 +7,10 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 // import _ from 'lodash'
 import { Badge, Icon, Dropdown, Modal, Menu, message } from 'antd'
-import axios from 'axios'
 import ajaxUrl from 'config'
 import './ApplicationCard.scss'
 import warnPng from '../../../assets/images/personal/warn.png'
-import { teacShare } from 'services/software-market'
+import { teacShare, appCollect } from 'services/software-market'
 
 class ApplicationCard extends Component {
   constructor (props) {
@@ -63,16 +62,16 @@ class ApplicationCard extends Component {
 
   // 收藏/取消收藏 操作
   collectOption = (id, type) => {
-    axios.post(ajaxUrl.studentAppsCollect, {
+    appCollect({
       SW_ID: id,
       type
-    }).then(res => {
+    }, (res) => {
       if (res.data.result === 'success') {
         // 收藏成功后刷新数据
-        this.props.refresh(ajaxUrl.personalCollections, 'myCollections')
-        this.props.refresh(ajaxUrl.studentApps, 'studentApps')
+        this.props.refresh('myCollections')
+        this.props.refresh('studentApps')
       }
-    }).catch(e => { console.log(e) })
+    })
   }
 
   render () {

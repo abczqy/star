@@ -11,8 +11,6 @@ window.mungConfig = {
   APP_COUNT: 'http://localhost:8080/static/operation-statistical/statistics/appStatistics.html', // 后台管理系统->运营统计->应用统计
   /** *******************************软件市场************************************ */
 
-  // 个人中心-学生应用收藏/取消收藏
-  studentAppsCollect: AJAX_HOST + '/app/collect',
   // 分享列表接口
   detList: AJAX_HOST + '/application/detList', // 现在公告和详情页分享列表用的是这个
 

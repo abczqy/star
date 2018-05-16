@@ -69,3 +69,16 @@ export function personalCollectionsDelete (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 软件市场/个人中心/我的收藏删除
+ */
+export function appCollect (params, sucFn) {
+  return axios.post('/app/collect', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+// 个人中心-学生应用收藏/取消收藏
+// studentAppsCollect: AJAX_HOST + '/app/collect'
