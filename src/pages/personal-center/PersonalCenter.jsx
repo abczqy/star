@@ -90,11 +90,11 @@ class PersonalCenter extends Component {
     }
     if (checkIds.length > 0) { // 选择了至少一个应用
       if (type === 'studentApps') {
-        this.deleteStudentApps()
+        this.deleteStudentApps(checkIds)
       } else if (type === 'myApps') {
-        this.deletePersonalApps()
+        this.deletePersonalApps(checkIds)
       } else if (type === 'myCollections') {
-        this.deletePersonalCollections()
+        this.deletePersonalCollections(checkIds)
       }
     } else {
       message.info('请选择要删除的应用')
