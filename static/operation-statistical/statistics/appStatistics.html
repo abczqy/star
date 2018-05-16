@@ -52,15 +52,16 @@
                         </div>
 
                         <script>
-                            $.post('../card.json',{type:'全部分类'}).done(function (data) {
+                            $.get('../card.json',{type:'全部分类'}).done(function (data) {
                                 // console.log(data);
                                 $('#appSum').text(data.appSum);
                                 $('#downSum').text(data.downSum);
                                 $('#appApply').text(data.appApply);
                                 $('#userColl').text(data.userColl);
+                                
                             })
                             function defaultCard() {
-                              $.post('../card.json',{type:'全部分类'}).done(function (data) {
+                              $.get('../card.json',{type:'全部分类'}).done(function (data) {
                                 // console.log(data);
                                 $('#appSum').text(data.appSum);
                                 $('#downSum').text(data.downSum);
@@ -69,7 +70,7 @@
                               })
                             }
                             function changeEduData() {
-                              $.post('../card1.json',{type:'教育类'}).done(function (data) {
+                              $.get('../card1.json',{type:'教育类'}).done(function (data) {
                                 // console.log(data);
                                 $('#appSum').text(data.appSum);
                                 $('#downSum').text(data.downSum);
@@ -84,7 +85,7 @@
                               
                             }
                             function changeTeaAssit() {
-                              $.post('../card.json',{type:'教辅类'}).done(function (data) {
+                              $.get('../card.json',{type:'教辅类'}).done(function (data) {
                                 // console.log(data);
                                 $('#appSum').text(data.appSum);
                                 $('#downSum').text(data.downSum);
@@ -97,7 +98,7 @@
                               $('#assit').css('display','block');
                             }
                             function changeManage() {
-                              $.post('../card1.json',{type:'管理类'}).done(function (data) {
+                              $.get('../card1.json',{type:'管理类'}).done(function (data) {
                                 // console.log(data);
                                 $('#appSum').text(data.appSum);
                                 $('#downSum').text(data.downSum);
@@ -173,9 +174,11 @@
                                         }
 
                                         myChartOne.setOption(option);
-                                        $.get('../pietype.json').done(function (data) {
+                                        var id=sessionStorage.getItem('STAR_WEB_SESSION_ID');
+                                        console.log(id);
+                                        $.get('http://192.168.1.26:52999/server/getTypeStatisticsList?STAR_WEB_SESSION_ID=7b8184630998c42910758b896492e42b').done(function (data) {
 
-                                            // console.log(data);
+                                            console.log(data);
                                             myChartOne.setOption(
                                                 option = {
                                                     legend: {
@@ -202,7 +205,7 @@
                                                 trigger: 'item',
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)"
                                             },
-                                            color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"],
+                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"],
                                             legend: {
 
                                                 orient: 'horizontal',
@@ -301,7 +304,7 @@
                                 </div>
                             </script>
 
-                            <table class="layui-table"  lay-data="{width:1107, url:'../data.json',method:'post',where:{type:'全部分类'},skin: 'row', even: true}">
+                            <table class="layui-table"  lay-data="{width:1107, url:'../data.json',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
                                 <thead>
                                     <tr>
                                         <th lay-data="{field:'app', width:188, templet:'#info',}">APP名称</th>
