@@ -194,11 +194,11 @@ export default class MemRenewWin extends React.Component {
           <Row gutter={22}>
             <Col span={12}>
               <span className='contract-title'>合同起止日期:
-                <span className='contract-value'>2017年4月10日 - 2018年4月10日</span>
+                <span className='contract-value'>{`${moment(this.props.record.contract_start).format('LL')} - ${moment(this.props.record.contract_end).format('LL')}`}</span>
               </span>
             </Col>
             <Col span={12}>
-              <span className='contract-title'>合同状态:<span className='contract-value' style={{color: '#FF6600'}}>余{0}天</span></span>
+              <span className='contract-title'>合同状态:<span className='contract-value' style={{color: '#FF6600'}}>{this.props.record.num_day}</span></span>
             </Col>
           </Row>
           <Row className='contract-status'>

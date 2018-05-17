@@ -80,7 +80,7 @@ const getEchartsOptions = (data, type, title, config, totalName) => {
               }
             },
             emphasis: {
-              show: false
+              show: true
               // textStyle: {
               //   fontSize: '20',
               //   fontWeight: 'bold'

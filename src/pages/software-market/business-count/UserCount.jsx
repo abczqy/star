@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import Config from 'config'
+import webStorage from 'webStorage'
 
 export default class UserCount extends React.Component {
   constructor (props) {
@@ -11,7 +12,14 @@ export default class UserCount extends React.Component {
     }
   }
 
+  componentDidMount () {
+    var userCount = document.getElementById('userCount')
+    userCount.onload = function () {
+      userCount.contentWindow.sessionId = webStorage.getItem('STAR_WEB_SESSION_ID')
+    }
+  }
+
   render () {
-    return <iframe style={{height: 'calc(100vh)', width: '100%'}} src={Config.USER_COUNT} frameBorder='0' />
+    return <iframe style={{height: 'calc(100vh)', width: '100%'}} src={Config.USER_COUNT} frameBorder='0' id='userCount' />
   }
 }
