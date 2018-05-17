@@ -12,13 +12,6 @@ export default class UserCount extends React.Component {
     }
   }
 
-  componentDidMount () {
-    var userCount = document.getElementById('userCount')
-    userCount.onload = function () {
-      userCount.contentWindow.sessionId = webStorage.getItem('STAR_WEB_SESSION_ID')
-    }
-  }
-
   render () {
     let sessionId = webStorage.getItem('STAR_WEB_SESSION_ID')
     let iframeUrl = Config.USER_COUNT + '?' + 'sessioinId=' + sessionId
