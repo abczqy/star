@@ -15,6 +15,6 @@ export default class UserCount extends React.Component {
   render () {
     let sessionId = webStorage.getItem('STAR_WEB_SESSION_ID')
     let iframeUrl = Config.USER_COUNT + '?' + 'sessioinId=' + sessionId
-    return <iframe style={{height: 'calc(100vh)', width: '100%'}} src={iframeUrl} frameBorder='0' />
+    return <iframe style={{height: 'calc(100vh)', width: '100%'}} src={iframeUrl} frameBorder='0' id='userCount' />
   }
 }
