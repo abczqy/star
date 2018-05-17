@@ -14,7 +14,9 @@ export default class UserCount extends React.Component {
 
   componentDidMount () {
     var userCount = document.getElementById('userCount')
-    userCount.contentWindow.sessionId = webStorage.getItem('STAR_WEB_SESSION_ID')
+    userCount.onload = function () {
+      userCount.contentWindow.sessionId = webStorage.getItem('STAR_WEB_SESSION_ID')
+    }
   }
 
   render () {
