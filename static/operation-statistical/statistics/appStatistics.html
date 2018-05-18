@@ -52,31 +52,57 @@
                         </div>
 
                         <script>
-                            $.get('../card.json',{type:'全部分类'}).done(function (data) {
-                                // console.log(data);
-                                $('#appSum').text(data.appSum);
-                                $('#downSum').text(data.downSum);
-                                $('#appApply').text(data.appApply);
-                                $('#userColl').text(data.userColl);
-                                
+                            $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
+                                var length=data.length-1;
+                                $('#appSum').text(data[length].total);
+                            })
+                            $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
+                              var downLength=data.length-1;
+                              $('#downSum').text(data[downLength].total);
+                            })
+                            $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
+                              var applyLength=data.length-1;
+                              $('#appApply').text(data[applyLength].total);
+                            })
+                            $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
+                              var collLength=data.length-1;
+                              $('#userColl').text(data[collLength].total);
                             })
                             function defaultCard() {
-                              $.get('../card.json',{type:'全部分类'}).done(function (data) {
-                                // console.log(data);
-                                $('#appSum').text(data.appSum);
-                                $('#downSum').text(data.downSum);
-                                $('#appApply').text(data.appApply);
-                                $('#userColl').text(data.userColl);
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
+                                var length=data.length-1;
+                                $('#appSum').text(data[length].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
+                                var downLength=data.length-1;
+                                $('#downSum').text(data[downLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
+                                var applyLength=data.length-1;
+                                $('#appApply').text(data[applyLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
+                                var collLength=data.length-1;
+                                $('#userColl').text(data[collLength].total);
                               })
                             }
                             function changeEduData() {
-                              $.get('../card1.json',{type:'教育类'}).done(function (data) {
-                                // console.log(data);
-                                $('#appSum').text(data.appSum);
-                                $('#downSum').text(data.downSum);
-                                $('#appApply').text(data.appApply);
-                                $('#userColl').text(data.userColl);
-                              });
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'教育类'}).done(function (data) {
+                                var length=data.length-1;
+                                $('#appSum').text(data[length].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'教育类'}).done(function (data) {
+                                var downLength=data.length-1;
+                                $('#downSum').text(data[downLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'教育类'}).done(function (data) {
+                                var applyLength=data.length-1;
+                                $('#appApply').text(data[applyLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'教育类'}).done(function (data) {
+                                var collLength=data.length-1;
+                                $('#userColl').text(data[collLength].total);
+                              })
                               
                               $('#assit').css('display','none');
                               $('#mangae').css('display','none');
@@ -85,26 +111,46 @@
                               
                             }
                             function changeTeaAssit() {
-                              $.get('../card.json',{type:'教辅类'}).done(function (data) {
-                                // console.log(data);
-                                $('#appSum').text(data.appSum);
-                                $('#downSum').text(data.downSum);
-                                $('#appApply').text(data.appApply);
-                                $('#userColl').text(data.userColl);
-                              });
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'教辅类'}).done(function (data) {
+                                var length=data.length-1;
+                                $('#appSum').text(data[length].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'教辅类'}).done(function (data) {
+                                var downLength=data.length-1;
+                                $('#downSum').text(data[downLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'教辅类'}).done(function (data) {
+                                var applyLength=data.length-1;
+                                $('#appApply').text(data[applyLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'教辅类'}).done(function (data) {
+                                var collLength=data.length-1;
+                                $('#userColl').text(data[collLength].total);
+                              })
+                              
                               $('#edu').css('display','none');
                               $('#mangae').css('display','none');
                               $('#all').css('display','none');
                               $('#assit').css('display','block');
                             }
                             function changeManage() {
-                              $.get('../card1.json',{type:'管理类'}).done(function (data) {
-                                // console.log(data);
-                                $('#appSum').text(data.appSum);
-                                $('#downSum').text(data.downSum);
-                                $('#appApply').text(data.appApply);
-                                $('#userColl').text(data.userColl);
-                              });
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'管理类'}).done(function (data) {
+                                var length=data.length-1;
+                                $('#appSum').text(data[length].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'管理类'}).done(function (data) {
+                                var downLength=data.length-1;
+                                $('#downSum').text(data[downLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'管理类'}).done(function (data) {
+                                var applyLength=data.length-1;
+                                $('#appApply').text(data[applyLength].total);
+                              })
+                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'管理类'}).done(function (data) {
+                                var collLength=data.length-1;
+                                $('#userColl').text(data[collLength].total);
+                              })
+                              
                               $('#assit').css('display','none');
                               $('#edu').css('display','none');
                               $('#all').css('display','none');
@@ -173,11 +219,12 @@
 
                                         myChartOne.setOption(option);
                                         
-                                        var url=window.parent.document.getElementById('appCount').contentWindow.location.href;
-                                        var id=url.substring(url.indexOf('=')+1);
-                                        var newUrl='http://192.168.1.26:52999/server/getTypeStatisticsList?STAR_WEB_SESSION_ID='+id;
-                                        console.log(id);
+                                        // var url=window.parent.document.getElementById('appCount').contentWindow.location.href;
+                                        // var id=url.substring(url.indexOf('=')+1);
+                                        // var newUrl='http://192.168.1.26:52999/server/getTypeStatisticsList?STAR_WEB_SESSION_ID='+id;
+                                        // console.log(id);
                                         
+                                        var newUrl='http://192.168.1.26:52999/server/statistics/getTypeStatisticsList';
                                         $.get(newUrl).done(function (data) {
 
                                             console.log(data);
@@ -252,7 +299,11 @@
                                             ]
                                         }
                                         myChartTwo.setOption(option);
-                                        $.get('../piedown.json').done(function (data) {
+                                        // var url=window.parent.document.getElementById('appCount').contentWindow.location.href;
+                                        // var id=url.substring(url.indexOf('=')+1);
+                                        // var newUrl='http://192.168.1.26:52999/server/getDownloadStatisticsList?STAR_WEB_SESSION_ID='+id;
+                                        var newUrl='http://192.168.1.26:52999/server/statistics/getDownloadStatisticsList'
+                                        $.get(newUrl).done(function (data) {
                                             // console.log(data);
                                             myChartTwo.setOption(
                                                 option = {
@@ -281,9 +332,9 @@
                                     }
                                     
                                 </style>
-                                <span class="layui-badge" style="background-color: {{d.bgColor}};">{{d.rank}}</span>
-                                <img src="{{d.src}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
-                                <span style="color:{{d.bgColor}};">{{d.app}}</span>
+                                <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
+                                <img src="{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                                <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                             </script>
 
 
@@ -300,19 +351,19 @@
                                 </style>
                                 <span>{{d.downNum}}</span>
                                 <div class="layui-progress" style="margin-left: 30px;width: 230px;display: inline-block;">
-                                    <div class="layui-progress-bar {{d.style}}" lay-percent="{{d.progross}}" style="width:{{d.progross}}"></div>
+                                    <div class="layui-progress-bar {{d.STYLE}}" lay-percent="{{d.PROGORSS}}" style="width:{{d.PROGROSS}}"></div>
                                 </div>
                             </script>
 
-                            <table class="layui-table"  lay-data="{width:1107, url:'../data.json',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
+                            <table class="layui-table"  lay-data="{width:1107, url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
                                 <thead>
                                     <tr>
                                         <th lay-data="{field:'app', width:188, templet:'#info',}">APP名称</th>
-                                        <th lay-data="{field:'type', width:148,}">APP类型</th>
-                                        <th lay-data="{field:'downNum', width:366, templet:'#progross',}">下载数量</th>
-                                        <th lay-data="{field:'collNum', width:124}">收藏数量</th>
-                                        <th lay-data="{field:'ctr', width:122}">点击率</th>
-                                        <th lay-data="{field:'onlineTime'}">上线时间</th>
+                                        <th lay-data="{field:'APPTYPE', width:148,}">APP类型</th>
+                                        <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
+                                        <th lay-data="{field:'COLLNUM', width:124}">收藏数量</th>
+                                        <th lay-data="{field:'CLICKNUM', width:122}">点击率</th>
+                                        <th lay-data="{field:'TIME'}">上线时间</th>
                                     </tr>
                                 </thead>
                             </table>
