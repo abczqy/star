@@ -1,104 +1,18 @@
+html{
+  width: 100%;
+  overflow-y: hidden;
+}
 body {
   background-color: rgba(244, 244, 244, 1);
-}
-
-.logoArea {
-  width: 1442px;
-  height: 64px;
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.logoArea .content {
-  width: 1350px;
-  height: 64px;
-  line-height: 64px;
-  margin: 0 auto;
-}
-
-.logoArea .content .logo {
-  width: 171px;
-  height: 27px;
-}
-
-.logoArea #searchBox {
-  font-size: 12px;
-  margin-left: 780px;
-  display: inline-block;
-  visibility: hidden;
-}
-
-.logoArea #searchBox input {
-  height: 26px;
-  padding: 6px;
-  box-sizing: border-box;
-  border: 1px solid #e9e9e9;
-  border-radius: 5px;
-}
-
-.logoArea .search {
-  width: 18px;
-  height: 19px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.logoArea .alerm {
-  width: 16px;
-  height: 21px;
-  margin: 0px 24px;
-}
-
-.logoArea .avatar {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-
 }
 
 /* ------------------------------------------- */
 
 .content {
-  width: auto;
+  
+  width: 100%;
   /*width: 1442px;*/
   position: relative;
-}
-
-.left {
-  width: 256px;
-  height: 800px;
-  background-color: rgba(0, 21, 41, 1);
-}
-
-.left .layui-nav {
-  background-color: transparent;
-}
-
-.left .layui-nav-tree {
-  width: 100%;
-}
-
-.layui-nav-tree .layui-nav-item a {
-  height: 52px;
-  line-height: 52px;
-}
-
-.layui-nav-tree .layui-nav-item dl dd a {
-  height: 40px;
-  line-height: 40px;
-}
-
-.left .layui-nav-item dl dd:hover {
-  background-color: #1890ff;
-}
-
-.left .layui-nav-item img {
-  width: 14px;
-  height: 14px;
-  margin-right: 6px;
-}
-
-.layui-nav-itemed .layui-nav-child {
-  background-color: rgba(0, 12, 23, 1);
 }
 
 .right {
@@ -107,7 +21,7 @@ body {
   /*left: 274px;*/
   width: 1162px;
   height: 705px;
-  overflow: auto;
+  overflow-x: auto;
   position: absolute;
   box-sizing: border-box;
   background-color: rgba(255, 255, 255, 1);
