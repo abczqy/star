@@ -1,11 +1,15 @@
 html{
   width: 100%;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
 }
 body {
   background-color: rgba(244, 244, 244, 1);
 }
-
+html {
+  -ms-overflow-style:none;
+  overflow:-moz-scrollbars-none;
+}
+html::-webkit-scrollbar{width:0px}
 /* ------------------------------------------- */
 
 .content {
@@ -127,6 +131,7 @@ body {
 
 .layui-tab-item .table {
   width:100%;
+  height: 431px;
 }
 #edu,#assit,#mangae{
   display: none;
