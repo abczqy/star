@@ -1,5 +1,5 @@
 html{
-  width: 100%;
+  /*width: 100%;*/
   overflow-y: hidden;
 }
 body {
@@ -10,7 +10,7 @@ body {
 
 .content {
   
-  width: 100%;
+  width: auto;
   /*width: 1442px;*/
   position: relative;
 }
@@ -19,7 +19,8 @@ body {
   top: -20px;
   left: -18px;
   /*left: 274px;*/
-  width: 1162px;
+  width: 100%;
+  /*width: 1162px;*/
   height: 705px;
   overflow-x: auto;
   position: absolute;
@@ -62,7 +63,8 @@ body {
 }
 
 .layui-tab-item .card {
-  width: 262px;
+  /*width: 262px;*/
+  width: 23.5%;
   height: 150px;
   border: 1px solid #e9e9e9;
   display: inline-block;
@@ -100,7 +102,8 @@ body {
 
 .layui-tab-item .pie-left,
 .layui-tab-item .pie-right {
-  width: 542px;
+  /*width: 542px;*/
+  width: 48.6%;
   height: 300px;
   margin-top: 12px;
   margin-right: 16px;
