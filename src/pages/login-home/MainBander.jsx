@@ -10,6 +10,7 @@ import {login, getPortalBannerImg} from 'services/portal'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
 import Config from 'config'
+import {clearCookie, setCookie, getCookie} from 'utils/cookie'
 
 class MainBander extends React.Component {
   static propTypes = {
@@ -31,7 +32,8 @@ class MainBander extends React.Component {
 
   getDefaultLoginFormVisible () {
     let flag = false
-    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === '' || webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
+    let name = getCookie('id')
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === '' || webStorage.getItem('STAR_WEB_ROLE_CODE') === null || name === '') {
       flag = true
     }
     return flag
@@ -51,10 +53,15 @@ class MainBander extends React.Component {
       let data = response.data
       // 如果登陆成功
       if (data.success) {
+        webStorage.clear()
         webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
         webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+
+        clearCookie()
+        setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 3)
+
         window.location.reload()
         // 清空提示信息
         this.setState({
