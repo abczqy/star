@@ -85,6 +85,10 @@
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
+                              $('#assit').css('display','none');
+                              $('#mangae').css('display','none');
+                              $('#edu').css('display','none');
+                              $('#all').css('display','block');
                             }
                             function changeEduData() {
                               $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'教育类'}).done(function (data) {
@@ -333,7 +337,7 @@
                                     
                                 </style>
                                 <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
-                                <img src="{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                                <img src="http://p1663488m8.imwork.net:15206{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
                                 <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                             </script>
 
@@ -349,7 +353,7 @@
                                         background-color: rgba(169, 175, 203, 1);
                                     }
                                 </style>
-                                <span>{{d.downNum}}</span>
+                                <span>{{d.DOWNLOADS}}</span>
                                 <div class="layui-progress" style="margin-left: 30px;width: 230px;display: inline-block;">
                                     <div class="layui-progress-bar {{d.STYLE}}" lay-percent="{{d.PROGORSS}}" style="width:{{d.PROGROSS}}"></div>
                                 </div>
@@ -358,11 +362,11 @@
                             <table class="layui-table"  lay-data="{width:1107, url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
                                 <thead>
                                     <tr>
-                                        <th lay-data="{field:'app', width:188, templet:'#info',}">APP名称</th>
-                                        <th lay-data="{field:'APPTYPE', width:148,}">APP类型</th>
+                                        <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
+                                        <th lay-data="{field:'APPTYPE', width:128,}">APP类型</th>
                                         <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
-                                        <th lay-data="{field:'COLLNUM', width:124}">收藏数量</th>
-                                        <th lay-data="{field:'CLICKNUM', width:122}">点击率</th>
+                                        <th lay-data="{field:'COLLNUM', width:114}">收藏数量</th>
+                                        <th lay-data="{field:'CLICKNUM', width:112}">点击率</th>
                                         <th lay-data="{field:'TIME'}">上线时间</th>
                                     </tr>
                                 </thead>
@@ -379,9 +383,9 @@
                             }
 
                           </style>
-                          <span class="layui-badge" style="background-color: {{d.bgColor}};">{{d.rank}}</span>
-                          <img src="{{d.src}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
-                          <span style="color:{{d.bgColor}};">{{d.app}}</span>
+                          <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
+                          <img src="http://p1663488m8.imwork.net:15206{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                          <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                         </script>
 
 
@@ -396,21 +400,21 @@
                               background-color: rgba(169, 175, 203, 1);
                             }
                           </style>
-                          <span>{{d.downNum}}</span>
+                          <span>{{d.DOWNLOADS}}</span>
                           <div class="layui-progress" style="margin-left: 30px;width: 230px;display: inline-block;">
-                            <div class="layui-progress-bar {{d.style}}" lay-percent="{{d.progross}}" style="width:{{d.progross}}"></div>
+                            <div class="layui-progress-bar {{d.STYLE}}" lay-percent="{{d.PROGORSS}}" style="width:{{d.PROGORSS}}"></div>
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{width:1107, url:'../data.json',method:'post',where:{type:'教育类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{width:1107, url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'教育类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
-                            <th lay-data="{field:'app', width:188, templet:'#info',}">APP名称</th>
-                            <th lay-data="{field:'type', width:148,}">APP类型</th>
-                            <th lay-data="{field:'downNum', width:366, templet:'#progross',}">下载数量</th>
-                            <th lay-data="{field:'collNum', width:124}">收藏数量</th>
-                            <th lay-data="{field:'ctr', width:122}">点击率</th>
-                            <th lay-data="{field:'onlineTime'}">上线时间</th>
+                            <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
+                            <th lay-data="{field:'APPTYPE', width:128,}">APP类型</th>
+                            <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
+                            <th lay-data="{field:'COLLNUM', width:114}">收藏数量</th>
+                            <th lay-data="{field:'CLICKNUM', width:112}">点击率</th>
+                            <th lay-data="{field:'TIME'}">上线时间</th>
                           </tr>
                           </thead>
                         </table>
@@ -426,9 +430,9 @@
                             }
 
                           </style>
-                          <span class="layui-badge" style="background-color: {{d.bgColor}};">{{d.rank}}</span>
-                          <img src="{{d.src}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
-                          <span style="color:{{d.bgColor}};">{{d.app}}</span>
+                          <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
+                          <img src="{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                          <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                         </script>
 
 
@@ -443,21 +447,21 @@
                               background-color: rgba(169, 175, 203, 1);
                             }
                           </style>
-                          <span>{{d.downNum}}</span>
+                          <span>{{d.DOWNLOADS}}</span>
                           <div class="layui-progress" style="margin-left: 30px;width: 230px;display: inline-block;">
-                            <div class="layui-progress-bar {{d.style}}" lay-percent="{{d.progross}}" style="width:{{d.progross}}"></div>
+                            <div class="layui-progress-bar {{d.STYLE}}" lay-percent="{{d.PROGROSS}}" style="width:{{d.PROGROSS}}"></div>
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{width:1107, url:'../data.json',method:'post',where:{type:'教辅类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{width:1107, url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'教辅类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
-                            <th lay-data="{field:'app', width:188, templet:'#info',}">APP名称</th>
-                            <th lay-data="{field:'type', width:148,}">APP类型</th>
-                            <th lay-data="{field:'downNum', width:366, templet:'#progross',}">下载数量</th>
-                            <th lay-data="{field:'collNum', width:124}">收藏数量</th>
-                            <th lay-data="{field:'ctr', width:122}">点击率</th>
-                            <th lay-data="{field:'onlineTime'}">上线时间</th>
+                            <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
+                            <th lay-data="{field:'APPTYPE', width:128,}">APP类型</th>
+                            <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
+                            <th lay-data="{field:'COLLNUM', width:114}">收藏数量</th>
+                            <th lay-data="{field:'CLICKNUM', width:112}">点击率</th>
+                            <th lay-data="{field:'TIME'}">上线时间</th>
                           </tr>
                           </thead>
                         </table>
@@ -473,9 +477,9 @@
                             }
 
                           </style>
-                          <span class="layui-badge" style="background-color: {{d.bgColor}};">{{d.rank}}</span>
-                          <img src="{{d.src}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
-                          <span style="color:{{d.bgColor}};">{{d.app}}</span>
+                          <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
+                          <img src="{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                          <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                         </script>
 
 
@@ -487,21 +491,21 @@
                               background-color: rgba(169, 175, 203, 1);
                             }
                           </style>
-                          <span>{{d.downNum}}</span>
+                          <span>{{d.DOWNLOADS}}</span>
                           <div class="layui-progress" style="margin-left: 30px;width: 230px;display: inline-block;">
-                            <div class="layui-progress-bar {{d.style}}" lay-percent="{{d.progross}}" style="width:{{d.progross}}"></div>
+                            <div class="layui-progress-bar {{d.STYLE}}" lay-percent="{{d.PROGROSS}}" style="width:{{d.PROGROSS}}"></div>
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{width:1107, url:'../data.json',method:'post',where:{type:'管理类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{width:1107, url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'管理类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
-                            <th lay-data="{field:'app', width:188, templet:'#info',}">APP名称</th>
-                            <th lay-data="{field:'type', width:148,}">APP类型</th>
-                            <th lay-data="{field:'downNum', width:366, templet:'#progross',}">下载数量</th>
-                            <th lay-data="{field:'collNum', width:124}">收藏数量</th>
-                            <th lay-data="{field:'ctr', width:122}">点击率</th>
-                            <th lay-data="{field:'onlineTime'}">上线时间</th>
+                            <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
+                            <th lay-data="{field:'APPTYPE', width:128,}">APP类型</th>
+                            <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
+                            <th lay-data="{field:'COLLNUM', width:114}">收藏数量</th>
+                            <th lay-data="{field:'CLICKNUM', width:112}">点击率</th>
+                            <th lay-data="{field:'TIME'}">上线时间</th>
                           </tr>
                           </thead>
                         </table>

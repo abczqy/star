@@ -21,10 +21,10 @@
         <div class="right">
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                 <ul class="layui-tab-title">
-                    <li>全部人员</li>
-                    <li>教育机构</li>
-                    <li>厂商</li>
-                    <li>C端用户</li>
+                    <li onclick="defaultCard()">全部人员</li>
+                    <li onclick="changeEdu()">教育机构</li>
+                    <li onclick="changeFactory()">厂商</lionclick>
+                    <li onclick="changeUser()">C端用户</li>
                 </ul>
                 <hr style="margin-top: 1px;" />
                 <div class="layui-tab-content">
@@ -40,29 +40,229 @@
                                 <p id="downSum"></p>
                                 <img src="../images/extra/u5874.png">
                             </div>
-                            <div class="card">
-                                <p>应用中申请（个）</p>
-                                <p id="appApply"></p>
-                                <img src="../images/extra/u5889.png">
-                            </div>
-                            <div class="card">
-                                <p>用户收藏数（个）</p>
-                                <p id="userColl"></p>
-                                <img src="../images/extra/u5899.png">
-                            </div>
+                            <!--<div class="card">-->
+                                <!--<p>应用中申请（个）</p>-->
+                                <!--<p id="appApply"></p>-->
+                                <!--<img src="../images/extra/u5889.png">-->
+                            <!--</div>-->
+                            <!--<div class="card">-->
+                                <!--<p>用户收藏数（个）</p>-->
+                                <!--<p id="userColl"></p>-->
+                                <!--<img src="../images/extra/u5899.png">-->
+                            <!--</div>-->
                         </div>
                         <script>
                             
                             // var url=window.parent.document.getElementById('userCount').contentWindow.location.href;
                             // var id=url.substring(url.indexOf('=')+1);
                             // console.log(id);
-                            $.get('../card.json').done(function (data) {
-                                // console.log(data);
-                                $('#appSum').text(data.appSum);
-                                $('#downSum').text(data.downSum);
-                                $('#appApply').text(data.appApply);
-                                $('#userColl').text(data.userColl);
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
+                              // console.log(data);
+                              let length=data.length-1;
+                              $('#appSum').text(data[length].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
+                              // console.log(data);
+                              let downLength=data.length-1;
+                              $('#downSum').text(data[downLength].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+
+                              console.log(data);
+                              myChartOne.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                              // console.log(data);
+                              myChartTwo.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            });
+                            
+                          function defaultCard() {
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
+                              // console.log(data);
+                              let length=data.length-1;
+                              $('#appSum').text(data[length].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
+                              // console.log(data);
+                              let downLength=data.length-1;
+                              $('#downSum').text(data[downLength].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+
+                              console.log(data);
+                              myChartOne.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                              // console.log(data);
+                              myChartTwo.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
                             })
+                          }
+                          function changeEdu() {
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'教育机构'}).done(function (data) {
+                              // console.log(data);
+                              let length=data.length-1;
+                              $('#appSum').text(data[length].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'教育机构'}).done(function (data) {
+                              // console.log(data);
+                              let downLength=data.length-1;
+                              $('#downSum').text(data[downLength].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'教育机构'}).done(function (data) {
+
+                              console.log(data);
+                              myChartOne.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'教育机构'}).done(function (data) {
+                              // console.log(data);
+                              myChartTwo.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            })
+                          }
+                          function changeFactory() {
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'厂商'}).done(function (data) {
+                              // console.log(data);
+                              let length=data.length-1;
+                              $('#appSum').text(data[length].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'厂商'}).done(function (data) {
+                              // console.log(data);
+                              let downLength=data.length-1;
+                              $('#downSum').text(data[downLength].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'厂商'}).done(function (data) {
+
+                              console.log(data);
+                              myChartOne.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'厂商'}).done(function (data) {
+                              // console.log(data);
+                              myChartTwo.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            })
+                          }
+                          
+                          function changeUser() {
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'C端用户'}).done(function (data) {
+                              // console.log(data);
+                              let length=data.length-1;
+                              $('#appSum').text(data[length].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'C端用户'}).done(function (data) {
+                              // console.log(data);
+                              let downLength=data.length-1;
+                              $('#downSum').text(data[downLength].total);
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'C端用户'}).done(function (data) {
+
+                              console.log(data);
+                              myChartOne.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            });
+                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'C端用户'}).done(function (data) {
+                              // console.log(data);
+                              myChartTwo.setOption(
+                                option = {
+                                  legend: {
+                                    data
+                                  },
+                                  series: [{
+                                    data
+                                  }]
+
+                                }
+                              )
+                            })
+                          }
+                          
+                          
                         </script>
 
 
@@ -78,7 +278,7 @@
                                                 trigger: 'item', //触发类型(饼状图片就是用这个)
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)" //提示框浮层内容格式器
                                             },
-                                            color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"], //手动设置每个图例的颜色
+                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"], //手动设置每个图例的颜色
                                             legend: { //图例组件
                                                 //right:100,  //图例组件离右边的距离
                                                 orient: 'horizontal', //布局  纵向布局 图例标记居文字的左边 vertical则反之
@@ -125,26 +325,26 @@
                                         }
 
                                         myChartOne.setOption(option);
-                                        $.get('../pietype.json').done(function (data) {
-
-                                            // console.log(data);
-                                            myChartOne.setOption(
-                                                option = {
-                                                    legend: {
-                                                        data
-                                                    },
-                                                    series: [{
-                                                        data
-                                                    }]
-
-                                                }
-                                            )
-                                        })
+                                        // $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+                                        //
+                                        //     console.log(data);
+                                        //     myChartOne.setOption(
+                                        //         option = {
+                                        //             legend: {
+                                        //                 data
+                                        //             },
+                                        //             series: [{
+                                        //                 data
+                                        //             }]
+                                        //
+                                        //         }
+                                        //     )
+                                        // })
                                     </script>
                                 </div>
                             </div>
                             <div class="pie-right">
-                                <p>当月下载量占比</p>
+                                <p>当月应用下载型占比</p>
                                 <div id="appdown" style="width:500px;height:240px">
                                     <script type="text/javascript">
                                         var myChartTwo = echarts.init(document.getElementById('appdown'));
@@ -154,7 +354,7 @@
                                                 trigger: 'item',
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)"
                                             },
-                                            color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"],
+                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"],
                                             legend: {
 
                                                 orient: 'horizontal',
@@ -199,20 +399,20 @@
                                             ]
                                         }
                                         myChartTwo.setOption(option);
-                                        $.get('../piedown.json').done(function (data) {
-                                            // console.log(data);
-                                            myChartTwo.setOption(
-                                                option = {
-                                                    legend: {
-                                                        data
-                                                    },
-                                                    series: [{
-                                                        data
-                                                    }]
-
-                                                }
-                                            )
-                                        })
+                                        // $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                                        //     // console.log(data);
+                                        //     myChartTwo.setOption(
+                                        //         option = {
+                                        //             legend: {
+                                        //                 data
+                                        //             },
+                                        //             series: [{
+                                        //                 data
+                                        //             }]
+                                        //
+                                        //         }
+                                        //     )
+                                        // })
                                     
                                     </script>
                                 </div>
