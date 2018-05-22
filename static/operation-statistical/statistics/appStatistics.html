@@ -51,36 +51,36 @@
                         </div>
 
                         <script>
-                            $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                             })
-                            $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
                               var downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             })
-                            $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
                               var applyLength=data.length-1;
                               $('#appApply').text(data[applyLength].total);
                             })
-                            $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
                               var collLength=data.length-1;
                               $('#userColl').text(data[collLength].total);
                             })
                             function defaultCard() {
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -90,19 +90,19 @@
                               $('#all').css('display','block');
                             }
                             function changeEduData() {
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'教育类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'教育类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'教育类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'教育类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -114,19 +114,19 @@
                               
                             }
                             function changeTeaAssit() {
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -137,19 +137,19 @@
                               $('#assit').css('display','block');
                             }
                             function changeManage() {
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppliedStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'管理类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getAppDowmloadStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'管理类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getApplyStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'管理类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://192.168.1.26:52999/server/statistics/getCollStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'管理类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -167,15 +167,15 @@
                                 <p>应用类型占比</p>
                                 <div id="apptype" style="width:500px;height:240px">
                                     <script type="text/javascript">
-                                        var myChartOne = echarts.init(document.getElementById('apptype'));
+                                        let myChartOne = echarts.init(document.getElementById('apptype'));
                                         // 指定图表的配置项和数据
-                                        var option = {
+                                        let optionOne = {
                                             tooltip: { //提示框组件
                                                 trigger: 'item', //触发类型(饼状图片就是用这个)
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)" //提示框浮层内容格式器
                                             },
-                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"], //手动设置每个图例的颜色
-                                            legend: { //图例组件
+                                          color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700",'#66CD00','#EE1289','#EE9A00','#C0FF3E'],
+                                          legend: { //图例组件
                                                 //right:100,  //图例组件离右边的距离
                                                 orient: 'horizontal', //布局  纵向布局 图例标记居文字的左边 vertical则反之
                                                 width: 40, //图行例组件的宽度,默认自适应
@@ -220,14 +220,15 @@
                                             ]
                                         }
 
-                                        myChartOne.setOption(option);
+                                        myChartOne.setOption(optionOne);
                                         
                                         // var url=window.parent.document.getElementById('appCount').contentWindow.location.href;
                                         // var id=url.substring(url.indexOf('=')+1);
                                         // var newUrl='http://192.168.1.26:52999/server/getTypeStatisticsList?STAR_WEB_SESSION_ID='+id;
                                         // console.log(id);
                                         
-                                        var newUrl='http://192.168.1.26:52999/server/statistics/getTypeStatisticsList';
+                                        // var newUrl='http://192.168.1.26:52999/server/statistics/getTypeStatisticsList';
+                                        let newUrl='http://p1663488m8.imwork.net:49784/server/statistics/getTypeStatisticsList';
                                         $.get(newUrl).done(function (data) {
 
                                             console.log(data);
@@ -250,15 +251,15 @@
                                 <p>当月下载量占比</p>
                                 <div id="appdown" style="width:500px;height:240px">
                                     <script type="text/javascript">
-                                        var myChartTwo = echarts.init(document.getElementById('appdown'));
+                                        let myChartTwo = echarts.init(document.getElementById('appdown'));
 
-                                        var option = {
+                                        let optionTwo = {
                                             tooltip: {
                                                 trigger: 'item',
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)"
                                             },
-                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"],
-                                            legend: {
+                                          color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700",'#66CD00','#EE1289','#EE9A00','#C0FF3E'],
+                                          legend: {
 
                                                 orient: 'horizontal',
                                                 width: 40,
@@ -301,12 +302,12 @@
                                                 }
                                             ]
                                         }
-                                        myChartTwo.setOption(option);
+                                        myChartTwo.setOption(optionTwo);
                                         // var url=window.parent.document.getElementById('appCount').contentWindow.location.href;
                                         // var id=url.substring(url.indexOf('=')+1);
                                         // var newUrl='http://192.168.1.26:52999/server/getDownloadStatisticsList?STAR_WEB_SESSION_ID='+id;
-                                        var newUrl='http://192.168.1.26:52999/server/statistics/getDownloadStatisticsList'
-                                        $.get(newUrl).done(function (data) {
+                                        let newUrl2='http://p1663488m8.imwork.net:49784/server/statistics/getDownloadStatisticsList'
+                                        $.get(newUrl2).done(function (data) {
                                             // console.log(data);
                                             myChartTwo.setOption(
                                                 option = {
@@ -358,7 +359,7 @@
                                 </div>
                             </script>
 
-                            <table class="layui-table"  lay-data="{url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
+                            <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
                                 <thead>
                                     <tr>
                                       <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
@@ -405,14 +406,14 @@
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'教育类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'教育类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
                             <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
                             <th lay-data="{field:'APPTYPE', width:128,}">APP类型</th>
-                            <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
-                            <th lay-data="{field:'COLLNUM', width:114}">收藏数量</th>
-                            <th lay-data="{field:'CLICKNUM', width:112}">点击率</th>
+                            <th lay-data="{field:'DOWNLOADS', width:356, templet:'#progross',}">下载数量</th>
+                            <th lay-data="{field:'COLLNUM', width:102}">收藏数量</th>
+                            <th lay-data="{field:'CLICKNUM', width:102}">点击率</th>
                             <th lay-data="{field:'TIME'}">上线时间</th>
                           </tr>
                           </thead>
@@ -452,14 +453,14 @@
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'教辅类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'教辅类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
                             <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
                             <th lay-data="{field:'APPTYPE', width:128,}">APP类型</th>
-                            <th lay-data="{field:'DOWNLOADS', width:366, templet:'#progross',}">下载数量</th>
-                            <th lay-data="{field:'COLLNUM', width:114}">收藏数量</th>
-                            <th lay-data="{field:'CLICKNUM', width:112}">点击率</th>
+                            <th lay-data="{field:'DOWNLOADS', width:356, templet:'#progross',}">下载数量</th>
+                            <th lay-data="{field:'COLLNUM', width:102}">收藏数量</th>
+                            <th lay-data="{field:'CLICKNUM', width:102}">点击率</th>
                             <th lay-data="{field:'TIME'}">上线时间</th>
                           </tr>
                           </thead>
@@ -496,7 +497,7 @@
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{url:'http://192.168.1.26:52999/server/statistics/getRankList',method:'get',where:{type:'管理类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'管理类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
                             <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
@@ -508,8 +509,7 @@
                           </tr>
                           </thead>
                         </table>
-
-                      </div>
+                          
                       
                     </div>
 

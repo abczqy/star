@@ -56,17 +56,17 @@
                             // var url=window.parent.document.getElementById('userCount').contentWindow.location.href;
                             // var id=url.substring(url.indexOf('=')+1);
                             // console.log(id);
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
 
                               console.log(data);
                               myChartOne.setOption(
@@ -81,7 +81,7 @@
                                 }
                               )
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -97,17 +97,17 @@
                             });
                             
                           function defaultCard() {
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
 
                               console.log(data);
                               myChartOne.setOption(
@@ -122,7 +122,7 @@
                                 }
                               )
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -138,19 +138,18 @@
                             })
                           }
                           function changeEdu() {
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'教育机构'}).done(function (data) {
-                              // console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'教育机构'}).done(function (data) {
+                              
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'教育机构'}).done(function (data) {
-                              // console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'教育机构'}).done(function (data) {
+                              
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'教育机构'}).done(function (data) {
-
-                              console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'教育机构'}).done(function (data) {
+                              
                               myChartOne.setOption(
                                 option = {
                                   legend: {
@@ -163,7 +162,7 @@
                                 }
                               )
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'教育机构'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'教育机构'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -179,19 +178,17 @@
                             })
                           }
                           function changeFactory() {
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'厂商'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'厂商'}).done(function (data) {
                               // console.log(data);
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'厂商'}).done(function (data) {
-                              // console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'厂商'}).done(function (data) {
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'厂商'}).done(function (data) {
-
-                              console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'厂商'}).done(function (data) {
+                              
                               myChartOne.setOption(
                                 option = {
                                   legend: {
@@ -204,8 +201,7 @@
                                 }
                               )
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'厂商'}).done(function (data) {
-                              // console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'厂商'}).done(function (data) {
                               myChartTwo.setOption(
                                 option = {
                                   legend: {
@@ -221,19 +217,17 @@
                           }
                           
                           function changeUser() {
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserAppliedStatisticsList',{type:'C端用户'}).done(function (data) {
-                              // console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'C端用户'}).done(function (data) {
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserDownloadStatisticsList',{type:'C端用户'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'C端用户'}).done(function (data) {
                               // console.log(data);
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'C端用户'}).done(function (data) {
-
-                              console.log(data);
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'C端用户'}).done(function (data) {
+                              
                               myChartOne.setOption(
                                 option = {
                                   legend: {
@@ -246,7 +240,7 @@
                                 }
                               )
                             });
-                            $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'C端用户'}).done(function (data) {
+                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'C端用户'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -271,14 +265,14 @@
                                 <p>应用类型占比</p>
                                 <div id="apptype" style="width:500px;height:240px">
                                     <script type="text/javascript">
-                                        var myChartOne = echarts.init(document.getElementById('apptype'));
+                                        let myChartOne = echarts.init(document.getElementById('apptype'));
                                         // 指定图表的配置项和数据
-                                        var option = {
+                                        let optionOne = {
                                             tooltip: { //提示框组件
                                                 trigger: 'item', //触发类型(饼状图片就是用这个)
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)" //提示框浮层内容格式器
                                             },
-                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"], //手动设置每个图例的颜色
+                                            color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700",'#66CD00','#EE1289','#EE9A00','#C0FF3E'],
                                             legend: { //图例组件
                                                 //right:100,  //图例组件离右边的距离
                                                 orient: 'horizontal', //布局  纵向布局 图例标记居文字的左边 vertical则反之
@@ -322,9 +316,9 @@
                                                     data: []
                                                 }
                                             ]
-                                        }
+                                        };
 
-                                        myChartOne.setOption(option);
+                                        myChartOne.setOption(optionOne);
                                         // $.get('http://192.168.1.26:52999/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
                                         //
                                         //     console.log(data);
@@ -347,14 +341,14 @@
                                 <p>当月应用下载型占比</p>
                                 <div id="appdown" style="width:500px;height:240px">
                                     <script type="text/javascript">
-                                        var myChartTwo = echarts.init(document.getElementById('appdown'));
+                                        let myChartTwo = echarts.init(document.getElementById('appdown'));
 
-                                        var option = {
+                                        let optionTwo = {
                                             tooltip: {
                                                 trigger: 'item',
                                                 formatter: "{a} <br/>{b} : {c} ({d}%)"
                                             },
-                                            // color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700"],
+                                          color: ['#48cda6', '#fd87ab', '#11abff', "#FFD700",'#66CD00','#EE1289','#EE9A00','#C0FF3E'],
                                             legend: {
 
                                                 orient: 'horizontal',
@@ -397,22 +391,8 @@
                                                     data: []
                                                 }
                                             ]
-                                        }
-                                        myChartTwo.setOption(option);
-                                        // $.get('http://192.168.1.26:52999/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
-                                        //     // console.log(data);
-                                        //     myChartTwo.setOption(
-                                        //         option = {
-                                        //             legend: {
-                                        //                 data
-                                        //             },
-                                        //             series: [{
-                                        //                 data
-                                        //             }]
-                                        //
-                                        //         }
-                                        //     )
-                                        // })
+                                        };
+                                        myChartTwo.setOption(optionTwo);
                                     
                                     </script>
                                 </div>
@@ -427,16 +407,13 @@
         </div>
 
     </div>
-    </div>
 
-
-
-
+    
     <script src="../layui.js"></script>
     <script>
         
         layui.use(['element', 'table'], function () {
-            var element = layui.element,
+            let element = layui.element,
                 table = layui.table,
                 $ = layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
           
