@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import _ from 'lodash'
-import { Table, Modal, Input, Form, Button, DatePicker, message } from 'antd'
+import { Table, Modal, Input, Form, Button, DatePicker, message, Popconfirm } from 'antd'
 import './PersonManageTable.scss'
 import {applicationteacherlist, teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from '../../../services/topbar-mation'
 const FormItem = Form.Item
@@ -95,7 +95,9 @@ class PersonManageTable extends Component {
         render: (id, record) => (
           <div className='opt-box' >
             <span className='edit' onClick={() => { this.openEditModal(record, 'teacher') }} >编辑</span>
-            <span className='delete' onClick={() => { this.delete(record.th_id, 'teacher') }}>删除</span>
+            <Popconfirm placement='top' title='确认删除？' onConfirm={() => { this.delete(record.th_id, 'teacher') }} okText='删除' cancelText='取消'>
+              <span className='delete'>删除</span>
+            </Popconfirm>
           </div>
         )
         // width: 150
@@ -147,7 +149,9 @@ class PersonManageTable extends Component {
         render: (id, record) => (
           <div className='opt-box' >
             <span className='edit' onClick={() => { this.openEditModal(record, 'student') }} >编辑</span>
-            <span className='delete' onClick={() => { this.delete(record.stu_id, 'student') }}>删除</span>
+            <Popconfirm placement='top' title='确认删除？' onConfirm={() => { this.delete(record.stu_id, 'student') }} okText='删除' cancelText='取消'>
+              <span className='delete'>删除</span>
+            </Popconfirm>
           </div>
         )
         // width: 150
