@@ -66,7 +66,7 @@ class SoftwareMarket extends React.Component {
    */
   handleLogoClick () {
     this.props.history.push({
-      pathname: '/unlogged/home'
+      pathname: '/'
     })
   }
 

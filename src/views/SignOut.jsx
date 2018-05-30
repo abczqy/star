@@ -27,11 +27,11 @@ class SignOutModal extends React.Component {
   }
   backHome=() => {
     clearCookie()
-    if (this.props.location.pathname === '/unlogged/home') {
+    if (this.props.location.pathname === '/') {
       window.location.reload()
     } else {
       this.props.history.push({
-        pathname: '/unlogged/home'
+        pathname: '/'
       })
       window.location.reload()
     }

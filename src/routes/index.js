@@ -58,37 +58,38 @@ import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default [{
-  path: '/unlogged',
+  path: '/',
   component: LoginHome,
   childRoutes: [{
-    path: '/unlogged/home',
+    path: '/',
+    exact: true,
     component: Home
   }, {
-    path: '/unlogged/newsList',
+    path: '/newsList',
     component: NewsList
   }, {
-    path: '/unlogged/newsDetails',
+    path: '/newsDetails',
     component: NewsDetails
   }, {
-    path: '/unlogged/information',
+    path: '/information',
     component: Information
   }, {
-    path: '/unlogged/informationDet',
+    path: '/informationDet',
     component: InformationDet
   }, {
-    path: '/unlogged/edu', // 教育局教育新闻
+    path: '/edu', // 教育局教育新闻
     component: Logged(NewsListEd)
   }, {
-    path: '/unlogged/NewDetailsEd', // 教育局教育新闻详情
+    path: '/NewDetailsEd', // 教育局教育新闻详情
     component: Logged(NewDetailsEd)
   }, {
-    path: '/unlogged/public', // 教育局信息公开
+    path: '/public', // 教育局信息公开
     component: Logged(PlaceInformation)
   }, {
-    path: '/unlogged/informationDetEd', // 教育局信息公开详情
+    path: '/informationDetEd', // 教育局信息公开详情
     component: Logged(InformationDetEd)
   }, {
-    path: '/unlogged/informationEd', // 信息公开编辑
+    path: '/informationEd', // 信息公开编辑
     component: Logged(InformationEd)
   }]
 }, {

@@ -289,7 +289,7 @@ class MessageSetting extends React.Component {
         {/* 家长 ,厂商 */}
         { model}
         {/* <div style={{textAlign: 'center', marginTop: '20px'}}>
-          <Button type='primary'onClick={this.handleTabChange.bind(this, '/unlogged/home')}>返回门户首页</Button>
+          <Button type='primary'onClick={this.handleTabChange.bind(this, '/home')}>返回门户首页</Button>
         </div> */}
         <Unbind
           visible={this.state.unbindVisible}

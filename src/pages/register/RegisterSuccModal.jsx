@@ -25,22 +25,19 @@ class RegisterSuccModal extends React.Component {
         if (this.state.clockTime === 0) {
           clearInterval(this.interval)
           this.props.history.push({
-            pathname: '/unlogged/home'
+            pathname: '/home'
           })
         }
       })
     }, 1000)
   }
-  // componentWillUnmount () {
-  //   window.clearInterval(this.interval)
-  // }
   saveOrSubmit =(value) => {
     this.props.hiddenModal()
   }
   backHome=() => {
     window.clearInterval(this.interval)
     this.props.history.push({
-      pathname: '/unlogged/home'
+      pathname: '/home'
     })
   }
   render () {

@@ -158,7 +158,7 @@ class InformationEd extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/unlogged/public'
+      pathname: '/public'
     })
   }
   // 点击搜索
@@ -254,9 +254,8 @@ onPageNumChange = (pageNum, pageSize) => {
 }
 // a标签的跳转方法哦~
 handleTabChanges (e) {
-  console.log('123123123123123213', e.target.text)
   this.props.history.push({
-    pathname: '/unlogged/informationDetEd',
+    pathname: '/informationDetEd',
     search: e.target.text.split(' ')[0]
   })
 }

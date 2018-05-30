@@ -73,7 +73,6 @@ class News extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
         this.setState({
@@ -97,12 +96,11 @@ class News extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/unlogged/public'
+      pathname: '/public'
     })
   }
   // 分页页码改变
   ptChange=(page, pageSize) => {
-    console.log('页码改变', page, pageSize)
     this.setState({
       pageNum: page
     }, () => {
@@ -123,7 +121,7 @@ class News extends React.Component {
   // a标签的跳转方法哦~
   handleTabChange= (e) => {
     this.props.history.push({
-      pathname: '/unlogged/NewDetailsEd',
+      pathname: '/NewDetailsEd',
       search: e.target.text.split(' ')[0]
     }
     )
@@ -145,7 +143,7 @@ class News extends React.Component {
   // a标签的跳转方法哦~
   handleTabChanges (e) {
     this.props.history.push({
-      pathname: '/unlogged/informationDetEd',
+      pathname: '/informationDetEd',
       search: e.target.text.split(' ')[0]
     })
   }

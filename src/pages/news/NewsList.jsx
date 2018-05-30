@@ -104,7 +104,7 @@ class News extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/unlogged/information'
+      pathname: '/information'
     })
   }
   // 分页页码改变
@@ -132,7 +132,7 @@ class News extends React.Component {
     console.log('111111111111111', this.props)
     console.log('123123123123123213', e.target.text)
     this.props.history.push({
-      pathname: '/unlogged/newsDetails',
+      pathname: '/newsDetails',
       search: e.target.text.split(' ')[0]
     })
   }
@@ -140,7 +140,7 @@ class News extends React.Component {
   handleTabChanges (e) {
     console.log('123123123123123213', e.target.text)
     this.props.history.push({
-      pathname: '/unlogged/informationDet',
+      pathname: '/informationDet',
       search: e.target.text.split(' ')[0]
     })
   }

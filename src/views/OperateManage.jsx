@@ -74,7 +74,7 @@ class OperateManage extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
-    if (_.indexOf(['/unlogged/home', '/unlogged/newsList', '/unlogged/information'], nextProps.location.pathname) !== -1) {
+    if (_.indexOf(['/', '/newsList', '/information'], nextProps.location.pathname) !== -1) {
       this.setState({
         activeTab: this.getDefaultTabKey(nextProps.location.pathname)
       })
@@ -214,7 +214,7 @@ class OperateManage extends React.Component {
    */
   handleLogoClick () {
     this.props.history.push({
-      pathname: '/unlogged/home'
+      pathname: '/'
     })
   }
 

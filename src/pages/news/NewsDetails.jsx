@@ -127,13 +127,13 @@ class NewsDetails extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/unlogged/information'
+      pathname: '/information'
     })
   }
   // 点击当前位置(教育新闻)
   position (e) {
     this.props.history.push({
-      pathname: '/unlogged/newsList'
+      pathname: '/newsList'
     }
     )
   }
@@ -166,16 +166,15 @@ getHeight=() => {
 }
 // a标签的跳转方法哦~
 handleTabChanges (e) {
-  console.log('123123123123123213', e.target.text)
   this.props.history.push({
-    pathname: '/unlogged/informationDet',
+    pathname: '/informationDet',
     search: e.target.text.split(' ')[0]
   })
 }
 // a标签的跳转方法哦~
 handleTabChangess (e) {
   this.props.history.push({
-    pathname: '/unlogged/newsDetails',
+    pathname: '/newsDetails',
     search: e.target.text.split(' ')[0]
   })
 }

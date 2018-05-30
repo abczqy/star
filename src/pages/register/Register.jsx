@@ -488,7 +488,7 @@ class Register extends React.Component {
         <Layout>
           <div>
             <Layout.Header className='xingyun-header' style={{height: '92px', width: '100%', margin: 'auto'}}>
-              <div className='xingyun-logo' style={{marginTop: '30px'}} onClick={this.handleTabChange.bind(this, '/unlogged/home')} />
+              <div className='xingyun-logo' style={{marginTop: '30px'}} onClick={this.handleTabChange.bind(this, '/home')} />
             </Layout.Header>
           </div>
         </Layout>

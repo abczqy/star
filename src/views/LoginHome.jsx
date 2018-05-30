@@ -27,7 +27,7 @@ class LoginHome extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
-    if (_.indexOf(['/unlogged/home', '/unlogged/newsList', '/unlogged/information'], nextProps.location.pathname) !== -1) {
+    if (_.indexOf(['/', '/newsList', '/information'], nextProps.location.pathname) !== -1) {
       this.setState({
         activeTab: this.getDefaultTabKey(nextProps.location.pathname)
       })
@@ -37,31 +37,31 @@ class LoginHome extends React.Component {
   getDefaultTabKey (pathName) {
     let activeTab
     switch (pathName) {
-      case '/unlogged/home':// 首页
+      case '/':// 首页
         activeTab = 'home'
         break
-      case '/unlogged/newsList':// 教育新闻
+      case '/newsList':// 教育新闻
         activeTab = 'newsList'
         break
-      case '/unlogged/newsDetails':// 教育新闻详情
+      case '/newsDetails':// 教育新闻详情
         activeTab = 'newsList'
         break
-      case '/unlogged/information':// 信息公开
+      case '/information':// 信息公开
         activeTab = 'information'
         break
-      case '/unlogged/informationDet':// 信息公开详情
+      case '/informationDet':// 信息公开详情
         activeTab = 'information'
         break
-      case '/unlogged/edu':// 教育局教育新闻
+      case '/edu':// 教育局教育新闻
         activeTab = 'newsList'
         break
-      case '/unlogged/NewDetailsEd':// 教育局教育新闻详情
+      case '/NewDetailsEd':// 教育局教育新闻详情
         activeTab = 'newsList'
         break
-      case '/unlogged/public':// 教育局信息公开
+      case '/public':// 教育局信息公开
         activeTab = 'information'
         break
-      case '/unlogged/informationDetEd':// 教育局信息公开详情
+      case '/informationDetEd':// 教育局信息公开详情
         activeTab = 'information'
         break
       case '/operate-manage-home/home':// 软件市场
@@ -137,6 +137,8 @@ class LoginHome extends React.Component {
     })
   }
   render () {
+    console.log('路由=================')
+    console.log(this.props.route.childRoutes)
     let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
     let roleCode = STAR_WEB_ROLE_CODE || ''
     return (
@@ -163,22 +165,22 @@ class LoginHome extends React.Component {
           </div>
           <div className='xingyun-top-header'>
             <div className='header-container'>
-              <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
+              <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/', 'home')}><span>首页</span></a>
               </li>
               {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
               </li>}
               <li>
                 {
                   roleCode === 'eduBureau'
-                    ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/edu', 'newsList')}><span>教育新闻</span></a>
-                    : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
+                    ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/edu', 'newsList')}><span>教育新闻</span></a>
+                    : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/newsList', 'newsList')}><span>教育新闻</span></a>
                 }
               </li>
               <li>
                 {
                   roleCode === 'eduBureau'
-                    ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/public', 'information')}><span>信息公开</span></a>
-                    : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
+                    ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/public', 'information')}><span>信息公开</span></a>
+                    : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/information', 'information')}><span>信息公开</span></a>
                 }
               </li>
             </div>

@@ -84,27 +84,27 @@ class MessageTopBar extends React.Component {
             <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
           </div>
         </div>
-        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, '/unlogged/home')}>
+        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, '/home')}>
           <div className='xingyun-logo' />
         </div>
         <div className='xingyun-top-header'>
           <div className='header-container'>
-            <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/home', 'home')}><span>首页</span></a>
+            <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home', 'home')}><span>首页</span></a>
             </li>
             {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
             </li>}
             <li>
               {
                 roleCode === 'eduBureau'
-                  ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/edu', 'newsList')}><span>教育新闻</span></a>
-                  : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/newsList', 'newsList')}><span>教育新闻</span></a>
+                  ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/edu', 'newsList')}><span>教育新闻</span></a>
+                  : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/newsList', 'newsList')}><span>教育新闻</span></a>
               }
             </li>
             <li>
               {
                 roleCode === 'eduBureau'
-                  ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/public', 'information')}><span>信息公开</span></a>
-                  : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/unlogged/information', 'information')}><span>信息公开</span></a>
+                  ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/public', 'information')}><span>信息公开</span></a>
+                  : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/information', 'information')}><span>信息公开</span></a>
               }
             </li>
           </div>
