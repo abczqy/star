@@ -13,6 +13,13 @@ import webStorage from 'webStorage'
 import { withRouter, Route } from 'react-router'
 import 'components/common/bottom.scss'
 import '../../views/Operateview.scss'
+import {Logged} from 'components/common/hoc/Logged'
+import MessageNotice from 'pages/message-notice/MessageNotice'
+import MessageSetting from 'pages/message-notice/MessageSetting'
+import MessageDetail from 'pages/message-notice/MessageDetail'
+let LMessageNotice = Logged(MessageNotice)
+let LMessageSetting = Logged(MessageSetting)
+let LMessageDetail = Logged(MessageDetail)
 
 class MessageTopBar extends React.Component {
   constructor (props) {
@@ -110,13 +117,21 @@ class MessageTopBar extends React.Component {
           </div>
         </div>
         <div>
-          {
-            this.props.childRoutes.map((item, index, arr) => {
-              return <Route key={index} path={item.path} component={item.component}
-                updateMessageCount={(value) => { this.updateMessageCount(value) }}
-              />
-            })
-          }
+          <Route path='/topbar-manage/notice' render={() => {
+            // eslint-disable-next-line react/jsx-no-undef
+            return <LMessageNotice
+              updateMessageCount={(value) => { this.updateMessageCount(value) }} />
+          }} />
+          <Route path='/topbar-manage/setting' render={() => {
+            // eslint-disable-next-line react/jsx-no-undef
+            return <LMessageSetting
+              updateMessageCount={(value) => { this.updateMessageCount(value) }} />
+          }} />
+          <Route path='/topbar-manage/detail' render={() => {
+            // eslint-disable-next-line react/jsx-no-undef
+            return <LMessageDetail
+              updateMessageCount={(value) => { this.updateMessageCount(value) }} />
+          }} />
         </div>
         <SignOut
           visible={this.state.signOutVisible}

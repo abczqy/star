@@ -5,10 +5,15 @@
 import React from 'react'
 import { Layout, Menu } from 'antd'
 import PropTypes from 'prop-types'
-import { renderRoutes } from 'react-router-config'
+// import { renderRoutes } from 'react-router-config'
 import { Link } from 'react-router-dom'
 import allApp from '../../assets/images/all-app/u2835.jpg'
+import {Logged} from 'components/common/hoc/Logged'
+import { Route } from 'react-router'
+import AllApplicationsDetail from 'pages/edu-all-app/AllApplicationsDetail'
 const { Sider, Content } = Layout
+let LAllApplicationsDetail = Logged(AllApplicationsDetail)
+
 export default class AllApplications extends React.Component {
   constructor (props) {
     super(props)
@@ -67,11 +72,10 @@ export default class AllApplications extends React.Component {
           </Sider>
           <Layout style={{minHeight: '800px', _height: '800px', width: '80%'}}>
             <Content>
-              {
-                // eslint-disable-next-line react/prop-types
-                renderRoutes(this.props.childRoutes)
-              }
-
+              <Route path='/operate-manage-home/all-app/all-app' render={() => {
+                // eslint-disable-next-line react/jsx-no-undef
+                return <LAllApplicationsDetail />
+              }} />
             </Content>
           </Layout>
         </Layout>

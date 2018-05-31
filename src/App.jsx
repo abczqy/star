@@ -32,17 +32,17 @@ class App extends React.Component {
           <Switch>
             <Redirect from='/' exact to='/home/index' />
             <Route path='/home' render={() => {
-              return <LoginHome childRoutes={routes.homeChildRoutes} />
+              return <LoginHome />
             }} />
             <Route path='/operate-manage-home'
               render={() => {
-                return <LOperateManage childRoutes={routes.operateManageChildRoutes} />
+                return <LOperateManage />
               }} />
             <Route path='/software-market-home' render={() => {
               return <LSoftwareMarket childRoutes={routes.softwareMarketChildRoutes} />
             }} />
             <Route path='/topbar-manage' render={() => {
-              return <LMessageTopBar childRoutes={routes.messageTopBarChildRoutes} />
+              return <LMessageTopBar />
             }} />
             <Route path='/register-home' component={Register} />
             <Route path='/forget-home' component={ForgetPass} />

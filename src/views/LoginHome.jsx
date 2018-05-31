@@ -12,6 +12,22 @@ import BottomHeader from 'components/common/BottomHeader'
 import webStorage from 'webStorage'
 import { withRouter, Route } from 'react-router'
 import _ from 'lodash'
+import Home from 'pages/login-home/Home'
+import NewsDetails from 'pages/news/NewsDetails'// 游客的新闻列表详情
+import Information from 'pages/news/Information'// 游客的信息公开
+import InformationDet from 'pages/news/InformationDet'// 游客的信息公开详情
+import NewsList from 'pages/news/NewsList'// 游客的新闻列表
+import NewsListEd from 'pages/news/NewsListEd'// 教育局的新闻列表
+import NewDetailsEd from 'pages/news/NewDetailsEd'// 教育局的新闻列表详情
+import InformationDetEd from 'pages/news/InformationDetEd'// 教育局的信息公开详情
+import InformationEd from 'pages/news/InformationEd'// 教育局的信息列表编辑
+import {Logged} from 'components/common/hoc/Logged'
+import PlaceInformation from 'pages/news/PlaceInformation'// 教育局的信息公开
+let LNewsListEd = Logged(NewsListEd)
+let LNewDetailsEd = Logged(NewDetailsEd)
+let LPlaceInformation = Logged(PlaceInformation)
+let LInformationDetEd = Logged(InformationDetEd)
+let LInformationEd = Logged(InformationEd)
 
 class LoginHome extends React.Component {
   constructor (props) {
@@ -184,14 +200,75 @@ class LoginHome extends React.Component {
             </div>
           </div>
           <div className='content-container' >
-            {
-              this.props.childRoutes.map((item, index, arr) => {
-                return <Route key={index} path={item.path} component={item.component}
-                  updatePage={() => { this.updatePage() }}
-                  changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }}
-                />
-              })
-            }
+            <Route path='/home/index' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <Home
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/newsList' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <NewsList
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/newsDetails' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <NewsDetails
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/information' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <Information
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/informationDet' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <InformationDet
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/edu' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LNewsListEd
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/NewDetailsEd' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LNewDetailsEd
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/public' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LPlaceInformation
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/informationDetEd' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LInformationDetEd
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/home/informationEd' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LInformationEd
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
           </div>
           <BottomHeader />
         </div>

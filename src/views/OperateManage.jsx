@@ -11,10 +11,27 @@ import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
 import GlobalSearch from '../pages/after-logging-home/GlobalSearch'
 import {getMessageCount} from '../services/topbar-mation/index'
+import {Logged} from 'components/common/hoc/Logged'
 import './Operateview.scss'
 import { withRouter, Route } from 'react-router'
 import webStorage from 'webStorage'
 import _ from 'lodash'
+import AllApplications from 'pages/edu-all-app/AllApplications'
+import TeacherHome from 'pages/after-logging-home/TeacherHome'
+import Please from 'pages/news/ShelfPlease'// 上架流程
+import Iteration from 'pages/news/IterationPlease'// 迭代申请
+import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
+import PersonalCenter from 'pages/personal-center/PersonalCenter'
+import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
+import MarketAnalysis from 'pages/market-analysis/MarketAnalysis'
+let LAllApplications = Logged(AllApplications)
+let LTeacherHome = Logged(TeacherHome)
+let LPlease = Logged(Please)
+let LIteration = Logged(Iteration)
+let LPersonnelManagement = Logged(PersonnelManagement)
+let LPersonalCenter = Logged(PersonalCenter)
+let LStatisticalAnalysis = Logged(StatisticalAnalysis)
+let LMarketAnalysis = Logged(MarketAnalysis)
 
 class OperateManage extends React.Component {
   constructor (props) {
@@ -249,13 +266,46 @@ class OperateManage extends React.Component {
                 }
               </div>
             </div>
-            {
-              this.props.childRoutes.map((item, index, arr) => {
-                return <Route key={index} path={item.path} component={item.component}
-                  changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }}
-                />
-              })
-            }
+            <Route path='/operate-manage-home/home' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LTeacherHome
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/please' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LPlease
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/iteration' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LIteration
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/member' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LPersonnelManagement
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/center' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LPersonalCenter
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/statis' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LStatisticalAnalysis
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/market' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LMarketAnalysis
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/all-app' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LAllApplications
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
           </Layout>
           <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
