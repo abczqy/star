@@ -77,7 +77,7 @@ module.exports = {
               modifyVars: {
                 "@icon-url":
                   process.env.NODE_ENV === "production"
-                    ? '"/react-template/static/iconfont/iconfont"'
+                    ? '"/static/iconfont/iconfont"'
                     : '"/static/iconfont/iconfont"',
               }
             }
