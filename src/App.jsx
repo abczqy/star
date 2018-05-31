@@ -1,9 +1,21 @@
-/* eslint-disable standard/object-curly-even-spacing */
+/* eslint-disable standard/object-curly-even-spacing,react/jsx-no-undef */
 import React from 'react'
-import { renderRoutes } from 'react-router-config'
+// import { renderRoutes } from 'react-router-config'
+import { Route, Redirect, Switch } from 'react-router'
 import { HashRouter as Router } from 'react-router-dom'
 import './App.scss'
 import routes from 'routes'
+import {Logged} from 'components/common/hoc/Logged'
+import LoginHome from 'views/LoginHome'
+import Register from 'pages/register/Register'
+import ForgetPass from 'pages/register/ForgetPass'
+import MessageTopBar from 'pages/message-notice/MessageTopBar'
+import SoftwareMarket from 'views/SoftwareMarket'
+import OperateManage from 'views/OperateManage'
+
+let LOperateManage = Logged(OperateManage)
+let LSoftwareMarket = Logged(SoftwareMarket)
+let LMessageTopBar = Logged(MessageTopBar)
 
 class App extends React.Component {
   constructor (props) {
@@ -12,26 +24,29 @@ class App extends React.Component {
 
     }
   }
-  /**
-   * 获取登录信息
-   */
-  initLogin () {
-    // LoginServices.registerLogin(()=>{
-    // this.props.login()
-    // });
-  }
-
-  componentWillMount () {
-    // this.initLogin()
-  }
 
   render () {
     return (
       <div className='App'>
         <Router>
-          {
-            renderRoutes(routes)
-          }
+          <Switch>
+            <Redirect from='/' exact to='/home/index' />
+            <Route path='/home' render={() => {
+              return <LoginHome childRoutes={routes.homeChildRoutes} />
+            }} />
+            <Route path='/operate-manage-home'
+              render={() => {
+                return <LOperateManage childRoutes={routes.operateManageChildRoutes} />
+              }} />
+            <Route path='/software-market-home' render={() => {
+              return <LSoftwareMarket childRoutes={routes.softwareMarketChildRoutes} />
+            }} />
+            <Route path='/topbar-manage' render={() => {
+              return <LMessageTopBar childRoutes={routes.messageTopBarChildRoutes} />
+            }} />
+            <Route path='/register-home' component={Register} />
+            <Route path='/forget-home' component={ForgetPass} />
+          </Switch>
         </Router>
       </div>
     )

@@ -1,7 +1,7 @@
 // import Imported from 'react-imported-component'
-import LoginHome from 'views/LoginHome'
-import OperateManage from 'views/OperateManage'
-import SoftwareMarket from 'views/SoftwareMarket'
+// import LoginHome from 'views/LoginHome'
+// import OperateManage from 'views/OperateManage'
+// import SoftwareMarket from 'views/SoftwareMarket'
 import Home from 'pages/login-home/Home'
 
 import Information from 'pages/news/Information'// 游客的信息公开
@@ -47,55 +47,50 @@ import SelfSupport from '../pages/app-detail/SelfSupport'
 import ThirdPartyAppDetail from '../pages/app-detail/ThirdPartyAppDetail'
 import MyAppDetail from '../pages/app-detail/MyAppDetail'
 import MyApp from '../pages/app-detail/MyApp'
-import MessageTopBar from 'pages/message-notice/MessageTopBar'
+// import MessageTopBar from 'pages/message-notice/MessageTopBar'
 import MessageNotice from 'pages/message-notice/MessageNotice'
 import MessageSetting from 'pages/message-notice/MessageSetting'
 import MessageDetail from 'pages/message-notice/MessageDetail'
 import TeacherHome from 'pages/after-logging-home/TeacherHome'
-import Register from 'pages/register/Register'
-import ForgetPass from 'pages/register/ForgetPass'
+// import Register from 'pages/register/Register'
+// import ForgetPass from 'pages/register/ForgetPass'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
 
-export default [{
-  path: '/',
-  component: LoginHome,
-  childRoutes: [{
-    path: '/',
+export default {
+  homeChildRoutes: [{
+    path: '/home/index',
     exact: true,
     component: Home
   }, {
-    path: '/newsList',
+    path: '/home/newsList',
     component: NewsList
   }, {
-    path: '/newsDetails',
+    path: '/home/newsDetails',
     component: NewsDetails
   }, {
-    path: '/information',
+    path: '/home/information',
     component: Information
   }, {
-    path: '/informationDet',
+    path: '/home/informationDet',
     component: InformationDet
   }, {
-    path: '/edu', // 教育局教育新闻
+    path: '/home/edu', // 教育局教育新闻
     component: Logged(NewsListEd)
   }, {
-    path: '/NewDetailsEd', // 教育局教育新闻详情
+    path: '/home/NewDetailsEd', // 教育局教育新闻详情
     component: Logged(NewDetailsEd)
   }, {
-    path: '/public', // 教育局信息公开
+    path: '/home/public', // 教育局信息公开
     component: Logged(PlaceInformation)
   }, {
-    path: '/informationDetEd', // 教育局信息公开详情
+    path: '/home/informationDetEd', // 教育局信息公开详情
     component: Logged(InformationDetEd)
   }, {
-    path: '/informationEd', // 信息公开编辑
+    path: '/home/informationEd', // 信息公开编辑
     component: Logged(InformationEd)
-  }]
-}, {
-  path: '/operate-manage-home', // 登陆后-运营管理入口
-  component: Logged(OperateManage),
-  childRoutes: [{
+  }],
+  operateManageChildRoutes: [{
     path: '/operate-manage-home/home',
     component: Logged(TeacherHome)
   }, {
@@ -135,11 +130,8 @@ export default [{
   }, {
     path: '/operate-manage-home/all-app-detail-mineabc',
     component: Logged(MyAppDetail)
-  }]
-}, {
-  path: '/software-market-home', // 登陆后-软件市场入口
-  component: Logged(SoftwareMarket),
-  childRoutes: [{
+  }],
+  softwareMarketChildRoutes: [{
     path: '/software-market-home/software-manage/businessing',
     component: Logged(Businessing)
   }, {
@@ -202,11 +194,9 @@ export default [{
   }, {
     path: '/software-market-home/platform-manage/user-count',
     component: Logged(UserCount)
-  }]
-}, {
-  path: '/topbar-manage', // 新消息通知页面
-  component: Logged(MessageTopBar),
-  childRoutes: [{
+  }],
+
+  messageTopBarChildRoutes: [{
     path: '/topbar-manage/notice',
     component: Logged(MessageNotice)
   }, {
@@ -216,10 +206,28 @@ export default [{
     path: '/topbar-manage/detail',
     component: Logged(MessageDetail)
   }]
+}
+
+/* export default [{
+  path: '/home',
+  component: LoginHome,
+  childRoutes:
+}, {
+  path: '/operate-manage-home', // 登陆后-运营管理入口
+  component: Logged(OperateManage),
+  childRoutes:
+}, {
+  path: '/software-market-home', // 登陆后-软件市场入口
+  component: Logged(SoftwareMarket),
+  childRoutes:
+}, {
+  path: '/topbar-manage', // 新消息通知页面
+  component: Logged(MessageTopBar),
+  childRoutes:
 }, {
   path: '/register-home',
   component: Register
 }, {
   path: '/forget-home',
   component: ForgetPass
-}]
+}] */

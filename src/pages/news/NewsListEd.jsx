@@ -96,7 +96,7 @@ class News extends React.Component {
   // 更多的点击事件
   more=() => {
     this.props.history.push({
-      pathname: '/public'
+      pathname: '/home/public'
     })
   }
   // 分页页码改变
@@ -121,7 +121,7 @@ class News extends React.Component {
   // a标签的跳转方法哦~
   handleTabChange= (e) => {
     this.props.history.push({
-      pathname: '/NewDetailsEd',
+      pathname: '/home/NewDetailsEd',
       search: e.target.text.split(' ')[0]
     }
     )
@@ -143,7 +143,7 @@ class News extends React.Component {
   // a标签的跳转方法哦~
   handleTabChanges (e) {
     this.props.history.push({
-      pathname: '/informationDetEd',
+      pathname: '/home/informationDetEd',
       search: e.target.text.split(' ')[0]
     })
   }

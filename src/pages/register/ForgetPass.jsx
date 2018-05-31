@@ -305,7 +305,7 @@ class ForgetPass extends React.Component {
           if (response.data === 'false') {
             message.error('没有此账号！')
           } else {
-            this.backHome('/home')
+            this.backHome('/home/index')
           }
         })
       }
@@ -329,7 +329,7 @@ class ForgetPass extends React.Component {
           <div>
             <Layout.Header className='xingyun-header' style={{height: '92px', width: '100%', margin: 'auto'}}>
               <div className='xingyun-logo' style={{marginTop: '30px'}}
-                onClick={this.backHome.bind(this, '/home')} />
+                onClick={this.backHome.bind(this, '/home/index')} />
             </Layout.Header>
           </div>
         </Layout>

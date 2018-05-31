@@ -110,9 +110,9 @@ class Information extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    if (this.props.location.pathname !== '/public') {
+    if (this.props.location.pathname !== '/home/public') {
       this.props.history.push({
-        pathname: '/public'
+        pathname: '/home/public'
       })
     } else {
       window.location.reload()
@@ -141,7 +141,7 @@ class Information extends React.Component {
   // 跳到信息公开编辑
   handleTabChange (e) {
     this.props.history.push({
-      pathname: '/informationEd'
+      pathname: '/home/informationEd'
       // search: e.target.text.split(' ')[0]
     }
     )
@@ -149,7 +149,7 @@ class Information extends React.Component {
   // 跳到（信息公开列表）// 政策发布
   handleTabChanges (e) {
     this.props.history.push({
-      pathname: '/informationDetEd',
+      pathname: '/home/informationDetEd',
       search: e.target.text.split(' ')[0]
     }
     )

@@ -6,13 +6,13 @@
  */
 import React from 'react'
 import {Layout, Icon, Badge, Row} from 'antd'
-import { renderRoutes } from 'react-router-config'
+// import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
 import GlobalSearch from '../pages/after-logging-home/GlobalSearch'
 import {getMessageCount} from '../services/topbar-mation/index'
 import './Operateview.scss'
-import { withRouter } from 'react-router'
+import { withRouter, Route } from 'react-router'
 import webStorage from 'webStorage'
 import _ from 'lodash'
 
@@ -74,7 +74,7 @@ class OperateManage extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     // 如果下一个路由是首页   新闻列表    信息公开里其中的某一个  则需要切换选中样式
-    if (_.indexOf(['/', '/newsList', '/information'], nextProps.location.pathname) !== -1) {
+    if (_.indexOf(['/', '/home/newsList', '/home/information'], nextProps.location.pathname) !== -1) {
       this.setState({
         activeTab: this.getDefaultTabKey(nextProps.location.pathname)
       })
@@ -249,9 +249,13 @@ class OperateManage extends React.Component {
                 }
               </div>
             </div>
-            {renderRoutes(this.props.route.childRoutes, {
-              changeActiveTab: (activeTab) => { this.changeActiveTab(activeTab) }
-            })}
+            {
+              this.props.childRoutes.map((item, index, arr) => {
+                return <Route key={index} path={item.path} component={item.component}
+                  changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }}
+                />
+              })
+            }
           </Layout>
           <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />

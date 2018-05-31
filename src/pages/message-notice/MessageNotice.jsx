@@ -90,7 +90,7 @@ class MessageNotice extends React.Component {
           <div className='pagition'>
             {this.state.total > 0 ? <Pagination defaultPageSize={5} defaultCurrent={1} total={this.state.total} onChange={this.pagitonChange} /> : null}
           </div>
-          {renderRoutes(this.props.route.childRoutes)}
+          {renderRoutes(this.props.childRoutes)}
         </Card>
       </div>
     )

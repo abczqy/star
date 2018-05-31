@@ -19,8 +19,7 @@ export default class AllApplications extends React.Component {
     }
   }
   static propTypes = {
-    visible: PropTypes.bool,
-    route: PropTypes.object
+    visible: PropTypes.bool
   }
   changeMode = (value) => {
     this.setState({
@@ -69,7 +68,8 @@ export default class AllApplications extends React.Component {
           <Layout style={{minHeight: '800px', _height: '800px', width: '80%'}}>
             <Content>
               {
-                renderRoutes(this.props.route.childRoutes)
+                // eslint-disable-next-line react/prop-types
+                renderRoutes(this.props.childRoutes)
               }
 
             </Content>

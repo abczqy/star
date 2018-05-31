@@ -17,13 +17,13 @@ class NewsAndInfo extends React.Component {
 
   // eslint-disable-next-line react/prop-types
   handleNewsTitleClick (item) {
-    this.props.history.push('/newsDetails?' + item.news_id)
+    this.props.history.push('/home/newsDetails?' + item.news_id)
     this.props.changeActiveTab('newsList')
   }
 
   // eslint-disable-next-line react/prop-types
   handleInfoTitleClick (item) {
-    this.props.history.push('/informationDet?' + item.info_id)
+    this.props.history.push('/home/informationDet?' + item.info_id)
     this.props.changeActiveTab('information')
   }
 

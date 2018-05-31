@@ -144,14 +144,14 @@ class Information extends React.Component {
   // a连接的页面跳转方法呦
   handleTabChange (e) {
     this.props.history.push({
-      pathname: '/informationDet',
+      pathname: '/home/informationDet',
       search: e.target.text.split(' ')[0]
     })
   }
   // a标签的跳转方法哦~
   handleTabChanges (e) {
     this.props.history.push({
-      pathname: '/informationDet',
+      pathname: '/home/informationDet',
       search: e.target.text.split(' ')[0]
     })
   }
@@ -171,9 +171,9 @@ class Information extends React.Component {
   }
   // 更多的点击事件
   more=() => {
-    if (this.props.location.pathname !== '/information') {
+    if (this.props.location.pathname !== '/home/information') {
       this.props.history.push({
-        pathname: '/information'
+        pathname: '/home/information'
       })
     } else {
       window.location.reload()

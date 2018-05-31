@@ -5,12 +5,12 @@
  */
 import React from 'react'
 import { Icon, Badge } from 'antd'
-import { renderRoutes } from 'react-router-config'
+// import { renderRoutes } from 'react-router-config'
 import BottomHeader from 'components/common/BottomHeader'
 import SignOut from '../../views/SignOut'
 import { getMessageCount } from '../../services/topbar-mation/index'
 import webStorage from 'webStorage'
-import { withRouter } from 'react-router'
+import { withRouter, Route } from 'react-router'
 import 'components/common/bottom.scss'
 import '../../views/Operateview.scss'
 
@@ -84,35 +84,39 @@ class MessageTopBar extends React.Component {
             <Icon type='poweroff' style={{ fontSize: 16 }} onClick={() => { this.signOut() }} />
           </div>
         </div>
-        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, '/home')}>
+        <div className='xingyun-header' onClick={this.handleTabChange.bind(this, '/home/index')}>
           <div className='xingyun-logo' />
         </div>
         <div className='xingyun-top-header'>
           <div className='header-container'>
-            <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home', 'home')}><span>首页</span></a>
+            <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/index', 'home')}><span>首页</span></a>
             </li>
             {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
             </li>}
             <li>
               {
                 roleCode === 'eduBureau'
-                  ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/edu', 'newsList')}><span>教育新闻</span></a>
-                  : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/newsList', 'newsList')}><span>教育新闻</span></a>
+                  ? <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/edu', 'newsList')}><span>教育新闻</span></a>
+                  : <a className={this.state.activeTab === 'newsList' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/newsList', 'newsList')}><span>教育新闻</span></a>
               }
             </li>
             <li>
               {
                 roleCode === 'eduBureau'
-                  ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/public', 'information')}><span>信息公开</span></a>
-                  : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/information', 'information')}><span>信息公开</span></a>
+                  ? <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/public', 'information')}><span>信息公开</span></a>
+                  : <a className={this.state.activeTab === 'information' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/information', 'information')}><span>信息公开</span></a>
               }
             </li>
           </div>
         </div>
         <div>
-          {renderRoutes(this.props.route.childRoutes, {
-            updateMessageCount: (value) => { this.updateMessageCount(value) }
-          })}
+          {
+            this.props.childRoutes.map((item, index, arr) => {
+              return <Route key={index} path={item.path} component={item.component}
+                updateMessageCount={(value) => { this.updateMessageCount(value) }}
+              />
+            })
+          }
         </div>
         <SignOut
           visible={this.state.signOutVisible}

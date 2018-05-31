@@ -5,7 +5,7 @@
  */
 import React from 'react'
 import { Layout, Menu, Icon } from 'antd'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import {
@@ -16,7 +16,7 @@ import ImgMemb from '../assets/images/operationMana/u15.png'
 import ImgPlat from '../assets/images/operationMana/u57.png'
 import ImgOper from '../assets/images/operationMana/u83.png'
 import SignOut from './SignOut'
-import { withRouter } from 'react-router'
+import { withRouter, Route } from 'react-router'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
@@ -42,7 +42,7 @@ class SoftwareMarket extends React.Component {
 
   getContent = () => {
     if (this.state.subMenuKey !== '0') {
-      return renderRoutes(this.props.route.childRoutes)
+      return renderRoutes(this.props.childRoutes)
     } else {
       // 当subMenuKey === '0' 为初始页面
       return <Businessing />
@@ -68,6 +68,16 @@ class SoftwareMarket extends React.Component {
     this.props.history.push({
       pathname: '/'
     })
+  }
+
+  renderChildContent () {
+    return <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
+      {
+        this.props.childRoutes.map((item, index, arr) => {
+          return <Route key={index} path={item.path} component={item.component} />
+        })
+      }
+    </Content>
   }
 
   render () {
@@ -150,11 +160,11 @@ class SoftwareMarket extends React.Component {
                 </Menu>
               </Sider>
               <Layout style={{ padding: '20px ' }}>
-                <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
-                  {
-                    this.getContent()
-                  }
-                </Content>
+                {
+                  this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
+                    <Businessing />
+                  </Content>
+                }
               </Layout>
             </Layout>
           </Layout>
@@ -169,7 +179,7 @@ class SoftwareMarket extends React.Component {
 }
 
 SoftwareMarket.propTypes = {
-  route: PropTypes.object
+  // route: PropTypes.object
 }
 
 export default withRouter(SoftwareMarket)
