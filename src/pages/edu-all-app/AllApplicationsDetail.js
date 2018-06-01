@@ -133,7 +133,7 @@ class AllApplicationsDetail extends React.Component {
   }
   render () {
     let total = this.state.allAppListData.length
-    const items = this.state.allAppListData.map((item, index) => {
+    const items = this.state.allAppListData && this.state.allAppListData instanceof Array && this.state.allAppListData.map((item, index) => {
       return (
         <div key={index} className='software-application'>
           <dl>
@@ -163,11 +163,11 @@ class AllApplicationsDetail extends React.Component {
             <div className='all-app-left-arrow' onClick={this.onClickLeft}> &lt; </div>
             <div className='all-app-carousel-detail'>
               <Carousel style={{width: 800}} ref='test'>
-                {this.state.platformAppDataa.map((item, index, arr) => {
+                {this.state.platformAppDataa && this.state.platformAppDataa instanceof Array && this.state.platformAppDataa.map((item, index, arr) => {
                   return (
                     <div key={index}>
                       <div>
-                        { this.state.platformAppDataa[index].map((item, index, arr) => {
+                        { this.state.platformAppDataa[index] && this.state.platformAppDataa[index] instanceof Array && this.state.platformAppDataa[index].map((item, index, arr) => {
                           return (
                             <dl key={index} className='carousel-detail-item'>
                               <dt>

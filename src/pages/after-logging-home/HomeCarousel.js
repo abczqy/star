@@ -26,7 +26,7 @@ class HomeCarousel extends Component {
     homeCarousel({
     }, (res) => {
       this.setState({
-        homeCarouselDatas: res.data.list
+        homeCarouselDatas: res.data.list || []
       }, () => {
         console.log(8888888, this.state.homeCarouselDatas)
       })
@@ -36,7 +36,7 @@ class HomeCarousel extends Component {
     return (
       <div className='home-carousel'>
         <Carousel>
-          {this.state.homeCarouselDatas.map((item, index, arr) => {
+          {this.state.homeCarouselDatas && this.state.homeCarouselDatas.map((item, index, arr) => {
             return (
               <div key={index}>
                 <h3>

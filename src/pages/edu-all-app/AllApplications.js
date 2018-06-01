@@ -4,7 +4,7 @@
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
 import { Layout, Menu } from 'antd'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 // import { renderRoutes } from 'react-router-config'
 import { Link } from 'react-router-dom'
 import allApp from '../../assets/images/all-app/u2835.jpg'
@@ -23,23 +23,7 @@ export default class AllApplications extends React.Component {
       theme: 'light'
     }
   }
-  static propTypes = {
-    visible: PropTypes.bool
-  }
-  changeMode = (value) => {
-    this.setState({
-      mode: value ? 'vertical' : 'inline'
-    })
-  }
-  changeTheme = (value) => {
-    this.setState({
-      theme: value ? 'dark' : 'light'
-    })
-  }
-  componentWillReceiveProps (nextProps) {
-    if ((nextProps.visible !== this.props.visible) && nextProps.visible) {
-    }
-  }
+
   render () {
     return (
       <div>

@@ -62,13 +62,13 @@ class MyApp extends Component {
           <MyAppOperationTable dataSource={this.state.tableDatas} />
         </Card> */}
         <Tabs defaultActiveKey='class' onChange={() => this.changeState()}>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum.news1}>运营中</Badge>} key='class' >
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news1 || 0)}>运营中</Badge>} key='class' >
             <MyAppOperationTable getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum.news2}>审核中</Badge>} key='text' >
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news2 || 0)}>审核中</Badge>} key='text' >
             <MyAppExamineTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum.news3}>迭代审核</Badge>} key='grade' >
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news3 || 0)}>迭代审核</Badge>} key='grade' >
             <MyAppIterationTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
         </Tabs>

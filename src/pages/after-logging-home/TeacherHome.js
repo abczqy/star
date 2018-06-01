@@ -269,7 +269,7 @@ class TeacherHome extends Component {
                 <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>
-                {this.state.teacherData && this.state.teacherData.map((item, index, arr) => {
+                {this.state.teacherData && this.state.teacherData instanceof Array && this.state.teacherData.map((item, index, arr) => {
                   return this.handleTeacherIsSelfSupport(item, index)
                 })}
               </div>
@@ -281,7 +281,7 @@ class TeacherHome extends Component {
                 <span className='more' onClick={this.handleHotMor}>更多 > ></span>
               </div>
               <div className='popular-recommendation-item'>
-                {this.state.hotData && this.state.hotData.map((item, index, arr) => {
+                {this.state.hotData && this.state.hotData instanceof Array && this.state.hotData.map((item, index, arr) => {
                   return this.handleHotRecomIsSelfSupport(item, index)
                 })}
               </div>
@@ -294,12 +294,12 @@ class TeacherHome extends Component {
             </div>
             <Tabs style={{width: '100%'}} type='card' onChange={this.handleRanking}>
               <TabPane tab='新应用' key='1'>
-                {this.state.rankingData && this.state.rankingData.map((item, index, arr) => {
+                {this.state.rankingData && this.state.rankingData instanceof Array && this.state.rankingData.map((item, index, arr) => {
                   return this.handleRankingIsSelfSupport(item, index)
                 })}
               </TabPane>
               <TabPane tab='下载排行' key='2'>
-                {this.state.rankingData && this.state.rankingData.map((item, index, arr) => {
+                {this.state.rankingData && this.state.rankingData instanceof Array && this.state.rankingData.map((item, index, arr) => {
                   return this.handleRankingIsSelfSupport(item, index)
                 })}
               </TabPane>
