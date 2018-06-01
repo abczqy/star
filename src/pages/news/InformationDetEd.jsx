@@ -13,6 +13,7 @@ import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
+import { withRouter } from 'react-router'
 import webStorage from 'webStorage'
 import moment from 'moment'
 import {informationDet, newsList, information} from 'services/software-manage'
@@ -250,4 +251,4 @@ class InformationDetEd extends React.Component {
  }
 }
 
-export default InformationDetEd
+export default withRouter(InformationDetEd)

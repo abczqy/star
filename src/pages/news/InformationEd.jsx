@@ -18,6 +18,7 @@ import {processStr} from 'utils'
 import CustomPagingTable from '../../components/common/PagingTable'
 import {informationEdListDelete, informationEdList, information} from 'services/software-manage'
 import ajaxUrl from 'config'
+import { withRouter } from 'react-router'
 
 const Search = Input.Search
 class InformationEd extends React.Component {
@@ -338,4 +339,4 @@ render () {
 }
 }
 
-export default InformationEd
+export default withRouter(InformationEd)

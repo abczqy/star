@@ -16,7 +16,9 @@ import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
 import moment from 'moment'
 import ajaxUrl from 'config'
+import { withRouter } from 'react-router'
 import {newsListDet, newsList, information} from 'services/software-manage'
+
 class NewsDetailsEd extends React.Component {
   constructor (props) {
     super(props)
@@ -237,4 +239,4 @@ class NewsDetailsEd extends React.Component {
   }
 }
 
-export default NewsDetailsEd
+export default withRouter(NewsDetailsEd)

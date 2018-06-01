@@ -163,7 +163,6 @@ class TeacherHome extends Component {
   }
 
   handleBtnClick (item) {
-    console.log(2222222, item)
     if (item.isSelfSupport === 'false') {
       this.props.history.push({
         pathname: '/operate-manage-home/all-app-detail-third',

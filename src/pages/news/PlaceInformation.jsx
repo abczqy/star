@@ -16,6 +16,7 @@ import {processStr} from 'utils'
 import ajaxUrl from 'config'
 import {information} from 'services/software-manage'
 // import _ from 'lodash'
+import { withRouter } from 'react-router'
 
 class Information extends React.Component {
   constructor (props) {
@@ -240,4 +241,4 @@ class Information extends React.Component {
  }
 }
 
-export default Information
+export default withRouter(Information)

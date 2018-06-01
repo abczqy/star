@@ -11,6 +11,7 @@ import ul from '../../assets/images/u1427.png'
 import _ul from '../../assets/images/_ul.png'
 import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
+import { withRouter } from 'react-router'
 import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
@@ -245,4 +246,4 @@ class InformationDet extends React.Component {
   }
 }
 
-export default InformationDet
+export default withRouter(InformationDet)

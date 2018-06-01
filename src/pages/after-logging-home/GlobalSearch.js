@@ -55,13 +55,7 @@ class GlobalSearch extends Component {
     this.setState({ value })
     fetch(value, data => this.setState({ data }))
   }
-  handleOnselect = (d) => {
-    console.log('099999999999999', d)
-    // this.props.history.push({
-    //   pathname: '/operate-manage-home/all-app-detail-third',
-    //   search: d.SW_ID
-    // })
-  }
+
   render () {
     console.log(888888, this.state.data)
     const options = this.state.data.map((d, index, arr) => {

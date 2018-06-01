@@ -13,6 +13,8 @@ import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import {newsList, information} from 'services/software-manage'
+import { withRouter } from 'react-router'
+
 class News extends React.Component {
   constructor (props) {
     super(props)
@@ -230,4 +232,4 @@ class News extends React.Component {
   }
 }
 
-export default News
+export default withRouter(News)
