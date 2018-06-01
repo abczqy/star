@@ -14,6 +14,7 @@ import _ul from '../../assets/images/_ul.png'
 import shareContent from '../../utils/shareContent'
 import _ from 'lodash'
 import webStorage from 'webStorage'
+import { withRouter } from 'react-router'
 import {newsListDet, newsList, information} from 'services/software-manage'
 import moment from 'moment'
 import ajaxUrl from 'config'
@@ -240,4 +241,4 @@ render () {
 }
 }
 
-export default NewsDetails
+export default withRouter(NewsDetails)

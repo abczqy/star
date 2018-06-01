@@ -39,7 +39,7 @@ class AllApplicationsDetail extends React.Component {
     this.getPlatformAppData()
   }
   componentWillReceiveProps (nextProps) {
-    let a = nextProps.location.search.replace('?', '')
+    let a = nextProps.location ? (nextProps.location.search ? nextProps.location.search.replace('?', '') : '') : ''
     this.setState({
       appType: a
     }, () => {

@@ -19,7 +19,7 @@ export const Logged = (WrappedComponent, newProps) => {
     }
 
     render () {
-      return this.state.isLogged ? <WrappedComponent {...this.props} {...newProps} /> : <Redirect to='/' />
+      return this.state.isLogged ? <WrappedComponent {...this.props} {...newProps} /> : <Redirect to='/home/index' />
     }
   }
 }

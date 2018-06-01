@@ -11,7 +11,7 @@ import _ul from '../../assets/images/_ul.png'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
-// import _ from 'lodash'
+import { withRouter } from 'react-router'
 import {newsList, information} from 'services/software-manage'
 
 // import { renderRoutes } from 'react-router-config'
@@ -250,4 +250,4 @@ class News extends React.Component {
   }
 }
 
-export default News
+export default withRouter(News)

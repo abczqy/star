@@ -15,7 +15,9 @@ import webStorage from 'webStorage'
 import moment from 'moment'
 import {processStr} from 'utils'
 import ajaxUrl from 'config'
+import { withRouter } from 'react-router'
 import {information} from 'services/software-manage'
+
 class Information extends React.Component {
   constructor (props) {
     super(props)
@@ -262,4 +264,4 @@ class Information extends React.Component {
   }
 }
 
-export default Information
+export default withRouter(Information)
