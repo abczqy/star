@@ -24,6 +24,11 @@ import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
 import MarketAnalysis from 'pages/market-analysis/MarketAnalysis'
+import MyAppDetail from 'pages/app-detail/MyAppDetail'
+import SelfSupport from 'pages/app-detail/SelfSupport'
+import ThirdPartyAppDetail from 'pages/app-detail/ThirdPartyAppDetail'
+import MyApp from 'pages/app-detail/MyApp'
+
 let LAllApplications = Logged(AllApplications)
 let LTeacherHome = Logged(TeacherHome)
 let LPlease = Logged(Please)
@@ -32,6 +37,11 @@ let LPersonnelManagement = Logged(PersonnelManagement)
 let LPersonalCenter = Logged(PersonalCenter)
 let LStatisticalAnalysis = Logged(StatisticalAnalysis)
 let LMarketAnalysis = Logged(MarketAnalysis)
+
+let LMyAppDetail = Logged(MyAppDetail)
+let LSelfSupport = Logged(SelfSupport)
+let LThirdPartyAppDetail = Logged(ThirdPartyAppDetail)
+let LMyApp = Logged(MyApp)
 
 class OperateManage extends React.Component {
   constructor (props) {
@@ -304,6 +314,27 @@ class OperateManage extends React.Component {
             <Route path='/operate-manage-home/all-app' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <LAllApplications
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+
+            <Route path='/operate-manage-home/all-app-detail' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LSelfSupport
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/all-app-detail-third' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LThirdPartyAppDetail
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/all-app-detail-mine' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LMyApp
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/all-app-detail-mineabc' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <LMyAppDetail
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
             }} />
           </Layout>
