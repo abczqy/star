@@ -56,19 +56,22 @@
                             // var url=window.parent.document.getElementById('userCount').contentWindow.location.href;
                             // var id=url.substring(url.indexOf('=')+1);
                             // console.log(id);
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
+
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
+                            
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+                            
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
 
-                              console.log(data);
+                              // console.log(data);
                               myChartOne.setOption(
                                 option = {
                                   legend: {
@@ -81,7 +84,8 @@
                                 }
                               )
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                            
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -97,17 +101,17 @@
                             });
                             
                           function defaultCard() {
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserAppliedStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserDownloadStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyStatisticsList',{type:'全部人员'}).done(function (data) {
 
                               console.log(data);
                               myChartOne.setOption(
@@ -122,7 +126,7 @@
                                 }
                               )
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyMonthStatisticsList',{type:'全部人员'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -138,17 +142,17 @@
                             })
                           }
                           function changeEdu() {
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'教育机构'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserAppliedStatisticsList',{type:'教育机构'}).done(function (data) {
                               
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'教育机构'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserDownloadStatisticsList',{type:'教育机构'}).done(function (data) {
                               
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'教育机构'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyStatisticsList',{type:'教育机构'}).done(function (data) {
                               
                               myChartOne.setOption(
                                 option = {
@@ -162,7 +166,7 @@
                                 }
                               )
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'教育机构'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyMonthStatisticsList',{type:'教育机构'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {
@@ -178,16 +182,16 @@
                             })
                           }
                           function changeFactory() {
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'厂商'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserAppliedStatisticsList',{type:'厂商'}).done(function (data) {
                               // console.log(data);
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'厂商'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserDownloadStatisticsList',{type:'厂商'}).done(function (data) {
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'厂商'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyStatisticsList',{type:'厂商'}).done(function (data) {
                               
                               myChartOne.setOption(
                                 option = {
@@ -201,7 +205,7 @@
                                 }
                               )
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'厂商'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyMonthStatisticsList',{type:'厂商'}).done(function (data) {
                               myChartTwo.setOption(
                                 option = {
                                   legend: {
@@ -217,16 +221,16 @@
                           }
                           
                           function changeUser() {
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserAppliedStatisticsList',{type:'C端用户'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserAppliedStatisticsList',{type:'C端用户'}).done(function (data) {
                               let length=data.length-1;
                               $('#appSum').text(data[length].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserDownloadStatisticsList',{type:'C端用户'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserDownloadStatisticsList',{type:'C端用户'}).done(function (data) {
                               // console.log(data);
                               let downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyStatisticsList',{type:'C端用户'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyStatisticsList',{type:'C端用户'}).done(function (data) {
                               
                               myChartOne.setOption(
                                 option = {
@@ -240,7 +244,7 @@
                                 }
                               )
                             });
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getUserApplyMonthStatisticsList',{type:'C端用户'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getUserApplyMonthStatisticsList',{type:'C端用户'}).done(function (data) {
                               // console.log(data);
                               myChartTwo.setOption(
                                 option = {

@@ -51,36 +51,36 @@
                         </div>
 
                         <script>
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                             })
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
                               var downLength=data.length-1;
                               $('#downSum').text(data[downLength].total);
                             })
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
                               var applyLength=data.length-1;
                               $('#appApply').text(data[applyLength].total);
                             })
-                            $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
+                            $.get('http://fjedu.nebedu.cn/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
                               var collLength=data.length-1;
                               $('#userColl').text(data[collLength].total);
                             })
                             function defaultCard() {
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppliedStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppDowmloadStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getApplyStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getCollStatisticsList',{type:'全部分类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -90,19 +90,19 @@
                               $('#all').css('display','block');
                             }
                             function changeEduData() {
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppliedStatisticsList',{type:'教育类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppDowmloadStatisticsList',{type:'教育类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getApplyStatisticsList',{type:'教育类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'教育类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getCollStatisticsList',{type:'教育类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -114,19 +114,19 @@
                               
                             }
                             function changeTeaAssit() {
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppliedStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppDowmloadStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getApplyStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'教辅类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getCollStatisticsList',{type:'教辅类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -137,19 +137,19 @@
                               $('#assit').css('display','block');
                             }
                             function changeManage() {
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppliedStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppliedStatisticsList',{type:'管理类'}).done(function (data) {
                                 var length=data.length-1;
                                 $('#appSum').text(data[length].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getAppDowmloadStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getAppDowmloadStatisticsList',{type:'管理类'}).done(function (data) {
                                 var downLength=data.length-1;
                                 $('#downSum').text(data[downLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getApplyStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getApplyStatisticsList',{type:'管理类'}).done(function (data) {
                                 var applyLength=data.length-1;
                                 $('#appApply').text(data[applyLength].total);
                               })
-                              $.get('http://p1663488m8.imwork.net:49784/server/statistics/getCollStatisticsList',{type:'管理类'}).done(function (data) {
+                              $.get('http://fjedu.nebedu.cn/server/statistics/getCollStatisticsList',{type:'管理类'}).done(function (data) {
                                 var collLength=data.length-1;
                                 $('#userColl').text(data[collLength].total);
                               })
@@ -228,10 +228,10 @@
                                         // console.log(id);
                                         
                                         // var newUrl='http://192.168.1.26:52999/server/statistics/getTypeStatisticsList';
-                                        let newUrl='http://p1663488m8.imwork.net:49784/server/statistics/getTypeStatisticsList';
+                                        let newUrl='http://fjedu.nebedu.cn/server/statistics/getTypeStatisticsList';
                                         $.get(newUrl).done(function (data) {
 
-                                            console.log(data);
+                                            // console.log(data);
                                             myChartOne.setOption(
                                                 option = {
                                                     legend: {
@@ -306,7 +306,7 @@
                                         // var url=window.parent.document.getElementById('appCount').contentWindow.location.href;
                                         // var id=url.substring(url.indexOf('=')+1);
                                         // var newUrl='http://192.168.1.26:52999/server/getDownloadStatisticsList?STAR_WEB_SESSION_ID='+id;
-                                        let newUrl2='http://p1663488m8.imwork.net:49784/server/statistics/getDownloadStatisticsList'
+                                        let newUrl2='http://fjedu.nebedu.cn/server/statistics/getDownloadStatisticsList'
                                         $.get(newUrl2).done(function (data) {
                                             // console.log(data);
                                             myChartTwo.setOption(
@@ -337,7 +337,7 @@
                                     
                                 </style>
                                 <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
-                                <img src="http://p1663488m8.imwork.net:15206{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                                <img src="http://fjdownload.nebedu.cn{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
                                 <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                             </script>
 
@@ -359,7 +359,7 @@
                                 </div>
                             </script>
 
-                            <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
+                            <table class="layui-table"  lay-data="{url:'http://fjedu.nebedu.cn/server/statistics/getRankList',method:'get',where:{type:'全部分类'},skin: 'row', even: true}">
                                 <thead>
                                     <tr>
                                       <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
@@ -384,7 +384,7 @@
 
                           </style>
                           <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
-                          <img src="http://p1663488m8.imwork.net:15206{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                          <img src="http://fjdownload.nebedu.cn{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
                           <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                         </script>
 
@@ -406,7 +406,7 @@
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'教育类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{url:'http://fjedu.nebedu.cn/server/statistics/getRankList',method:'get',where:{type:'教育类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
                             <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
@@ -431,7 +431,7 @@
 
                           </style>
                           <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
-                          <img src="{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                          <img src="http://fjdownload.nebedu.cn{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
                           <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                         </script>
 
@@ -453,7 +453,7 @@
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'教辅类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{url:'http://fjedu.nebedu.cn/server/statistics/getRankList',method:'get',where:{type:'教辅类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
                             <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
@@ -478,7 +478,7 @@
 
                           </style>
                           <span class="layui-badge" style="background-color: {{d.BGCOLOR}};">{{d.id}}</span>
-                          <img src="{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
+                          <img src="http://fjdownload.nebedu.cn{{d.APPURL}}" style="width: 27px;height: 23px;margin: 0px 10px 0 12px;">
                           <span style="color:{{d.bgColor}};">{{d.APPNAME}}</span>
                         </script>
 
@@ -497,7 +497,7 @@
                           </div>
                         </script>
 
-                        <table class="layui-table"  lay-data="{url:'http://p1663488m8.imwork.net:49784/server/statistics/getRankList',method:'get',where:{type:'管理类'},skin: 'row', even: true}">
+                        <table class="layui-table"  lay-data="{url:'http://fjedu.nebedu.cn/server/statistics/getRankList',method:'get',where:{type:'管理类'},skin: 'row', even: true}">
                           <thead>
                           <tr>
                             <th lay-data="{field:'app', width:238, templet:'#info',}">APP名称</th>
