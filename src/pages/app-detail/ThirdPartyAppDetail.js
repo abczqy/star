@@ -10,8 +10,9 @@ import ajaxUrl from 'config'
 import {thirdPartyAppDetail} from 'services/all-app/'
 // import { renderRoutes } from 'react-router-config'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 // const { Sider, Content } = Layout
-export default class ThirdPartyAppDetail extends React.Component {
+class ThirdPartyAppDetail extends React.Component {
   constructor (props) {
     super(props)
 
@@ -243,3 +244,4 @@ export default class ThirdPartyAppDetail extends React.Component {
     )
   }
 }
+export default withRouter(ThirdPartyAppDetail)

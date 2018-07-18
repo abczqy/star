@@ -54,11 +54,13 @@ class SelfSupport extends React.Component {
       sw_id: this.state.appId
     }, (res) => {
       this.setState({
-        appDetailData: res.data
+        appDetailData: res.data || {}
       }, () => {
         let bb = []
-        for (let i in this.state.appDetailData.sw_computer_photo) {
-          bb.push(this.state.appDetailData.sw_computer_photo[i])
+        if (this.state.appDetailData && this.state.appDetailData.sw_computer_photo) {
+          for (let i in this.state.appDetailData.sw_computer_photo) {
+            bb.push(this.state.appDetailData.sw_computer_photo[i])
+          }
         }
         this.setState({
           computerCarousel: bb,
