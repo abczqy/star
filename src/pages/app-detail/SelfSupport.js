@@ -9,7 +9,9 @@ import {selfSupportAppDetail, openPlatformAppByUser} from 'services/all-app/'
 import { Button, Icon, Carousel, Rate, message } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-export default class SelfSupport extends React.Component {
+import { withRouter } from 'react-router'
+
+class SelfSupport extends React.Component {
   constructor (props) {
     super(props)
 
@@ -145,7 +147,6 @@ export default class SelfSupport extends React.Component {
     }
   }
   render () {
-    console.log(222222, this.props)
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -248,3 +249,4 @@ export default class SelfSupport extends React.Component {
     )
   }
 }
+export default withRouter(SelfSupport)
