@@ -19,11 +19,69 @@ import {
   PublicInfoEdit,
   PublicInfoVerifyDetail
 } from 'pages/software-market'
+import {
+  Home,
+  Test
+} from 'pages/work-plat'
+import {
+  TestPer,
+  PerHome
+} from 'pages/work-plat/per-center'
+import {
+  BaseInfo
+} from '../pages/work-plat/per-center/baseInfo'
+import {
+  OrderManage
+} from '../pages/work-plat/per-center/orderManage'
+import {
+  LoginSet
+} from '../pages/work-plat/per-center/loginSet'
+import {
+  AddrManage
+} from '../pages/work-plat/per-center/addrmanage'
+import {
+  InvoiceManage
+} from '../pages/work-plat/per-center/invoiceManage'
+import {
+  TestManage
+} from 'pages/work-plat/manage'
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default {
+  workPlat: [{
+    path: '/operate-manage-home/work-plat/test',
+    component: Logged(Test)
+  }, {
+    path: '/operate-manage-home/work-plat/home',
+    component: Logged(Home)
+  }, {
+    path: '/operate-manage-home/work-plat/per-center',
+    component: Logged(PerHome),
+    childRoutes: [{
+      path: '/operate-manage-home/work-plat/per-center/test',
+      component: Logged(TestPer)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/base-info',
+      component: Logged(BaseInfo)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/order-manage',
+      component: Logged(OrderManage)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/login-set',
+      component: Logged(LoginSet)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/addr-manage',
+      component: Logged(AddrManage)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/invoice-manage',
+      component: Logged(InvoiceManage)
+    }]
+  }, {
+    path: '/operate-manage-home/work-plat/manage',
+    component: Logged(TestManage)
+  }],
   softwareMarketChildRoutes: [{
     path: '/software-market-home/software-manage/businessing',
     component: Logged(Businessing)

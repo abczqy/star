@@ -32,3 +32,21 @@
     padding: 12px 16px
   }
 }
+
+/*-----------------------星云v2新加公用样式-参照设计规范------------------------*/
+/***** 色彩 *****/
+/* 背景色 */
+$backgroundColor: #f4f4f4;
+/* 选择器下拉悬浮色调 */
+$hoverBackColor: #DFEFFE;
+/* 链接激活蓝 */
+$linkColor: #1890ff;
+
+/***** 字体 *****/
+/* 基础字体 */
+$fontFamily: "PingFang SC", "微软雅黑", "黑体"， "宋体", "arial";
+$fontSizeH3: 14px;
+
+
+/* 圆角 */
+$radius: 4px;

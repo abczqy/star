@@ -1,0 +1,29 @@
+/* 公用样式尽量引用公用变量 */
+@import "../../../assets/index.scss";
+
+.menu-item {
+  width: 100%;
+  // padding-left: 10%;
+  font-family: $fontFamily;
+  font-Size: fontSizeH3;
+  // color: $fontColorH3;
+}
+
+.menu-item-select {
+  height: 100%;
+  // &:before {
+  //   content: '';
+  //   display: inline-block;
+  //   width: 5px;
+  //   height: 100%;
+  //   background: $linkColor;
+  // }
+}
+
+/*antd部分样式复写*/
+.ant-menu-item {
+  // &:hover {
+  //   background: $hoverBackColor;
+  // }
+}
+

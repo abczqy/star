@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import {Layout, Icon, Badge, Row} from 'antd'
-// import { renderRoutes } from 'react-router-config'
+import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
 import GlobalSearch from '../pages/after-logging-home/GlobalSearch'
@@ -28,6 +28,7 @@ import MyAppDetail from 'pages/app-detail/MyAppDetail'
 import SelfSupport from 'pages/app-detail/SelfSupport'
 import ThirdPartyAppDetail from 'pages/app-detail/ThirdPartyAppDetail'
 import MyApp from 'pages/app-detail/MyApp'
+import routes from '../routes'
 
 let LAllApplications = Logged(AllApplications)
 let LTeacherHome = Logged(TeacherHome)
@@ -166,6 +167,10 @@ class OperateManage extends React.Component {
       text: '个人中心',
       tabKey: 'peopleCenter',
       src: '/operate-manage-home/center'
+    }, {
+      text: 'test', // 测试空间
+      tabKey: 'test',
+      src: '/operate-manage-home/work-plat/test'
     }]
     if (roleCode === 'parents') { // 家长
       return baseTabArr
@@ -190,6 +195,10 @@ class OperateManage extends React.Component {
         text: '个人中心',
         tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
+      }, {
+        text: 'test', // 测试空间
+        tabKey: 'test',
+        src: '/operate-manage-home/work-plat/test'
       }]
     } else if (roleCode === 'vendor') { // 厂商
       return [{
@@ -212,6 +221,14 @@ class OperateManage extends React.Component {
         text: '市场分析',
         tabKey: 'marketAnaly',
         src: '/operate-manage-home/market'
+      }, {
+        text: 'test',
+        tabKey: 'test',
+        src: '/operate-manage-home/work-plat/test'
+      }, {
+        text: 'test', // 测试空间
+        tabKey: 'test',
+        src: '/operate-manage-home/work-plat/test'
       }]
     } else if (roleCode === 'eduBureau') { // 教育局
       return [{
@@ -226,6 +243,10 @@ class OperateManage extends React.Component {
         text: '个人中心',
         tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
+      }, {
+        text: 'test', // 测试空间
+        tabKey: 'test',
+        src: '/operate-manage-home/work-plat/test'
       }]
     }
   }
@@ -337,6 +358,7 @@ class OperateManage extends React.Component {
               return <LMyAppDetail
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
             }} />
+            { renderRoutes(routes.workPlat) }
           </Layout>
           <Row style={{width: '100%', height: 65, marginTop: '30px', backgroundColor: '#000'}}>
             <BottomHeader />
