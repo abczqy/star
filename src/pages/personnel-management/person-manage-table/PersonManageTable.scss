@@ -6,9 +6,9 @@
       span{
         color: #1890FF;
         cursor: pointer;
-        &:first-child{
+        // &:first-child{
           margin-right: 10px;
-        }
+        // }
       }
     }
     .ant-table-content{
