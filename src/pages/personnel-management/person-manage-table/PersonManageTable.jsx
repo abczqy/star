@@ -98,6 +98,7 @@ class PersonManageTable extends Component {
             <Popconfirm placement='top' title='确认删除？' onConfirm={() => { this.delete(record.th_id, 'teacher') }} okText='删除' cancelText='取消'>
               <span className='delete'>删除</span>
             </Popconfirm>
+            <span onClick={this.props.onUpload}>模板下载</span>
           </div>
         )
         // width: 150
@@ -152,6 +153,7 @@ class PersonManageTable extends Component {
             <Popconfirm placement='top' title='确认删除？' onConfirm={() => { this.delete(record.stu_id, 'student') }} okText='删除' cancelText='取消'>
               <span className='delete'>删除</span>
             </Popconfirm>
+            <span onClick={this.props.onUpload}>模板下载</span>
           </div>
         )
         // width: 150
@@ -387,7 +389,8 @@ PersonManageTable.propTypes = {
   role: PropTypes.string,
   form: PropTypes.object,
   onCancel: PropTypes.func,
-  updateList: PropTypes.number
+  updateList: PropTypes.number,
+  onUpload: PropTypes.func
 }
 
 const PersonManageForm = Form.create()(PersonManageTable)
