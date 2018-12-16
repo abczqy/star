@@ -80,9 +80,9 @@
     padding-left: 0;
     .per-header {
       .search {
-        .ant-input {
-          width: calc(100% - 75px)
-        }
+        // .ant-input {
+        //   width: calc(100% - 75px)
+        // }
         .ant-btn {
           float: right
         }
@@ -95,10 +95,27 @@
           text-decoration: underline;
           cursor: pointer;
         }
-        .upload-btn {
+        .btn-style {
+          width: 80px;
+          height: 32px;
+          border-radius: 2px;
+          padding: 0;
+          margin-left: 5px;
+        }
+        .add-btn {
           background-color: #3c0;
           border-color: #3c0;
+          color: #FFFFFF;
         }
+        .back-btn {
+          background-color: rgba(243, 243, 243, 1);
+          border-color: rgba(217, 217, 217, 1);
+          color: #666666;
+        }
+        // .upload-btn {
+        //   background-color: #3c0;
+        //   border-color: #3c0;
+        // }
       }
     } // 隐藏上传列表
     .ant-upload-list {
