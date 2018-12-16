@@ -3,12 +3,14 @@
  */
 
 import React, { Component } from 'react'
-import { Menu, Input, Button, Row, Col, Upload, message } from 'antd'
+import { Menu, Input, Button, Row, Col, Upload, message, Icon, Modal } from 'antd'
 // import axios from 'axios'
 import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import PersonManageTable from './person-manage-table/PersonManageTable'
 import './PersonnelManagement.scss'
+import PersonManageAdd from './person-manage-table/PersonManageAdd'
+const Search = Input.Search
 
 const tableParams = {
   pageNum: 1,
@@ -24,7 +26,8 @@ class PersonnelManagement extends Component {
       inputValue: '',
       role: 'teacher',
       updateList: 0,
-      filepath: '/image/attach/2.xls'
+      filepath: '/image/attach/2.xls',
+      newListVisibility: false
     }
     this.uploadProps = {
       name: 'teachers',
@@ -82,6 +85,20 @@ class PersonnelManagement extends Component {
         text: this.state.inputValue,
         pageNum: 1
       }
+    })
+  }
+
+  // 新增
+  newPerson = () => {
+    this.setState({
+      newListVisibility: true
+    })
+  }
+
+  // 关闭弹窗
+  closeModal = () => {
+    this.setState({
+      newListVisibility: false
     })
   }
 
@@ -155,25 +172,40 @@ class PersonnelManagement extends Component {
         <div className='content'>
           <Row className='per-header'>
             <Col span={8} className='search' >
-              <Input
-                placeholder='请输入员工账号或姓名'
+              <span>
+                搜索 :&nbsp;&nbsp;
+              </span>
+              <Search
+                placeholder='请输入姓名'
                 value={this.state.inputValue}
                 onChange={this.inputChange}
                 onPressEnter={this.search}
+                onSearch={this.search}
+                style={{width: 200}}
               />
-              <Button type='primary' onClick={this.search} >搜索</Button>
             </Col>
             <Col offset={10} span={6} className='opt-box' >
-              <span className='link' onClick={this.templateDownload} >模板下载</span>
+              <Button
+                className='btn-style add-btn'
+                onClick={this.newPerson}
+              >
+                <span><Icon type='plus' /></span>
+                <span style={{marginLeft: '5px'}}>新增</span>
+              </Button>
               <Upload {...this.uploadProps}>
                 <Button
-                  className='upload-btn'
+                  className='upload-btn btn-style'
                   type='primary'
-                  icon='file-add'
                 >
                   批量导入
                 </Button>
               </Upload>
+              <Button
+                type='primary'
+                className='back-btn btn-style'
+              >
+                返回
+              </Button>
             </Col>
           </Row>
           <PersonManageTable
@@ -182,6 +214,7 @@ class PersonnelManagement extends Component {
             pageNumChange={this.pageNumChange}
             role={this.state.role}
             updateList={this.state.updateList}
+            onUpload={this.templateDownload}
           />
         </div>
         {/* 下载 */}
@@ -196,6 +229,19 @@ class PersonnelManagement extends Component {
         <form ref='downloadForm' action={ajaxUrl.IMG_BASE_URL + this.state.filepath} target='download-frame' style={{ visibility: 'none' }}>
           <input type='hidden' name='fileId' value='' />
         </form>
+        <Modal
+          visible={this.state.newListVisibility}
+          onCancel={this.closeModal}
+          title='新增'
+          footer={null}
+          width={'596px'}
+          destroyOnClose
+        >
+          <PersonManageAdd
+            role={this.state.role}
+            close={this.closeModal}
+          />
+        </Modal>
       </div>
     )
   }
