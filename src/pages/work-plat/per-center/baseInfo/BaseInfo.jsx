@@ -8,6 +8,34 @@ import './BaseInfo.scss'
 const { TextArea } = Input
 
 class BaseInfo extends Component {
+  // 根据用户角色显示对应的姓名字段
+  showName = (role) => {
+    switch (role) {
+      case 'school': case 'eduBureau':
+        return '运营者姓名'
+      case 'teacher': case 'parents': case 'students':
+        return '姓名'
+      case 'agent':
+        return '代理商姓名'
+      default:
+        break
+    }
+  }
+
+  // 根据用户角色不同显示不同的手机字段
+  showMobileName = (role) => {
+    switch (role) {
+      case 'school': case 'eduBureau':
+        return '运营者手机号'
+      case 'teacher': case 'parents': case 'students':
+        return '手机号'
+      case 'agent':
+        return '代理商手机号'
+      default:
+        break
+    }
+  }
+
   render () {
     let per = webStorage.getItem('STAR_WEB_ROLE_CODE')
     return (
@@ -18,7 +46,7 @@ class BaseInfo extends Component {
           <Button type='primary' className='base-info-btn'>保存</Button>
         </div>
         {
-          per === 'agent'
+          per === 'vendor'
             ? <div className='setting-body'>
               <div className='safe_item'>
                 <div className='list-img'>
@@ -83,32 +111,47 @@ class BaseInfo extends Component {
                 <Col span={12} className='base-info-content-top-info'>
                   烽火
                 </Col>
-                <Col>
+                <Col className='base-info-content-change'>
                   <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
                 <Col span={4} className='base-info-content-top-label'>
-                  <span>用户类型:</span>
+                  <span>{this.showName(per)}:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                    XXX市代理商
+                  张立冬
+                </Col>
+                <Col className='base-info-content-change'>
+                  <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
                 <Col span={4} className='base-info-content-top-label'>
-                  <span>用户类型:</span>
+                  <span>{this.showMobileName(per)}:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                    XXX市代理商
+                  <span className='info-tips'>您验证的手机:</span>
+                  <span>180****9090</span>
+                  <span className='info-tips'>若已丢失或停用，请立即更换,</span>
+                  <span className='info-warn'>避免账户被盗</span>
+                </Col>
+                <Col className='base-info-content-change'>
+                  <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
                 <Col span={4} className='base-info-content-top-label'>
-                  <span>用户类型:</span>
+                  <span>邮箱验证:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                    XXX市代理商
+                  <span className='info-tips'>您验证的邮箱:</span>
+                  <span>18901102890@163.com</span>
+                  <span className='info-tips'>若已丢失或停用，请立即更换,</span>
+                  <span className='info-warn'>避免账户被盗</span>
+                </Col>
+                <Col className='base-info-content-change'>
+                  <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row base-bottom'>
