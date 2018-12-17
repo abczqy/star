@@ -3,15 +3,23 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
-import { Layout, Card, Row, Menu } from 'antd'
+import { Layout, Card, Row, Col, Menu, Avatar } from 'antd'
 import classNames from 'classnames'
-import { Page } from '../../../components/common'
+import { Page, Align } from '../../../components/common'
+import avatar from '../../../assets/images/work-plat/avatar.png'
 import './Home.scss'
 
 const { Sider, Content } = Layout
 const { Item } = Menu
+
+// 一个临时组件 -- 用来做元素的高度和margin的
+const LabelBox = props => (
+  <div style={{ display: 'inline-block', margin: props.margin || '0' }}>
+    {props.children}
+  </div>
+)
 
 class Home extends Component {
   constructor (props) {
@@ -45,6 +53,7 @@ class Home extends Component {
 
   componentDidMount () {
     // 需要重定向到'基本信息'
+    this.props.history.push('/operate-manage-home/work-plat/per-center/base-info')
   }
 
   render () {
@@ -55,20 +64,56 @@ class Home extends Component {
         paddingRight='10%'
         paddingBottom='0'
       >
-        <Layout>
+        <Layout className='layout-wrap'>
           <Sider theme='light'>
             <Row>
-              <Card>
-                头像
+              <Card
+                bordered={false}
+              >
+                <Row>
+                  <Col span={24}>
+                    <Align>
+                      <Avatar
+                        size={96}
+                        src={avatar}
+                      />
+                    </Align>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={24}>
+                    <Align>
+                      <LabelBox margin='10px 0 15px 0'>
+                        <span className='label-font color-link'>
+                          更换头像
+                        </span>
+                      </LabelBox>
+                    </Align>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Align>
+                      <LabelBox margin='15px 0 10px 0'>
+                        <span className='label-font color-normal'>
+                          简介 | 有省略样式
+                        </span>
+                      </LabelBox>
+                    </Align>
+                  </Col>
+                </Row>
               </Card>
             </Row>
-            <Row>
+            <Row className='margin-card'>
               <Card
+                bordered={false}
                 bodyStyle={{
-                  padding: '10px 0'
+                  padding: '10px 0',
+                  margin: '0'
                 }}
               >
                 <Menu
+                  className='per-menu-wrap'
                   style={{
                     border: 'none',
                     color: '#666'
@@ -135,7 +180,13 @@ class Home extends Component {
               </Card>
             </Row>
           </Sider>
-          <Content>
+          <Content
+            style={{
+              background: '#fff',
+              margin: '0 0 0 10px',
+              borderRadius: '4px'
+            }}
+          >
             { renderRoutes(this.props.route.childRoutes) }
           </Content>
         </Layout>
@@ -145,7 +196,14 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  route: PropTypes.any // 子路由
+  route: PropTypes.any, // 子路由
+  history: PropTypes.any // 路由中的history对象
 }
 
-export default Home
+// 内部定义组件的PropsType
+LabelBox.propTypes = {
+  children: PropTypes.any.isRequired,
+  margin: PropTypes.string // 规定margin
+}
+
+export default withRouter(Home)
