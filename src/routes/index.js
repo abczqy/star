@@ -48,6 +48,9 @@ import {
 import {
   TestManage
 } from 'pages/work-plat/manage'
+import {
+  ChildBind
+} from '../pages/work-plat/per-center/child-bind'
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
@@ -83,6 +86,9 @@ export default {
     }, {
       path: '/operate-manage-home/work-plat/per-center/fund-manage',
       component: Logged(FundManage)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/child-bind',
+      component: Logged(ChildBind)
     }]
   }, {
     path: '/operate-manage-home/work-plat/manage',

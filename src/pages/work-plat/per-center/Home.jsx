@@ -134,7 +134,8 @@ class Home extends Component {
                     </Link>
                   </Item>
                   {
-                    webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor' && <Item key='6'>
+                    webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor' &&
+                    <Item key='6'>
                       <Link
                         to='/operate-manage-home/work-plat/per-center/fund-manage'
                       >
@@ -142,6 +143,20 @@ class Home extends Component {
                           className={this.getMenuItemClass('6')}
                         >
                           资金管理
+                        </span>
+                      </Link>
+                    </Item>
+                  }
+                  {
+                    webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' &&
+                    <Item key='7'>
+                      <Link
+                        to='/operate-manage-home/work-plat/per-center/child-bind'
+                      >
+                        <span
+                          className={this.getMenuItemClass('7')}
+                        >
+                        孩子绑定
                         </span>
                       </Link>
                     </Item>
