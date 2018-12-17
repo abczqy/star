@@ -30,7 +30,7 @@ class Test extends Component {
             个人中心
             <ul>
               <li>
-                <Link to='/operate-manage-home/work-plat/per-center'>
+                <Link to='/operate-manage-home/work-plat/per-center-test'>
                 测试
                 </Link>
               </li>

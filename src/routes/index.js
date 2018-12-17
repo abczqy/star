@@ -60,12 +60,12 @@ export default {
     path: '/operate-manage-home/work-plat/home',
     component: Logged(Home)
   }, {
+    path: '/operate-manage-home/work-plat/per-center-test',
+    component: Logged(TestPer)
+  }, {
     path: '/operate-manage-home/work-plat/per-center',
     component: Logged(PerHome),
     childRoutes: [{
-      path: '/operate-manage-home/work-plat/per-center/test',
-      component: Logged(TestPer)
-    }, {
       path: '/operate-manage-home/work-plat/per-center/base-info',
       component: Logged(BaseInfo)
     }, {
