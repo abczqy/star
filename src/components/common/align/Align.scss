@@ -1,0 +1,12 @@
+/* 使内容居中的容器 */
+.middle-wrap {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  // padding: 50% 0 0 50%;
+  text-align: center;
+  // 报留 - 子元素样式设置
+  // &>div {
+  // }
+}

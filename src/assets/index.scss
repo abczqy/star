@@ -41,11 +41,22 @@ $backgroundColor: #f4f4f4;
 $hoverBackColor: #DFEFFE;
 /* 链接激活蓝 */
 $linkColor: #1890ff;
+/* 字体主色 */
+$fontColor: #333;
+/* 常规灰 */
+$grayColor: #666;
+
 
 /***** 字体 *****/
 /* 基础字体 */
 $fontFamily: "PingFang SC", "微软雅黑", "黑体"， "宋体", "arial";
-$fontSizeH3: 14px;
+$fontSizeH1: 24px;
+$fontSizeH2: 12px;
+$fontSizeH3: 20px;
+$fontSizeH4: 18px;
+$fontSizeH5: 16px;
+$fontSizeH6: 14px;
+$fontSizeH7: 12px;
 
 
 /* 圆角 */
