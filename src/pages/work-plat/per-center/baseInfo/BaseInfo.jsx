@@ -23,7 +23,7 @@ class BaseInfo extends Component {
       lookFirmLicense: false // 查看营业执照
     }
   }
-  hiddenModal (type) {
+  hiddenModal = (type) => {
     this.setState({
       [type]: false
     })
