@@ -29,19 +29,22 @@ import {
 } from 'pages/work-plat/per-center'
 import {
   BaseInfo
-} from '../pages/work-plat/per-center/baseInfo'
+} from '../pages/work-plat/per-center/base-info'
 import {
   OrderManage
-} from '../pages/work-plat/per-center/orderManage'
+} from '../pages/work-plat/per-center/order-manage'
 import {
   LoginSet
-} from '../pages/work-plat/per-center/loginSet'
+} from '../pages/work-plat/per-center/login-set'
 import {
   AddrManage
-} from '../pages/work-plat/per-center/addrmanage'
+} from '../pages/work-plat/per-center/addr-manage'
 import {
   InvoiceManage
-} from '../pages/work-plat/per-center/invoiceManage'
+} from '../pages/work-plat/per-center/invoice-manage'
+import {
+  FundManage
+} from '../pages/work-plat/per-center/fund-manage'
 import {
   TestManage
 } from 'pages/work-plat/manage'
@@ -77,6 +80,9 @@ export default {
     }, {
       path: '/operate-manage-home/work-plat/per-center/invoice-manage',
       component: Logged(InvoiceManage)
+    }, {
+      path: '/operate-manage-home/work-plat/per-center/fund-manage',
+      component: Logged(FundManage)
     }]
   }, {
     path: '/operate-manage-home/work-plat/manage',

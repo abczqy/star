@@ -222,10 +222,6 @@ class OperateManage extends React.Component {
         tabKey: 'marketAnaly',
         src: '/operate-manage-home/market'
       }, {
-        text: 'test',
-        tabKey: 'test',
-        src: '/operate-manage-home/work-plat/test'
-      }, {
         text: 'test', // 测试空间
         tabKey: 'test',
         src: '/operate-manage-home/work-plat/test'

@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
+import webStorage from 'webStorage'
 import { Layout, Card, Row, Col, Menu, Avatar } from 'antd'
 import classNames from 'classnames'
 import { Page, Align } from '../../../components/common'
@@ -132,6 +133,19 @@ class Home extends Component {
                       </span>
                     </Link>
                   </Item>
+                  {
+                    webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor' && <Item key='6'>
+                      <Link
+                        to='/operate-manage-home/work-plat/per-center/fund-manage'
+                      >
+                        <span
+                          className={this.getMenuItemClass('6')}
+                        >
+                          资金管理
+                        </span>
+                      </Link>
+                    </Item>
+                  }
                   <Item key='2'>
                     <Link
                       to='/operate-manage-home/work-plat/per-center/order-manage'
@@ -150,7 +164,7 @@ class Home extends Component {
                       <span
                         className={this.getMenuItemClass('3')}
                       >
-                        账号管理
+                        账号设置
                       </span>
                     </Link>
                   </Item>
