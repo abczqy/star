@@ -5,9 +5,64 @@ import React, { Component } from 'react'
 import webStorage from 'webStorage'
 import { Button, Input, Row, Col } from 'antd'
 import './BaseInfo.scss'
+import ChangeFirmName from '../../../message-notice/ChangeFirmName'
+import ChangeFirmDescribe from '../../../message-notice/ChangeFirmDescribe'
+import ChangeFirmContract from '../../../message-notice/ChangeFirmContract'
+import ChangeFirmLicense from '../../../message-notice/ChangeFirmLicense'
+import LookFirmLicense from '../../../message-notice/LookFirmLicense'
 const { TextArea } = Input
 
 class BaseInfo extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      changeFirmName: false, // 厂商名称
+      changeFirmDescribe: false, // 厂商描述
+      changeFirmContract: false, // 厂商合同号
+      changeFirmLicense: false, // 营业执照
+      lookFirmLicense: false // 查看营业执照
+    }
+  }
+  hiddenModal (type) {
+    this.setState({
+      [type]: false
+    })
+  }
+
+   /* 修改厂商名称 */
+   changefirmname =() => {
+     this.setState({
+       changeFirmName: true
+     })
+   }
+  /* 修改描述 */
+  changefirmdescribe =() => {
+    this.setState({
+      changeFirmDescribe: true
+    })
+  }
+  /* 修改合同编号 */
+  changeFirmcontract =() => {
+    this.setState({
+      changeFirmContract: true
+    })
+  }
+  /* 营业执照 */
+  changeFirmLicense =() => {
+    this.setState({
+      changeFirmLicense: true
+    })
+  }
+  /* 查看营业执照 */
+  lookFirmLicense =(va) => {
+    if (va) {
+      this.setState({
+        lookFirmLicense: true,
+        licensePhoto: va
+      })
+    }
+  }
+
   // 根据用户角色显示对应的姓名字段
   showName = (role) => {
     switch (role) {
@@ -164,6 +219,36 @@ class BaseInfo extends Component {
               </Row>
             </div>
         }
+        {/* 修改厂商名称 */}
+        {this.state.changeFirmName ? <ChangeFirmName
+          visible={this.state.changeFirmName}
+          hiddenModal={() => this.hiddenModal('changeFirmName')}
+          getFirmList={this.getFrimList}
+        /> : null}
+        {/* 修改厂商描述 */}
+        {this.state.changeFirmDescribe ? <ChangeFirmDescribe
+          visible={this.state.changeFirmDescribe}
+          hiddenModal={() => this.hiddenModal('changeFirmDescribe')}
+          getFirmList={this.getFrimList}
+        /> : null}
+        {/* 修改厂商合同编号 */}
+        {this.state.changeFirmContract ? <ChangeFirmContract
+          visible={this.state.changeFirmContract}
+          hiddenModal={() => this.hiddenModal('changeFirmContract')}
+          getFirmList={this.getFrimList}
+        /> : null}
+        {/* 营业执照 */}
+        {this.state.changeFirmLicense ? <ChangeFirmLicense
+          visible={this.state.changeFirmLicense}
+          hiddenModal={() => this.hiddenModal('changeFirmLicense')}
+          getFirmList={this.getFrimList}
+        /> : null}
+        {/* 营业执照图片 */}
+        {this.state.lookFirmLicense ? <LookFirmLicense
+          visible={this.state.lookFirmLicense}
+          hiddenModal={() => this.hiddenModal('lookFirmLicense')}
+          licensePhoto={this.state.licensePhoto}
+        /> : null}
       </div>
     )
   }
