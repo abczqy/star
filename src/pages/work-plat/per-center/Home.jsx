@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import { Layout, Card, Row, Col, Menu, Avatar } from 'antd'
 import classNames from 'classnames'
@@ -53,6 +53,7 @@ class Home extends Component {
 
   componentDidMount () {
     // 需要重定向到'基本信息'
+    this.props.history.push('/operate-manage-home/work-plat/per-center/base-info')
   }
 
   render () {
@@ -195,7 +196,8 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  route: PropTypes.any // 子路由
+  route: PropTypes.any, // 子路由
+  history: PropTypes.any // 路由中的history对象
 }
 
 // 内部定义组件的PropsType
@@ -204,4 +206,4 @@ LabelBox.propTypes = {
   margin: PropTypes.string // 规定margin
 }
 
-export default Home
+export default withRouter(Home)
