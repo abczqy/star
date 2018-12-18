@@ -216,8 +216,8 @@ class MainBander extends React.Component {
           <Slider {...settings}>
             {
               this.state.bannerImg.map((item, index, arr) => {
-                return (<div key={index} style={{height: '228px', width: '100%'}} >
-                  <img src={Config.IMG_BASE_URL + item.banner_url || ''} style={{height: '228px', width: '100%'}} />
+                return (<div key={index} style={{height: '445px', width: '100%'}} >
+                  <img src={Config.IMG_BASE_URL + item.banner_url || ''} style={{height: '445px', width: '100%'}} />
                 </div>)
               })
             }
