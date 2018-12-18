@@ -57,6 +57,7 @@ import {
 import {
   ForgetPass,
   Login,
+  FirstLogin
   Register
 } from '../pages/work-plat/register'
 import {Logged} from 'components/common/hoc/Logged'
@@ -65,6 +66,9 @@ import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default {
   workPlat: [{
+    path: '/operate-manage-home/work-plat/first-login',
+    component: FirstLogin
+  }, {
     path: '/operate-manage-home/work-plat/login',
     component: Login
   }, {

@@ -45,6 +45,11 @@ class Test extends Component {
             账户
             <ul>
               <li>
+                <Link to='/operate-manage-home/work-plat/first-login'>
+                首次登录
+                </Link>
+              </li>
+              <li>
                 <Link to='/operate-manage-home/work-plat/login'>
                 登录
                 </Link>
