@@ -42,6 +42,31 @@ class Test extends Component {
             </ul>
           </li>
           <li>
+            账户
+            <ul>
+              <li>
+                <Link to='/operate-manage-home/work-plat/first-login'>
+                首次登录
+                </Link>
+              </li>
+              <li>
+                <Link to='/operate-manage-home/work-plat/login'>
+                登录
+                </Link>
+              </li>
+              <li>
+                <Link to='/operate-manage-home/work-plat/register'>
+                注册
+                </Link>
+              </li>
+              <li>
+                <Link to='/operate-manage-home/work-plat/forget-pass'>
+                找回密码
+                </Link>
+              </li>
+            </ul>
+          </li>
+          <li>
             弹窗测试页
             <ul>
               <li>
