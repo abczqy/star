@@ -97,8 +97,8 @@ class BaseInfo extends Component {
       <div className='base-info'>
         <div className='base-info-top'>
           <div className='base-info-title'>基本信息</div>
-          <Button className='base-info-btn back-btn'>返回</Button>
-          <Button type='primary' className='base-info-btn'>保存</Button>
+          {/* <Button className='base-info-btn back-btn'>返回</Button>
+          <Button type='primary' className='base-info-btn'>保存</Button> */}
         </div>
         {
           per === 'vendor'

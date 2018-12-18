@@ -1,0 +1,14 @@
+.app-img{
+  width: 100%;
+  max-width: 56px;
+}
+.title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  display: inline-block;
+}
+.ant-card-body {
+  height: 87%;
+}

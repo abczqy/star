@@ -2,7 +2,7 @@
  * 工作台-个人中心-账号设置
  */
 import React, { Component } from 'react'
-import { Button } from 'antd'
+// import { Button } from 'antd'
 import ChangePass from '../../../message-notice/ChangePass'
 import ChangePhoneNumber from '../../../message-notice/ChangePhoneNumber'
 
@@ -36,7 +36,7 @@ class LoginSet extends Component {
       <div className='base-info'>
         <div className='base-info-top'>
           <div className='base-info-title'>账号安全</div>
-          <Button className='base-info-btn back-btn'>返回</Button>
+          {/* <Button className='base-info-btn back-btn'>返回</Button> */}
         </div>
         <div className='setting-body'>
           <div className='safe_item'>

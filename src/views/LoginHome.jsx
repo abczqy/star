@@ -13,6 +13,7 @@ import webStorage from 'webStorage'
 import { withRouter, Route } from 'react-router'
 import _ from 'lodash'
 import Home from 'pages/login-home/Home'
+import Homeone from 'pages/login-home/Homeone'
 import NewsDetails from 'pages/news/NewsDetails'// 游客的新闻列表详情
 import Information from 'pages/news/Information'// 游客的信息公开
 import InformationDet from 'pages/news/InformationDet'// 游客的信息公开详情
@@ -55,6 +56,9 @@ class LoginHome extends React.Component {
     switch (pathName) {
       case '/':// 首页
         activeTab = 'home'
+        break
+      case '/home/indextest':// 首页test
+        activeTab = 'indextest'
         break
       case '/home/newsList':// 教育新闻
         activeTab = 'newsList'
@@ -181,6 +185,8 @@ class LoginHome extends React.Component {
             <div className='header-container'>
               <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/', 'home')}><span>首页</span></a>
               </li>
+              <li><a className={this.state.activeTab === 'indextest' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/indextest', 'indextest')}><span>首页test</span></a>
+              </li>
               {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
               </li>}
               <li>
@@ -206,7 +212,12 @@ class LoginHome extends React.Component {
                 updatePage={() => { this.updatePage() }}
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
             }} />
-
+            <Route path='/home/indextest' render={() => {
+              // eslint-disable-next-line react/jsx-no-undef
+              return <Homeone
+                updatePage={() => { this.updatePage() }}
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
             <Route path='/home/newsList' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <NewsList
