@@ -57,7 +57,7 @@ import {
 import {
   ForgetPass,
   Login,
-  FirstLogin
+  FirstLogin,
   Register
 } from '../pages/work-plat/register'
 import {Logged} from 'components/common/hoc/Logged'

@@ -8,7 +8,7 @@ class FirstLogin extends Component {
   render () {
     return (
       <div>
-        登录
+        首次登录
       </div>
     )
   }
