@@ -396,6 +396,18 @@
         }
       }
     }
+    .ad-carousel{
+      // min-height: 530px;
+      .ant-carousel .slick-list .slick-slide {
+        // min-height: 530px;
+        height: auto;
+      }
+    }
+  }
+  .ad-carousel{
+    .ant-carousel .slick-list .slick-slide.slick-active {
+      height: auto;
+    }
   }
 }
 .sure-info-item{

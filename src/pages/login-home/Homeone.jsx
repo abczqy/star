@@ -4,7 +4,7 @@
  * 游客登陆-首页
  */
 import React from 'react'
-import { Row, Col } from 'antd'
+import { Row, Col, Carousel, Input, Button } from 'antd'
 import { HomeCard } from 'components/home'
 import MainBander from './MainBander'
 import HomeWebApp from './HomeWebApp'
@@ -16,6 +16,9 @@ import Platdata from './Platdata'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { getRecommendApp, getSoftMarketList, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portal'
+import imgTeacher from '../../assets/images/login-home/u686.jpg'
+import webStorage from 'webStorage'
+const Search = Input.Search
 
 class Home extends React.Component {
   static propTypes = {
@@ -25,6 +28,7 @@ class Home extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      roleCode: '', // 角色
       sureDate: [],
       webAppData: [], // 热门推荐
       softMarketData: [], // 软件市场
@@ -35,6 +39,9 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
+    this.setState({
+      roleCode: webStorage.getItem('STAR_WEB_ROLE_CODE')
+    })
     this.getHomeData()
   }
 
@@ -116,9 +123,29 @@ class Home extends React.Component {
   }
 
   render () {
+    let roleCode = this.state.roleCode
+    console.log('roleCode')
+    console.log(roleCode)
     return (
       <div className='login-home-container' style={{background: '#FAFCFF'}}>
-        <Row>
+        <Row style={{marginTop: '1%', paddingTop: '1%'}} type='flex' align='middle'>
+          <Col span={8} offset={5}>
+            <Search
+              placeholder='教育'
+              enterButton='搜索'
+              size='large'
+              onSearch={value => console.log(value)}
+              style={{ width: '100%' }}
+            />
+          </Col>
+          <Col span={1}>&nbsp;</Col>
+          <Col span={1}><a href=''>资源类</a></Col>
+          <Col span={1}><a href=''>应用类</a></Col>
+          <Col span={1}><a href=''>新闻类</a></Col>
+          <Col span={1}><a href=''>信息类</a></Col>
+          <Col span={1}><a href=''>最新上架</a></Col>
+        </Row>
+        <Row style={{marginTop: '1%'}}>
           <Col span={20} offset={2}>
             <MainBander {...this.props}
               handleChangeVisible={(key, flag) => { this.handleChangeVisible(key, flag) }}
@@ -130,8 +157,14 @@ class Home extends React.Component {
           <Col span={20} offset={2}>
             <Row type='flex' justify='space-between'>
               <Col style={{width: '22.25%'}}>
-                <HomeCard title='我的空间' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
-                  <HomeWebApp data={this.state.webAppData || []} />
+                <HomeCard title={(roleCode === 'school' || roleCode === 'vendor' || roleCode === 'eduBureau') ? '工作台' : '我的空间'} moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
+                  {roleCode
+                    ? <HomeWebApp data={this.state.webAppData || []} />
+                    : <div style={{textAlign: 'center'}}>
+                      <div style={{marginTop: '20%'}}>你好，请先登陆、免费注册</div>
+                      <div style={{marginTop: '20%'}}><Button type='primary'>注册</Button>&nbsp;&nbsp;<Button type='primary'>登陆</Button></div>
+                    </div>
+                  }
                 </HomeCard>
               </Col>
               <Col style={{width: '53.83%'}}>
@@ -172,7 +205,17 @@ class Home extends React.Component {
             </Row>
           </Col>
         </Row>
-        <Row>
+        <Row style={{marginTop: '1%'}}>
+          <Col span={20} offset={2}>
+            <div className='ad-carousel' >
+              <Carousel autoplay autoplaySpeed='20' >
+                <div><img alt='' src={imgTeacher} width='100%' /></div>
+                <div><img alt='' src={imgTeacher} width='100%' /></div>
+              </Carousel>
+            </div>
+          </Col>
+        </Row>
+        <Row style={{marginTop: '1%'}}>
           <Col span={24}>
             <AppCount data={this.state.appCountData || []} />
           </Col>
