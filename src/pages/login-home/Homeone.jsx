@@ -5,13 +5,14 @@
  */
 import React from 'react'
 import { Row, Col } from 'antd'
-import HomeCard from 'components/common/home/HomeCard'
+import { HomeCard } from 'components/home'
 import MainBander from './MainBander'
 import HomeWebApp from './HomeWebApp'
 import HomeSrcLibEcharts from './HomeSrcLibEcharts'
 // import SoftMarket from './SoftMarket'
 import AppCount from './AppCount'
 import HomeNewsAndInfo from './HomeNewsAndInfo'
+import Platdata from './Platdata'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { getRecommendApp, getSoftMarketList, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portal'
@@ -165,9 +166,7 @@ class Home extends React.Component {
               </Col>
               <Col style={{width: '22.25%'}}>
                 <HomeCard title='平台数据' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
-                  <p>Card content</p>
-                  <p>Card content</p>
-                  <p>Card content</p>
+                  <Platdata />
                 </HomeCard>
               </Col>
             </Row>
