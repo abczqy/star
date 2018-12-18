@@ -5,13 +5,15 @@ import React, { Component } from 'react'
 // import { Button } from 'antd'
 import ChangePass from '../../../message-notice/ChangePass'
 import ChangePhoneNumber from '../../../message-notice/ChangePhoneNumber'
+import ChangeRileName from '../../../message-notice/ChangeRileName'
 
 class LoginSet extends Component {
   constructor (props) {
     super(props)
     this.state = {
       changePassVisible: false,
-      changePhoneVisible: false
+      changePhoneVisible: false,
+      changeRileNameVisible: false
     }
   }
   hiddenModal = (type) => {
@@ -29,6 +31,12 @@ class LoginSet extends Component {
   changephone =() => {
     this.setState({
       changePhoneVisible: true
+    })
+  }
+  /* 实名认证 */
+  changeRileName =() => {
+    this.setState({
+      changeRileNameVisible: true
     })
   }
   render () {
@@ -67,7 +75,7 @@ class LoginSet extends Component {
             <div className='safe-name'>
               <span className='tit'>实名认证</span>
               <span className='word f-color'>您认证的实名信息：</span>
-              <a className='modify'> 修改</a>
+              <a className='modify' onClick={this.changeRileName}> 修改</a>
             </div>
           </div>
           <div className='safe_item'>
@@ -88,6 +96,10 @@ class LoginSet extends Component {
         {this.state.changePhoneVisible ? <ChangePhoneNumber
           visible={this.state.changePhoneVisible}
           hiddenModal={() => this.hiddenModal('changePhoneVisible')}
+        /> : null}
+        {this.state.changeRileNameVisible ? <ChangeRileName
+          visible={this.state.changeRileNameVisible}
+          hiddenModal={() => this.hiddenModal('changeRileNameVisible')}
         /> : null}
       </div>
     )

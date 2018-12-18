@@ -159,7 +159,7 @@ class BaseInfo extends Component {
                   XXX市代理商
                 </Col>
               </Row>
-              <Row className='base-info-content-top-row'>
+              {/* <Row className='base-info-content-top-row'>
                 <Col span={4} className='base-info-content-top-label'>
                   <span>名称:</span>
                 </Col>
@@ -169,7 +169,7 @@ class BaseInfo extends Component {
                 <Col className='base-info-content-change'>
                   <Button className='base-info-content-btn'>修改</Button>
                 </Col>
-              </Row>
+              </Row> */}
               <Row className='base-info-content-top-row'>
                 <Col span={4} className='base-info-content-top-label'>
                   <span>{this.showName(per)}:</span>
