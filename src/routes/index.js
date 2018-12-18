@@ -51,12 +51,29 @@ import {
 import {
   ChildBind
 } from '../pages/work-plat/per-center/child-bind'
+/**
+ * 测试的组件
+ */
+import {
+  ForgetPass,
+  Login,
+  Register
+} from '../pages/work-plat/register'
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default {
   workPlat: [{
+    path: '/operate-manage-home/work-plat/login',
+    component: Login
+  }, {
+    path: '/operate-manage-home/work-plat/register',
+    component: Register
+  }, {
+    path: '/operate-manage-home/work-plat/forget-pass',
+    component: ForgetPass
+  }, {
     path: '/operate-manage-home/work-plat/test',
     component: Logged(Test)
   }, {
