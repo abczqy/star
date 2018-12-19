@@ -121,7 +121,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='账号'
-              className='mar-top-3'
+              className='mar-top-3 err-css-in'
               hasFeedback
             >
               {getFieldDecorator('email', {
@@ -137,6 +137,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='设置密码'
+              className='err-css-in'
               hasFeedback
             >
               {getFieldDecorator('password', {
@@ -150,6 +151,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='确认密码'
+              className='err-css-in'
               hasFeedback
             >
               {getFieldDecorator('confirm', {
@@ -171,6 +173,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='家长身份证号'
+              className='err-css-in'
               hasFeedback
             >
               {getFieldDecorator('idcard', {
@@ -184,6 +187,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='学生账号'
+              className='err-css-in'
               hasFeedback
             >
               {getFieldDecorator('stuname', {
@@ -196,6 +200,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='主家长电话'
+              className='err-css-small-in'
               hasFeedback
             >
               {getFieldDecorator('phone', {
@@ -209,6 +214,7 @@ class Register extends Component {
             <FormItem
               {...formItemLayout}
               label='主家长邀请码'
+              className='err-css-in'
               hasFeedback
             >
               {getFieldDecorator('code', {
