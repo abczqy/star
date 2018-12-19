@@ -171,6 +171,10 @@ class OperateManage extends React.Component {
       text: 'test', // 测试空间
       tabKey: 'test',
       src: '/operate-manage-home/work-plat/test'
+    }, {
+      text: '工作台', // 工作台首页
+      tabKey: 'workPlat',
+      src: '/operate-manage-home/work-plat/home'
     }]
     if (roleCode === 'parents') { // 家长
       return baseTabArr
@@ -195,6 +199,10 @@ class OperateManage extends React.Component {
         text: '个人中心',
         tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
+      }, {
+        text: '工作台', // 工作台首页
+        tabKey: 'workPlat',
+        src: '/operate-manage-home/work-plat/home'
       }, {
         text: 'test', // 测试空间
         tabKey: 'test',
@@ -222,6 +230,10 @@ class OperateManage extends React.Component {
         tabKey: 'marketAnaly',
         src: '/operate-manage-home/market'
       }, {
+        text: '工作台', // 工作台首页
+        tabKey: 'workPlat',
+        src: '/operate-manage-home/work-plat/home'
+      }, {
         text: 'test', // 测试空间
         tabKey: 'test',
         src: '/operate-manage-home/work-plat/test'
@@ -239,6 +251,10 @@ class OperateManage extends React.Component {
         text: '个人中心',
         tabKey: 'peopleCenter',
         src: '/operate-manage-home/center'
+      }, {
+        text: '工作台', // 工作台首页
+        tabKey: 'workPlat',
+        src: '/operate-manage-home/work-plat/home'
       }, {
         text: 'test', // 测试空间
         tabKey: 'test',
