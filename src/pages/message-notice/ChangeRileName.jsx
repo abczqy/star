@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-return,no-undef,standard/no-callback-literal */
 /* 修改手机号 */
 import React from 'react'
-import {Modal, Button, Form, Input, Select} from 'antd'
+import {Modal, Button, Form, Input, Select, Icon, Upload} from 'antd'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
 // import ajaxUrl from 'config'
@@ -29,7 +29,15 @@ class ChangeRileName extends React.Component {
       type: 'text',
       Countdown: true,
       countTime: 60,
-      phoneCode: '' // 短信验证码
+      phoneCode: '', // 短信验证码
+      previewVisible: false,
+      previewImage: '',
+      fileList: [{
+        uid: '-1',
+        name: 'xxx.png',
+        status: 'done'
+        // url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      }]
     }
   }
 
@@ -45,6 +53,15 @@ class ChangeRileName extends React.Component {
         break
     }
   }
+
+  handlePreview = (file) => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true
+    })
+  }
+
+  handleChange = ({ fileList }) => this.setState({ fileList })
 
   componentWillReceiveProps (nextProps) {
     if (!nextProps.visible) {
@@ -228,27 +245,13 @@ class ChangeRileName extends React.Component {
     }
     const { getFieldDecorator } = this.props.form
     let per = webStorage.getItem('STAR_WEB_ROLE_CODE')
-    // const upLoadProps = {
-    //   onRemove: (file) => {
-    //     console.log('移除附件')
-    //     this.setState(({ fileList }) => {
-    //       const index = fileList.indexOf(file)
-    //       const newFileList = fileList.slice()
-    //       newFileList.splice(index, 1)
-    //       return {
-    //         fileList: newFileList
-    //       }
-    //     })
-    //   },
-    //   beforeUpload: (file) => {
-    //     console.log('上传之前')
-    //     this.setState(({ fileList }) => ({
-    //       fileList: [...fileList, file]
-    //     }))
-    //     return false
-    //   },
-    //   fileList: fileList
-    // }
+    const { previewVisible, previewImage, fileList } = this.state
+    const uploadButton = (
+      <div>
+        <Icon type='plus' />
+        <div className='ant-upload-text'>Upload</div>
+      </div>
+    )
     return (
       <div>
         <Modal
@@ -289,11 +292,20 @@ class ChangeRileName extends React.Component {
                 key='picture'
               >
                 {getFieldDecorator('picture')(
-                  // <Upload
-                  //   listType='picture-card' {...upLoadProps} >
-                  //   {fileList.length >= 1 ? null : uploadButton}
-                  // </Upload>
-                  <Input />
+                  <div>
+                    <Upload
+                      // action='//jsonplaceholder.typicode.com/posts/'
+                      listType='picture-card'
+                      fileList={fileList}
+                      onPreview={this.handlePreview}
+                      onChange={this.handleChange}
+                    >
+                      {fileList.length >= 2 ? null : uploadButton}
+                    </Upload>
+                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                      <img alt='example' style={{ width: '100%' }} src={previewImage} />
+                    </Modal>
+                  </div>
                 )}
               </Form.Item>
               <Form.Item
