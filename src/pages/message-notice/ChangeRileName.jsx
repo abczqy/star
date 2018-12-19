@@ -4,8 +4,9 @@ import React from 'react'
 import {Modal, Button, Form, Input, Select, Icon, Upload} from 'antd'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
-// import ajaxUrl from 'config'
 import {SMSVerification} from '../../services/topbar-mation/index'
+import './ChangeRileName.scss'
+import pic from '../../assets/images/u28667.png'
 // import {updatePhoneNum, SMSVerification} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 const Options = ['身份证', '工作证', '军官证', '学生证', '其他']
@@ -47,7 +48,7 @@ class ChangeRileName extends React.Component {
         return '学校运营者实名认证'
       case 'eduBureau':
         return '运营者实名认证'
-      case 'teacher': case 'parents': case 'students': case 'agent':
+      case 'teacher': case 'parents': case 'students': case 'agent': case 'vendor':
         return '实名认证'
       default:
         break
@@ -264,93 +265,289 @@ class ChangeRileName extends React.Component {
             // eslint-disable-next-line react/jsx-no-bind
             <Button key='cancle' onClick={this.hiddenModal}>取消</Button>,
             // eslint-disable-next-line react/jsx-no-bind
-            <Button key='save' type='primary' onClick={this.saveOrSubmit}>确认</Button>
+            <Button key='save' type='primary' onClick={this.saveOrSubmit}>
+              { per !== 'vendor' ? '确认' : '提交实名认证'}
+            </Button>
           ]}
-          width='35vw'
+          width='40vw'
           height='30vw'
         >
-          <div className='addbind-modal'>
-            <Form>
-              <Form.Item
-                {...formItemLayout}
-                label='证件类型'
-                key='type'
-              >
-                {getFieldDecorator('type')(
-                  <Select>
-                    {
-                      Options.map((item, index) => {
-                        return <Select.Option key={index} value={item}>{item}</Select.Option>
-                      })
-                    }
-                  </Select>
-                )}
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='证件照片'
-                key='picture'
-              >
-                {getFieldDecorator('picture')(
-                  <div>
-                    <Upload
-                      // action='//jsonplaceholder.typicode.com/posts/'
-                      listType='picture-card'
-                      fileList={fileList}
-                      onPreview={this.handlePreview}
-                      onChange={this.handleChange}
+          {
+            per !== 'vendor'
+              ? <div className='addbind-modal'>
+                <Form>
+                  <Form.Item
+                    {...formItemLayout}
+                    label='证件类型'
+                    key='type'
+                  >
+                    {getFieldDecorator('type')(
+                      <Select>
+                        {
+                          Options.map((item, index) => {
+                            return <Select.Option key={index} value={item}>{item}</Select.Option>
+                          })
+                        }
+                      </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label='证件照片'
+                    key='picture'
+                  >
+                    {getFieldDecorator('picture')(
+                      <div>
+                        <div className='real-name-div'>
+                          <Upload
+                            // action='//jsonplaceholder.typicode.com/posts/'
+                            listType='picture-card'
+                            fileList={fileList}
+                            onPreview={this.handlePreview}
+                            onChange={this.handleChange}
+                            className='upload-real-name'
+                          >
+                            {fileList.length >= 2 ? null : uploadButton}
+                          </Upload>
+                          <div>身份证正面照片</div>
+                        </div>
+                        <div className='real-name-div'>
+                          <Upload
+                          // action='//jsonplaceholder.typicode.com/posts/'
+                            listType='picture-card'
+                            fileList={fileList}
+                            onPreview={this.handlePreview}
+                            onChange={this.handleChange}
+                            className='upload-real-name'
+                          >
+                            {fileList.length >= 1 ? null : uploadButton}
+                          </Upload>
+                          <div>身份证反面照片</div>
+                        </div>
+                        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                          <img alt='example' style={{ width: '100%' }} src={previewImage} />
+                        </Modal>
+                      </div>
+                    )}
+                  </Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label='姓名'
+                    key='name'
+                  >
+                    {getFieldDecorator('name')(
+                      <Input />
+                    )}
+                  </Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label='证件号码'
+                    key='icard'
+                  >
+                    {getFieldDecorator('icard')(
+                      <Input />
+                    )}
+                  </Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label='手机号码'
+                    key='phone'
+                    className='new_pass_input'
+                  >
+                    {getFieldDecorator('maf_phone_number', {rules: [{required: true, message: ' '}, {
+                      validator: this.validatePhome
+                    }],
+                    validateTrigger: 'onBlur'})(
+                      <Input style={{width: '60%'}} onClick={this.changeType} />
+                    )}
+                    <Button type='primary'style={{marginLeft: '5%', width: '35%'}} disabled={!this.state.Countdown} onClick={this.getPhoneNumber}>获取验证码</Button>
+                  </Form.Item>
+                  <Form.Item
+                    {...formItemLayout}
+                    label='验证码'
+                  >
+                    {getFieldDecorator('maf_con_code', {rules: [{required: true, message: '请输入验证码！'}]})(
+                      <Input style={{width: '60%'}} />
+                    )}
+                    {/* <Button type='primary' style={{marginLeft: '5%', width: '35%'}}>{this.state.countTime}</Button> */}
+                  </Form.Item>
+                </Form>
+              </div>
+              : <div>
+                <div className='real-name-title'>
+                  <span className='real-name'>
+                    <img className='real-name-img' src={pic} />
+                  </span>
+                  <span className='real-name-label'>企业实名认证</span>
+                  <span>平台目前已有个人用户: <span className='red-color'>2456314</span>人 是时候改变世界了~</span>
+                </div>
+                <div className='addbind-modal'>
+                  <Form>
+                    <div className='real-name-data-title'>法人身份信息</div>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='证件类型'
+                      key='type'
                     >
-                      {fileList.length >= 2 ? null : uploadButton}
-                    </Upload>
-                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                      <img alt='example' style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
-                  </div>
-                )}
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='姓名'
-                key='name'
-              >
-                {getFieldDecorator('name')(
-                  <Input />
-                )}
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='证件号码'
-                key='icard'
-              >
-                {getFieldDecorator('icard')(
-                  <Input />
-                )}
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='手机号码'
-                key='phone'
-                className='new_pass_input'
-              >
-                {getFieldDecorator('maf_phone_number', {rules: [{required: true, message: ' '}, {
-                  validator: this.validatePhome
-                }],
-                validateTrigger: 'onBlur'})(
-                  <Input style={{width: '60%'}} onClick={this.changeType} />
-                )}
-                <Button type='primary'style={{marginLeft: '5%', width: '35%'}} disabled={!this.state.Countdown} onClick={this.getPhoneNumber}>获取验证码</Button>
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='验证码'
-              >
-                {getFieldDecorator('maf_con_code', {rules: [{required: true, message: '请输入验证码！'}]})(
-                  <Input style={{width: '60%'}} />
-                )}
-                {/* <Button type='primary' style={{marginLeft: '5%', width: '35%'}}>{this.state.countTime}</Button> */}
-              </Form.Item>
-            </Form>
-          </div>
+                      {getFieldDecorator('type')(
+                        <Select>
+                          {
+                            Options.map((item, index) => {
+                              return <Select.Option key={index} value={item}>{item}</Select.Option>
+                            })
+                          }
+                        </Select>
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='证件照片'
+                      key='picture'
+                    >
+                      {getFieldDecorator('picture')(
+                        <div>
+                          <div className='real-name-div'>
+                            <Upload
+                            // action='//jsonplaceholder.typicode.com/posts/'
+                              listType='picture-card'
+                              fileList={fileList}
+                              onPreview={this.handlePreview}
+                              onChange={this.handleChange}
+                              className='upload-real-name'
+                            >
+                              {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                            <div>身份证正面照片</div>
+                          </div>
+                          <div className='real-name-div'>
+                            <Upload
+                            // action='//jsonplaceholder.typicode.com/posts/'
+                              listType='picture-card'
+                              fileList={fileList}
+                              onPreview={this.handlePreview}
+                              onChange={this.handleChange}
+                              className='upload-real-name'
+                            >
+                              {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                            <div>身份证反面照片</div>
+                          </div>
+                          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                            <img alt='example' style={{ width: '100%' }} src={previewImage} />
+                          </Modal>
+                        </div>
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='姓名'
+                      key='name'
+                    >
+                      {getFieldDecorator('name')(
+                        <Input />
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='证件号码'
+                      key='icard'
+                    >
+                      {getFieldDecorator('icard')(
+                        <Input />
+                      )}
+                    </Form.Item>
+                    <div className='real-name-data-title'>企业证件照</div>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='社会统一信用代码'
+                      key='shehuiCode'
+                      className='new_pass_input'
+                    >
+                      {getFieldDecorator('shehuiCode')(
+                        <Input />
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='证件照片'
+                    >
+                      {getFieldDecorator('maf_con_code')(
+                        <div>
+                          <div className='real-name-div'>
+                            <Upload
+                              // action='//jsonplaceholder.typicode.com/posts/'
+                              listType='picture-card'
+                              fileList={fileList}
+                              onPreview={this.handlePreview}
+                              onChange={this.handleChange}
+                              className='upload-real-name'
+                            >
+                              {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                            <div>三合一正面照</div>
+                          </div>
+                          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                            <img alt='example' style={{ width: '100%' }} src={previewImage} />
+                          </Modal>
+                        </div>
+                      )}
+                    </Form.Item>
+                    <div className='real-name-data-title'>委托书证件</div>
+                    <Form.Item
+                      {...formItemLayout}
+                      label='证件照片'
+                    >
+                      {getFieldDecorator('maf_con_code')(
+                        <div>
+                          <div className='real-name-div'>
+                            <Upload
+                              // action='//jsonplaceholder.typicode.com/posts/'
+                              listType='picture-card'
+                              fileList={fileList}
+                              onPreview={this.handlePreview}
+                              onChange={this.handleChange}
+                              className='upload-real-name'
+                            >
+                              {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                            <div>委托书扫描件</div>
+                          </div>
+                          <div className='real-name-div'>
+                            <Upload
+                              // action='//jsonplaceholder.typicode.com/posts/'
+                              listType='picture-card'
+                              fileList={fileList}
+                              onPreview={this.handlePreview}
+                              onChange={this.handleChange}
+                              className='upload-real-name'
+                            >
+                              {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                            <div>委托书扫描件</div>
+                          </div>
+                          <div className='real-name-div'>
+                            <Upload
+                              // action='//jsonplaceholder.typicode.com/posts/'
+                              listType='picture-card'
+                              fileList={fileList}
+                              onPreview={this.handlePreview}
+                              onChange={this.handleChange}
+                              className='upload-real-name'
+                            >
+                              {fileList.length >= 1 ? null : uploadButton}
+                            </Upload>
+                            <div>委托书扫描件</div>
+                          </div>
+                          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                            <img alt='example' style={{ width: '100%' }} src={previewImage} />
+                          </Modal>
+                        </div>
+                      )}
+                    </Form.Item>
+                  </Form>
+                </div>
+              </div>
+          }
         </Modal>
       </div>
     )
