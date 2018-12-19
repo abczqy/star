@@ -6,7 +6,8 @@ import {
   Form,
   Input,
   Button,
-  message
+  message,
+  Checkbox
 } from 'antd'
 import './Register.scss'
 import PropTypes from 'prop-types'
@@ -58,6 +59,15 @@ class Register extends Component {
       } else {
         callback()
       }
+    }
+  }
+  /** 校验是否同意 */
+  validateCheck = (rule, value, callback) => {
+    if (value) {
+      callback()
+    } else {
+      const res = '请同意'
+      callback(res)
     }
   }
   /** 校验两次密码是否一致 */
@@ -182,6 +192,7 @@ class Register extends Component {
                 <Input placeholder='请输入学生账号' className='input-size' />
               )}
             </FormItem>
+            <Button className='get-btn'>获取邀请码</Button>
             <FormItem
               {...formItemLayout}
               label='主家长电话'
@@ -192,7 +203,7 @@ class Register extends Component {
                   validator: this.validatePhone
                 }]
               })(
-                <Input placeholder='请输入主家长电话' className='input-size' />
+                <Input placeholder='请输入主家长电话' className='input-size-small' />
               )}
             </FormItem>
             <FormItem
@@ -204,6 +215,13 @@ class Register extends Component {
                 rules: [{ required: true, message: '请输入主家长邀请码' }]
               })(
                 <Input placeholder='请输入主家长邀请码' className='input-size' />
+              )}
+            </FormItem>
+            <FormItem className='ml21'>
+              {getFieldDecorator('Checkbox', {
+                rules: [{validator: this.validateCheck}]
+              })(
+                <Checkbox>我同意并遵守 <a href='www.baidu.com'>《星云教育平台服务协议》</a></Checkbox>
               )}
             </FormItem>
             <FormItem>
