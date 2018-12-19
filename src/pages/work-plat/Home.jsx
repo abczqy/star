@@ -2,13 +2,21 @@
  * 工作台-首页
  */
 import React, { Component } from 'react'
-import { Row, Col, Card } from 'antd'
+import { Link } from 'react-router-dom'
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  Avatar
+} from 'antd'
 import { Page } from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
+import avatar from '../../assets/images/work-plat/avatar.png'
 
 /**
- * Card的头部的统一样式
+ * Card的头部的统一/共有样式
  */
 const headStyle = {
   backgroundColor: '#f4f4f4',
@@ -18,7 +26,7 @@ const headStyle = {
 }
 
 /**
- * Card的body的统一样式
+ * Card的body的统一/共有样式
  */
 const bodyStyle = {
   border: 'none'
@@ -49,7 +57,51 @@ class Home extends Component {
               headStyle={{...headStyle}}
               bodyStyle={{...bodyStyle}}
             >
-              内容
+              <Row
+                type='flex'
+                justify='space-around'
+                align='middle'
+              >
+                <Col span={6}>
+                  <Avatar
+                    size={88}
+                    src={avatar}
+                  />
+                </Col>
+                <Col span={8}>
+                  <Row
+                    type='flex'
+                    justify='center'
+                  >
+                    <Col span={14}>
+                     学校名称
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={24}>
+                    海纳百川 有容乃大
+                    </Col>
+                  </Row>
+                </Col>
+                <Col span={6}>
+                  <Link
+                    to='/operate-manage-home/work-plat/per-center'
+                  >
+                    个人中心
+                  </Link>
+                </Col>
+              </Row>
+              <Row gutter={16} className='row-box'>
+                <Col span={6} offset={3}>
+                  <Button type='primary'>订单管理</Button>
+                </Col>
+                <Col span={6}>
+                  <Button type='primary'>订单管理</Button>
+                </Col>
+                <Col span={6}>
+                  <Button type='primary'>订单管理</Button>
+                </Col>
+              </Row>
             </Card>
           </Col>
           <Col span={16}>

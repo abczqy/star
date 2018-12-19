@@ -54,7 +54,7 @@ class Home extends Component {
 
   componentDidMount () {
     // 需要重定向到'基本信息'
-    this.props.history.push('/operate-manage-home/work-plat/per-center/base-info')
+    this.props.history.replace('/operate-manage-home/work-plat/per-center/base-info')
   }
 
   render () {
