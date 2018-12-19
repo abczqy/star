@@ -46,7 +46,7 @@ export default [
       {
         title: '超市平台管理',
         key: '3-1',
-        to: '/software-market-home/platform-manage/porttal-homepage'
+        to: '/software-market-home/soft-market-manage/plat-manage'
       }, {
         title: '应用管理',
         icon: ImgPlat,

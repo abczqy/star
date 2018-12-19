@@ -52,7 +52,7 @@ import {
   ChildBind
 } from '../pages/work-plat/per-center/child-bind'
 /**
- * 测试的组件
+ * 测试的页面
  */
 import {
   ForgetPass,
@@ -60,6 +60,9 @@ import {
   FirstLogin,
   Register
 } from '../pages/work-plat/register'
+import {
+  PlatManage
+} from '../pages/software-market/soft-market-manage'
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
@@ -178,5 +181,8 @@ export default {
   }, {
     path: '/software-market-home/platform-manage/user-count',
     component: Logged(UserCount)
+  }, {
+    path: '/software-market-home/soft-market-manage/plat-manage',
+    component: Logged(PlatManage)
   }]
 }
