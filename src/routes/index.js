@@ -20,6 +20,10 @@ import {
   PublicInfoVerifyDetail
 } from 'pages/software-market'
 import {
+  Reject,
+  Remove
+} from '../pages/software-market/software-manage'
+import {
   Home,
   Test
 } from 'pages/work-plat'
@@ -52,7 +56,7 @@ import {
   ChildBind
 } from '../pages/work-plat/per-center/child-bind'
 /**
- * 测试的组件
+ * 测试的页面
  */
 import {
   ForgetPass,
@@ -60,6 +64,9 @@ import {
   FirstLogin,
   Register
 } from '../pages/work-plat/register'
+import {
+  PlatManage
+} from '../pages/software-market/soft-market-manage'
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
@@ -116,6 +123,12 @@ export default {
     component: Logged(TestManage)
   }],
   softwareMarketChildRoutes: [{
+    path: '/software-market-home/software-manage/reject',
+    component: Logged(Reject)
+  }, {
+    path: '/software-market-home/software-manage/remove',
+    component: Logged(Remove)
+  }, {
     path: '/software-market-home/software-manage/businessing',
     component: Logged(Businessing)
   }, {
@@ -178,5 +191,8 @@ export default {
   }, {
     path: '/software-market-home/platform-manage/user-count',
     component: Logged(UserCount)
+  }, {
+    path: '/software-market-home/soft-market-manage/plat-manage',
+    component: Logged(PlatManage)
   }]
 }

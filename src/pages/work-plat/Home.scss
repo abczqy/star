@@ -1,0 +1,16 @@
+/* 公用样式尽量引用公用变量 */
+@import "../../assets/index.scss";
+
+/* Extra的icon */
+.extra-icon {
+  width: 16px;
+  height: 16px;
+  margin-top: -4px;
+}
+
+/* Extra的字体大小 */
+.extra-font {
+  font-family: $fontFamily;
+  font-size: $fontSizeH5;
+  color: $grayColor;
+}

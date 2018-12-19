@@ -1,0 +1,59 @@
+
+.platdata-container{
+  width: 100%;
+  height: 100%;
+  display: block;
+  .ant-card-cover{
+    img{
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      margin: auto;
+    }
+  }
+  .ant-card-bordered{
+    border: none;
+  }
+  .ant-card-meta-title{
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #474747;
+    line-height: 32px;
+  }
+  .ant-card-body{
+    padding: 0;
+  }
+  .ant-card-meta-detail > div:not(:last-child) {
+    margin-bottom: 0;
+  }
+  .ant-card-meta-description{
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    color: #3AA0FF;
+    line-height: 32px;
+  }
+  .echartsRow-bg{
+    background: url("../../assets/images/login-home/u871.png") no-repeat;
+    background-size: 100% 86.25%;
+    width: 100%;
+    height: 80px;
+    position: relative;
+    margin-top: 11px;
+  }
+  .echartsRow{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 105px;
+    text-align: center;
+    background:rgba(255,255,255,0.8);
+  }
+}
+
+
+

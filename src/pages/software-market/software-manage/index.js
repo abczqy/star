@@ -5,3 +5,5 @@ export { default as AppStandOffModal } from './common-pages/app-stand-off-modal/
 export { default as AppDetailModal } from './common-pages/app-detail-modal/AppDetailModal'
 export { default as IterationDetailModal } from './common-pages/iteration-detail-modal/IterationDetailModal'
 export { default as WaitDetailModal } from './common-pages/wait-detail-modal/WaitDetailModal'
+export { default as Reject } from './reject/Reject'
+export { default as Remove } from './remove/Remove'
