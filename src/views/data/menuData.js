@@ -67,11 +67,11 @@ export default [
           }, {
             title: '下架列表',
             key: '3-2-4',
-            to: '/software-market-home/software-manage/businessing'
+            to: '/software-market-home/software-manage/remove'
           }, {
             title: '未通过审核',
             key: '3-2-5',
-            to: '/software-market-home/software-manage/wait-verify'
+            to: '/software-market-home/software-manage/reject'
           }, {
             title: '应用统计',
             key: '3-2-6',

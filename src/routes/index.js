@@ -20,6 +20,10 @@ import {
   PublicInfoVerifyDetail
 } from 'pages/software-market'
 import {
+  Reject,
+  Remove
+} from '../pages/software-market/software-manage'
+import {
   Home,
   Test
 } from 'pages/work-plat'
@@ -119,6 +123,12 @@ export default {
     component: Logged(TestManage)
   }],
   softwareMarketChildRoutes: [{
+    path: '/software-market-home/software-manage/reject',
+    component: Logged(Reject)
+  }, {
+    path: '/software-market-home/software-manage/remove',
+    component: Logged(Remove)
+  }, {
     path: '/software-market-home/software-manage/businessing',
     component: Logged(Businessing)
   }, {
