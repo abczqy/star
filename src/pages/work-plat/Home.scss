@@ -13,10 +13,17 @@
   width: 100%;
   height: 30px;
   line-height: 30px;
+  position: relative;
   & > span {
     margin-left: 10px;
     margin-right: 5px;
   }
+  /* 待办的item的日期 */
+.wait-to-do-item-date {
+  position: absolute;
+  right: 0;
+  color: $grayColor;
+}
 }
 
 /* 待办的Item的前缀icon */

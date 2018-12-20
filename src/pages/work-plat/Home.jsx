@@ -59,6 +59,7 @@ const WaitToDoItem = (props) => (
       { props.message || '' }
     </span>
     <img src={waitToDoSuffix} className='wait-to-do-item-icon-suffix' />
+    <span className='wait-to-do-item-date'>[3-24]</span>
   </div>
 )
 
