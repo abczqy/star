@@ -15,12 +15,15 @@ class Grid extends Component {
       gridCol = 3, // 列数（默认3列）
       gridCount // 需要渲染的格子数（一般就是数据（数组类型）的length）
     } = this.props
+    // 行数 - 应该有一个向上取整的操作
+    const rowCount = Math.ceil(gridCount / gridCol)
+    console.log('行数：' + rowCount)
     return (
       <div
         className='grid'
         style={{
           width: (100 / gridCol + '%'),
-          height: (100 / gridCount * gridCol + '%')
+          height: (100 / rowCount + '%')
         }}>
         <div>
           { this.props.children || '' }

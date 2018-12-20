@@ -82,12 +82,32 @@ class Home extends Component {
   }
 
   /**
+   * 获得单个的App - LabelIcon
+   * @param { object } style 描述labelIcon的style
+   * @returns 为了传递这个函数（并且可以携带参数） 我们返回值是返回一个函数（info和item传入的上下文不一样）
+   */
+  getAppRender = (style) => {
+    // 返回函数 -- 可以模拟一下集成和多态
+    style = style || {}
+    // itemData 就是 传给LabelIcon的props数据
+    return function (itemData, style) {
+      return (
+        <LabelIcon
+          style={{ ...style }}
+          label={itemData.label}
+        />
+      )
+    }
+  }
+
+  /**
    * 获取格子的渲染
    * @param { array } data 用来渲染的数据 -- 可以在输入前加适配器
    * @param { num } gridCol 九宫格 -- 格子有几列 默认3列 这个值要参与后面渲染时的运算
    * @param { num } count 阈值 只渲染多少个
+   * @param { func } itemRender 用来渲染格子的内容
    */
-  getCellsRender = (data, gridCol, count) => {
+  getCellsRender = (data, gridCol, count, itemRender) => {
     // 容错-空值
     data = data || []
     count = count || 6
@@ -101,7 +121,10 @@ class Home extends Component {
         gridCount={len}
         gridCol={gridCol}
       >
-        <LabelIcon label={v.label} />
+        {/* <LabelIcon
+          label={v.label}
+        /> */}
+        { itemRender(v) }
       </Grid>
     ))
   }
@@ -187,7 +210,9 @@ class Home extends Component {
               headStyle={{...headStyle}}
               bodyStyle={{...bodyStyle, height: '220px'}}
             >
-              { this.getCellsRender(mock.sysRecommend) }
+              {
+                this.getCellsRender(mock.sysRecommend, 3, 6, this.getAppRender({ borderRadius: '4px' }))
+              }
             </Card>
           </Col>
           <Col span={16}>
@@ -198,7 +223,9 @@ class Home extends Component {
               bodyStyle={{...bodyStyle, height: '220px'}}
               extra={<Extra />}
             >
-              内容
+              {
+                this.getCellsRender(mock.myApps, 9, 14, this.getAppRender({ borderRadius: '50%' }))
+              }
             </Card>
           </Col>
         </Row>

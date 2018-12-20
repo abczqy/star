@@ -12,8 +12,16 @@ import AppMore from '../../../assets/images/work-plat/app-more.png'
 class LabelIcon extends Component {
   render () {
     return (
-      <div className='label-icon-wrap' >
-        <div className='icon-wrap'>
+      <div
+        className='label-icon-wrap'
+        onClick={this.props.onClick}
+      >
+        <div
+          className='icon-wrap'
+          style={{
+            ...this.props.style
+          }}
+        >
           <img
             className='icon'
             src={this.props.icon || AppMore}
@@ -32,7 +40,9 @@ class LabelIcon extends Component {
 
 LabelIcon.propTypes = {
   icon: PropTypes.any, // 图标
-  label: PropTypes.any // 标签
+  label: PropTypes.any, // 标签
+  style: PropTypes.object, // Icon部分的样式 -- 可以进行尺寸和样式的定制
+  onClick: PropTypes.func // 点击事件
 }
 
 export default LabelIcon
