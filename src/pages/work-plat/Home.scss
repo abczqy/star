@@ -3,8 +3,33 @@
 
 /* Extra的icon */
 .extra-icon {
-  width: 16px;
-  height: 16px;
+  width: $fontSizeH5;
+  height: $fontSizeH5;
+  margin-top: -4px;
+}
+
+/* 待办的Item */
+.wait-to-do-item {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  & > span {
+    margin-left: 10px;
+    margin-right: 5px;
+  }
+}
+
+/* 待办的Item的前缀icon */
+.wait-to-do-item-icon-pre {
+  width: $fontSizeH6;
+  height: $fontSizeH6;
+  margin-top: -4px;
+}
+
+/* 待办的Item的后缀icon */
+.wait-to-do-item-icon-suffix {
+  width: $fontSizeH4;
+  height: $fontSizeH4;
   margin-top: -4px;
 }
 
@@ -15,8 +40,17 @@
   color: $grayColor;
 }
 
+/* 标题栏的红色提示 */
+.tip-red {
+  font-family: $fontFamily;
+  font-size: $fontSizeH5;
+  color: $importTipColor;
+  margin-left: 3px;
+}
+
 /* 工作台-盛放按钮的容器 */
 .row-box {
+  margin-top: 20px;
   padding-top: 30px;
   border-top: 1px dashed #f4f4f4;
 }

@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import {
   Row,
   Col,
@@ -14,6 +15,10 @@ import { Page } from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
 import avatar from '../../assets/images/work-plat/avatar.png'
+import WaitToDoPre from '../../assets/images/work-plat/wait-to-do-pre.png'
+import waitToDoSuffix from '../../assets/images/work-plat/wait-to-do-suffix.png'
+/* mock数据 */
+import mock from './mock-data'
 
 /**
  * Card的头部的统一/共有样式
@@ -29,7 +34,9 @@ const headStyle = {
  * Card的body的统一/共有样式
  */
 const bodyStyle = {
-  border: 'none'
+  border: 'none',
+  height: '220px',
+  padding: '20px 10px 0 20px'
 }
 
 /**
@@ -42,7 +49,38 @@ const Extra = () => (
   </span>
 )
 
+/**
+ * 待办列表-Item
+ */
+const WaitToDoItem = (props) => (
+  <div className='wait-to-do-item'>
+    <img src={WaitToDoPre} className='wait-to-do-item-icon-pre' />
+    <span>
+      { props.message || '' }
+    </span>
+    <img src={waitToDoSuffix} className='wait-to-do-item-icon-suffix' />
+  </div>
+)
+
 class Home extends Component {
+  /**
+   * 获取待办列表的渲染
+   */
+  getWaitToDoListRender = (data) => {
+    // 容错-空值
+    data = data || []
+    // 长度在5个以上时 需要截取前6个
+    data.length > 5 && data.splice(6)
+    return data.map((v, i) => {
+      return (
+        <WaitToDoItem
+          key={i}
+          message={v.message}
+        />
+      )
+    })
+  }
+
   render () {
     return (
       <Page
@@ -107,12 +145,12 @@ class Home extends Component {
           <Col span={16}>
             <Card
               bordered={false}
-              title={'待办事项'}
+              title={<span>待办事项<span className='tip-red'>{'(23)'}</span></span>}
               headStyle={{...headStyle}}
               bodyStyle={{...bodyStyle}}
               extra={<Extra />}
             >
-              内容
+              { this.getWaitToDoListRender(mock.waitToDoData) }
             </Card>
           </Col>
         </Row>
@@ -190,6 +228,10 @@ class Home extends Component {
       </Page>
     )
   }
+}
+
+WaitToDoItem.propTypes = {
+  message: PropTypes.string
 }
 
 export default Home
