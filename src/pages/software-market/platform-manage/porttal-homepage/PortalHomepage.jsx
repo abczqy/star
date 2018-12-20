@@ -20,6 +20,9 @@ class PortalHomepage extends Component {
           header={{title: '软件市场'}}
           boxTitle='软件'
         />
+        <BannerMaker
+          header={{title: '平台介绍'}}
+        />
       </div>
     )
   }
