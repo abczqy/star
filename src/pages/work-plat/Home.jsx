@@ -11,7 +11,7 @@ import {
   Button,
   Avatar
 } from 'antd'
-import { Page } from '../../components/common'
+import { Page, LabelIcon } from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
 import avatar from '../../assets/images/work-plat/avatar.png'
@@ -35,8 +35,15 @@ const headStyle = {
  */
 const bodyStyle = {
   border: 'none',
-  height: '220px',
-  padding: '20px 10px 0 20px'
+  padding: '20px'
+}
+
+/**
+ * Card.Grid的样式
+ */
+const gridStyle = {
+  // textAlign: 'center',
+  // border: 'none'
 }
 
 /**
@@ -82,6 +89,65 @@ class Home extends Component {
     })
   }
 
+  /**
+   * 获取系统推荐的渲染 -- 因为有Row和Col的嵌套渲染 -- 所以需要递归的算法
+   * @param { array } data 渲染用的数据 后面可以加适配器 在传入时统一格式
+   * @param { num } gridCol 九宫格 -- 格子有几列 默认3列 这个值要参与后面渲染时的运算
+   */
+  // getAppListRender = (data, gridCol) => {
+  //   // 容错-空值
+  //   data = data || []
+  //   gridCol = gridCol || 3
+  //   // 长度在5个以上时 需要截取前6个
+  //   data.length > 5 && data.splice(6)
+  //   return data.map((v, i) => {
+  //     // 默认逢3渲染一个Row
+  //     if (i % gridCol === 0) {
+  //       // 默认3个为一排
+  //       return (
+  //         <Row>
+
+  //         </Row>
+  //       )
+  //     } else {
+  //       return (
+  //         <Col span={24 / gridCol}>
+  //           <LabelIcon label={v.label} />
+  //         </Col>)
+  //     }
+  //   })
+  // }
+
+  /**
+   * 获取格子的渲染
+   * @param { array } data 用来渲染的数据 -- 可以在输入前加适配器
+   * @param { num } gridCol 九宫格 -- 格子有几列 默认3列 这个值要参与后面渲染时的运算
+   * @param { num } count 阈值 只渲染多少个
+   */
+  getCellsRender = (data, gridCol, count) => {
+    // 容错-空值
+    data = data || []
+    count = count || 6
+    gridCol = gridCol || 3
+    const len = data.length
+    // 长度在5个以上时 需要截取前6个
+    data.length > count && data.splice(count)
+    return data.map((v, i) => (
+      <div
+        key={i}
+        className='grid'
+        style={{
+          ...gridStyle,
+          width: (100 / gridCol + '%'),
+          height: (100 / len * gridCol + '%')
+        }}>
+        <div>
+          <LabelIcon label={v.label} />
+        </div>
+      </div>
+    ))
+  }
+
   render () {
     return (
       <Page
@@ -94,7 +160,7 @@ class Home extends Component {
               bordered={false}
               title={'工作台'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '220px'}}
             >
               <Row
                 type='flex'
@@ -148,7 +214,7 @@ class Home extends Component {
               bordered={false}
               title={<span>待办事项<span className='tip-red'>{'(23)'}</span></span>}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '220px'}}
               extra={<Extra />}
             >
               { this.getWaitToDoListRender(mock.waitToDoData) }
@@ -161,9 +227,11 @@ class Home extends Component {
               bordered={false}
               title={'系统推荐'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '220px'}}
             >
-              内容
+              <div className='cells-wrap'>
+                { this.getCellsRender(mock.sysRecommend) }
+              </div>
             </Card>
           </Col>
           <Col span={16}>
@@ -171,7 +239,7 @@ class Home extends Component {
               bordered={false}
               title={'我的应用'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '220px'}}
               extra={<Extra />}
             >
               内容

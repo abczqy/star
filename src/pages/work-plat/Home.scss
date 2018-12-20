@@ -61,3 +61,28 @@
   padding-top: 30px;
   border-top: 1px dashed #f4f4f4;
 }
+
+/* Grid的样式 */
+.grid {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  & > div {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }
+}
+
+/* 格子容器-flex布局-后面请处理下兼容性 */
+.cells-wrap {
+  width: 100%;
+  height: 100%;
+  // border: 1px solid #f00;
+  // display: -webkit-flex; /* Safari */
+  // display: flex;
+  // flex-wrap: wrap;
+}
