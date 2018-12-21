@@ -6,7 +6,7 @@ import { Input, Form, Button, message } from 'antd'
 import './ForgetPass.scss'
 import PropTypes from 'prop-types'
 import { BlankBar } from 'components/software-market'
-
+import {axios} from '../../../../utils'
 class ForgetPass extends Component {
   static propTypes = {
     form: PropTypes.object
@@ -18,7 +18,8 @@ class ForgetPass extends Component {
       phoneCode: '', // 短信验证码
       count: 6, // 秒数初始化为60秒
       liked: true, // 文案默认为‘获取验证码‘
-      phonereg: false
+      phonereg: false,
+      disabled: false
 
     }
   }
@@ -27,7 +28,7 @@ class ForgetPass extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-        /** 注册成功 */
+        /** 成功 */
         if (values.maf_phone_con === '123456') {
           message.success('修改成功')
         } else {
@@ -36,35 +37,48 @@ class ForgetPass extends Component {
       }
     })
   }
+  componentDidMount () {
+  // console.log(webStorage)
+  }
   getPhoneCode =(e) => {
-    console.log(this.state.phonereg)
+  // console.log(this.state.phonereg)
     if (!this.state.phonereg) {
       message.success('请输入手机号码')
     } else {
-      message.success('验证码已发送')
       // liked is false 的时候，不允许再点击
       if (!this.state.liked) {
         return
-      }
-      let count = this.state.count
-      console.log(count)
-      const timer = setInterval(() => {
+      } else {
+        let count = this.state.count
+        console.log(count)
         this.setState({
-          liked: false,
-          count: (count--)
-        }, () => {
-          if (count === 0) {
-            clearInterval(timer)
-            this.setState({
-              liked: true,
-              count: 6
-            })
+          disabled: true
+        })
+        const timer = setInterval(() => {
+          this.setState({
+            liked: false,
+            count: (count--)
+          }, () => {
+            if (count < 0) {
+              clearInterval(timer)
+              this.setState({
+                liked: true,
+                count: 6,
+                disabled: false
+              })
+            }
           }
-        }
-        )
-      }, 1000)
+          )
+        }, 1000)
+      }
+      // 发送验证码，成功后
+      message.success('验证码已发送')
+      console.log(e)
     }
-    console.log(e)
+  }
+  // eslint-disable-next-line camelcase
+  phoneCode_ajax = () => {
+    axios.post('/accountSecurity/sendSecurityPhoneValid/')
   }
   // 校验手机号
     validatePhone = (rule, value, callback) => {
@@ -159,7 +173,7 @@ class ForgetPass extends Component {
                 <Input type='text' className='code_input' placeholder='请输入验证码' />
               ) }
             </Form.Item>
-            <Button className='buttonfont' onClick={(e) => this.getPhoneCode(e)}>
+            <Button className='buttonfont' onClick={(e) => this.getPhoneCode(e)} disabled={this.state.disabled}>
               {
                 this.state.liked ? <span>获取验证码</span> : <span className='count_second'>
                   {this.state.count + 's'}
