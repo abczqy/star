@@ -19,17 +19,36 @@ class ForgetPass extends Component {
       count: 6, // 秒数初始化为60秒
       liked: true, // 文案默认为‘获取验证码‘
       phonereg: false,
-      disabled: false
+      disabled: false,
+      phoneNum: ''
 
     }
   }
   saveOrSubmit =(e) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
+      /** 校验成功 */
       if (!err) {
         console.log('Received values of form: ', values)
-        /** 成功 */
+        /** 比对验证码 */
+        axios.get('/accountSecurity/ ')
+          .then(function (res) {
+            console.log(res)
+          })
+        /** 获取验证码比对 */
         if (values.maf_phone_con === '123456') {
+          // 修改代码
+          const params = {
+            password: values.maf_pwd,
+            phone: values.maf_phone
+          }
+          console.log(params)
+          axios.post('/accountSecurity ', params, (response) => {
+            this.setState({
+              registerVisible: true,
+              accountSucc: response.data.maf_id
+            })
+          })
           message.success('修改成功')
         } else {
           message.success('验证码错误')
@@ -72,32 +91,46 @@ class ForgetPass extends Component {
         }, 1000)
       }
       // 发送验证码，成功后
-      message.success('验证码已发送')
+      if (this.state.phonereg) {
+        console.log('phoneNum' + this.state.phoneNum)
+        // eslint-disable-next-line no-undef
+        axios.get('/accountSecurity/sendSecurityPhoneValid/' + this.state.phoneNum)
+          .then(function (res) {
+            console.log(res)
+          })
+      }
       console.log(e)
     }
   }
-  // eslint-disable-next-line camelcase
-  phoneCode_ajax = () => {
-    axios.post('/accountSecurity/sendSecurityPhoneValid/')
+  // 获取验证码接口
+
+  getRegisterAgreement (params, sucFn) {
+    return axios.get('/accountSecurity/sendSecurityPhoneValid/', {...params})
+      .then(function (res) {
+        sucFn(res)
+      })
   }
   // 校验手机号
     validatePhone = (rule, value, callback) => {
       if (!value) {
         this.setState({
-          phonereg: false
+          phonereg: false,
+          phoneNum: value
         })
         callback()
       } else {
         const phonereg = /^[1][3,4,5,7,8][0-9]{9}$/
         if (!phonereg.test(value)) {
           this.setState({
-            phonereg: false
+            phonereg: false,
+            phoneNum: value
           })
           const res = '手机号格式不正确'
           callback(res)
         } else {
           this.setState({
-            phonereg: true
+            phonereg: true,
+            phoneNum: value
           })
           callback()
         }
