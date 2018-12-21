@@ -33,7 +33,7 @@ class Login extends Component {
         /** 成功后执行 */
         message.success('登录成功')
         this.props.history.push({
-          pathname: '/operate-manage-home/work-plat/per-center'
+          pathname: '/operate-manage-home/home'
         })
         /** 成功后执行 */
       }
