@@ -17,11 +17,11 @@ class Grid extends Component {
     } = this.props
     // 行数 - 应该有一个向上取整的操作
     const rowCount = Math.ceil(gridCount / gridCol)
-    console.log('行数：' + rowCount)
     return (
       <div
         className='grid'
         style={{
+          display: 'inline-block',
           width: (100 / gridCol + '%'),
           height: (100 / rowCount + '%')
         }}>

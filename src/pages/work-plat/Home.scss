@@ -1,6 +1,13 @@
 /* 公用样式尽量引用公用变量 */
 @import "../../assets/index.scss";
 
+/* 宽屏的容器 */
+.content-wrap {
+  width: 1000px;
+  height: 100%;
+  border: 1px solid #000;
+}
+
 /* Extra的icon */
 .extra-icon {
   width: $fontSizeH5;

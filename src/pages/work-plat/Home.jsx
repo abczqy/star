@@ -11,7 +11,12 @@ import {
   Button,
   Avatar
 } from 'antd'
-import { Page, LabelIcon, Grid } from '../../components/common'
+import {
+  Page,
+  LabelIcon,
+  Grid,
+  AppCard
+} from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
 import avatar from '../../assets/images/work-plat/avatar.png'
@@ -79,6 +84,15 @@ class Home extends Component {
         />
       )
     })
+  }
+
+  /**
+   * 获得单个App的card
+   */
+  getAppCardRender = () => {
+    return (
+      <AppCard />
+    )
   }
 
   /**
@@ -235,10 +249,12 @@ class Home extends Component {
               bordered={false}
               title={'我的收藏'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '250px'}}
               extra={<Extra />}
             >
-              内容
+              {
+                this.getCellsRender(mock.myApps, 5, 10, this.getAppCardRender)
+              }
             </Card>
           </Col>
         </Row>

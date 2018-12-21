@@ -1,0 +1,63 @@
+/* 公用样式尽量引用公用变量 */
+@import "../../../assets/index.scss";
+
+.app-card {
+  width: 100%;
+  min-width: 220px;
+  height: 100%;
+  padding: 5%;
+  border: 1px solid $padColor;
+  /* icon的wrap */
+  .icon-wrap {
+    width: 45px;
+    height: 45px;
+    line-height: 40px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: $radius;
+    background-color: $linkColor; // 图标默认背景色
+    .icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  .down-load-icon {
+    background: $assistBlue;
+  }
+  .celect-icon {
+    background: $assistOrange;
+  }
+  .share-icon {
+    background: $assistGreen;
+  }
+  .btn-wrap {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: $btnRadius;
+  }
+
+  /* 差异化样式 */
+  .bottom-row {
+    padding-top: 5%;
+  }
+
+  /* 按钮中的文字 */
+  .btn-text-wrap {
+    font-family: $fontFamily;
+    font-size: $fontSizeH7;
+    color: $light;
+  }
+
+  /* 按钮中的图标 */
+  .btn-icon-wrap {
+    display: inline-block;
+    padding: 0 4px 1px 4px;
+    border-radius: $btnRadius;
+    text-align: center;
+    margin-top: -4px;
+    .mini-icon {
+      width: $iconSize * 1.6;
+      height: $iconSize * 1.6;
+    }
+  }
+}

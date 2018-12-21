@@ -39,10 +39,14 @@
 $width: 1425px;
 /* 按钮/Input的高度 */
 $eleHeight: 32px;
+/* 图标尺寸 */
+$iconSize: 10px;
 
 /***** 色彩 *****/
 /* 背景色 */
 $backgroundColor: #f4f4f4;
+/* 深色背景下的内容颜色 */
+$light: #fff;
 /* 选择器下拉悬浮色调 */
 $hoverBackColor: #DFEFFE;
 /* 链接激活蓝 */
@@ -52,9 +56,15 @@ $fontColor: #333;
 /* 常规灰 */
 $grayColor: #666;
 /* 填充色 */
-$padColor: #f4f4f4;
+$padColor: #EFF0EF;
 /* 重点提示色调 */
 $importTipColor: #f00;
+/* 辅助色 */
+$assistBlue: #40B3F9;
+/* 辅助色-orange */
+$assistOrange: rgba(255, 109, 74, 1);
+/* 辅助色-green */
+$assistGreen: rgba(78, 203, 115, 1);
 
 
 /***** 字体 *****/
@@ -67,6 +77,7 @@ $fontSizeH4: 18px;
 $fontSizeH5: 16px;
 $fontSizeH6: 14px;
 $fontSizeH7: 12px;
+$fontSizeH8: 10px;
 
 
 /**** 其他 ****/
