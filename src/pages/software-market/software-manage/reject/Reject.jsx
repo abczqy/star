@@ -117,25 +117,13 @@ class Reject extends Component {
       dataIndex: 'sw_type',
       key: 'sw_type'
     }, {
-      title: '供应商',
-      dataIndex: 'fa_name',
-      key: 'fa_name'
-    }, {
-      title: '类型',
-      dataIndex: 'sw_path',
-      key: 'sw_path'
-    }, {
-      title: '当前版本',
-      dataIndex: 'version',
-      key: 'version'
-    }, {
-      title: '迭代版本',
-      dataIndex: 'iteration_version',
-      key: 'iteration_version'
-    }, {
       title: '提交时间',
       dataIndex: 'sw_update_time',
       key: 'sw_update_time '
+    }, {
+      title: '支持系统',
+      dataIndex: 'version',
+      key: 'version'
     }, {
       title: '操作',
       dataIndex: 'options',
@@ -144,7 +132,8 @@ class Reject extends Component {
         const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
         return (
           <span>
-            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>{roleCode === 'operator' ? '审核' : '详情'}</a>
+            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>撤销</a>
+            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)} className='margin-lef5'>{roleCode === 'operator' ? '审核' : '查看详情'}</a>
           </span>
         )
       }

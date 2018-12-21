@@ -11,6 +11,16 @@ export function login (params, sucFn) {
 }
 
 /**
+ * 获取验证码
+ */
+export function getIdentifying (params, sucFn) {
+  return axios.get('/accountSecurity/sendSecurityPhoneValid/' + params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 更新用户信息
  */
 export function updateUserInfo (params, sucFn) {

@@ -13,6 +13,8 @@ import {
 } from 'antd'
 import PropTypes from 'prop-types'
 import './FirstLogin.scss'
+// import { getIdentifying } from 'services/portal'
+import {setCookie, getCookie} from '../../../../utils/cookie'
 const FormItem = Form.Item
 const {
   Footer, Content
@@ -22,9 +24,58 @@ class FirstLogin extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      captchaBtnText: '获取验证码',
       visible: false,
-      confirmDirty: false
+      confirmDirty: false,
+      validatePhoneFlag: false
     }
+  }
+  componentDidMount () {
+    const countdown = getCookie('secondsremained') ? getCookie('secondsremained') : 0 // 获取cookie值
+    if (countdown !== undefined && countdown > 0) {
+      this.settime()// 开始倒计时
+    }
+  }
+  /** 获取验证码 */
+  getCode = () => {
+    if (this.state.captchaBtnText === '获取验证码') {
+      if (this.state.validatePhoneFlag) {
+        console.log('获取验证码中')
+        setCookie('secondsremained', 60, 60)
+        this.settime()
+        /** getIdentifying(this.props.form.getFieldValue('phone'), (res) => {
+          const data = res.data
+          console.log(data)
+          if (data.code === '200') {
+            message.success('获取验证码成功')
+          } else {
+            message.error('获取验证码失败')
+          }
+        }) */
+      } else {
+        this.props.form.validateFields(['phone'])
+      }
+    }
+  }
+  /** 验证码倒计时 */
+  settime = () => {
+    let countdown = 60
+    // @ts-ignore
+    countdown = getCookie('secondsremained')
+    const timer = setInterval(() => {
+      if (countdown <= 0) {
+        clearInterval(timer)
+        this.setState({
+          captchaBtnText: '获取验证码'
+        })
+      } else {
+        this.setState({
+          captchaBtnText: `获取验证码(${countdown}s)`
+        })
+        countdown--
+      }
+      setCookie('secondsremained', countdown, countdown + 1)
+    }, 1000)
   }
   /** 提交手机号、验证码 */
   handleSubmit = (e) => {
@@ -76,14 +127,23 @@ class FirstLogin extends Component {
   /** 校验手机号 */
   validatePhone = (rule, value, callback) => {
     if (!value) {
+      this.setState({
+        validatePhoneFlag: false
+      })
       const res = '请输入绑定的手机号'
       callback(res)
     } else {
       const phonereg = /^[1][3,4,5,7,8][0-9]{9}$/
       if (!phonereg.test(value)) {
+        this.setState({
+          validatePhoneFlag: false
+        })
         const res = '手机号格式不正确'
         callback(res)
       } else {
+        this.setState({
+          validatePhoneFlag: true
+        })
         callback()
       }
     }
@@ -159,7 +219,7 @@ class FirstLogin extends Component {
                       })(
                         <Input placeholder='请输入短信验证码' className='wid-37 hei-40' />
                       )}
-                      <a className='a-code'>获取验证码</a>
+                      <a className='a-code' onClick={this.getCode}>{this.state.captchaBtnText}</a>
                     </FormItem>
                   </Row>
                   <Row className='mar-top-5'>

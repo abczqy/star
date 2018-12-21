@@ -11,12 +11,21 @@ import {
 } from 'antd'
 import './Register.scss'
 import PropTypes from 'prop-types'
+import {setCookie, getCookie} from '../../../../utils/cookie'
 const FormItem = Form.Item
 
 class Register extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      captchaBtnText: '获取邀请码',
+      validatePhoneFlag: false
+    }
+  }
+  componentDidMount () {
+    const countdown = getCookie('secondsremained') ? getCookie('secondsremained') : 0 // 获取cookie值
+    if (countdown !== undefined && countdown > 0) {
+      this.settime()// 开始倒计时
     }
   }
   /** 提交表单 */
@@ -32,6 +41,47 @@ class Register extends Component {
         })
       }
     })
+  }
+  /** 获取验证码 */
+  getCode = () => {
+    if (this.state.captchaBtnText === '获取邀请码') {
+      if (this.state.validatePhoneFlag) {
+        console.log('获取验证码中')
+        setCookie('secondsremained', 60, 60)
+        this.settime()
+        /** getIdentifying(this.props.form.getFieldValue('phone'), (res) => {
+          const data = res.data
+          console.log(data)
+          if (data.code === '200') {
+            message.success('获取验证码成功')
+          } else {
+            message.error('获取验证码失败')
+          }
+        }) */
+      } else {
+        this.props.form.validateFields(['phone'])
+      }
+    }
+  }
+  /** 验证码倒计时 */
+  settime = () => {
+    let countdown = 60
+    // @ts-ignore
+    countdown = getCookie('secondsremained')
+    const timer = setInterval(() => {
+      if (countdown <= 0) {
+        clearInterval(timer)
+        this.setState({
+          captchaBtnText: '获取邀请码'
+        })
+      } else {
+        this.setState({
+          captchaBtnText: `(${countdown}s)后获取`
+        })
+        countdown--
+      }
+      setCookie('secondsremained', countdown, countdown + 1)
+    }, 1000)
   }
   /** 校验身份证 */
   validateCard = (rule, value, callback) => {
@@ -50,13 +100,23 @@ class Register extends Component {
   /** 校验手机号 */
   validatePhone = (rule, value, callback) => {
     if (!value) {
-      callback()
+      this.setState({
+        validatePhoneFlag: false
+      })
+      const res = '请输入主家长手机号'
+      callback(res)
     } else {
       const phonereg = /^[1][3,4,5,7,8][0-9]{9}$/
       if (!phonereg.test(value)) {
+        this.setState({
+          validatePhoneFlag: false
+        })
         const res = '手机号格式不正确'
         callback(res)
       } else {
+        this.setState({
+          validatePhoneFlag: true
+        })
         callback()
       }
     }
@@ -196,7 +256,6 @@ class Register extends Component {
                 <Input placeholder='请输入学生账号' className='input-size' />
               )}
             </FormItem>
-            <Button className='get-btn'>获取邀请码</Button>
             <FormItem
               {...formItemLayout}
               label='主家长电话'
@@ -204,12 +263,13 @@ class Register extends Component {
               hasFeedback
             >
               {getFieldDecorator('phone', {
-                rules: [{ required: true, message: '请输入主家长电话' }, {
+                rules: [ {
                   validator: this.validatePhone
                 }]
               })(
                 <Input placeholder='请输入主家长电话' className='input-size-small' />
               )}
+              <Button className='get-btn' onClick={this.getCode}>{this.state.captchaBtnText}</Button>
             </FormItem>
             <FormItem
               {...formItemLayout}

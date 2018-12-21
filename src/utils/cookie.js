@@ -7,7 +7,6 @@
 export function setCookie (key, value, iDay) {
   var oDate = new Date()
   oDate.setTime(oDate.getTime() + (iDay * 24 * 60 * 60 * 1000))
-  console.log(oDate)
   document.cookie = key + '=' + value
 }
 
