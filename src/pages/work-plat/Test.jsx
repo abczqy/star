@@ -24,6 +24,21 @@ class Test extends Component {
                 测试
                 </Link>
               </li>
+              <li>
+                <Link to='/operate-manage-home/work-plat/user-manage'>
+                用户管理
+                </Link>
+              </li>
+              <li>
+                <Link to='/operate-manage-home/work-plat/user-manage-detail'>
+                用户管理详情页
+                </Link>
+              </li>
+              <li>
+                <Link to='/operate-manage-home/work-plat/down-history'>
+                下载历史
+                </Link>
+              </li>
             </ul>
           </li>
           <li>

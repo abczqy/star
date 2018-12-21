@@ -1,5 +1,5 @@
 /**
- * 工作台-管理-示例页面
+ * 工作台-首页-示例页面
  */
 import React, { Component } from 'react'
 

@@ -49,9 +49,16 @@ import {
 import {
   FundManage
 } from '../pages/work-plat/per-center/fund-manage'
-import {
-  TestManage
-} from 'pages/work-plat/manage'
+// import {
+//   TestHome,
+//   UserManage,
+//   UserManageDetail
+//   // DownHistory
+// } from '../pages/work-plat/home'
+import TestHome from '../pages/work-plat/home/Test'
+import UserManage from '../pages/work-plat/home/user-manage/UserManage'
+import UserManageDetail from '../pages/work-plat/home/user-manage/UserManageDetail'
+import DownHistory from '../pages/work-plat/home/down-history/DownHistory'
 import {
   ChildBind
 } from '../pages/work-plat/per-center/child-bind'
@@ -120,7 +127,16 @@ export default {
     }]
   }, {
     path: '/operate-manage-home/work-plat/manage',
-    component: Logged(TestManage)
+    component: Logged(TestHome)
+  }, {
+    path: '/operate-manage-home/work-plat/user-manage',
+    component: Logged(UserManage)
+  }, {
+    path: '/operate-manage-home/work-plat/user-manage-detail',
+    component: Logged(UserManageDetail)
+  }, {
+    path: '/operate-manage-home/work-plat/down-history',
+    component: Logged(DownHistory)
   }],
   softwareMarketChildRoutes: [{
     path: '/software-market-home/software-manage/reject',
