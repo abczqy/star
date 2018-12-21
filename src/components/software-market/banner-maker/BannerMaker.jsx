@@ -181,7 +181,9 @@ class BannerMaker extends Component {
   }
   componentDidMount () {
     this.getList()
-    this.getSchoolList()
+    if (this.props.header.title !== '平台介绍') {
+      this.getSchoolList()
+    }
   }
 
   getSchoolList = () => {
@@ -313,36 +315,40 @@ class BannerMaker extends Component {
             <div className='float-box'>{this.getPanelAdd()}</div>
             <div style={{ clear: 'both' }} />
             <BlankBar />
-            <div>
-              <div>
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <span>学校机构:</span>
-                    <Input placeholder='福州实验小学' onChange={this.onSchNameChange} style={{ width: '75%' }} />
-                  </Col>
-                  <Col span={6}>
-                    <Search
-                      onSearch={this.getSearchData}
-                      onChange={this.onKeyValChange}
-                    />
-                  </Col>
-                  <Col span={4}>
-                    <Button type='primary' onClick={this.getSearchData}>搜索</Button>
-                  </Col>
-                </Row>
-              </div>
-              <BlankBar />
-              <Table
-                columns={this.columns}
-                dataSource={this.state.dataList}
-                pagination={{
-                  ...pagination,
-                  total: this.state.total,
-                  onShowSizeChange: this.onShowSizeChange,
-                  onChange: this.pageNumChange
-                }}
-              />
-            </div>
+            {
+              this.props.header.title !== '平台介绍'
+                ? <div>
+                  <div>
+                    <Row gutter={16}>
+                      <Col span={8}>
+                        <span>学校机构:</span>
+                        <Input placeholder='福州实验小学' onChange={this.onSchNameChange} style={{ width: '75%' }} />
+                      </Col>
+                      <Col span={6}>
+                        <Search
+                          onSearch={this.getSearchData}
+                          onChange={this.onKeyValChange}
+                        />
+                      </Col>
+                      <Col span={4}>
+                        <Button type='primary' onClick={this.getSearchData}>搜索</Button>
+                      </Col>
+                    </Row>
+                  </div>
+                  <BlankBar />
+                  <Table
+                    columns={this.columns}
+                    dataSource={this.state.dataList}
+                    pagination={{
+                      ...pagination,
+                      total: this.state.total,
+                      onShowSizeChange: this.onShowSizeChange,
+                      onChange: this.pageNumChange
+                    }}
+                  />
+                </div>
+                : null
+            }
           </Panel>
         </Collapse>
         <BannerModel

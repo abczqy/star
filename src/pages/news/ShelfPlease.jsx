@@ -4,18 +4,23 @@
  * 上架流程
  */
 import React from 'react'
-import {Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message} from 'antd'
+import { withRouter } from 'react-router-dom'
+import {Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message, Checkbox} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 // import Upload from './Upload'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
 import {shelf} from 'services/software-manage'
+import PropTypes from 'prop-types'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
 
 class ShelfPlease extends React.Component {
+  static propTypes = {
+    history: PropTypes.any
+  }
   constructor (props) {
     super(props)
     this.state = {
@@ -142,54 +147,70 @@ class ShelfPlease extends React.Component {
       if (i === 0) {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
-            <Row>
-              <Col span={12}>
-                <Col span={6}><span style={{visibility: 'hidden'}}>*PC无无无</span>
-                  <span style={{color: 'red'}}>* </span>软件版本 :
-                </Col>
-                <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
-                    {this.state.dataL.map((item, index) => {
-                      return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
-                    })}
-                  </Select>
-                </Col>
-                <Col span={9}>
-                  <Upload {...propsO}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                    <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.exe..</span>
-                  </Upload>
-                </Col>
+            <Row className='Wxd' type='flex' align='top'>
+              <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件版本 :</Col>
+              <Col span={3}>
+                <Select placeholder='请选择安装包版本' style={{ width: 150 }} onChange={(value) => this.SChange(value, i)}>
+                  {this.state.dataL.map((item, index) => {
+                    return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
+                  })}
+                </Select>
+              </Col>
+              <Col span={3}>
+                <Upload {...propsO}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <br />
+                  <span className='extend'>支持扩展名：.exe..</span>
+                </Upload>
+              </Col>
+              <Col span={3}>
+                <span style={{color: 'red'}}>* </span>软件大小 :&nbsp;
+                <Input placeholder='' style={{ width: 60 }} onChange={this.rnameChange} value={this.state.rname} />
+              </Col>
+              <Col span={4}>
+                <span style={{color: 'red'}}>* </span>版本号 :&nbsp;
+                <Input placeholder='' style={{ width: 130 }} onChange={this.rnameChange} value={this.state.rname} />
+              </Col>
+              <Col span={7}>
+                <span style={{color: 'red'}}>* </span>包名 :&nbsp;
+                <Input placeholder='' style={{ width: 160 }} onChange={this.rnameChange} value={this.state.rname} />
               </Col>
             </Row>
           </div>)
       } else {
         value.push(
           <div key={i} style={{marginBottom: '10px'}}>
-            <Row>
-              <Col span={12}>
-                <Col span={6}>
-                  <span style={{visibility: 'hidden'}}>*PC无无无<span style={{color: 'red'}}>* </span>软件版本 :</span>
-                </Col>
-                <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
-                    {this.state.dataL.map((item, index) => {
-                      return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
-                    })}
-                  </Select>
-                </Col>
-                <Col span={9}>
-                  <Upload {...propsO}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                    <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无</span>支持扩展名：.exe..</span>
-                  </Upload>
-                </Col>
+            <Row className='Wxd' type='flex' align='top'>
+              <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件版本 :</Col>
+              <Col span={3}>
+                <Select placeholder='请选择安装包类型' style={{ width: 150 }} onChange={(value) => this.SChange(value, i)}>
+                  {this.state.dataL.map((item, index) => {
+                    return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
+                  })}
+                </Select>
+              </Col>
+              <Col span={3}>
+                <Upload {...propsO}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <br />
+                  <span className='extend'>支持扩展名：.exe..</span>
+                </Upload>
+              </Col>
+              <Col span={3}>
+                <span style={{color: 'red'}}>* </span>软件大小 :&nbsp;
+                <Input placeholder='' style={{ width: 60 }} onChange={this.rnameChange} value={this.state.rname} />
+              </Col>
+              <Col span={4}>
+                <span style={{color: 'red'}}>* </span>版本号 :&nbsp;
+                <Input placeholder='' style={{ width: 130 }} onChange={this.rnameChange} value={this.state.rname} />
+              </Col>
+              <Col span={7}>
+                <span style={{color: 'red'}}>* </span>包名 :&nbsp;
+                <Input placeholder='' style={{ width: 160 }} onChange={this.rnameChange} value={this.state.rname} />
               </Col>
             </Row>
           </div>)
@@ -315,6 +336,36 @@ class ShelfPlease extends React.Component {
       a.push(c)
     }
     return a
+  }
+
+  // 多选矿选择事件
+  onChange (checkedValues) {
+    console.log('checked = ', checkedValues)
+  }
+
+  // 预览表单
+  handlePreview () {
+    let formDataPre = new FormData()
+    formDataPre.append('rname', this.state.rname || '')// 软件名称*
+    formDataPre.append('rType', this.state.type || '')// 软件类型*
+    formDataPre.append('sw_icon', this.state.fileListTwo || '')// 软件图标*
+    // 查看详情
+    formDataPre.append('detailType', this.state.detailType || '')// 版本分类*
+    formDataPre.append('detailSize', this.state.detailSize || '')// 软件大小*
+    formDataPre.append('detailVersionNum', this.state.detailVersionNum || '')// 版本号*
+    formDataPre.append('detailPackName', this.state.detailPackName || '')// 包名*
+
+    formDataPre.append('detailAuth', this.state.detailAuth || '')// 权限详情*
+    // 图片展示
+    // this.state.fileListPc.forEach((file) => { // pc展示
+    //   formDataPre.append('sw_computer_photo', file)
+    // })
+    // this.state.fileListPhone.forEach((file) => { // 手机展示
+    //   formDataPre.append('sw_phone_photo', file)
+    // })
+    formDataPre.append('rDescribe', this.state.rDescribe || '')// 应用介绍*
+    formDataPre.append('rFeatures', this.state.rFeatures || '')// 新版特性*
+    this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
   }
 
   // 提交表单啦
@@ -495,35 +546,33 @@ class ShelfPlease extends React.Component {
       },
       fileListSix: this.state.fileListSix
     }
-    return <Card title='上架申请' style={{marginLeft: '15%', width: '1300px'}}>
+    return <Card title='上架申请' style={{marginLeft: '5%', width: '1300px'}} extra={<Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>}>
       <div >
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}><span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span style={{color: 'red'}}>* </span>软件名称 :
-              </Col>
-              <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
-            <Col span={8}>
-              <Col span={4}>
-                <span style={{color: 'red'}}>* </span>类型 :
-              </Col>
-              <Col span={20}>
-                <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
-                  {data.map((item, index) => {
-                    return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-                  })}
-                </Select>
-              </Col>
+          <Row className='Wxd' type='flex' align='middle'>
+            <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件名称 :</Col>
+            <Col span={7}><Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
+            <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
+            <Col span={7}>
+              <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
+                {data.map((item, index) => {
+                  return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+                })}
+              </Select>
             </Col>
           </Row>
-          <Row className='Wxd'>
-            <Col span={23}>
-              <span style={{visibility: 'hidden'}}>*PC无无无</span>
-              <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
-              <span style={{visibility: 'hidden'}}>|无</span>
-              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
+          <Row className='Wxd' type='flex' align='middle'>
+            <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
+            <Col span={20}>
+              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} />
+            </Col>
+          </Row>
+          <Row className='Wxd' type='flex' align='middle'>
+            <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
+            <Col span={20}>
+              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rFeatures} value={this.state.rFeatures} />
+            </Col>
           </Row>
           <Row className='Wxds'>
             {this.state.renderEdition.map((item, index) => {
@@ -531,60 +580,67 @@ class ShelfPlease extends React.Component {
             })}
           </Row>
           <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
-              </Col>
+            <Col span={21} offset={3}>
               <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
             </Col>
           </Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span style={{color: 'red'}}>* </span>软件图标 :
-              </Col>
-              <Col span={8}>
-                <Upload {...propsT}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                  <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ... （200px*200px）</span>
-                </Upload></Col>
-            </Col>
-            <Col span={8}>
-              <Col span={6}>
-                <span>期望上架时间 :</span>
-              </Col>
-              <Col span={17}>
-                <DatePicker
-                  style={{width: '280px'}}
-                  showTime
-                  format='YYYY-MM-DD HH:mm:ss'
-                  placeholder='Select Time'
-                  onChange={this.onChange}
-                  onOk={this.onOk}
-                />
-              </Col>
+          <Row className='Wxd' type='flex' align='middle'>
+            <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>权限详情 : </span></Col>
+            <Col span={20}>
+              <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange}>
+                <Row>
+                  <Col span={6}><Checkbox value='1'>（基于网络的）粗略位置</Checkbox></Col>
+                  <Col span={6}><Checkbox value='2'>查看网络状态</Checkbox></Col>
+                  <Col span={6}><Checkbox value='3'>查看 Wi-Fi 状态</Checkbox></Col>
+                  <Col span={6}><Checkbox value='4'>创建蓝牙连接</Checkbox></Col>
+                  <Col span={6}><Checkbox value='5'>拍摄照片和视频</Checkbox></Col>
+                  <Col span={6}><Checkbox value='6'>更改 Wi-Fi 状态</Checkbox></Col>
+                  <Col span={6}><Checkbox value='7'>完全的互联网访问权限</Checkbox></Col>
+                  <Col span={6}><Checkbox value='8'>开机时自动启动</Checkbox></Col>
+                </Row>
+              </Checkbox.Group>
             </Col>
           </Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>** 无无</span>
-                <span>PC端界面截图 :</span>
-              </Col>
-              <Col span={8}>
-                <Upload {...propsC}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                  <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ... （400px*400px）</span>
-                </Upload>
-              </Col>
+          <Row className='Wxd' type='flex' align='top'>
+            <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
+            <Col span={9}>
+              <Upload {...propsT}>
+                <Button>
+                  <Icon type='upload' /> 上传文件
+                </Button>
+                <span className='extend'>支持扩展名：.png .jpg ... （200px*200px）</span>
+              </Upload>
+            </Col>
+            <Col span={3}><span style={{color: 'red'}}>* </span>期望上架时间 :</Col>
+            <Col span={7}>
+              <DatePicker
+                style={{width: '260px'}}
+                showTime
+                format='YYYY-MM-DD HH:mm:ss'
+                placeholder='Select Time'
+                onChange={this.onChange}
+                onOk={this.onOk}
+              />
+            </Col>
+          </Row>
+          <Row className='Wxd' type='flex' align='top'>
+            <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>PC端界面截图 :&nbsp;&nbsp;</Col>
+            <Col span={9}>
+              <Upload {...propsC}>
+                <Button>
+                  <Icon type='upload' /> 上传文件
+                </Button>
+                <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
+              </Upload>
+            </Col>
+            <Col span={3} align='start'><span style={{color: 'red'}}>* </span>手机端界面截图 :&nbsp;&nbsp;</Col>
+            <Col span={9}>
+              <Upload {...propsC}>
+                <Button>
+                  <Icon type='upload' /> 上传文件
+                </Button>
+                <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
+              </Upload>
             </Col>
           </Row>
           <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '2%', marginTop: '4%'}} />
@@ -713,4 +769,4 @@ class ShelfPlease extends React.Component {
   }
 }
 
-export default ShelfPlease
+export default withRouter(ShelfPlease)
