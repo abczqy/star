@@ -1,15 +1,8 @@
+
 /**
  * 工作台-首页-下载历史
- */
-/**
- * 还需：
- * 状态有redux管理
- * form的加入
- * 加载状态时的loading状态
- * 公共函数迁徙到组件class内
- * 可选择/多选
- * 为了使代码便于移植 尽量使用绝对路径
- * -- 还缺少--search的get数据接口
+ * 1- 数据接口需要更换
+ * 2- 列表的字段名之类的也需要配置
  */
 import React, { Component } from 'react'
 import { Table } from 'antd'
@@ -131,6 +124,10 @@ class DownHistory extends Component {
       title: '文件类型',
       dataIndex: 'fa_name',
       key: 'fa_name'
+    }, {
+      title: '文件大小',
+      dataIndex: 'version',
+      key: 'version'
     }, {
       title: '下载时间',
       dataIndex: 'sw_path',

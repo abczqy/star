@@ -25,6 +25,8 @@ import More from '../../assets/images/work-plat/more.png'
 import avatar from '../../assets/images/work-plat/avatar.png'
 import WaitToDoPre from '../../assets/images/work-plat/wait-to-do-pre.png'
 import waitToDoSuffix from '../../assets/images/work-plat/wait-to-do-suffix.png'
+/* 一些子页面 */
+import { DownHistory } from './home/index'
 /* mock数据 */
 import mock from './mock-data'
 
@@ -146,6 +148,7 @@ class Home extends Component {
     data.length > 4 && data.splice(5)
     return data.map((v, i) => (
       <StatItem
+        key={i}
         orderNum={i + 1 + ''}
         orderColor={i > 2 ? orderColor[3] : orderColor[i]}
         title={v.title}
@@ -396,7 +399,7 @@ class Home extends Component {
               bodyStyle={{...bodyStyle}}
               extra={<Extra />}
             >
-              内容
+              <DownHistory />
             </Card>
           </Col>
         </Row>
@@ -413,7 +416,7 @@ StatItem.propTypes = {
   orderColor: PropTypes.string,
   orderNum: PropTypes.string,
   title: PropTypes.string,
-  percent: PropTypes.string
+  percent: PropTypes.number
 }
 
 export default Home

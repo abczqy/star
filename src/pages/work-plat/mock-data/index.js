@@ -93,18 +93,18 @@ export default {
   }],
   statList: [{
     title: '超级教师(教学类)',
-    percent: '30'
+    percent: 30
   }, {
     title: '超级教师(教学类)',
-    percent: '40'
+    percent: 40
   }, {
     title: '超级教师(教学类)',
-    percent: '50'
+    percent: 50
   }, {
     title: '超级教师(教学类)',
-    percent: '60'
+    percent: 60
   }, {
     title: '超级教师(教学类)',
-    percent: '70'
+    percent: 70
   }]
 }
