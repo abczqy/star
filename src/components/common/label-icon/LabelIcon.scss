@@ -16,9 +16,12 @@
     text-align: center;
     border-radius: $radius;
     background-color: $linkColor; // 图标默认背景色
-    .icon {
+    img {
+      display: inline-block;
+      vertical-align: middle;
       width: 30px;
       height: 30px;
+      margin-top: -5px;
     }
   }
   .label {

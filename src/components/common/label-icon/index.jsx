@@ -23,7 +23,6 @@ class LabelIcon extends Component {
           }}
         >
           <img
-            className='icon'
             src={this.props.icon || AppMore}
           />
         </div>

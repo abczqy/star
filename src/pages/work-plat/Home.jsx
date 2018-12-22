@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Card,
-  Button,
   Avatar,
   Progress,
   Tabs
@@ -22,9 +21,12 @@ import {
 } from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
-import avatar from '../../assets/images/work-plat/avatar.png'
+import AvatarPng from '../../assets/images/work-plat/avatar.png'
 import WaitToDoPre from '../../assets/images/work-plat/wait-to-do-pre.png'
-import waitToDoSuffix from '../../assets/images/work-plat/wait-to-do-suffix.png'
+import WaitToDoSuffix from '../../assets/images/work-plat/wait-to-do-suffix.png'
+import Book from '../../assets/images/work-plat/book.png'
+import Member from '../../assets/images/work-plat/member.png'
+import Org from '../../assets/images/work-plat/org.png'
 /* 一些子页面 */
 import { DownHistory } from './home/index'
 /* mock数据 */
@@ -37,6 +39,16 @@ const TabPane = Tabs.TabPane
  * 1- 数组 - 下标就是序号
  */
 const orderColor = ['#FF6D4A', '#4ECB73', '#fad337', '#666']
+
+/**
+ * APP-icon的style
+ */
+const iconStyle = {
+  width: '50px',
+  height: '50px',
+  borderRadius: '50%',
+  padding: '2px 5px 5px 5px'
+}
 
 /**
  * Card的头部的统一/共有样式
@@ -75,7 +87,7 @@ const WaitToDoItem = (props) => (
     <span>
       { props.message || '' }
     </span>
-    <img src={waitToDoSuffix} className='wait-to-do-item-icon-suffix' />
+    <img src={WaitToDoSuffix} className='wait-to-do-item-icon-suffix' />
     <span className='wait-to-do-item-date'>[3-24]</span>
   </div>
 )
@@ -254,7 +266,7 @@ class Home extends Component {
                 <Col span={6}>
                   <Avatar
                     size={88}
-                    src={avatar}
+                    src={AvatarPng}
                   />
                 </Col>
                 <Col span={8}>
@@ -280,15 +292,32 @@ class Home extends Component {
                   </Link>
                 </Col>
               </Row>
-              <Row gutter={16} className='row-box'>
-                <Col span={6} offset={3}>
-                  <Button type='primary'>订单管理</Button>
+              <Row>
+                <Col span={6} offset={18}>
+                  <span>福建-福州</span>
+                </Col>
+              </Row>
+              <Row gutter={128} className='row-box'>
+                <Col span={6} offset={1}>
+                  <LabelIcon
+                    style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
+                    label='订单管理'
+                    icon={Book}
+                  />
                 </Col>
                 <Col span={6}>
-                  <Button type='primary'>订单管理</Button>
+                  <LabelIcon
+                    style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                    label='人员管理'
+                    icon={Member}
+                  />
                 </Col>
                 <Col span={6}>
-                  <Button type='primary'>订单管理</Button>
+                  <LabelIcon
+                    style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
+                    label='组织管理'
+                    icon={Org}
+                  />
                 </Col>
               </Row>
             </Card>
