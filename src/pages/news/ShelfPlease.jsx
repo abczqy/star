@@ -13,6 +13,7 @@ import './NewsList.scss'
 // import ajaxUrl from 'config'
 import {shelf} from 'services/software-manage'
 import PropTypes from 'prop-types'
+import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
@@ -24,6 +25,7 @@ class ShelfPlease extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      previewApp: false, // 是否显示预览弹窗
       imgTitle: title,
       rname: '',
       type: null,
@@ -39,12 +41,6 @@ class ShelfPlease extends React.Component {
       // 有关上传截图
       previewVisible: false,
       previewImage: '',
-      fileList: [{
-        uid: -1,
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-      }],
       dataL: [
         {
           key: 'win32',
@@ -63,25 +59,47 @@ class ShelfPlease extends React.Component {
           value: 'android'
         }
       ],
-      fileListOneC: [], // 用来存软件版本的文件的系统版本
-      fileListOneF: [], // 用来存软件版本的文件id
-      fileListTwo: [], // 用来存软件图标的文件id
-      fileListThree: [], // 用来存PC端界面截图的文件id
+      rFeatures: '', // 新版特性
+      fileListDetailType: [], // 用来存软件版本类型的文件id
+      fileListDetailSize: [], // 用来存软件版本包大小的文件id
+      fileListDetailVersionNum: [], // 用来存软件版本版本号的文件id
+      fileListDetailPackName: [], // 用来存软件版本包名的文件id
+      fileListDetailAuth: [], // 用来存软件版本权限
+      fileListSoftwareEdt: [], // 用来存软件版本的文件id
+      fileListIcon: [], // 用来存软件图标的文件id
+      fileListIconUrl: [], // 用来存软件图标地址的文件id
+      fileListPC: [], // 用来存PC端界面截图的文件id
+      fileListPCUrl: [], // 用来存PC端界面截图地址的文件id
+      fileListPhone: [], // 用来存手机端界面截图的文件id
+      fileListPhoneUrl: [], // 用来存手机端界面截图地址的文件id
       fileListFour: [], // 用来存身份证照片文件id
       fileListFive: [], // 用来存软件版权的文件id
       fileListSix: [], // 用来存财务审核凭证的文件id
       conPeopleNumBlur: false,
-      idNumberBlur: false
+      idNumberBlur: false,
+      formDataPre1: '' // 预览数据
     }
   }
   componentWillMount () {
     this.renderEdition()
+  }
+  hiddenModal () {
+    this.setState({
+      previewApp: false
+    })
   }
   // 软件名称
   rnameChange=(e) => {
     let {value} = e.target
     this.setState({
       rname: value
+    })
+  }
+  // 新版特性
+  rFeaturesChange=(e) => {
+    let {value} = e.target
+    this.setState({
+      rFeatures: value
     })
   }
   // 类型
@@ -106,120 +124,126 @@ class ShelfPlease extends React.Component {
     })
   }
 
-  // 用来存软件版本的文件的系统版本
-  SChange =(value, index) => {
-    let a = this.state.fileListOneC
+  // 用来存软件版本类型
+  SDetailTypeChange =(value, index) => {
+    let a = this.state.fileListDetailType
     a[index] = value
     this.setState({
-      fileListOneC: a
+      fileListDetailType: a
     }, () => {
-      console.log('软件版本的文件的系统版本', this.state.fileListOneC)
+      console.log('用来存软件版本类型', this.state.fileListDetailType)
+    })
+  }
+  // 用来存软件版本包大小
+  SDetailSizeChange =(e, index) => {
+    let a = this.state.fileListDetailSize
+    a[index] = e.target.value
+    this.setState({
+      fileListDetailSize: a
+    }, () => {
+      console.log('软件版本包大小', this.state.fileListDetailSize)
+    })
+    this.renderEdition()
+  }
+  // 用来存软件版本版本号
+  SDetailVersionNumChange =(e, index) => {
+    let a = this.state.fileListDetailVersionNum
+    a[index] = e.target.value
+    this.setState({
+      fileListDetailVersionNum: a
+    }, () => {
+      console.log('用来存软件版本版本号', this.state.fileListDetailVersionNum)
+    })
+    this.renderEdition()
+  }
+  // 用来存软件版本包名
+  SDetailPackNameChange =(e, index) => {
+    let a = this.state.fileListDetailPackName
+    a[index] = e.target.value
+    this.setState({
+      fileListDetailPackName: a
+    }, () => {
+      console.log('用来存软件版本包名', this.state.fileListDetailPackName)
+    })
+    this.renderEdition()
+  }
+  // 用来存软件版本权限详情
+  SDetailAuthChange =(checkedValues, index) => {
+    // let a = this.state.fileListDetailAuth
+    // a[index] = checkedValues
+    this.setState({
+      fileListDetailAuth: checkedValues
+    }, () => {
+      console.log('用来存软件版本权限详情', this.state.fileListDetailAuth)
     })
   }
   // 渲染软件版本列表
   renderEdition=() => {
     let value = []
+    const propsSoftEdt = {
+      onRemove: (file) => {
+        this.setState(({fileListSoftwareEdt}) => {
+          const index = fileListSoftwareEdt.indexOf(file)
+          const newFileList = fileListSoftwareEdt.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListSoftwareEdt: newFileList
+          }
+        }, () => {
+          console.log('this.state.fileListSoftwareEdt', this.state.fileListSoftwareEdt)
+        })
+      },
+      beforeUpload: (file) => {
+        console.log('接受的文件格式？？？？？', file)
+        this.setState(({fileListSoftwareEdt}) => ({
+          fileListSoftwareEdt: [...fileListSoftwareEdt, file]
+        }), () => {
+          console.log('this.state.fileListSoftwareEdt', this.state.fileListSoftwareEdt)
+        })
+        return false
+      },
+      fileListSoftwareEdt: this.state.fileListSoftwareEdt
+    }
     for (let i = 0; i < this.state.Edition; i++) {
-      const propsO = {
-        onRemove: (file) => {
-          this.setState(({fileListOneF}) => {
-            const index = fileListOneF.indexOf(file)
-            const newFileList = fileListOneF.slice()
-            newFileList.splice(index, 1)
-            return {
-              fileListOneF: newFileList
-            }
-          }, () => {
-            console.log('this.state.fileListOneF', this.state.fileListOneF)
-          })
-        },
-        beforeUpload: (file) => {
-          console.log('接受的文件格式？？？？？', file)
-          this.setState(({fileListOneF}) => ({
-            fileListOneF: [...fileListOneF, file]
-          }), () => {
-            console.log('this.state.fileListOneF', this.state.fileListOneF)
-          })
-          return false
-        },
-        fileListOneF: this.state.fileListOneF
-      }
-      if (i === 0) {
-        value.push(
-          <div key={i} style={{marginBottom: '10px'}}>
-            <Row className='Wxd' type='flex' align='top'>
-              <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件版本 :</Col>
-              <Col span={3}>
-                <Select placeholder='请选择安装包版本' style={{ width: 150 }} onChange={(value) => this.SChange(value, i)}>
-                  {this.state.dataL.map((item, index) => {
-                    return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
-                  })}
-                </Select>
-              </Col>
-              <Col span={3}>
-                <Upload {...propsO}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                  <br />
-                  <span className='extend'>支持扩展名：.exe..</span>
-                </Upload>
-              </Col>
-              <Col span={3}>
-                <span style={{color: 'red'}}>* </span>软件大小 :&nbsp;
-                <Input placeholder='' style={{ width: 60 }} onChange={this.rnameChange} value={this.state.rname} />
-              </Col>
-              <Col span={4}>
-                <span style={{color: 'red'}}>* </span>版本号 :&nbsp;
-                <Input placeholder='' style={{ width: 130 }} onChange={this.rnameChange} value={this.state.rname} />
-              </Col>
-              <Col span={7}>
-                <span style={{color: 'red'}}>* </span>包名 :&nbsp;
-                <Input placeholder='' style={{ width: 160 }} onChange={this.rnameChange} value={this.state.rname} />
-              </Col>
-            </Row>
-          </div>)
-      } else {
-        value.push(
-          <div key={i} style={{marginBottom: '10px'}}>
-            <Row className='Wxd' type='flex' align='top'>
-              <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件版本 :</Col>
-              <Col span={3}>
-                <Select placeholder='请选择安装包类型' style={{ width: 150 }} onChange={(value) => this.SChange(value, i)}>
-                  {this.state.dataL.map((item, index) => {
-                    return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
-                  })}
-                </Select>
-              </Col>
-              <Col span={3}>
-                <Upload {...propsO}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                  <br />
-                  <span className='extend'>支持扩展名：.exe..</span>
-                </Upload>
-              </Col>
-              <Col span={3}>
-                <span style={{color: 'red'}}>* </span>软件大小 :&nbsp;
-                <Input placeholder='' style={{ width: 60 }} onChange={this.rnameChange} value={this.state.rname} />
-              </Col>
-              <Col span={4}>
-                <span style={{color: 'red'}}>* </span>版本号 :&nbsp;
-                <Input placeholder='' style={{ width: 130 }} onChange={this.rnameChange} value={this.state.rname} />
-              </Col>
-              <Col span={7}>
-                <span style={{color: 'red'}}>* </span>包名 :&nbsp;
-                <Input placeholder='' style={{ width: 160 }} onChange={this.rnameChange} value={this.state.rname} />
-              </Col>
-            </Row>
-          </div>)
-      }
+      value.push(
+        <div key={i} style={{marginBottom: '10px'}}>
+          <Row className='Wxd' type='flex' align='top'>
+            <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件版本 :</Col>
+            <Col span={3}>
+              <Select placeholder='请选择安装包版本' style={{ width: 150 }} onChange={(value) => this.SDetailTypeChange(value, i)}>
+                {this.state.dataL.map((item, index) => {
+                  return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
+                })}
+              </Select>
+            </Col>
+            <Col span={3}>
+              <Upload {...propsSoftEdt}>
+                <Button>
+                  <Icon type='upload' /> 上传文件
+                </Button>
+                <br />
+                <span className='extend'>支持扩展名：.exe..</span>
+              </Upload>
+            </Col>
+            <Col span={3}>
+              <span style={{color: 'red'}}>* </span>软件大小 :&nbsp;
+              <Input placeholder='' style={{ width: 60 }} onChange={(e) => this.SDetailSizeChange(e, i)} value={this.state.fileListDetailSize[i]} />
+            </Col>
+            <Col span={4}>
+              <span style={{color: 'red'}}>* </span>版本号 :&nbsp;
+              <Input placeholder='' style={{ width: 130 }} onChange={(e) => this.SDetailVersionNumChange(e, i)} value={this.state.fileListDetailVersionNum[i]} />
+            </Col>
+            <Col span={7}>
+              <span style={{color: 'red'}}>* </span>包名 :&nbsp;
+              <Input placeholder='' style={{ width: 160 }} onChange={(e) => this.SDetailPackNameChange(e, i)} value={this.state.fileListDetailPackName[i]} />
+            </Col>
+          </Row>
+        </div>)
     }
     this.setState({
       renderEdition: value
     }, () => {
-      console.log(this.state.renderEdition)
+      // console.log(this.state.renderEdition)
     })
   }
 
@@ -319,7 +343,7 @@ class ShelfPlease extends React.Component {
   zH=() => {
     let a = []
     for (let i = 0; i < this.state.Edition; i++) {
-      let c = this.state.fileListOneF[i] // 用来存软件版本的文件id
+      let c = this.state.fileListSoftwareEdt[i] // 用来存软件版本的文件id
       a.push(c)
     }
     return a
@@ -329,50 +353,97 @@ class ShelfPlease extends React.Component {
     let a = []
     for (let i = 0; i < this.state.Edition; i++) {
       let c = []
-      let w = this.state.fileListOneC[i]
+      let w = this.state.fileListDetailType[i]
       c.push(w)
-      c.push(this.state.fileListOneF[i] ? this.state.fileListOneF[i].name : '')
-      // c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
+      c.push(this.state.fileListSoftwareEdt[i] ? this.state.fileListSoftwareEdt[i].name : '')
+      // c[w] = this.state.fileListSoftwareEdt[i].name // 用来存软件版本的文件的系统版本
       a.push(c)
     }
     return a
   }
 
-  // 多选矿选择事件
-  onChange (checkedValues) {
-    console.log('checked = ', checkedValues)
+  handleChangePC=() => {
+    console.log('handleChangePC')
+  }
+
+  // // 多选框选择事件
+  // onChangeAuth (checkedValues) {
+  //   console.log('checked = ', checkedValues)
+  // }
+  getBase64=(img, callback) => {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
+  }
+
+  // 获取预览图片的地址
+  getPicUrl=(callback) => {
+    const thiz = this
+    let arrpc = []
+    let arricon = []
+    let arrphone = []
+    this.state.fileListPC.forEach((file, index) => { // pc展示
+      this.getBase64(file, (imageUrl) => {
+        arrpc.push(imageUrl)
+      })
+    })
+    this.state.fileListIcon.forEach((file, index) => { // icon展示
+      this.getBase64(file, (imageUrl) => {
+        arricon.push(imageUrl)
+      })
+    })
+    this.state.fileListPhone.forEach((file, index) => { // phone展示
+      this.getBase64(file, (imageUrl) => {
+        arrphone.push(imageUrl)
+      })
+    })
+    this.setState({
+      fileListPCUrl: arrpc,
+      fileListIconUrl: arricon,
+      fileListPhoneUrl: arrphone
+    }, function () {
+      // console.log('循环之后的fileListIconUrl', thiz.state.fileListIconUrl)
+      callback && callback(thiz.state)
+    })
+    // console.log('循环之后的fileListPCUrl', this.state.fileListPCUrl)
   }
 
   // 预览表单
   handlePreview () {
+    const thiz = this
+    // this.getPicUrl()
     let formDataPre = new FormData()
     formDataPre.append('rname', this.state.rname || '')// 软件名称*
     formDataPre.append('rType', this.state.type || '')// 软件类型*
-    formDataPre.append('sw_icon', this.state.fileListTwo || '')// 软件图标*
+    formDataPre.append('sw_icon', this.state.fileListIcon || '')// 软件图标*
     // 查看详情
-    formDataPre.append('detailType', this.state.detailType || '')// 版本分类*
-    formDataPre.append('detailSize', this.state.detailSize || '')// 软件大小*
-    formDataPre.append('detailVersionNum', this.state.detailVersionNum || '')// 版本号*
-    formDataPre.append('detailPackName', this.state.detailPackName || '')// 包名*
+    formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
+    formDataPre.append('detailSize', this.state.fileListDetailSize || [])// 软件大小*
+    formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
+    formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
 
-    formDataPre.append('detailAuth', this.state.detailAuth || '')// 权限详情*
-    // 图片展示
-    // this.state.fileListPc.forEach((file) => { // pc展示
-    //   formDataPre.append('sw_computer_photo', file)
-    // })
-    // this.state.fileListPhone.forEach((file) => { // 手机展示
-    //   formDataPre.append('sw_phone_photo', file)
-    // })
+    formDataPre.append('detailAuth', this.state.fileListDetailAuth || [])// 权限详情*
+    this.state.fileListPhone.forEach((file) => { // 手机展示
+      formDataPre.append('phonePhoto', file)
+    })
     formDataPre.append('rDescribe', this.state.rDescribe || '')// 应用介绍*
     formDataPre.append('rFeatures', this.state.rFeatures || '')// 新版特性*
-    this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
+
+    this.getPicUrl(function (state) {
+      // console.log(' 图片； ', thiz.state.fileListIconUrl)
+      thiz.setState({
+        formDataPre1: formDataPre,
+        previewApp: true
+      })
+    })
+    // this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
   }
 
   // 提交表单啦
   submit=() => {
     if (!(this.state.conPeopleNumBlur && this.state.idNumberBlur)) {
       message.error('身份证号或者手机号填写有误')
-    } else if (this.state.rname && this.state.type && this.state.rDescribe && this.state.name && this.state.idNumber && this.state.conPeople && this.state.fileListTwo.length !== 0 && this.state.fileListFour.length !== 0 && this.state.fileListOneC.length !== 0 && this.state.fileListOneF.length !== 0) {
+    } else if (this.state.rname && this.state.type && this.state.rDescribe && this.state.name && this.state.idNumber && this.state.conPeople && this.state.fileListIcon.length !== 0 && this.state.fileListFour.length !== 0 && this.state.fileListDetailType.length !== 0 && this.state.fileListSoftwareEdt.length !== 0) {
       console.log('全填完了')
       const formData = new FormData()
       formData.append('rname', encodeURI(this.state.rname))// 软件名称*
@@ -384,14 +455,17 @@ class ShelfPlease extends React.Component {
       formData.append('conPeople', encodeURI(this.state.conPeople))// 主要联系人*
       formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话*
       formData.append('sw_type', this.state.radio)// 软件版权类别
-      this.state.fileListTwo.forEach((file) => {
+      this.state.fileListIcon.forEach((file) => {
         formData.append('sw_icon', file)
       })
-      // formData.append('sw_icon', this.state.fileListTwo)// 软件图标*
-      this.state.fileListThree.forEach((file) => {
+      // formData.append('sw_icon', this.state.fileListIcon)// 软件图标*
+      this.state.fileListPC.forEach((file) => {
         formData.append('sw_computer_photo', file)
       })
-      // formData.append('sw_computer_photo', this.state.fileListThree)// pc图片
+      this.state.fileListPhone.forEach((file) => {
+        formData.append('sw_phone_photo', file)
+      })
+      // formData.append('sw_computer_photo', this.state.fileListPC)// pc图片
       this.state.fileListFour.forEach((file) => {
         formData.append('idNumber_photo', file)
       })
@@ -441,26 +515,28 @@ class ShelfPlease extends React.Component {
         value: '其他'
       }
     ]
-    const propsT = {
+    const propsIcon = {
+      listType: 'picture',
       onRemove: (file) => {
-        this.setState(({ fileListTwo }) => {
-          const index = fileListTwo.indexOf(file)
-          const newFileList = fileListTwo.slice()
+        this.setState(({ fileListIcon }) => {
+          const index = fileListIcon.indexOf(file)
+          const newFileList = fileListIcon.slice()
           newFileList.splice(index, 1)
           return {
-            fileListTwo: newFileList
+            fileListIcon: newFileList
           }
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileListTwo }) => ({
-          fileListTwo: [...fileListTwo, file]
+        this.setState(({ fileListIcon }) => ({
+          fileListIcon: [...fileListIcon, file]
+
         }), () => {
-          console.log('this.state.fileListTwo', this.state.fileListTwo)
+          console.log('this.state.fileListIcon', this.state.fileListIcon)
         })
         return false
       },
-      fileListTwo: this.state.fileListTwo
+      fileListIcon: this.state.fileListIcon
     }
     const propsP = {
       onRemove: (file) => {
@@ -504,26 +580,53 @@ class ShelfPlease extends React.Component {
       },
       fileListFive: this.state.fileListFive
     }
-    const propsC = {
+    const propsPC = {
+      // action: '//jsonplaceholder.typicode.com/posts/',
+      listType: 'picture',
+      // defaultFileList: [...fileList11],
+      // className: 'upload-list-inline',
       onRemove: (file) => {
-        this.setState(({ fileListThree }) => {
-          const index = fileListThree.indexOf(file)
-          const newFileList = fileListThree.slice()
+        this.setState(({ fileListPC }) => {
+          const index = fileListPC.indexOf(file)
+          const newFileList = fileListPC.slice()
           newFileList.splice(index, 1)
           return {
-            fileListThree: newFileList
+            fileListPC: newFileList
           }
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileListThree }) => ({
-          fileListThree: [...fileListThree, file]
+        this.setState(({ fileListPC }) => ({
+          fileListPC: [...fileListPC, file]
         }), () => {
-          console.log('fileListThree', this.state.fileListThree)
+          console.log('fileListPC', this.state.fileListPC)
+          // console.log('fileListPC[0]', this.state.fileListPC[0])
         })
         return false
       },
-      fileListThree: this.state.fileListThree
+      fileListPC: this.state.fileListPC
+    }
+    const propsPhone = {
+      listType: 'picture',
+      onRemove: (file) => {
+        this.setState(({ fileListPhone }) => {
+          const index = fileListPhone.indexOf(file)
+          const newFileList = fileListPhone.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListPhone: newFileList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListPhone }) => ({
+          fileListPhone: [...fileListPhone, file]
+        }), () => {
+          console.log('fileListPhone', this.state.fileListPhone)
+        })
+        return false
+      },
+      fileListPhone: this.state.fileListPhone
     }
     const propsD = {
       onRemove: (file) => {
@@ -546,8 +649,32 @@ class ShelfPlease extends React.Component {
       },
       fileListSix: this.state.fileListSix
     }
+
+    // const fileList11 = [{
+    //   uid: '-1',
+    //   name: 'xxx.png',
+    //   status: 'done',
+    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    //   thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    // }]
+    // const fileList11 = []
+    // const props11 = {
+    //   action: '//jsonplaceholder.typicode.com/posts/',
+    //   listType: 'picture',
+    //   defaultFileList: [...fileList11],
+    //   className: 'upload-list-inline'
+    // }
     return <Card title='上架申请' style={{marginLeft: '5%', width: '1300px'}} extra={<Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>}>
       <div >
+        {/* 修改厂商合同编号 */}
+        {this.state.previewApp ? <SelfPleasePreview
+          visible={this.state.previewApp}
+          hiddenModal={this.hiddenModal.bind(this, 'previewApp')}
+          dataPre={this.state.formDataPre1}
+          dataPc={this.state.fileListPCUrl}
+          dataPhone={this.state.fileListPhoneUrl}
+          dataIcon={this.state.fileListIconUrl}
+        /> : null}
         <Row>
           <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
           <Row className='Wxd' type='flex' align='middle'>
@@ -571,7 +698,7 @@ class ShelfPlease extends React.Component {
           <Row className='Wxd' type='flex' align='middle'>
             <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
             <Col span={20}>
-              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rFeatures} value={this.state.rFeatures} />
+              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rFeaturesChange} value={this.state.rFeatures} />
             </Col>
           </Row>
           <Row className='Wxds'>
@@ -587,7 +714,7 @@ class ShelfPlease extends React.Component {
           <Row className='Wxd' type='flex' align='middle'>
             <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>权限详情 : </span></Col>
             <Col span={20}>
-              <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange}>
+              <Checkbox.Group style={{ width: '100%' }} onChange={this.SDetailAuthChange}>
                 <Row>
                   <Col span={6}><Checkbox value='1'>（基于网络的）粗略位置</Checkbox></Col>
                   <Col span={6}><Checkbox value='2'>查看网络状态</Checkbox></Col>
@@ -603,8 +730,8 @@ class ShelfPlease extends React.Component {
           </Row>
           <Row className='Wxd' type='flex' align='top'>
             <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
-            <Col span={9}>
-              <Upload {...propsT}>
+            <Col span={9} id='iconDiv'>
+              <Upload {...propsIcon}>
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
@@ -626,16 +753,23 @@ class ShelfPlease extends React.Component {
           <Row className='Wxd' type='flex' align='top'>
             <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>PC端界面截图 :&nbsp;&nbsp;</Col>
             <Col span={9}>
-              <Upload {...propsC}>
+              <Upload {...propsPC}>
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
                 <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
               </Upload>
+              {/* <Upload {...props11}>
+                <Button>
+                  <Icon type='upload' /> Upload
+                </Button>
+              </Upload> */}
             </Col>
-            <Col span={3} align='start'><span style={{color: 'red'}}>* </span>手机端界面截图 :&nbsp;&nbsp;</Col>
+          </Row>
+          <Row className='Wxd' type='flex' align='top'>
+            <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>手机端界面截图 :&nbsp;&nbsp;</Col>
             <Col span={9}>
-              <Upload {...propsC}>
+              <Upload {...propsPhone}>
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>

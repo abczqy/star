@@ -27,7 +27,7 @@ import MarketAnalysis from 'pages/market-analysis/MarketAnalysis'
 import MyAppDetail from 'pages/app-detail/MyAppDetail'
 import SelfSupport from 'pages/app-detail/SelfSupport'
 import ThirdPartyAppDetail from 'pages/app-detail/ThirdPartyAppDetail'
-import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
+// import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
 import MyApp from 'pages/app-detail/MyApp'
 import routes from '../routes'
 
@@ -43,7 +43,7 @@ let LMarketAnalysis = Logged(MarketAnalysis)
 let LMyAppDetail = Logged(MyAppDetail)
 let LSelfSupport = Logged(SelfSupport)
 let LThirdPartyAppDetail = Logged(ThirdPartyAppDetail)
-let LSelfPleasePreview = Logged(SelfPleasePreview)
+// let LSelfPleasePreview = Logged(SelfPleasePreview)
 let LMyApp = Logged(MyApp)
 
 class OperateManage extends React.Component {
@@ -72,9 +72,9 @@ class OperateManage extends React.Component {
       case '/operate-manage-home/all-app-detail-third':
         activeTab = 'allApp'
         break
-      case '/operate-manage-home/all-app-selfplsprv':
-        activeTab = 'allApp'
-        break
+      // case '/operate-manage-home/all-app-selfplsprv':
+      //   activeTab = 'allApp'
+      //   break
       case '/operate-manage-home/please':
         activeTab = 'allApp'
         break
@@ -365,11 +365,11 @@ class OperateManage extends React.Component {
               return <LThirdPartyAppDetail
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
             }} />
-            <Route path='/operate-manage-home/all-app-selfplsprv' render={() => {
+            {/* <Route path='/operate-manage-home/all-app-selfplsprv' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <LSelfPleasePreview
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
-            }} />
+            }} /> */}
             <Route path='/operate-manage-home/all-app-detail-mine' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <LMyApp
