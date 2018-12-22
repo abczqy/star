@@ -8,6 +8,12 @@
   border: 1px solid #000;
 }
 
+/* echarts的容器 */
+.echarts-wrap {
+  width: 100%;
+  height: 100%;
+}
+
 /* Extra的icon */
 .extra-icon {
   width: $fontSizeH5;

@@ -15,7 +15,8 @@ import {
   Page,
   LabelIcon,
   Grid,
-  AppCard
+  AppCard,
+  Echarts
 } from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
@@ -68,6 +69,44 @@ const WaitToDoItem = (props) => (
 )
 
 class Home extends Component {
+  /**
+   * 获取Echarts的options -- 用户统计
+   * 1- 接受参数来生成专门的options
+   */
+  getUserStatOptions = (data) => {
+    return {
+      title: {
+        text: '数量占比',
+        left: 'center',
+        top: 'middle',
+        textStyle: {
+          color: '#474747',
+          fontSize: 24,
+          fontWeight: 400
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+      },
+      color: ['#fad337', '#3aa0ff', '#4ecb73'],
+      series: [
+        {
+          name: '数量占比',
+          type: 'pie',
+          radius: ['50%', '70%'],
+          avoidLabelOverlap: false,
+          data: [
+            {value: 335, name: '学生'},
+            {value: 310, name: '教师'},
+            {value: 234, name: '家长'}
+          ]
+        }
+
+      ]
+    }
+  }
+
   /**
    * 获取待办列表的渲染
    */
@@ -264,9 +303,11 @@ class Home extends Component {
               bordered={false}
               title={'用户统计'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '250px'}}
             >
-              内容
+              <div className='echarts-wrap'>
+                <Echarts options={this.getUserStatOptions()} />
+              </div>
             </Card>
           </Col>
           <Col span={16}>
@@ -274,7 +315,7 @@ class Home extends Component {
               bordered={false}
               title={'应用使用统计'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle}}
+              bodyStyle={{...bodyStyle, height: '250px'}}
             >
               内容
             </Card>

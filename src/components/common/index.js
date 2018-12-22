@@ -1,3 +1,4 @@
+export { default as Echarts } from './Echarts'
 export { default as Page } from './page'
 export { default as Align } from './align'
 export { default as UploadFile } from './uploadFile'
