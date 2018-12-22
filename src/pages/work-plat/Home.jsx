@@ -9,7 +9,9 @@ import {
   Col,
   Card,
   Button,
-  Avatar
+  Avatar,
+  Progress,
+  Tabs
 } from 'antd'
 import {
   Page,
@@ -25,6 +27,14 @@ import WaitToDoPre from '../../assets/images/work-plat/wait-to-do-pre.png'
 import waitToDoSuffix from '../../assets/images/work-plat/wait-to-do-suffix.png'
 /* mock数据 */
 import mock from './mock-data'
+
+const TabPane = Tabs.TabPane
+
+/**
+ * 排序的序号颜色
+ * 1- 数组 - 下标就是序号
+ */
+const orderColor = ['#FF6D4A', '#4ECB73', '#fad337', '#666']
 
 /**
  * Card的头部的统一/共有样式
@@ -68,6 +78,25 @@ const WaitToDoItem = (props) => (
   </div>
 )
 
+/**
+ * 应用使用统计 Item
+ */
+const StatItem = (props) => (
+  <Row className='order-item-wrap'>
+    <Col span={1}>
+      <span className='order-num' style={{ backgroundColor: props.orderColor || '#666' }} >
+        { props.orderNum || ''}
+      </span>
+    </Col>
+    <Col span={4}>
+      <span>{ props.title || '' }</span>
+    </Col>
+    <Col span={19}>
+      <Progress percent={props.percent} />
+    </Col>
+  </Row>
+)
+
 class Home extends Component {
   /**
    * 获取Echarts的options -- 用户统计
@@ -94,7 +123,7 @@ class Home extends Component {
         {
           name: '数量占比',
           type: 'pie',
-          radius: ['50%', '70%'],
+          radius: ['60%', '85%'],
           avoidLabelOverlap: false,
           data: [
             {value: 335, name: '学生'},
@@ -105,6 +134,24 @@ class Home extends Component {
 
       ]
     }
+  }
+
+  /**
+   * 获取应用使用统计列表的渲染
+   */
+  getStatListRender = (data) => {
+    // 容错-空值
+    data = data || []
+    // 长度在5个以上时 需要截取前6个
+    data.length > 4 && data.splice(5)
+    return data.map((v, i) => (
+      <StatItem
+        orderNum={i + 1 + ''}
+        orderColor={i > 2 ? orderColor[3] : orderColor[i]}
+        title={v.title}
+        percent={v.percent}
+      />
+    ))
   }
 
   /**
@@ -303,7 +350,7 @@ class Home extends Component {
               bordered={false}
               title={'用户统计'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle, height: '250px'}}
+              bodyStyle={{...bodyStyle, height: '260px'}}
             >
               <div className='echarts-wrap'>
                 <Echarts options={this.getUserStatOptions()} />
@@ -315,9 +362,28 @@ class Home extends Component {
               bordered={false}
               title={'应用使用统计'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle, height: '250px'}}
+              bodyStyle={{...bodyStyle, height: '260px'}}
             >
-              内容
+              <Tabs
+                type='card'
+              >
+                <TabPane
+                  key='stat-time'
+                  tab='使用市场'
+                >
+                  {
+                    this.getStatListRender(mock.statList)
+                  }
+                </TabPane>
+                <TabPane
+                  key='stat-rate'
+                  tab='使用频率'
+                >
+                  {
+                    this.getStatListRender(mock.statList)
+                  }
+                </TabPane>
+              </Tabs>
             </Card>
           </Col>
         </Row>
@@ -341,6 +407,13 @@ class Home extends Component {
 
 WaitToDoItem.propTypes = {
   message: PropTypes.string
+}
+
+StatItem.propTypes = {
+  orderColor: PropTypes.string,
+  orderNum: PropTypes.string,
+  title: PropTypes.string,
+  percent: PropTypes.string
 }
 
 export default Home

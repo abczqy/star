@@ -90,5 +90,21 @@ export default {
     label: '学生评价'
   }, {
     label: '班务日志'
+  }],
+  statList: [{
+    title: '超级教师(教学类)',
+    percent: '30'
+  }, {
+    title: '超级教师(教学类)',
+    percent: '40'
+  }, {
+    title: '超级教师(教学类)',
+    percent: '50'
+  }, {
+    title: '超级教师(教学类)',
+    percent: '60'
+  }, {
+    title: '超级教师(教学类)',
+    percent: '70'
   }]
 }
