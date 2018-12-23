@@ -234,7 +234,7 @@ class Home extends Component {
     // 长度在5个以上时 需要截取前6个
     let d = data.slice()
     d.length > count && d.splice(count)
-    const len = d.length
+    const len = count
     return d.map((v, i) => {
       return <Grid
         key={i}
