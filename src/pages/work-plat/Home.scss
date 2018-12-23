@@ -14,6 +14,15 @@
   height: 100%;
 }
 
+/* 小图标 */
+.mini-icon {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  margin-right: 4px;
+  color: $grayColor;
+}
+
 /* 待办列表-厂商 */
 .wait-to-do-vend {
   padding-bottom: 6px;
@@ -116,4 +125,14 @@
   margin-top: 10px;
   // padding-top: 10px;
   border-top: 1px dashed #f4f4f4;
+}
+
+/* 工作台-个人中心（老师） */
+.row-box-tch {
+  padding-top: 20px;
+  font-family: $fontFamily;
+  font-Size: $fontSizeH6;
+  span {
+    color: $fontColor;
+  }
 }

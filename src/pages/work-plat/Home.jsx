@@ -33,6 +33,10 @@ import Book from '../../assets/images/work-plat/book.png'
 import Member from '../../assets/images/work-plat/member.png'
 import Org from '../../assets/images/work-plat/org.png'
 import MsgIcon from '../../assets/images/work-plat/message.png'
+import Location from '../../assets/images/work-plat/location.png'
+import Compony from '../../assets/images/work-plat/compony.png'
+import Job from '../../assets/images/work-plat/job.png'
+import Call from '../../assets/images/work-plat/call.png'
 /* 一些子页面 */
 import { DownHistory, UserManage } from './home/index'
 /* mock数据 */
@@ -308,6 +312,72 @@ class Home extends Component {
   }
 
   /**
+   * 渲染-工作台（个人中心）部分
+   * @param {string} role 当前角色
+   */
+  getPersonRender = (role) => {
+    if (role === 'teacher') {
+      // 教师-个人中心部分渲染
+      return (
+        <Row className='row-box row-box-tch'>
+          <Col span={24}>
+            <Row>
+              <Col span={16}>
+                <img src={Compony} className='mini-icon' />
+                单位：
+                <span>xxx小学</span>
+              </Col>
+              <Col span={8}>
+                <img src={Job} className='mini-icon' />
+                学科：
+                <span>数学</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={16}>
+                <img src={Call} className='mini-icon' />
+                电话：
+                <span>12345678901</span>
+              </Col>
+              <Col span={8}>
+                <img src={Job} className='mini-icon' />
+                职称：
+                <span>小教一级</span>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      )
+    } else {
+      return (
+        <Row gutter={128} className='row-box'>
+          <Col span={6} offset={1}>
+            <LabelIcon
+              style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
+              label='订单管理'
+              icon={Book}
+            />
+          </Col>
+          <Col span={6}>
+            <LabelIcon
+              style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+              label='人员管理'
+              icon={Member}
+            />
+          </Col>
+          <Col span={6}>
+            <LabelIcon
+              style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
+              label='组织管理'
+              icon={Org}
+            />
+          </Col>
+        </Row>
+      )
+    }
+  }
+
+  /**
    * 渲染非厂商部分的内容
    */
   getNoVendorRender = () => (
@@ -463,32 +533,13 @@ class Home extends Component {
               </Row>
               <Row>
                 <Col span={6} offset={18}>
+                  <img src={Location} className='mini-icon' />
                   <span>福建-福州</span>
                 </Col>
               </Row>
-              <Row gutter={128} className='row-box'>
-                <Col span={6} offset={1}>
-                  <LabelIcon
-                    style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
-                    label='订单管理'
-                    icon={Book}
-                  />
-                </Col>
-                <Col span={6}>
-                  <LabelIcon
-                    style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
-                    label='人员管理'
-                    icon={Member}
-                  />
-                </Col>
-                <Col span={6}>
-                  <LabelIcon
-                    style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
-                    label='组织管理'
-                    icon={Org}
-                  />
-                </Col>
-              </Row>
+              {
+                this.getPersonRender(webStorage.getItem('STAR_WEB_ROLE_CODE'))
+              }
             </Card>
           </Col>
           <Col span={16}>
