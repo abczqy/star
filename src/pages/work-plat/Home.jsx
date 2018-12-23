@@ -37,6 +37,7 @@ import Location from '../../assets/images/work-plat/location.png'
 import Compony from '../../assets/images/work-plat/compony.png'
 import Job from '../../assets/images/work-plat/job.png'
 import Call from '../../assets/images/work-plat/call.png'
+import CLass from '../../assets/images/work-plat/class.png'
 /* 一些子页面 */
 import { DownHistory, UserManage } from './home/index'
 /* mock数据 */
@@ -345,6 +346,38 @@ class Home extends Component {
                 <span>小教一级</span>
               </Col>
             </Row>
+          </Col>
+        </Row>
+      )
+    } else if (role === 'parents') {
+      // 家长-个人中心部分渲染
+      return (
+        <Row className='row-box row-box-tch'>
+          <Col span={14}>
+            <img src={Compony} className='mini-icon' />
+                单位：
+            <span>xxx小学</span>
+          </Col>
+          <Col span={10}>
+            <img src={Call} className='mini-icon' />
+                电话：
+            <span>12345678901</span>
+          </Col>
+        </Row>
+      )
+    } else if (role === 'students') {
+      // 学生-个人中心部分渲染
+      return (
+        <Row className='row-box row-box-tch'>
+          <Col span={14}>
+            <img src={Compony} className='mini-icon' />
+                单位：
+            <span>xxx小学</span>
+          </Col>
+          <Col span={10}>
+            <img src={CLass} className='mini-icon' />
+                年级：
+            <span>一年三班</span>
           </Col>
         </Row>
       )
