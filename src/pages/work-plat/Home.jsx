@@ -1,5 +1,9 @@
 /**
  * 工作台-首页
+ * 分层治之
+ * 1- view层
+ * 2- 逻辑层 -- 接收数据并去参与view活动需要的逻辑
+ * 3- 数据适配层 -- 根据逻辑层需要的数据提供适配数据
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
@@ -228,10 +232,11 @@ class Home extends Component {
     count = count || 6
     gridCol = gridCol || 3
     // 长度在5个以上时 需要截取前6个
-    data.length > count && data.splice(count)
-    const len = data.length
-    return data.map((v, i) => (
-      <Grid
+    let d = data.slice()
+    d.length > count && d.splice(count)
+    const len = count
+    return d.map((v, i) => {
+      return <Grid
         key={i}
         gridCount={len}
         gridCol={gridCol}
@@ -241,7 +246,8 @@ class Home extends Component {
         /> */}
         { itemRender(v) }
       </Grid>
-    ))
+    }
+    )
   }
 
   render () {
@@ -356,7 +362,7 @@ class Home extends Component {
               extra={<Extra />}
             >
               {
-                this.getCellsRender(mock.myApps, 9, 14, this.getAppRender({ borderRadius: '50%' }))
+                this.getCellsRender(mock.myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }))
               }
             </Card>
           </Col>
