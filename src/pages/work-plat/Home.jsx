@@ -8,6 +8,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import webStorage from 'webStorage'
 import {
   Row,
   Col,
@@ -25,12 +26,13 @@ import {
 } from '../../components/common'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
-import AvatarPng from '../../assets/images/work-plat/avatar.png'
+import AvatarIcon from '../../assets/images/work-plat/avatar.png'
 import WaitToDoPre from '../../assets/images/work-plat/wait-to-do-pre.png'
 import WaitToDoSuffix from '../../assets/images/work-plat/wait-to-do-suffix.png'
 import Book from '../../assets/images/work-plat/book.png'
 import Member from '../../assets/images/work-plat/member.png'
 import Org from '../../assets/images/work-plat/org.png'
+import MsgIcon from '../../assets/images/work-plat/message.png'
 /* 一些子页面 */
 import { DownHistory } from './home/index'
 /* mock数据 */
@@ -43,6 +45,16 @@ const TabPane = Tabs.TabPane
  * 1- 数组 - 下标就是序号
  */
 const orderColor = ['#FF6D4A', '#4ECB73', '#fad337', '#666']
+
+/**
+ * 消息的主题颜色
+ * 1- 这个可以后面如果公用 -- 可以抽出去
+ */
+const msgColor = {
+  pass: '#4ECB73', // 成功-通过
+  info: '#40B3F9', // 消息
+  reject: '#f00' // 错误-拒绝
+}
 
 /**
  * APP-icon的style
@@ -155,6 +167,51 @@ class Home extends Component {
   }
 
   /**
+   * 获取待办事项列表-厂商
+   */
+  getVndWaitToDoListRender = (data) => {
+    // 容错-空值
+    let d = data.slice() || []
+    // 长度在5个以上时 需要截取前6个
+    d.length > 2 && d.splice(3)
+    return d.map((v, i) => (
+      <Row className='wait-to-do-vend'>
+        <Col span={2}>
+          <span
+            className='message-icon-wrap'
+            style={{ backgroundColor: msgColor[v.type] }}
+          >
+            <img src={MsgIcon} />
+          </span>
+        </Col>
+        <Col span={20} className='wtdv-col'>
+          <Row>
+            <Col span={6}>
+              { v.title || '' }
+            </Col>
+            <Col span={6} offset={12}>
+              { v.date || '' }
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              { v.content || '' }
+            </Col>
+          </Row>
+          { v.more &&
+            <Row>
+              <Col span={24}> { v.more } </Col>
+            </Row>
+          }
+        </Col>
+        <Col span={2} className='wtdv-col'>
+          查看
+        </Col>
+      </Row>
+    ))
+  }
+
+  /**
    * 获取应用使用统计列表的渲染
    */
   getStatListRender = (data) => {
@@ -262,7 +319,7 @@ class Home extends Component {
               bordered={false}
               title={'工作台'}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle, height: '220px'}}
+              bodyStyle={{...bodyStyle, height: '230px'}}
             >
               <Row
                 type='flex'
@@ -272,7 +329,7 @@ class Home extends Component {
                 <Col span={6}>
                   <Avatar
                     size={88}
-                    src={AvatarPng}
+                    src={AvatarIcon}
                   />
                 </Col>
                 <Col span={8}>
@@ -333,10 +390,13 @@ class Home extends Component {
               bordered={false}
               title={<span>待办事项<span className='tip-red'>{'(23)'}</span></span>}
               headStyle={{...headStyle}}
-              bodyStyle={{...bodyStyle, height: '220px'}}
+              bodyStyle={{...bodyStyle, height: '230px'}}
               extra={<Extra />}
             >
-              { this.getWaitToDoListRender(mock.waitToDoData) }
+              { webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor'
+                ? this.getVndWaitToDoListRender(mock.waitToDoVnd)
+                : this.getWaitToDoListRender(mock.waitToDoData)
+              }
             </Card>
           </Col>
         </Row>

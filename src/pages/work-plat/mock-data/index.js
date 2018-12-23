@@ -106,5 +106,21 @@ export default {
   }, {
     title: '超级教师(教学类)',
     percent: 70
+  }],
+  waitToDoVnd: [{
+    title: '审核通过', // 厂商 - 待办列表
+    content: '您的软件【超级教师】已审核通过',
+    date: '2018-03-29 12：31',
+    type: 'pass'
+  }, {
+    title: '审核通过',
+    content: '您的软件【超级教师】已审核通过',
+    date: '2018-03-29 12：31',
+    type: 'reject'
+  }, {
+    title: '审核通过',
+    content: '您的软件【超级教师】已审核通过',
+    date: '2018-03-29 12：31',
+    type: 'info'
   }]
 }

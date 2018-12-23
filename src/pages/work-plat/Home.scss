@@ -14,6 +14,35 @@
   height: 100%;
 }
 
+/* 待办列表-厂商 */
+.wait-to-do-vend {
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed $padColor;
+  &:nth-last-child(1) {
+    border: none;
+  }
+  .message-icon-wrap {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    img {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  /* 父样式的缩写为前缀 */
+  .wtdv-col {
+    padding-top: 5px;
+  }
+}
+
+
 /* 应用统计-Item */
 .order-item-wrap {
   padding-top: 10px;
