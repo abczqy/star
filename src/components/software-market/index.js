@@ -28,3 +28,4 @@ export { default as SearchBarMemberPa } from './serch-bar-member-pa/SearchBarMem
 export { default as SearchBarMemberSch } from './serch-bar-member-sch/SearchBarMemberSch'
 export { default as SearchBarMemberTeac } from './serch-bar-member-teac/SearchBarMemberTeac'
 export { default as SearchBarMemberEduSer } from './serch-bar-member-edu-ser/SearchBarMemberEduSer'
+export { default as AppPurCombination } from './app-pur-combination/AppPurCombination'// app购买套餐卡片组件
