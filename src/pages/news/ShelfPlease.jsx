@@ -5,7 +5,7 @@
  */
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import {Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message, Checkbox} from 'antd'
+import {Tabs, Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message, Checkbox} from 'antd'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 // import Upload from './Upload'
@@ -14,6 +14,7 @@ import './NewsList.scss'
 import {shelf} from 'services/software-manage'
 import PropTypes from 'prop-types'
 import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
+import {AppPurCombination} from 'components/software-market'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
@@ -41,6 +42,7 @@ class ShelfPlease extends React.Component {
       // 有关上传截图
       previewVisible: false,
       previewImage: '',
+      // current: 0, // 进度条当前位置
       dataL: [
         {
           key: 'win32',
@@ -496,6 +498,7 @@ class ShelfPlease extends React.Component {
       message.error('请填写完带有*号的填写项')
     }
   }
+
   render () {
     const data = [
       {
@@ -628,43 +631,265 @@ class ShelfPlease extends React.Component {
       },
       fileListPhone: this.state.fileListPhone
     }
-    const propsD = {
-      onRemove: (file) => {
-        this.setState(({ fileListSix }) => {
-          const index = fileListSix.indexOf(file)
-          const newFileList = fileListSix.slice()
-          newFileList.splice(index, 1)
-          return {
-            fileListSix: newFileList
-          }
-        })
-      },
-      beforeUpload: (file) => {
-        this.setState(({ fileListSix }) => ({
-          fileListSix: [...fileListSix, file]
-        }), () => {
-          console.log('this.state.fileListSix', this.state.fileListSix)
-        })
-        return false
-      },
-      fileListSix: this.state.fileListSix
-    }
-
-    // const fileList11 = [{
-    //   uid: '-1',
-    //   name: 'xxx.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    //   thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    // }]
-    // const fileList11 = []
-    // const props11 = {
-    //   action: '//jsonplaceholder.typicode.com/posts/',
-    //   listType: 'picture',
-    //   defaultFileList: [...fileList11],
-    //   className: 'upload-list-inline'
+    // const propsD = {
+    //   onRemove: (file) => {
+    //     this.setState(({ fileListSix }) => {
+    //       const index = fileListSix.indexOf(file)
+    //       const newFileList = fileListSix.slice()
+    //       newFileList.splice(index, 1)
+    //       return {
+    //         fileListSix: newFileList
+    //       }
+    //     })
+    //   },
+    //   beforeUpload: (file) => {
+    //     this.setState(({ fileListSix }) => ({
+    //       fileListSix: [...fileListSix, file]
+    //     }), () => {
+    //       console.log('this.state.fileListSix', this.state.fileListSix)
+    //     })
+    //     return false
+    //   },
+    //   fileListSix: this.state.fileListSix
     // }
-    return <Card title='上架申请' style={{marginLeft: '5%', width: '1300px'}} extra={<Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>}>
+
+    // const { current } = this.state
+
+    // 软件相关
+    const aboutSoftware = <Row>
+      {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row> */}
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件名称 :</Col>
+        <Col span={7}><Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
+        <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
+        <Col span={7}>
+          <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
+            {data.map((item, index) => {
+              return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+            })}
+          </Select>
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rFeaturesChange} value={this.state.rFeatures} />
+        </Col>
+      </Row>
+      <Row className='Wxds'>
+        {this.state.renderEdition.map((item, index) => {
+          return item
+        })}
+      </Row>
+      <Row className='Wxd'>
+        <Col span={21} offset={3}>
+          <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>权限详情 : </span></Col>
+        <Col span={20}>
+          <Checkbox.Group style={{ width: '100%' }} onChange={this.SDetailAuthChange}>
+            <Row>
+              <Col span={6}><Checkbox value='1'>（基于网络的）粗略位置</Checkbox></Col>
+              <Col span={6}><Checkbox value='2'>查看网络状态</Checkbox></Col>
+              <Col span={6}><Checkbox value='3'>查看 Wi-Fi 状态</Checkbox></Col>
+              <Col span={6}><Checkbox value='4'>创建蓝牙连接</Checkbox></Col>
+              <Col span={6}><Checkbox value='5'>拍摄照片和视频</Checkbox></Col>
+              <Col span={6}><Checkbox value='6'>更改 Wi-Fi 状态</Checkbox></Col>
+              <Col span={6}><Checkbox value='7'>完全的互联网访问权限</Checkbox></Col>
+              <Col span={6}><Checkbox value='8'>开机时自动启动</Checkbox></Col>
+            </Row>
+          </Checkbox.Group>
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='top'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
+        <Col span={9} id='iconDiv'>
+          <Upload {...propsIcon}>
+            <Button>
+              <Icon type='upload' /> 上传文件
+            </Button>
+            <span className='extend'>支持扩展名：.png .jpg ... （200px*200px）</span>
+          </Upload>
+        </Col>
+        <Col span={3}><span style={{color: 'red'}}>* </span>期望上架时间 :</Col>
+        <Col span={7}>
+          <DatePicker
+            style={{width: '260px'}}
+            showTime
+            format='YYYY-MM-DD HH:mm:ss'
+            placeholder='Select Time'
+            onChange={this.onChange}
+            onOk={this.onOk}
+          />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='top'>
+        <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>PC端界面截图 :&nbsp;&nbsp;</Col>
+        <Col span={9}>
+          <Upload {...propsPC}>
+            <Button>
+              <Icon type='upload' /> 上传文件
+            </Button>
+            <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
+          </Upload>
+          {/* <Upload {...props11}>
+          <Button>
+            <Icon type='upload' /> Upload
+          </Button>
+        </Upload> */}
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='top'>
+        <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>手机端界面截图 :&nbsp;&nbsp;</Col>
+        <Col span={9}>
+          <Upload {...propsPhone}>
+            <Button>
+              <Icon type='upload' /> 上传文件
+            </Button>
+            <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
+          </Upload>
+        </Col>
+      </Row>
+      <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '2%', marginTop: '4%'}} />
+    </Row>
+    // 开发相关
+    const aboutDev = <Row>
+      {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />开发相关</p></Row> */}
+      <Row className='Wxd'>
+        <Col span={12}>
+          <Col span={6}>
+            <span style={{visibility: 'hidden'}}>*PC无无无五五</span>
+            <span style={{color: 'red'}}>* </span>姓名 :
+          </Col>
+          <Input placeholder='请输入名字' style={{ width: 280 }} onChange={this.name} value={this.state.name} />
+        </Col>
+        <Col span={8}>
+          <Col span={5}>
+            <span style={{color: 'red'}}>* </span>身份证号 :
+          </Col>
+          <Col span={17}>
+            <Input placeholder='请输入身份证号' style={{ width: 200 }} onBlur={this.idNumberBlur} onChange={this.idNumber} value={this.state.idNumber} /></Col>
+        </Col>
+      </Row>
+      <Row className='Wxd'>
+        <Col span={12}>
+          <Col span={6}>
+            <span style={{visibility: 'hidden'}}>*PC</span>
+            <span style={{color: 'red'}}>* </span>手持身份证照片 :
+          </Col>
+          <Col span={8}>
+            <Upload {...propsP}>
+              <Button>
+                <Icon type='upload' /> 上传文件
+              </Button>
+              <span className='extend'>
+                <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
+            </Upload>
+          </Col>
+        </Col>
+      </Row>
+      <Row className='Wxd'>
+        <Col span={12}>
+          <Col span={6}>
+            <span style={{visibility: 'hidden'}}>*PC无无</span>
+            <span style={{color: 'red'}}>* </span>主要联系人 :
+          </Col>
+          <Input placeholder='请输入联系人' style={{ width: 280 }} onChange={this.conPeople} value={this.state.conPeople} /></Col>
+        <Col span={8}>
+          <Col span={6}>
+            <span style={{color: 'red'}}>* </span>联系人电话 :
+          </Col>
+          <Col span={18}>
+            <Input placeholder='请输入联系人电话' style={{ width: 200 }} onBlur={this.conPeopleNumBlur} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
+        </Col>
+      </Row>
+      <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
+    </Row>
+    // 软件版权
+    const aboutPatent = <Row>
+      {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件版权</p></Row> */}
+      <Row className='Wxd'>
+        <Col span={24}>
+          <Col span={1} />
+          <RadioGroup onChange={this.radio} value={this.state.radio}>
+            <Col span={1} />
+            <Col span={8}>
+              <Radio value={1}>
+                <span >软件凭证 :</span>
+                <span style={{visibility: 'hidden'}}>无</span>
+                <Upload {...propsW}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <span className='extend'>
+                    <span style={{visibility: 'hidden'}} />支持扩展名：.png .jpg ...</span>
+                </Upload>
+              </Radio>
+              <span style={{visibility: 'hidden'}}>*PC无无555555555555555555555555555555555555555555555555呜呜呜呜呜</span>
+            </Col>
+            <Col span={1} />
+            <Col span={14}>
+              <span style={{visibility: 'hidden'}}>6</span>
+              <Radio value={2}>
+                <span >开发者权利声明 :</span>
+                <span style={{visibility: 'hidden'}}>无</span>
+                <Upload {...propsW}>
+                  <Button>
+                    <Icon type='upload' /> 上传文件
+                  </Button>
+                  <span className='extend'>
+                    <span style={{visibility: 'hidden'}} />请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:0;'>下载模版</a>
+                </Upload>
+              </Radio>
+            </Col>
+          </RadioGroup>
+        </Col>
+        {/* <Col span={5}></Col> */}
+      </Row>
+      <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
+    </Row>
+    // 计费模式选择
+    const aboutVoucher = <Row>
+      <Row>
+        {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />计费模式选择</p></Row> */}
+        <Row>
+          <Col span={24} style={{textAlign: 'center'}}>
+            <AppPurCombination />
+          </Col>
+        </Row>
+      </Row>
+    </Row>
+    const tabs = [{
+      title: '软件相关',
+      content: aboutSoftware
+    }, {
+      title: '开发相关',
+      content: aboutDev
+    }, {
+      title: '软件版权',
+      content: aboutPatent
+    }, {
+      title: '计费模式选择',
+      content: aboutVoucher
+    }]
+    const TabPane = Tabs.TabPane
+
+    return <Card title='上架申请' className='main-card' style={{marginLeft: '5%', width: '1300px', minHeight: '540px'}}
+      extra={
+        <div>
+          <Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>
+          <Button type='primary' style={{marginLeft: '5%'}} onClick={this.submit}>提交申请</Button>
+          <Button style={{marginLeft: '5%'}}>取消</Button>
+        </div>
+      }>
       <div >
         {/* 修改厂商合同编号 */}
         {this.state.previewApp ? <SelfPleasePreview
@@ -675,230 +900,12 @@ class ShelfPlease extends React.Component {
           dataPhone={this.state.fileListPhoneUrl}
           dataIcon={this.state.fileListIconUrl}
         /> : null}
-        <Row>
-          <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
-          <Row className='Wxd' type='flex' align='middle'>
-            <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件名称 :</Col>
-            <Col span={7}><Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
-            <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
-            <Col span={7}>
-              <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
-                {data.map((item, index) => {
-                  return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
-                })}
-              </Select>
-            </Col>
-          </Row>
-          <Row className='Wxd' type='flex' align='middle'>
-            <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
-            <Col span={20}>
-              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} />
-            </Col>
-          </Row>
-          <Row className='Wxd' type='flex' align='middle'>
-            <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
-            <Col span={20}>
-              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rFeaturesChange} value={this.state.rFeatures} />
-            </Col>
-          </Row>
-          <Row className='Wxds'>
-            {this.state.renderEdition.map((item, index) => {
-              return item
-            })}
-          </Row>
-          <Row className='Wxd'>
-            <Col span={21} offset={3}>
-              <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
-            </Col>
-          </Row>
-          <Row className='Wxd' type='flex' align='middle'>
-            <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>权限详情 : </span></Col>
-            <Col span={20}>
-              <Checkbox.Group style={{ width: '100%' }} onChange={this.SDetailAuthChange}>
-                <Row>
-                  <Col span={6}><Checkbox value='1'>（基于网络的）粗略位置</Checkbox></Col>
-                  <Col span={6}><Checkbox value='2'>查看网络状态</Checkbox></Col>
-                  <Col span={6}><Checkbox value='3'>查看 Wi-Fi 状态</Checkbox></Col>
-                  <Col span={6}><Checkbox value='4'>创建蓝牙连接</Checkbox></Col>
-                  <Col span={6}><Checkbox value='5'>拍摄照片和视频</Checkbox></Col>
-                  <Col span={6}><Checkbox value='6'>更改 Wi-Fi 状态</Checkbox></Col>
-                  <Col span={6}><Checkbox value='7'>完全的互联网访问权限</Checkbox></Col>
-                  <Col span={6}><Checkbox value='8'>开机时自动启动</Checkbox></Col>
-                </Row>
-              </Checkbox.Group>
-            </Col>
-          </Row>
-          <Row className='Wxd' type='flex' align='top'>
-            <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
-            <Col span={9} id='iconDiv'>
-              <Upload {...propsIcon}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-                <span className='extend'>支持扩展名：.png .jpg ... （200px*200px）</span>
-              </Upload>
-            </Col>
-            <Col span={3}><span style={{color: 'red'}}>* </span>期望上架时间 :</Col>
-            <Col span={7}>
-              <DatePicker
-                style={{width: '260px'}}
-                showTime
-                format='YYYY-MM-DD HH:mm:ss'
-                placeholder='Select Time'
-                onChange={this.onChange}
-                onOk={this.onOk}
-              />
-            </Col>
-          </Row>
-          <Row className='Wxd' type='flex' align='top'>
-            <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>PC端界面截图 :&nbsp;&nbsp;</Col>
-            <Col span={9}>
-              <Upload {...propsPC}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-                <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
-              </Upload>
-              {/* <Upload {...props11}>
-                <Button>
-                  <Icon type='upload' /> Upload
-                </Button>
-              </Upload> */}
-            </Col>
-          </Row>
-          <Row className='Wxd' type='flex' align='top'>
-            <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>手机端界面截图 :&nbsp;&nbsp;</Col>
-            <Col span={9}>
-              <Upload {...propsPhone}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-                <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
-              </Upload>
-            </Col>
-          </Row>
-          <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '2%', marginTop: '4%'}} />
-        </Row>
-        <Row>
-          <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />开发相关</p></Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无无五五</span>
-                <span style={{color: 'red'}}>* </span>姓名 :
-              </Col>
-              <Input placeholder='请输入名字' style={{ width: 280 }} onChange={this.name} value={this.state.name} />
-            </Col>
-            <Col span={8}>
-              <Col span={5}>
-                <span style={{color: 'red'}}>* </span>身份证号 :
-              </Col>
-              <Col span={17}>
-                <Input placeholder='请输入身份证号' style={{ width: 200 }} onBlur={this.idNumberBlur} onChange={this.idNumber} value={this.state.idNumber} /></Col>
-            </Col>
-          </Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC</span>
-                <span style={{color: 'red'}}>* </span>手持身份证照片 :
-              </Col>
-              <Col span={8}>
-                <Upload {...propsP}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                  <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
-                </Upload>
-              </Col>
-            </Col>
-          </Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无</span>
-                <span style={{color: 'red'}}>* </span>主要联系人 :
-              </Col>
-              <Input placeholder='请输入联系人' style={{ width: 280 }} onChange={this.conPeople} value={this.state.conPeople} /></Col>
-            <Col span={8}>
-              <Col span={6}>
-                <span style={{color: 'red'}}>* </span>联系人电话 :
-              </Col>
-              <Col span={18}>
-                <Input placeholder='请输入联系人电话' style={{ width: 200 }} onBlur={this.conPeopleNumBlur} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
-            </Col>
-          </Row>
-          <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
-        </Row>
-        <Row>
-          <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件版权</p></Row>
-          <Row className='Wxd'>
-            <Col span={24}>
-              <Col span={1} />
-              <RadioGroup onChange={this.radio} value={this.state.radio}>
-                <Col span={1} />
-                <Col span={8}>
-                  <Radio value={1}>
-                    <span >软件凭证 :</span>
-                    <span style={{visibility: 'hidden'}}>无</span>
-                    <Upload {...propsW}>
-                      <Button>
-                        <Icon type='upload' /> 上传文件
-                      </Button>
-                      <span className='extend'>
-                        <span style={{visibility: 'hidden'}} />支持扩展名：.png .jpg ...</span>
-                    </Upload>
-                  </Radio>
-                  <span style={{visibility: 'hidden'}}>*PC无无555555555555555555555555555555555555555555555555呜呜呜呜呜</span>
-                </Col>
-                <Col span={1} />
-                <Col span={14}>
-                  <span style={{visibility: 'hidden'}}>6</span>
-                  <Radio value={2}>
-                    <span >开发者权利声明 :</span>
-                    <span style={{visibility: 'hidden'}}>无</span>
-                    <Upload {...propsW}>
-                      <Button>
-                        <Icon type='upload' /> 上传文件
-                      </Button>
-                      <span className='extend'>
-                        <span style={{visibility: 'hidden'}} />请下载模板打印盖章后，以jpg、png格式扫描上传</span><a href='javascript:0;'>下载模版</a>
-                    </Upload>
-                  </Radio>
-                </Col>
-              </RadioGroup>
-            </Col>
-            {/* <Col span={5}></Col> */}
-          </Row>
-          <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
-        </Row>
-        <Row>
-          <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />财务凭证</p></Row>
-          <Row>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无</span>
-                <span>财务审核凭证 : </span><span style={{visibility: 'hidden'}}>无</span>
-              </Col>
-              <Col span={8}>
-                <Upload {...propsD}>
-                  <Button>
-                    <Icon type='upload' /> 上传文件
-                  </Button>
-                  <span className='extend'>
-                    <span style={{visibility: 'hidden'}}>无无无无无无</span>支持扩展名：.png .jpg ...</span>
-                </Upload></Col>
-            </Col>
-          </Row>
-        </Row>
-        <Row>
-          <Col>
-            <Col span={16} />
-            <Col span={2}><Button type='primary' onClick={this.submit}>提交申请</Button></Col>
-            <Col span={2}><Button>取消</Button></Col>
-          </Col>
-        </Row></div>
+        <div>
+          <Tabs defaultActiveKey='计费模式选择'>
+            {tabs.map((item, index) => <TabPane key={item.title} tab={item.title}>{tabs[index].content}</TabPane>)}
+          </Tabs>
+        </div>
+      </div>
     </Card>
   }
 }
