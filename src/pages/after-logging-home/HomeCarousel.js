@@ -28,7 +28,7 @@ class HomeCarousel extends Component {
       this.setState({
         homeCarouselDatas: res.data.list || []
       }, () => {
-        console.log(8888888, this.state.homeCarouselDatas)
+        // console.log(8888888, this.state.homeCarouselDatas)
       })
     }).catch((e) => { console.log(e) })
   }

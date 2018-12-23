@@ -379,36 +379,36 @@ class ShelfPlease extends React.Component {
   }
 
   // 获取预览图片的地址
-  getPicUrl=(callback) => {
-    const thiz = this
-    let arrpc = []
-    let arricon = []
-    let arrphone = []
-    this.state.fileListPC.forEach((file, index) => { // pc展示
-      this.getBase64(file, (imageUrl) => {
-        arrpc.push(imageUrl)
-      })
-    })
-    this.state.fileListIcon.forEach((file, index) => { // icon展示
-      this.getBase64(file, (imageUrl) => {
-        arricon.push(imageUrl)
-      })
-    })
-    this.state.fileListPhone.forEach((file, index) => { // phone展示
-      this.getBase64(file, (imageUrl) => {
-        arrphone.push(imageUrl)
-      })
-    })
-    this.setState({
-      fileListPCUrl: arrpc,
-      fileListIconUrl: arricon,
-      fileListPhoneUrl: arrphone
-    }, function () {
-      // console.log('循环之后的fileListIconUrl', thiz.state.fileListIconUrl)
-      callback && callback(thiz.state)
-    })
-    // console.log('循环之后的fileListPCUrl', this.state.fileListPCUrl)
-  }
+  // getPicUrl=(callback) => {
+  //   const thiz = this
+  //   let arrpc = []
+  //   let arricon = []
+  //   let arrphone = []
+  //   this.state.fileListPC.forEach((file, index) => { // pc展示
+  //     this.getBase64(file, (imageUrl) => {
+  //       arrpc.push(imageUrl)
+  //     })
+  //   })
+  //   this.state.fileListIcon.forEach((file, index) => { // icon展示
+  //     this.getBase64(file, (imageUrl) => {
+  //       arricon.push(imageUrl)
+  //     })
+  //   })
+  //   this.state.fileListPhone.forEach((file, index) => { // phone展示
+  //     this.getBase64(file, (imageUrl) => {
+  //       arrphone.push(imageUrl)
+  //     })
+  //   })
+  //   this.setState({
+  //     fileListPCUrl: arrpc,
+  //     fileListIconUrl: arricon,
+  //     fileListPhoneUrl: arrphone
+  //   }, function () {
+  //     // console.log('循环之后的fileListIconUrl', thiz.state.fileListIconUrl)
+  //     callback && callback(thiz.state)
+  //   })
+  //   // console.log('循环之后的fileListPCUrl', this.state.fileListPCUrl)
+  // }
 
   // 预览表单
   handlePreview () {
@@ -431,12 +431,16 @@ class ShelfPlease extends React.Component {
     formDataPre.append('rDescribe', this.state.rDescribe || '')// 应用介绍*
     formDataPre.append('rFeatures', this.state.rFeatures || '')// 新版特性*
 
-    this.getPicUrl(function (state) {
-      // console.log(' 图片； ', thiz.state.fileListIconUrl)
-      thiz.setState({
-        formDataPre1: formDataPre,
-        previewApp: true
-      })
+    // this.getPicUrl(function (state) {
+    //   // console.log(' 图片； ', thiz.state.fileListIconUrl)
+    //   thiz.setState({
+    //     formDataPre1: formDataPre,
+    //     previewApp: true
+    //   })
+    // })
+    thiz.setState({
+      formDataPre1: formDataPre,
+      previewApp: true
     })
     // this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
   }
@@ -521,24 +525,30 @@ class ShelfPlease extends React.Component {
     const propsIcon = {
       listType: 'picture',
       onRemove: (file) => {
-        this.setState(({ fileListIcon }) => {
+        this.setState(({ fileListIcon, fileListIconUrl }) => {
           const index = fileListIcon.indexOf(file)
           const newFileList = fileListIcon.slice()
+          const newFileListIconUrl = fileListIconUrl.slice()
           newFileList.splice(index, 1)
+          newFileListIconUrl.splice(index, 1)
           return {
-            fileListIcon: newFileList
+            fileListIcon: newFileList,
+            fileListIconUrl: newFileListIconUrl
           }
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileListIcon }) => ({
-          fileListIcon: [...fileListIcon, file]
-
-        }), () => {
-          console.log('this.state.fileListIcon', this.state.fileListIcon)
+        this.getBase64(file, (imageUrl) => {
+          this.setState(({ fileListIcon, fileListIconUrl }) => ({
+            fileListIcon: [...fileListIcon, file],
+            fileListIconUrl: [...fileListIconUrl, imageUrl]
+          }), () => {
+            console.log('this.state.fileListIcon', this.state.fileListIcon)
+          })
         })
         return false
       },
+      fileListIconUrl: this.state.fileListIconUrl,
       fileListIcon: this.state.fileListIcon
     }
     const propsP = {
@@ -589,47 +599,60 @@ class ShelfPlease extends React.Component {
       // defaultFileList: [...fileList11],
       // className: 'upload-list-inline',
       onRemove: (file) => {
-        this.setState(({ fileListPC }) => {
+        this.setState(({ fileListPC, fileListPCUrl }) => {
           const index = fileListPC.indexOf(file)
           const newFileList = fileListPC.slice()
+          const newFileListPCUrl = fileListPCUrl.slice()
           newFileList.splice(index, 1)
+          newFileListPCUrl.splice(index, 1)
           return {
-            fileListPC: newFileList
+            fileListPC: newFileList,
+            fileListPCUrl: newFileListPCUrl
           }
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileListPC }) => ({
-          fileListPC: [...fileListPC, file]
-        }), () => {
-          console.log('fileListPC', this.state.fileListPC)
-          // console.log('fileListPC[0]', this.state.fileListPC[0])
+        this.getBase64(file, (imageUrl) => {
+          this.setState(({ fileListPC, fileListPCUrl }) => ({
+            fileListPC: [...fileListPC, file],
+            fileListPCUrl: [...fileListPCUrl, imageUrl]
+          }), () => {
+            console.log('fileListPC', this.state.fileListPC)
+          })
         })
         return false
       },
-      fileListPC: this.state.fileListPC
+      fileListPC: this.state.fileListPC,
+      fileListPCUrl: this.state.fileListPCUrl
     }
     const propsPhone = {
       listType: 'picture',
       onRemove: (file) => {
-        this.setState(({ fileListPhone }) => {
+        this.setState(({ fileListPhone, fileListPhoneUrl }) => {
           const index = fileListPhone.indexOf(file)
           const newFileList = fileListPhone.slice()
+          const newFileListPhoneUrl = fileListPhoneUrl.slice()
           newFileList.splice(index, 1)
+          newFileListPhoneUrl.splice(index, 1)
           return {
-            fileListPhone: newFileList
+            fileListPhone: newFileList,
+            fileListPhoneUrl: newFileListPhoneUrl
           }
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileListPhone }) => ({
-          fileListPhone: [...fileListPhone, file]
-        }), () => {
-          console.log('fileListPhone', this.state.fileListPhone)
+        this.getBase64(file, (imageUrl) => {
+          this.setState(({ fileListPhone, fileListPhoneUrl }) => ({
+            fileListPhone: [...fileListPhone, file],
+            fileListPhoneUrl: [...fileListPhoneUrl, imageUrl]
+          }), () => {
+            console.log('fileListPhone', this.state.fileListPhone)
+          })
         })
         return false
       },
-      fileListPhone: this.state.fileListPhone
+      fileListPhone: this.state.fileListPhone,
+      fileListPhoneUrl: this.state.fileListPhoneUrl
     }
     // const propsD = {
     //   onRemove: (file) => {
@@ -901,7 +924,7 @@ class ShelfPlease extends React.Component {
           dataIcon={this.state.fileListIconUrl}
         /> : null}
         <div>
-          <Tabs defaultActiveKey='计费模式选择'>
+          <Tabs defaultActiveKey='软件相关'>
             {tabs.map((item, index) => <TabPane key={item.title} tab={item.title}>{tabs[index].content}</TabPane>)}
           </Tabs>
         </div>

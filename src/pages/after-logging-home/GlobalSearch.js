@@ -57,7 +57,7 @@ class GlobalSearch extends Component {
   }
 
   render () {
-    console.log(888888, this.state.data)
+    // console.log(888888, this.state.data)
     const options = this.state.data.map((d, index, arr) => {
       return (
         <Option key={d.value}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: d.id}}>{d.text}</Link></Option>

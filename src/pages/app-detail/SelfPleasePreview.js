@@ -40,6 +40,7 @@ class SelfPleasePreview extends React.Component {
 
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {
+    // console.log('点击了pc')
     if (type === 'computer') {
       this.setState({
         pictype: 'computer'
@@ -86,24 +87,25 @@ class SelfPleasePreview extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    console.log('shouldComponentUpdate')
+  shouldComponentUpdate () {
+    // console.log('shouldComponentUpdate')
     return true
-  }
-  componentWillUpdate () {
-    console.log('componentWillUpdate')
   }
 
   componentDidMount () {
-    console.log('componentDidMount')
-    // console.log('icon 222= ', this.props.dataIcon)
-    // console.log('icon[0] 222= ', this.props.dataIcon[0])
+    // console.log('componentDidMount')
+
+    // if (this.state.icon && this.state.icon !== [] && this.state.icon.length === 0) {
+    //   console.log('进来了')
+
+    //   this.handleSwitchCarousel('computer')
+    // }
   }
 
   render () {
     console.log('render')
-    console.log('this.state.icon render= ', this.state.icon)
-    console.log('this.state.icon.length= ', this.state.icon.length)
+    console.log('render this.props.dataIcon.icon = ', this.props.dataIcon)
+    console.log('render this.props.dataIcon.icon.length= ', this.props.dataIcon.length)
     // console.log('this.state.icon[0] render= ', this.state.icon.shift())
     let thiz = this.state.appDetailData
     let rname = thiz.get('rname')
