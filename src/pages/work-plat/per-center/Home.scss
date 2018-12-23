@@ -60,5 +60,7 @@
 
 /* 常规灰 */
 .color-normal {
-  color: $grayColor;
+  color: $perNameColor;
+  font-weight: 400;
+  font-size: $fontSizeH6;
 }

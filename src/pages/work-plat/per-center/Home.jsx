@@ -97,7 +97,7 @@ class Home extends Component {
                     <Align>
                       <LabelBox margin='15px 0 10px 0'>
                         <span className='label-font color-normal'>
-                          简介 | 有省略样式
+                          账户名 | 账户对应角色名
                         </span>
                       </LabelBox>
                     </Align>
