@@ -199,7 +199,7 @@ class UserManage extends Component {
     const { tableData, pagination } = this.state
     return (
       <div className='userManage'>
-        <Tabs defaultActiveKey='1' onChange={this.changeTabkey} className='ml1'>
+        <Tabs type='card' defaultActiveKey='1' onChange={this.changeTabkey} className='ml1'>
           <TabPane tab='教师' key='1'>
             <span>搜索：</span>
             <Search
