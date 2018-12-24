@@ -2,11 +2,13 @@
  * Created by Administrator on 2018/4/28.
  */
 import {axios} from '../../utils'
+import config from '../../config/index'
+const {API_BASE_URL} = config
 /**
  * 校验邮箱是否被占用
  */
 export function registerValitemail (params, sucFn, errFn) {
-  return axios.post('/register/vailEmail', {...params})
+  return axios.post(API_BASE_URL + '/register/vailEmail', {...params})
     .then(function (res) {
       sucFn(res)
     }).catch(function (err) {
@@ -17,7 +19,7 @@ export function registerValitemail (params, sucFn, errFn) {
  * 注册按钮
  */
 export function register (params, sucFn) {
-  return axios.post('/register/registermaf', {...params})
+  return axios.post(API_BASE_URL + '/register/registermaf', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -26,7 +28,7 @@ export function register (params, sucFn) {
  * 注册用户协议
  */
 export function getRegisterAgreement (params, sucFn) {
-  return axios.get('/register/getRegisterAgreement', {...params})
+  return axios.get(API_BASE_URL + '/register/getRegisterAgreement', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -35,7 +37,7 @@ export function getRegisterAgreement (params, sucFn) {
  * 账号设置-查询与家长绑定的学生
  */
 export function relationQueryStu (params, sucFn) {
-  return axios.post('/addRelation/queryStu', {...params})
+  return axios.post(API_BASE_URL + '/addRelation/queryStu', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -44,7 +46,7 @@ export function relationQueryStu (params, sucFn) {
  * 账号设置-添加学生绑定
  */
 export function relationAdd (params, sucFn) {
-  return axios.post('/addRelation/add', {...params})
+  return axios.post(API_BASE_URL + '/addRelation/add', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -53,7 +55,7 @@ export function relationAdd (params, sucFn) {
  * 账号设置-删除绑定的学生
  */
 export function relationdelete (params, sucFn) {
-  return axios.post('/addRelation/delete', {...params})
+  return axios.post(API_BASE_URL + '/addRelation/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -62,7 +64,7 @@ export function relationdelete (params, sucFn) {
  * 账号设置-登出
  */
 export function sessionLogout (params, sucFn) {
-  return axios.put('/session/logout', {...params})
+  return axios.put(API_BASE_URL + '/session/logout', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -71,7 +73,7 @@ export function sessionLogout (params, sucFn) {
  * 消息通知-消息通知列表
  */
 export function getAllMessageList (params, sucFn) {
-  return axios.post('/getAllMessageList', {...params})
+  return axios.post(API_BASE_URL + '/getAllMessageList', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -80,7 +82,7 @@ export function getAllMessageList (params, sucFn) {
  * 消息通知-未读消息数
  */
 export function getMessageCount (params, sucFn) {
-  return axios.post('/getUnreadMessageCount', {...params})
+  return axios.post(API_BASE_URL + '/getUnreadMessageCount', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -89,7 +91,7 @@ export function getMessageCount (params, sucFn) {
  * 消息通知-消息通知列表详情
  */
 export function getMessageListDetail (params, sucFn) {
-  return axios.get('/getMessageDetail', { params: params })
+  return axios.get(API_BASE_URL + '/getMessageDetail', { params: params })
     .then(function (res) {
       sucFn(res)
     })
@@ -98,7 +100,7 @@ export function getMessageListDetail (params, sucFn) {
  * 账号设置-密码修改
  */
 export function updateUserPassword (params, sucFn) {
-  return axios.post('/control/updateUserPassword', {...params})
+  return axios.post(API_BASE_URL + '/control/updateUserPassword', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -107,7 +109,7 @@ export function updateUserPassword (params, sucFn) {
  * 账号设置-返回手机绑定默认消息
  */
 export function whetherOrNotToVerify (params, sucFn) {
-  return axios.get('/whetherOrNotToVerify', {...params})
+  return axios.get(API_BASE_URL + '/whetherOrNotToVerify', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -116,7 +118,7 @@ export function whetherOrNotToVerify (params, sucFn) {
  * // 账号设置-手机验证
  */
 export function updatePhoneNum (params, sucFn) {
-  return axios.post('/updatePhoneNum', {...params})
+  return axios.post(API_BASE_URL + '/updatePhoneNum', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -125,7 +127,7 @@ export function updatePhoneNum (params, sucFn) {
  * // 账号设置-获取厂商默认值
  */
 export function queryFactoryMsg (params, sucFn) {
-  return axios.get('/factoryManage/queryFactoryMsg', {...params})
+  return axios.get(API_BASE_URL + '/factoryManage/queryFactoryMsg', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -134,7 +136,7 @@ export function queryFactoryMsg (params, sucFn) {
  * // 账号设置-修改厂商名称
  */
 export function updateVendorName (params, sucFn) {
-  return axios.post('/factoryManage/updateFactoryName', {...params})
+  return axios.post(API_BASE_URL + '/factoryManage/updateFactoryName', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -143,7 +145,7 @@ export function updateVendorName (params, sucFn) {
  * // 账号设置-修改厂商描述
  */
 export function updateFactoryDesc (params, sucFn) {
-  return axios.post('/factoryManage/updateFactoryDesc', {...params})
+  return axios.post(API_BASE_URL + '/factoryManage/updateFactoryDesc', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -152,7 +154,7 @@ export function updateFactoryDesc (params, sucFn) {
  * // 账号设置-修改厂商合同号
  */
 export function updateFactoryNum (params, sucFn) {
-  return axios.post('/factoryManage/updateFactoryNum', {...params})
+  return axios.post(API_BASE_URL + '/factoryManage/updateFactoryNum', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -161,7 +163,7 @@ export function updateFactoryNum (params, sucFn) {
  * // 账号设置-修改厂商营业执照
  */
 export function updateFactoryContract (params, sucFn) {
-  return axios.post('/factoryManage/updateFactoryContract', params)
+  return axios.post(API_BASE_URL + '/factoryManage/updateFactoryContract', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -170,7 +172,7 @@ export function updateFactoryContract (params, sucFn) {
  * 忘记密码
  */
 export function forgetThePassword (params, sucFn) {
-  return axios.post('/forgetThePassword', {...params})
+  return axios.post(API_BASE_URL + '/forgetThePassword', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -179,7 +181,7 @@ export function forgetThePassword (params, sucFn) {
  * 忘记密码-获取短信验证码
  */
 export function SMSVerification (params, sucFn) {
-  return axios.post('/SMSVerification', params)
+  return axios.post(API_BASE_URL + '/SMSVerification', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -199,7 +201,7 @@ export function applicationteacherlist (params, url, sucFn) {
  * 人员管理- 教师编辑
  */
 export function teacherUpdate (params, sucFn) {
-  return axios.post('/manage/teacher/update', {...params})
+  return axios.post(API_BASE_URL + '/manage/teacher/update', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -208,7 +210,7 @@ export function teacherUpdate (params, sucFn) {
  * 人员管理- 教师删除
  */
 export function teacherDelete (params, sucFn) {
-  return axios.post('/manage/teacher/delete', {...params})
+  return axios.post(API_BASE_URL + '/manage/teacher/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -217,7 +219,7 @@ export function teacherDelete (params, sucFn) {
  * 人员管理- 学生编辑
  */
 export function sutdentUpdate (params, sucFn) {
-  return axios.post('/manage/student/update', {...params})
+  return axios.post(API_BASE_URL + '/manage/student/update', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -226,7 +228,7 @@ export function sutdentUpdate (params, sucFn) {
  * 人员管理- 学生删除
  */
 export function sutdentDelete (params, sucFn) {
-  return axios.post('/manage/student/delete', {...params})
+  return axios.post(API_BASE_URL + '/manage/student/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -235,7 +237,7 @@ export function sutdentDelete (params, sucFn) {
  * 人员管理-批量导入
  */
 export function batchImport (params, sucFn) {
-  return axios.post('/application/batchleadin', {...params})
+  return axios.post(API_BASE_URL + '/application/batchleadin', {...params})
     .then(function (res) {
       sucFn(res)
     })

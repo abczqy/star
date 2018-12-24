@@ -1,10 +1,10 @@
 import axios from 'axios'
-import config from '../config/index'
+// import config from '../config/index'
 import webStorage from 'webStorage'
-const {API_BASE_URL} = config
+// const {API_BASE_URL} = config
 
 Object.assign(axios.defaults, {
-  baseURL: API_BASE_URL,
+  // baseURL: API_BASE_URL,
   headers: {'X-Requested-With': 'XMLHttpRequest'},
   withCredentials: false
 })

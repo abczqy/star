@@ -1,10 +1,12 @@
 import {axios} from '../../utils'
+import config from '../../config/index'
+const {API_BASE_URL} = config
 
 /**
  * 用户登陆
  */
 export function login (params, sucFn) {
-  return axios.put('/session/login', {...params})
+  return axios.put(API_BASE_URL + '/session/login', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -14,7 +16,7 @@ export function login (params, sucFn) {
  * 获取验证码
  */
 export function getIdentifying (params, sucFn) {
-  return axios.get('/accountSecurity/sendSecurityPhoneValid/' + params)
+  return axios.get(API_BASE_URL + '/accountSecurity/sendSecurityPhoneValid/' + params)
     .then(function (res) {
       sucFn(res)
     })
@@ -24,7 +26,7 @@ export function getIdentifying (params, sucFn) {
  * 更新用户信息
  */
 export function updateUserInfo (params, sucFn) {
-  return axios.post('/control/update/' + params.type, {...params.params})
+  return axios.post(API_BASE_URL + '/control/update/' + params.type, {...params.params})
     .then(function (res) {
       sucFn(res)
     })
@@ -34,7 +36,7 @@ export function updateUserInfo (params, sucFn) {
  * 获取年级{grade}、教师职位{teacher_duty}下拉列表数据
  */
 export function getUserInfoList (params, sucFn) {
-  return axios.get('/getCodeTable/' + params.type, {})
+  return axios.get(API_BASE_URL + '/getCodeTable/' + params.type, {})
     .then(function (res) {
       sucFn(res)
     })
@@ -44,7 +46,7 @@ export function getUserInfoList (params, sucFn) {
  * 修改密码
  */
 export function modifyPassword (params, sucFn) {
-  return axios.post('/updateFirstPassword', {...params})
+  return axios.post(API_BASE_URL + '/updateFirstPassword', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -54,7 +56,7 @@ export function modifyPassword (params, sucFn) {
  * 门户首页-Banner图片
  */
 export function getPortalBannerImg (params, sucFn) {
-  return axios.get('/getPlatformBannerList')
+  return axios.get(API_BASE_URL + '/getPlatformBannerList')
     .then(function (res) {
       sucFn(res)
     })
@@ -64,7 +66,7 @@ export function getPortalBannerImg (params, sucFn) {
  * 门户首页-热门推荐
  */
 export function getRecommendApp (params, sucFn) {
-  return axios.get('/getRecommendApp')
+  return axios.get(API_BASE_URL + '/getRecommendApp')
     .then(function (res) {
       sucFn(res)
     })
@@ -74,7 +76,7 @@ export function getRecommendApp (params, sucFn) {
  * 门户首页-软件市场
  */
 export function getSoftMarketList (params, sucFn) {
-  return axios.get('/getSoftwareMarketShow')
+  return axios.get(API_BASE_URL + '/getSoftwareMarketShow')
     .then(function (res) {
       sucFn(res)
     })
@@ -84,7 +86,7 @@ export function getSoftMarketList (params, sucFn) {
  * 门户首页-教育新闻
  */
 export function getNewsNoticeList (params, sucFn) {
-  return axios.get('/getNewsNoticeList')
+  return axios.get(API_BASE_URL + '/getNewsNoticeList')
     .then(function (res) {
       sucFn(res)
     })
@@ -94,7 +96,7 @@ export function getNewsNoticeList (params, sucFn) {
  * 门户首页-信息公开
  */
 export function getPublicNoticeList (params, sucFn) {
-  return axios.get('/getPublicNoticeList')
+  return axios.get(API_BASE_URL + '/getPublicNoticeList')
     .then(function (res) {
       sucFn(res)
     })
@@ -104,7 +106,7 @@ export function getPublicNoticeList (params, sucFn) {
  * 门户首页-应用总数统计
  */
 export function getAllAppCount (params, sucFn) {
-  return axios.get('/getAllAppCount')
+  return axios.get(API_BASE_URL + '/getAllAppCount')
     .then(function (res) {
       sucFn(res)
     })

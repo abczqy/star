@@ -1,4 +1,6 @@
 import {axios} from '../../utils'
+import config from '../../config/index'
+const {API_BASE_URL} = config
 
 // +++++++++++++++++++++++++软件市场/个人中心接口+++++++++++++++++++++++++
 
@@ -6,7 +8,7 @@ import {axios} from '../../utils'
  * 软件市场/个人中心/学生应用删除
  */
 export function studentAppsDelete (params, sucFn) {
-  return axios.post('/personal/stuapps/delete', {...params})
+  return axios.post(API_BASE_URL + '/personal/stuapps/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -16,7 +18,7 @@ export function studentAppsDelete (params, sucFn) {
  * 软件市场/个人中心/我的应用-教师分享
  */
 export function teacShare (params, sucFn) {
-  return axios.post('/application/teacherrecomend', {...params})
+  return axios.post(API_BASE_URL + '/application/teacherrecomend', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -26,7 +28,7 @@ export function teacShare (params, sucFn) {
  * 软件市场/个人中心/我的应用
  */
 export function personalApps (params, sucFn) {
-  return axios.post('/personal/apps', {...params})
+  return axios.post(API_BASE_URL + '/personal/apps', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -36,7 +38,7 @@ export function personalApps (params, sucFn) {
  * 软件市场/个人中心/我的收藏
  */
 export function personalCollections (params, sucFn) {
-  return axios.post('/personal/collections', {...params})
+  return axios.post(API_BASE_URL + '/personal/collections', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -46,7 +48,7 @@ export function personalCollections (params, sucFn) {
  * 软件市场/个人中心/学生应用
  */
 export function personalStudentApp (params, sucFn) {
-  return axios.post('/personal/student/app', {...params})
+  return axios.post(API_BASE_URL + '/personal/student/app', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -56,7 +58,7 @@ export function personalStudentApp (params, sucFn) {
  * 软件市场/个人中心/我的应用删除
  */
 export function personalAppsDelete (params, sucFn) {
-  return axios.post('/personal/delete', {...params})
+  return axios.post(API_BASE_URL + '/personal/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -66,7 +68,7 @@ export function personalAppsDelete (params, sucFn) {
  * 软件市场/个人中心/我的收藏删除
  */
 export function personalCollectionsDelete (params, sucFn) {
-  return axios.post('/personal/collect/delete', {...params})
+  return axios.post(API_BASE_URL + '/personal/collect/delete', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -76,7 +78,7 @@ export function personalCollectionsDelete (params, sucFn) {
  * 软件市场/个人中心/我的收藏删除
  */
 export function appCollect (params, sucFn) {
-  return axios.post('/app/collect', {...params})
+  return axios.post(API_BASE_URL + '/app/collect', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -88,7 +90,7 @@ export function appCollect (params, sucFn) {
  * 统计分析-软件下载量变化
  */
 export function softwareDownload (params, sucFn) {
-  return axios.post('/getDownloadStatisticalAnalysisList', {...params})
+  return axios.post(API_BASE_URL + '/getDownloadStatisticalAnalysisList', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -98,7 +100,7 @@ export function softwareDownload (params, sucFn) {
  * 统计分析-应用类型占比
  */
 export function softwareType (params, sucFn) {
-  return axios.post('/getAppTypeStatisticalAnalysisList', {...params})
+  return axios.post(API_BASE_URL + '/getAppTypeStatisticalAnalysisList', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -108,7 +110,7 @@ export function softwareType (params, sucFn) {
  * 统计分析-当月应用下载型占比
  */
 export function softwareDownloadConst (params, sucFn) {
-  return axios.post('/getAppTypeMonthStatisticalAnalysisList', {...params})
+  return axios.post(API_BASE_URL + '/getAppTypeMonthStatisticalAnalysisList', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -118,7 +120,7 @@ export function softwareDownloadConst (params, sucFn) {
  * 统计分析-全部软件下拉列表
  */
 export function getAllAppCode (params, sucFn) {
-  return axios.post('/getAppStatisticalAnalysisList', {...params})
+  return axios.post(API_BASE_URL + '/getAppStatisticalAnalysisList', {...params})
     .then(function (res) {
       sucFn(res)
     })
