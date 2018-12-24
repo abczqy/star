@@ -1,7 +1,6 @@
 import getEchartsOptions from './getEchartsOptions'
 import getSearchString from './getSearchParams'
 import {axios} from './HttpClient'
-import {axiosV2} from './HttpClientV2'
 
 /**
  * 截取字符串
@@ -20,7 +19,6 @@ const processStr = (str, n) => {
 export {
   getEchartsOptions,
   axios,
-  axiosV2,
   getSearchString,
   processStr
 }

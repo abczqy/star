@@ -2,7 +2,6 @@
 const Config = {
   API_BASE_URL: 'http://fjedu.nebedu.cn/server',
   // API_BASE_URL: 'http://192.168.1.170:10301', // 王晨阳的主机
-  API_BASE_URL_V2: 'http://192.168.1.71:10101/',
   IMG_BASE_URL: 'http://fjdownload.nebedu.cn',
   BASE_TAB: 'http://localhost:8080',
   USER_COUNT: 'http://localhost:8080/static/operation-statistical/statistics/userStatistics.html', // 后台管理系统->运营统计->用户统计
