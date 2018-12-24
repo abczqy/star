@@ -1,4 +1,4 @@
-import {axios} from '../../utils'
+import {axios, axiosV2} from '../../utils'
 
 /**
  * 软件管理-运营中
@@ -14,7 +14,7 @@ export function getAppListData (params, sucFn) {
  * 软件管理-应用类型下拉框获取
  */
 export function getApptype (params, sucFn) {
-  return axios.get('/management/apptype', {...params})
+  return axiosV2.get('/edu-market/app-type', {...params})
     .then(function (res) {
       sucFn(res)
     })
