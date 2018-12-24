@@ -87,18 +87,19 @@ class HomeNewsAndInfo extends React.Component {
     let index = this.props.index || ''
     return (
       <div>
-        <Row>
+        <Row style={{lineHeight: '26px'}}>
           <Col span={1}>
             <span
               style={
                 {
                   display: 'inline-block',
                   backgroundColor: index > 3 ? '#CCCCCC' : '#70BC00',
-                  width: 15,
-                  height: 15,
-                  borderRadius: 15,
+                  width: 12,
+                  height: 12,
+                  borderRadius: 12,
                   textAlign: 'center',
-                  color: 'white',
+                  color: '#FFFFFF',
+                  fontSize: '10px',
                   lineHeight: 1,
                   margin: 'auto'
                 }
@@ -109,7 +110,8 @@ class HomeNewsAndInfo extends React.Component {
           <Col span={20}>
             <a
               onClick={() => { isNews ? this.handleNewsTitleClick(item) : this.handleInfoTitleClick(item) }}
-              style={{color: 'black',
+              style={{color: '#474747',
+                fontSize: '12px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',

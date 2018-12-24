@@ -209,14 +209,14 @@ class Home extends React.Component {
                   }
                 </HomeCard>
               </Col>
-              <Col style={{ width: '53.83%' }}>
+              <Col className='news-info-content' style={{ width: '53.83%' }}>
                 <HomeCard title='教育新闻' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(217, 229, 237, 1)' titleColor='black'>
                   {this.state.newsData && this.state.newsData.map((item, index) => {
                     return <HomeNewsAndInfo key={index} changeActiveTab={this.props.changeActiveTab} isNews infoOrNewsData={item || ''} index={index + 1} />
                   })}
                 </HomeCard>
               </Col>
-              <Col style={{ width: '22.25%' }}>
+              <Col className='news-info-content' style={{ width: '22.25%' }}>
                 <HomeCard title='资源库' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
                   <HomeSrcLibEcharts />
                 </HomeCard>

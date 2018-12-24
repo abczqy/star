@@ -82,12 +82,19 @@
   & > span {
     margin-left: 10px;
     margin-right: 5px;
+    color: $linkColor;
+    font-weight: 400;
+    font-style: normal;
+    font-size: $fontSizeH7;
+    cursor: pointer;
   }
   /* 待办的item的日期 */
 .wait-to-do-item-date {
   position: absolute;
   right: 0;
   color: $grayColor;
+  font-size: $fontSizeH7;
+  color:$perNameColor;
 }
 }
 

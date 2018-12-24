@@ -125,6 +125,12 @@
   margin-top: 10px;
   width: 100%;
   height: 100%;
+  .news-info-content{
+    a:hover{
+      color: #1890ff;
+      text-decoration: #1890ff;
+    }
+  }
   .home-title-container{
     width: 30%;
     position: absolute;

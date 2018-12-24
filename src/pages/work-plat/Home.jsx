@@ -546,12 +546,12 @@ class Home extends Component {
                     type='flex'
                     justify='center'
                   >
-                    <Col span={14}>
+                    <Col span={14} style={{fontSize: '14px', fontWeight: '650'}}>
                      学校名称
                     </Col>
                   </Row>
                   <Row>
-                    <Col span={24}>
+                    <Col span={24} style={{fontSize: '12px'}}>
                     海纳百川 有容乃大
                     </Col>
                   </Row>
@@ -567,7 +567,7 @@ class Home extends Component {
               <Row>
                 <Col span={6} offset={18}>
                   <img src={Location} className='mini-icon' />
-                  <span>福建-福州</span>
+                  <span style={{fontSize: '12px'}}>福建-福州</span>
                 </Col>
               </Row>
               {
