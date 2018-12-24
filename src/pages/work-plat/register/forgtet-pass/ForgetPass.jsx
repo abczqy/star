@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import { Input, Form, Button, message } from 'antd'
 import './ForgetPass.scss'
 import PropTypes from 'prop-types'
-import { BlankBar } from 'components/software-market'
 import {axios} from '../../../../utils'
 class ForgetPass extends Component {
   static propTypes = {
@@ -16,10 +15,9 @@ class ForgetPass extends Component {
     this.state = {
       checkpass: '最短8位，包含字母、数字或者英文符号至少两种',
       phoneCode: '', // 短信验证码
-      count: 6, // 秒数初始化为60秒
+      count: 60, // 秒数初始化为60秒
       liked: true, // 文案默认为‘获取验证码‘
       phonereg: false,
-      disabled: false,
       phoneNum: ''
 
     }
@@ -70,9 +68,6 @@ class ForgetPass extends Component {
       } else {
         let count = this.state.count
         console.log(count)
-        this.setState({
-          disabled: true
-        })
         const timer = setInterval(() => {
           this.setState({
             liked: false,
@@ -82,8 +77,7 @@ class ForgetPass extends Component {
               clearInterval(timer)
               this.setState({
                 liked: true,
-                count: 6,
-                disabled: false
+                count: 60
               })
             }
           }
@@ -174,63 +168,61 @@ class ForgetPass extends Component {
   render () {
     const {getFieldDecorator} = this.props.form
     return (
-      <div className='software-wrap'>
-        <div className='search-bar-wrap'>
-          <span className='titlefont'>找回账号密码</span>
-          <BlankBar />
+      <div className='forget-div'>
+        <div className='forget-top'>
+          <img src={require('../../../../assets/images/login-home/log_2.png')} className='img-css' />
+          <span className='font-head' >福建教育信息化公共服务平台</span>
         </div>
-        <div className='divbody'>
-          <Form onSubmit={this.saveOrSubmit}>
-            <Form.Item
-              className='Form_Item'
-              hasFeedback
-            >
-              {getFieldDecorator('maf_phone', {
-                rules: [{required: true, message: '请输入正确手机号码'}, {
-                  validator: this.validatePhone
-                }]
-              })(
-                <Input className='input' placeholder='请输入手机号' />
-              )}
-            </Form.Item>
-
-            <Form.Item
-              className='Formcode_Item'
-              hasFeedback
-            >
-              {getFieldDecorator('maf_phone_con', {
-                rules: [{required: true, message: '请输入验证码'}, {
-                  validator: this.validatePhoneCode
-                }]
-              })(
-                <Input type='text' className='code_input' placeholder='请输入验证码' />
-              ) }
-            </Form.Item>
-            <Button className='buttonfont' onClick={(e) => this.getPhoneCode(e)} disabled={this.state.disabled}>
-              {
-                this.state.liked ? <span>获取验证码</span> : <span className='count_second'>
-                  {this.state.count + 's'}
-                </span>
-              }
-            </Button>
-
-            <Form.Item
-              className='Form_Item'
-              hasFeedback
-            >
-              {getFieldDecorator('maf_pwd', {
-                rules: [{
-                  required: true, message: '请输入密码 '}, {
-                  validator: this.validateToNextPassword
-                }]
-              })(
-                <Input placeholder='请输入密码' type='password' className='input' />
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button key='save' className='rereg-btn' htmlType='submit'>确认</Button>
-            </Form.Item>
-          </Form>
+        <div className='forger-content'>
+          <div className='forger-content-title'>
+            <div className='titlefont'>找回账号密码</div>
+          </div>
+          <div className='forger-content-body'>
+            <Form onSubmit={this.saveOrSubmit}>
+              <Form.Item
+                className='Form_Item'
+              >
+                {getFieldDecorator('maf_phone', {
+                  rules: [{required: true, message: '请输入正确手机号码'}, {
+                    validator: this.validatePhone
+                  }]
+                })(
+                  <Input className='input' placeholder='请输入手机号' />
+                )}
+              </Form.Item>
+              <Form.Item
+                className='Form_Item'
+              >
+                {getFieldDecorator('maf_phone_con', {
+                  rules: [{required: true, message: '请输入验证码'}, {
+                    validator: this.validatePhoneCode
+                  }]
+                })(
+                  <Input type='text' className='code_input' placeholder='请输入验证码' />
+                ) }
+                {
+                  this.state.liked ? <a className='a-code' onClick={(e) => this.getPhoneCode(e)}>获取验证码</a> : <a className='a-code'>
+                    {this.state.count + 's后获取'}
+                  </a>
+                }
+              </Form.Item>
+              <Form.Item
+                className='Form_Item'
+              >
+                {getFieldDecorator('maf_pwd', {
+                  rules: [{
+                    required: true, message: '请输入密码 '}, {
+                    validator: this.validateToNextPassword
+                  }]
+                })(
+                  <Input placeholder='请输入密码' type='password' className='input' />
+                )}
+              </Form.Item>
+              <Form.Item className='form-foot'>
+                <Button key='save' className='rereg-btn' htmlType='submit'>立即验证</Button>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
       </div>
     )

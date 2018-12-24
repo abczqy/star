@@ -103,8 +103,7 @@ class Register extends Component {
       this.setState({
         validatePhoneFlag: false
       })
-      const res = '请输入主家长手机号'
-      callback(res)
+      callback()
     } else {
       const phonereg = /^[1][3,4,5,7,8][0-9]{9}$/
       if (!phonereg.test(value)) {
@@ -265,6 +264,8 @@ class Register extends Component {
               {getFieldDecorator('phone', {
                 rules: [ {
                   validator: this.validatePhone
+                }, {
+                  required: true, message: '请输入主家长电话'
                 }]
               })(
                 <Input placeholder='请输入主家长电话' className='input-size-small' />

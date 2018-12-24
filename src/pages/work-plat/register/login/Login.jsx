@@ -24,7 +24,7 @@ class Login extends Component {
     this.state = {
     }
   }
-  /** 提交手机号、验证码 */
+  /** 登录 */
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {

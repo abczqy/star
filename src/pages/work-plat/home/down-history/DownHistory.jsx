@@ -6,7 +6,6 @@
  */
 import React, { Component } from 'react'
 import { Table } from 'antd'
-import { BlankBar } from 'components/software-market'
 // import { IterationDetailModal } from 'pages/software-market'
 import './DownHistory.scss'
 import { iterVerify } from 'services/software-manage'
@@ -107,9 +106,9 @@ class DownHistory extends Component {
       render: (text, record, index) => {
         const id = (this.state.pageNum - 1) * this.state.pageSize + index + 1
         return (
-          <span className={id === 1 ? 'first' : 'other' && id === 2 ? 'second' : 'other' && id === 3 ? 'third' : 'other'}>
+          <div className={id === 1 ? 'first' : 'other' && id === 2 ? 'second' : 'other' && id === 3 ? 'third' : 'other'}>
             {id}
-          </span>
+          </div>
         )
       }
     }, {
@@ -172,21 +171,22 @@ class DownHistory extends Component {
   render () {
     const { tableData, pagination } = this.state
     return (
-      <div className='software-wrap'>
-        <BlankBar />
-        <Table
-          columns={this.getColumns()}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
+      <div className='down-div'>
+        <div className='div-content'>
+          <Table
+            columns={this.getColumns()}
+            dataSource={tableData.data}
+            pagination={{
+              ...pagination,
+              total: this.state.tableData.total,
+              onShowSizeChange: this.onShowSizeChange,
+              onChange: this.pageNumChange
+            }}
+            rowKey={(record, index) => {
+              return index
+            }}
+          />
+        </div>
       </div>
     )
   }
