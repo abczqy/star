@@ -8,7 +8,7 @@ import { renderRoutes } from 'react-router-config'
 import webStorage from 'webStorage'
 import { Layout, Card, Row, Col, Menu, Avatar } from 'antd'
 import classNames from 'classnames'
-import { Page, Align } from '../../../components/common'
+import { Page, Align, UploadFile } from '../../../components/common'
 import avatar from '../../../assets/images/work-plat/avatar.png'
 import './Home.scss'
 
@@ -26,6 +26,7 @@ class Home extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      avatarState: avatar, // 头像默认src
       selectKey: '1' // 菜单选中的Item的key
     }
   }
@@ -49,6 +50,11 @@ class Home extends Component {
     console.log('selectedKeys: ' + selectedKeys)
     this.setState({
       selectKey: key
+    })
+  }
+  callbackAvatar = (src) => {
+    this.setState({
+      avatarState: src
     })
   }
 
@@ -76,7 +82,7 @@ class Home extends Component {
                     <Align>
                       <Avatar
                         size={96}
-                        src={avatar}
+                        src={this.state.avatarState}
                       />
                     </Align>
                   </Col>
@@ -85,9 +91,7 @@ class Home extends Component {
                   <Col span={24}>
                     <Align>
                       <LabelBox margin='10px 0 15px 0'>
-                        <span className='label-font color-link'>
-                          更换头像
-                        </span>
+                        <UploadFile callbackAvatar={this.callbackAvatar} />
                       </LabelBox>
                     </Align>
                   </Col>

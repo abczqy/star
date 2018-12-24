@@ -11,10 +11,22 @@ import PropTypes from 'prop-types'
 import './UploadFile.scss'
 
 class UploadFile extends Component {
+  getImgUrl = (e) => {
+    // console.log('this.refs', e.target.files[0])
+    let fileAvatar = e.target.files[0]
+    // let fileAvatar = this.refs.avatar1.files[0]
+    const reader = new FileReader()
+    if (this.props.callbackAvatar) {
+      reader.addEventListener('load', () => this.props.callbackAvatar(reader.result))
+      reader.readAsDataURL(fileAvatar)
+    }
+
+    // console.log('reader.result', reader.result)
+  }
   render () {
     return (
       <div className='upload-wrap'>
-        <input type='file' />
+        <input type='file' onChange={(e) => this.getImgUrl(e)} />
         { this.props.label || <span>上传</span> }
       </div>
     )
@@ -22,7 +34,8 @@ class UploadFile extends Component {
 }
 
 UploadFile.propTypes = {
-  label: PropTypes.any // 上传按钮所显示的文字/图标或者其他组件
+  label: PropTypes.any, // 上传按钮所显示的文字/图标或者其他组件
+  callbackAvatar: PropTypes.func
 }
 
 export default UploadFile

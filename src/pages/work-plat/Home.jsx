@@ -123,7 +123,7 @@ const StatItem = (props) => (
         { props.orderNum || ''}
       </span>
     </Col>
-    <Col span={4}>
+    <Col span={4} className='order-title'>
       <span>{ props.title || '' }</span>
     </Col>
     <Col span={19}>
@@ -482,7 +482,7 @@ class Home extends Component {
             >
               <TabPane
                 key='stat-time'
-                tab='使用市场'
+                tab='使用时长'
               >
                 {
                   this.getStatListRender(mock.statList)

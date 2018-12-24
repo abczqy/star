@@ -35,12 +35,12 @@ class AppCard extends Component {
           </Col>
           <Col span={16}>
             <Row>
-              <Col span={24}>
+              <Col span={24} className='app-title'>
                 {title}
               </Col>
             </Row>
             <Row>
-              <Col span={24}>
+              <Col span={24} className='app-desc'>
                 {desc}
               </Col>
             </Row>

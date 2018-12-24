@@ -41,6 +41,24 @@
     padding-top: 5%;
   }
 
+  // 应用名称
+  .app-title{
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    color: $colorWord1;
+    font-size: $fontSizeH6;
+  }
+
+  // 应用描述
+  .app-desc{
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    color: $perNameColor;
+    font-size: $fontSizeH2;
+  }
+
   /* 按钮中的文字 */
   .btn-text-wrap {
     font-family: $fontFamily;
