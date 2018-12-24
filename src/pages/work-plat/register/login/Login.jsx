@@ -11,8 +11,11 @@ import {
   Row, Col,
   message
 } from 'antd'
+import webStorage from 'webStorage'
+import {clearCookie, setCookie} from 'utils/cookie'
 import PropTypes from 'prop-types'
 import './Login.scss'
+import {login, loginNew} from '../../../../services/portal'
 const FormItem = Form.Item
 const {
   Footer, Content
@@ -29,13 +32,49 @@ class Login extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('校验账户密码')
-        /** 成功后执行 */
-        message.success('登录成功')
-        this.props.history.push({
-          pathname: '/operate-manage-home/home'
+        const identifier = this.props.form.getFieldValue('username')
+        const password = this.props.form.getFieldValue('password')
+        loginNew({
+          'authType': 0,
+          'identifier': identifier,
+          'password': password,
+          'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
+          'extraInfo': ''
+        }, (response) => {
+          let data1 = response.data
+          if (data1.code === 200) {
+            /** ticket */
+            webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
+            login({ /** 历史登录接口 */
+              userName: identifier || '',
+              userPassword: password || ''
+            }, (response) => {
+              let data2 = response.data
+              // 如果登陆成功
+              if (data2.success) {
+                /** 成功后执行 */
+                message.success('登录成功')
+                /** 历史所需数据 */
+                webStorage.setItem('STAR_WEB_SESSION_ID', data2.sessionId)
+                webStorage.setItem('STAR_WEB_ROLE_CODE', data2.roleCode)
+                webStorage.setItem('STAR_WEB_PERSON_INFO', data2.personInfo)
+                webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+                clearCookie()
+                setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 0)
+                /** 跳转至首页 */
+                this.props.history.push({
+                  pathname: '/operate-manage-home/home'
+                })
+              } else {
+                /** 登录失败 */
+                message.error('登录失败')
+              }
+            })
+          } else {
+            /** 登录失败 */
+            message.error('登录失败')
+          }
         })
-        /** 成功后执行 */
       }
     })
   }

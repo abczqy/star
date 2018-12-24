@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_AUTHENTICATION} = config
 
 /**
  * 用户登陆
@@ -12,6 +12,15 @@ export function login (params, sucFn) {
     })
 }
 
+/**
+ * 用户登陆(新)
+ */
+export function loginNew (params, sucFn) {
+  return axios.post(API_BASE_URL_AUTHENTICATION + '/authentication', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 获取验证码
  */
