@@ -190,12 +190,9 @@ export function SMSVerification (params, sucFn) {
  * 忘记密码-校验短信验证码
  */
 export function Verificationv2 (params, sucFn) {
-  console.log('params ' + params.phone)
-  console.log('params ' + params.valid)
   console.log('API_BASE_URL_V3 ' + API_BASE_URL_V3 + '/portal/account-security/' + params.phone + '/' + params.valid)
   return axios.get(API_BASE_URL_V3 + '/portal/accountSecurity/' + params.phone + '/' + params.valid)
     .then(function (res) {
-      console.log(res)
       sucFn(res)
     })
 }
@@ -214,7 +211,6 @@ export function updataPasswordv2 (params, sucFn) {
 export function SMSVerificationv2 (params, sucFn) {
   return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/accountSecurity/sendSecurityPhoneValid/' + params.phone)
     .then(function (res) {
-      console.log(res)
       sucFn(res)
     })
 }
