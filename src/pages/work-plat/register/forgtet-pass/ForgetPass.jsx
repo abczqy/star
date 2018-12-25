@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { Input, Form, Button, message } from 'antd'
 import './ForgetPass.scss'
 import PropTypes from 'prop-types'
+import { SMSVerificationv2, Verificationv2, updataPasswordv2 } from '../../../../services/topbar-mation'
 import {axios} from '../../../../utils'
 class ForgetPass extends Component {
   static propTypes = {
@@ -15,10 +16,11 @@ class ForgetPass extends Component {
     this.state = {
       checkpass: '最短8位，包含字母、数字或者英文符号至少两种',
       phoneCode: '', // 短信验证码
-      count: 60, // 秒数初始化为60秒
+      count: 6, // 秒数初始化为60秒
       liked: true, // 文案默认为‘获取验证码‘
       phonereg: false,
-      phoneNum: ''
+      phoneNum: '',
+      falg: true
 
     }
   }
@@ -29,28 +31,30 @@ class ForgetPass extends Component {
       if (!err) {
         console.log('Received values of form: ', values)
         /** 比对验证码 */
-        axios.get('/accountSecurity/ ')
-          .then(function (res) {
-            console.log(res)
-          })
-        /** 获取验证码比对 */
-        if (values.maf_phone_con === '123456') {
-          // 修改代码
-          const params = {
-            password: values.maf_pwd,
-            phone: values.maf_phone
-          }
-          console.log(params)
-          axios.post('/accountSecurity ', params, (response) => {
-            this.setState({
-              registerVisible: true,
-              accountSucc: response.data.maf_id
+        Verificationv2({
+          phone: values.maf_phone,
+          valid: values.maf_phone_con
+        }, (response) => {
+          console.log(response.data.code)
+          if (response.status === 200) {
+          // if (this.state.falg) {
+            updataPasswordv2({
+              phone: values.maf_phone,
+              password: values.maf_pwd
+            }, (response) => {
+              console.log(response.data.code)
+              if (response.data.code === 200) {
+                console.log(response.data.code)
+                message.success('修改成功')
+              } else {
+                message.success('修改失败')
+              }
             })
-          })
-          message.success('修改成功')
-        } else {
-          message.success('验证码错误')
-        }
+            message.success('校验成功')
+          } else {
+            message.success('校验失败')
+          }
+        })
       }
     })
   }
@@ -77,7 +81,7 @@ class ForgetPass extends Component {
               clearInterval(timer)
               this.setState({
                 liked: true,
-                count: 60
+                count: 6
               })
             }
           }
@@ -87,13 +91,17 @@ class ForgetPass extends Component {
       // 发送验证码，成功后
       if (this.state.phonereg) {
         console.log('phoneNum' + this.state.phoneNum)
-        // eslint-disable-next-line no-undef
-        axios.get('/accountSecurity/sendSecurityPhoneValid/' + this.state.phoneNum)
-          .then(function (res) {
-            console.log(res)
-          })
+        // 获取验证码
+        SMSVerificationv2({
+          phone: this.state.phoneNum
+        }, (response) => {
+          if (response.status === 200) {
+            message.success('已发送验证码')
+          } else {
+            message.success('发送验证码')
+          }
+        })
       }
-      console.log(e)
     }
   }
   // 获取验证码接口
@@ -147,6 +155,7 @@ class ForgetPass extends Component {
       callback()
     }
   }
+
   // 验证码校验
   validatePhoneCode = (rule, value, callback) => {
     const form = this.props.form

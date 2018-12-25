@@ -193,7 +193,7 @@ export function Verificationv2 (params, sucFn) {
   console.log('params ' + params.phone)
   console.log('params ' + params.valid)
   console.log('API_BASE_URL_V3 ' + API_BASE_URL_V3 + '/portal/account-security/' + params.phone + '/' + params.valid)
-  return axios.get(API_BASE_URL_V3 + '/portal/account-security/' + params.phone + '/' + params.valid)
+  return axios.get(API_BASE_URL_V3 + '/portal/accountSecurity/' + params.phone + '/' + params.valid)
     .then(function (res) {
       console.log(res)
       sucFn(res)
@@ -203,10 +203,7 @@ export function Verificationv2 (params, sucFn) {
  * 忘记密码-修改密码
  */
 export function updataPasswordv2 (params, sucFn) {
-  console.log('params.phone ' + params.phone)
-  console.log('params.password ' + params.password)
-  console.log('API_BASE_URL_V3 ' + API_BASE_URL_V2)
-  return axios.post(API_BASE_URL_V2 + '/portal/account-security/', {...params})
+  return axios.post(API_BASE_URL_V2 + '/portal/accountSecurity/', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -215,8 +212,7 @@ export function updataPasswordv2 (params, sucFn) {
  * 忘记密码-获取短信验证码
  */
 export function SMSVerificationv2 (params, sucFn) {
-  var instance = axios.create({ headers: {'content-type': 'application/x-www-form-urlencoded'} })
-  return instance.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/account-security/send-security-phone-valid/' + params.phone)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/accountSecurity/sendSecurityPhoneValid/' + params.phone)
     .then(function (res) {
       console.log(res)
       sucFn(res)
