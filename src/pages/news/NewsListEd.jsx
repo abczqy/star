@@ -153,8 +153,8 @@ class News extends React.Component {
     return <div style={{width: '90%', marginLeft: '12%', minHeight: this.state.viewHeight}}>
       <Row>
         <Col span={5} style={{width: '18%'}}>
-          <Row><div className='left-downer' >
-            <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '95%', height: '120px'}} alt='' /></div></Row>
+          {/* <Row><div className='left-downer' >
+            <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '95%', height: '120px'}} alt='' /></div></Row> */}
           <Row><div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
               <ul className='ul-margin super2'>
@@ -164,7 +164,7 @@ class News extends React.Component {
               </ul>
             </Card></div>
           </Row>
-          <Row><img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+          {/* <Row><img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row> */}
         </Col>
         <Col span={15} style={{width: '68%', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px'}}>

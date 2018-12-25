@@ -16,8 +16,7 @@ const pagination = {
   pageNum: 1,
   pageSize: 10,
   showQuickJumper: true,
-  showSizeChanger: true,
-  text: '' // 用来赋空翻页后的search框--需要这样吗
+  showSizeChanger: true
 }
 
 class SWMaker extends Component {
@@ -57,7 +56,7 @@ class SWMaker extends Component {
       title: '图片',
       dataIndex: 'APP_ICON',
       key: 'APP_ICON',
-      render: (text) => <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} />
+      render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} /> : '无'
     }, {
       title: '选择',
       dataIndex: 'SW_MARKET_SHOW',
@@ -168,23 +167,22 @@ class SWMaker extends Component {
         ...this.state.pagination,
         pageNum: current,
         pageSize: size
-      },
-      inputValue: this.state.pagination.text
+      }
     }, () => {
-
+      this.getList()
     })
   }
   /**
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
+    console.log()
     this.setState({
       pagination: {
         ...this.state.pagination,
         pageNum: page
-      },
-      searchValue: this.state.pagination.text
-    })
+      }
+    }, () => this.getList())
   }
   // 获取数据列表
   getList = () => {
@@ -225,9 +223,10 @@ class SWMaker extends Component {
      const thiz = this
      // 获取对应的后台数据
      const params = {
-       sw_id: record.SW_ID
+       appId: record.appId
      }
      getSoftwareDetail(params, (res) => {
+       console.log(res)
        const resData = res.data ? res.data : {}
        // 通过state将数据res传给子组件
        thiz.setState({
