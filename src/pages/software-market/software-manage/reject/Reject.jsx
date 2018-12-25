@@ -69,7 +69,7 @@ class Reject extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data.type
+      const data = res.data.type || []
       data.push('全部')
       thiz.setState({
         options: data

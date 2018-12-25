@@ -6,6 +6,8 @@ import { Tabs, Badge } from 'antd'
 import MyAppOperationTable from './MyAppOperationTable'
 import MyAppExamineTable from './MyAppExamineTable'
 import MyAppIterationTable from './MyAppIterationTable'
+import Reject from '../software-market/software-manage/reject/Reject'
+import Remove from '../software-market/software-manage/remove/Remove'
 // import './MarketAnalysis.scss'
 
 // const TabPane = Tabs.TabPane
@@ -70,6 +72,12 @@ class MyApp extends Component {
           </Tabs.TabPane>
           <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news3 || 0)}>迭代审核</Badge>} key='grade' >
             <MyAppIterationTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news4 || 0)}>未通过审核</Badge>} key='reject' >
+            <Reject {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news5 || 0)}>应用下架</Badge>} key='remove' >
+            <Remove {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} />
           </Tabs.TabPane>
         </Tabs>
       </div>
