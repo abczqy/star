@@ -12,6 +12,7 @@ import {
 import './Register.scss'
 import PropTypes from 'prop-types'
 import {setCookie, getCookie} from '../../../../utils/cookie'
+import {SMSVerificationv2, registerParent} from '../../../../services/topbar-mation'
 const FormItem = Form.Item
 
 class Register extends Component {
@@ -33,12 +34,15 @@ class Register extends Component {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
-        /** 注册成功 */
+        const param = this.props.form.getFieldsValue()
+        registerParent(param, (response) => {
+          console.log(response)
+        })
+        /** 注册成功
         message.success('注册成功')
         this.props.history.push({
           pathname: '/operate-manage-home/work-plat/login'
-        })
+        }) */
       }
     })
   }
@@ -46,18 +50,17 @@ class Register extends Component {
   getCode = () => {
     if (this.state.captchaBtnText === '获取邀请码') {
       if (this.state.validatePhoneFlag) {
-        console.log('获取验证码中')
-        setCookie('secondsremained', 60, 60)
-        this.settime()
-        /** getIdentifying(this.props.form.getFieldValue('phone'), (res) => {
-          const data = res.data
-          console.log(data)
-          if (data.code === '200') {
+        SMSVerificationv2({
+          'phone': this.props.form.getFieldValue('phone')
+        }, (response) => {
+          if (response.status === 200) {
             message.success('获取验证码成功')
+            setCookie('secondsremained', 60, 60)
+            this.settime()
           } else {
             message.error('获取验证码失败')
           }
-        }) */
+        })
       } else {
         this.props.form.validateFields(['phone'])
       }
@@ -183,7 +186,7 @@ class Register extends Component {
               className='mar-top-3 err-css-in'
               hasFeedback
             >
-              {getFieldDecorator('email', {
+              {getFieldDecorator('account', {
                 rules: [{
                   type: 'email', message: '请输入有效的邮箱地址'
                 }, {
@@ -225,7 +228,7 @@ class Register extends Component {
               {...formItemLayout}
               label='家长姓名'
             >
-              {getFieldDecorator('name')(
+              {getFieldDecorator('parentName')(
                 <Input placeholder='请输入姓名' className='input-size' />
               )}
             </FormItem>
@@ -235,7 +238,7 @@ class Register extends Component {
               className='err-css-in'
               hasFeedback
             >
-              {getFieldDecorator('idcard', {
+              {getFieldDecorator('parentNum', {
                 rules: [{ required: true, message: '请输入家长身份证号' }, {
                   validator: this.validateCard
                 }]
@@ -249,7 +252,7 @@ class Register extends Component {
               className='err-css-in'
               hasFeedback
             >
-              {getFieldDecorator('stuname', {
+              {getFieldDecorator('studentAccount', {
                 rules: [{ required: true, message: '请输入学生账号' }]
               })(
                 <Input placeholder='请输入学生账号' className='input-size' />
@@ -278,7 +281,7 @@ class Register extends Component {
               className='err-css-in'
               hasFeedback
             >
-              {getFieldDecorator('code', {
+              {getFieldDecorator('valid', {
                 rules: [{ required: true, message: '请输入主家长邀请码' }]
               })(
                 <Input placeholder='请输入主家长邀请码' className='input-size' />

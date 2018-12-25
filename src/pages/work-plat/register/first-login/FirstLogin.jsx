@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import PropTypes from 'prop-types'
 import './FirstLogin.scss'
-// import { getIdentifying } from 'services/portal'
+import {SMSVerificationv2, Verificationv2, updataPasswordv2} from '../../../../services/topbar-mation'
 import {setCookie, getCookie} from '../../../../utils/cookie'
 const FormItem = Form.Item
 const {
@@ -27,7 +27,8 @@ class FirstLogin extends Component {
       captchaBtnText: '获取验证码',
       visible: false,
       confirmDirty: false,
-      validatePhoneFlag: false
+      validatePhoneFlag: false,
+      validateCodeFlag: true
     }
   }
   componentDidMount () {
@@ -38,27 +39,29 @@ class FirstLogin extends Component {
   }
   /** 获取验证码 */
   getCode = () => {
-    if (this.state.captchaBtnText === '获取验证码') {
+    if (this.state.captchaBtnText === '获取验证码' && this.state.validateCodeFlag) {
       if (this.state.validatePhoneFlag) {
-        console.log('获取验证码中')
+        this.setState({
+          validateCodeFlag: false
+        })
         setCookie('secondsremained', 60, 60)
         this.settime()
-        /** getIdentifying(this.props.form.getFieldValue('phone'), (res) => {
-          const data = res.data
-          console.log(data)
-          if (data.code === '200') {
+        SMSVerificationv2({
+          'phone': this.props.form.getFieldValue('phone')
+        }, (response) => {
+          if (response.status === 200) {
             message.success('获取验证码成功')
           } else {
             message.error('获取验证码失败')
           }
-        }) */
+        })
       } else {
         this.props.form.validateFields(['phone'])
       }
     }
   }
   /** 验证码倒计时 */
-  settime = () => {
+  settime = (callback) => {
     let countdown = 60
     // @ts-ignore
     countdown = getCookie('secondsremained')
@@ -66,15 +69,18 @@ class FirstLogin extends Component {
       if (countdown <= 0) {
         clearInterval(timer)
         this.setState({
-          captchaBtnText: '获取验证码'
+          captchaBtnText: '获取验证码',
+          validateCodeFlag: true
         })
       } else {
         this.setState({
-          captchaBtnText: `获取验证码(${countdown}s)`
+          captchaBtnText: `获取验证码(${countdown}s)`,
+          validateCodeFlag: false
         })
         countdown--
       }
       setCookie('secondsremained', countdown, countdown + 1)
+      callback && callback()
     }, 1000)
   }
   /** 提交手机号、验证码 */
@@ -82,11 +88,17 @@ class FirstLogin extends Component {
     e.preventDefault()
     this.props.form.validateFields(['phone', 'code'], (err, values) => {
       if (!err) {
-        console.log('校验手机号与验证码')
-        /** 成功后执行 */
-        message.success('操作成功')
-        this.showModal()
-        /** 成功后执行 */
+        Verificationv2({
+          'phone': this.props.form.getFieldValue('phone'),
+          'valid': this.props.form.getFieldValue('code')
+        }, (response) => {
+          if (response.status === 200) {
+            message.success('验证成功')
+            this.showModal()
+          } else {
+            message.error('验证失败')
+          }
+        })
       }
     })
   }
@@ -95,14 +107,20 @@ class FirstLogin extends Component {
     e.preventDefault()
     this.props.form.validateFields(['password', 'confirm'], (err, values) => {
       if (!err) {
-        console.log('后台执行修改密码')
-        /** 成功后执行 */
-        this.handleOk()
-        message.success('修改成功')
-        this.props.history.push({
-          pathname: '/operate-manage-home/work-plat/login'
+        updataPasswordv2({
+          'phone': this.props.form.getFieldValue('phone'),
+          'password': this.props.form.getFieldValue('password')
+        }, (response) => {
+          if (response.data.code === 200) {
+            message.success('修改成功')
+            this.handleOk()
+            this.props.history.push({
+              pathname: '/operate-manage-home/work-plat/login'
+            })
+          } else {
+            message.error('修改失败')
+          }
         })
-        /** 成功后执行 */
       }
     })
   }
