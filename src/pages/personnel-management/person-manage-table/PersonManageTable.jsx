@@ -9,6 +9,8 @@ import _ from 'lodash'
 import { Table, Modal, Input, Form, Button, DatePicker, message, Popconfirm } from 'antd'
 import './PersonManageTable.scss'
 import {applicationteacherlist, teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from '../../../services/topbar-mation'
+import config from '../../../config/index'
+const {API_BASE_URL} = config
 const FormItem = Form.Item
 const teacherColumns = {
   th_name: '教师姓名',
@@ -167,7 +169,7 @@ class PersonManageTable extends Component {
 
   // 获取人员列表数据
   getPeopleDatas = (params, role) => {
-    let url = role === 'teacher' ? '/application/teacherlist' : '/application/studentlist'
+    let url = role === 'teacher' ? API_BASE_URL + '/application/teacherlist' : API_BASE_URL + '/application/studentlist'
     // console.log(reqUrl)
     applicationteacherlist({
       pageNum: params.pageNum,

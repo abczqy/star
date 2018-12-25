@@ -17,6 +17,7 @@ const Option = Select.Option
 class SearchBar extends Component {
   render () {
     const { onSearch, onSeachChange, onBtnClick, onSelectChange, options } = this.props
+    console.log(options)
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
@@ -28,10 +29,14 @@ class SearchBar extends Component {
               onChange={onSelectChange}
             >
               {options.map((item, index) => {
-                if (item === '全部') {
-                  return <Option key={index} value={''}>{item}</Option>
+                if (typeof (item) === 'string') {
+                  if (item === '全部') {
+                    return <Option key={index} value={''}>{item}</Option>
+                  } else {
+                    return <Option key={index} value={item}>{item}</Option>
+                  }
                 } else {
-                  return <Option key={index} value={item}>{item}</Option>
+                  return <Option key={index} value={item.APP_TYPE_ID}>{item.APP_TYPE_NAME}</Option>
                 }
               })}
             </Select>
