@@ -47,7 +47,7 @@ class BannerNewBox extends Component {
               <Col span={19}>
                 <Upload {...datas} disabled={disabled} >
                   <Button>
-                    <Icon type='upload' /> 上传文件
+                    <Icon type='upload' /> 上传图片
                   </Button>
                   <div className='marks-font-type'>支持扩展名：.png .jpg...  （图片尺寸：1425*450）</div>
                 </Upload>

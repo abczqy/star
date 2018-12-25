@@ -13,7 +13,7 @@ import './NewsList.scss'
 import _ul from '../../assets/images/_ul.png'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import {information} from 'services/software-manage'
 // import _ from 'lodash'
 import { withRouter } from 'react-router'
@@ -65,7 +65,7 @@ class Information extends React.Component {
     let value = {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10,
-      info_class: ''
+      type: 0
     }
     console.log('教育局的信息公开列表获取数据传的参数', value)
     information(value, (response) => {
@@ -80,7 +80,7 @@ class Information extends React.Component {
     let values = {
       pageNum: 1,
       pageSize: 100,
-      info_class: ''
+      type: 2
     }
     information(values, (response) => {
       this.setState({
@@ -195,7 +195,7 @@ class Information extends React.Component {
                </ul>
              </Card></div>
            </Row>
-           <Row><img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+           {/* <Row><img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row> */}
          </Col>
          <Col span={16} style={{width: '68%'}}>
            <ul className='ul-top' style={{width: '100%', marginTop: '10px', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>

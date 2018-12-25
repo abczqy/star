@@ -51,7 +51,7 @@ class News extends React.Component {
     let values = {
       pageNum: 1,
       pageSize: 100,
-      info_class: ''
+      type: 2
     }
     information(values, (response) => {
       this.setState({
@@ -161,8 +161,8 @@ class News extends React.Component {
     }
   }
   render () {
-    const topImg = '/image/infot.png'
-    const bottomImg = '/image/infob.png'
+    // const topImg = '/image/infot.png'
+    // const bottomImg = '/image/infob.png'
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container'>
@@ -229,9 +229,9 @@ class News extends React.Component {
           </ul>
         </div>
         <div id='left-container'>
-          <div className='top-img' >
+          {/* <div className='top-img' >
             <img src={ajaxUrl.IMG_BASE_URL + topImg} style={{width: '98%', height: '120px'}} alt='' />
-          </div>
+          </div> */}
           <div className='center-public-info' id='ulul'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super1'>
@@ -241,9 +241,9 @@ class News extends React.Component {
               </ul>
             </Card>
           </div>
-          <div className='bottom-img'>
+          {/* <div className='bottom-img'>
             <img src={ajaxUrl.IMG_BASE_URL + bottomImg} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
-          </div>
+          </div> */}
         </div>
       </div>
     )

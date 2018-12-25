@@ -742,7 +742,7 @@ export function newsListDet (params, sucFn) {
  * 信息公开列表
  */
 export function information (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', params)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -841,7 +841,7 @@ export function addPlatformBanner (params, sucFn) {
  * 重点推介、软件市场、热门推介详情页
  */
 export function getSoftwareDetail (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getSoftwareDetail', params)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/manage-app/detail-by-id', {params: params})
     .then(function (res) {
       sucFn(res)
     })

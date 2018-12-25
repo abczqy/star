@@ -57,7 +57,7 @@ class KeyPush extends Component {
       title: '图片',
       dataIndex: 'APP_ICON',
       key: 'APP_ICON',
-      render: (text) => <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} />
+      render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} /> : '无'
     }, {
       title: '选择',
       dataIndex: 'sw_key_push',
