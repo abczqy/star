@@ -44,7 +44,12 @@ class Login extends Component {
           let data1 = response.data
           if (data1.code === 200) {
             /** ticket */
-            webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
+            if (data1.data.ticket) {
+              const arr = data1.data.ticket.split('.')
+              if (arr.length > 1) {
+                webStorage.setItem('STAR_V2_TICKET', JSON.parse(window.atob(arr[1])).userId ? JSON.parse(window.atob(arr[1])).userId : null)
+              }
+            }
             login({ /** 历史登录接口 */
               userName: identifier || '',
               userPassword: password || ''
