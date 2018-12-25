@@ -24,6 +24,8 @@ module.exports = {
     alias: {
       src: resolve("src"),
       assets: resolve("src/assets"),
+      utils: resolve("src/utils"),
+      config: resolve("src/config"),
       components: resolve("src/components"),
       routes: resolve("src/routes"),
       views: resolve("src/views"),
