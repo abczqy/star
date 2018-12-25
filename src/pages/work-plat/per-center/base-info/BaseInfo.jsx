@@ -20,7 +20,10 @@ class BaseInfo extends Component {
       changeFirmDescribe: false, // 厂商描述
       changeFirmContract: false, // 厂商合同号
       changeFirmLicense: false, // 营业执照
-      lookFirmLicense: false // 查看营业执照
+      lookFirmLicense: false, // 查看营业执照
+      changeName: false,
+      changeMobile: false,
+      changeMail: false
     }
   }
   hiddenModal = (type) => {
@@ -89,6 +92,12 @@ class BaseInfo extends Component {
       default:
         break
     }
+  }
+
+  changeState = (key) => {
+    this.setState({
+      [key]: !this.state[key]
+    })
   }
 
   render () {
@@ -175,10 +184,14 @@ class BaseInfo extends Component {
                   <span>{this.showName(per)}:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                  张立冬
+                  {
+                    this.state.changeName
+                      ? <Input defaultValue={'张立冬'} />
+                      : '张立冬'
+                  }
                 </Col>
                 <Col className='base-info-content-change'>
-                  <Button className='base-info-content-btn'>修改</Button>
+                  <Button className='base-info-content-btn' onClick={() => this.changeState('changeName')}>{this.state.changeName ? '保存' : '修改'}</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -186,13 +199,19 @@ class BaseInfo extends Component {
                   <span>{this.showMobileName(per)}:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                  <span className='info-tips'>您验证的手机:</span>
-                  <span>180****9090</span>
-                  <span className='info-tips'>若已丢失或停用，请立即更换,</span>
-                  <span className='info-warn'>避免账户被盗</span>
+                  {
+                    this.state.changeMobile
+                      ? <Input defaultValue={18034569090} />
+                      : <div>
+                        <span className='info-tips'>您验证的手机:</span>
+                        <span>180****9090</span>
+                        <span className='info-tips'>若已丢失或停用，请立即更换,</span>
+                        <span className='info-warn'>避免账户被盗</span>
+                      </div>
+                  }
                 </Col>
                 <Col className='base-info-content-change'>
-                  <Button className='base-info-content-btn'>修改</Button>
+                  <Button className='base-info-content-btn' onClick={() => this.changeState('changeMobile')}>{this.state.changeMobile ? '保存' : '修改'}</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -200,13 +219,19 @@ class BaseInfo extends Component {
                   <span>邮箱验证:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                  <span className='info-tips'>您验证的邮箱:</span>
-                  <span>18901102890@163.com</span>
-                  <span className='info-tips'>若已丢失或停用，请立即更换,</span>
-                  <span className='info-warn'>避免账户被盗</span>
+                  {
+                    this.state.changeMail
+                      ? <Input defaultValue={'18901102890@163.com'} />
+                      : <div>
+                        <span className='info-tips'>您验证的邮箱:</span>
+                        <span>18901102890@163.com</span>
+                        <span className='info-tips'>若已丢失或停用，请立即更换,</span>
+                        <span className='info-warn'>避免账户被盗</span>
+                      </div>
+                  }
                 </Col>
                 <Col className='base-info-content-change'>
-                  <Button className='base-info-content-btn'>修改</Button>
+                  <Button className='base-info-content-btn' onClick={() => this.changeState('changeMail')}>{this.state.changeMail ? '保存' : '修改'}</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row base-bottom'>
