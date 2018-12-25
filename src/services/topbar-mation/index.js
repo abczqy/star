@@ -3,7 +3,7 @@
  */
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL, API_BASE_URL_V2, API_BASE_URL_V3, SERVICE_PORTAL} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL} = config
 /**
  * 校验邮箱是否被占用
  */
@@ -190,8 +190,7 @@ export function SMSVerification (params, sucFn) {
  * 忘记密码-校验短信验证码
  */
 export function Verificationv2 (params, sucFn) {
-  console.log('API_BASE_URL_V3 ' + API_BASE_URL_V3 + '/portal/account-security/' + params.phone + '/' + params.valid)
-  return axios.get(API_BASE_URL_V3 + '/portal/accountSecurity/' + params.phone + '/' + params.valid)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/accountSecurity/' + params.phone + '/' + params.valid)
     .then(function (res) {
       sucFn(res)
     })
@@ -200,7 +199,7 @@ export function Verificationv2 (params, sucFn) {
  * 忘记密码-修改密码
  */
 export function updataPasswordv2 (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + '/portal/accountSecurity/', {...params})
+  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/accountSecurity/', {...params})
     .then(function (res) {
       sucFn(res)
     })
