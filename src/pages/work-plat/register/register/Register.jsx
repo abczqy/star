@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react'
 import {
+  Select,
   Form,
   Input,
   Button,
@@ -14,12 +15,17 @@ import PropTypes from 'prop-types'
 import {setCookie, getCookie} from '../../../../utils/cookie'
 import {SMSVerificationv2, registerParent} from '../../../../services/topbar-mation'
 const FormItem = Form.Item
+const Option = Select.Option
 
 class Register extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      parentCodeText: '获取验证码',
       captchaBtnText: '获取邀请码',
+      validateCodeFlag: true,
+      validateParentCodeFlag: true,
+      validateParentPhoneFlag: false,
       validatePhoneFlag: false
     }
   }
@@ -27,6 +33,10 @@ class Register extends Component {
     const countdown = getCookie('secondsremained') ? getCookie('secondsremained') : 0 // 获取cookie值
     if (countdown !== undefined && countdown > 0) {
       this.settime()// 开始倒计时
+    }
+    const countdownss = getCookie('secondsremainedss') ? getCookie('secondsremainedss') : 0 // 获取cookie值
+    if (countdownss !== undefined && countdownss > 0) {
+      this.settimess()// 开始倒计时
     }
   }
   /** 提交表单 */
@@ -36,7 +46,14 @@ class Register extends Component {
       if (!err) {
         const param = this.props.form.getFieldsValue()
         registerParent(param, (response) => {
-          console.log(response)
+          if (response.data.code === 200) {
+            message.success('注册成功')
+            this.props.history.push({
+              pathname: '/operate-manage-home/work-plat/login'
+            })
+          } else {
+            message.error(response.data.msg)
+          }
         })
         /** 注册成功
         message.success('注册成功')
@@ -46,27 +63,30 @@ class Register extends Component {
       }
     })
   }
-  /** 获取验证码 */
+  /** 获取邀请码 */
   getCode = () => {
-    if (this.state.captchaBtnText === '获取邀请码') {
+    if (this.state.captchaBtnText === '获取邀请码' && this.state.validateCodeFlag) {
       if (this.state.validatePhoneFlag) {
+        this.setState({
+          validateCodeFlag: false
+        })
+        setCookie('secondsremained', 60, 60)
+        this.settime()
         SMSVerificationv2({
-          'phone': this.props.form.getFieldValue('phone')
+          'phone': this.props.form.getFieldValue('mainParentPhone')
         }, (response) => {
           if (response.status === 200) {
-            message.success('获取验证码成功')
-            setCookie('secondsremained', 60, 60)
-            this.settime()
+            message.success('获取邀请码成功')
           } else {
-            message.error('获取验证码失败')
+            message.error('获取邀请码失败')
           }
         })
       } else {
-        this.props.form.validateFields(['phone'])
+        this.props.form.validateFields(['mainParentPhone'])
       }
     }
   }
-  /** 验证码倒计时 */
+  /** 邀请码倒计时 */
   settime = () => {
     let countdown = 60
     // @ts-ignore
@@ -75,15 +95,62 @@ class Register extends Component {
       if (countdown <= 0) {
         clearInterval(timer)
         this.setState({
-          captchaBtnText: '获取邀请码'
+          captchaBtnText: '获取邀请码',
+          validateCodeFlag: true
         })
       } else {
         this.setState({
-          captchaBtnText: `(${countdown}s)后获取`
+          captchaBtnText: `(${countdown}s)后获取`,
+          validateCodeFlag: false
         })
         countdown--
       }
       setCookie('secondsremained', countdown, countdown + 1)
+    }, 1000)
+  }
+  /** 获取验证码 */
+  getParentCode = () => {
+    if (this.state.parentCodeText === '获取验证码' && this.state.validateParentCodeFlag) {
+      if (this.state.validateParentPhoneFlag) {
+        this.setState({
+          validateParentCodeFlag: false
+        })
+        setCookie('secondsremainedss', 60, 60)
+        this.settimess()
+        SMSVerificationv2({
+          'phone': this.props.form.getFieldValue('parentPhone')
+        }, (response) => {
+          if (response.status === 200) {
+            message.success('获取验证码成功')
+          } else {
+            message.error('获取验证码失败')
+          }
+        })
+      } else {
+        this.props.form.validateFields(['parentPhone'])
+      }
+    }
+  }
+  /** 验证码倒计时 */
+  settimess = () => {
+    let countdown = 60
+    // @ts-ignore
+    countdown = getCookie('secondsremainedss')
+    const timer = setInterval(() => {
+      if (countdown <= 0) {
+        clearInterval(timer)
+        this.setState({
+          parentCodeText: '获取验证码',
+          validateParentCodeFlag: true
+        })
+      } else {
+        this.setState({
+          parentCodeText: `(${countdown}s)后获取`,
+          validateParentCodeFlag: false
+        })
+        countdown--
+      }
+      setCookie('secondsremainedss', countdown, countdown + 1)
     }, 1000)
   }
   /** 校验身份证 */
@@ -118,6 +185,28 @@ class Register extends Component {
       } else {
         this.setState({
           validatePhoneFlag: true
+        })
+        callback()
+      }
+    }
+  }
+  validateParentPhone = (rule, value, callback) => {
+    if (!value) {
+      this.setState({
+        validateParentPhoneFlag: false
+      })
+      callback()
+    } else {
+      const phonereg = /^[1][3,4,5,7,8][0-9]{9}$/
+      if (!phonereg.test(value)) {
+        this.setState({
+          validateParentPhoneFlag: false
+        })
+        const res = '手机号格式不正确'
+        callback(res)
+      } else {
+        this.setState({
+          validateParentPhoneFlag: true
         })
         callback()
       }
@@ -234,6 +323,35 @@ class Register extends Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
+              label='电话'
+              className='err-css-small-in'
+              hasFeedback
+            >
+              {getFieldDecorator('parentPhone', {
+                rules: [ {
+                  validator: this.validateParentPhone
+                }, {
+                  required: true, message: '请输入电话'
+                }]
+              })(
+                <Input placeholder='请输入电话' className='input-size-small' />
+              )}
+              <Button className='get-btn' onClick={this.getParentCode}>{this.state.parentCodeText}</Button>
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label='验证码'
+              className='err-css-in'
+              hasFeedback
+            >
+              {getFieldDecorator('parentPhoneValid', {
+                rules: [{ required: true, message: '请输入验证码' }]
+              })(
+                <Input placeholder='请输入验证码' className='input-size' />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
               label='家长身份证号'
               className='err-css-in'
               hasFeedback
@@ -244,6 +362,25 @@ class Register extends Component {
                 }]
               })(
                 <Input placeholder='请输入家长身份证号' className='input-size' />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label='与学生关系'
+              className='err-css-in'
+              hasFeedback
+            >
+              {getFieldDecorator('relationship', {
+                rules: [{ required: true, message: '请选择与学生关系' }]
+              })(
+                <Select className='input-size' placeholder='请选择与学生关系'>
+                  <Option value='1'>父亲</Option>
+                  <Option value='2'>母亲</Option>
+                  <Option value='3'>祖父母</Option>
+                  <Option value='4'>外祖父母</Option>
+                  <Option value='5'>亲属</Option>
+                  <Option value='6'>其他</Option>
+                </Select>
               )}
             </FormItem>
             <FormItem
@@ -264,7 +401,7 @@ class Register extends Component {
               className='err-css-small-in'
               hasFeedback
             >
-              {getFieldDecorator('phone', {
+              {getFieldDecorator('mainParentPhone', {
                 rules: [ {
                   validator: this.validatePhone
                 }, {
@@ -281,7 +418,7 @@ class Register extends Component {
               className='err-css-in'
               hasFeedback
             >
-              {getFieldDecorator('valid', {
+              {getFieldDecorator('mainParentPhoneValid', {
                 rules: [{ required: true, message: '请输入主家长邀请码' }]
               })(
                 <Input placeholder='请输入主家长邀请码' className='input-size' />
@@ -291,7 +428,7 @@ class Register extends Component {
               {getFieldDecorator('Checkbox', {
                 rules: [{validator: this.validateCheck}]
               })(
-                <Checkbox>我同意并遵守 <a href='www.baidu.com'>《星云教育平台服务协议》</a></Checkbox>
+                <Checkbox>我同意并遵守 <a href='www.baidu.com'>《福建教育信息化公共服务平台服务协议》</a></Checkbox>
               )}
             </FormItem>
             <FormItem>

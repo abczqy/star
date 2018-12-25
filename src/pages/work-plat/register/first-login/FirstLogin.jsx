@@ -28,7 +28,8 @@ class FirstLogin extends Component {
       visible: false,
       confirmDirty: false,
       validatePhoneFlag: false,
-      validateCodeFlag: true
+      validateCodeFlag: true,
+      safeCode: ''
     }
   }
   componentDidMount () {
@@ -93,6 +94,9 @@ class FirstLogin extends Component {
           'valid': this.props.form.getFieldValue('code')
         }, (response) => {
           if (response.status === 200) {
+            this.setState({
+              safeCode: response.data.data
+            })
             message.success('验证成功')
             this.showModal()
           } else {
@@ -109,7 +113,8 @@ class FirstLogin extends Component {
       if (!err) {
         updataPasswordv2({
           'phone': this.props.form.getFieldValue('phone'),
-          'password': this.props.form.getFieldValue('password')
+          'password': this.props.form.getFieldValue('password'),
+          'code': this.state.safeCode
         }, (response) => {
           if (response.data.code === 200) {
             message.success('修改成功')
