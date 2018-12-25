@@ -90,9 +90,9 @@ class OperateManage extends React.Component {
       case '/operate-manage-home/member':// 人员管理
         activeTab = 'peopleMang'
         break
-      case '/operate-manage-home/all-app-detail-mine':// 我的应用
-        activeTab = 'myApp'
-        break
+      // case '/operate-manage-home/all-app-detail-mine':// 我的应用
+      //   activeTab = 'myApp'
+      //   break
       case '/operate-manage-home/statis':// 统计分析
         activeTab = 'statisAnaly'
         break
@@ -222,11 +222,13 @@ class OperateManage extends React.Component {
         text: '全部应用',
         tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
-      }, {
-        text: '我的应用',
-        tabKey: 'myApp',
-        src: '/operate-manage-home/all-app-detail-mine'
-      }, {
+      },
+      // {
+      //   text: '我的应用',
+      //   tabKey: 'myApp',
+      //   src: '/operate-manage-home/all-app-detail-mine'
+      // },
+      {
         text: '统计分析',
         tabKey: 'statisAnaly',
         src: '/operate-manage-home/statis'

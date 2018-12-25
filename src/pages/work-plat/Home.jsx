@@ -168,10 +168,15 @@ class Home extends Component {
         // 跳转到‘订单管理’
         break
       case 'people':
+        // 跳转到人员管理
         this.props.history.push('/operate-manage-home/member')
         break
       case 'ins':
         // 跳转到‘组织管理’
+        break
+      case 'app':
+        // 跳到应用管理
+        this.props.history.push('/operate-manage-home/all-app-detail-mine')
         break
       default:
         // 其他
@@ -442,14 +447,25 @@ class Home extends Component {
               onClick={() => this.onManageClick('book')}
             />
           </Col>
-          <Col span={6}>
-            <LabelIcon
-              style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
-              label='人员管理'
-              icon={Member}
-              onClick={() => this.onManageClick('people')}
-            />
-          </Col>
+          {
+            role === 'vendor'
+              ? <Col span={6}>
+                <LabelIcon
+                  style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                  label='应用管理'
+                  icon={Member}
+                  onClick={() => this.onManageClick('app')}
+                />
+              </Col>
+              : <Col span={6}>
+                <LabelIcon
+                  style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                  label='人员管理'
+                  icon={Member}
+                  onClick={() => this.onManageClick('people')}
+                />
+              </Col>
+          }
           <Col span={6}>
             <LabelIcon
               style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
