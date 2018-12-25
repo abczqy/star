@@ -6,7 +6,7 @@
  * 3- 数据适配层 -- 根据逻辑层需要的数据提供适配数据
  */
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
 import {
@@ -24,6 +24,8 @@ import {
   AppCard,
   Echarts
 } from '../../components/common'
+// import { axios } from 'utils'
+// import { API_BASE_URL_V2 } from 'config'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
 import AvatarIcon from '../../assets/images/work-plat/avatar.png'
@@ -133,6 +135,25 @@ const StatItem = (props) => (
 )
 
 class Home extends Component {
+  /**
+   * 管理-人员/订单/组织
+   * @params {string} type 跳转到管理页面的类型
+   */
+  onManageClick = (type) => {
+    switch (type) {
+      case 'book':
+        // 跳转到‘订单管理’
+        break
+      case 'people':
+        this.props.history.push('/operate-manage-home/member')
+        break
+      case 'ins':
+        // 跳转到‘组织管理’
+        break
+      default:
+        // 其他
+    }
+  }
   /**
    * 获取Echarts的options -- 用户统计
    * 1- 接受参数来生成专门的options
@@ -389,6 +410,7 @@ class Home extends Component {
               style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
               label='订单管理'
               icon={Book}
+              onClick={() => this.onManageClick('book')}
             />
           </Col>
           <Col span={6}>
@@ -396,6 +418,7 @@ class Home extends Component {
               style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
               label='人员管理'
               icon={Member}
+              onClick={() => this.onManageClick('people')}
             />
           </Col>
           <Col span={6}>
@@ -403,6 +426,7 @@ class Home extends Component {
               style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
               label='组织管理'
               icon={Org}
+              onClick={() => this.onManageClick('ins')}
             />
           </Col>
         </Row>
@@ -619,4 +643,8 @@ StatItem.propTypes = {
   percent: PropTypes.number
 }
 
-export default Home
+Home.propTypes = {
+  history: PropTypes.any
+}
+
+export default withRouter(Home)
