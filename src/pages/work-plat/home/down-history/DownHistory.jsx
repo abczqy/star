@@ -70,7 +70,8 @@ class DownHistory extends Component {
 
   // 获取只有系统名称的sw_path参数内容
   getSwPath = (data) => {
-    data.map((item, index) => {
+    let d = data || []
+    d.map((item, index) => {
       let con = item.sw_path
       let version = ''
       let pathArray = []

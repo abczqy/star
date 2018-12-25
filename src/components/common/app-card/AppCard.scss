@@ -69,10 +69,10 @@
   /* 按钮中的图标 */
   .btn-icon-wrap {
     display: inline-block;
-    padding: 0 4px 1px 4px;
+    padding: 0 1px 1px 3px;
     border-radius: $btnRadius;
     text-align: center;
-    margin-top: -4px;
+    margin-top: -3px;
     .mini-icon {
       width: $iconSize * 1.6;
       height: $iconSize * 1.6;

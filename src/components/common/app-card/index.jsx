@@ -48,7 +48,10 @@ class AppCard extends Component {
         </Row>
         <Row className='bottom-row'>
           <Col span={3} offset={10}>
-            <span className='btn-icon-wrap share-icon'>
+            <span
+              className='btn-icon-wrap share-icon'
+              onClick={this.props.onDownLoad}
+            >
               <img
                 className='mini-icon'
                 src={DownLoad}
@@ -56,12 +59,18 @@ class AppCard extends Component {
             </span>
           </Col>
           <Col span={5} >
-            <span className='btn-wrap btn-text-wrap down-load-icon'>
+            <span
+              className='btn-wrap btn-text-wrap down-load-icon'
+              onClick={this.props.onDownLoad}
+            >
               下载
             </span>
           </Col>
           <Col span={3} >
-            <span className='btn-icon-wrap share-icon'>
+            <span
+              className='btn-icon-wrap share-icon'
+              onClick={this.props.onCelect}
+            >
               <img
                 className='mini-icon'
                 src={Celect}
@@ -85,7 +94,9 @@ class AppCard extends Component {
 AppCard.propTypes = {
   icon: PropTypes.any, // 图片
   title: PropTypes.any, // 名称
-  desc: PropTypes.string // 描述
+  desc: PropTypes.string, // 描述
+  onDownLoad: PropTypes.func, // 点击下载的回调
+  onCelect: PropTypes.func // 点击收藏的回调
 }
 
 export default AppCard

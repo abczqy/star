@@ -95,8 +95,8 @@ const bodyStyle = {
  * Card头部的Extra
  */
 const Extra = () => (
-  <span className='extra-font'>
-    更多
+  <span className='extra-font point'>
+    <span>更多</span>
     <img src={More} className='extra-icon' />
   </span>
 )
@@ -135,6 +135,29 @@ const StatItem = (props) => (
 )
 
 class Home extends Component {
+  /**
+   * 应用点击
+   */
+  onAppClick = (url) => {
+    // 有一个默认的App_id
+    url = url || '/operate-manage-home/all-app-detail?' + 'sw_000197'
+    this.props.history.push(url)
+  }
+
+  /**
+   * AppCard - 下载按钮点击函数
+   */
+  onAppDownLoad = () => {
+    this.props.history.push('/operate-manage-home/all-app-detail-third')
+  }
+
+  /**
+   * AppCard - 收藏按钮点击函数
+   */
+  onAppCelect = () => {
+    // 调用收藏按钮
+  }
+
   /**
    * 管理-人员/订单/组织
    * @params {string} type 跳转到管理页面的类型
@@ -279,16 +302,21 @@ class Home extends Component {
    */
   getAppCardRender = () => {
     return (
-      <AppCard />
+      <AppCard
+        onDownLoad={this.onAppDownLoad}
+        onCelect={this.onAppCelect}
+      />
     )
   }
 
   /**
    * 获得单个的App - LabelIcon
    * @param { object } style 描述labelIcon的style
+   * @param { object } params 参数
+   * @param { object } thiz 回调函数的上下文
    * @returns 为了传递这个函数（并且可以携带参数） 我们返回值是返回一个函数（info和item传入的上下文不一样）
    */
-  getAppRender = (style) => {
+  getAppRender = (style, params, thiz) => {
     // 返回函数 -- 可以模拟一下集成和多态
     style = style || {}
     // itemData 就是 传给LabelIcon的props数据
@@ -297,6 +325,7 @@ class Home extends Component {
         <LabelIcon
           style={{ ...style }}
           label={itemData.label}
+          onClick={() => thiz.onAppClick(params.url)}
         />
       )
     }
@@ -437,108 +466,114 @@ class Home extends Component {
   /**
    * 渲染非厂商部分的内容
    */
-  getNoVendorRender = () => (
-    <div>
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card
-            bordered={false}
-            title={'系统推荐'}
-            headStyle={{...headStyle}}
-            bodyStyle={{...bodyStyle, height: '220px'}}
-          >
-            {
-              this.getCellsRender(mock.sysRecommend, 3, 6, this.getAppRender({ borderRadius: '4px' }))
-            }
-          </Card>
-        </Col>
-        <Col span={16}>
-          <Card
-            bordered={false}
-            title={'我的应用'}
-            headStyle={{...headStyle}}
-            bodyStyle={{...bodyStyle, height: '220px'}}
-            extra={<Extra />}
-          >
-            {
-              this.getCellsRender(mock.myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }))
-            }
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Card
-            bordered={false}
-            title={'我的收藏'}
-            headStyle={{...headStyle}}
-            bodyStyle={{...bodyStyle, height: '250px'}}
-            extra={<Extra />}
-          >
-            {
-              this.getCellsRender(mock.myApps, 5, 10, this.getAppCardRender)
-            }
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card
-            bordered={false}
-            title={'用户统计'}
-            headStyle={{...headStyle}}
-            bodyStyle={{...bodyStyle, height: '260px'}}
-          >
-            <div className='echarts-wrap'>
-              <Echarts options={this.getUserStatOptions()} />
-            </div>
-          </Card>
-        </Col>
-        <Col span={16}>
-          <Card
-            bordered={false}
-            title={'应用使用统计'}
-            headStyle={{...headStyle}}
-            bodyStyle={{...bodyStyle, height: '260px'}}
-          >
-            <Tabs
-              type='card'
+  getNoVendorRender = () => {
+    const role = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    return (
+      <div>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card
+              bordered={false}
+              title={'系统推荐'}
+              headStyle={{...headStyle}}
+              bodyStyle={{...bodyStyle, height: '220px'}}
             >
-              <TabPane
-                key='stat-time'
-                tab='使用时长'
+              {
+                this.getCellsRender(mock.sysRecommend, 3, 6, this.getAppRender({ borderRadius: '4px' }, {}, this))
+              }
+            </Card>
+          </Col>
+          <Col span={16}>
+            <Card
+              bordered={false}
+              title={'我的应用'}
+              headStyle={{...headStyle}}
+              bodyStyle={{...bodyStyle, height: '220px'}}
+              extra={<Extra />}
+            >
+              {
+                this.getCellsRender(mock.myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }, {}, this))
+              }
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Card
+              bordered={false}
+              title={'我的收藏'}
+              headStyle={{...headStyle}}
+              bodyStyle={{...bodyStyle, height: '250px'}}
+              extra={<Extra />}
+            >
+              {
+                this.getCellsRender(mock.myApps, 5, 10, this.getAppCardRender)
+              }
+            </Card>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card
+              bordered={false}
+              title={'用户统计'}
+              headStyle={{...headStyle}}
+              bodyStyle={{...bodyStyle, height: '260px'}}
+            >
+              <div className='echarts-wrap'>
+                <Echarts options={this.getUserStatOptions()} />
+              </div>
+            </Card>
+          </Col>
+          <Col span={16}>
+            <Card
+              bordered={false}
+              title={'应用使用统计'}
+              headStyle={{...headStyle}}
+              bodyStyle={{...bodyStyle, height: '260px'}}
+            >
+              <Tabs
+                type='card'
               >
-                {
-                  this.getStatListRender(mock.statList)
-                }
-              </TabPane>
-              <TabPane
-                key='stat-rate'
-                tab='使用频率'
+                <TabPane
+                  key='stat-time'
+                  tab='使用时长'
+                >
+                  {
+                    this.getStatListRender(mock.statList)
+                  }
+                </TabPane>
+                <TabPane
+                  key='stat-rate'
+                  tab='使用频率'
+                >
+                  {
+                    this.getStatListRender(mock.statList)
+                  }
+                </TabPane>
+              </Tabs>
+            </Card>
+          </Col>
+        </Row>
+        {
+          role === 'school' ||
+          <Row gutter={16}>
+            <Col span={24}>
+              <Card
+                bordered={false}
+                title={'下载历史'}
+                headStyle={{...headStyle}}
+                bodyStyle={{...bodyStyle}}
+                extra={<Extra />}
               >
-                {
-                  this.getStatListRender(mock.statList)
-                }
-              </TabPane>
-            </Tabs>
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={24}>
-          <Card
-            bordered={false}
-            title={'下载历史'}
-            headStyle={{...headStyle}}
-            bodyStyle={{...bodyStyle}}
-            extra={<Extra />}
-          >
-            <DownHistory />
-          </Card>
-        </Col>
-      </Row>
-    </div>
-  )
+                <DownHistory />
+              </Card>
+            </Col>
+          </Row>
+        }
+      </div>
+    )
+  }
 
   render () {
     return (
@@ -568,7 +603,7 @@ class Home extends Component {
                 <Col span={8}>
                   <Row
                     type='flex'
-                    justify='center'
+                    justify='left'
                   >
                     <Col span={14} style={{fontSize: '14px', fontWeight: '650'}}>
                      学校名称
