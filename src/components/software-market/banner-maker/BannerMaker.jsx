@@ -10,6 +10,8 @@ import { HomepageManageBar, HomepageAdd, BannerBox, BannerNewBox, BlankBar } fro
 import './BannerMaker.scss'
 import { addGatewayBanner, getGatewayBannerList, deleteGatewayBanner, getSchoolInfoList, updateBannerIsDefault } from 'services/software-manage'
 import BannerModel from './BannerModel'
+import config from '../../../config/index'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 const Panel = Collapse.Panel
 const pagination = {
@@ -283,12 +285,20 @@ class BannerMaker extends Component {
     })
   }
 
+  // 上传图片
+  onUploadChange = (e) => {
+    console.log(e)
+  }
+
   render () {
     const { expand, bannerData, bannerNewData, pagination } = this.state
     const { header } = this.props
     const { title } = header
     const Search = Input.Search
     const datas = {
+      action: API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/file-upload',
+      data: {fileType: 'pic'},
+      onChange: this.onUploadChange,
       onRemove: (file) => {
         this.setState(({ fileList }) => {
           const index = fileList.indexOf(file)

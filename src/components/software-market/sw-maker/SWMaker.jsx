@@ -314,7 +314,7 @@ class SWMaker extends Component {
               dataSource={tableData.data}
               pagination={{
                 ...pagination,
-                total: this.state.tableData.total,
+                total: this.state.tableData.totalCount,
                 onShowSizeChange: this.onShowSizeChange,
                 onChange: this.pageNumChange
               }}

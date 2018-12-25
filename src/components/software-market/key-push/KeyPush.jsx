@@ -199,10 +199,9 @@ class KeyPush extends Component {
         ...this.state.pagination,
         pageNum: current,
         pageSize: size
-      },
-      inputValue: this.state.pagination.text
+      }
     }, () => {
-
+      this.getList()
     })
   }
   // 获取数据列表
@@ -250,9 +249,8 @@ class KeyPush extends Component {
       pagination: {
         ...this.state.pagination,
         pageNum: page
-      },
-      searchValue: this.state.pagination.text
-    })
+      }
+    }, () => this.getList())
   }
    // 显示‘详情’弹窗
    showAppDetailModal = (record) => {
@@ -308,7 +306,7 @@ class KeyPush extends Component {
               dataSource={tableData.data}
               pagination={{
                 ...pagination,
-                total: this.state.tableData.total,
+                total: this.state.tableData.totalCount,
                 onShowSizeChange: this.onShowSizeChange,
                 onChange: this.pageNumChange
               }}
