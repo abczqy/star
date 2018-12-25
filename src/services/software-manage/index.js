@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL, SERVICE_EDU_MARKET} = config
 
 /**
  * 软件管理-运营中
@@ -16,7 +16,7 @@ export function getAppListData (params, sucFn) {
  * 软件管理-应用类型下拉框获取
  */
 export function getApptype (params, sucFn) {
-  return axios.get(API_BASE_URL + '/app-type', {...params})
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/app-type', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -642,7 +642,7 @@ export function informationEdListEdit (params, sucFn) {
  * 平台首页-门户导航查询
  */
 export function getGatewayNavigationList (params, sucFn) {
-  return axios.get(API_BASE_URL + '/getGatewayNavigationList', params)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/channel', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -679,7 +679,7 @@ export function informationEdListDelete (params, id, sucFn) {
  * 平台首页-门户banner图添加
  */
 export function addGatewayBanner (params, sucFn) {
-  return axios.post(API_BASE_URL + '/addGatewayBanner', params)
+  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/banners', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -697,7 +697,7 @@ export function informationEdList (params, sucFn) {
  * 平台首页-门户banner图查询
  */
 export function getGatewayBannerList (params, sucFn) {
-  return axios.get(API_BASE_URL + '/getGatewayBannerList', params)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/banners', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -724,7 +724,7 @@ export function deleteGatewayBanner (params, sucFn) {
  * 教育新闻列表
  */
 export function newsList (params, sucFn) {
-  return axios.post(API_BASE_URL + '/application/newslist', params)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -742,7 +742,7 @@ export function newsListDet (params, sucFn) {
  * 信息公开列表
  */
 export function information (params, sucFn) {
-  return axios.post(API_BASE_URL + '/application/infolist', params)
+  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -778,7 +778,7 @@ export function saveKeyPush (params, sucFn) {
  * 软件市场查询
  */
 export function getSoftMarketList (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getSoftMarketList', params)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/manage-app/apps-by-name-type', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -787,7 +787,7 @@ export function getSoftMarketList (params, sucFn) {
  * 软件市场保存
  */
 export function saveSoftwareMarket (params, sucFn) {
-  return axios.post(API_BASE_URL + '/saveSoftwareMarket', params)
+  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/hot-app', params)
     .then(function (res) {
       sucFn(res)
     })

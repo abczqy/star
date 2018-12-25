@@ -42,20 +42,21 @@ class SWMaker extends Component {
     // 表格的列信息
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'SW_NAME',
-      key: 'SW_NAME'
+      dataIndex: 'appName',
+      key: 'appName'
     }, {
       title: '所属类型',
-      dataIndex: 'SW_TYPE',
-      key: 'SW_TYPE'
+      dataIndex: 'appTypes',
+      key: 'appTypes',
+      render: (text) => text[0].appTypeName
     }, {
       title: '供应商',
-      dataIndex: 'fa_name',
-      key: 'fa_name'
+      dataIndex: 'companyId',
+      key: 'companyId'
     }, {
       title: '图片',
-      dataIndex: 'SW_ICON',
-      key: 'SW_ICON',
+      dataIndex: 'APP_ICON',
+      key: 'APP_ICON',
       render: (text) => <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} />
     }, {
       title: '选择',
@@ -94,10 +95,12 @@ class SWMaker extends Component {
         message.warning('已达推送上限')
       } else {
         record.SW_MARKET_SHOW = 0
-        const params = {
-          sw_id: record.SW_ID,
-          state: '0'
-        }
+        // const params = {
+        //   sw_id: record.SW_ID,
+        //   state: '0'
+        // }
+        const params = [record.appid]
+        console.log(params)
         saveSoftwareMarket(params, res => {
           if (res.data) {
             let bb = this.copyArray(this.state.imgList)
@@ -114,7 +117,7 @@ class SWMaker extends Component {
         })
       }
     } else {
-      const a = record.SW_MARKET_SHOW ? 0 : 1
+      const a = record.isTopRecommend ? 0 : 1
       record.SW_MARKET_SHOW = a
       const b = record.SW_MARKET_SHOW.toString()
       const params = {
@@ -186,11 +189,17 @@ class SWMaker extends Component {
   // 获取数据列表
   getList = () => {
     let params = {
-      appType: this.state.type,
-      appName: this.state.searchValue
+      // appType: this.state.type,
+      appName: this.state.searchValue,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
+      orderType: 'time'
+    }
+    if (this.state.type && this.state.type !== '') {
+      params.appType = this.state.type
     }
     getSoftMarketList(params, res => {
-      res.data.data.map((item, index) => {
+      res.data.data.data.map((item, index) => {
         let b = this.copyArray(this.state.imgList)
         b.push(ajaxUrl.IMG_BASE_URL + item.SW_ICON)
         if (item.SW_MARKET_SHOW === 1) {
@@ -205,9 +214,7 @@ class SWMaker extends Component {
         }
       }, () => {
         this.setState({
-          tableData: {
-            data: res.data.data
-          }
+          tableData: res.data.data
         })
       })
     })
@@ -252,22 +259,10 @@ class SWMaker extends Component {
     })
   }
   getSearchData = () => {
-    let params = {
-      appType: this.state.type,
-      appName: this.state.searchValue
-    }
-    getSoftMarketList(params, res => {
-      this.setState({
-        tableData: {
-          data: []
-        }
-      }, () => {
-        this.setState({
-          tableData: {
-            data: res.data.data
-          }
-        })
-      })
+    this.setState({
+      tableData: {data: []}
+    }, () => {
+      this.getList()
     })
   }
 
@@ -281,11 +276,12 @@ class SWMaker extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data
-      const a = this.copyArray(data.type)
-      a.unshift('')
+      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      const dataArray = data.concat(res.data.data)
+      // const a = this.copyArray(data.type)
+      // a.unshift('')
       thiz.setState({
-        options: a
+        options: dataArray
       })
     })
   }

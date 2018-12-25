@@ -43,9 +43,9 @@ class Information extends React.Component {
           value: '区',
           label: '区级'}
       ],
-      infoData: false,
+      infoData: [],
       height: '',
-      infoDatas: false
+      infoDatas: []
     }
   }
 
@@ -88,7 +88,7 @@ class Information extends React.Component {
     let value = {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10,
-      info_class: this.state.selete || ''
+      type: 0
     }
     console.log('游客的信息公开获取数据传的参数', value)
     information(value, (response) => {
@@ -102,8 +102,8 @@ class Information extends React.Component {
 
     let values = {
       pageNum: 1,
-      pageSize: 100,
-      info_class: ''
+      pageSize: 6,
+      type: 2
     }
     information(values, (response) => {
       this.setState({
@@ -248,7 +248,7 @@ class Information extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super1'>
-                {this.state.infoData && this.state.infoData.list.map((item, index) => {
+                {this.state.infoData && this.state.infoData.list && this.state.infoData.list.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
                 })}
               </ul>

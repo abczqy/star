@@ -4,7 +4,7 @@ import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './KeyPush.scss'
-import {getSoftwareDetail, getKeyPushList, saveKeyPush, getApptype} from 'services/software-manage'
+import {getSoftwareDetail, getSoftMarketList, saveKeyPush, getApptype} from 'services/software-manage'
 import ajaxUrl from 'config'
 
 const Panel = Collapse.Panel
@@ -42,20 +42,21 @@ class KeyPush extends Component {
     // 表格的列信息
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'SW_NAME',
-      key: 'SW_NAME'
+      dataIndex: 'appName',
+      key: 'appName'
     }, {
       title: '所属类型',
-      dataIndex: 'APPTYPE',
-      key: 'APPTYPE'
+      dataIndex: 'appTypes',
+      key: 'appTypes',
+      render: (text) => text[0].appTypeName
     }, {
       title: '供应商',
-      dataIndex: 'SUPPLIER',
-      key: 'SUPPLIER'
+      dataIndex: 'companyId',
+      key: 'companyId'
     }, {
       title: '图片',
-      dataIndex: 'SW_ICON',
-      key: 'SW_ICON',
+      dataIndex: 'APP_ICON',
+      key: 'APP_ICON',
       render: (text) => <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} />
     }, {
       title: '选择',
@@ -155,22 +156,10 @@ class KeyPush extends Component {
     })
   }
   getSearchData = () => {
-    let params = {
-      appType: this.state.type || '',
-      appName: this.state.searchValue || ''
-    }
-    getKeyPushList(params, res => {
-      this.setState({
-        tableData: {
-          data: []
-        }
-      }, () => {
-        this.setState({
-          tableData: {
-            data: res.data
-          }
-        })
-      })
+    this.setState({
+      tableData: {data: []}
+    }, () => {
+      this.getList()
     })
   }
 
@@ -184,11 +173,12 @@ class KeyPush extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data
-      const a = this.copyArray(data.type)
-      a.unshift('')
+      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      const dataArray = data.concat(res.data.data)
+      // const a = this.copyArray(data.type)
+      // a.unshift('')
       thiz.setState({
-        options: a
+        options: dataArray
       })
     })
   }
@@ -218,11 +208,17 @@ class KeyPush extends Component {
   // 获取数据列表
   getList = () => {
     let params = {
-      appType: this.state.type || '',
-      appName: this.state.searchValue || ''
+      // appType: this.state.type,
+      appName: this.state.searchValue,
+      pageNum: this.state.pagination.pageNum,
+      pageSize: this.state.pagination.pageSize,
+      orderType: 'time'
     }
-    getKeyPushList(params, res => {
-      res.data.map((item, index) => {
+    if (this.state.type && this.state.type !== '') {
+      params.appType = this.state.type
+    }
+    getSoftMarketList(params, res => {
+      res.data.data.data.map((item, index) => {
         let b = this.copyArray(this.state.imgList)
         b.push(ajaxUrl.IMG_BASE_URL + item.SW_ICON)
         if (item.sw_key_push === 1) {
@@ -237,9 +233,7 @@ class KeyPush extends Component {
         }
       }, () => {
         this.setState({
-          tableData: {
-            data: res.data
-          }
+          tableData: res.data.data
         })
       })
     })

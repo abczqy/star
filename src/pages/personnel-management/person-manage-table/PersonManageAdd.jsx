@@ -341,7 +341,7 @@ class PersonManageAdd extends Component {
                   </FormItem>
                 </Col>
               </Row>
-              <FormItem>
+              <FormItem className='add-button'>
                 <Button onClick={() => this.props.close()}>取消</Button>
                 <Button type='primary' htmlType='submit'>确认</Button>
               </FormItem>

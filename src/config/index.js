@@ -11,9 +11,9 @@ const Config = {
   API_BASE_URL_EDUMARKET: 'http://192.168.1.71:10301', // 门户 服务接口
   API_BASE_URL_PORTAL: 'http://192.168.1.71:10300', // 应用市场  服务  接口
   API_BASE_URL_AUTHENTICATION: 'http://192.168.1.71:10200', // 登陆接口
-  API_BASE_URL_V2: 'http://192.168.1.71:10101', // 服务器总路径
+  API_BASE_URL_V2: 'http://192.168.1.31:10101', // 服务器总路径
   SERVICE_PORTAL: 'portal', // 门户
-  SERVICE_EDU_MARKET: 'edu_market', // 市场
+  SERVICE_EDU_MARKET: 'edu-market', // 市场
   SERVICE_AUTHENTICATION: 'authentication' // 用户认证
 }
 

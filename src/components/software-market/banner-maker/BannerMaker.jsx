@@ -123,8 +123,8 @@ class BannerMaker extends Component {
   addBanner = () => {
     const formData = new FormData()
     this.state.fileList.forEach((file) => {
-      formData.append('file_upload', file)
-      formData.append('sh_id', '')
+      formData.append('banner', file)
+      // formData.append('sh_id', '')
     })
     // let list = this.state.fileList
     // let a = list[0].uid
@@ -168,7 +168,14 @@ class BannerMaker extends Component {
     })
   }
   getList = () => {
-    getGatewayBannerList({}, res => {
+    let param = {}
+    if (this.props.header.title !== '平台介绍') {
+      param.bannerTypeId = 1
+    } else {
+      param.bannerTypeId = 2
+    }
+    getGatewayBannerList(param, res => {
+      console.log(res)
       this.setState({
         bannerData: []
       }, () => {
@@ -306,7 +313,7 @@ class BannerMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-              } id={item.banner_id} url={item.banner_url} type={item.banner_type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
+              } id={item.id} url={item.url} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
