@@ -6,9 +6,10 @@ import React from 'react'
 import './SelfSupport.css'
 import ajaxUrl from 'config'
 import {selfSupportAppDetail, openPlatformAppByUser} from 'services/all-app/'
-import { Button, Icon, Carousel, Rate, message } from 'antd'
+// import { Button, Icon, Carousel, Rate, message } from 'antd'
+import { Button, Icon, Carousel, message } from 'antd'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 
 class SelfSupport extends React.Component {
@@ -229,7 +230,7 @@ class SelfSupport extends React.Component {
             <h3>新版特性</h3>
             <p>优化了部分细节，体验更贴心！</p>
           </div>
-          <div className='app-detail-relevant'>
+          {/* <div className='app-detail-relevant'>
             <h3>相关应用</h3>
             {this.state.relateData.length > 0 && this.state.relateData.map((item, index, arr) => {
               return (
@@ -245,7 +246,7 @@ class SelfSupport extends React.Component {
                 </dl>
               )
             })}
-          </div>
+          </div> */}
         </div>
       </div>
     )

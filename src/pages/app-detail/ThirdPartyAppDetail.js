@@ -4,12 +4,13 @@
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
 import './ThirdPartyAppDetail.css'
-import { Button, Icon, Carousel, Rate } from 'antd'
+// import { Button, Icon, Carousel, Rate } from 'antd'
+import { Button, Icon, Carousel } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
 import {thirdPartyAppDetail} from 'services/all-app/'
 // import { renderRoutes } from 'react-router-config'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 // const { Sider, Content } = Layout
 class ThirdPartyAppDetail extends React.Component {
@@ -222,7 +223,7 @@ class ThirdPartyAppDetail extends React.Component {
             <h3>新版特性</h3>
             <p>优化了部分细节，体验更贴心！</p>
           </div>
-          <div className='app-detail-relevant'>
+          {/* <div className='app-detail-relevant'>
             <h3>相关应用</h3>
             {this.state.relateData.map((item, index, arr) => {
               return (
@@ -238,7 +239,7 @@ class ThirdPartyAppDetail extends React.Component {
                 </dl>
               )
             })}
-          </div>
+          </div> */}
         </div>
       </div>
     )
