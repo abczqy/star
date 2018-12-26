@@ -8,8 +8,8 @@ import React, { Component } from 'react'
 import { Table } from 'antd'
 // import { IterationDetailModal } from 'pages/software-market'
 import './DownHistory.scss'
-import { iterVerify } from 'services/software-manage'
-import webStorage from 'webStorage'
+import { downloadv2 } from 'services/software-manage'
+// import webStorage from 'webStorage'
 
 /**
    * 表格分页器设置-默认值
@@ -52,17 +52,17 @@ class DownHistory extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    iterVerify({
+    downloadv2({
       pageNum: this.state.pagination.pageNum,
-      pageSize: this.state.pagination.pageSize,
-      sw_type: this.state.sw_type, // 应用类型
-      sw_name: this.state.sw_name// 应用名称
+      pageSize: this.state.pagination.pageSize
     }, (res) => {
-      const data = res.data
+      const data = res.data.data
+      let jsonStr = JSON.stringify(data)
+      console.log(jsonStr)
       this.setState({
         tableData: {
-          data: this.getSwPath(data.list),
-          total: data.total
+          data: this.getSwPath(data.content),
+          total: data.totalPages
         }
       })
     })
@@ -114,8 +114,8 @@ class DownHistory extends Component {
       }
     }, {
       title: 'APP名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
       title: 'APP类型',
       dataIndex: 'sw_type',
@@ -129,9 +129,9 @@ class DownHistory extends Component {
       dataIndex: 'version',
       key: 'version'
     }, {
-      title: '下载时间',
-      dataIndex: 'sw_path',
-      key: 'sw_path'
+      title: '下载次数',
+      dataIndex: 'DOWNLOAD',
+      key: 'DOWNLOAD'
     }]
   }
 
@@ -166,7 +166,7 @@ class DownHistory extends Component {
 
   componentDidMount () {
     this.getTableDatas()
-    console.log(webStorage)
+    // console.log(webStorage)
   }
 
   render () {
