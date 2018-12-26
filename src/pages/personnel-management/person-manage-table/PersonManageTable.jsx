@@ -8,9 +8,9 @@ import moment from 'moment'
 import _ from 'lodash'
 import { Table, Modal, Input, Form, Button, DatePicker, message, Popconfirm } from 'antd'
 import './PersonManageTable.scss'
-import {applicationteacherlist, teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from '../../../services/topbar-mation'
-import config from '../../../config/index'
-const {API_BASE_URL} = config
+import {teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from '../../../services/topbar-mation'
+// import config from '../../../config/index'
+// const {API_BASE_URL} = config
 const FormItem = Form.Item
 const teacherColumns = {
   th_name: '教师姓名',
@@ -22,6 +22,100 @@ const teacherColumns = {
   th_duty: '行政职务',
   th_phone: '联系方式'
 }
+// 教师假数据
+const teacherData = [
+  {
+    th_id: 1,
+    th_name: '张三',
+    th_sex: '男',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 2,
+    th_name: '李四',
+    th_sex: '女',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 3,
+    th_name: '赵武',
+    th_sex: '女',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 4,
+    th_name: '王柳',
+    th_sex: '女',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 5,
+    th_name: '王小丫',
+    th_sex: '男',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 6,
+    th_name: '张三',
+    th_sex: '男',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 7,
+    th_name: '李四',
+    th_sex: '男',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 8,
+    th_name: '赵武',
+    th_sex: '女',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 9,
+    th_name: '王柳',
+    th_sex: '女',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }, {
+    th_id: 10,
+    th_name: '王小丫',
+    th_sex: '女',
+    th_idcard: '350101198807267162',
+    th_grade: '3',
+    th_time: '2017-09-12',
+    th_duty: '',
+    th_phone: 13098273617
+  }
+]
 
 const studentColumns = {
   stu_name: '学生姓名',
@@ -33,6 +127,100 @@ const studentColumns = {
   maf_stu_sad: '与本人关系',
   maf_phone: '紧急联系人联系方式'
 }
+// 学生假数据
+const studentData = [
+  {
+    stu_id: 1,
+    stu_name: '张三',
+    stu_sex: '男',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '张波',
+    maf_stu_sad: '父',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 2,
+    stu_name: '李四',
+    stu_sex: '女',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '张波波',
+    maf_stu_sad: '母',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 3,
+    stu_name: '王五',
+    stu_sex: '男',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '王大锤',
+    maf_stu_sad: '父',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 4,
+    stu_name: '王小丫',
+    stu_sex: '女',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '王文',
+    maf_stu_sad: '父',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 5,
+    stu_name: '王二小',
+    stu_sex: '男',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '吴天',
+    maf_stu_sad: '母',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 6,
+    stu_name: '王二小',
+    stu_sex: '男',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '王文',
+    maf_stu_sad: '父',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 7,
+    stu_name: '武雷',
+    stu_sex: '男',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '张小天',
+    maf_stu_sad: '母',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 8,
+    stu_name: '春花',
+    stu_sex: '女',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '李霞',
+    maf_stu_sad: '母',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 9,
+    stu_name: '夏花',
+    stu_sex: '女',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '夏布莱',
+    maf_stu_sad: '母',
+    maf_phone: '13098273617'
+  }, {
+    stu_id: 10,
+    stu_name: '尚武',
+    stu_sex: '男',
+    stu_grade: '3',
+    stu_class: '2',
+    maf_name: '尚布屈',
+    maf_stu_sad: '父',
+    maf_phone: '13098273617'
+  }
+]
 
 class PersonManageTable extends Component {
   constructor (props) {
@@ -52,44 +240,44 @@ class PersonManageTable extends Component {
       teacher: [{
         title: '教师姓名',
         dataIndex: 'th_name',
-        key: '1'
-        // width: 150
+        key: '1',
+        width: 100
       }, {
         title: '账号',
         dataIndex: 'th_id',
-        key: '2'
-        // width: 150
+        key: '2',
+        width: 60
       }, {
         title: '性别',
         dataIndex: 'th_sex',
-        key: '3'
-        // width: 150
+        key: '3',
+        width: 60
       }, {
         title: '身份证号码',
         dataIndex: 'th_idcard',
-        key: '4'
-        // width: 150
+        key: '4',
+        width: 170
       }, {
         title: '教学年级',
         dataIndex: 'th_grade',
-        key: '5'
-        // width: 150
+        key: '5',
+        width: 100
       }, {
         title: '执教时间',
         dataIndex: 'th_time',
         key: '6',
-        render: date => moment(date).format('YYYY-MM-DD')
-        // width: 150
+        render: date => moment(date).format('YYYY-MM-DD'),
+        width: 110
       }, {
         title: '行政职务',
         dataIndex: 'th_duty',
-        key: '7'
-        // width: 150
+        key: '7',
+        width: 100
       }, {
         title: '联系方式',
         dataIndex: 'th_phone',
-        key: '8'
-        // width: 150
+        key: '8',
+        width: 120
       }, {
         title: '操作',
         dataIndex: 'id',
@@ -100,7 +288,7 @@ class PersonManageTable extends Component {
             <Popconfirm placement='top' title='确认删除？' onConfirm={() => { this.delete(record.th_id, 'teacher') }} okText='删除' cancelText='取消'>
               <span className='delete'>删除</span>
             </Popconfirm>
-            <span onClick={this.props.onUpload}>模板下载</span>
+            {/* <span onClick={this.props.onUpload}>模板下载</span> */}
           </div>
         )
         // width: 150
@@ -137,7 +325,7 @@ class PersonManageTable extends Component {
         // width: 150
       }, {
         title: '与本人关系',
-        dataIndex: 'maf_stu_sad ',
+        dataIndex: 'maf_stu_sad',
         key: 'maf_stu_sad'
         // width: 150
       }, {
@@ -155,7 +343,7 @@ class PersonManageTable extends Component {
             <Popconfirm placement='top' title='确认删除？' onConfirm={() => { this.delete(record.stu_id, 'student') }} okText='删除' cancelText='取消'>
               <span className='delete'>删除</span>
             </Popconfirm>
-            <span onClick={this.props.onUpload}>模板下载</span>
+            {/* <span onClick={this.props.onUpload}>模板下载</span> */}
           </div>
         )
         // width: 150
@@ -169,22 +357,29 @@ class PersonManageTable extends Component {
 
   // 获取人员列表数据
   getPeopleDatas = (params, role) => {
-    let url = role === 'teacher' ? API_BASE_URL + '/application/teacherlist' : API_BASE_URL + '/application/studentlist'
-    // console.log(reqUrl)
-    applicationteacherlist({
-      pageNum: params.pageNum,
-      pageSize: params.pageSize,
-      th_info: params.text
-    }, url, (response) => {
-      let data = response.data
-      this.setState({
-        tableData: {
-          data: data.list || [],
-          total: data.total || 0
-        }
-      })
-    }
-    )
+    role === 'teacher' ? this.setState({tableData: {
+      data: teacherData,
+      total: 10
+    }}) : this.setState({tableData: {
+      data: studentData,
+      total: 10
+    }})
+    // let url = role === 'teacher' ? API_BASE_URL + '/application/teacherlist' : API_BASE_URL + '/application/studentlist'
+    // // console.log(reqUrl)
+    // applicationteacherlist({
+    //   pageNum: params.pageNum,
+    //   pageSize: params.pageSize,
+    //   th_info: params.text
+    // }, url, (response) => {
+    //   let data = response.data
+    //   this.setState({
+    //     tableData: {
+    //       data: data.list || [],
+    //       total: data.total || 0
+    //     }
+    //   })
+    // }
+    // )
   }
 
   // 打开编辑弹窗
@@ -391,8 +586,8 @@ PersonManageTable.propTypes = {
   role: PropTypes.string,
   form: PropTypes.object,
   onCancel: PropTypes.func,
-  updateList: PropTypes.number,
-  onUpload: PropTypes.func
+  updateList: PropTypes.number
+  // onUpload: PropTypes.func
 }
 
 const PersonManageForm = Form.create()(PersonManageTable)

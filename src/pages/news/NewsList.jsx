@@ -4,10 +4,10 @@
 无身份区分的教育新闻列表
 */
 import React from 'react'
-import {Row, Col, Card, Pagination} from 'antd'
+import {Row, Col, Pagination} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
-import _ul from '../../assets/images/_ul.png'
+// import _ul from '../../assets/images/_ul.png'
 import moment from 'moment'
 // import ajaxUrl from 'config'
 import webStorage from 'webStorage'
@@ -50,12 +50,12 @@ class News extends React.Component {
 
     let values = {
       pageNum: 1,
-      pageSize: 100,
-      type: 2
+      pageSize: 100
     }
-    information(values, (response) => {
+    information(values, 2, 1, (response) => {
+      console.log(response)
       this.setState({
-        infoData: response.data
+        infoData: response.data.data
       }, () => {
         console.log('图片', this.state.infoData)
       })
@@ -143,8 +143,8 @@ class News extends React.Component {
   }
   // 获取高度
   getH=() => {
-    let a = document.getElementById('ulul').offsetHeight
-    console.log('公告的高度', a)
+    // let a = document.getElementById('ulul').offsetHeight
+    // console.log('公告的高度', a)
   }
   // 获取高度
   getHeight=() => {
@@ -165,7 +165,7 @@ class News extends React.Component {
     // const bottomImg = '/image/infob.png'
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
-        <div id='right-container'>
+        <div id='right-container' style={{width: '100%'}}>
           <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0', minHeight: this.state.viewHeights}}>
             {this.state.newData ? this.state.newData.info.map((item, index) => {
               return index === 0
@@ -185,7 +185,7 @@ class News extends React.Component {
                     </Col>
                   </Row>
                   <Row>
-                    <div className='line' />
+                    <div className='line' style={{width: '93.5%'}} />
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
@@ -209,7 +209,7 @@ class News extends React.Component {
             }) : ''}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '10px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
               <Row >
-                <Col span={8} />
+                <Col span={15} />
                 <Col >
                   {this.state.newData ? (this.state.newData.total >= 5
                     ? <Pagination
@@ -227,23 +227,6 @@ class News extends React.Component {
               </Row>
             </li>
           </ul>
-        </div>
-        <div id='left-container'>
-          {/* <div className='top-img' >
-            <img src={ajaxUrl.IMG_BASE_URL + topImg} style={{width: '98%', height: '120px'}} alt='' />
-          </div> */}
-          <div className='center-public-info' id='ulul'>
-            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-              <ul className='ul-margin super1'>
-                {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
-                })}
-              </ul>
-            </Card>
-          </div>
-          {/* <div className='bottom-img'>
-            <img src={ajaxUrl.IMG_BASE_URL + bottomImg} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
-          </div> */}
         </div>
       </div>
     )

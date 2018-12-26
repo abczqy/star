@@ -770,9 +770,10 @@ export function newsListDet (params, sucFn) {
 }
 /**
  * 信息公开列表
+ * param: auditStatus 是否通过审核
  */
-export function information (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', {params: params})
+export function information (params, auditStatus, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}/${SERVICE_PORTAL}/notifications/list/${auditStatus}`, {params: params})
     .then(function (res) {
       sucFn(res)
     })

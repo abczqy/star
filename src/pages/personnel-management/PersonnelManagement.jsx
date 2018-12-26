@@ -185,6 +185,7 @@ class PersonnelManagement extends Component {
               />
             </Col>
             <Col offset={8} span={8} className='opt-box' >
+              <span className='link' onClick={this.templateDownload} >模板下载</span>
               <Button
                 className='btn-style add-btn'
                 onClick={this.newPerson}
@@ -214,7 +215,7 @@ class PersonnelManagement extends Component {
             pageNumChange={this.pageNumChange}
             role={this.state.role}
             updateList={this.state.updateList}
-            onUpload={this.templateDownload}
+            // onUpload={this.templateDownload}
           />
         </div>
         {/* 下载 */}

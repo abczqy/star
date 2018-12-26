@@ -64,28 +64,27 @@ class Information extends React.Component {
     console.log('获取数据')
     let value = {
       pageNum: this.state.pageNum || 1,
-      pageSize: this.state.pageSize || 10,
-      type: 0
+      pageSize: this.state.pageSize || 10
     }
     console.log('教育局的信息公开列表获取数据传的参数', value)
-    information(value, (response) => {
+    information(value, 1, (response) => {
       this.setState({
-        infoData: response.data
+        infoData: response.data.data
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
-        console.log('this.state.infoData.list', this.state.infoData.list)
+        console.log('this.state.infoData.info', this.state.infoData.info)
       })
     })
 
     let values = {
       pageNum: 1,
       pageSize: 100,
-      type: 2
+      type: 0
     }
-    information(values, (response) => {
+    information(values, 1, (response) => {
       this.setState({
-        infoDatas: response.data
-      })
+        infoDatas: response.data.data
+      }, () => console.log(this.state.infoDatas))
     })
   }
   componentWillMount () {
@@ -189,8 +188,8 @@ class Information extends React.Component {
            <Row><div className='left-downer'>
              <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
                <ul className='ul-margin super4'>
-                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
+                 {this.state.infoDatas && this.state.infoDatas.info.map((item, index) => {
+                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
                  })}
                </ul>
              </Card></div>
@@ -199,15 +198,15 @@ class Information extends React.Component {
          </Col>
          <Col span={16} style={{width: '68%'}}>
            <ul className='ul-top' style={{width: '100%', marginTop: '10px', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>
-             {this.state.infoData && this.state.infoData.list.map((item, index) => {
+             {this.state.infoData && this.state.infoData.info.map((item, index) => {
                return <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}} key={index}>
                  <Col span={24}>
                    <Row>
-                     <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>
+                     <Col span={17}><p className='p'><a onClick={this.handleTabChanges.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle ? item.contentTitle : '预备' }</a></p></Col>
                    </Row>
                    <Row>
                      <Col span={23}>
-                       <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.info_desc, 150)}</p>
+                       <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 150)}</p>
                      </Col>
                    </Row>
                    <Row>
