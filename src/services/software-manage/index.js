@@ -723,8 +723,9 @@ export function deleteGatewayBanner (params, sucFn) {
 /*
  * 教育新闻列表
  */
-export function newsList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', {params: params})
+export function newsList (params, auditStatus, sucFn) {
+  console.log(params, auditStatus)
+  return axios.get(`${API_BASE_URL_V2}/${SERVICE_PORTAL}/news/list/${auditStatus}`, {params: params})
     .then(function (res) {
       sucFn(res)
     })

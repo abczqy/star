@@ -9,11 +9,13 @@ import img from '../../assets/images/hear.jpg'
 import './NewsList.scss'
 import _ from 'lodash'
 import _ul from '../../assets/images/_ul.png'
-import ajaxUrl from 'config'
+import moment from 'moment'
+// import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import {newsList, information} from 'services/software-manage'
 import { withRouter } from 'react-router'
+import pic from '../../assets/images/u18499.png'
 
 class News extends React.Component {
   constructor (props) {
@@ -37,12 +39,10 @@ class News extends React.Component {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize
     }
-    newsList(value, (response) => {
+    newsList(value, 1, (response) => {
+      console.log(response)
       this.setState({
-        newData: response.data
-      }, () => {
-        console.log('获取数据存在state', this.state.newData)
-        console.log('获取数据存在state', this.state.newData.list)
+        newData: response.data.data
       })
     })
 
@@ -168,19 +168,19 @@ class News extends React.Component {
         </Col>
         <Col span={15} style={{width: '68%', minHeight: this.state.viewHeights, backgroundColor: '#fff'}}>
           <ul className='ul-top' style={{width: '100%', padding: '0', marginTop: '10px'}}>
-            {(!_.isEmpty(this.state.newData)) && this.state.newData.list.map((item, index) => {
+            {(!_.isEmpty(this.state.newData)) && this.state.newData.info.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.news_desc, 30)}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 30)}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -190,15 +190,15 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.news_desc, 30)}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 30)}</p>
                         </Col>
                       </Row>
                     </Col>
