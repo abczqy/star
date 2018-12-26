@@ -4,6 +4,7 @@
 import React, { Component } from 'react'
 import { Carousel } from 'antd'
 import ajaxUrl from 'config'
+import imgBanner from '../../assets/images/software-market/u6372.png'
 import {homeCarousel} from 'services/software-home/'
 import './HomeCarousel.scss'
 
@@ -24,9 +25,11 @@ class HomeCarousel extends Component {
   }
   getCarouselData = () => {
     homeCarousel({
+      bannerType: 3
     }, (res) => {
+      console.log('软超首页轮播图', res.data.data)
       this.setState({
-        homeCarouselDatas: res.data.list || []
+        homeCarouselDatas: res.data.data || []
       }, () => {
         // console.log(8888888, this.state.homeCarouselDatas)
       })
@@ -40,7 +43,9 @@ class HomeCarousel extends Component {
             return (
               <div key={index}>
                 <h3>
-                  <img style={{width: '100%', height: '360px'}} src={ajaxUrl.IMG_BASE_URL + '/' + item.BANNER_URL} />
+                  {item.BANNER_URL ? <img style={{width: '100%', height: '360px'}} src={ajaxUrl.IMG_BASE_URL + '/' + item.BANNER_URL} />
+                    : <img style={{width: '100%', height: '360px'}} src={imgBanner} />}
+
                 </h3>
               </div>
             )
