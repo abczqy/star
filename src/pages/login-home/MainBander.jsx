@@ -6,11 +6,13 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './MainHome.scss'
 import { withRouter } from 'react-router'
-import {getPortalBannerImg} from 'services/portal'
+import {getPortalBannerImg} from 'services/portalnew'
+import {login} from 'services/portal'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
 import Config from 'config'
-import {getCookie} from 'utils/cookie'
+import {clearCookie, setCookie, getCookie} from 'utils/cookie'
+import imgBanner1 from '../../assets/images/login-home/u664.jpg'
 
 class MainBander extends React.Component {
   static propTypes = {
@@ -41,77 +43,67 @@ class MainBander extends React.Component {
   }
 
   handleLogin () {
-    // 测试 -- 解除拦截
-    // 管理员角色
-    webStorage.setItem('STAR_WEB_SESSION_ID', 'ac18b265260cb8437dea590a8886e66a')
-    webStorage.setItem('STAR_WEB_ROLE_CODE', 'operator')
-    webStorage.setItem('STAR_WEB_PERSON_INFO', {role: 'operator', id: 'admin_1', name: 'admin'})
-    webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-    this.props.history.push({
-      pathname: '/software-market-home'
+    if (this.state.userName === '' || this.state.passWord === '') {
+      this.setState({
+        msgTip: '用户名或密码不能为空!'
+      })
+      return
+    }
+    login({
+      userName: this.state.userName || '',
+      userPassword: this.state.passWord || ''
+    }, (response) => {
+      let data = response.data
+      // 如果登陆成功
+      if (data.success) {
+        webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
+        webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
+        webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
+        webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+
+        clearCookie()
+        setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 0)
+
+        window.location.reload()
+        // 清空提示信息
+        this.setState({
+          msgTip: ''
+        })
+        this.props.updatePage()
+        // 如果该用户是首次登录
+        if (data.isFirstLogged) {
+          // 如果是教师和学生   先弹出信息
+          if (data.roleCode === 'teacher' || data.roleCode === 'students') {
+            this.setState({
+              loginFormVisible: false
+            })
+            this.props.showSureWin(this.getSureInfoData(data.personInfo || {}, data.roleCode))
+          } else if (data.roleCode === 'parents') { // 如果是家长  关闭登录form框
+            this.setState({
+              loginFormVisible: false
+            })
+          } else { // 其他的弹出修改密码窗口
+            this.setState({
+              loginFormVisible: false
+            })
+            this.props.handleChangeVisible('changeInfoWinVisible', true)
+          }
+        } else {
+          this.setState({
+            loginFormVisible: false
+          })
+          if (data.roleCode === 'operator') {
+            this.props.history.push({
+              pathname: '/software-market-home'
+            })
+          }
+        }
+      } else {
+        this.setState({
+          msgTip: data.msg
+        })
+      }
     })
-
-    // if (this.state.userName === '' || this.state.passWord === '') {
-    //   this.setState({
-    //     msgTip: '用户名或密码不能为空!'
-    //   })
-    //   return
-    // }
-    // login({
-    //   userName: this.state.userName || '',
-    //   userPassword: this.state.passWord || ''
-    // }, (response) => {
-    //   let data = response.data
-    //   // 如果登陆成功
-    //   if (data.success) {
-    //     webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
-    //     webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
-    //     webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
-    //     webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-
-    //     clearCookie()
-    //     setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 0)
-
-    //     window.location.reload()
-    //     // 清空提示信息
-    //     this.setState({
-    //       msgTip: ''
-    //     })
-    //     this.props.updatePage()
-    //     // 如果该用户是首次登录
-    //     if (data.isFirstLogged) {
-    //       // 如果是教师和学生   先弹出信息
-    //       if (data.roleCode === 'teacher' || data.roleCode === 'students') {
-    //         this.setState({
-    //           loginFormVisible: false
-    //         })
-    //         this.props.showSureWin(this.getSureInfoData(data.personInfo || {}, data.roleCode))
-    //       } else if (data.roleCode === 'parents') { // 如果是家长  关闭登录form框
-    //         this.setState({
-    //           loginFormVisible: false
-    //         })
-    //       } else { // 其他的弹出修改密码窗口
-    //         this.setState({
-    //           loginFormVisible: false
-    //         })
-    //         this.props.handleChangeVisible('changeInfoWinVisible', true)
-    //       }
-    //     } else {
-    //       this.setState({
-    //         loginFormVisible: false
-    //       })
-    //       if (data.roleCode === 'operator') {
-    //         this.props.history.push({
-    //           pathname: '/software-market-home'
-    //         })
-    //       }
-    //     }
-    //   } else {
-    //     this.setState({
-    //       msgTip: data.msg
-    //     })
-    //   }
-    // })
   }
 
   getSureInfoData (personInfo, roleCode) {
@@ -201,10 +193,13 @@ class MainBander extends React.Component {
    * 获取门户首页Banner图片
    */
   getPortalBannerImg () {
-    getPortalBannerImg({}, (response) => {
-      let result = response.data
+    getPortalBannerImg({
+      bannerType: '1'
+    }, (response) => {
+      let result = response.data.data
+      console.log('顶部轮播', result)
       this.setState({
-        bannerImg: result.data || []
+        bannerImg: result || []
       })
     })
   }
@@ -225,10 +220,13 @@ class MainBander extends React.Component {
         <div className='custom-slider'>
           <Slider {...settings}>
             {
-              this.state.bannerImg.map((item, index, arr) => {
-                return (<div key={index} style={{height: '445px', width: '100%'}} >
+              (this.state.bannerImg instanceof Array) && this.state.bannerImg.map((item, index, arr) => {
+                return item.banner_url ? <div key={index} style={{height: '445px', width: '100%'}} >
                   <img src={Config.IMG_BASE_URL + item.banner_url || ''} style={{height: '445px', width: '100%'}} />
-                </div>)
+                </div>
+                  : <div key={index} style={{height: '445px', width: '100%'}} >
+                    <img src={imgBanner1} style={{height: '445px', width: '100%'}} />
+                  </div>
               })
             }
           </Slider>
