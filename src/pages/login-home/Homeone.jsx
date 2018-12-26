@@ -6,6 +6,7 @@
 import React from 'react'
 import Slider from 'react-slick'
 import { Row, Col, Carousel, Input, Button } from 'antd'
+import Config from 'config'
 // import { Row, Col, Input, Bu tton } from 'antd'
 import { HomeCard } from 'components/home'
 import MainBander from './MainBander'
@@ -17,8 +18,8 @@ import HomeNewsAndInfo from './HomeNewsAndInfo'
 import Platdata from './Platdata'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { getRecommendApp, getSoftMarketList, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portal'
-import imgTeacher from '../../assets/images/login-home/u686.jpg'
+import { getMessageCaro, getPortalBannerImg, getRecommendApp, getSoftMarketList, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portalnew'
+import imgBanner from '../../assets/images/login-home/u686.jpg'
 import imgAd1 from '../../assets/images/login-home/u700.png'
 import imgAd2 from '../../assets/images/login-home/u703.png'
 import imgAd3 from '../../assets/images/login-home/u706.png'
@@ -34,10 +35,12 @@ class Home extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      bannerBottomImg: [], // 底部轮播图片
+      messageCaro: [], // 轮播消息
       roleCode: '', // 角色
       sureDate: [],
-      webAppData: [], // 热门推荐
-      softMarketData: [], // 软件市场
+      webAppData: [], // 工作台我的应用
+      softMarketData: [], // 软件市场重点推荐
       newsData: [], // 新闻列表
       infoData: [], // 信息公开
       appCountData: []// 软件统计
@@ -69,17 +72,20 @@ class Home extends React.Component {
    */
   getHomeData () {
   // 门户首页-热门推荐
-    getRecommendApp({}, (response) => {
-      let result = response.data
+    getRecommendApp({
+    }, (response) => {
+      let result = response.data.data || []
+      console.log('工作台', result)
       if (result.success) {
         this.setState({
-          webAppData: result.data || []
+          webAppData: result || []
         })
       }
     })
     // 门户首页-软件市场
     getSoftMarketList({}, (response) => {
-      let result = response.data
+      let result = response.data || []
+      console.log('软件市场', result)
       if (result.success) {
         this.setState({
           softMarketData: result.data || []
@@ -87,25 +93,50 @@ class Home extends React.Component {
       }
     })
     // 门户首页-教育新闻
-    getNewsNoticeList({}, (response) => {
-      let result = response.data
+    getNewsNoticeList({pageSize: '6'}, (response) => {
+      let result = response.data.data.info || []
+      console.log('教育新闻', result)
       this.setState({
-        newsData: result.data || []
+        newsData: result || []
       })
     })
     // 门户首页-信息公开
-    getPublicNoticeList({}, (response) => {
-      let result = response.data
+    getPublicNoticeList({pageSize: '6'}, (response) => {
+      let result = response.data.data.info || []
+      console.log('信息公开', result)
       this.setState({
-        infoData: result.data || []
+        infoData: result || []
       })
     })
     // 门户首页-应用总数统计
     getAllAppCount({}, (response) => {
-      let result = response.data
+      let result = response.data || []
+      console.log('应用总数', result)
       this.setState({
         appCountData: result.data
       })
+    })
+    // 底部轮播图
+    getPortalBannerImg({
+      bannerType: '2'
+    }, (response) => {
+      let result = response.data.data || []
+      console.log('底部轮播', result)
+      this.setState({
+        bannerBottomImg: result || []
+      })
+      // console.log('this.state.bannerBottomImg', this.state.bannerBottomImg)
+    })
+    // 首页轮播消息
+    getMessageCaro({
+      userId: 'string'
+    }, (response) => {
+      let result = response.data.data.info || []
+      console.log('消息轮播', result)
+      this.setState({
+        messageCaro: result || []
+      })
+      // console.log('this.state.messageCaro', this.state.messageCaro)
     })
   }
 
@@ -183,14 +214,20 @@ class Home extends React.Component {
           <Col span={20} offset={2}>
             <div className='message-container'>
               <Carousel vertical autoplay autoplaySpeed='20'>
-                <div>
+                {this.state.messageCaro && this.state.messageCaro.map((item, index) => {
+                  return <div key={index}>
+                    <span className='messageleft' />
+                    <div className='messageright'>{item.message.content}</div>
+                  </div>
+                })}
+                {/* <div>
                   <span className='messageleft' />
                   <div className='messageright'>【好消息！中办、国办发文 要提高这群人的待遇】近日，中共中央办公厅、国务院办公厅印发了《关于提高技术工人待遇的意见》</div>
                 </div>
                 <div>
                   <span className='messageleft' />
                   <div className='messageright'>【好消息！中办、国办发文 要提高这群人的待遇】近日，中共中央办公厅、国务院办公厅印发了《关于提高技术工人待遇的意见》</div>
-                </div>
+                </div> */}
               </Carousel>
             </div>
           </Col>
@@ -199,7 +236,8 @@ class Home extends React.Component {
           <Col span={20} offset={2}>
             <Row type='flex' justify='space-between'>
               <Col style={{ width: '22.25%' }}>
-                <HomeCard title={(roleCode === 'school' || roleCode === 'vendor' || roleCode === 'eduBureau') ? '工作台' : '我的空间'} moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
+                <HomeCard title={(roleCode === 'school' || roleCode === 'vendor' || roleCode === 'eduBureau') ? '工作台' : '我的空间'}
+                  moreUrl='/operate-manage-home/work-plat/home' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
                   {roleCode
                     ? <HomeWebApp data={this.state.webAppData || []} />
                     : <div style={{ textAlign: 'center' }}>
@@ -210,7 +248,7 @@ class Home extends React.Component {
                 </HomeCard>
               </Col>
               <Col className='news-info-content' style={{ width: '53.83%' }}>
-                <HomeCard title='教育新闻' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(217, 229, 237, 1)' titleColor='black'>
+                <HomeCard title='教育新闻' moreUrl='/home/newsList' cardWidth={'100%'} cardBgColor='rgba(217, 229, 237, 1)' titleColor='black'>
                   {this.state.newsData && this.state.newsData.map((item, index) => {
                     return <HomeNewsAndInfo key={index} changeActiveTab={this.props.changeActiveTab} isNews infoOrNewsData={item || ''} index={index + 1} />
                   })}
@@ -228,12 +266,12 @@ class Home extends React.Component {
           <Col span={20} offset={2}>
             <Row type='flex' justify='space-between'>
               <Col style={{ width: '22.25%' }}>
-                <HomeCard title='软件市场' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
+                <HomeCard title='软件市场' moreUrl='/operate-manage-home/home' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
                   <HomeWebApp data={this.state.softMarketData || []} />
                 </HomeCard>
               </Col>
               <Col style={{ width: '53.83%' }}>
-                <HomeCard title='信息公开' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(217, 229, 237, 1)' titleColor='black'>
+                <HomeCard title='信息公开' moreUrl='/home/information' cardWidth={'100%'} cardBgColor='rgba(217, 229, 237, 1)' titleColor='black'>
                   {this.state.infoData && this.state.infoData.map((item, index) => {
                     return <HomeNewsAndInfo key={'info-' + index} changeActiveTab={this.props.changeActiveTab} infoOrNewsData={item || ''} index={index + 1} />
                   })}
@@ -255,9 +293,12 @@ class Home extends React.Component {
                 <div><img alt='' src={imgTeacher} width='100%' /></div>
               </Carousel> */}
               <Slider {...settings}>
-                <img src={imgTeacher} style={{height: '530px', width: '100%'}} />
-                <img src={imgTeacher} style={{height: '530px', width: '100%'}} />
-
+                {
+                  (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
+                    return item.picUrl ? <img key={index} src={(Config.IMG_BASE_URL + item.picUrl) || ''} style={{height: '530px', width: '100%'}} />
+                      : <img key={index} src={imgBanner} style={{height: '530px', width: '100%'}} />
+                  })
+                }
               </Slider>
             </div>
           </Col>

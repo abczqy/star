@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
 import Config from 'config'
 import {clearCookie, setCookie, getCookie} from 'utils/cookie'
+import imgBanner1 from '../../assets/images/login-home/u664.jpg'
 
 class MainBander extends React.Component {
   static propTypes = {
@@ -191,10 +192,13 @@ class MainBander extends React.Component {
    * 获取门户首页Banner图片
    */
   getPortalBannerImg () {
-    getPortalBannerImg({}, (response) => {
-      let result = response.data
+    getPortalBannerImg({
+      bannerType: '1'
+    }, (response) => {
+      let result = response.data.data
+      console.log('顶部轮播', result)
       this.setState({
-        bannerImg: result.data || []
+        bannerImg: result || []
       })
     })
   }
@@ -215,10 +219,13 @@ class MainBander extends React.Component {
         <div className='custom-slider'>
           <Slider {...settings}>
             {
-              this.state.bannerImg.map((item, index, arr) => {
-                return (<div key={index} style={{height: '445px', width: '100%'}} >
+              (this.state.bannerImg instanceof Array) && this.state.bannerImg.map((item, index, arr) => {
+                return item.banner_url ? <div key={index} style={{height: '445px', width: '100%'}} >
                   <img src={Config.IMG_BASE_URL + item.banner_url || ''} style={{height: '445px', width: '100%'}} />
-                </div>)
+                </div>
+                  : <div key={index} style={{height: '445px', width: '100%'}} >
+                    <img src={imgBanner1} style={{height: '445px', width: '100%'}} />
+                  </div>
               })
             }
           </Slider>

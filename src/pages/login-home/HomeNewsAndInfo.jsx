@@ -73,13 +73,14 @@ class HomeNewsAndInfo extends React.Component {
     return s
   }
 
-  getDay (str) {
-    let s = ''
-    if (str) {
-      s = moment(str).day()
-    }
-    return s
-  }
+  // getDay (str) {
+  //   let s = ''
+  //   if (str) {
+  //     s =
+  //   }
+  //   console.log(s)
+  //   return s
+  // }
 
   render () {
     let item = this.props.infoOrNewsData || ''
@@ -119,12 +120,13 @@ class HomeNewsAndInfo extends React.Component {
                 display: 'inline-block'
               }}
             >
-              {isNews ? (item.news_title || '无') : (item.info_title || '无')}
+              {item.content || '无'}
             </a>
           </Col>
           <Col span={3}>
             <span style={{float: 'right'}}>
-              [{this.getMonth(item.news_time || item.info_time)}-{this.getDay(item.news_time || item.info_time)}]
+              [{moment(item.updateTime).format('MM-DD')}]
+              {/* [{this.getMonth(item.updateTime)}-{this.getDay(item.updateTime)}] */}
             </span>
           </Col>
         </Row>
