@@ -57,7 +57,7 @@ class AllApplicationsDetail extends React.Component {
       pageSize: 20
     }, (res) => {
       this.setState({
-        allAppListData: res.data.data
+        allAppListData: res.data.data || []
       })
     }).catch((e) => { console.log(e) })
   }
@@ -66,7 +66,7 @@ class AllApplicationsDetail extends React.Component {
     allAppPlatformList({
     }, (res) => {
       this.setState({
-        platformAppData: res.data.data
+        platformAppData: res.data.data || []
       }, () => {
         this.state.platformAppDataa = []
         for (let i in this.state.platformAppData) {
