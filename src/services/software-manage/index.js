@@ -11,7 +11,36 @@ export function getAppListData (params, sucFn) {
       sucFn(res)
     })
 }
-
+/**
+ * 软件管理-下架
+ */
+export function getAppListDatav2 (params, sucFn) {
+  console.log('params.sw_type' + params.sw_type)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET +
+  '/manage-app/list-by-audit-status' +
+  '?auditStatus=' + params.auditStatus +
+  '&downloadCount=' + params.downloadCount +
+  '&keyword=' + params.keyword +
+  '&pageNum=' + params.pageNum +
+  '&pageSize=' + params.pageSize +
+  '&typeId=' + params.typeId)
+  // '?auditStatus=5&downloadCount=desc&pageNum=1&pageSize=10&typeId=101')
+  // + {...params}
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 下载历史
+ */
+export function downloadv2 (params, sucFn) {
+  console.log('params.sw_type' + params.sw_type)
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/count/download-ranking/10/1')
+  // http://192.168.1.31:10101/edu-market/count/download-ranking/10/1
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 软件管理-应用类型下拉框获取
  */
