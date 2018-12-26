@@ -5,17 +5,35 @@
 import React from 'react'
 import { Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
+// import { withRouter } from 'react-router'
 import Config from 'config'
 import webStorage from 'webStorage'
+import imgApp from '../../assets/images/work-plat/app-more.png'
 import './WebApp.scss'
 
-class HomeWebApp extends React.Component {
+export default class HomeWebApp extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-
+      data: []
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    // console.log('nextProps:  ', nextProps)
+    if (nextProps.data !== this.props.data) {
+      this.setState({
+        data: nextProps.data
+      })
+      // return true
+    }
+  }
+
+  componentDidMount () {
+    // console.log('componentDidMount=======', this.state.data)
+    this.setState({
+      data: this.props.data
+    })
   }
 
   handleAppClick (item) {
@@ -24,26 +42,33 @@ class HomeWebApp extends React.Component {
       message.warning('请先登录!')
       return
     }
-    if (item.user_id) {
-      window.open(item.sw_path)
+    if (item.appSource && item.appSource === 'pt') {
+      window.open(item.apppath)
     } else {
-      this.props.history.push('/operate-manage-home/all-app-detail?'+item.sw_id)
+      this.props.history.push('/operate-manage-home/all-app-detail?'+item.appId)
     }
   }
 
   render () {
+    console.log('render=====', this.state.data)
+
     return (
       <Row type='flex' justify='start' style={{height: '100%'}}>
         {
-          this.props.data.map((item, index, arr) => {
+          this.state.data && this.state.data.map((item, index) => {
             return (
-              index<6
-                ? <Col span={8} key={index} onClick={() => { this.handleAppClick(item) }}>
-                  <div style={{width: '100%', textAlign: 'center'}}>
-                    <img className='app-img' src={Config.IMG_BASE_URL + (item.sw_icon || item.SW_ICON)} />
-                    <div className='title'>{item.sw_name || item.SW_NAME}</div>
+              <Col span={8} key={index} onClick={() => { this.handleAppClick(item) }}>
+                <div style={{width: '100%', textAlign: 'center'}}>
+                  {
+                    item.appIcon && item.appIcon
+                      ? <img className='app-img' src={Config.IMG_BASE_URL + item.appIcon} />
+                      : <img className='app-img' style={{backgroundColor: '#1890ff'}} src={imgApp} />
+                    // <img className='app-img' src={imgApp} />
+                  }
+                  <div className='title'>{item.appName || ''}
                   </div>
-                </Col> : ''
+                </div>
+              </Col>
             )
           })
         }
@@ -55,5 +80,3 @@ class HomeWebApp extends React.Component {
 HomeWebApp.propTypes = {
   data: PropTypes.array
 }
-
-export default withRouter(HomeWebApp)

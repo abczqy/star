@@ -76,7 +76,7 @@ export function getMessageCaro (params, sucFn) {
  * 门户首页-工作台我的应用
  */
 export function getRecommendApp (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/hot-app/0/6')
+  return axios.get(API_BASE_URL_V2 + '/edu-market/app-open/' + params.userId)
     .then(function (res) {
       sucFn(res)
     })
@@ -86,7 +86,7 @@ export function getRecommendApp (params, sucFn) {
  * 门户首页-软件市场重点推荐
  */
 export function getSoftMarketList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/top-app/0/6')
+  return axios.get(API_BASE_URL_V2 + '/edu-market/top-app/1/6')
     .then(function (res) {
       sucFn(res)
     })
@@ -117,7 +117,7 @@ export function getPublicNoticeList (params, sucFn) {
  * 门户首页-应用总数统计
  */
 export function getAllAppCount (params, sucFn) {
-  return axios.get(API_BASE_URL + '/getAllAppCount')
+  return axios.get(API_BASE_URL_V2 + '/edu-market/manage-app/app-info')
     .then(function (res) {
       sucFn(res)
     })

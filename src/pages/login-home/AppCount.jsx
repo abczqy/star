@@ -14,15 +14,16 @@ export default class AppCount extends React.Component {
     return (
       <Col span={8} key={index}>
         <div className='item'>
-          <span className='num'>{item.num}</span>
+          <span className='num'>{item.NUM}</span>
           <span className='more'>+</span>
-          <div className='category'>{item.class}(个)</div>
+          <div className='category'>{item.APP_TYPE_NAME}(个)</div>
         </div>
       </Col>
     )
   }
 
   render () {
+    // console.log('AppCount！÷！！！！！！！！！！', this.props)
     return (
       <div className='bottom-banner'>
         <div className='div-wapper'>
