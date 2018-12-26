@@ -184,7 +184,7 @@ class PersonnelManagement extends Component {
                 style={{width: 200}}
               />
             </Col>
-            <Col offset={8} span={8} className='opt-box' >
+            <Col offset={6} span={10} className='opt-box' >
               <span className='link' onClick={this.templateDownload} >模板下载</span>
               <Button
                 className='btn-style add-btn'
