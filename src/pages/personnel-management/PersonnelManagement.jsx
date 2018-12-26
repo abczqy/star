@@ -184,7 +184,7 @@ class PersonnelManagement extends Component {
                 style={{width: 200}}
               />
             </Col>
-            <Col offset={10} span={6} className='opt-box' >
+            <Col offset={8} span={8} className='opt-box' >
               <Button
                 className='btn-style add-btn'
                 onClick={this.newPerson}
