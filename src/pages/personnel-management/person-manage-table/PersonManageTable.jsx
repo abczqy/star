@@ -179,8 +179,8 @@ class PersonManageTable extends Component {
       let data = response.data
       this.setState({
         tableData: {
-          data: data.list,
-          total: data.total
+          data: data.list || [],
+          total: data.total || 0
         }
       })
     }
