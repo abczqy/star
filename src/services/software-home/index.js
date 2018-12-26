@@ -1,10 +1,10 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_V2} = config
 
 // 厂商登录首页排行榜
 export function manufacturerSignInRankingList (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/charts', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-ranking/10/1')
     .then(function (res) {
       sucFn(res)
     })
@@ -21,21 +21,21 @@ export function homeSearch (params, sucFn) {
 }
 // 首页老师推荐
 export function teacherRecommend (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/teacherRecommendApp', {...params})
+  return axios.get(API_BASE_URL_V2 + '/portal/teacher-recommend-app', {params: params})
     .then(function (res) {
       sucFn(res)
     })
 }
 // 首页热门推荐
 export function hotRecommend (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/hotApp', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/hot-app/' + params.pageNum + '/' + params.pageSize)
     .then(function (res) {
       sucFn(res)
     })
 }
 // 首页轮播图
 export function homeCarousel (params, sucFn) {
-  return axios.get(API_BASE_URL + '/homepage/banner', {...params})
+  return axios.get(API_BASE_URL_V2 + '/portal/banners/' + params.bannerType)
     .then(function (res) {
       sucFn(res)
     })

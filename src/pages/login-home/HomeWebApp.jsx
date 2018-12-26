@@ -50,7 +50,7 @@ export default class HomeWebApp extends React.Component {
   }
 
   render () {
-    console.log('render=====', this.state.data)
+    // console.log('render=====', this.state.data)
 
     return (
       <Row type='flex' justify='start' style={{height: '100%'}}>
