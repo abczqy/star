@@ -16,7 +16,7 @@ export function getAppListData (params, sucFn) {
  */
 export function getAppListDatav2 (params, sucFn) {
   console.log('params.sw_type' + params.sw_type)
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET +
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET +
   '/manage-app/list-by-audit-status' +
   '?auditStatus=' + params.auditStatus +
   '&downloadCount=' + params.downloadCount +
@@ -35,7 +35,7 @@ export function getAppListDatav2 (params, sucFn) {
  */
 export function downloadv2 (params, sucFn) {
   console.log('params.sw_type' + params.sw_type)
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/count/download-ranking/10/1')
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/count/download-ranking/10/1')
   // http://192.168.1.31:10101/edu-market/count/download-ranking/10/1
     .then(function (res) {
       sucFn(res)
@@ -45,7 +45,7 @@ export function downloadv2 (params, sucFn) {
  * 软件管理-应用类型下拉框获取
  */
 export function getApptype (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/app-type', {...params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-type', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -671,7 +671,7 @@ export function informationEdListEdit (params, sucFn) {
  * 平台首页-门户导航查询
  */
 export function getGatewayNavigationList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/channel', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/channel', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -708,7 +708,7 @@ export function informationEdListDelete (params, id, sucFn) {
  * 平台首页-门户banner图添加
  */
 export function addGatewayBanner (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/banners', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/banners', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -726,7 +726,7 @@ export function informationEdList (params, sucFn) {
  * 平台首页-门户banner图查询
  */
 export function getGatewayBannerList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/banners', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/banners', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -754,7 +754,7 @@ export function deleteGatewayBanner (params, sucFn) {
  */
 export function newsList (params, auditStatus, sucFn) {
   console.log(params, auditStatus)
-  return axios.get(`${API_BASE_URL_V2}/${SERVICE_PORTAL}/news/list/${auditStatus}`, {params: params})
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/news/list/${auditStatus}`, {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -773,7 +773,7 @@ export function newsListDet (params, sucFn) {
  * param: auditStatus 是否通过审核
  */
 export function information (params, auditStatus, sucFn) {
-  return axios.get(`${API_BASE_URL_V2}/${SERVICE_PORTAL}/notifications/list/${auditStatus}`, {params: params})
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/notifications/list/${auditStatus}`, {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -809,7 +809,7 @@ export function saveKeyPush (params, sucFn) {
  * 软件市场查询
  */
 export function getSoftMarketList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/manage-app/apps-by-name-type', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/apps-by-name-type', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -818,7 +818,7 @@ export function getSoftMarketList (params, sucFn) {
  * 软件市场保存
  */
 export function saveSoftwareMarket (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/hot-app', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -872,7 +872,7 @@ export function addPlatformBanner (params, sucFn) {
  * 重点推介、软件市场、热门推介详情页
  */
 export function getSoftwareDetail (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_EDU_MARKET + '/manage-app/detail-by-id', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/detail-by-id', {params: params})
     .then(function (res) {
       sucFn(res)
     })
