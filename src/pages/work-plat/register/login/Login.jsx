@@ -57,7 +57,6 @@ class Login extends Component {
             }
             getUserInfoV2(userId, (response) => {
               if (response.data.code === 200) {
-                console.log(response.data.data)
                 webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
                 webStorage.setItem('STAR_WEB_IS_LOGGED', true)
                 message.success('登录成功')
@@ -66,7 +65,7 @@ class Login extends Component {
                     pathname: '/software-market-home'
                   })
                 } else {
-                  if (response.data.data.LoginCounts === 0) {
+                  if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
                     this.props.history.push({
                       pathname: '/operate-manage-home/work-plat/first-login'
                     })

@@ -2,7 +2,7 @@
  * 平台管理-新闻列表
  */
 import React, { Component } from 'react'
-import { Table, Divider, message } from 'antd'
+import { Table, Divider, message, Modal } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 // import PropsTypes from 'prop-types'
 import ajaxUrl from 'config'
@@ -12,6 +12,7 @@ import {
 } from 'services/software-manage'
 import { BlankBar, NewsBar } from 'components/software-market'
 import './NewsList.scss'
+const confirm = Modal.confirm
 
 /**
    * 表格分页器设置-默认值
@@ -87,7 +88,7 @@ class NewsList extends Component {
             <span>
               <Link to={{pathname: '/software-market-home/platform-manage/news-list-edit', search: '?' + record.id}}>编辑</Link>
               <Divider type='vertical' />
-              <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
+              <a href='javascript:void(0)' onClick={(e) => this.showConfirm(record)}>删除</a>
             </span>
           )
         }
@@ -112,14 +113,22 @@ class NewsList extends Component {
     const time = new Date(thisTime)
     return time.getTime()
   }
+
   /**
-   * 删除某条新闻
+   * 删除确认框
    */
-  delNews = (record) => {
-    // console.log(`record.news_id: ${record.news_id}`)
-    delV2NewsList({list: record.id}, (res) => {
-      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
-      this.getTableDatas()
+  showConfirm (record) {
+    let that = this
+    confirm({
+      title: '确认删除本条新闻？',
+      onOk () {
+        delV2NewsList({list: record.id}, (res) => {
+          // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+          that.getTableDatas()
+        })
+      },
+      onCancel () {
+      }
     })
   }
 
@@ -161,17 +170,25 @@ class NewsList extends Component {
   }
 
   /**
-   * 当点击'批量删除'按钮时的回调
+   * 批量删除确认框
    */
   onBatchDel = () => {
     const { idArrs } = this.state.batchLeadParams
-    if (idArrs) {
-      delV2NewsList({list: idArrs}, (res) => {
-        this.getTableDatas()
-      })
-    } else {
-      message.info('请选择数据')
-    }
+    let that = this
+    confirm({
+      title: '确认删除选中的新闻？',
+      onOk () {
+        if (idArrs) {
+          delV2NewsList({list: idArrs}, (res) => {
+            that.getTableDatas()
+          })
+        } else {
+          message.info('请选择数据')
+        }
+      },
+      onCancel () {
+      }
+    })
   }
 
   /**

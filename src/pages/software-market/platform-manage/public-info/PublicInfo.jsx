@@ -2,7 +2,7 @@
  * 平台管理-新闻列表
  */
 import React, { Component } from 'react'
-import { Table, Divider, Icon, message } from 'antd'
+import { Table, Divider, Icon, message, Modal } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
@@ -10,6 +10,7 @@ import {
   delV2PubInfoList
 } from 'services/software-manage'
 import { BlankBar, PublicInfoBar } from 'components/software-market'
+const confirm = Modal.confirm
 
 /**
    * 表格分页器设置-默认值
@@ -87,7 +88,7 @@ class PublicInfo extends Component {
             <span>
               <Link to={{pathname: '/software-market-home/platform-manage/public-info-edit', search: '?' + record.id}}>编辑</Link>
               <Divider type='vertical' />
-              <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
+              <a href='javascript:void(0)' onClick={(e) => this.showConfirm(record)}>删除</a>
             </span>
           )
         }
@@ -113,15 +114,22 @@ class PublicInfo extends Component {
     return time.getTime()
   }
   /**
-   * 删除某条
+   * 删除确认框
    */
-  delNews = (record) => {
-    delV2PubInfoList({list: record.id}, (res) => {
-      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
-      this.getTableDatas()
+  showConfirm (record) {
+    let that = this
+    confirm({
+      title: '确认删除本条信息？',
+      onOk () {
+        delV2PubInfoList({list: record.id}, (res) => {
+          // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
+          that.getTableDatas()
+        })
+      },
+      onCancel () {
+      }
     })
   }
-
   /**
    * 构建请求参数
    */
@@ -156,17 +164,25 @@ class PublicInfo extends Component {
   }
 
   /**
-   * 当点击'批量删除'按钮时的回调
+   * 批量删除确认框
    */
   onBatchDel = () => {
     const { idArrs } = this.state.batchLeadParams
-    if (idArrs) {
-      delV2PubInfoList({list: idArrs}, (res) => {
-        this.getTableDatas()
-      })
-    } else {
-      message.info('请选择数据')
-    }
+    let that = this
+    confirm({
+      title: '确认删除选中的新闻？',
+      onOk () {
+        if (idArrs) {
+          delV2PubInfoList({list: idArrs}, (res) => {
+            that.getTableDatas()
+          })
+        } else {
+          message.info('请选择数据')
+        }
+      },
+      onCancel () {
+      }
+    })
   }
 
   /**
