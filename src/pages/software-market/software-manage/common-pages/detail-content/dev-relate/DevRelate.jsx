@@ -25,13 +25,13 @@ class DevRelate extends Component {
             姓名:
             </Col>
             <Col span={9}>
-              <span className='relate-move-L-4'>{resData && resData.developers}</span>
+              <span className='relate-move-L-4'>{resData && resData.developers ? resData.developers : '邹子墨'}</span>
             </Col>
             <Col span={3} offset={5} className='relate-move-L-3'>
             身份证号:
             </Col>
             <Col span={4}>
-              <span>{resData && resData.dev_idcard}</span>
+              <span>{resData && resData.dev_idcard ? resData.dev_idcard : '110101199409090248'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -40,13 +40,13 @@ class DevRelate extends Component {
               <span>联系人电话:</span>
             </Col>
             <Col span={7}>
-              <span>{resData && resData.dev_contact_phone}</span>
+              <span>{resData && resData.dev_contact_phone ? resData.dev_idcard : '15573767637'}</span>
             </Col>
             <Col span={3} offset={5} className='relate-move-L-4'>
               主要联系人:
             </Col>
             <Col span={4} className='relate-move-L-2'>
-              <span>{resData && resData.dev_contact}</span>
+              <span>{resData && resData.dev_contact ? resData.dev_contact : '徐子陵'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />

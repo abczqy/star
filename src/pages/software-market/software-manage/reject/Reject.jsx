@@ -150,13 +150,14 @@ class Reject extends Component {
       dataIndex: 'APP_VERSION',
       key: 'APP_VERSION'
     }, {
-      title: '迭代版本',
-      dataIndex: 'DDversion',
-      key: 'DDversion'
-    }, {
       title: '提交时间',
       dataIndex: 'CREATE_TIME',
-      key: 'CREATE_TIME'
+      key: 'CREATE_TIME',
+      render: (text, record, index) => {
+        return (
+          <span >{this.dateToString(text)}</span>
+        )
+      }
     }]
     // }, {
     //   title: '操作',

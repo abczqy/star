@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { iterVerify, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
+import { getAppListDatav2, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
 import webStorage from 'webStorage'
 
 /**
@@ -46,7 +46,11 @@ class IterationVerify extends Component {
       sw_time: '', // 期望上架时间
       options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
       pageNum: 1,
-      pageSize: 10
+      pageSize: 10,
+      auditStatus: 1, // 软件状态3未通过审核
+      typeId: '', // 暂时101，后期接口改完可以空
+      downloadCount: 'desc', // 下载量排行
+      keyword: ''
     }
   }
 
@@ -54,16 +58,21 @@ class IterationVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    iterVerify({
+    getAppListDatav2({
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      sw_type: this.state.sw_type, // 应用类型
-      sw_name: this.state.sw_name// 应用名称
+      auditStatus: this.state.auditStatus,
+      typeId: this.state.typeId,
+      downloadCount: this.state.downloadCount,
+      keyword: this.state.keyword
     }, (res) => {
-      const data = res.data
+      const data = res.data.data
+      let jsonStr = JSON.stringify(data)
+      console.log(jsonStr)
+      let dataList = res.data.data.data
       this.setState({
         tableData: {
-          data: this.getSwPath(data.list),
+          data: this.getSwPath(dataList),
           total: data.total
         }
       })
@@ -74,10 +83,12 @@ class IterationVerify extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data.type
-      data.push('全部')
+      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      const dataArray = data.concat(res.data.data)
+      // const a = this.copyArray(data.type)
+      // a.unshift('')
       thiz.setState({
-        options: data
+        options: dataArray
       })
     })
   }
@@ -115,8 +126,8 @@ class IterationVerify extends Component {
   getColumns = () => {
     return [{
       title: '应用名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
       title: '所属类型',
       dataIndex: 'sw_type',
@@ -219,7 +230,7 @@ class IterationVerify extends Component {
     console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
-      sw_type: val
+      typeId: val
     })
   }
 
@@ -258,7 +269,7 @@ class IterationVerify extends Component {
   inputChange = (e) => {
     let value = e.target.value
     this.setState({
-      sw_name: value
+      keyword: value
     })
   }
 
