@@ -6,6 +6,10 @@ import React, { Component } from 'react'
 import ChangePass from '../../../message-notice/ChangePass'
 import ChangePhoneNumber from '../../../message-notice/ChangePhoneNumber'
 import ChangeRileName from '../../../message-notice/ChangeRileName'
+import webStorage from 'webStorage'
+import {axios} from '../../../../utils'
+import config from '../../../../config/index'
+const {API_BASE_URL_V2, SERVICE_AUTHENTICATION} = config
 
 class LoginSet extends Component {
   constructor (props) {
@@ -13,9 +17,29 @@ class LoginSet extends Component {
     this.state = {
       changePassVisible: false,
       changePhoneVisible: false,
-      changeRileNameVisible: false
+      changeRileNameVisible: false,
+      userId: null,
+      userName: '',
+      phoneNumber: '',
+      mailAddress: ''
+      // userType: ''
     }
   }
+
+  componentDidMount () {
+    let id = webStorage.getItem('STAR_V2_USERID') || 1
+    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`, (res) => {
+      console.log(res)
+      this.setState({
+        userId: res.data.data.userId,
+        userName: res.data.data.userName,
+        // userType: res.data.data.userType,
+        phoneNumber: res.data.data.phoneNumber,
+        mailAddress: res.data.data.mailAddress
+      })
+    })
+  }
+
   hiddenModal = (type) => {
     this.setState({
       [type]: false
@@ -64,7 +88,7 @@ class LoginSet extends Component {
             <div className='safe-name'>
               <span className='tit'>手机验证</span>
               <span className='word f-color'><span className='t-color'>您未绑定手机，请绑定！避免账户被盗</span></span>
-              <span className='pbonehidden'>您验证的手机：若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
+              <span className='pbonehidden'>您验证的手机：{this.state.phoneNumber}若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
               <a className='modify' onClick={this.changephone}> 修改</a>
             </div>
           </div>
@@ -74,7 +98,7 @@ class LoginSet extends Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>实名认证</span>
-              <span className='word f-color'>您认证的实名信息：</span>
+              <span className='word f-color'>您认证的实名信息：{this.state.userName}</span>
               <a className='modify' onClick={this.changeRileName}> 修改</a>
             </div>
           </div>
@@ -84,7 +108,7 @@ class LoginSet extends Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>邮箱验证</span>
-              <span className='word f-color'>您验证的邮箱：</span>
+              <span className='word f-color'>您验证的邮箱：{this.state.mailAddress}</span>
               <a className='modify'> 修改</a>
             </div>
           </div>

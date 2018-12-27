@@ -7,7 +7,7 @@ import React from 'react'
 import {Card, Pagination} from 'antd'
 import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
-import {getAllMessageList, getMessageCount} from '../../services/topbar-mation'
+import {getAllMessageList} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
 import webStorage from 'webStorage'
 class MessageNotice extends React.Component {
@@ -22,10 +22,10 @@ class MessageNotice extends React.Component {
 
   handleTabChange (link, id, ready) {
     if (ready === '0') {
-      getMessageCount({msg_id: id}, (response) => {
-        webStorage.setItem('Unread_Message', response.data.count)
-        this.props.updateMessageCount(response.data.count)
-      })
+      // getMessageCount({msg_id: id}, (response) => {
+      //   webStorage.setItem('Unread_Message', response.data.count)
+      //   this.props.updateMessageCount(response.data.count)
+      // })
     }
     if (link === '审核通过') {
       // 审核通过跳转到我的应用
@@ -45,13 +45,15 @@ class MessageNotice extends React.Component {
     this.getPageList()
   }
   getPageList =() => {
+    let id = webStorage.getItem('STAR_V2_USERID') || 'string'
     getAllMessageList({
       page: this.state.pageNum,
       pageSize: 5
-    }, (response) => {
+    }, id, (response) => {
+      console.log(response)
       this.setState({
         listData: response.data.data,
-        total: response.data.count
+        total: response.data.total
       })
     })
   }
@@ -69,9 +71,9 @@ class MessageNotice extends React.Component {
         <Card title='消息通知' bordered={false} className='message-notice-card'>
           <div className='notice-body'>
             {this.state.listData && this.state.listData.map((item, index, arr) => {
-              return <div className='list_itme' key={item.MSG_ID}>
+              return <div className='list_itme' key={item.id}>
                 <div className='list-img'>
-                  <div className={item.hasRead === '1' ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
+                  <div className={item.isRead === '1' ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
                     <i />
                   </div>
                 </div>

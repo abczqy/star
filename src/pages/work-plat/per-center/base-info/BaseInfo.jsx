@@ -10,6 +10,9 @@ import ChangeFirmDescribe from '../../../message-notice/ChangeFirmDescribe'
 import ChangeFirmContract from '../../../message-notice/ChangeFirmContract'
 import ChangeFirmLicense from '../../../message-notice/ChangeFirmLicense'
 import LookFirmLicense from '../../../message-notice/LookFirmLicense'
+import {axios} from '../../../../utils'
+import config from '../../../../config/index'
+const {API_BASE_URL_V2, SERVICE_AUTHENTICATION} = config
 const { TextArea } = Input
 
 class BaseInfo extends Component {
@@ -23,9 +26,35 @@ class BaseInfo extends Component {
       lookFirmLicense: false, // 查看营业执照
       changeName: false,
       changeMobile: false,
-      changeMail: false
+      changeMail: false,
+      userId: null,
+      userName: '',
+      phoneNumber: '',
+      mailAddress: '',
+      userType: ''
     }
   }
+  componentDidMount () {
+    let id = webStorage.getItem('STAR_V2_USERID') || 1
+    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`, (res) => {
+      console.log(res)
+      this.setState({
+        userId: res.data.data.userId,
+        userName: res.data.data.userName,
+        userType: res.data.data.userType,
+        phoneNumber: res.data.data.phoneNumber,
+        mailAddress: res.data.data.mailAddress
+      })
+    })
+  }
+
+  codePhone = () => {
+    let str = this.state.phoneNumber
+    let strName = str.subStr(0, 4) + '***' + str.subStr(-1, 3)
+    console.log(strName)
+    return strName
+  }
+
   hiddenModal = (type) => {
     this.setState({
       [type]: false
@@ -165,7 +194,7 @@ class BaseInfo extends Component {
                   <span>用户类型:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                  XXX市代理商
+                  {this.state.userType}
                 </Col>
               </Row>
               {/* <Row className='base-info-content-top-row'>
@@ -186,8 +215,8 @@ class BaseInfo extends Component {
                 <Col span={12} className='base-info-content-top-info'>
                   {
                     this.state.changeName
-                      ? <Input defaultValue={'张立冬'} />
-                      : '张立冬'
+                      ? <Input defaultValue={this.state.userName} />
+                      : this.state.userName
                   }
                 </Col>
                 <Col className='base-info-content-change'>
@@ -201,10 +230,10 @@ class BaseInfo extends Component {
                 <Col span={12} className='base-info-content-top-info'>
                   {
                     this.state.changeMobile
-                      ? <Input defaultValue={18034569090} />
+                      ? <Input defaultValue={this.state.phoneNumber} />
                       : <div>
                         <span className='info-tips'>您验证的手机:</span>
-                        <span>180****9090</span>
+                        <span>{this.codePhone}</span>
                         <span className='info-tips'>若已丢失或停用，请立即更换,</span>
                         <span className='info-warn'>避免账户被盗</span>
                       </div>
@@ -221,10 +250,10 @@ class BaseInfo extends Component {
                 <Col span={12} className='base-info-content-top-info'>
                   {
                     this.state.changeMail
-                      ? <Input defaultValue={'18901102890@163.com'} />
+                      ? <Input defaultValue={this.state.mailAddress} />
                       : <div>
                         <span className='info-tips'>您验证的邮箱:</span>
-                        <span>18901102890@163.com</span>
+                        <span>{this.state.mailAddress}</span>
                         <span className='info-tips'>若已丢失或停用，请立即更换,</span>
                         <span className='info-warn'>避免账户被盗</span>
                       </div>
