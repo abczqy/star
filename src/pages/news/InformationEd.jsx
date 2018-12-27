@@ -227,7 +227,7 @@ class InformationEd extends React.Component {
   getModalV=(value) => {
     this.setState({
       visible: value
-    })
+    }, () => this.getList())
   }
   // 获取高度
  getHeight=() => {

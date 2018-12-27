@@ -4,7 +4,7 @@
  * 教育局的信息公开列表
  */
 import React from 'react'
-import {Row, Col, Card, Pagination} from 'antd'
+import {Row, Col, Card, Pagination, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import release from '../../assets/images/u111111.png'
 import hand from '../../assets/images/hand.png'
@@ -68,12 +68,13 @@ class Information extends React.Component {
     }
     console.log('教育局的信息公开列表获取数据传的参数', value)
     information(value, 1, (response) => {
-      this.setState({
-        infoData: response.data.data
-      }, () => {
-        console.log('this.state.infoData', this.state.infoData)
-        console.log('this.state.infoData.info', this.state.infoData.info)
-      })
+      if (response.data.code === 200) {
+        this.setState({
+          infoData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let values = {
@@ -82,9 +83,13 @@ class Information extends React.Component {
       type: 0
     }
     information(values, 1, (response) => {
-      this.setState({
-        infoDatas: response.data.data
-      }, () => console.log(this.state.infoDatas))
+      if (response.data.code === 200) {
+        this.setState({
+          infoDatas: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   componentWillMount () {
@@ -220,17 +225,18 @@ class Information extends React.Component {
                <Row>
                  <Col span={12} />
                  <Col >
-                   {this.state.infoData.total > 5
-                     ? <Pagination
-                       current={this.state.pageNum}
-                       total={this.state.infoData.total}
-                       showSizeChanger
-                       defaultPageSize={5}
-                       pageSizeOptions={['5']}
-                       showQuickJumper
-                       onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                   <Pagination
+                     current={this.state.pageNum}
+                     total={this.state.infoData.total}
+                     showSizeChanger
+                     defaultPageSize={5}
+                     pageSizeOptions={['5']}
+                     showQuickJumper
+                     hideOnSinglePage
+                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
                      //  onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                     /> : ''}</Col>
+                   />
+                 </Col>
                </Row>
              </li>
            </ul>
