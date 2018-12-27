@@ -71,12 +71,30 @@ export function getNewsList (params, sucFn) {
       sucFn(res)
     })
 }
+/**
+ * 平台管理-新闻列表-表格数据获取(V2)
+ */
+export function getV2NewsList (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news/list/1', { params: params })
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 
 /**
  * 平台管理-新闻列表-添加
  */
 export function insertNewsList (params, sucFn) {
   return axios.post(API_BASE_URL + '/management/insertnews', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 平台管理-新闻列表-添加（V2）
+ */
+export function insertV2NewsList (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -93,10 +111,30 @@ export function getNewsListForEdit (params, sucFn) {
 }
 
 /**
+ * 平台管理-新闻列表-编辑-为编辑页获取数据V2
+ */
+export function getV2News (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news/' + params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 平台管理-新闻列表-编辑
  */
 export function updateNewsList (params, sucFn) {
   return axios.post(API_BASE_URL + '/management/newsListUpdate', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-新闻列表-编辑V2
+ */
+export function updateV2NewsList (params, sucFn) {
+  return axios.put(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -117,6 +155,16 @@ export function delNewsList (params, sucFn) {
  */
 export function delBatchNewsList (params, sucFn) {
   return axios.post(API_BASE_URL + '/management/newslistbatchdelete', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-新闻列表-删除(V2)
+ */
+export function delV2NewsList (params, sucFn) {
+  return axios.delete(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', {params: params})
     .then(function (res) {
       sucFn(res)
     })
