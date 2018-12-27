@@ -43,49 +43,64 @@ class StatisticalAnalysis extends Component {
   search = () => {
     // console.log('搜索', this.dateRange, this.appCode)
     this.getDownloadLineData({
-      time1: this.dateRange.startDate,
-      time2: this.dateRange.endDate,
-      sw_id: this.appCode
+      startTime: this.dateRange.startDate,
+      endTime: this.dateRange.endDate,
+      userId: this.appCode || '1'
     })
   }
 
   // 软件下载量变化-折线图
   getDownloadLineData=(params) => {
     softwareDownload({
-      time1: '',
-      time2: '',
-      sw_id: '',
+      startTime: '',
+      endTime: '',
+      userId: '',
       ...params
     }, (res) => {
-      // console.log('软件下载量变化-折线图', res.data)
-      let data = res.data
-      if (data && data.length > 0) {
-        let targetData = {
-          xAxis: [], // 横坐标
-          data: [{
-            name: '下载量',
-            value: [] // 下载量
-          }]
+      if (res.data.code === 200) {
+        console.log('软件下载量变化-折线图', res.data.data)
+        let data = res.data.data
+        if (data && data.length > 0) {
+          let targetData = {
+            xAxis: [], // 横坐标
+            data: [{
+              name: '下载量',
+              value: [] // 下载量
+            }]
+          }
+          data.forEach((item, index) => {
+            targetData.xAxis.push(item.MONTH)
+            targetData.data[0].value.push(item.COUNT)
+          })
+          this.setState({
+            downloadLineData: targetData
+          })
         }
-        data.forEach((item, index) => {
-          targetData.xAxis.push(item.SHIJIAN)
-          targetData.data[0].value.push(item.NUM)
-        })
-        this.setState({
-          downloadLineData: targetData
-        })
+      } else {
+        console.log('获取软件下载量变化出现异常', res.data.msg || '')
       }
     })
   }
 
   // 应用类型占比-扇形图
   getAppTypeRadioData=() => {
-    softwareType({}, (res) => {
-      let data = res.data
-      if (data && data.length > 0) {
-        this.setState({
-          appTypeRadioData: res.data
-        })
+    softwareType({
+      userId: '1'
+    }, (res) => {
+      if (res.data.code === 200) {
+        console.log('应用类型占比', res.data.data)
+        let data = res.data.data.slice()
+        if (data && data.length > 0) {
+          data.map((item, index) => {
+            item.name = item.APP_TYPE_NAME
+            item.value = item.COUNT
+          })
+          this.setState({
+            appTypeRadioData: data
+          })
+        }
+      } else {
+        console.log('应用类型占比出现异常', res.data.msg || '')
       }
     })
   }
@@ -122,8 +137,9 @@ class StatisticalAnalysis extends Component {
   }
 
   componentDidMount () {
+    this.search()
     // 软件下载量变化
-    this.getDownloadLineData()
+    // this.getDownloadLineData()
     // 应用类型占比
     this.getAppTypeRadioData()
     // 当月应用下载型占比

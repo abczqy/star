@@ -12,11 +12,19 @@ import AppIcon from '../app-icon'
 // import AppMore from '../../../assets/images/work-plat/app-more.png'
 
 class LabelIcon extends Component {
+  /**
+   * 组件点击事件
+   */
+  onClick = () => {
+    // 把应用id返回父组件
+    this.props.onClick &&
+      this.props.onClick(this.props.id)
+  }
   render () {
     return (
       <div
         className='label-icon-wrap'
-        onClick={this.props.onClick}
+        onClick={this.onClick}
       >
         {
           this.props.icon
@@ -47,6 +55,7 @@ class LabelIcon extends Component {
 }
 
 LabelIcon.propTypes = {
+  id: PropTypes.string, // 应用id
   icon: PropTypes.any, // 图标
   label: PropTypes.any, // 标签
   style: PropTypes.object, // Icon的wrap部分的样式 -- 可以进行尺寸和样式的定制

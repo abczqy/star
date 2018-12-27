@@ -84,17 +84,18 @@ export default [
     title: '运营统计',
     icon: ImgOper,
     key: '4',
-    children: [
-      {
-        title: '应用统计',
-        key: '4-1',
-        to: '/software-market-home/platform-manage/app-count'
-      }, {
-        title: '用户统计',
-        key: '4-2',
-        to: '/software-market-home/platform-manage/user-count'
-      }
-    ]
+    to: '/software-market-home/software-manage/analysis'
+    // children: [
+    //   {
+    //     title: '应用统计',
+    //     key: '4-1',
+    //     to: '/software-market-home/platform-manage/app-count'
+    //   }, {
+    //     title: '用户统计',
+    //     key: '4-2',
+    //     to: '/software-market-home/platform-manage/user-count'
+    //   }
+    // ]
   }, {
     title: '订单管理',
     icon: ImgSoft,
