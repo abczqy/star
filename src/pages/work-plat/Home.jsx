@@ -153,6 +153,7 @@ class Home extends Component {
     this.state = {
       recomApps: [], // 系统（重点）推荐
       myApps: [], // 我的应用
+      myCollect: [], // 我的收藏
       usrInfo: {} // 用户信息
     }
   }
@@ -203,7 +204,7 @@ class Home extends Component {
           const data = res.data
           data.data &&
           thiz.setState({
-            myApps: thiz.topAppsAdapter(data.data.slice())
+            myCollect: thiz.topAppsAdapter(data.data.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -247,26 +248,35 @@ class Home extends Component {
   }
 
   /**
+   * 适配器 - 系统（重点）推荐数据适配 AppCard
+   * @param { Array } data 输入的数据
+   */
+  topAppCardsAdapter = (data) => {
+    // 把从后台拿到的数据适配为view需要的数据格式
+    let result = []
+    data.map((v, i) => {
+      result.push({
+        label: v.appName || null,
+        icon: v.appIcon || null
+      })
+    })
+    return result
+  }
+
+  /**
    * 应用点击
    */
-  onAppClick = (url) => {
+  onAppClick = (id, url) => {
     // 有一个默认的App_id
-    url = url || '/operate-manage-home/all-app-detail?' + 'sw_000197'
+    url = url || `/operate-manage-home/all-app-detail?${id}`
     this.props.history.push(url)
   }
 
   /**
    * AppCard - 点击动作（下载/详情/开通）时的回调
    */
-  onAppCardAction = () => {
-    this.props.history.push('/operate-manage-home/all-app-detail-third')
-  }
-
-  /**
-   * AppCard - 收藏按钮点击函数
-   */
-  onAppCelect = () => {
-    // 调用收藏按钮
+  onAppCardAction = (id, url) => {
+    this.props.history.push(`/operate-manage-home/all-app-detail?${id}`)
   }
 
   /**
@@ -416,11 +426,13 @@ class Home extends Component {
   /**
    * 获得单个App的card
    */
-  getAppCardRender = () => {
+  getAppCardRender = (v, thiz) => {
     return (
       <AppCard
-        onAction={this.onAppCardAction}
-        onCelect={this.onAppCelect}
+        icon={v.APP_ICON || null}
+        title={v.APP_NAME || null}
+        desc={v.APP_NOTES || null}
+        onAction={thiz.onAppCardAction}
       />
     )
   }
@@ -441,7 +453,7 @@ class Home extends Component {
         <LabelIcon
           style={{ ...style }}
           label={itemData.label || '应用'}
-          onClick={() => thiz.onAppClick(params.url)}
+          onClick={(id) => thiz.onAppClick(id, params.url)}
         />
       )
     }
@@ -455,6 +467,8 @@ class Home extends Component {
    * @param { func } itemRender 用来渲染格子的内容
    */
   getCellsRender = (data, gridCol, count, itemRender) => {
+    // 上下文环境
+    const thiz = this
     // 容错-空值
     data = data || []
     count = count || 6
@@ -472,7 +486,7 @@ class Home extends Component {
         {/* <LabelIcon
           label={v.label}
         /> */}
-        { itemRender(v) }
+        { itemRender(v, thiz) }
       </Grid>
     }
     )
@@ -601,7 +615,8 @@ class Home extends Component {
     const role = webStorage.getItem('STAR_WEB_ROLE_CODE')
     const {
       recomApps,
-      myApps
+      myApps,
+      myCollect
     } = this.state
     return (
       <div>
@@ -642,7 +657,7 @@ class Home extends Component {
               extra={<Extra />}
             >
               {
-                this.getCellsRender(mock.myApps, 5, 10, this.getAppCardRender)
+                this.getCellsRender(myCollect, 5, 10, this.getAppCardRender)
               }
             </Card>
           </Col>
@@ -714,7 +729,7 @@ class Home extends Component {
     // 请求数据
     this.getTopApps(this)
     this.getMyApps(this)
-    // this.getMyCollect(this)
+    this.getMyCollect(this)
     this.getUserInfo(this)
   }
 

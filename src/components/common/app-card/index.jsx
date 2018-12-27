@@ -9,17 +9,25 @@ import PropTypes from 'prop-types'
 import { Row, Col } from 'antd'
 import AppIcon from '../app-icon'
 import './AppCard.scss'
+import '../../../assets/index.scss'
 // import AppMore from '../../../assets/images/work-plat/app-more.png'
 // import DownLoad from '../../../assets/images/work-plat/down-load.png'
 import Share from '../../../assets/images/work-plat/share.png'
 import Celect from '../../../assets/images/work-plat/celect.png'
 
 class AppCard extends Component {
+  /**
+   * 动作（详情/下载） - 点击事件
+   */
+  onAction = () => {
+    // 把应用id返回父组件
+    this.props.onAction && this.props.onAction(this.props.id)
+  }
   render () {
-    const {
-      title = '应用名称',
-      desc = '应用描述'
-    } = this.props
+    // const {
+    //   title = '应用名称',
+    //   desc = '应用描述'
+    // } = this.props
     return (
       <div className='app-card'>
         <Row>
@@ -40,12 +48,12 @@ class AppCard extends Component {
           <Col span={16}>
             <Row>
               <Col span={24} className='app-title'>
-                {title}
+                {this.props.title || '名称'}
               </Col>
             </Row>
             <Row>
-              <Col span={24} className='app-desc'>
-                {desc}
+              <Col span={24} className='app-desc ellipsis'>
+                {this.props.desc || '应用描述12345654321234543'}
               </Col>
             </Row>
           </Col>
@@ -65,7 +73,7 @@ class AppCard extends Component {
           <Col span={5} offset={13} >
             <span
               className='btn-wrap btn-text-wrap down-load-icon'
-              onClick={this.props.onAction}
+              onClick={this.onAction}
             >
               { this.props.action || '详情'}
             </span>
@@ -73,7 +81,6 @@ class AppCard extends Component {
           <Col span={3} >
             <span
               className='btn-icon-wrap share-icon'
-              onClick={this.props.onCelect}
             >
               <img
                 className='mini-icon'
@@ -96,12 +103,12 @@ class AppCard extends Component {
 }
 
 AppCard.propTypes = {
+  id: PropTypes.string, // 应用id
   icon: PropTypes.any, // 图片
   title: PropTypes.any, // 名称
   desc: PropTypes.string, // 描述
   action: PropTypes.string, // 动作 -- 下载/详情/开通
-  onAction: PropTypes.func, // 点击'动作'的回调
-  onCelect: PropTypes.func // 点击收藏的回调
+  onAction: PropTypes.func // 点击'动作'的回调
 }
 
 export default AppCard
