@@ -5,13 +5,13 @@
 import React from 'react'
 import { Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
-// import { withRouter } from 'react-router'
+import { withRouter } from 'react-router'
 import Config from 'config'
 import webStorage from 'webStorage'
 import imgApp from '../../assets/images/work-plat/app-more.png'
 import './WebApp.scss'
 
-export default class HomeWebApp extends React.Component {
+class HomeWebApp extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -80,3 +80,5 @@ export default class HomeWebApp extends React.Component {
 HomeWebApp.propTypes = {
   data: PropTypes.array
 }
+
+export default withRouter(HomeWebApp)

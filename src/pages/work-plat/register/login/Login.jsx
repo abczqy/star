@@ -43,11 +43,12 @@ class Login extends Component {
         }, (response) => {
           let data1 = response.data
           if (data1.code === 200) {
-            /** ticket */
+            /** ticket userId */
             if (data1.data.ticket) {
+              webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
               const arr = data1.data.ticket.split('.')
               if (arr.length > 1) {
-                webStorage.setItem('STAR_V2_TICKET', JSON.parse(window.atob(arr[1])).userId ? JSON.parse(window.atob(arr[1])).userId : null)
+                webStorage.setItem('STAR_V2_USERID', JSON.parse(window.atob(arr[1])).userId ? JSON.parse(window.atob(arr[1])).userId : null)
               }
             }
             login({ /** 历史登录接口 */

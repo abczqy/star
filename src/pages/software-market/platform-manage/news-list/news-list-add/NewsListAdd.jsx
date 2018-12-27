@@ -3,7 +3,7 @@ import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
 import Editor from 'wangeditor'
 import {
-  insertNewsList
+  insertV2NewsList
 } from 'services/software-manage'
 import { BlankBar } from 'components/software-market'
 import './NewsListAdd.scss'
@@ -47,16 +47,11 @@ class NewsListAdd extends Component {
    * @returns {*}
    */
   getFormData () {
-    const { fileList, newsTitle } = this.state
-    const title = encodeURI(newsTitle)
-    const desc = encodeURI(this.getRichText())
-    const formData = new FormData()
-    formData.append('news_title', title)
-    formData.append('news_desc', desc)
-    fileList.forEach((file) => {
-      formData.append('news_picture', file)
-    })
-    return formData
+    const { newsTitle } = this.state
+    return {
+      contentTitle: newsTitle,
+      content: this.getRichText()
+    }
   }
 
   /**
@@ -64,7 +59,7 @@ class NewsListAdd extends Component {
    */
   subMit = () => {
     const param = this.getFormData()
-    insertNewsList(param, (res) => {
+    insertV2NewsList(param, (res) => {
       message.success(`${res.data.info}`)
     })
   }

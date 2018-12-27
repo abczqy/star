@@ -2,16 +2,14 @@
  * 平台管理-新闻列表
  */
 import React, { Component } from 'react'
-import { Table, Divider } from 'antd'
+import { Table, Divider, message } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 // import PropsTypes from 'prop-types'
 import ajaxUrl from 'config'
 import {
-  getNewsList,
-  delNewsList,
-  delBatchNewsList
+  getV2NewsList,
+  delV2NewsList
 } from 'services/software-manage'
-import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, NewsBar } from 'components/software-market'
 import './NewsList.scss'
 
@@ -37,13 +35,13 @@ class NewsList extends Component {
       pagination,
       reqParam: {
         pageNum: 1,
-        pageSize: 15,
+        pageSize: 10,
         startTime: '',
         endTime: '',
         keywords: ''
       },
       batchLeadParams: {
-        idArrs: []
+        idArrs: ''
       }
     }
   }
@@ -52,13 +50,13 @@ class NewsList extends Component {
     return (
       [{
         title: '新闻标题',
-        dataIndex: 'news_title',
-        key: 'news_title'
+        dataIndex: 'contentTitle',
+        key: 'contentTitle'
       }, {
         title: '新闻描述',
         width: 300,
-        dataIndex: 'news_desc',
-        key: 'news_desc',
+        dataIndex: 'content',
+        key: 'content',
         render: (text, record, index) => {
           return (
             <span className='desc-box'>{text}</span>
@@ -66,13 +64,18 @@ class NewsList extends Component {
         }
       }, {
         title: '上传时间',
-        dataIndex: 'news_time',
-        key: 'news_time'
+        dataIndex: 'createTime',
+        key: 'createTime',
+        render: (text, record, index) => {
+          return (
+            <span className='desc-box'>{this.dateToString(text)}</span>
+          )
+        }
       }, {
         title: '新闻图片',
         width: 150,
-        dataIndex: 'news_picture',
-        key: 'news_picture',
+        dataIndex: 'picUrl',
+        key: 'picUrl',
         render: (text, record, index) => (
           <img className='img-table-box' src={ajaxUrl.IMG_BASE_URL + '/' + text} />
         )
@@ -83,7 +86,7 @@ class NewsList extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to={{pathname: '/software-market-home/platform-manage/news-list-edit', search: '?' + record.news_id}}>编辑</Link>
+              <Link to={{pathname: '/software-market-home/platform-manage/news-list-edit', search: '?' + record.id}}>编辑</Link>
               <Divider type='vertical' />
               <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
             </span>
@@ -92,17 +95,32 @@ class NewsList extends Component {
       }]
     )
   }
-
+  /** 格式化时间 */
+  dateToString = (date) => {
+    var d = new Date(date)
+    var times = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+    return times
+  }
+  /** 转换为时间戳 */
+  stringToDate = (val, type) => {
+    let nowTime = ''
+    if (type === 0) {
+      nowTime = val + ' 00:00:00'
+    } else if (type === 1) {
+      nowTime = val + ' 23:59:59'
+    }
+    const thisTime = nowTime.replace(/-/g, '/')
+    const time = new Date(thisTime)
+    return time.getTime()
+  }
   /**
    * 删除某条新闻
    */
   delNews = (record) => {
     // console.log(`record.news_id: ${record.news_id}`)
-    delNewsList({news_id: record.news_id}, (res) => {
+    delV2NewsList({list: record.id}, (res) => {
       // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
       this.getTableDatas()
-      const data = res.data
-      console.log(`${data.info}`)
     })
   }
 
@@ -121,9 +139,9 @@ class NewsList extends Component {
     return {
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      start_time: startTime || '',
-      end_time: endTime || '',
-      keywords: keywords || ''
+      startDate: startTime || null,
+      endDate: endTime || null,
+      content: keywords || null
     }
   }
 
@@ -131,13 +149,13 @@ class NewsList extends Component {
    * 获取新闻列表中的数据
    */
   getTableDatas = () => {
-    getNewsList(this.getParams(), (res) => {
+    getV2NewsList(this.getParams(), (res) => {
       const data = res.data
       // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list && addKey2TableData(data.list, 'news_id'),
-          total: data.total && data.total
+          data: data.data.info,
+          total: data.data.total
         }
       })
     })
@@ -147,14 +165,14 @@ class NewsList extends Component {
    * 当点击'批量删除'按钮时的回调
    */
   onBatchDel = () => {
-    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
     const { idArrs } = this.state.batchLeadParams
-    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
-    delBatchNewsList({news_id: idArrs}, (res) => {
-      console.log(`${res.data.info}`)
-      // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
-      this.getTableDatas()
-    })
+    if (idArrs) {
+      delV2NewsList({list: idArrs}, (res) => {
+        this.getTableDatas()
+      })
+    } else {
+      message.info('请选择数据')
+    }
   }
 
   /**
@@ -162,9 +180,13 @@ class NewsList extends Component {
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
     // 从view中得到数据 并把th_id提取出来组合为一个新数组
-    let idArr = []
+    let idArr = ''
     selectedRows.map((val, index) => {
-      idArr.push(val.news_id)
+      if (idArr === '') {
+        idArr = val.id
+      } else {
+        idArr += ',' + val.id
+      }
     })
     // 将th_id得到的新数组映射到state中
     this.setState({
@@ -175,38 +197,33 @@ class NewsList extends Component {
   }
 
   /**
-   * 设置state中的时间属性
-   */
-  setDateState = (field, val) => {
-    this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        [field]: val ? val.format('YYYY-MM-DD') : ''
-      }
-    })
-  }
-
-  /**
    * 开始时间-选择器-点击回调
    */
   onStartChange = (val) => {
-    // console.log(`开始时间val: ${val.format('YYYY-MM-DD')}`)
-    this.setDateState('startTime', val)
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        startTime: val ? this.stringToDate(val.format('YYYY-MM-DD'), 0) : ''
+      }
+    })
   }
 
   /**
    * 结束时间-选择器-点击回调
    */
   onEndChange = (val) => {
-    // console.log(`结束时间val: ${val.format('YYYY-MM-DD')}`)
-    this.setDateState('endTime', val)
+    this.setState({
+      reqParam: {
+        ...this.state.reqParam,
+        endTime: val ? this.stringToDate(val.format('YYYY-MM-DD'), 1) : ''
+      }
+    })
   }
 
   /**
    * 当Input的值变化时回调
    */
   onInputChange = (e) => {
-    console.log(`有 onchange函数 ${e.target.value}`)
     this.setState({
       reqParam: {
         ...this.state.reqParam,
@@ -257,9 +274,7 @@ class NewsList extends Component {
     this.getTableDatas()
   }
   render () {
-    const { tableData, reqParam, pagination } = this.state
-    console.log(`state.datePick-start: ${reqParam.startTime}`)
-    console.log(`state.datePick-end: ${reqParam.endTime}`)
+    const { tableData, pagination } = this.state
     return (
       <div className='software-wrap list-wrap'>
         <NewsBar

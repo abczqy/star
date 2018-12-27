@@ -28,6 +28,9 @@ class LabelIcon extends Component {
             >
               <img
                 src={this.props.icon}
+                style={{
+                  ...this.props.imgStyle
+                }}
               />
             </div>
             : <AppIcon />
@@ -46,7 +49,8 @@ class LabelIcon extends Component {
 LabelIcon.propTypes = {
   icon: PropTypes.any, // 图标
   label: PropTypes.any, // 标签
-  style: PropTypes.object, // Icon部分的样式 -- 可以进行尺寸和样式的定制
+  style: PropTypes.object, // Icon的wrap部分的样式 -- 可以进行尺寸和样式的定制
+  imgStyle: PropTypes.object, // 图标的样式
   onClick: PropTypes.func // 点击事件
 }
 
