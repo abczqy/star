@@ -15,7 +15,7 @@ import { downloadv2 } from 'services/software-manage'
    * 表格分页器设置-默认值
    */
 const pagination = {
-  pageNum: 1,
+  pageNumber: 1,
   pageSize: 10,
   showQuickJumper: true,
   showSizeChanger: true
@@ -44,7 +44,7 @@ class DownHistory extends Component {
       },
       sw_type: '', // 软件类型
       sw_name: '',
-      pageNum: 1,
+      pageNumber: 1,
       pageSize: 10
     }
   }
@@ -53,7 +53,7 @@ class DownHistory extends Component {
    */
   getTableDatas = () => {
     downloadv2({
-      pageNum: this.state.pagination.pageNum,
+      pageNumber: this.state.pagination.pageNumber,
       pageSize: this.state.pagination.pageSize
     }, (res) => {
       const data = res.data.data
@@ -62,7 +62,7 @@ class DownHistory extends Component {
       this.setState({
         tableData: {
           data: this.getSwPath(data.content),
-          total: data.totalPages
+          total: data.totalElements
         }
       })
     })
@@ -105,7 +105,7 @@ class DownHistory extends Component {
       dataIndex: 'id',
       key: 'id',
       render: (text, record, index) => {
-        const id = (this.state.pageNum - 1) * this.state.pageSize + index + 1
+        const id = (this.state.pagination.pageNumber - 1) * this.state.pagination.pageSize + index + 1
         return (
           <div className={id === 1 ? 'first' : 'other' && id === 2 ? 'second' : 'other' && id === 3 ? 'third' : 'other'}>
             {id}
@@ -158,7 +158,7 @@ class DownHistory extends Component {
     this.setState({
       pagination: {
         ...this.state.pagination,
-        pageNum: current,
+        pageNumber: current,
         pageSize: size
       }
     }, () => {
@@ -170,10 +170,11 @@ class DownHistory extends Component {
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
+    console.log(page)
     this.setState({
       pagination: {
         ...this.state.pagination,
-        pageNum: page
+        pageNumber: page
       }
     }, () => {
       this.getTableDatas()

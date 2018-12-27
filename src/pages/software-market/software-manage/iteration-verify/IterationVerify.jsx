@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getAppListDatav2, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
+import { getAppListDatav2, bussDetailv2, iterVerifyv2, getApptype } from 'services/software-manage'
 import webStorage from 'webStorage'
 
 /**
@@ -38,7 +38,7 @@ class IterationVerify extends Component {
       searchValue: '',
       detModalCon: {
         visible: false,
-        swName: '',
+        APP_NAME: '',
         resData: {}
       },
       sw_type: '', // 软件类型
@@ -200,18 +200,19 @@ class IterationVerify extends Component {
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      sw_id: record.sw_id
+      APP_ID: record.APP_ID
     }
-    iterVeriDetail(params, (res) => {
+    bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
       thiz.setState({
         detModalCon: {
           ...thiz.state.detModalCon,
           visible: true,
-          swName: record.sw_name,
+          APP_NAME: record.APP_NAME,
+          APP_VERSION: record.APP_VERSION,
           resData: resData,
-          sw_id: record.sw_id
+          APP_ID: record.APP_ID
         }
       })
     })
@@ -230,17 +231,42 @@ class IterationVerify extends Component {
   // 迭代审核详情弹窗同意驳回
   handleDetAgree = (state) => {
     const thiz = this
+    // let paramsList = []
+    let paramsList = []
     const params = {
-      sw_id: this.state.detModalCon.sw_id,
-      se_state: state === 'agree' ? 1 : 0,
-      sw_time: this.state.sw_time
+      'APP_ID': this.state.detModalCon.APP_ID,
+      'APP_VERSION': this.state.detModalCon.APP_VERSION
     }
-    waitVeriExam(params, (res) => {
-      const data = res.data
-      message.success(data.info)
+    paramsList.push(params)
+    const params1 = {
+      userID: 123,
+      rejectReason: '1'
+    }
+    // paramsList.push(params)
+    // const params1 = {
+    //   userID: 123,
+    //   rejectReason: '1'
+    // }
+    // let jsonStr = JSON.stringify(params)
+    // console.log('params' + jsonStr)
+    if (state === 'agree') {
+      iterVerifyv2(paramsList, params1, (res) => {
+        const data = res.data
+        // let jsonStr = JSON.stringify(data)
+        // console.log(jsonStr)
+        if (data.code === 200) {
+          message.success('审核成功')
+        } else {
+          message.success('审核失败')
+        }
+        thiz.handleAppDetCancel()
+        thiz.getTableDatas()
+      })
+    } else {
+      message.success('驳回成功')
       thiz.handleAppDetCancel()
       thiz.getTableDatas()
-    })
+    }
   }
 
   // 获得期望上架时间,并设置到state中
@@ -341,7 +367,7 @@ class IterationVerify extends Component {
         />
         <div ref='IterDetailElem' className='Iter-detail-wrap' />
         <IterationDetailModal
-          title={detModalCon.swName}
+          title={detModalCon.APP_NAME}
           getContainer={() => this.refs.IterDetailElem}
           visible={detModalCon.visible}
           onCancel={this.handleAppDetCancel}

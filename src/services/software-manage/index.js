@@ -34,8 +34,7 @@ export function getAppListDatav2 (params, sucFn) {
  * 下载历史
  */
 export function downloadv2 (params, sucFn) {
-  console.log('params.sw_type' + params.sw_type)
-  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/count/download-ranking/10/1')
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/count/download-ranking/' + params.pageSize + '/' + params.pageNumber)
   // http://192.168.1.31:10101/edu-market/count/download-ranking/10/1
     .then(function (res) {
       sucFn(res)
@@ -753,12 +752,20 @@ export function iterVerify (params, sucFn) {
       sucFn(res)
     })
 }
-
+/**
+ * 软件管理-迭代审核
+ */
+export function iterVerifyv2 (paramsList, params1, sucFn) {
+  return axios.put(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/approve/' + params1.userID, paramsList)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 软件管理-迭代审核详情
  */
 export function iterVeriDetail (params, sucFn) {
-  return axios.post(API_BASE_URL + '/management/appdetailiter', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/', {params})
     .then(function (res) {
       sucFn(res)
     })
