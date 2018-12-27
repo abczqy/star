@@ -876,7 +876,7 @@ export function appId (params, sucFn) {
  * 平台首页-门户banner图删除
  */
 export function deleteGatewayBanner (params, sucFn) {
-  return axios.post(API_BASE_URL + '/deleteGatewayBanner', params)
+  return axios.delete(`${API_BASE_URL_V2}${SERVICE_PORTAL}/banners/${params}`)
     .then(function (res) {
       sucFn(res)
     })

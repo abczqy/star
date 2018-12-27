@@ -34,7 +34,8 @@ class BannerMaker extends Component {
       dataList: [{ sw_shName: '福建学校', sw_zone: '福建', def_ban: 1 }],
       pagination,
       total: 0,
-      sh_id: ''
+      id: '',
+      picId: null
     }
 
     // 表格的列信息
@@ -79,7 +80,7 @@ class BannerMaker extends Component {
   handleDefault = (record) => {
     const thiz = this
     const params = {
-      sh_id: record && record.sh_id,
+      id: record && record.id,
       isDefault: record.isDefault ? 0 : 1
     }
     updateBannerIsDefault(params, (res) => {
@@ -123,28 +124,24 @@ class BannerMaker extends Component {
   }
   // 保存新增banner图
   addBanner = () => {
-    const formData = new FormData()
-    this.state.fileList.forEach((file) => {
-      formData.append('banner', file)
-      // formData.append('sh_id', '')
-    })
-    // let list = this.state.fileList
-    // let a = list[0].uid
-    // let b = list[0].name
-    // let c = list[0].size
-    // let d = list[0].type
-    console.log(this.state.fileList)
-    // let params = { 'uid': a, 'name': b, 'size': c, 'type': d }
-    addGatewayBanner(formData, res => {
-      this.setState({
-        bannerNewData: [],
-        fileList: []
-      })
-      if (res.data) {
+    let obj = {
+      id: this.state.picId
+    }
+    if (this.props.header.title !== '平台介绍') {
+      obj.type = 1
+    } else {
+      obj.type = 2
+    }
+    addGatewayBanner(obj, res => {
+      if (res.data.code === 200) {
+        this.setState({
+          bannerNewData: [],
+          fileList: []
+        })
         message.success('图片保存成功')
         this.getList()
       } else {
-        message.success('图片保存失败')
+        message.success(res.data.msg)
       }
       console.log(res)
     })
@@ -158,14 +155,12 @@ class BannerMaker extends Component {
   }
   onDelete = (value) => {
     let a = value.toString()
-    let params = { 'banner_id': a }
-    deleteGatewayBanner(params, res => {
-      console.log(res.data)
-      if (res.data) {
+    deleteGatewayBanner(a, res => {
+      if (res.data.code === 200) {
         this.getList()
         message.success('删除成功')
       } else {
-        message.error('删除失败')
+        message.error(res.data.msg)
       }
     })
   }
@@ -286,13 +281,19 @@ class BannerMaker extends Component {
   showModal = (record) => {
     this.setState({
       visible: true,
-      sh_id: record.sh_id
+      id: record.id
     })
   }
 
   // 上传图片
   onUploadChange = (e) => {
-    console.log(e)
+    if (e.fileList[0].status === 'done') {
+      if (e.fileList[0].response.code === 200) {
+        this.setState({picId: e.fileList[0].response.data})
+      } else {
+        message.warn(e.fileList[0].response.msg)
+      }
+    }
   }
 
   render () {
@@ -315,10 +316,14 @@ class BannerMaker extends Component {
         })
       },
       beforeUpload: (file) => {
-        this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
-        }))
-        return false
+        if (this.state.fileList.length >= 1) {
+          message.warn('请不要多传图片')
+        } else {
+          this.setState(({ fileList }) => ({
+            fileList: [...fileList, file]
+          }))
+        }
+        // return false
       },
       fileList: this.state.fileList
     }
@@ -328,7 +333,7 @@ class BannerMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-              } id={item.id} url={item.url} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
+              } id={item.id} url={item.picUrl} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1
@@ -377,7 +382,7 @@ class BannerMaker extends Component {
           visible={this.state.visible}
           handleClose={() => this.handleClose()}
           header={title}
-          sh_id={this.state.sh_id}
+          id={this.state.id}
         />
       </div>
     )

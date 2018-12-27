@@ -3,7 +3,7 @@
  * 或者  横排公用一个div的上下border
  */
 import React, { Component } from 'react'
-import { Col, Row, Upload, Button, Icon } from 'antd'
+import { Col, Row, Upload, Button, Icon, Popconfirm, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
 import ajaxUrl from 'config'
@@ -26,6 +26,9 @@ import ajaxUrl from 'config'
 // }]
 
 class BannerBox extends Component {
+  cancelUp=(e) => {
+    message.warn('您打消了删除这一条banner的这个决定。')
+  }
   render () {
     const { title, orderNum, id, url, onDelete } = this.props
     const fileList = [{
@@ -60,7 +63,9 @@ class BannerBox extends Component {
           </Row>
           <Row gutter={16}>
             <Col span={2} offset={7}>
-              <Button size='small' onClick={() => onDelete(id)} > 删除</Button>
+              <Popconfirm title='您确定要删除此banner吗?' onConfirm={() => onDelete(id)} onCancel={this.cancelUp} okText='确定' cancelText='取消'>
+                <Button size='small'>删除</Button>
+              </Popconfirm>
             </Col>
           </Row>
         </div>

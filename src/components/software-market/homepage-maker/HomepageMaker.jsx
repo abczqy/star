@@ -160,7 +160,7 @@ class HomepageMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar getList={this.getList} title={title} expand={expand} addpage={this.addHomepage} click={this.recerve} />} key='1'>
             {data.map((item, index) => {
               return (<div className='float-box' key={index}><HomepageBox title={title} orderNum={index + 1
-              } id={item.id} dataa={item.name} datab={item.url} getList={this.getList}onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
+              } id={item.id} dataa={item.name} datab={item.picUrl} getList={this.getList}onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
             })}
             {newData.map((item, index) => {
               return (<div className='float-box' key={index}><HomepageNewBox title={title} orderNum={index + this.state.data.length + 1

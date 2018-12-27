@@ -59,7 +59,7 @@ class NewsDetailsEd extends React.Component {
       pageNum: 1,
       pageSize: 100
     }
-    newsList(values, (response) => {
+    newsList(values, 1, (response) => {
       this.setState({
         newDatas: response.data
       })
@@ -68,9 +68,9 @@ class NewsDetailsEd extends React.Component {
     let valuez = {
       pageNum: 1,
       pageSize: 100,
-      info_class: ''
+      type: 0
     }
-    information(valuez, (response) => {
+    information(valuez, 1, (response) => {
       this.setState({
         infoData: response.data
       })
@@ -188,7 +188,7 @@ class NewsDetailsEd extends React.Component {
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
               <ul className='ul-margin super3'>
                 {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
                 })}
               </ul>
             </Card>
@@ -228,7 +228,7 @@ class NewsDetailsEd extends React.Component {
                 </div>
                 <ul className='details-li-ul-down'>
                   {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
-                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></li> : null
+                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : null
                   })}
                 </ul>
               </div>

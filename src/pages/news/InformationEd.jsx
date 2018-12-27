@@ -91,7 +91,6 @@ class InformationEd extends React.Component {
                 <span ><a href='javascript:0;' >
             删除</a></span>
               </Popconfirm>
-
             </div>
           )
         }
