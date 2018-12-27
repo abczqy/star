@@ -4,7 +4,7 @@
  * 游客的信息公开详情
  */
 import React from 'react'
-import {Row, Col, Card, Tooltip} from 'antd'
+import {Row, Col, Card, Tooltip, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
@@ -97,16 +97,15 @@ class InformationDet extends React.Component {
     if (nextProps !== this.props) {
       console.log('获取数据')
       let a = window.location.href.split('?')
-      let value = {
-        info_id: Number(a[a.length - 1])
-      }
-      console.log('游客的信息公开详情传递参数', value)
-      informationDet(value, (response) => {
-        this.setState({
-          infoData: response.data
-        }, () => {
-          console.log('this.state.infoData', this.state.infoData)
-        })
+      const id = Number(a[a.length - 1])
+      informationDet({}, id, (response) => {
+        if (response.data.code === 200) {
+          this.setState({
+            infoData: response.data
+          })
+        } else {
+          message.warn(response.data.msg)
+        }
       })
     }
     console.log('判断用户登录')

@@ -725,8 +725,8 @@ export function informationEdList (params, sucFn) {
 /**
  * 平台首页-门户banner图查询
  */
-export function getGatewayBannerList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/banners', {params: params})
+export function getGatewayBannerList (params, type, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/banners/${type}`, {params: params})
     .then(function (res) {
       sucFn(res)
     })
