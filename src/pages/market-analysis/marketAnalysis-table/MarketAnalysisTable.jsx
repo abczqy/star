@@ -87,7 +87,7 @@ class MarketAnalysisTable extends Component {
           className='data-table'
           rowKey='id'
           columns={this.columns}
-          dataSource={this.props.dataSource}
+          dataSource={this.props.dataSource || []}
           pagination={false}
         />
       </div>

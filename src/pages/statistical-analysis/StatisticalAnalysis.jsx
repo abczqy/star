@@ -58,7 +58,7 @@ class StatisticalAnalysis extends Component {
       ...params
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('软件下载量变化-折线图', res.data.data)
+        // console.log('软件下载量变化-折线图', res.data.data)
         let data = res.data.data
         if (data && data.length > 0) {
           let targetData = {
@@ -88,7 +88,7 @@ class StatisticalAnalysis extends Component {
       userId: '1'
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('应用类型占比', res.data.data)
+        // console.log('应用类型占比', res.data.data)
         let data = res.data.data.slice()
         if (data && data.length > 0) {
           data.map((item, index) => {

@@ -27,7 +27,7 @@ class HomeCarousel extends Component {
     homeCarousel({
       bannerType: 3
     }, (res) => {
-      console.log('软超首页轮播图', res.data.data)
+      // console.log('软超首页轮播图', res.data.data)
       this.setState({
         homeCarouselDatas: res.data.data || []
       }, () => {

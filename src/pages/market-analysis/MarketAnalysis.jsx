@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Card, Menu } from 'antd'
+// import PropTypes from 'prop-types'
 import _ from 'lodash'
 import MarketAnalysisTable from './marketAnalysis-table/MarketAnalysisTable'
 import MarketAnalysisWordCloud from './market-analysis-wordCloud/MarketAnalysisWordCloud'
@@ -17,10 +18,55 @@ class MarketAnalysis extends Component {
     super(props)
     this.state = {
       tableDatas: [],
-      hotSearchDatas: [],
+      // hotSearchDatas: [],
+      hotSearchDatas: [
+        {
+          name: '教学',
+          value: '999'
+        }, {
+          name: '英语口语',
+          value: '888'
+        }, {
+          name: '辅助学习',
+          value: '777'
+        }, {
+          name: '拓展思维',
+          value: '688'
+        }, {
+          name: '拓展思维',
+          value: '588'
+        }, {
+          name: '发散思维游戏',
+          value: '516'
+        }, {
+          name: '看图猜字',
+          value: '515'
+        }, {
+          name: '看图猜字',
+          value: '415'
+        }, {
+          name: '发散思维游戏',
+          value: '315'
+        }, {
+          name: '数学游戏',
+          value: '215'
+        }, {
+          name: '数学游戏',
+          value: '25'
+        }, {
+          name: '数学游戏',
+          value: '95'
+        }, {
+          name: '数学游戏',
+          value: '183'
+        } ],
       currentType: 'teaching'
     }
   }
+  // static propTypes = {
+  //   tableDatas: PropTypes.array,
+  //   hotSearchDatas: PropTypes.array
+  // }
 
   typeSwitching = (e) => {
     // this.type = e.item.props.children
@@ -33,9 +79,11 @@ class MarketAnalysis extends Component {
   // 获取表格数据
   getTableData = (type) => {
     marketAnalysis({type}, res => {
-      let resDatas = _.cloneDeep(res.data)
+      // let resDatas = _.cloneDeep(res.data)
+      let resDatas = []
+      // console.log('获取表格数据', resDatas)
       this.setState({
-        tableDatas: resDatas
+        tableDatas: resDatas || []
       })
     })
   }
@@ -44,14 +92,14 @@ class MarketAnalysis extends Component {
   gethotSearch=() => {
     wordCloud({}, res => {
       this.setState({
-        hotSearchDatas: res.data.list
+        hotSearchDatas: res.data.list || []
       })
     })
   }
 
   componentDidMount () {
     this.getTableData('教学类')
-    this.gethotSearch()
+    // this.gethotSearch()  // 没有词云接口，暂时注释
   }
 
   render () {

@@ -18,7 +18,7 @@ class MarketAnalysisCiyuntu extends Component {
     return {
       series: [{
         type: 'wordCloud',
-        gridSize: 30,
+        gridSize: 40,
         sizeRange: [12, 36],
         rotationRange: [0, 0],
         shape: 'circle',
