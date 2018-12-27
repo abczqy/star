@@ -55,8 +55,8 @@ class PublicInfo extends Component {
         key: 'userName'
       }, {
         title: '上传时间',
-        dataIndex: 'createTime',
-        key: 'createTime',
+        dataIndex: 'updateTime',
+        key: 'updateTime',
         render: (text, record, index) => {
           return (
             <span>{this.dateToString(text)}</span>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
+import { Card, Icon, Button, Col, Row, Input, Upload } from 'antd'
 import { Link } from 'react-router-dom'
 import Editor from 'wangeditor'
 import {
@@ -59,7 +59,11 @@ class NewsListAdd extends Component {
   subMit = () => {
     const param = this.getFormData()
     insertV2NewsList(param, (res) => {
-      message.success(`${res.data.info}`)
+      if (res.data.code === 200) {
+        this.props.history.push({
+          pathname: '/software-market-home/platform-manage/news-list'
+        })
+      }
     })
   }
 
@@ -133,9 +137,7 @@ class NewsListAdd extends Component {
               <Button>取消</Button>
             </Link>
             <span className='blank-bar-ver' />
-            <Link to='/software-market-home/platform-manage/news-list'>
-              <Button type='primary' onClick={this.subMit}>添加</Button>
-            </Link>
+            <Button type='primary' onClick={this.subMit}>添加</Button>
           </span>
         </div>
       </div>

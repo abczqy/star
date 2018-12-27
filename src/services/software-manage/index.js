@@ -174,7 +174,7 @@ export function updateNewsList (params, sucFn) {
  * 平台管理-新闻列表-编辑V2
  */
 export function updateV2NewsList (params, sucFn) {
-  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/news', {params: params})
+  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/news', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -244,7 +244,7 @@ export function insertPubInfoList (params, sucFn) {
  * 平台管理-信息公开-添加
  */
 export function insertV2PubInfoList (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', {params: params})
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -283,7 +283,7 @@ export function updatePubInfoList (params, sucFn) {
  * 平台管理-信息公开-编辑v2
  */
 export function updateV2PubInfoList (params, sucFn) {
-  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', {params: params})
+  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', params)
     .then(function (res) {
       sucFn(res)
     })

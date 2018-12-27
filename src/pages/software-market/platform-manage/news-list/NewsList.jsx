@@ -64,8 +64,8 @@ class NewsList extends Component {
         }
       }, {
         title: '上传时间',
-        dataIndex: 'createTime',
-        key: 'createTime',
+        dataIndex: 'updateTime',
+        key: 'updateTime',
         render: (text, record, index) => {
           return (
             <span className='desc-box'>{this.dateToString(text)}</span>
