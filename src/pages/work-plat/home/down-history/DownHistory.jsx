@@ -119,15 +119,31 @@ class DownHistory extends Component {
     }, {
       title: 'APP类型',
       dataIndex: 'sw_type',
-      key: 'sw_type'
+      key: 'sw_type',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : '教育类'} </span>
+        )
+      }
     }, {
       title: '文件类型',
       dataIndex: 'fa_name',
-      key: 'fa_name'
+      key: 'fa_name',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'app'}
+          </span>
+        )
+      }
     }, {
       title: '文件大小',
       dataIndex: 'version',
-      key: 'version'
+      key: 'version',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : '180MB'} </span>
+        )
+      }
     }, {
       title: '下载次数',
       dataIndex: 'DOWNLOAD',
