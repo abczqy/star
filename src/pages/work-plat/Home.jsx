@@ -150,7 +150,8 @@ class Home extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      recomApps: [] // 系统（重点）推荐
+      recomApps: [], // 系统（重点）推荐
+      myApps: [] // 我的应用
     }
   }
 
@@ -179,9 +180,9 @@ class Home extends Component {
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data.data
-          data.content &&
+          data &&
           thiz.setState({
-            recomApps: thiz.topAppsAdapter(data.content.slice())
+            myApps: thiz.topAppsAdapter(data.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -399,7 +400,7 @@ class Home extends Component {
       return (
         <LabelIcon
           style={{ ...style }}
-          label={itemData.label}
+          label={itemData.label || '应用'}
           onClick={() => thiz.onAppClick(params.url)}
         />
       )
@@ -559,7 +560,8 @@ class Home extends Component {
   getNoVendorRender = () => {
     const role = webStorage.getItem('STAR_WEB_ROLE_CODE')
     const {
-      recomApps
+      recomApps,
+      myApps
     } = this.state
     return (
       <div>
@@ -585,7 +587,7 @@ class Home extends Component {
               extra={<Extra />}
             >
               {
-                this.getCellsRender(mock.myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }, {}, this))
+                this.getCellsRender(myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }, {}, this))
               }
             </Card>
           </Col>
