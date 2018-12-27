@@ -196,11 +196,15 @@ class MainBander extends React.Component {
     getPortalBannerImg({
       bannerType: '1'
     }, (response) => {
-      let result = response.data.data || []
-      console.log('顶部轮播', result)
-      this.setState({
-        bannerImg: result || []
-      })
+      if (response.data.code === 200) {
+        let result = response.data.data || []
+        // console.log('顶部轮播', result)
+        this.setState({
+          bannerImg: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
   }
 
