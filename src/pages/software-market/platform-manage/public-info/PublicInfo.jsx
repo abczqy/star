@@ -170,7 +170,7 @@ class PublicInfo extends Component {
     const { idArrs } = this.state.batchLeadParams
     let that = this
     confirm({
-      title: '确认删除选中的新闻？',
+      title: '确认删除选中的信息？',
       onOk () {
         if (idArrs) {
           delV2PubInfoList({list: idArrs}, (res) => {
