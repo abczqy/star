@@ -8,73 +8,43 @@ import ajaxUrl from 'config'
 // import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {allAppList, allAppPlatformList} from 'services/all-app/'
 import {homeCollection} from 'services/software-home/'
 import './AllApplicationsDetail.css'
 import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
+import imgApp from '../../assets/images/work-plat/app-more.png'
 class AllApplicationsDetail extends React.Component {
   constructor (props) {
     super(props)
     this.form =
       this.state = {
         allAppListData: [],
-        platformAppData: [],
         platformAppDataa: [],
-        page0: [],
-        page1: [],
-        page2: [],
-        page3: [],
-        page4: [],
         shelfTimeSort: 'desc',
         downloadNum: 'desc',
-        appType: 'all',
-        collectionType: 'cancel'
+        appType: 'all'
       }
   }
   static propTypes = {
-    location: PropTypes.object
+    // location: PropTypes.object,
+    allAppListData: PropTypes.array,
+    platformAppDataa: PropTypes.array
   }
   componentDidMount () {
-    this.getAllAppData()
-    this.getPlatformAppData()
-  }
-  componentWillReceiveProps (nextProps) {
-    let a = nextProps.location ? (nextProps.location.search ? nextProps.location.search.replace('?', '') : '') : ''
+    // this.getAllAppData()
+    // this.getPlatformAppData()
     this.setState({
-      appType: a
-    }, () => {
-      this.getAllAppData()
-      this.getPlatformAppData()
+      allAppListData: this.props.allAppListData,
+      platformAppDataa: this.props.platformAppDataa
     })
   }
-  // 获取软件应用数据
-  getAllAppData = () => {
-    allAppList({
-      appType: this.state.appType === '' ? 'all' : this.state.appType,
-      timeOrd: this.state.shelfTimeSort,
-      numOrd: this.state.downloadNum,
-      pageNum: 1,
-      pageSize: 20
-    }, (res) => {
-      this.setState({
-        allAppListData: res.data.data || []
-      })
-    }).catch((e) => { console.log(e) })
+  componentWillReceiveProps (nextProps) {
+    // let a = nextProps.location ? (nextProps.location.search ? nextProps.location.search.replace('?', '') : '') : ''
+    this.setState({
+      allAppListData: nextProps.allAppListData,
+      platformAppDataa: nextProps.platformAppDataa
+    })
   }
-  // 获取平台应用数据
-  getPlatformAppData = () => {
-    allAppPlatformList({
-    }, (res) => {
-      this.setState({
-        platformAppData: res.data.data || []
-      }, () => {
-        this.state.platformAppDataa = []
-        for (let i in this.state.platformAppData) {
-          this.state.platformAppDataa.push(this.state.platformAppData[i])
-        }
-      })
-    }).catch((e) => { console.log(e) })
-  }
+
   // 轮播图左右翻页
   onClickRight = () => {
     this.refs['test'].next()
@@ -137,20 +107,35 @@ class AllApplicationsDetail extends React.Component {
       return (
         <div key={index} className='software-application'>
           <dl>
-            <dt><img src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} /></dt>
+            <dt>
+              {item.appIcon
+                ? <img src={ajaxUrl.IMG_BASE_URL + item.appIcon} />
+                : <img src={imgApp} style={{backgroundColor: '#1890ff'}} />
+              }
+            </dt>
             <dd>
-              <span>{item.SW_NAME}</span>
-              <p>{item.SW_DESC}</p>
+              <span>{item.appName || '应用名称'}</span>
+              <p>{item.appNotes || '应用描述'}</p>
             </dd>
           </dl>
           <p style={{float: 'right'}}>
             <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.SW_ID}}>
-              <Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' />
-              <Button style={{width: 60, height: 20, lineHeight: '18px', fontSize: '10px', textAlign: 'center', borderBottomLeftRadius: 0, borderTopLeftRadius: 0, borderBottomRightRadius: 4, borderTopRightRadius: 4, backgroundColor: '#40B3F9', border: 0}} type='primary'>
-          下载
+              {/* <Icon style={{backgroundColor: '#08A1E9', color: '#FFF', width: 20, height: 20, lineHeight: '20px', borderTopLeftRadius: 4, borderBottomLeftRadius: 4}} type='download' /> */}
+              <Button style={{width: 60,
+                height: 23,
+                lineHeight: '23px',
+                fontSize: '10px',
+                textAlign: 'center',
+                borderRadius: '4',
+                marginRight: '5px',
+                backgroundColor: '#40B3F9',
+                border: 0}} type='primary'>
+              详情
               </Button>
             </Link>
-            <Icon style={{width: 20, height: 20, backgroundColor: '#FFBB45', lineHeight: '20px', color: '#fff', marginLeft: '10px', cursor: 'pointer', marginRight: '5px'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
+            <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} onClick={() => this.handleCollection(item.SW_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
+            <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}} type={item.isCollect === 'false' ? 'heart-o' : 'heart'} />
+            <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type={item.isCollect === 'false' ? 'share-alt-o' : 'share-alt'} />
           </p>
         </div>
       )

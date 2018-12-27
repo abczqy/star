@@ -1,10 +1,10 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_V2} = config
 
 // 全部应用 - 软件应用
 export function allAppList (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/appList', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/manage-app/app-by-type', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -42,6 +42,14 @@ export function relatedApplications (params, sucFn) {
 // 全部应用-应用详情-开通
 export function openPlatformAppByUser (params, sucFn) {
   return axios.post(API_BASE_URL + '/app/openPlatformAppByUser', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+// 全部应用-应用分类
+export function getAppType (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/edu-market/app-type')
     .then(function (res) {
       sucFn(res)
     })

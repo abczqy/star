@@ -146,3 +146,13 @@
     background-color:#ccc;
     -webkit-border-radius:4px;
    }
+   .software-application i{
+    width: 20px;
+    height: 23px;
+    line-height: 23px;
+    color: rgb(255, 255, 255);
+    /* margin-left: 10px; */
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 4px;
+   }

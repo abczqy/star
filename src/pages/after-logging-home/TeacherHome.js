@@ -74,7 +74,7 @@ class TeacherHome extends Component {
       chartType: activeKey === '1' ? 0 : 1
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('下载排行', res.data.data.content)
+        // console.log('下载排行', res.data.data.content)
         this.setState({
           rankingData: res.data.data.content
         }, () => {
@@ -95,7 +95,7 @@ class TeacherHome extends Component {
       teacherId: '1'
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('教师推荐', res.data.data.data)
+        // console.log('教师推荐', res.data.data.data)
         this.setState({
           teacherData: res.data.data.data
         })
@@ -111,7 +111,7 @@ class TeacherHome extends Component {
       pageSize: '10'
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('热门推荐', res.data.data.content)
+        // console.log('热门推荐', res.data.data.content)
         this.setState({
           hotData: res.data.data.content
         })

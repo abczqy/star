@@ -76,7 +76,8 @@ class ShelfPlease extends React.Component {
       fileListPhoneUrl: [], // 用来存手机端界面截图地址的文件id
       fileListFour: [], // 用来存身份证照片文件id
       fileListFive: [], // 用来存软件版权的文件id
-      fileListSix: [], // 用来存财务审核凭证的文件id
+      fileListFinVour: [], // 用来存财务审核凭证的文件id
+      fileListContract: [], // 用来存财务审核凭证的文件id
       conPeopleNumBlur: false,
       idNumberBlur: false,
       formDataPre1: '' // 预览数据
@@ -368,52 +369,15 @@ class ShelfPlease extends React.Component {
     console.log('handleChangePC')
   }
 
-  // // 多选框选择事件
-  // onChangeAuth (checkedValues) {
-  //   console.log('checked = ', checkedValues)
-  // }
   getBase64=(img, callback) => {
     const reader = new FileReader()
     reader.addEventListener('load', () => callback(reader.result))
     reader.readAsDataURL(img)
   }
 
-  // 获取预览图片的地址
-  // getPicUrl=(callback) => {
-  //   const thiz = this
-  //   let arrpc = []
-  //   let arricon = []
-  //   let arrphone = []
-  //   this.state.fileListPC.forEach((file, index) => { // pc展示
-  //     this.getBase64(file, (imageUrl) => {
-  //       arrpc.push(imageUrl)
-  //     })
-  //   })
-  //   this.state.fileListIcon.forEach((file, index) => { // icon展示
-  //     this.getBase64(file, (imageUrl) => {
-  //       arricon.push(imageUrl)
-  //     })
-  //   })
-  //   this.state.fileListPhone.forEach((file, index) => { // phone展示
-  //     this.getBase64(file, (imageUrl) => {
-  //       arrphone.push(imageUrl)
-  //     })
-  //   })
-  //   this.setState({
-  //     fileListPCUrl: arrpc,
-  //     fileListIconUrl: arricon,
-  //     fileListPhoneUrl: arrphone
-  //   }, function () {
-  //     // console.log('循环之后的fileListIconUrl', thiz.state.fileListIconUrl)
-  //     callback && callback(thiz.state)
-  //   })
-  //   // console.log('循环之后的fileListPCUrl', this.state.fileListPCUrl)
-  // }
-
   // 预览表单
   handlePreview () {
     const thiz = this
-    // this.getPicUrl()
     let formDataPre = new FormData()
     formDataPre.append('rname', this.state.rname || '')// 软件名称*
     formDataPre.append('rType', this.state.type || '')// 软件类型*
@@ -480,10 +444,10 @@ class ShelfPlease extends React.Component {
         formData.append('sw_copyright', file)
       })
       // formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
-      this.state.fileListSix.forEach((file) => {
+      this.state.fileListFinVour.forEach((file) => {
         formData.append('fin_audit', file)
       })
-      // formData.append('fin_audit', this.state.fileListSix)// 财务凭证
+      // formData.append('fin_audit', this.state.fileListFinVour)// 财务凭证
       this.zH().forEach((file) => {
         formData.append('copType', file)
       })
@@ -654,27 +618,48 @@ class ShelfPlease extends React.Component {
       fileListPhone: this.state.fileListPhone,
       fileListPhoneUrl: this.state.fileListPhoneUrl
     }
-    // const propsD = {
-    //   onRemove: (file) => {
-    //     this.setState(({ fileListSix }) => {
-    //       const index = fileListSix.indexOf(file)
-    //       const newFileList = fileListSix.slice()
-    //       newFileList.splice(index, 1)
-    //       return {
-    //         fileListSix: newFileList
-    //       }
-    //     })
-    //   },
-    //   beforeUpload: (file) => {
-    //     this.setState(({ fileListSix }) => ({
-    //       fileListSix: [...fileListSix, file]
-    //     }), () => {
-    //       console.log('this.state.fileListSix', this.state.fileListSix)
-    //     })
-    //     return false
-    //   },
-    //   fileListSix: this.state.fileListSix
-    // }
+    const propsFinVour = {
+      onRemove: (file) => {
+        this.setState(({ fileListFinVour }) => {
+          const index = fileListFinVour.indexOf(file)
+          const newFileList = fileListFinVour.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListFinVour: newFileList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListFinVour }) => ({
+          fileListFinVour: [...fileListFinVour, file]
+        }), () => {
+          console.log('this.state.fileListFinVour', this.state.fileListFinVour)
+        })
+        return false
+      },
+      fileListFinVour: this.state.fileListFinVour
+    }
+    const propsContract = {
+      onRemove: (file) => {
+        this.setState(({ fileListContract }) => {
+          const index = fileListContract.indexOf(file)
+          const newFileList = fileListContract.slice()
+          newFileList.splice(index, 1)
+          return {
+            fileListContract: newFileList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileListContract }) => ({
+          fileListContract: [...fileListContract, file]
+        }), () => {
+          console.log('this.state.fileListContract', this.state.fileListContract)
+        })
+        return false
+      },
+      fileListContract: this.state.fileListContract
+    }
 
     // const { current } = this.state
 
@@ -763,11 +748,6 @@ class ShelfPlease extends React.Component {
             </Button>
             <span className='extend'>支持扩展名：.png .jpg ... （400px*400px）</span>
           </Upload>
-          {/* <Upload {...props11}>
-          <Button>
-            <Icon type='upload' /> Upload
-          </Button>
-        </Upload> */}
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='top'>
@@ -880,7 +860,7 @@ class ShelfPlease extends React.Component {
       <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
     </Row>
     // 计费模式选择
-    const aboutVoucher = <Row>
+    const aboutFee = <Row>
       <Row>
         {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />计费模式选择</p></Row> */}
         <Row>
@@ -890,6 +870,34 @@ class ShelfPlease extends React.Component {
         </Row>
       </Row>
     </Row>
+    // 财务凭证
+    const aboutVoucher = <Row>
+      {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件版权</p></Row> */}
+      <Row className='Wxd' type='flex' align='top'>
+        <Col span={3} align='middle'>财务审核凭证 :&nbsp;&nbsp;</Col>
+        <Col span={9}>
+          <Upload {...propsFinVour}>
+            <Button>
+              <Icon type='upload' />上传文件
+            </Button>
+            <span className='extend'>支持扩展名：.png .jpg ...</span>
+          </Upload>
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='top'>
+        <Col span={3} align='middle'>合同文件上传 :&nbsp;&nbsp;</Col>
+        <Col span={9}>
+          <Upload {...propsContract}>
+            <Button>
+              <Icon type='upload' />上传文件
+            </Button>
+            <span className='extend'>支持扩展名：.word .pdf .jpg ...</span>
+          </Upload>
+        </Col>
+      </Row>
+      <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
+    </Row>
+
     const tabs = [{
       title: '软件相关',
       content: aboutSoftware
@@ -901,6 +909,9 @@ class ShelfPlease extends React.Component {
       content: aboutPatent
     }, {
       title: '计费模式选择',
+      content: aboutFee
+    }, {
+      title: '财务凭证',
       content: aboutVoucher
     }]
     const TabPane = Tabs.TabPane
