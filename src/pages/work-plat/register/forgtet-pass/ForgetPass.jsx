@@ -20,8 +20,9 @@ class ForgetPass extends Component {
       liked: true, // 文案默认为‘获取验证码‘
       phonereg: false,
       phoneNum: '',
-      falg: true
-
+      falg: true,
+      disabled: false,
+      safeCode: ''
     }
   }
   saveOrSubmit =(e) => {
@@ -29,30 +30,34 @@ class ForgetPass extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       /** 校验成功 */
       if (!err) {
-        console.log('Received values of form: ', values)
         /** 比对验证码 */
         Verificationv2({
           phone: values.maf_phone,
           valid: values.maf_phone_con
         }, (response) => {
-          console.log(response.data.code)
           if (response.status === 200) {
-          // if (this.state.falg) {
+            message.success('验证成功')
+            // console.log(response.data.data)
+            this.setState({
+              safeCode: response.data.data
+            })
             updataPasswordv2({
               phone: values.maf_phone,
-              password: values.maf_pwd
+              password: values.maf_pwd,
+              code: this.state.safeCode
             }, (response) => {
-              console.log(response.data.code)
               if (response.data.code === 200) {
-                console.log(response.data.code)
                 message.success('修改成功')
+                /** 跳转至首页 */
+                this.props.history.push({
+                  pathname: '/operate-manage-home/work-plat/Login'
+                })
               } else {
                 message.success('修改失败')
               }
             })
-            message.success('校验成功')
           } else {
-            message.success('校验失败')
+            message.success('手机验证码错误')
           }
         })
       }
@@ -63,6 +68,9 @@ class ForgetPass extends Component {
   }
   getPhoneCode =(e) => {
   // console.log(this.state.phonereg)
+    this.setState({
+      disabled: true
+    })
     if (!this.state.phonereg) {
       message.success('请输入手机号码')
     } else {
@@ -71,17 +79,18 @@ class ForgetPass extends Component {
         return
       } else {
         let count = this.state.count
-        console.log(count)
         const timer = setInterval(() => {
           this.setState({
             liked: false,
-            count: (count--)
+            count: (count--),
+            disabled: true
           }, () => {
             if (count < 0) {
               clearInterval(timer)
               this.setState({
                 liked: true,
-                count: 6
+                count: 6,
+                disabled: false
               })
             }
           }
@@ -90,7 +99,6 @@ class ForgetPass extends Component {
       }
       // 发送验证码，成功后
       if (this.state.phonereg) {
-        console.log('phoneNum' + this.state.phoneNum)
         // 获取验证码
         SMSVerificationv2({
           phone: this.state.phoneNum
@@ -159,7 +167,6 @@ class ForgetPass extends Component {
   // 验证码校验
   validatePhoneCode = (rule, value, callback) => {
     const form = this.props.form
-    console.log(value.length)
     if (value) {
       if (value.length > 0) {
         if (this.state.confirmDirty) {
@@ -210,7 +217,7 @@ class ForgetPass extends Component {
                   <Input type='text' className='code_input' placeholder='请输入验证码' />
                 ) }
                 {
-                  this.state.liked ? <a className='a-code' onClick={(e) => this.getPhoneCode(e)}>获取验证码</a> : <a className='a-code'>
+                  this.state.liked ? <a className='a-code' disabled={this.state.disabled} onClick={(e) => this.getPhoneCode(e)}>获取验证码</a> : <a className='a-code' >
                     {this.state.count + 's后获取'}
                   </a>
                 }
@@ -237,5 +244,8 @@ class ForgetPass extends Component {
     )
   }
 }
-
+ForgetPass.propTypes = {
+  form: PropTypes.object,
+  history: PropTypes.object
+}
 export default Form.create()(ForgetPass)

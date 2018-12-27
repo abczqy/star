@@ -15,7 +15,8 @@ import {
   Card,
   Avatar,
   Progress,
-  Tabs
+  Tabs,
+  message
 } from 'antd'
 import {
   Page,
@@ -24,8 +25,8 @@ import {
   AppCard,
   Echarts
 } from '../../components/common'
-// import { axios } from 'utils'
-// import { API_BASE_URL_V2 } from 'config'
+import { axios } from 'utils'
+import config from '../../config'
 import './Home.scss'
 import More from '../../assets/images/work-plat/more.png'
 import AvatarIcon from '../../assets/images/work-plat/avatar.png'
@@ -44,6 +45,9 @@ import CLass from '../../assets/images/work-plat/class.png'
 import { DownHistory, UserManage } from './home/index'
 /* mock数据 */
 import mock from './mock-data'
+
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
 
 const TabPane = Tabs.TabPane
 
@@ -135,6 +139,47 @@ const StatItem = (props) => (
 )
 
 class Home extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      recomApps: [] // 系统（重点）推荐
+    }
+  }
+
+  /**
+   * 数据请求--系统（重点）推荐
+   */
+  getTopApps = (thiz) => {
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app' + '/1/6')
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data.data
+          data.content &&
+          thiz.setState({
+            recomApps: thiz.topAppsAdapter(data.content.slice())
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+
+  /**
+   * 适配器 - 系统（重点）推荐数据适配 LabelIcon
+   * @param { Array } data 输入的数据
+   */
+  topAppsAdapter = (data) => {
+    // 把从后台拿到的数据适配为view需要的数据格式
+    let result = []
+    data.map((v, i) => {
+      result.push({
+        label: v.appName || null,
+        icon: v.appIcon || null
+      })
+    })
+    return result
+  }
+
   /**
    * 应用点击
    */
@@ -484,6 +529,9 @@ class Home extends Component {
    */
   getNoVendorRender = () => {
     const role = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    const {
+      recomApps
+    } = this.state
     return (
       <div>
         <Row gutter={16}>
@@ -495,7 +543,7 @@ class Home extends Component {
               bodyStyle={{...bodyStyle, height: '220px'}}
             >
               {
-                this.getCellsRender(mock.sysRecommend, 3, 6, this.getAppRender({ borderRadius: '4px' }, {}, this))
+                this.getCellsRender(recomApps, 3, 6, this.getAppRender({ borderRadius: '4px' }, {}, this))
               }
             </Card>
           </Col>
@@ -589,6 +637,11 @@ class Home extends Component {
         }
       </div>
     )
+  }
+
+  componentDidMount () {
+    // 请求数据
+    this.getTopApps(this)
   }
 
   render () {

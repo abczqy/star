@@ -7,8 +7,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'antd'
+import AppIcon from '../app-icon'
 import './AppCard.scss'
-import AppMore from '../../../assets/images/work-plat/app-more.png'
+// import AppMore from '../../../assets/images/work-plat/app-more.png'
 import DownLoad from '../../../assets/images/work-plat/down-load.png'
 import Share from '../../../assets/images/work-plat/share.png'
 import Celect from '../../../assets/images/work-plat/celect.png'
@@ -16,7 +17,6 @@ import Celect from '../../../assets/images/work-plat/celect.png'
 class AppCard extends Component {
   render () {
     const {
-      icon = AppMore,
       title = '应用名称',
       desc = '应用描述'
     } = this.props
@@ -24,14 +24,18 @@ class AppCard extends Component {
       <div className='app-card'>
         <Row>
           <Col span={8}>
-            <div
-              className='icon-wrap'
-            >
-              <img
-                className='icon'
-                src={icon}
-              />
-            </div>
+            {
+              this.props.icon
+                ? <div
+                  className='icon-wrap'
+                >
+                  <img
+                    className='icon'
+                    src={this.props.icon}
+                  />
+                </div>
+                : <AppIcon />
+            }
           </Col>
           <Col span={16}>
             <Row>

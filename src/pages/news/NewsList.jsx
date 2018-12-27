@@ -4,15 +4,17 @@
 无身份区分的教育新闻列表
 */
 import React from 'react'
-import {Row, Col, Card, Pagination} from 'antd'
+import {Row, Col, Pagination, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
-import _ul from '../../assets/images/_ul.png'
-import ajaxUrl from 'config'
+// import _ul from '../../assets/images/_ul.png'
+import moment from 'moment'
+// import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import { withRouter } from 'react-router'
-import {newsList, information} from 'services/software-manage'
+import {newsList} from 'services/software-manage'
+import pic from '../../assets/images/u18499.png'
 
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
@@ -39,26 +41,14 @@ class News extends React.Component {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize
     }
-    newsList(value, (response) => {
-      this.setState({
-        newData: response.data
-      }, () => {
-        console.log('获取数据存在state', this.state.newData)
-        console.log('获取数据存在state', this.state.newData.list)
-      })
-    })
-
-    let values = {
-      pageNum: 1,
-      pageSize: 100,
-      type: 2
-    }
-    information(values, (response) => {
-      this.setState({
-        infoData: response.data
-      }, () => {
-        console.log('图片', this.state.infoData)
-      })
+    newsList(value, 1, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          newData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   componentDidMount () {
@@ -143,8 +133,8 @@ class News extends React.Component {
   }
   // 获取高度
   getH=() => {
-    let a = document.getElementById('ulul').offsetHeight
-    console.log('公告的高度', a)
+    // let a = document.getElementById('ulul').offsetHeight
+    // console.log('公告的高度', a)
   }
   // 获取高度
   getHeight=() => {
@@ -165,39 +155,39 @@ class News extends React.Component {
     // const bottomImg = '/image/infob.png'
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
-        <div id='right-container'>
+        <div id='right-container' style={{width: '100%'}}>
           <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0', minHeight: this.state.viewHeights}}>
-            {this.state.newData ? this.state.newData.list.map((item, index) => {
+            {this.state.newData && this.state.newData.info.length !== 0 ? this.state.newData.info.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='110' alt='' /></Col>
+                    <Col span={5}><img src={pic} width='80%' height='110' alt='' /></Col>
                     <Col span={19}>
                       <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.news_desc, 100)}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 100)}</p>
                         </Col>
                       </Row>
                     </Col>
                   </Row>
                   <Row>
-                    <div className='line' />
+                    <div className='line' style={{width: '93.5%'}} />
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={ajaxUrl.IMG_BASE_URL + item.news_picture} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
-                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></p></Col>
-                        <Col span={4}><span className='span-top'>{item.news_time}</span></Col>
+                        <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>
+                        <Col span={4}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                       </Row>
                       <Row>
                         <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.news_desc, 100)}</p>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 100)}</p>
                         </Col>
                       </Row>
                     </Col>
@@ -206,10 +196,10 @@ class News extends React.Component {
                     <div className='line' />
                   </Row>
                 </li>
-            }) : ''}
+            }) : '暂无数据'}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '10px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
               <Row >
-                <Col span={8} />
+                <Col span={15} />
                 <Col >
                   {this.state.newData ? (this.state.newData.total >= 5
                     ? <Pagination
@@ -227,23 +217,6 @@ class News extends React.Component {
               </Row>
             </li>
           </ul>
-        </div>
-        <div id='left-container'>
-          {/* <div className='top-img' >
-            <img src={ajaxUrl.IMG_BASE_URL + topImg} style={{width: '98%', height: '120px'}} alt='' />
-          </div> */}
-          <div className='center-public-info' id='ulul'>
-            <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
-              <ul className='ul-margin super1'>
-                {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
-                })}
-              </ul>
-            </Card>
-          </div>
-          {/* <div className='bottom-img'>
-            <img src={ajaxUrl.IMG_BASE_URL + bottomImg} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
-          </div> */}
         </div>
       </div>
     )

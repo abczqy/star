@@ -3,12 +3,12 @@
  * 1- 内容自主添加
  */
 import React, { Component } from 'react'
-import { Table, Button, message } from 'antd'
+import { Table, Button } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { iterVerify, iterVeriDetail, waitVeriExam, getApptype } from 'services/software-manage'
-import webStorage from 'webStorage'
+import { getAppListDatav2, getApptype } from 'services/software-manage'
+// import webStorage from 'webStorage'
 import './Reject.scss'
 
 /**
@@ -41,24 +41,37 @@ class Reject extends Component {
       sw_time: '', // 期望上架时间
       options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
       pageNum: 1,
-      pageSize: 10
+      pageSize: 10,
+      auditStatus: 3, // 软件状态3未通过审核
+      typeId: '', // 暂时101，后期接口改完可以空
+      downloadCount: 'desc', // 下载量排行
+      keyword: ''
     }
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   /**
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    iterVerify({
+    getAppListDatav2({
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      sw_type: this.state.sw_type, // 应用类型
-      sw_name: this.state.sw_name// 应用名称
+      auditStatus: this.state.auditStatus,
+      typeId: this.state.typeId,
+      downloadCount: this.state.downloadCount,
+      keyword: this.state.keyword
     }, (res) => {
-      const data = res.data
+      const data = res.data.data
+      let jsonStr = JSON.stringify(data)
+      console.log(jsonStr)
+      let dataList = res.data.data.data
       this.setState({
         tableData: {
-          data: this.getSwPath(data.list),
+          data: this.getSwPath(dataList),
           total: data.total
         }
       })
@@ -69,10 +82,12 @@ class Reject extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data.type || []
-      data.push('全部')
+      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      const dataArray = data.concat(res.data.data)
+      // const a = this.copyArray(data.type)
+      // a.unshift('')
       thiz.setState({
-        options: data
+        options: dataArray
       })
     })
   }
@@ -110,57 +125,76 @@ class Reject extends Component {
   getColumns = () => {
     return [{
       title: '应用名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      key: 'sw_type'
-    }, {
-      title: '提交时间',
-      dataIndex: 'sw_update_time',
-      key: 'sw_update_time '
-    }, {
-      title: '支持系统',
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
+    },
+    // {
+    //   title: '下载次数',
+    //   dataIndex: 'DOWNLOAD_COUNT',
+    //   key: 'DOWNLOAD_COUNT'
+    // },
+    {
+      title: '供应商',
       dataIndex: 'version',
       key: 'version'
     }, {
-      title: '操作',
-      dataIndex: 'options',
-      key: 'options',
-      render: (text, record, index) => {
-        const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
-        return (
-          <span>
-            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>撤销</a>
-            <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)} className='margin-lef5'>{roleCode === 'operator' ? '审核' : '查看详情'}</a>
-          </span>
-        )
-      }
+      title: '类型',
+      dataIndex: 'LX',
+      key: 'LX'
+    }, {
+      title: '当前版本',
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
+    }, {
+      title: '迭代版本',
+      dataIndex: 'DDversion',
+      key: 'DDversion'
+    }, {
+      title: '提交时间',
+      dataIndex: 'CREATE_TIME',
+      key: 'CREATE_TIME'
     }]
+    // }, {
+    //   title: '操作',
+    //   dataIndex: 'options',
+    //   key: 'options',
+    //   render: (text, record, index) => {
+    //     const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    //     return (
+    //       <span>
+    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>撤销</a>
+    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)} className='margin-lef5'>{roleCode === 'operator' ? '审核' : '查看详情'}</a>
+    //       </span>
+    //     )
+    //   }
+    // }
   }
 
   // 显示‘详情’弹窗
   showDetModal = (record) => {
     // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
-    const thiz = this
-    // 获取对应的后台数据
-    const params = {
-      sw_id: record.sw_id
-    }
-    iterVeriDetail(params, (res) => {
-      const resData = res.data ? res.data : {}
-      // 通过state将数据res传给子组件
-      thiz.setState({
-        detModalCon: {
-          ...thiz.state.detModalCon,
-          visible: true,
-          swName: record.sw_name,
-          resData: resData,
-          sw_id: record.sw_id
-        }
-      })
-    })
+    // const thiz = this
+    // // 获取对应的后台数据
+    // const params = {
+    //   sw_id: record.sw_id
+    // }
+    // iterVeriDetail(params, (res) => {
+    //   const resData = res.data ? res.data : {}
+    //   // 通过state将数据res传给子组件
+    //   thiz.setState({
+    //     detModalCon: {
+    //       ...thiz.state.detModalCon,
+    //       visible: true,
+    //       swName: record.sw_name,
+    //       resData: resData,
+    //       sw_id: record.sw_id
+    //     }
+    //   })
+    // })
   }
 
   // 关闭‘详情’弹窗
@@ -175,18 +209,18 @@ class Reject extends Component {
 
   // 迭代审核详情弹窗同意驳回
   handleDetAgree = (state) => {
-    const thiz = this
-    const params = {
-      sw_id: this.state.detModalCon.sw_id,
-      se_state: state === 'agree' ? 1 : 0,
-      sw_time: this.state.sw_time
-    }
-    waitVeriExam(params, (res) => {
-      const data = res.data
-      message.success(data.info)
-      thiz.handleAppDetCancel()
-      thiz.getTableDatas()
-    })
+    // const thiz = this
+    // const params = {
+    //   sw_id: this.state.detModalCon.sw_id,
+    //   se_state: state === 'agree' ? 1 : 0,
+    //   sw_time: this.state.sw_time
+    // }
+    // waitVeriExam(params, (res) => {
+    //   const data = res.data
+    //   message.success(data.info)
+    //   thiz.handleAppDetCancel()
+    //   thiz.getTableDatas()
+    // })
   }
 
   // 获得期望上架时间,并设置到state中
@@ -203,7 +237,7 @@ class Reject extends Component {
     console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
-      sw_type: val
+      typeId: val
     })
   }
 
@@ -242,7 +276,7 @@ class Reject extends Component {
   inputChange = (e) => {
     let value = e.target.value
     this.setState({
-      sw_name: value
+      keyword: value
     })
   }
 

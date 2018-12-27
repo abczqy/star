@@ -14,7 +14,7 @@ import _ from 'lodash'
 import webStorage from 'webStorage'
 import moment from 'moment'
 import {processStr} from 'utils'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import { withRouter } from 'react-router'
 import {information} from 'services/software-manage'
 
@@ -87,13 +87,12 @@ class Information extends React.Component {
   getList=() => {
     let value = {
       pageNum: this.state.pageNum || 1,
-      pageSize: this.state.pageSize || 10,
-      type: 0
+      pageSize: this.state.pageSize || 10
     }
     console.log('游客的信息公开获取数据传的参数', value)
-    information(value, (response) => {
+    information(value, 1, (response) => {
       this.setState({
-        infoData: response.data
+        infoData: response.data.data
       }, () => {
         console.log('this.state.infoData', this.state.infoData)
         console.log('this.state.infoData.list', this.state.infoData.list)
@@ -102,12 +101,12 @@ class Information extends React.Component {
 
     let values = {
       pageNum: 1,
-      pageSize: 6,
-      type: 2
+      pageSize: 100,
+      type: 0
     }
-    information(values, (response) => {
+    information(values, 1, (response) => {
       this.setState({
-        infoDatas: response.data
+        infoDatas: response.data.data
       })
     })
   }
@@ -182,8 +181,8 @@ class Information extends React.Component {
     }
   }
   render () {
-    const topImg = '/image/infot.png'
-    const bottomImg = '/image/infob.png'
+    // const topImg = '/image/infot.png'
+    // const bottomImg = '/image/infob.png'
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container'>
@@ -200,17 +199,17 @@ class Information extends React.Component {
                 </span>
               </Col>
             </li>
-            {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
+            {(!_.isEmpty(this.state.infoData)) && this.state.infoData.info.map((item, index) => {
               return <li style={{listStyle: 'none', width: '100%', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}} key={index}>
                 <Col span={24}>
                   <Row>
-                    <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title ? item.info_title : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
-                    <Col span={4}><span className='span-top'>发布者 : {item.info_per}</span></Col>
-                    <Col span={3}><span className='span-top'>{moment(item.info_time).format('YYYY-MM-DD')}</span></Col>
+                    <Col span={17}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle ? item.contentTitle : '预备' }</a></p></Col>{/* this.state.infoData.info_title */}
+                    <Col span={4}><span className='span-top'>发布者 : {item.userName}</span></Col>
+                    <Col span={3}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                   </Row>
                   <Row>
                     <Col span={23}>
-                      <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.info_desc, 150)}</p>
+                      <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 150)}</p>
                     </Col>
                   </Row>
                   <Row>
@@ -242,21 +241,21 @@ class Information extends React.Component {
           </ul>
         </div>
         <div id='left-container'>
-          <div className='top-img' >
+          {/* <div className='top-img' >
             <img src={ajaxUrl.IMG_BASE_URL + topImg} style={{width: '98%', height: '120px'}} alt='' />
-          </div>
+          </div> */}
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super1'>
-                {this.state.infoData && this.state.infoData.list && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
+                {this.state.infoDatas && this.state.infoDatas.info && this.state.infoDatas.info.length !== 0 && this.state.infoData.info.map((item, index) => {
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
                 })}
               </ul>
             </Card>
           </div>
-          <div className='bottom-img'>
+          {/* <div className='bottom-img'>
             <img src={ajaxUrl.IMG_BASE_URL + bottomImg} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
-          </div>
+          </div> */}
         </div>
 
       </div>

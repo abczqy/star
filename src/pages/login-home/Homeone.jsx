@@ -48,10 +48,13 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
+    // console.log('componentDidMount开始')
     this.setState({
       roleCode: webStorage.getItem('STAR_WEB_ROLE_CODE')
     })
     this.getHomeData()
+    // console.log('componentDidMount开始')
+
     // this.timerID = setInterval(
     //   () => this.messageScroll(),
     //   3000
@@ -62,40 +65,38 @@ class Home extends React.Component {
     // clearInterval(this.timerID)
   }
 
-  // 通知消息滚动
-  // messageScroll () {
-  //   console.log('111111')
-  // }
-
   /**
    * 请求页面初始数据
    */
   getHomeData () {
-  // 门户首页-热门推荐
+  // 门户首页-工作台我的应用
     getRecommendApp({
+      userId: '1'
     }, (response) => {
       let result = response.data.data || []
-      console.log('工作台', result)
-      if (result.success) {
-        this.setState({
-          webAppData: result || []
-        })
-      }
+      result.map((item, index) => {
+        item.appId = item.COMPANY_ID
+        item.appName = item.APP_NAME
+      })
+      // console.log('工作台我的应用', result)
+      // if (result.success) {
+      this.setState({
+        webAppData: result || []
+      })
+      // }
     })
     // 门户首页-软件市场
     getSoftMarketList({}, (response) => {
-      let result = response.data || []
-      console.log('软件市场', result)
-      if (result.success) {
-        this.setState({
-          softMarketData: result.data || []
-        })
-      }
+      let result = response.data.data.content || []
+      // console.log('软件市场重点推荐', result)
+      this.setState({
+        softMarketData: result || []
+      })
     })
     // 门户首页-教育新闻
     getNewsNoticeList({pageSize: '6'}, (response) => {
       let result = response.data.data.info || []
-      console.log('教育新闻', result)
+      // console.log('教育新闻', result)
       this.setState({
         newsData: result || []
       })
@@ -103,17 +104,17 @@ class Home extends React.Component {
     // 门户首页-信息公开
     getPublicNoticeList({pageSize: '6'}, (response) => {
       let result = response.data.data.info || []
-      console.log('信息公开', result)
+      // console.log('信息公开', result)
       this.setState({
         infoData: result || []
       })
     })
     // 门户首页-应用总数统计
     getAllAppCount({}, (response) => {
-      let result = response.data || []
-      console.log('应用总数', result)
+      let result = response.data.data || []
+      // console.log('应用总数', result)
       this.setState({
-        appCountData: result.data
+        appCountData: result || []
       })
     })
     // 底部轮播图
@@ -121,22 +122,20 @@ class Home extends React.Component {
       bannerType: '2'
     }, (response) => {
       let result = response.data.data || []
-      console.log('底部轮播', result)
+      // console.log('底部轮播', result)
       this.setState({
         bannerBottomImg: result || []
       })
-      // console.log('this.state.bannerBottomImg', this.state.bannerBottomImg)
     })
     // 首页轮播消息
     getMessageCaro({
       userId: 'string'
     }, (response) => {
       let result = response.data.data.info || []
-      console.log('消息轮播', result)
+      // console.log('消息轮播', result)
       this.setState({
         messageCaro: result || []
       })
-      // console.log('this.state.messageCaro', this.state.messageCaro)
     })
   }
 
@@ -173,6 +172,7 @@ class Home extends React.Component {
   }
 
   render () {
+    // console.log('render smData: ', this.state.softMarketData)
     let roleCode = this.state.roleCode
     var settings = {
       dots: false, // 下侧省略号
