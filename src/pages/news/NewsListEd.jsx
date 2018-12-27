@@ -13,7 +13,7 @@ import moment from 'moment'
 // import ajaxUrl from 'config'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
-import {newsList, information} from 'services/software-manage'
+import {newsList} from 'services/software-manage'
 import { withRouter } from 'react-router'
 import pic from '../../assets/images/u18499.png'
 
@@ -43,21 +43,6 @@ class News extends React.Component {
       if (response.data.code === 200) {
         this.setState({
           newData: response.data.data
-        })
-      } else {
-        message.warn(response.data.msg)
-      }
-    })
-
-    let values = {
-      pageNum: 1,
-      pageSize: 100,
-      type: 0
-    }
-    information(values, 1, (response) => {
-      if (response.data.code === 200) {
-        this.setState({
-          infoData: response.data.data
         })
       } else {
         message.warn(response.data.msg)
@@ -165,7 +150,7 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={pic} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={item.picUrl ? item.picUrl : pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>
@@ -183,7 +168,7 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={pic} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={item.picUrl ? item.picUrl : pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>

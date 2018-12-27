@@ -794,7 +794,7 @@ export function addGatewayNavigation (params, sucFn) {
  * 信息公开编辑
  */
 export function informationEdListEdit (params, sucFn) {
-  return axios.post(API_BASE_URL + '/manage/editPublicInfo', params)
+  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -812,7 +812,7 @@ export function getGatewayNavigationList (params, sucFn) {
  * 信息公开新增
  */
 export function informationEdListAdd (params, sucFn) {
-  return axios.post(API_BASE_URL + '/manage/addPublicInfo', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', params)
     .then(function (res) {
       sucFn(res)
     })

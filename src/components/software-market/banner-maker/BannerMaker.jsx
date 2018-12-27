@@ -301,7 +301,7 @@ class BannerMaker extends Component {
     const { title } = header
     const Search = Input.Search
     const datas = {
-      action: API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/file-upload',
+      action: API_BASE_URL_V2 + SERVICE_PORTAL + '/file-upload',
       data: {fileType: 'pic'},
       onChange: this.onUploadChange,
       onRemove: (file) => {

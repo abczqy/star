@@ -7,9 +7,12 @@ import {Input, Row, Col, Upload, Button, Icon, Modal, message} from 'antd'
 import i from '../../assets/images/u11837.png'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import webStorage from 'webStorage'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
 import {informationEdListEdit, informationEdListAdd} from 'services/software-manage'
+import config from '../../config/index'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 const { TextArea } = Input
 class Policy extends React.Component {
@@ -19,7 +22,8 @@ class Policy extends React.Component {
       input: '',
       context: '',
       visible: false,
-      fileList: []// 存文件
+      fileList: [], // 存文件
+      picId: null // 后台返回的文件id
     }
   }
   componentWillMount () {
@@ -27,8 +31,8 @@ class Policy extends React.Component {
     if (this.props.ctrl && this.props.ctrl === 'edit') {
       console.log('this.props.record', this.props.record.title)
       this.setState({
-        input: this.props.record.info_title,
-        context: this.props.record.info_desc
+        input: this.props.record.contentTitle,
+        context: this.props.record.content
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
       this.setState({
@@ -76,35 +80,36 @@ class Policy extends React.Component {
   }
   // 发送通知方法
   sendF=() => {
-    const formData = new FormData()
     if (this.props.ctrl && this.props.ctrl === 'edit') {
-      let value = {
-        id: this.props.record.info_id,
-        title: this.state.input,
-        desc: this.state.context,
-        attachment: this.state.fileList
-      }
-      // formData.append('id', this.props.record.info_id)
-      // formData.append('title', this.state.input)
-      // formData.append('desc', this.state.context)
-      // this.state.fileList.forEach((file) => {
-      //   formData.append('attachment', file)
-      // })
-      informationEdListEdit(value, (response) => {
-        message.success(`信息编辑成功!`)
-        console.log(response)
+      let obj = this.props.record
+      obj.contentTitle = this.state.input
+      obj.content = this.state.context
+      obj.updateUserId = webStorage.getItem('STAR_V2_USERID')
+      informationEdListEdit(obj, (response) => {
+        if (response.data.code === 200) {
+          message.success(`信息编辑成功!`)
+          // this.setState({visible: false})
+          this.props.getModalV(false)
+        } else {
+          message.warn(response.data.msg)
+        }
       })
     } else if (this.props.ctrl && this.props.ctrl === 'add') {
-      formData.append('title', this.state.input)
-      formData.append('desc', this.state.context)
-      this.state.fileList.forEach((file) => {
-        formData.append('attachment', file)
-      })
-      // formData.append('attachment', this.state.fileList)
-
-      informationEdListAdd(formData, (response) => {
-        message.success(`信息添加成功!`)
-        console.log(response)
+      let obj = {
+        contentTitle: this.state.input,
+        content: this.state.context,
+        updateUserId: webStorage.getItem('STAR_V2_USERID'),
+        picId: this.state.picId,
+        createUserId: webStorage.getItem('STAR_V2_USERID')
+      }
+      informationEdListAdd(obj, (response) => {
+        if (response.data.code === 200) {
+          message.success(`信息添加成功!`)
+          // this.setState({visible: false})
+          this.props.getModalV(false)
+        } else {
+          message.warn(response.data.msg)
+        }
       })
     }
   }
@@ -116,7 +121,6 @@ class Policy extends React.Component {
     }, () => {
       this.sendF()
       console.log('确认发送')
-      this.props.getModalV(false)
     })
   }
   // 取消按钮
@@ -134,8 +138,23 @@ class Policy extends React.Component {
       return '确定要发布内容吗'
     }
   }
+
+  // 上传文件
+  onUploadChange = (e) => {
+    if (e.fileList[0].status === 'done') {
+      if (e.fileList[0].response.code === 200) {
+        this.setState({picId: e.fileList[0].response.data})
+      } else {
+        message.warn(e.fileList[0].response.msg)
+      }
+    }
+  }
+
   render () {
     const props = {
+      action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload`,
+      data: {fileType: 'pic'},
+      onChange: this.onUploadChange,
       onRemove: (file) => {
         this.setState(({ fileList }) => {
           const index = fileList.indexOf(file)
@@ -151,12 +170,13 @@ class Policy extends React.Component {
           message.warn('不支持该附件类型上传!')
         } else if (file.size > 10 * 1024 * 1024) {
           message.warn('文件大小不能超过10M')
+        } else if (this.state.fileList.length >= 1) {
+          message.warn('只能上传一个文件')
         } else {
           this.setState(({ fileList }) => ({
             fileList: [...fileList, file]
           }))
         }
-        return false
       },
       fileList: this.state.fileList
     }
@@ -176,13 +196,13 @@ class Policy extends React.Component {
         </Row>
         <Row>
           <Row>
-            <Col span={3}><span style={{visibility: 'hidden'}}>*</span>文件上传 : </Col>
+            <Col span={3}><span style={{visibility: 'hidden'}}>*</span>上传图片 : </Col>
             <Col span={5}>
               <Upload {...props}>
                 <Button>
                   <Icon type='upload' /> 上传文件
                 </Button>
-                <span className='extend'><span style={{visibility: 'hidden'}}>无无</span>支持扩展名：.rar .zip ...（10M以内）</span>
+                <span className='extend'><span style={{visibility: 'hidden'}}>无无</span>支持扩展名：.jpg .png ...（10M以内）</span>
               </Upload>
             </Col>
           </Row>
