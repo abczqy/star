@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL, API_BASE_URL_AUTHENTICATION} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_AUTHENTICATION} = config
 
 /**
  * 用户登陆
@@ -16,7 +16,7 @@ export function login (params, sucFn) {
  * 用户登陆(新)
  */
 export function loginNew (params, sucFn) {
-  return axios.post(API_BASE_URL_AUTHENTICATION + '/authentication', {...params})
+  return axios.post(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -36,6 +36,16 @@ export function getIdentifying (params, sucFn) {
  */
 export function updateUserInfo (params, sucFn) {
   return axios.post(API_BASE_URL + '/control/update/' + params.type, {...params.params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 获取用户信息V2
+ */
+export function getUserInfoV2 (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/' + params)
     .then(function (res) {
       sucFn(res)
     })
