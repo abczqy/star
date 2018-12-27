@@ -2,13 +2,12 @@
  * 平台管理-新闻列表-顶栏
  */
 import React, { Component } from 'react'
-import { Input, Button, Row, Col, DatePicker, Select } from 'antd'
+import { Input, Button, Row, Col, DatePicker } from 'antd'
 import { Link } from 'react-router-dom'
 import PropsTypes from 'prop-types'
 import './PublicInfoBar.scss'
 
 const Search = Input.Search
-const Option = Select
 
 class PublicInfoBar extends Component {
   render () {
@@ -17,7 +16,6 @@ class PublicInfoBar extends Component {
       onStartChange,
       onEndChange,
       onInputChange,
-      onSelectChange,
       onBtn2Click
     } = this.props
     return (
@@ -43,22 +41,10 @@ class PublicInfoBar extends Component {
               placeholder='结束时间'
             />
           </Col>
-          <Col span={4}>
-            <span className='select-label'>发布者: </span>
-            <Select
-              defaultValue='all'
-              style={{ width: '70%' }}
-              onChange={onSelectChange}
-            >
-              <Option value='all'>全部</Option>
-              <Option value='provinceEduDepart'>省教育厅</Option>
-              <Option value='cityEduDepart'>市教育厅</Option>
-            </Select>
-          </Col>
-          <Col span={4}>
+          <Col span={5}>
             <Search placeholder='请输入关键字' onChange={onInputChange} />
           </Col>
-          <Col span={3}>
+          <Col span={6}>
             <Button type='primary' onClick={onBtn2Click} >搜索</Button>
           </Col>
           <Col span={2}>
@@ -82,7 +68,6 @@ PublicInfoBar.propTypes = {
   onStartChange: PropsTypes.func,
   onEndChange: PropsTypes.func,
   onInputChange: PropsTypes.func,
-  onSelectChange: PropsTypes.func,
   onBtn2Click: PropsTypes.func
 }
 

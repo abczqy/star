@@ -2,15 +2,13 @@
  * 平台管理-新闻列表
  */
 import React, { Component } from 'react'
-import { Table, Divider, Icon } from 'antd'
+import { Table, Divider, Icon, message } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
-  getPubInfoList,
-  delPubInfoList,
-  delBatchPubInfoList
+  getV2PubInfoList,
+  delV2PubInfoList
 } from 'services/software-manage'
-import { addKey2TableData } from 'utils/utils-sw-manage'
 import { BlankBar, PublicInfoBar } from 'components/software-market'
 
 /**
@@ -40,7 +38,7 @@ class PublicInfo extends Component {
       },
       pagination,
       batchLeadParams: {
-        idArrs: []
+        idArrs: ''
       }
     }
   }
@@ -49,20 +47,25 @@ class PublicInfo extends Component {
     return (
       [{
         title: '信息标题',
-        dataIndex: 'info_title',
-        key: 'info_title'
+        dataIndex: 'contentTitle',
+        key: 'contentTitle'
       }, {
         title: '发布者',
-        dataIndex: 'info_per',
-        key: 'info_per'
+        dataIndex: 'userName',
+        key: 'userName'
       }, {
         title: '上传时间',
-        dataIndex: 'info_time',
-        key: 'info_time'
+        dataIndex: 'createTime',
+        key: 'createTime',
+        render: (text, record, index) => {
+          return (
+            <span>{this.dateToString(text)}</span>
+          )
+        }
       }, {
         title: '附件',
-        dataIndex: 'info_attachment',
-        key: 'info_attachment',
+        dataIndex: 'picUrl',
+        key: 'picUrl',
         render: (text, record, index) => {
           return (
             <a href={ajaxUrl.IMG_BASE_URL + '/' + text} target='_blank'>
@@ -77,26 +80,40 @@ class PublicInfo extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to={{pathname: '/software-market-home/platform-manage/public-info-edit', search: '?' + record.info_id}}>编辑</Link>
+              <Link to={{pathname: '/software-market-home/platform-manage/public-info-edit', search: '?' + record.id}}>编辑</Link>
               <Divider type='vertical' />
-              <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
+              <a href='javascript:void(0)' onClick={(e) => this.delNews(record.id)}>删除</a>
             </span>
           )
         }
       }]
     )
   }
-
+  /** 格式化时间 */
+  dateToString = (date) => {
+    var d = new Date(date)
+    var times = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+    return times
+  }
+  /** 转换为时间戳 */
+  stringToDate = (val, type) => {
+    let nowTime = ''
+    if (type === 0) {
+      nowTime = val + ' 00:00:00'
+    } else if (type === 1) {
+      nowTime = val + ' 23:59:59'
+    }
+    const thisTime = nowTime.replace(/-/g, '/')
+    const time = new Date(thisTime)
+    return time.getTime()
+  }
   /**
    * 删除某条
    */
   delNews = (record) => {
-    // console.log(`record.info_id: ${record.info_id}`)
-    delPubInfoList({info_id: record.info_id}, (res) => {
+    delV2PubInfoList({list: record.id}, (res) => {
       // 刷新下列表数据 -- 因为异步的关系 代码书写顺序并不是执行顺序
       this.getTableDatas()
-      const data = res.data
-      console.log(`${data.info}`)
     })
   }
 
@@ -107,17 +124,14 @@ class PublicInfo extends Component {
     const {
       startTime,
       endTime,
-      infoPer,
       keywords
     } = this.state.reqParam
-    // 最后都要赋空
     return {
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      start_time: startTime || '',
-      end_time: endTime || '',
-      info_per: infoPer || '',
-      keywords: keywords || ''
+      startDate: startTime || null,
+      endDate: endTime || null,
+      content: keywords || null
     }
   }
 
@@ -125,13 +139,12 @@ class PublicInfo extends Component {
    * 获取新闻列表中的数据
    */
   getTableDatas = () => {
-    getPubInfoList(this.getParams(), (res) => {
+    getV2PubInfoList(this.getParams(), (res) => {
       const data = res.data
-      // console.log(`data: ${JSON.stringify(data)}`)
       this.setState({
         tableData: {
-          data: data.list && addKey2TableData(data.list, 'info_id'),
-          total: data.total && data.total
+          data: data.data.info,
+          total: data.data.total
         }
       })
     })
@@ -141,14 +154,14 @@ class PublicInfo extends Component {
    * 当点击'批量删除'按钮时的回调
    */
   onBatchDel = () => {
-    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
     const { idArrs } = this.state.batchLeadParams
-    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
-    delBatchPubInfoList({info_id: idArrs}, (res) => {
-      // 刷新下列表数据
-      this.getTableDatas()
-      console.log(`${res.data.info}`)
-    })
+    if (idArrs) {
+      delV2PubInfoList({list: idArrs}, (res) => {
+        this.getTableDatas()
+      })
+    } else {
+      message.info('请选择数据')
+    }
   }
 
   /**
@@ -156,9 +169,13 @@ class PublicInfo extends Component {
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
     // 从view中得到数据 并把th_id提取出来组合为一个新数组
-    let idArr = []
+    let idArr = ''
     selectedRows.map((val, index) => {
-      idArr.push(val.info_id)
+      if (idArr === '') {
+        idArr = val.id
+      } else {
+        idArr += ',' + val.id
+      }
     })
     // 将th_id得到的新数组映射到state中
     this.setState({
@@ -169,50 +186,37 @@ class PublicInfo extends Component {
   }
 
   /**
-   * 设置state中的时间属性
-   */
-  setDateState = (field, val) => {
-    this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        [field]: val ? val.format('YYYY-MM-DD') : ''
-      }
-    })
-  }
+  * 开始时间-选择器-点击回调
+  */
+ onStartChange = (val) => {
+   this.setState({
+     reqParam: {
+       ...this.state.reqParam,
+       startTime: val ? this.stringToDate(val.format('YYYY-MM-DD'), 0) : ''
+     }
+   })
+ }
 
-  /**
-   * 开始时间-选择器-点击回调
-   */
-  onStartChange = (val) => {
-    // console.log(`val: ${val.format('YYYY-MM-DD')}`)
-    this.setDateState('startTime', val)
-  }
-
-  /**
-   * 结束时间-选择器-点击回调
-   */
-  onEndChange = (val) => {
-    this.setDateState('endTime', val)
-  }
+ /**
+  * 结束时间-选择器-点击回调
+  */
+ onEndChange = (val) => {
+   this.setState({
+     reqParam: {
+       ...this.state.reqParam,
+       endTime: val ? this.stringToDate(val.format('YYYY-MM-DD'), 1) : ''
+     }
+   })
+ }
 
   /**
    * 当Input的值变化时回调
    */
   onInputChange = (e) => {
-    console.log(`有 onchange函数 ${e.target.value}`)
     this.setState({
       reqParam: {
         ...this.state.reqParam,
         keywords: e.target.value
-      }
-    })
-  }
-
-  onInfoPerChange = (val) => {
-    this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        infoPer: val
       }
     })
   }
@@ -269,7 +273,6 @@ class PublicInfo extends Component {
           onStartChange={this.onStartChange}
           onEndChange={this.onEndChange}
           onInputChange={this.onInputChange}
-          onSelectChange={this.onInfoPerChange}
         />
         <BlankBar />
         <Table

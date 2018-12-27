@@ -36,7 +36,6 @@ class NewsListAdd extends Component {
    * 获取标题的并写入state中
    */
   getTitle = (e) => {
-    console.log(`e.target.value: ${e.target.value}`)
     this.setState({
       newsTitle: e.target.value
     })

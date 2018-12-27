@@ -3,7 +3,7 @@ import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
 import Editor from 'wangeditor'
 import {
-  insertPubInfoList
+  insertV2PubInfoList
 } from 'services/software-manage'
 import { BlankBar } from 'components/software-market'
 import './PublicInfoAdd.scss'
@@ -36,7 +36,6 @@ class PublicInfoAdd extends Component {
    * 获取标题的并写入state中
    */
   getTitle = (e) => {
-    console.log(`e.target.value: ${e.target.value}`)
     this.setState({
       infoTitle: e.target.value
     })
@@ -47,17 +46,11 @@ class PublicInfoAdd extends Component {
    * @returns {*}
    */
   getFormData () {
-    const { fileList, infoTitle } = this.state
-    console.log(`postParam.infoTitle: ${infoTitle}`)
-    const title = encodeURI(infoTitle)
-    const desc = encodeURI(this.getRichText())
-    const formData = new FormData()
-    formData.append('info_title', title)
-    formData.append('info_desc', desc)
-    fileList.forEach((file) => {
-      formData.append('info_attach', file)
-    })
-    return formData
+    const { newsTitle } = this.state
+    return {
+      contentTitle: newsTitle,
+      content: this.getRichText()
+    }
   }
 
   /**
@@ -65,7 +58,7 @@ class PublicInfoAdd extends Component {
    */
   subMit = () => {
     const param = this.getFormData()
-    insertPubInfoList(param, (res) => {
+    insertV2PubInfoList(param, (res) => {
       message.success(`${res.data.info}`)
     })
   }

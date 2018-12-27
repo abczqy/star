@@ -210,6 +210,16 @@ export function getPubInfoList (params, sucFn) {
 }
 
 /**
+ * 平台管理-信息公开-表格数据获取V2
+ */
+export function getV2PubInfoList (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications/list/1', {params: params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 平台管理-信息公开-添加
  */
 export function insertPubInfoList (params, sucFn) {
@@ -219,6 +229,15 @@ export function insertPubInfoList (params, sucFn) {
     })
 }
 
+/**
+ * 平台管理-信息公开-添加
+ */
+export function insertV2PubInfoList (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 平台管理-信息公开-编辑-为编辑页获取数据
  */
@@ -259,6 +278,15 @@ export function delBatchPubInfoList (params, sucFn) {
     })
 }
 
+/**
+ * 平台管理-信息公开-删除
+ */
+export function delV2PubInfoList (params, sucFn) {
+  return axios.delete(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', {params: params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 平台管理-信息公开审核-表格数据获取
  */
