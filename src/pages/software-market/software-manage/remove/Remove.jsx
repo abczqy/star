@@ -133,7 +133,13 @@ class Remove extends Component {
     }, {
       title: '类型',
       dataIndex: 'LX',
-      key: 'LX'
+      key: 'LX',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'win32'}
+          </span>
+        )
+      }
     }, {
       title: '下载次数',
       dataIndex: 'DOWNLOAD_COUNT',
@@ -141,7 +147,13 @@ class Remove extends Component {
     }, {
       title: '供应商',
       dataIndex: 'sw_path',
-      key: 'sw_path'
+      key: 'sw_path',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'baidu'}
+          </span>
+        )
+      }
     }, {
       title: '当前版本',
       dataIndex: 'APP_VERSION',
@@ -149,7 +161,12 @@ class Remove extends Component {
     }, {
       title: '提交时间',
       dataIndex: 'CREATE_TIME',
-      key: 'CREATE_TIME'
+      key: 'CREATE_TIME',
+      render: (text, record, index) => {
+        return (
+          <span >{this.dateToString(text)}</span>
+        )
+      }
     // },
     //  {
     //   title: '操作',
@@ -165,7 +182,11 @@ class Remove extends Component {
     //   }
     }]
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   // 显示‘详情’弹窗
   showDetModal = (record) => {
     // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错

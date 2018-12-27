@@ -140,11 +140,23 @@ class Reject extends Component {
     {
       title: '供应商',
       dataIndex: 'version',
-      key: 'version'
+      key: 'version',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'baidu'}
+          </span>
+        )
+      }
     }, {
       title: '类型',
       dataIndex: 'LX',
-      key: 'LX'
+      key: 'LX',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'win32'}
+          </span>
+        )
+      }
     }, {
       title: '当前版本',
       dataIndex: 'APP_VERSION',
