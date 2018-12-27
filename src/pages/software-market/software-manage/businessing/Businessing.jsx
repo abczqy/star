@@ -9,14 +9,14 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Button, message } from 'antd'
+import { Table, Divider, Button, message } from 'antd'
 // import ajaxUrl from 'config'
 // import axios from 'axios'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import { getAppListData, verifyDetail, undercarriage, stick, getApptype, getRenewDetail } from 'services/software-manage'
+import { getAppListDatav2, bussDetailv2, undercarriagev2, stick, getApptype, getRenewDetail } from 'services/software-manage'
 
 /**
    * 表格分页器设置-默认值
@@ -48,66 +48,77 @@ class Businessing extends Component {
       busiRenewRecord: null, // 当前选择行的值
       appDetailModalCon: {
         visible: false,
-        swName: ''
+        APP_NAME: ''
       },
       veriCode: '', // 验证码
+      auditStatus: 4, // 软件状态4上架
+      typeId: '', // 暂时101，后期接口改完可以空
+      downloadCount: 'desc', // 下载量排行
+      keyword: '',
       options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
     }
     // 表格的列信息
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      key: 'sw_type'
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
     }, {
       title: '供应商',
       dataIndex: 'fa_name',
       key: 'fa_name'
     }, {
       title: '类型',
-      dataIndex: 'sw_path',
-      key: 'sw_path'
+      dataIndex: 'LX',
+      key: 'LX'
     }, {
       title: '下载次数',
-      dataIndex: 'sw_downloads',
-      key: 'sw_downloads'
+      dataIndex: 'DOWNLOAD_COUNT',
+      key: 'DOWNLOAD_COUNT'
     }, {
       title: '变更时间',
-      dataIndex: 'sw_update_time',
-      key: 'sw_update_time '
-    }, {
-      title: '置顶',
-      dataIndex: 'stickTop',
-      key: 'stickTop',
+      dataIndex: 'CREATE_TIME',
+      key: 'CREATE_TIME',
       render: (text, record, index) => {
         return (
-          <Switch checked={record.sw_stick === 1} onChange={() => this.handleStick(record)} />
+          <span >{this.dateToString(text)}</span>
         )
       }
-    }, {
-      title: '缴费状态',
-      dataIndex: 'num_day',
-      key: 'num_day',
-      render: (text, record, index) => {
-        if (record.num_day === '正常') {
-          return <span className='normal-color' >正常</span>
-        } else if (record.num_day === '已过期') {
-          return <span className='alert-color' >已过期</span>
-        } else {
-          return <span className='warn-color' >{record.num_day}</span>
-        }
-      }
-    }, {
+    },
+    // {
+    //   title: '置顶',
+    //   dataIndex: 'stickTop',
+    //   key: 'stickTop',
+    //   render: (text, record, index) => {
+    //     return (
+    //       <Switch checked={record.sw_stick === 1} onChange={() => this.handleStick(record)} />
+    //     )
+    //   }
+    // }, {
+    //   title: '缴费状态',
+    //   dataIndex: 'num_day',
+    //   key: 'num_day',
+    //   render: (text, record, index) => {
+    //     if (record.num_day === '正常') {
+    //       return <span className='normal-color' >正常</span>
+    //     } else if (record.num_day === '已过期') {
+    //       return <span className='alert-color' >已过期</span>
+    //     } else {
+    //       return <span className='warn-color' >{record.num_day}</span>
+    //     }
+    //   }
+    // },
+    {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
       render: (text, record, index) => (
         <span>
-          <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin(record)}>续费</a>
-          <Divider type='vertical' />
+          {/* <a href='javascript:void(0)' onClick={() => this.showBusiRenewWin(record)}>续费</a>
+          <Divider type='vertical' /> */}
           <a href='javascript:void(0)' onClick={(e) => this.showAppDetailModal(record)}>详情</a>
           <Divider type='vertical' />
           <a href='javascript:void(0)' onClick={(e) => this.showAppOffStandModal(record)}>下架</a>
@@ -128,20 +139,35 @@ class Businessing extends Component {
       sw_name: this.state.searchValue || ''
     }
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   /**
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    getAppListData(this.getParams(), (response) => {
-      let result = response.data
-      this.setState({
-        tableData: {
-          data: this.getSwPath(result.list),
-          total: result.total
-        }
+    getAppListDatav2(
+      {
+        pageNum: this.state.pagination.pageNum,
+        pageSize: this.state.pagination.pageSize,
+        auditStatus: this.state.auditStatus,
+        typeId: this.state.typeId,
+        downloadCount: this.state.downloadCount,
+        keyword: this.state.keyword
+      }, (res) => {
+        const data = res.data.data
+        let jsonStr = JSON.stringify(data)
+        console.log(jsonStr)
+        let dataList = res.data.data.data
+        this.setState({
+          tableData: {
+            data: this.getSwPath(dataList),
+            total: data.total
+          }
+        })
       })
-    })
   }
 
   // 获取只有系统名称的sw_path参数内容
@@ -174,19 +200,21 @@ class Businessing extends Component {
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      sw_id: record.sw_id
+      APP_ID: record.APP_ID
     }
 
-    verifyDetail(params, (res) => {
+    bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
+      let jsonStr = JSON.stringify(resData)
+      console.log(jsonStr)
       thiz.setState({
         appDetailModalCon: {
           ...thiz.state.detModalCon,
           visible: true,
-          swName: record.sw_name,
+          APP_NAME: record.APP_NAME,
           resData: resData,
-          sw_id: record.sw_id
+          APP_ID: record.APP_ID
         }
       })
     })
@@ -209,8 +237,7 @@ class Businessing extends Component {
       appOffModalCon: {
         ...this.state.appOffModalCon,
         visible: true,
-        swName: record.sw_name,
-        swId: record.sw_id
+        APP_ID: record.APP_ID
       }
     })
   }
@@ -255,11 +282,15 @@ class Businessing extends Component {
       return
     }
     // 当然 在关闭之前要提交表单
+    let appIdList = []
+    appIdList.push(this.state.appOffModalCon.APP_ID * 1)// 这里的list后端要int的
     const thiz = this
     const params = {
-      sw_id: this.state.appOffModalCon.swId
+      applyType: 5, // applyType 5为下架
+      userId: 1
     }
-    undercarriage(params, (res) => {
+    const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
+    undercarriagev2(params, params1, (res) => {
       const data = res.data ? res.data : {}
       message.success(data.info)
       thiz.closeModal()
@@ -271,8 +302,10 @@ class Businessing extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
+    console.log('val:' + val)
+    // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
-      type: val
+      typeId: val
     })
   }
 
@@ -317,7 +350,7 @@ class Businessing extends Component {
   inputChange = (e) => {
     let value = e.target.value
     this.setState({
-      searchValue: value
+      keyword: value
     })
   }
 
@@ -330,10 +363,12 @@ class Businessing extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data.type
-      data.push('全部')
+      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      const dataArray = data.concat(res.data.data)
+      // const a = this.copyArray(data.type)
+      // a.unshift('')
       thiz.setState({
-        options: data
+        options: dataArray
       })
     })
   }
@@ -414,7 +449,7 @@ class Businessing extends Component {
         <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
         <div ref='appDetailElem' className='app-detail-wrap' />
         <AppDetailModal
-          title={appDetailModalCon.swName}
+          title={appDetailModalCon.APP_NAME}
           getContainer={() => this.refs.appDetailElem}
           visible={appDetailModalCon.visible}
           onCancel={this.handleAppDetCancel}

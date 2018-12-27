@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getExamList, verifyDetail, waitVeriExam, getApptype } from 'services/software-manage'
+import { getAppListDatav2, bussDetailv2, waitVeriExam, getApptype } from 'services/software-manage'
 import webStorage from 'webStorage'
 
 /**
@@ -44,7 +44,11 @@ class WaitVerify extends Component {
       sw_name: '',
       options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
       pageNum: 1,
-      pageSize: 10
+      pageSize: 10,
+      auditStatus: 1, // 软件状态1待审核
+      typeId: '', // 暂时101，后期接口改完可以空
+      downloadCount: 'desc', // 下载量排行
+      keyword: ''
     }
   }
 
@@ -52,33 +56,41 @@ class WaitVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    getExamList({
+    getAppListDatav2({
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      sw_type: this.state.sw_type,
-      sw_name: this.state.sw_name
+      auditStatus: this.state.auditStatus,
+      typeId: this.state.typeId,
+      downloadCount: this.state.downloadCount,
+      keyword: this.state.keyword
     }, (res) => {
-      const data = res.data
+      const data = res.data.data
+      let jsonStr = JSON.stringify(data)
+      console.log(jsonStr)
+      let dataList = res.data.data.data
       this.setState({
         tableData: {
-          data: this.getSwPath(data.list),
+          data: this.getSwPath(dataList),
           total: data.total
         }
-      }, () => {
-        console.log(this.state.tableData)
       })
-    }
-    )
+    })
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   // 应用类型下拉框数据获取
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = res.data.type
-      data.push('全部')
+      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      const dataArray = data.concat(res.data.data)
+      // const a = this.copyArray(data.type)
+      // a.unshift('')
       thiz.setState({
-        options: data
+        options: dataArray
       })
     })
   }
@@ -116,12 +128,12 @@ class WaitVerify extends Component {
   getColumns = () => {
     return [{
       title: '应用名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      key: 'sw_type'
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
     }, {
       title: '供应商',
       dataIndex: 'fa_name',
@@ -132,8 +144,13 @@ class WaitVerify extends Component {
       key: 'sw_path'
     }, {
       title: '提交时间',
-      dataIndex: 'sw_update_time',
-      key: 'sw_update_time '
+      dataIndex: 'CREATE_TIME',
+      key: 'CREATE_TIME',
+      render: (text, record, index) => {
+        return (
+          <span >{this.dateToString(text) ? this.dateToString(text) : ''} </span>
+        )
+      }
     }, {
       title: '操作',
       dataIndex: 'options',
@@ -155,19 +172,21 @@ class WaitVerify extends Component {
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      sw_id: record.sw_id
+      APP_ID: record.APP_ID
     }
 
-    verifyDetail(params, (res) => {
+    bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
+      let jsonStr = JSON.stringify(resData)
+      console.log(jsonStr)
       thiz.setState({
         detModalCon: {
           ...thiz.state.detModalCon,
           visible: true,
-          swName: record.sw_name,
+          APP_NAME: record.APP_NAME,
           resData: resData,
-          sw_id: record.sw_id
+          APP_ID: record.APP_ID
         }
       })
     })
@@ -186,9 +205,12 @@ class WaitVerify extends Component {
   // 同意详情弹窗
   handleDetAgree = (state) => {
     const thiz = this
+    let jsonStr = JSON.stringify(this.state.detModalCon)
+    console.log(jsonStr)
+    // console.log('detModalCon' + this.state.detModalCon)
     const params = {
-      sw_id: this.state.detModalCon.sw_id,
-      se_state: state === 'agree' ? 1 : 0
+      APP_ID: this.state.detModalCon.APP_ID
+      // se_state: state === 'agree' ? 1 : 0
     }
     waitVeriExam(params, (res) => {
       const data = res.data
@@ -205,7 +227,7 @@ class WaitVerify extends Component {
     console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
-      sw_type: val
+      typeId: val
     })
   }
 
@@ -244,7 +266,7 @@ class WaitVerify extends Component {
   inputChange = (e) => {
     let value = e.target.value
     this.setState({
-      sw_name: value
+      keyword: value
     })
   }
 
@@ -289,7 +311,7 @@ class WaitVerify extends Component {
         />
         <div ref='waitDetailElem' className='wait-detail-wrap' />
         <WaitDetailModal
-          title={detModalCon.swName}
+          title={detModalCon.APP_NAME}
           getContainer={() => this.refs.waitDetailElem}
           visible={detModalCon.visible}
           resData={detModalCon.resData}

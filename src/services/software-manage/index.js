@@ -80,7 +80,18 @@ export function undercarriage (params, sucFn) {
       sucFn(res)
     })
 }
-
+/**
+ * 软件管理-运营中-下架
+ */
+// 'http://192.168.1.31:10101/edu-market/app-on-shelf-apply?applyType=0&userId=1'
+export function undercarriagev2 (params, params1, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-on-shelf-apply' +
+  '?applyType=' + params.applyType +
+  '&userId=' + params.userId, params1)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 软件管理-运营中-置顶
  */
@@ -696,7 +707,15 @@ export function verifyDetail (params, sucFn) {
       sucFn(res)
     })
 }
-
+/**
+ * 软件管理-待审核详情
+ */
+export function bussDetailv2 (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/detail-by-id/' + params.APP_ID)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 软件管理-待审核-审核
  */

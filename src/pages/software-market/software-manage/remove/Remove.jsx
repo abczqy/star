@@ -147,10 +147,6 @@ class Remove extends Component {
       dataIndex: 'APP_VERSION',
       key: 'APP_VERSION'
     }, {
-      title: '迭代版本',
-      dataIndex: 'DDversion',
-      key: 'DDversion'
-    }, {
       title: '提交时间',
       dataIndex: 'CREATE_TIME',
       key: 'CREATE_TIME'
@@ -192,7 +188,11 @@ class Remove extends Component {
     //   })
     // })
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   // 关闭‘详情’弹窗
   handleAppDetCancel = () => {
     this.setState({
