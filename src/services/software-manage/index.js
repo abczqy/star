@@ -104,7 +104,7 @@ export function getNewsList (params, sucFn) {
  * 平台管理-新闻列表-表格数据获取(V2)
  */
 export function getV2NewsList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news/list/1', { params: params })
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/news/list/1', { params: params })
     .then(function (res) {
       sucFn(res)
     })
@@ -123,7 +123,7 @@ export function insertNewsList (params, sucFn) {
  * 平台管理-新闻列表-添加（V2）
  */
 export function insertV2NewsList (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/news', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -143,7 +143,7 @@ export function getNewsListForEdit (params, sucFn) {
  * 平台管理-新闻列表-编辑-为编辑页获取数据V2
  */
 export function getV2News (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news/' + params)
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/news/' + params)
     .then(function (res) {
       sucFn(res)
     })
@@ -163,7 +163,7 @@ export function updateNewsList (params, sucFn) {
  * 平台管理-新闻列表-编辑V2
  */
 export function updateV2NewsList (params, sucFn) {
-  return axios.put(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', {params: params})
+  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/news', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -193,7 +193,7 @@ export function delBatchNewsList (params, sucFn) {
  * 平台管理-新闻列表-删除(V2)
  */
 export function delV2NewsList (params, sucFn) {
-  return axios.delete(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/news', {params: params})
+  return axios.delete(API_BASE_URL_V2 + SERVICE_PORTAL + '/news', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -213,7 +213,7 @@ export function getPubInfoList (params, sucFn) {
  * 平台管理-信息公开-表格数据获取V2
  */
 export function getV2PubInfoList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications/list/1', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications/list/1', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -233,7 +233,7 @@ export function insertPubInfoList (params, sucFn) {
  * 平台管理-信息公开-添加
  */
 export function insertV2PubInfoList (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -249,10 +249,30 @@ export function getPubInfoForEdit (params, sucFn) {
 }
 
 /**
+ * 平台管理-信息公开-编辑-为编辑页获取数据v2
+ */
+export function getV2PubInfoForEdit (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications/' + params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
  * 平台管理-信息公开-编辑
  */
 export function updatePubInfoList (params, sucFn) {
   return axios.post(API_BASE_URL + '/management/infoedit', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/**
+ * 平台管理-信息公开-编辑v2
+ */
+export function updateV2PubInfoList (params, sucFn) {
+  return axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -279,10 +299,10 @@ export function delBatchPubInfoList (params, sucFn) {
 }
 
 /**
- * 平台管理-信息公开-删除
+ * 平台管理-信息公开-删除V2
  */
 export function delV2PubInfoList (params, sucFn) {
-  return axios.delete(API_BASE_URL_V2 + '/' + SERVICE_PORTAL + '/notifications', {params: params})
+  return axios.delete(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', {params: params})
     .then(function (res) {
       sucFn(res)
     })

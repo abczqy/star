@@ -82,7 +82,7 @@ class PublicInfo extends Component {
             <span>
               <Link to={{pathname: '/software-market-home/platform-manage/public-info-edit', search: '?' + record.id}}>编辑</Link>
               <Divider type='vertical' />
-              <a href='javascript:void(0)' onClick={(e) => this.delNews(record.id)}>删除</a>
+              <a href='javascript:void(0)' onClick={(e) => this.delNews(record)}>删除</a>
             </span>
           )
         }
