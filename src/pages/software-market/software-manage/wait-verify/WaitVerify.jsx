@@ -65,8 +65,8 @@ class WaitVerify extends Component {
       keyword: this.state.keyword
     }, (res) => {
       const data = res.data.data
-      let jsonStr = JSON.stringify(data)
-      console.log(jsonStr)
+      // let jsonStr = JSON.stringify(data)
+      // console.log(jsonStr)
       let dataList = res.data.data.data
       this.setState({
         tableData: {
@@ -194,8 +194,8 @@ class WaitVerify extends Component {
     bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
-      let jsonStr = JSON.stringify(resData)
-      console.log(jsonStr)
+      // let jsonStr = JSON.stringify(resData)
+      // console.log(jsonStr)
       thiz.setState({
         detModalCon: {
           ...thiz.state.detModalCon,
@@ -223,24 +223,40 @@ class WaitVerify extends Component {
   handleDetAgree = (state) => {
     const thiz = this
     // let jsonStr = JSON.stringify(this.state.detModalCon)
-    // console.log('111111111' + jsonStr)
+    // console.log('12222' + jsonStr)
     // console.log('detModalCon' + this.state.detModalCon)
+    let paramsList = []
     const params = {
-      APP_ID: this.state.detModalCon.APP_ID,
-      APP_VERSION: this.setState.APP_VERSION
-      // se_state: state === 'agree' ? 1 : 0
+      'APP_ID': this.state.detModalCon.APP_ID,
+      'APP_VERSION': this.state.detModalCon.APP_VERSION
     }
+    paramsList.push(params)
+    const params1 = {
+      userID: 123,
+      rejectReason: '1'
+    }
+    // let jsonStr1 = JSON.stringify(paramsList)
+    // console.log('111111111' + jsonStr1)
     if (state === 'agree') {
-      waitVeriAgreev2(params, (res) => {
+      // console.log('111111111同意')
+      waitVeriAgreev2(paramsList, params1, (res) => {
         const data = res.data
-        message.success(data.info)
+        if (data.code === 200) {
+          message.success('审核成功')
+        } else {
+          message.success('审核失败')
+        }
         thiz.handleAppDetCancel()
         thiz.getTableDatas()
       })
     } else {
-      waitVeriRejectv2(params, (res) => {
+      waitVeriRejectv2(paramsList, params1, (res) => {
         const data = res.data
-        message.success(data.info)
+        if (data.code === 200) {
+          message.success('驳回成功')
+        } else {
+          message.success('驳回失败')
+        }
         thiz.handleAppDetCancel()
         thiz.getTableDatas()
       })
@@ -251,7 +267,7 @@ class WaitVerify extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    console.log('val:' + val)
+    // console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
       typeId: val

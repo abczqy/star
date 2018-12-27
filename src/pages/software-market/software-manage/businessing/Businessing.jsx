@@ -174,8 +174,8 @@ class Businessing extends Component {
         keyword: this.state.keyword
       }, (res) => {
         const data = res.data.data
-        let jsonStr = JSON.stringify(data)
-        console.log(jsonStr)
+        // let jsonStr = JSON.stringify(data)
+        // console.log(jsonStr)
         let dataList = res.data.data.data
         this.setState({
           tableData: {
@@ -222,8 +222,8 @@ class Businessing extends Component {
     bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
       // 通过state将数据res传给子组件
-      let jsonStr = JSON.stringify(resData)
-      console.log(jsonStr)
+      // let jsonStr = JSON.stringify(resData)
+      // console.log(jsonStr)
       thiz.setState({
         appDetailModalCon: {
           ...thiz.state.detModalCon,
@@ -318,7 +318,7 @@ class Businessing extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    console.log('val:' + val)
+    // console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
       typeId: val
