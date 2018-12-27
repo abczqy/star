@@ -47,7 +47,7 @@ class IterationVerify extends Component {
       options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
       pageNum: 1,
       pageSize: 10,
-      auditStatus: 1, // 软件状态3未通过审核
+      auditStatus: 2, // 软件状态2迭代审核
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
       keyword: ''
@@ -130,28 +130,51 @@ class IterationVerify extends Component {
       key: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      key: 'sw_type'
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
     }, {
       title: '供应商',
       dataIndex: 'fa_name',
-      key: 'fa_name'
+      key: 'fa_name',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'baidu'}
+          </span>
+        )
+      }
     }, {
       title: '类型',
       dataIndex: 'sw_path',
-      key: 'sw_path'
+      key: 'sw_path',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'app'}
+          </span>
+        )
+      }
     }, {
       title: '当前版本',
-      dataIndex: 'version',
-      key: 'version'
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
     }, {
       title: '迭代版本',
       dataIndex: 'iteration_version',
-      key: 'iteration_version'
+      key: 'iteration_version',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'v2.0'}
+          </span>
+        )
+      }
     }, {
       title: '提交时间',
-      dataIndex: 'sw_update_time',
-      key: 'sw_update_time '
+      dataIndex: 'CREATE_TIME',
+      key: 'CREATE_TIME',
+      render: (text, record, index) => {
+        return (
+          <span >{this.dateToString(text)}</span>
+        )
+      }
     }, {
       title: '操作',
       dataIndex: 'options',
@@ -166,7 +189,11 @@ class IterationVerify extends Component {
       }
     }]
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   // 显示‘详情’弹窗
   showDetModal = (record) => {
     // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错

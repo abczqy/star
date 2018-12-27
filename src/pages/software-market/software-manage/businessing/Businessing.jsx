@@ -69,11 +69,27 @@ class Businessing extends Component {
     }, {
       title: '供应商',
       dataIndex: 'fa_name',
-      key: 'fa_name'
+      key: 'fa_name',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'baidu'}
+          </span>
+        )
+      }
     }, {
       title: '类型',
       dataIndex: 'LX',
-      key: 'LX'
+      key: 'LX',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'app'}
+          </span>
+        )
+      }
+    }, {
+      title: '当前版本',
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
     }, {
       title: '下载次数',
       dataIndex: 'DOWNLOAD_COUNT',

@@ -725,7 +725,24 @@ export function waitVeriExam (params, sucFn) {
       sucFn(res)
     })
 }
-
+/**
+ * 软件管理-待审核-同意审核
+ */
+export function waitVeriAgreev2 (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/management/examineapp', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 软件管理-待审核-驳回审核
+ */
+export function waitVeriRejectv2 (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/management/examineapp', params)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 /**
  * 软件管理-迭代审核
  */

@@ -13,7 +13,7 @@ import { Table, Button, message } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getAppListDatav2, bussDetailv2, waitVeriExam, getApptype } from 'services/software-manage'
+import { getAppListDatav2, bussDetailv2, waitVeriAgreev2, waitVeriRejectv2, getApptype } from 'services/software-manage'
 import webStorage from 'webStorage'
 
 /**
@@ -137,11 +137,27 @@ class WaitVerify extends Component {
     }, {
       title: '供应商',
       dataIndex: 'fa_name',
-      key: 'fa_name'
+      key: 'fa_name',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'baidu'}
+          </span>
+        )
+      }
     }, {
       title: '类型',
       dataIndex: 'sw_path',
-      key: 'sw_path'
+      key: 'sw_path',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'win32'}
+          </span>
+        )
+      }
+    }, {
+      title: '当前版本',
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
     }, {
       title: '提交时间',
       dataIndex: 'CREATE_TIME',
@@ -185,6 +201,7 @@ class WaitVerify extends Component {
           ...thiz.state.detModalCon,
           visible: true,
           APP_NAME: record.APP_NAME,
+          APP_VERSION: record.APP_VERSION,
           resData: resData,
           APP_ID: record.APP_ID
         }
@@ -205,19 +222,29 @@ class WaitVerify extends Component {
   // 同意详情弹窗
   handleDetAgree = (state) => {
     const thiz = this
-    let jsonStr = JSON.stringify(this.state.detModalCon)
-    console.log(jsonStr)
+    // let jsonStr = JSON.stringify(this.state.detModalCon)
+    // console.log('111111111' + jsonStr)
     // console.log('detModalCon' + this.state.detModalCon)
     const params = {
-      APP_ID: this.state.detModalCon.APP_ID
+      APP_ID: this.state.detModalCon.APP_ID,
+      APP_VERSION: this.setState.APP_VERSION
       // se_state: state === 'agree' ? 1 : 0
     }
-    waitVeriExam(params, (res) => {
-      const data = res.data
-      message.success(data.info)
-      thiz.handleAppDetCancel()
-      thiz.getTableDatas()
-    })
+    if (state === 'agree') {
+      waitVeriAgreev2(params, (res) => {
+        const data = res.data
+        message.success(data.info)
+        thiz.handleAppDetCancel()
+        thiz.getTableDatas()
+      })
+    } else {
+      waitVeriRejectv2(params, (res) => {
+        const data = res.data
+        message.success(data.info)
+        thiz.handleAppDetCancel()
+        thiz.getTableDatas()
+      })
+    }
   }
 
   /**
