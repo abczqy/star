@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_V2} = config
 
 // +++++++++++++++++++++++++软件市场/个人中心接口+++++++++++++++++++++++++
 
@@ -90,7 +90,7 @@ export function appCollect (params, sucFn) {
  * 统计分析-软件下载量变化
  */
 export function softwareDownload (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getDownloadStatisticalAnalysisList', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-change', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -100,7 +100,7 @@ export function softwareDownload (params, sucFn) {
  * 统计分析-应用类型占比
  */
 export function softwareType (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getAppTypeStatisticalAnalysisList', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-type', {params: params})
     .then(function (res) {
       sucFn(res)
     })
