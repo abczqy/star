@@ -74,7 +74,15 @@ const iconStyle = {
   width: '50px',
   height: '50px',
   borderRadius: '50%',
-  padding: '2px 5px 5px 5px'
+  padding: '1px 5px 5px 5px'
+}
+
+/**
+ * App-icon中的icon的style
+ */
+const imgStyle = {
+  width: '30px',
+  height: '30px'
 }
 
 /**
@@ -151,6 +159,23 @@ class Home extends Component {
    */
   getTopApps = (thiz) => {
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app' + '/1/6')
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data.data
+          data.content &&
+          thiz.setState({
+            recomApps: thiz.topAppsAdapter(data.content.slice())
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+  /**
+   * 数据请求--我的应用
+   */
+  getMyApps = (thiz) => {
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-open' + '/1')
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data.data
@@ -487,6 +512,7 @@ class Home extends Component {
           <Col span={6} offset={1}>
             <LabelIcon
               style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
+              imgStyle={{ ...imgStyle }}
               label='订单管理'
               icon={Book}
               onClick={() => this.onManageClick('book')}
@@ -497,6 +523,7 @@ class Home extends Component {
               ? <Col span={6}>
                 <LabelIcon
                   style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                  imgStyle={{ ...imgStyle }}
                   label='应用管理'
                   icon={Member}
                   onClick={() => this.onManageClick('app')}
@@ -505,6 +532,7 @@ class Home extends Component {
               : <Col span={6}>
                 <LabelIcon
                   style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                  imgStyle={{ ...imgStyle }}
                   label='人员管理'
                   icon={Member}
                   onClick={() => this.onManageClick('people')}
@@ -514,6 +542,7 @@ class Home extends Component {
           <Col span={6}>
             <LabelIcon
               style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
+              imgStyle={{ ...imgStyle }}
               label='组织管理'
               icon={Org}
               onClick={() => this.onManageClick('ins')}
@@ -642,6 +671,7 @@ class Home extends Component {
   componentDidMount () {
     // 请求数据
     this.getTopApps(this)
+    this.getMyApps(this)
   }
 
   render () {
