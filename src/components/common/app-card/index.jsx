@@ -10,7 +10,7 @@ import { Row, Col } from 'antd'
 import AppIcon from '../app-icon'
 import './AppCard.scss'
 // import AppMore from '../../../assets/images/work-plat/app-more.png'
-import DownLoad from '../../../assets/images/work-plat/down-load.png'
+// import DownLoad from '../../../assets/images/work-plat/down-load.png'
 import Share from '../../../assets/images/work-plat/share.png'
 import Celect from '../../../assets/images/work-plat/celect.png'
 
@@ -51,23 +51,23 @@ class AppCard extends Component {
           </Col>
         </Row>
         <Row className='bottom-row'>
-          <Col span={3} offset={10}>
+          {/* <Col span={3} offset={10}>
             <span
-              className='btn-icon-wrap share-icon'
-              onClick={this.props.onDownLoad}
+              className='btn-icon-wrap down-load-icon'
+              onClick={this.props.onAction}
             >
               <img
                 className='mini-icon'
                 src={DownLoad}
               />
             </span>
-          </Col>
-          <Col span={5} >
+          </Col> */}
+          <Col span={5} offset={13} >
             <span
               className='btn-wrap btn-text-wrap down-load-icon'
-              onClick={this.props.onDownLoad}
+              onClick={this.props.onAction}
             >
-              下载
+              { this.props.action || '详情'}
             </span>
           </Col>
           <Col span={3} >
@@ -99,7 +99,8 @@ AppCard.propTypes = {
   icon: PropTypes.any, // 图片
   title: PropTypes.any, // 名称
   desc: PropTypes.string, // 描述
-  onDownLoad: PropTypes.func, // 点击下载的回调
+  action: PropTypes.string, // 动作 -- 下载/详情/开通
+  onAction: PropTypes.func, // 点击'动作'的回调
   onCelect: PropTypes.func // 点击收藏的回调
 }
 

@@ -48,6 +48,7 @@ import mock from './mock-data'
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
+const SERVICE_AUTHENTICATION = config.SERVICE_AUTHENTICATION
 
 const TabPane = Tabs.TabPane
 
@@ -151,7 +152,8 @@ class Home extends Component {
     super(props)
     this.state = {
       recomApps: [], // 系统（重点）推荐
-      myApps: [] // 我的应用
+      myApps: [], // 我的应用
+      usrInfo: {} // 用户信息
     }
   }
 
@@ -162,10 +164,10 @@ class Home extends Component {
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app' + '/1/6')
       .then(function (res) {
         if (res.data.code === 200) {
-          const data = res.data.data
-          data.content &&
+          const data = res.data
+          data.data.content &&
           thiz.setState({
-            recomApps: thiz.topAppsAdapter(data.content.slice())
+            recomApps: thiz.topAppsAdapter(data.data.content.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -176,14 +178,52 @@ class Home extends Component {
    * 数据请求--我的应用
    */
   getMyApps = (thiz) => {
+    // 需要全局用户id
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-open' + '/1')
       .then(function (res) {
         if (res.data.code === 200) {
-          const data = res.data.data
-          data &&
+          const data = res.data
+          data.data &&
           thiz.setState({
-            myApps: thiz.topAppsAdapter(data.slice())
+            myApps: thiz.topAppsAdapter(data.data.slice())
           })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+  /**
+   * 数据请求--我的收藏
+   */
+  getMyCollect = (thiz) => {
+    // 需要全局用户id
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-collect/list', { params: { userId: '1' } })
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          data.data &&
+          thiz.setState({
+            myApps: thiz.topAppsAdapter(data.data.slice())
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+
+  /**
+   * 数据请求-个人
+   */
+  getUserInfo = (thiz) => {
+    // 需要全局用户id - 测试默认值为1
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/1')
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          data.data &&
+        thiz.setState({
+          usrInfo: { ...data.data } // 引用类型浅拷贝一下
+        })
         } else {
           message.warning(res.data.msg || '请求出错')
         }
@@ -216,9 +256,9 @@ class Home extends Component {
   }
 
   /**
-   * AppCard - 下载按钮点击函数
+   * AppCard - 点击动作（下载/详情/开通）时的回调
    */
-  onAppDownLoad = () => {
+  onAppCardAction = () => {
     this.props.history.push('/operate-manage-home/all-app-detail-third')
   }
 
@@ -379,7 +419,7 @@ class Home extends Component {
   getAppCardRender = () => {
     return (
       <AppCard
-        onDownLoad={this.onAppDownLoad}
+        onAction={this.onAppCardAction}
         onCelect={this.onAppCelect}
       />
     )
@@ -452,19 +492,19 @@ class Home extends Component {
               <Col span={16}>
                 <img src={Compony} className='mini-icon' />
                 单位：
-                <span>xxx小学</span>
+                <span>{ 'xxx小学' }</span>
               </Col>
               <Col span={8}>
                 <img src={Job} className='mini-icon' />
                 学科：
-                <span>数学</span>
+                <span>{ '数学' }</span>
               </Col>
             </Row>
             <Row>
               <Col span={16}>
                 <img src={Call} className='mini-icon' />
                 电话：
-                <span>12345678901</span>
+                <span>{ this.state.usrInfo.phoneNumber || '13766284490' }</span>
               </Col>
               <Col span={8}>
                 <img src={Job} className='mini-icon' />
@@ -643,7 +683,7 @@ class Home extends Component {
                   tab='使用频率'
                 >
                   {
-                    this.getStatListRender(mock.statList)
+                    this.getStatListRender(mock.statRateList)
                   }
                 </TabPane>
               </Tabs>
@@ -674,6 +714,8 @@ class Home extends Component {
     // 请求数据
     this.getTopApps(this)
     this.getMyApps(this)
+    // this.getMyCollect(this)
+    this.getUserInfo(this)
   }
 
   render () {
@@ -707,7 +749,7 @@ class Home extends Component {
                     justify='left'
                   >
                     <Col span={14} style={{fontSize: '14px', fontWeight: '650'}}>
-                     学校名称
+                      { this.state.usrInfo.userName || '贝贝小学' }
                     </Col>
                   </Row>
                   <Row>

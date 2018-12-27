@@ -36,6 +36,7 @@
     display: inline-block;
     padding: 2px 5px;
     border-radius: $btnRadius;
+    cursor: pointer;
   }
 
   /* 差异化样式 */
@@ -74,7 +75,8 @@
     padding: 0 1px 1px 3px;
     border-radius: $btnRadius;
     text-align: center;
-    margin-top: -3px;
+    margin-top: -4px;
+    cursor: pointer;
     .mini-icon {
       width: $iconSize * 1.6;
       height: $iconSize * 1.6;
