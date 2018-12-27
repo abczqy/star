@@ -738,7 +738,7 @@ export function informationEdListEdit (params, sucFn) {
  * 平台首页-门户导航查询
  */
 export function getGatewayNavigationList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/channel', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/channels', {params: params})
     .then(function (res) {
       sucFn(res)
     })
