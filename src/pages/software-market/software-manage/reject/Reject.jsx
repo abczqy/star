@@ -66,8 +66,8 @@ class Reject extends Component {
       keyword: this.state.keyword
     }, (res) => {
       const data = res.data.data
-      let jsonStr = JSON.stringify(data)
-      console.log(jsonStr)
+      // let jsonStr = JSON.stringify(data)
+      // console.log(jsonStr)
       let dataList = res.data.data.data
       this.setState({
         tableData: {
@@ -247,7 +247,7 @@ class Reject extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    console.log('val:' + val)
+    // console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
       typeId: val

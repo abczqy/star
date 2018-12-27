@@ -63,8 +63,8 @@ class Remove extends Component {
     }, (res) => {
       // console.log('获取运营中的应用列表数据' + this.state.sw_type)
       const data = res.data.data
-      let jsonStr = JSON.stringify(data)
-      console.log(jsonStr)
+      // let jsonStr = JSON.stringify(data)
+      // console.log(jsonStr)
       let dataList = res.data.data.data
       this.setState({
         tableData: {
@@ -110,8 +110,8 @@ class Remove extends Component {
         item.sw_path = version
       })
     })
-    let jsonStr = JSON.stringify(data)
-    console.log('path' + jsonStr)
+    // let jsonStr = JSON.stringify(data)
+    // console.log('path' + jsonStr)
     return data
   }
   /**
@@ -251,7 +251,7 @@ class Remove extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    console.log('val:' + val)
+    // console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
       typeId: val

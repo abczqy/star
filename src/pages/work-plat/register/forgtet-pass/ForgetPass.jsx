@@ -16,7 +16,7 @@ class ForgetPass extends Component {
     this.state = {
       checkpass: '最短8位，包含字母、数字或者英文符号至少两种',
       phoneCode: '', // 短信验证码
-      count: 6, // 秒数初始化为60秒
+      count: 60, // 秒数初始化为60秒
       liked: true, // 文案默认为‘获取验证码‘
       phonereg: false,
       phoneNum: '',
@@ -36,7 +36,7 @@ class ForgetPass extends Component {
           valid: values.maf_phone_con
         }, (response) => {
           if (response.status === 200) {
-            message.success('验证成功')
+            // message.success('验证成功')
             // console.log(response.data.data)
             this.setState({
               safeCode: response.data.data
@@ -73,6 +73,9 @@ class ForgetPass extends Component {
     })
     if (!this.state.phonereg) {
       message.success('请输入手机号码')
+      this.setState({
+        disabled: false
+      })
     } else {
       // liked is false 的时候，不允许再点击
       if (!this.state.liked) {
@@ -89,7 +92,7 @@ class ForgetPass extends Component {
               clearInterval(timer)
               this.setState({
                 liked: true,
-                count: 6,
+                count: 60,
                 disabled: false
               })
             }
