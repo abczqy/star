@@ -64,8 +64,8 @@ export function getPortalBannerImg (params, sucFn) {
 /**
  * 门户首页-轮播消息
  */
-export function getMessageCaro (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/portal/messages/' + params.userId)
+export function getMessageCaro (userId, params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/portal/messages/' + userId, {params: params})
   // return axios.get(API_BASE_URL_V2 + '/portal/messages')
     .then(function (res) {
       sucFn(res)

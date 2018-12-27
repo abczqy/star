@@ -71,16 +71,19 @@ class HomepageMaker extends Component {
 
   getList = () => {
     getGatewayNavigationList({}, res => {
-      this.setState({
-        data: [],
-        count: 0
-      }, () => {
+      if (res.data.code === 200) {
         this.setState({
-          count: res.data.pageCount,
-          data: res.data.data
+          data: []
+          // count: 0
+        }, () => {
+          this.setState({
+            // count: res.data.pageCount,
+            data: res.data.data
+          })
         })
-      })
-      console.log(this.state.data)
+      } else {
+        message.warn(res.data.msg)
+      }
     })
   }
   /**
@@ -157,7 +160,7 @@ class HomepageMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar getList={this.getList} title={title} expand={expand} addpage={this.addHomepage} click={this.recerve} />} key='1'>
             {data.map((item, index) => {
               return (<div className='float-box' key={index}><HomepageBox title={title} orderNum={index + 1
-              } id={item.navigation_id} dataa={item.navigation_title} datab={item.navigation_url} getList={this.getList}onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
+              } id={item.id} dataa={item.name} datab={item.url} getList={this.getList}onChange={this.getInputValue} onChanget={this.getInputValuet} /></div>)
             })}
             {newData.map((item, index) => {
               return (<div className='float-box' key={index}><HomepageNewBox title={title} orderNum={index + this.state.data.length + 1

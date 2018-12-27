@@ -267,7 +267,7 @@ handleTabChanges (e) {
 render () {
   console.log('返回数据', this.state.tableData)
   const dataT = [
-    {'title': '审核中', value: '3'}, {'title': '已驳回', value: '0'}, {'title': '已发布', value: '1'}
+    {'title': '全部', value: '3'}, {'title': '审核中', value: '0'}, {'title': '已驳回', value: '2'}, {'title': '已发布', value: '1'}
   ]
   return <div style={{margin: 'auto', width: '90%', marginLeft: '10%', minHeight: this.state.viewHeight}}>
     <div >

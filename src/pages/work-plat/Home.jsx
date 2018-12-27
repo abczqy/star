@@ -74,7 +74,15 @@ const iconStyle = {
   width: '50px',
   height: '50px',
   borderRadius: '50%',
-  padding: '2px 5px 5px 5px'
+  padding: '1px 5px 5px 5px'
+}
+
+/**
+ * App-icon中的icon的style
+ */
+const imgStyle = {
+  width: '30px',
+  height: '30px'
 }
 
 /**
@@ -142,7 +150,8 @@ class Home extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      recomApps: [] // 系统（重点）推荐
+      recomApps: [], // 系统（重点）推荐
+      myApps: [] // 我的应用
     }
   }
 
@@ -157,6 +166,23 @@ class Home extends Component {
           data.content &&
           thiz.setState({
             recomApps: thiz.topAppsAdapter(data.content.slice())
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+  /**
+   * 数据请求--我的应用
+   */
+  getMyApps = (thiz) => {
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-open' + '/1')
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data.data
+          data &&
+          thiz.setState({
+            myApps: thiz.topAppsAdapter(data.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -374,7 +400,7 @@ class Home extends Component {
       return (
         <LabelIcon
           style={{ ...style }}
-          label={itemData.label}
+          label={itemData.label || '应用'}
           onClick={() => thiz.onAppClick(params.url)}
         />
       )
@@ -487,6 +513,7 @@ class Home extends Component {
           <Col span={6} offset={1}>
             <LabelIcon
               style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
+              imgStyle={{ ...imgStyle }}
               label='订单管理'
               icon={Book}
               onClick={() => this.onManageClick('book')}
@@ -497,6 +524,7 @@ class Home extends Component {
               ? <Col span={6}>
                 <LabelIcon
                   style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                  imgStyle={{ ...imgStyle }}
                   label='应用管理'
                   icon={Member}
                   onClick={() => this.onManageClick('app')}
@@ -505,6 +533,7 @@ class Home extends Component {
               : <Col span={6}>
                 <LabelIcon
                   style={{ ...iconStyle, backgroundColor: '#4ECB73' }}
+                  imgStyle={{ ...imgStyle }}
                   label='人员管理'
                   icon={Member}
                   onClick={() => this.onManageClick('people')}
@@ -514,6 +543,7 @@ class Home extends Component {
           <Col span={6}>
             <LabelIcon
               style={{ ...iconStyle, backgroundColor: '#FF6D4A' }}
+              imgStyle={{ ...imgStyle }}
               label='组织管理'
               icon={Org}
               onClick={() => this.onManageClick('ins')}
@@ -530,7 +560,8 @@ class Home extends Component {
   getNoVendorRender = () => {
     const role = webStorage.getItem('STAR_WEB_ROLE_CODE')
     const {
-      recomApps
+      recomApps,
+      myApps
     } = this.state
     return (
       <div>
@@ -556,7 +587,7 @@ class Home extends Component {
               extra={<Extra />}
             >
               {
-                this.getCellsRender(mock.myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }, {}, this))
+                this.getCellsRender(myApps, 9, 18, this.getAppRender({ borderRadius: '50%' }, {}, this))
               }
             </Card>
           </Col>
@@ -642,6 +673,7 @@ class Home extends Component {
   componentDidMount () {
     // 请求数据
     this.getTopApps(this)
+    this.getMyApps(this)
   }
 
   render () {

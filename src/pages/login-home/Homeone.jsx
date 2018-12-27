@@ -73,69 +73,99 @@ class Home extends React.Component {
     getRecommendApp({
       userId: '1'
     }, (response) => {
-      let result = response.data.data || []
-      result.map((item, index) => {
-        item.appId = item.COMPANY_ID
-        item.appName = item.APP_NAME
-      })
-      // console.log('工作台我的应用', result)
-      // if (result.success) {
-      this.setState({
-        webAppData: result || []
-      })
-      // }
+      if (response.data.code === 200) {
+        let result = response.data.data || []
+        result.map((item, index) => {
+          item.appId = item.APP_ID
+          item.appName = item.APP_NAME
+          item.apppath = item.APP_LINK
+          item.appIcon = item.APP_ICON
+        })
+        // console.log('工作台我的应用', result)
+        // if (result.success) {
+        this.setState({
+          webAppData: result || []
+        })
+        // }
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
     // 门户首页-软件市场
     getSoftMarketList({}, (response) => {
-      let result = response.data.data.content || []
-      // console.log('软件市场重点推荐', result)
-      this.setState({
-        softMarketData: result || []
-      })
+      if (response.data.code === 200) {
+        let result = response.data.data.content || []
+        // console.log('软件市场重点推荐', result)
+        this.setState({
+          softMarketData: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
     // 门户首页-教育新闻
-    getNewsNoticeList({pageSize: '6'}, (response) => {
-      let result = response.data.data.info || []
-      // console.log('教育新闻', result)
-      this.setState({
-        newsData: result || []
-      })
+    getNewsNoticeList({pageSize: '6', pageNum: '1'}, (response) => {
+      if (response.data.code === 200) {
+        let result = response.data.data.info || []
+        // console.log('教育新闻', result)
+        this.setState({
+          newsData: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
     // 门户首页-信息公开
-    getPublicNoticeList({pageSize: '6'}, (response) => {
-      let result = response.data.data.info || []
-      // console.log('信息公开', result)
-      this.setState({
-        infoData: result || []
-      })
+    getPublicNoticeList({pageSize: '6', pageNum: '1'}, (response) => {
+      if (response.data.code === 200) {
+        let result = response.data.data.info || []
+        // console.log('信息公开', result)
+        this.setState({
+          infoData: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
     // 门户首页-应用总数统计
     getAllAppCount({}, (response) => {
-      let result = response.data.data || []
-      // console.log('应用总数', result)
-      this.setState({
-        appCountData: result || []
-      })
+      if (response.data.code === 200) {
+        let result = response.data.data || []
+        // console.log('应用总数', result)
+        this.setState({
+          appCountData: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
     // 底部轮播图
     getPortalBannerImg({
       bannerType: '2'
     }, (response) => {
-      let result = response.data.data || []
-      // console.log('底部轮播', result)
-      this.setState({
-        bannerBottomImg: result || []
-      })
+      if (response.data.code === 200) {
+        let result = response.data.data || []
+        // console.log('底部轮播', result)
+        this.setState({
+          bannerBottomImg: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
     // 首页轮播消息
-    getMessageCaro({
-      userId: 'string'
+    getMessageCaro('string', {
+      pageNum: '1'
     }, (response) => {
-      let result = response.data.data.info || []
-      // console.log('消息轮播', result)
-      this.setState({
-        messageCaro: result || []
-      })
+      if (response.data.code === 200) {
+        let result = response.data.data.info || []
+        // console.log('消息轮播', result)
+        this.setState({
+          messageCaro: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
     })
   }
 

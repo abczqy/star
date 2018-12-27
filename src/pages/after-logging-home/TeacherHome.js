@@ -73,11 +73,15 @@ class TeacherHome extends Component {
       num: 10,
       chartType: activeKey === '1' ? 0 : 1
     }, (res) => {
-      console.log('下载排行', res.data.data.content)
-      this.setState({
-        rankingData: res.data.data.content
-      }, () => {
-      })
+      if (res.data.code === 200) {
+        console.log('下载排行', res.data.data.content)
+        this.setState({
+          rankingData: res.data.data.content
+        }, () => {
+        })
+      } else {
+        // message.warning(res.data.msg || '出现异常')
+      }
     }).catch((e) => { console.log(e) })
   }
   // 排行榜获取数据
@@ -90,10 +94,14 @@ class TeacherHome extends Component {
       // num: this.state.teacherMoreNum
       teacherId: '1'
     }, (res) => {
-      console.log('教师推荐', res.data.data.data)
-      this.setState({
-        teacherData: res.data.data.data
-      })
+      if (res.data.code === 200) {
+        console.log('教师推荐', res.data.data.data)
+        this.setState({
+          teacherData: res.data.data.data
+        })
+      } else {
+        // message.warning(res.data.msg || '出现异常')
+      }
     }).catch((e) => { console.log(e) })
   }
   // 获取热门推荐数据
@@ -102,10 +110,14 @@ class TeacherHome extends Component {
       pageNum: '1',
       pageSize: '10'
     }, (res) => {
-      console.log('热门推荐', res.data.data.content)
-      this.setState({
-        hotData: res.data.data.content
-      })
+      if (res.data.code === 200) {
+        console.log('热门推荐', res.data.data.content)
+        this.setState({
+          hotData: res.data.data.content
+        })
+      } else {
+        // message.warning(res.data.msg || '出现异常')
+      }
     }).catch((e) => { console.log(e) })
   }
   // 处理老师推荐的更多按钮
@@ -130,10 +142,14 @@ class TeacherHome extends Component {
       appId: id,
       type: isCollect === 'false' ? 'collect' : 'cancel'
     }, (res) => {
-      console.log('收藏按钮', res.data.result)
-      if (res.data.result === 'success') {
-        this.getTeacherData()
-        this.getHotData()
+      if (res.data.code === 200) {
+        console.log('收藏按钮', res.data.result)
+        if (res.data.result === 'success') {
+          this.getTeacherData()
+          this.getHotData()
+        }
+      } else {
+        // message.warning(res.data.msg || '出现异常')
       }
     }).catch((e) => { console.log(e) })
   }

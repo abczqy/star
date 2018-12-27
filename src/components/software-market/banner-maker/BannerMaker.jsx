@@ -171,12 +171,13 @@ class BannerMaker extends Component {
   }
   getList = () => {
     let param = {}
+    let type
     if (this.props.header.title !== '平台介绍') {
-      param.bannerTypeId = 1
+      type = 1
     } else {
-      param.bannerTypeId = 2
+      type = 2
     }
-    getGatewayBannerList(param, res => {
+    getGatewayBannerList(param, type, res => {
       console.log(res)
       if (res.data.code === 200) {
         this.setState({

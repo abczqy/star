@@ -4,7 +4,7 @@
 教育局的教育新闻列表
 */
 import React from 'react'
-import {Row, Col, Pagination} from 'antd'
+import {Row, Col, Pagination, message} from 'antd'
 import img from '../../assets/images/hear.jpg'
 import './NewsList.scss'
 import _ from 'lodash'
@@ -40,10 +40,13 @@ class News extends React.Component {
       pageSize: this.state.pageSize
     }
     newsList(value, 1, (response) => {
-      console.log(response)
-      this.setState({
-        newData: response.data.data
-      })
+      if (response.data.code === 200) {
+        this.setState({
+          newData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let values = {
@@ -52,9 +55,13 @@ class News extends React.Component {
       type: 0
     }
     information(values, 1, (response) => {
-      this.setState({
-        infoData: response.data.data
-      })
+      if (response.data.code === 200) {
+        this.setState({
+          infoData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   componentDidMount () {
