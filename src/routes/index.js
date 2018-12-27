@@ -17,7 +17,8 @@ import {
   NewsListEdit,
   PublicInfoAdd,
   PublicInfoEdit,
-  PublicInfoVerifyDetail
+  PublicInfoVerifyDetail,
+  Analysis // v2 - 运营分析
 } from 'pages/software-market'
 import {
   Reject,
@@ -139,6 +140,9 @@ export default {
     component: Logged(DownHistory)
   }],
   softwareMarketChildRoutes: [{
+    path: '/software-market-home/software-manage/analysis',
+    component: Logged(Analysis)
+  }, {
     path: '/software-market-home/software-manage/reject',
     component: Logged(Reject)
   }, {

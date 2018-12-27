@@ -29,3 +29,10 @@ export {
   PublicInfoEdit,
   PublicInfoVerifyDetail
 } from './platform-manage/index'
+
+/**
+ * v2 - 运营分析
+ */
+export {
+  default as Analysis
+} from './analysis'
