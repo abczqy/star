@@ -781,8 +781,8 @@ export function information (params, auditStatus, sucFn) {
 /**
  * 信息公开列表编辑
  */
-export function informationDet (params, sucFn) {
-  return axios.post(API_BASE_URL + '/application/infodetail', params)
+export function informationDet (params, id, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/notifications/${id}`, params)
     .then(function (res) {
       sucFn(res)
     })

@@ -17,7 +17,7 @@ import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import CustomPagingTable from '../../components/common/PagingTable'
 import {informationEdListDelete, informationEdList, information} from 'services/software-manage'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import { withRouter } from 'react-router'
 
 const Search = Input.Search
@@ -131,12 +131,16 @@ class InformationEd extends React.Component {
     let values = {
       pageNum: 1,
       pageSize: 100,
-      info_class: ''
+      type: 0
     }
-    information(values, (response) => {
-      this.setState({
-        infoData: response.data
-      })
+    information(values, 1, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          infoData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   componentWillMount () {
@@ -269,19 +273,19 @@ render () {
     <div >
       <Row>
         <Col span={5} style={{width: '18%'}}>
-          <Row><div className='left-downer'>
+          {/* <Row><div className='left-downer'>
             <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '95%', height: '120px'}} alt='' /></div>
-          </Row>
+          </Row> */}
           <Row><div className='left-downer'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '95%' }}>
               <ul className='ul-margin super5'>
-                {(!_.isEmpty(this.state.infoData)) && this.state.infoData.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
+                {(!_.isEmpty(this.state.infoData)) && this.state.infoData.info.map((item, index) => {
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
                 })}
               </ul>
             </Card></div>
           </Row>
-          <Row><img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row>
+          {/* <Row><img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[1].info_picture : ''} style={{width: '95%', marginTop: '10px', height: '120px'}} alt='' /></Row> */}
         </Col>
         <Col span={17} style={{backgroundColor: '#fff', marginTop: '10px', paddingLeft: '10px', paddingTop: '10px', paddingBottom: '20px', overflow: 'hidden', minHeight: this.state.viewHeights}}>
           <Row>

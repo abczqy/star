@@ -148,6 +148,7 @@ class Information extends React.Component {
   }
   // 跳到（信息公开列表）// 政策发布
   handleTabChanges (e) {
+    console.log(e.target.text)
     this.props.history.push({
       pathname: '/home/informationDetEd',
       search: e.target.text.split(' ')[0]

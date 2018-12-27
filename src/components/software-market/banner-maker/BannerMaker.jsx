@@ -178,13 +178,17 @@ class BannerMaker extends Component {
     }
     getGatewayBannerList(param, res => {
       console.log(res)
-      this.setState({
-        bannerData: []
-      }, () => {
+      if (res.data.code === 200) {
         this.setState({
-          bannerData: res.data.data
+          bannerData: []
+        }, () => {
+          this.setState({
+            bannerData: res.data.data
+          })
         })
-      })
+      } else {
+        message.warn(res.data.msg)
+      }
       console.log(this.state.bannerData)
     })
   }

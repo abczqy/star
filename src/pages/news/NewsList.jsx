@@ -4,7 +4,7 @@
 无身份区分的教育新闻列表
 */
 import React from 'react'
-import {Row, Col, Pagination} from 'antd'
+import {Row, Col, Pagination, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 // import _ul from '../../assets/images/_ul.png'
@@ -13,7 +13,7 @@ import moment from 'moment'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import { withRouter } from 'react-router'
-import {newsList, information} from 'services/software-manage'
+import {newsList} from 'services/software-manage'
 import pic from '../../assets/images/u18499.png'
 
 // import { renderRoutes } from 'react-router-config'
@@ -42,23 +42,13 @@ class News extends React.Component {
       pageSize: this.state.pageSize
     }
     newsList(value, 1, (response) => {
-      console.log(response.data.data.info)
-      this.setState({
-        newData: response.data.data
-      })
-    })
-
-    let values = {
-      pageNum: 1,
-      pageSize: 100
-    }
-    information(values, 2, 1, (response) => {
-      console.log(response)
-      this.setState({
-        infoData: response.data.data
-      }, () => {
-        console.log('图片', this.state.infoData)
-      })
+      if (response.data.code === 200) {
+        this.setState({
+          newData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   componentDidMount () {
@@ -167,7 +157,7 @@ class News extends React.Component {
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container' style={{width: '100%'}}>
           <ul className='ul-top' style={{width: '100%', backgroundColor: '#fff', padding: '0', minHeight: this.state.viewHeights}}>
-            {this.state.newData ? this.state.newData.info.map((item, index) => {
+            {this.state.newData && this.state.newData.info.length !== 0 ? this.state.newData.info.map((item, index) => {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19.5%'}} key={index}>
                   <Row>
@@ -206,7 +196,7 @@ class News extends React.Component {
                     <div className='line' />
                   </Row>
                 </li>
-            }) : ''}
+            }) : '暂无数据'}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '10px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
               <Row >
                 <Col span={15} />
