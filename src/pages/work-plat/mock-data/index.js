@@ -92,20 +92,36 @@ export default {
     label: '班务日志'
   }],
   statList: [{
-    title: '超级教师(教学类)',
-    percent: 30
-  }, {
-    title: '超级教师(教学类)',
-    percent: 40
-  }, {
-    title: '超级教师(教学类)',
-    percent: 50
-  }, {
-    title: '超级教师(教学类)',
+    title: '查教育(教学类)',
     percent: 60
   }, {
-    title: '超级教师(教学类)',
+    title: '福建教师(教学类)',
+    percent: 45
+  }, {
+    title: '教学助手(教学类)',
+    percent: 40
+  }, {
+    title: '英语教室(教学类)',
+    percent: 37
+  }, {
+    title: '芝麻英语(教学类)',
+    percent: 34
+  }],
+  statRateList: [{
+    title: '教学助手(教学类)',
     percent: 70
+  }, {
+    title: '英语教室(教学类)',
+    percent: 64
+  }, {
+    title: '查教育(教学类)',
+    percent: 55
+  }, {
+    title: '芝麻英语(教学类)',
+    percent: 47
+  }, {
+    title: '福建教师(教学类)',
+    percent: 39
   }],
   waitToDoVnd: [{
     title: '审核通过', // 厂商 - 待办列表

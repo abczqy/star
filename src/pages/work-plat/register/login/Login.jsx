@@ -12,10 +12,9 @@ import {
   message
 } from 'antd'
 import webStorage from 'webStorage'
-import {clearCookie, setCookie} from 'utils/cookie'
 import PropTypes from 'prop-types'
 import './Login.scss'
-import {login, loginNew} from '../../../../services/portal'
+import {getUserInfoV2, loginNew} from '../../../../services/portal'
 const FormItem = Form.Item
 const {
   Footer, Content
@@ -44,33 +43,39 @@ class Login extends Component {
           let data1 = response.data
           if (data1.code === 200) {
             /** ticket userId */
+            let userId
+            let roleCode
             if (data1.data.ticket) {
               webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
               const arr = data1.data.ticket.split('.')
               if (arr.length > 1) {
-                webStorage.setItem('STAR_V2_USERID', JSON.parse(window.atob(arr[1])).userId ? JSON.parse(window.atob(arr[1])).userId : null)
+                userId = JSON.parse(window.atob(arr[1])).userId
+                webStorage.setItem('STAR_V2_USERID', userId)
+                roleCode = JSON.parse(window.atob(arr[1])).ruleCode
+                webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
               }
             }
-            login({ /** 历史登录接口 */
-              userName: identifier || '',
-              userPassword: password || ''
-            }, (response) => {
-              let data2 = response.data
-              // 如果登陆成功
-              if (data2.success) {
-                /** 成功后执行 */
-                message.success('登录成功')
-                /** 历史所需数据 */
-                webStorage.setItem('STAR_WEB_SESSION_ID', data2.sessionId)
-                webStorage.setItem('STAR_WEB_ROLE_CODE', data2.roleCode)
-                webStorage.setItem('STAR_WEB_PERSON_INFO', data2.personInfo)
+            getUserInfoV2(userId, (response) => {
+              if (response.data.code === 200) {
+                console.log(response.data.data)
+                webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
                 webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-                clearCookie()
-                setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 0)
-                /** 跳转至首页 */
-                this.props.history.push({
-                  pathname: '/operate-manage-home/home'
-                })
+                message.success('登录成功')
+                if (roleCode === 'opeartor') {
+                  this.props.history.push({
+                    pathname: '/software-market-home'
+                  })
+                } else {
+                  if (response.data.data.LoginCounts === 0) {
+                    this.props.history.push({
+                      pathname: '/operate-manage-home/work-plat/first-login'
+                    })
+                  } else {
+                    this.props.history.push({
+                      pathname: '/operate-manage-home/home'
+                    })
+                  }
+                }
               } else {
                 /** 登录失败 */
                 message.error('登录失败')
