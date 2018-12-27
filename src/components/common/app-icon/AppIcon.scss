@@ -1,0 +1,20 @@
+  /* 公用样式尽量引用公用变量 */
+@import "../../../assets/index.scss";
+  
+  /* icon的wrap */
+  .app-icon-wrap {
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: $radius;
+    background-color: $linkColor; // 图标默认背景色
+    img {
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+      margin-top: -5px;
+    }
+  }

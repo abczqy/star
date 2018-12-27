@@ -8,7 +8,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './LabelIcon.scss'
-import AppMore from '../../../assets/images/work-plat/app-more.png'
+import AppIcon from '../app-icon'
+// import AppMore from '../../../assets/images/work-plat/app-more.png'
 
 class LabelIcon extends Component {
   render () {
@@ -17,16 +18,20 @@ class LabelIcon extends Component {
         className='label-icon-wrap'
         onClick={this.props.onClick}
       >
-        <div
-          className='icon-wrap'
-          style={{
-            ...this.props.style
-          }}
-        >
-          <img
-            src={this.props.icon || AppMore}
-          />
-        </div>
+        {
+          this.props.icon
+            ? <div
+              className='icon-wrap'
+              style={{
+                ...this.props.style
+              }}
+            >
+              <img
+                src={this.props.icon}
+              />
+            </div>
+            : <AppIcon />
+        }
         {
           this.props.label &&
           <span className='label'>
