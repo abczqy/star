@@ -52,7 +52,12 @@ class PublicInfo extends Component {
       }, {
         title: '发布者',
         dataIndex: 'userName',
-        key: 'userName'
+        key: 'userName',
+        render: (text, record, index) => {
+          return (
+            text ? <span>{text}</span> : '无'
+          )
+        }
       }, {
         title: '上传时间',
         dataIndex: 'updateTime',

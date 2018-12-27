@@ -64,6 +64,7 @@ class NewsList extends Component {
         }
       }, {
         title: '上传时间',
+        width: 300,
         dataIndex: 'updateTime',
         key: 'updateTime',
         render: (text, record, index) => {
@@ -73,12 +74,10 @@ class NewsList extends Component {
         }
       }, {
         title: '新闻图片',
-        width: 150,
         dataIndex: 'picUrl',
         key: 'picUrl',
-        render: (text, record, index) => (
-          <img className='img-table-box' src={ajaxUrl.IMG_BASE_URL + '/' + text} />
-        )
+        render: (text, record, index) =>
+          text ? <img className='img-table-box' src={ajaxUrl.IMG_BASE_URL + '/' + text} /> : '无'
       }, {
         title: '操作',
         dataIndex: 'options',
