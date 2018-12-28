@@ -102,7 +102,10 @@ class SWRelate extends Component {
               <span>软件图标:</span>
             </Col>
             <Col>
-              <img style={{ width: 48, height: 42 }} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
+              {
+                resData.sw_icon &&
+                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
+              }
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -112,7 +115,9 @@ class SWRelate extends Component {
             </Col>
             <Col>
               {computerPho.length > 0 && computerPho.map((item, index) => {
-                return <img key={index} style={{ width: 81, height: 55 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + item} />
+                return (
+                  item && <img key={index} style={{ width: 81, height: 55 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + item} />
+                )
               })}
             </Col>
           </Row> : null}

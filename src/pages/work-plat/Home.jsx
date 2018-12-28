@@ -706,7 +706,7 @@ class Home extends Component {
           </Col>
         </Row>
         {
-          role === 'school' ||
+          role === 'school' &&
           <Row gutter={16}>
             <Col span={24}>
               <Card

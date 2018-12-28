@@ -29,6 +29,7 @@ module.exports = {
       components: resolve("src/components"),
       routes: resolve("src/routes"),
       views: resolve("src/views"),
+      services: resolve("src/services"),
       $redux: resolve("src/redux")
     }
   },

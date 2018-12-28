@@ -55,7 +55,10 @@ class DevRelate extends Component {
               <span>手持身份证照片:</span>
             </Col>
             <Col>
-              <img alt='身份证照片' src={resData && ajaxUrl.IMG_BASE_URL + resData.dev_photo} />
+              {
+                resData.dev_photo &&
+                <img alt='身份证照片' src={resData && ajaxUrl.IMG_BASE_URL + resData.dev_photo}
+                />}
             </Col>
           </Row>
         </div>

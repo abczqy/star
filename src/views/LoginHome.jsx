@@ -12,7 +12,7 @@ import BottomHeader from 'components/common/BottomHeader'
 import webStorage from 'webStorage'
 import { withRouter, Route } from 'react-router'
 import _ from 'lodash'
-import Home from 'pages/login-home/Home'
+// import Home from 'pages/login-home/Home'
 import Homeone from 'pages/login-home/Homeone'
 import NewsDetails from 'pages/news/NewsDetails'// 游客的新闻列表详情
 import Information from 'pages/news/Information'// 游客的信息公开
@@ -109,7 +109,6 @@ class LoginHome extends React.Component {
   // 未读消息数
   getMessageCo=() => {
     getMessageCount({}, (response) => {
-      console.log('返回未读消息数量', response)
       webStorage.setItem('Unread_Message', response.data.count)
       this.setState({
         messageCount: response.data.count
@@ -206,13 +205,13 @@ class LoginHome extends React.Component {
             </div>
           </div>
           <div className='content-container' >
-            <Route path='/home/index' render={() => {
+            {/* <Route path='/home/index' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <Home
                 updatePage={() => { this.updatePage() }}
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
-            }} />
-            <Route path='/home/indextest' render={() => {
+            }} /> */}
+            <Route path='/home/index' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <Homeone
                 updatePage={() => { this.updatePage() }}

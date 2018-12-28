@@ -230,11 +230,11 @@ class ForgetPass extends Component {
               >
                 {getFieldDecorator('maf_pwd', {
                   rules: [{
-                    required: true, message: '请输入密码 '}, {
+                    required: true, message: '请输入新密码 '}, {
                     validator: this.validateToNextPassword
                   }]
                 })(
-                  <Input placeholder='请输入密码' type='password' className='input' />
+                  <Input placeholder='请输入新密码' type='password' className='input' />
                 )}
               </Form.Item>
               <Form.Item className='form-foot'>
