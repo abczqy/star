@@ -8,8 +8,13 @@ import routes from 'routes'
 import {Logged} from 'components/common/hoc/Logged'
 import LoginHome from 'views/LoginHome'
 // import Register from 'pages/register/Register' // v1旧页面
-import { Register, ForgetPass } from './pages/register/v2/register'
-// import ForgetPass from 'pages/register/ForgetPass'
+import {
+  Register,
+  ForgetPass,
+  Login,
+  FirstLogin
+} from './pages/register/v2/register'
+// import ForgetPass from 'pages/register/ForgetPass' // v1旧页面
 import MessageTopBar from 'pages/message-notice/MessageTopBar'
 import SoftwareMarket from 'views/SoftwareMarket'
 import OperateManage from 'views/OperateManage'
@@ -47,6 +52,8 @@ class App extends React.Component {
             }} />
             <Route path='/register-home' component={Register} />
             <Route path='/forget-home' component={ForgetPass} />
+            <Route path='/login' component={Login} />
+            <Route path='/first-login' component={FirstLogin} />
           </Switch>
         </Router>
       </div>

@@ -49,7 +49,7 @@ class Register extends Component {
           if (response.data.code === 200) {
             message.success('注册成功')
             this.props.history.push({
-              pathname: '/operate-manage-home/work-plat/login'
+              pathname: '/login'
             })
           } else {
             message.error(response.data.msg)

@@ -50,7 +50,7 @@ class ForgetPass extends Component {
                 message.success('修改成功')
                 /** 跳转至首页 */
                 this.props.history.push({
-                  pathname: '/operate-manage-home/work-plat/Login'
+                  pathname: '/login'
                 })
               } else {
                 message.success('修改失败')

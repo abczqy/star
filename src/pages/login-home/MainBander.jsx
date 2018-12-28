@@ -166,13 +166,16 @@ class MainBander extends React.Component {
   }
   /* 注册-忘记密码 */
   handregister=(link) => {
-    if (link === this.props.location.pathname) {
-      window.location.reload()
-    } else {
-      this.props.history.push({
-        pathname: link
-      })
-    }
+    // if (link === this.props.location.pathname) {
+    //   window.location.reload()
+    // } else {
+    //   this.props.history.push({
+    //     pathname: link
+    //   })
+    // }
+    this.props.history.push({
+      pathname: link
+    })
   }
 
   componentDidMount () {

@@ -67,7 +67,7 @@ class Login extends Component {
                 } else {
                   if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
                     this.props.history.push({
-                      pathname: '/operate-manage-home/work-plat/first-login'
+                      pathname: '/first-login'
                     })
                   } else {
                     this.props.history.push({
@@ -91,13 +91,13 @@ class Login extends Component {
   /** 跳转到找回密码 */
   toFindPassWord = (e) => {
     this.props.history.push({
-      pathname: '/operate-manage-home/work-plat/forget-pass'
+      pathname: '/forget-home'
     })
   }
   /** 跳转到注册 */
   toRegister = (e) => {
     this.props.history.push({
-      pathname: '/operate-manage-home/work-plat/register'
+      pathname: '/register-home'
     })
   }
   render () {

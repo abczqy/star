@@ -120,7 +120,7 @@ class FirstLogin extends Component {
             message.success('修改成功')
             this.handleOk()
             this.props.history.push({
-              pathname: '/operate-manage-home/work-plat/login'
+              pathname: '/login'
             })
           } else {
             message.error('修改失败')

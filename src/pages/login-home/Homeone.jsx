@@ -47,6 +47,16 @@ class Home extends React.Component {
     }
   }
 
+  /**
+   * 路由跳转
+   * @param { string } url 跳转的路由路径
+   * @param { object } thiz 函数执行的上下文
+   */
+  onJump = (url, thiz) => {
+    console.log('url: ', url)
+    thiz.props.history.push(url)
+  }
+
   componentDidMount () {
     // console.log('componentDidMount开始')
     this.setState({
@@ -272,7 +282,26 @@ class Home extends React.Component {
                     ? <HomeWebApp data={this.state.webAppData || []} />
                     : <div style={{ textAlign: 'center' }}>
                       <div style={{ marginTop: '20%' }}>你好，请先登陆、免费注册</div>
-                      <div style={{ marginTop: '20%' }}><Button type='primary'>注册</Button>&nbsp;&nbsp;<Button type='primary'>登陆</Button></div>
+                      <div style={{ marginTop: '20%' }}>
+                        <Row>
+                          <Col span={12}>
+                            <Button
+                              type='primary'
+                              onClick={() => this.onJump('/register-home', this)}
+                            >
+                              注册
+                            </Button>
+                          </Col>
+                          <Col span={12}>
+                            <Button
+                              type='primary'
+                              onClick={() => this.onJump('/login', this)}
+                            >
+                              登陆
+                            </Button>
+                          </Col>
+                        </Row>
+                      </div>
                     </div>
                   }
                 </HomeCard>
