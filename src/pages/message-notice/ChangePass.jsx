@@ -3,6 +3,7 @@ import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
 import {updateUserPassword} from '../../services/topbar-mation/index'
+import webStorage from 'webStorage'
 import '../../views/Operateview.scss'
 class ChangePass extends React.Component {
   static propTypes = {
@@ -79,16 +80,17 @@ class ChangePass extends React.Component {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
       if (!err) {
+        let id = webStorage.getItem('STAR_V2_USERID') || 1
         updateUserPassword({
-          pwd: values.maf_new_pass,
-          oldPwd: values.maf_old_pass
+          newPassword: values.maf_new_pass,
+          password: values.maf_old_pass,
+          userId: id
         }, (response) => {
-          console.log('修改密码', response)
-          if (response.data === 'ERROR') {
-            message.error('您输入的旧密码不正确！')
-          } else {
+          if (response.data.code === 200) {
             message.success('密码修改成功！')
             this.props.hiddenModal()
+          } else {
+            message.error(response.data.msg)
           }
         })
       }

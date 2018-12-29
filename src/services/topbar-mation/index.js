@@ -109,7 +109,7 @@ export function getMessageListDetail (params, sucFn) {
  * 账号设置-密码修改
  */
 export function updateUserPassword (params, sucFn) {
-  return axios.post(API_BASE_URL + '/control/updateUserPassword', {...params})
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/account-security', params)
     .then(function (res) {
       sucFn(res)
     })
