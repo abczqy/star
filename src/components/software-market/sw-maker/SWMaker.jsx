@@ -96,7 +96,6 @@ class SWMaker extends Component {
     let param = {
       appId: record.appId
     }
-    console.log(param)
     if (this.state.imgList.length >= 6) {
       if (record.isHotRecommend === 0) {
         message.warning('已达推送上限')
@@ -112,7 +111,7 @@ class SWMaker extends Component {
       }
     } else {
       if (record.isHotRecommend === 0) {
-        axios.post('http://192.168.1.172:10301/hot-app/one', param).then((res) => {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('推送成功')
             this.getList()
@@ -121,7 +120,7 @@ class SWMaker extends Component {
           }
         })
       } else {
-        axios.post('http://192.168.1.172:10301/hot-app/sub-one', param).then((res) => {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('取消推送成功')
             this.getList()
