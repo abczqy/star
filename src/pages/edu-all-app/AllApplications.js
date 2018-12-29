@@ -42,7 +42,7 @@ export default class AllApplications extends React.Component {
   }
   // 上架时间处理
   handleShelfTime = () => {
-    console.log('上架时间')
+    // console.log('上架时间')
     if (this.state.shelfTimeSort === 'desc') {
       this.setState({
         shelfTimeSort: 'asc'
@@ -83,7 +83,7 @@ export default class AllApplications extends React.Component {
   }
   // 下载量处理
   handleDownloadNum = () => {
-    console.log('下载量')
+    // console.log('下载量')
     if (this.state.downloadNum === 'desc') {
       this.setState({
         downloadNum: 'asc'
@@ -125,7 +125,7 @@ export default class AllApplications extends React.Component {
   // 获取软件应用数据
   getAppListRj = (params) => {
     allAppList(params, (res) => {
-      console.log('获取软件应用数据', res.data.data.data)
+      // console.log('获取软件应用数据', res.data.data.data)
       this.setState({
         allAppListData: res.data.data.data || []
       })
@@ -134,12 +134,12 @@ export default class AllApplications extends React.Component {
   // 获取平台应用数据
   getAppListPt = (params) => {
     allAppList(params, (res) => {
-      console.log('获取平台应用数据', res.data.data.data)
+      // console.log('获取平台应用数据', res.data.data.data)
       var result = []
       for (var i = 0; i < res.data.data.data.length; i += 6) {
         result.push(res.data.data.data.slice(i, i + 6))
       }
-      console.log('获取平台应用数据---转化', result)
+      // console.log('获取平台应用数据---转化', result)
       this.setState({
         platformAppDataa: result || []
       })
@@ -147,7 +147,7 @@ export default class AllApplications extends React.Component {
   }
   // 获取分类对应的平台应用和软件应用
   getTypeData = ({ item, key, keyPath }) => {
-    console.log('选中', key)
+    // console.log('选中', key)
     this.setState({
       key: key
     }, () => {
@@ -191,7 +191,7 @@ export default class AllApplications extends React.Component {
     getAppType({}, (response) => {
       if (response.data.code === 200) {
         let result = response.data.data
-        console.log('获取应用分类', result)
+        // console.log('获取应用分类', result)
         this.setState({
           menuData: result || []
         })

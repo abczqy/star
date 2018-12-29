@@ -61,7 +61,7 @@ class AllApplicationsDetail extends React.Component {
       sw_id: id,
       type: isCollect === 'false' ? 'collect' : 'cancel'
     }, (res) => {
-      console.log(777777, res.data.result)
+      // console.log(777777, res.data.result)
       if (res.data.result === 'success') {
         this.getAllAppData()
       }
