@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
-import {manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
+import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 import { withRouter } from 'react-router'
@@ -27,6 +27,7 @@ class TeacherHome extends Component {
         display: 'none'
       },
       rankingData: [],
+      rankingNewAppData: [],
       rankingType: 0,
       rankingDataSplice: [],
       teacherData: [],
@@ -76,7 +77,22 @@ class TeacherHome extends Component {
       if (res.data.code === 200) {
         // console.log('下载排行', res.data.data.content)
         this.setState({
-          rankingData: res.data.data.content
+          rankingData: res.data.data.content || []
+        }, () => {
+        })
+      } else {
+        // message.warning(res.data.msg || '出现异常')
+      }
+    }).catch((e) => { console.log(e) })
+
+    newAppRankingList({
+      num: 10,
+      chartType: activeKey === '1' ? 0 : 1
+    }, (res) => {
+      if (res.data.code === 200) {
+        // console.log('新应用排行', res.data.data.data)
+        this.setState({
+          rankingNewAppData: res.data.data.data || []
         }, () => {
         })
       } else {
@@ -143,7 +159,7 @@ class TeacherHome extends Component {
       type: isCollect === 'false' ? 'collect' : 'cancel'
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('收藏按钮', res.data.result)
+        // console.log('收藏按钮', res.data.result)
         if (res.data.result === 'success') {
           this.getTeacherData()
           this.getHotData()
@@ -154,6 +170,7 @@ class TeacherHome extends Component {
     }).catch((e) => { console.log(e) })
   }
 
+  // 经典或者下载排行
   handleRankingappSource = (item, index) => {
     let b = {}
 
@@ -181,6 +198,43 @@ class TeacherHome extends Component {
               </dt>
               <dd className='app-install-dd'>
                 <p className='download-num'>下载次数： {item.DOWNLOAD}</p>
+                <Rate disabled value={item.SW_STAR || 10} />
+              </dd>
+            </dl>
+            <Button type='primary' className='install-button' onClick={() => { this.handleBtnClick(item) }}>{this.getBtnText(item)}</Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  // 新应用排行
+  handleRankingNewApp = (item, index) => {
+    let b = {}
+
+    if (index === 0) {
+      b = {backgroundColor: '#CC9900'}
+    } else if (index === 1) {
+      b = {backgroundColor: '#FF9933'}
+    } else if (index === 2) {
+      b = {backgroundColor: '#FFCC33'}
+    } else {
+      b = {backgroundColor: '#33CCFF'}
+    }
+    return (
+      <div className='lista' key={index}>
+        <div className='lista-title'>
+          <span className='title-num' style={b}>{index + 1}</span>
+          <span className='title-detaila'>{item.appName || '无'}</span>
+          <div className='app-install'>
+            <dl className='app-install-dl'>
+              <dt className='app-install-dt'>
+                {item.appIcon
+                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.appIcon} />
+                  : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />
+                }
+              </dt>
+              <dd className='app-install-dd'>
+                <p className='download-num'>下载次数： {item.downloadCount}</p>
                 <Rate disabled value={item.SW_STAR || 10} />
               </dd>
             </dl>
@@ -233,7 +287,11 @@ class TeacherHome extends Component {
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
-          <dt className='dl-dt'><img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} /></dt>
+          <dt className='dl-dt'>
+            {item.APP_ICON
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={item.APP_ICON} />
+              : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} /> }
+          </dt>
           <dd className='dl-dd'>
             <span className='dd-title'>{item.APP_NAME}</span>
             <p className='dd-p'>{item.SW_DESC || '软件描述'}</p>
@@ -283,10 +341,14 @@ class TeacherHome extends Component {
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
-          <dt className='dl-dt'><img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} /></dt>
+          <dt className='dl-dt'>
+            {item.appIcon
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={item.appIcon} />
+              : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />}
+          </dt>
           <dd className='dl-dd'>
             <span className='dd-title'>{item.appName}</span>
-            <p className='dd-p'>{item.remarks || '应用描述'}</p>
+            <p className='dd-p'>{item.appNotes || '应用描述'}</p>
           </dd>
         </dl>
         <p style={{float: 'right'}}>
@@ -298,7 +360,7 @@ class TeacherHome extends Component {
               <Link to={{pathname: jumpa, search: item.appId}}>详情</Link>
             </Button>
             : null}
-          {item.APP_SOURCE === 'pt' && item.isOpen === 'false'
+          {item.appSource === 'pt' && item.isOpen === 'false'
             ? <Button className='openButton' type='primary'>
               <Link to={{pathname: jumpa, search: item.appId}}>开通</Link>
             </Button>
@@ -329,7 +391,10 @@ class TeacherHome extends Component {
               <div className='popular-recommendation-title'>
                 <h3 className='chinese'>老师推荐</h3>
                 <span className='english'>Teacher recommendation</span>
-                <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
+                {/* <span className='more' onClick={this.handleTeacherMore}>更多 > ></span> */}
+                <span className='more'>
+                  <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
+                </span>
               </div>
               <div className='popular-recommendation-item'>
                 {this.state.teacherData && this.state.teacherData instanceof Array && this.state.teacherData.map((item, index, arr) => {
@@ -341,7 +406,10 @@ class TeacherHome extends Component {
               <div className='popular-recommendation-title'>
                 <h3 className='chinese'>热门推荐</h3>
                 <span className='english'>Hot recommendation</span>
-                <span className='more' onClick={this.handleHotMor}>更多 > ></span>
+                {/* <span className='more' onClick={this.handleHotMor}>更多 > ></span> */}
+                <span className='more'>
+                  <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
+                </span>
               </div>
               <div className='popular-recommendation-item'>
                 {this.state.hotData && this.state.hotData instanceof Array && this.state.hotData.map((item, index, arr) => {
@@ -357,8 +425,8 @@ class TeacherHome extends Component {
             </div>
             <Tabs style={{width: '100%'}} type='card' onChange={this.handleRanking}>
               <TabPane tab='新应用' key='1'>
-                {this.state.rankingData && this.state.rankingData instanceof Array && this.state.rankingData.map((item, index, arr) => {
-                  return this.handleRankingappSource(item, index)
+                {this.state.rankingNewAppData && this.state.rankingNewAppData instanceof Array && this.state.rankingNewAppData.map((item, index, arr) => {
+                  return this.handleRankingNewApp(item, index)
                 })}
               </TabPane>
               <TabPane tab='经典排行' key='2'>

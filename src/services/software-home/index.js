@@ -9,6 +9,13 @@ export function manufacturerSignInRankingList (params, sucFn) {
       sucFn(res)
     })
 }
+// 软件超市首页新应用排行榜
+export function newAppRankingList (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/edu-market/app-ranking-top?topSize=10')
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 // 首页搜索
 export function homeSearch (params, sucFn) {
   return axios.post(API_BASE_URL + '/details/search', {...params})
