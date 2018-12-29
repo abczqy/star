@@ -57,9 +57,6 @@ class LoginHome extends React.Component {
       case '/':// 首页
         activeTab = 'home'
         break
-      case '/home/indextest':// 首页test
-        activeTab = 'indextest'
-        break
       case '/home/newsList':// 教育新闻
         activeTab = 'newsList'
         break
@@ -183,8 +180,6 @@ class LoginHome extends React.Component {
           <div className='xingyun-top-header'>
             <div className='header-container'>
               <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/', 'home')}><span>首页</span></a>
-              </li>
-              <li><a className={this.state.activeTab === 'indextest' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/indextest', 'indextest')}><span>首页test</span></a>
               </li>
               {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
               </li>}

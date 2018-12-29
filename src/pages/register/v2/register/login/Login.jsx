@@ -65,15 +65,15 @@ class Login extends Component {
                     pathname: '/software-market-home'
                   })
                 } else {
-                  if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
-                    this.props.history.push({
-                      pathname: '/first-login'
-                    })
-                  } else {
-                    this.props.history.push({
-                      pathname: '/operate-manage-home/home'
-                    })
-                  }
+                  // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
+                  //   this.props.history.push({
+                  //     pathname: '/first-login'
+                  //   })
+                  // } else {
+                  this.props.history.push({
+                    pathname: '/operate-manage-home/home'
+                  })
+                  // }
                 }
               } else {
                 /** 登录失败 */
