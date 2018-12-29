@@ -173,10 +173,6 @@ class OperateManage extends React.Component {
       tabKey: 'peopleCenter',
       src: '/operate-manage-home/center'
     }, {
-      text: 'test', // 测试空间
-      tabKey: 'test',
-      src: '/operate-manage-home/work-plat/test'
-    }, {
       text: '工作台', // 工作台首页
       tabKey: 'workPlat',
       src: '/operate-manage-home/work-plat/home'
@@ -208,10 +204,6 @@ class OperateManage extends React.Component {
         text: '工作台', // 工作台首页
         tabKey: 'workPlat',
         src: '/operate-manage-home/work-plat/home'
-      }, {
-        text: 'test', // 测试空间
-        tabKey: 'test',
-        src: '/operate-manage-home/work-plat/test'
       }]
     } else if (roleCode === 'vendor') { // 厂商
       return [{
@@ -240,10 +232,6 @@ class OperateManage extends React.Component {
         text: '工作台', // 工作台首页
         tabKey: 'workPlat',
         src: '/operate-manage-home/work-plat/home'
-      }, {
-        text: 'test', // 测试空间
-        tabKey: 'test',
-        src: '/operate-manage-home/work-plat/test'
       }]
     } else if (roleCode === 'eduBureau') { // 教育局
       return [{
@@ -262,10 +250,6 @@ class OperateManage extends React.Component {
         text: '工作台', // 工作台首页
         tabKey: 'workPlat',
         src: '/operate-manage-home/work-plat/home'
-      }, {
-        text: 'test', // 测试空间
-        tabKey: 'test',
-        src: '/operate-manage-home/work-plat/test'
       }]
     }
   }

@@ -25,11 +25,9 @@ import {
   Remove
 } from '../pages/software-market/software-manage'
 import {
-  Home,
-  Test
+  Home
 } from 'pages/work-plat'
 import {
-  TestPer,
   PerHome
 } from 'pages/work-plat/per-center'
 import {
@@ -50,13 +48,6 @@ import {
 import {
   FundManage
 } from '../pages/work-plat/per-center/fund-manage'
-// import {
-//   TestHome,
-//   UserManage,
-//   UserManageDetail
-//   // DownHistory
-// } from '../pages/work-plat/home'
-import TestHome from '../pages/work-plat/home/Test'
 import UserManage from '../pages/work-plat/home/user-manage/UserManage'
 import UserManageDetail from '../pages/work-plat/home/user-manage/UserManageDetail'
 import DownHistory from '../pages/work-plat/home/down-history/DownHistory'
@@ -72,14 +63,8 @@ import UserCount from 'pages/software-market/business-count/UserCount'
 
 export default {
   workPlat: [{
-    path: '/operate-manage-home/work-plat/test',
-    component: Logged(Test)
-  }, {
     path: '/operate-manage-home/work-plat/home',
     component: Logged(Home)
-  }, {
-    path: '/operate-manage-home/work-plat/per-center-test',
-    component: Logged(TestPer)
   }, {
     path: '/operate-manage-home/work-plat/per-center',
     component: Logged(PerHome),
@@ -105,9 +90,6 @@ export default {
       path: '/operate-manage-home/work-plat/per-center/child-bind',
       component: Logged(ChildBind)
     }]
-  }, {
-    path: '/operate-manage-home/work-plat/manage',
-    component: Logged(TestHome)
   }, {
     path: '/operate-manage-home/work-plat/user-manage',
     component: Logged(UserManage)
