@@ -4,7 +4,7 @@ const {API_BASE_URL, API_BASE_URL_V2} = config
 
 // 全部应用 - 软件应用
 export function allAppList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/manage-app/app-by-type', {params: params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/manage-app/condition', {params: params})
     .then(function (res) {
       sucFn(res)
     })
