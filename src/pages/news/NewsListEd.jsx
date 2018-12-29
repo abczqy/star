@@ -187,20 +187,21 @@ class News extends React.Component {
                 </li>
             })}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '15%'}}>
-              <Row style={{marginTop: '10px'}}>
-                <Col span={15} />
-                <Col >
-                  {this.state.newData.total >= 5
-                    ? <Pagination
-                      current={this.state.pageNum}
-                      total={this.state.newData.total}
-                      defaultPageSize={5}
-                      pageSizeOptions={['5']}
-                      showSizeChanger
-                      showQuickJumper
-                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                    /> : null}</Col>
+              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '5px'}}>
+                {/* <Col span={12} />
+                <Col > */}
+                {this.state.newData.total >= 5
+                  ? <Pagination
+                    current={this.state.pageNum}
+                    total={this.state.newData.total}
+                    defaultPageSize={5}
+                    pageSizeOptions={['5']}
+                    showSizeChanger
+                    showQuickJumper
+                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                    // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                  /> : null}
+                {/* </Col> */}
               </Row>
             </li>
           </ul>

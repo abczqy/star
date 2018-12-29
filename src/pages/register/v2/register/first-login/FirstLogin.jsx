@@ -97,7 +97,7 @@ class FirstLogin extends Component {
             this.setState({
               safeCode: response.data.data
             })
-            message.success('验证成功')
+            // message.success('验证成功')
             this.showModal()
           } else {
             message.error('验证失败')

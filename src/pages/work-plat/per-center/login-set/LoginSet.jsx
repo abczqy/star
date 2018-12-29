@@ -28,13 +28,14 @@ class LoginSet extends Component {
 
   componentDidMount () {
     let id = webStorage.getItem('STAR_V2_USERID') || 1
-    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`, (res) => {
+    console.log(id)
+    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`).then((res) => {
       console.log(res)
       this.setState({
         userId: res.data.data.userId,
         userName: res.data.data.userName,
         // userType: res.data.data.userType,
-        phoneNumber: res.data.data.phoneNumber,
+        phoneNumber: '' + res.data.data.phoneNumber,
         mailAddress: res.data.data.mailAddress
       })
     })
@@ -87,9 +88,9 @@ class LoginSet extends Component {
             </div>
             <div className='safe-name'>
               <span className='tit'>手机验证</span>
-              <span className='word f-color'><span className='t-color'>您未绑定手机，请绑定！避免账户被盗</span></span>
-              <span className='pbonehidden'>您验证的手机：{this.state.phoneNumber}若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
-              <a className='modify' onClick={this.changephone}> 修改</a>
+              <span className={this.state.phoneNumber === '' ? 'word f-color' : 'pbonehidden'}><span className='t-color'>您未绑定手机，请绑定！避免账户被盗</span></span>
+              <span className={this.state.phoneNumber !== '' ? 'word f-color' : 'pbonehidden'}>您验证的手机：{this.state.phoneNumber.substr(0, 4) + '*****' + this.state.phoneNumber.substr(9)}若已丢失或停用，请立即更换，<span className='t-color'>避免账户被盗</span></span>
+              <a className='modify' onClick={this.changephone}> 验证</a>
             </div>
           </div>
           <div className='safe_item'>
@@ -120,6 +121,8 @@ class LoginSet extends Component {
         {this.state.changePhoneVisible ? <ChangePhoneNumber
           visible={this.state.changePhoneVisible}
           hiddenModal={() => this.hiddenModal('changePhoneVisible')}
+          from={'基本信息'}
+          phoneNumber={this.state.phoneNumber}
         /> : null}
         {this.state.changeRileNameVisible ? <ChangeRileName
           visible={this.state.changeRileNameVisible}

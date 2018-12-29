@@ -221,21 +221,22 @@ class Information extends React.Component {
               </li>
             })}
             <li style={{listStyle: 'none', width: '100%', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}}>
-              <Row style={{marginBottom: '10px'}}>
-                <Col span={12} />
-                <Col >
-                  {this.state.infoData.total >= 5
-                    ? <Pagination
-                      current={this.state.pageNum}
-                      defaultPageSize={5}
-                      pageSizeOptions={['5']}
-                      total={this.state.infoData.total}// {this.state.newData.total}
-                      showSizeChanger
-                      showQuickJumper
-                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                      // pageSizeOptions={5}
-                    /> : null}</Col>
+              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '10px'}}>
+                {/* <Col span={12} />
+                <Col > */}
+                {this.state.infoData.total >= 5
+                  ? <Pagination
+                    current={this.state.pageNum}
+                    defaultPageSize={5}
+                    pageSizeOptions={['5']}
+                    total={this.state.infoData.total}// {this.state.newData.total}
+                    showSizeChanger
+                    showQuickJumper
+                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                    // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                    // pageSizeOptions={5}
+                  /> : null}
+                {/* </Col> */}
               </Row>
             </li>
           </ul>

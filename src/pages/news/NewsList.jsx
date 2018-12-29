@@ -198,22 +198,22 @@ class News extends React.Component {
                 </li>
             }) : '暂无数据'}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '10px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
-              <Row >
-                <Col span={15} />
-                <Col >
-                  {this.state.newData ? (this.state.newData.total >= 5
-                    ? <Pagination
-                      current={this.state.pageNum}
-                      defaultPageSize={5}
-                      pageSizeOptions={['5']}
-                      total={this.state.newData.total}// {this.state.newData.total}
-                      showSizeChanger
-                      showQuickJumper
-                      onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                      // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                    /> : null) : ''
-                  }
-                </Col>
+              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '5px'}}>
+                {/* <Col span={12} />
+                <Col > */}
+                {this.state.newData ? (this.state.newData.total >= 5
+                  ? <Pagination
+                    current={this.state.pageNum}
+                    defaultPageSize={5}
+                    pageSizeOptions={['5']}
+                    total={this.state.newData.total}// {this.state.newData.total}
+                    showSizeChanger
+                    showQuickJumper
+                    onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                    // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                  /> : null) : ''
+                }
+                {/* </Col> */}
               </Row>
             </li>
           </ul>

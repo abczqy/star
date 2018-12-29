@@ -4,12 +4,17 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import {Card, Pagination} from 'antd'
+import {Card, Pagination, message} from 'antd'
 import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
 import {getAllMessageList} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
 import webStorage from 'webStorage'
+import moment from 'moment'
+import {axios} from '../../utils'
+import config from '../../config/index'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
+
 class MessageNotice extends React.Component {
   constructor (props) {
     super(props)
@@ -21,11 +26,15 @@ class MessageNotice extends React.Component {
   }
 
   handleTabChange (link, id, ready) {
-    if (ready === '0') {
+    console.log(ready)
+    if (ready === 0) {
       // getMessageCount({msg_id: id}, (response) => {
       //   webStorage.setItem('Unread_Message', response.data.count)
       //   this.props.updateMessageCount(response.data.count)
       // })
+      axios.put(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/${id}`).then((res) => {
+        console.log(res)
+      })
     }
     if (link === '审核通过') {
       // 审核通过跳转到我的应用
@@ -51,10 +60,14 @@ class MessageNotice extends React.Component {
       pageSize: 5
     }, id, (response) => {
       console.log(response)
-      this.setState({
-        listData: response.data.data,
-        total: response.data.total
-      })
+      if (response.data.code === 200) {
+        this.setState({
+          listData: response.data.data,
+          total: response.data.total
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   // 分页
@@ -70,27 +83,29 @@ class MessageNotice extends React.Component {
       <div className='center-view mb20'>
         <Card title='消息通知' bordered={false} className='message-notice-card'>
           <div className='notice-body'>
-            {this.state.listData && this.state.listData.map((item, index, arr) => {
+            {this.state.listData && this.state.listData.info && this.state.listData.info.map((item, index, arr) => {
               return <div className='list_itme' key={item.id}>
                 <div className='list-img'>
                   <div className={item.isRead === '1' ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
                     <i />
                   </div>
                 </div>
-                <div className='notice-count' onClick={() => { this.handleTabChange(item.MSG_STATE, item.MSG_ID, item.hasRead) }}>
+                <div className='notice-count' onClick={() => { this.handleTabChange('消息通知', item.id, item.isRead) }}>
                   <div>
                     <h4>
-                      {item.MSG_STATE}
-                      <span>{item.MSG_DATE}</span>
+                      消息通知
+                      <span>{moment(item.createTime).format('YYYY-MM-DD')}</span>
                     </h4>
-                    <p>{item.MSG_TITLE.replace(/(.{80}).*/, '$1....')}<a style={{display: item.MSG_STATE === '消息通知' ? 'none' : ''}}>{item.MSG_STATE === '审核通过' ? '点击查看' : '点击修改'}</a></p>
+                    <div>
+                      {item.message.content}
+                    </div>
                   </div>
                 </div>
               </div>
             })}
           </div>
           <div className='pagition'>
-            {this.state.total > 0 ? <Pagination defaultPageSize={5} defaultCurrent={1} total={this.state.total} onChange={this.pagitonChange} /> : null}
+            <Pagination defaultPageSize={5} defaultCurrent={1} total={this.state.total} onChange={this.pagitonChange} hideOnSinglePage />
           </div>
           {renderRoutes(this.props.childRoutes)}
         </Card>

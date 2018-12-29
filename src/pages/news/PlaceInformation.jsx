@@ -222,21 +222,21 @@ class Information extends React.Component {
                </li>
              })}
              <li style={{listStyle: 'none', paddingTop: '16px', paddingLeft: '30px', width: '100%', height: '135px', backgroundColor: '#fff'}}>
-               <Row>
-                 <Col span={12} />
-                 <Col >
-                   <Pagination
-                     current={this.state.pageNum}
-                     total={this.state.infoData.total}
-                     showSizeChanger
-                     defaultPageSize={5}
-                     pageSizeOptions={['5']}
-                     showQuickJumper
-                     hideOnSinglePage
-                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                     //  onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                   />
-                 </Col>
+               <Row style={{float: 'right', marginRight: '4.5%'}}>
+                 {/* <Col span={10} />
+                 <Col > */}
+                 <Pagination
+                   current={this.state.pageNum}
+                   total={this.state.infoData.total}
+                   showSizeChanger
+                   defaultPageSize={5}
+                   pageSizeOptions={['5']}
+                   showQuickJumper
+                   hideOnSinglePage
+                   onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
+                   //  onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                 />
+                 {/* </Col> */}
                </Row>
              </li>
            </ul>

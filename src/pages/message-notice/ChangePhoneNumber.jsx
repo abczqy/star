@@ -3,13 +3,15 @@
 import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
-import {updatePhoneNum, SMSVerification} from '../../services/topbar-mation/index'
+import {updatePhoneNum, SMSVerification, Verificationv2} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 class ChangePhoneNumber extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     hiddenModal: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    from: '',
+    phoneNumber: ''
   }
   constructor (props) {
     super(props)
@@ -35,6 +37,11 @@ class ChangePhoneNumber extends React.Component {
         verifyCode: new GVerify('v_container')
       })
     }, 100)
+    if (this.props.from === '基本信息') {
+      this.props.form.setFieldsValue({
+        maf_phone_number: this.props.phoneNumber
+      })
+    }
   }
   // 点击表单后，改变type
   changeType = () => {
@@ -55,17 +62,32 @@ class ChangePhoneNumber extends React.Component {
       }
       if (!err) {
         console.log('修改手机号', values)
-        updatePhoneNum({
-          phoneNum: values.maf_phone_number,
-          password: values.maf_pass
-        }, (response) => {
-          if (response.data === true) {
-            message.success('修改手机成功！')
-            this.props.hiddenModal()
-          } else {
-            message.error(response.data.msg)
-          }
-        })
+        if (this.props.from !== '基本信息') {
+          updatePhoneNum({
+            phoneNum: values.maf_phone_number,
+            password: values.maf_pass
+          }, (response) => {
+            if (response.data === true) {
+              message.success('修改手机成功！')
+              this.props.hiddenModal()
+            } else {
+              message.error(response.data.msg)
+            }
+          })
+        } else {
+          console.log(phoneNum)
+          Verificationv2({
+            'phone': values.maf_phone_number,
+            'valid': values.maf_con_code
+          }, (response) => {
+            if (response.status === 200) {
+              message.success('验证成功！')
+              this.props.hiddenModal()
+            } else {
+              message.error(response.data.msg)
+            }
+          })
+        }
         window.clearInterval(this.intervalcount)
       }
     })
@@ -204,7 +226,7 @@ class ChangePhoneNumber extends React.Component {
     return (
       <div>
         <Modal
-          title='修改手机号码'
+          title={this.props.from === '基本信息' ? '验证手机号码' : '修改手机号码'}
           visible={this.props.visible}
           onCancel={this.hiddenModal}
           maskClosable={false}
@@ -220,14 +242,18 @@ class ChangePhoneNumber extends React.Component {
         >
           <div className='addbind-modal'>
             <Form>
-              <Form.Item
-                {...formItemLayout}
-                label='请输入密码'
-              >
-                {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入'}]})(
-                  <Input type={this.state.type} onClick={this.changeType} placeholder='请输入' />
-                )}
-              </Form.Item>
+              {
+                this.props.from === '基本信息'
+                  ? null
+                  : <Form.Item
+                    {...formItemLayout}
+                    label='请输入密码'
+                  >
+                    {getFieldDecorator('maf_pass', {rules: [{required: true, message: '请输入'}]})(
+                      <Input type={this.state.type} onClick={this.changeType} placeholder='请输入' />
+                    )}
+                  </Form.Item>
+              }
               <Form.Item
                 {...formItemLayout}
                 label='验证码'
@@ -239,19 +265,35 @@ class ChangePhoneNumber extends React.Component {
                 <span className={this.state.phone_con_icon ? 'success succ' : 'fail false'}>{this.state.phone_con}</span>
                 <div id='v_container' style={{width: 100, height: 40}} />
               </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='请输入手机号'
-                className='new_pass_input'
-              >
-                {getFieldDecorator('maf_phone_number', {rules: [{required: true, message: ' '}, {
-                  validator: this.validatePhome
-                }],
-                validateTrigger: 'onBlur'})(
-                  <Input style={{width: '60%'}} onClick={this.changeType} />
-                )}
-                <Button type='primary'style={{marginLeft: '5%', width: '35%'}} disabled={!this.state.Countdown} onClick={this.getPhoneNumber}>获取验证码</Button>
-              </Form.Item>
+              {
+                this.props.from === '基本信息'
+                  ? <Form.Item
+                    {...formItemLayout}
+                    label='请输入手机号'
+                    className='new_pass_input'
+                  >
+                    {getFieldDecorator('maf_phone_number', {rules: [{required: true, message: ' '}, {
+                      validator: this.validatePhome
+                    }],
+                    validateTrigger: 'onBlur'})(
+                      <Input style={{width: '60%'}} onClick={this.changeType} disabled />
+                    )}
+                    <Button type='primary'style={{marginLeft: '5%', width: '35%'}} disabled={!this.state.Countdown} onClick={this.getPhoneNumber}>获取验证码</Button>
+                  </Form.Item>
+                  : <Form.Item
+                    {...formItemLayout}
+                    label='请输入手机号'
+                    className='new_pass_input'
+                  >
+                    {getFieldDecorator('maf_phone_number', {rules: [{required: true, message: ' '}, {
+                      validator: this.validatePhome
+                    }],
+                    validateTrigger: 'onBlur'})(
+                      <Input style={{width: '60%'}} onClick={this.changeType} />
+                    )}
+                    <Button type='primary'style={{marginLeft: '5%', width: '35%'}} disabled={!this.state.Countdown} onClick={this.getPhoneNumber}>获取验证码</Button>
+                  </Form.Item>
+              }
               <Form.Item
                 {...formItemLayout}
                 label='请输入手机验证码'

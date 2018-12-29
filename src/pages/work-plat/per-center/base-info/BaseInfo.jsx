@@ -12,6 +12,7 @@ import ChangeFirmLicense from '../../../message-notice/ChangeFirmLicense'
 import LookFirmLicense from '../../../message-notice/LookFirmLicense'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
+import ChangePhoneNumber from '../../../message-notice/ChangePhoneNumber'
 const {API_BASE_URL_V2, SERVICE_AUTHENTICATION} = config
 const { TextArea } = Input
 
@@ -36,23 +37,26 @@ class BaseInfo extends Component {
   }
   componentDidMount () {
     let id = webStorage.getItem('STAR_V2_USERID') || 1
-    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`, (res) => {
+    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`).then((res) => {
       console.log(res)
       this.setState({
         userId: res.data.data.userId,
         userName: res.data.data.userName,
         userType: res.data.data.userType,
         phoneNumber: res.data.data.phoneNumber,
-        mailAddress: res.data.data.mailAddress
+        mailAddress: res.data.data.mailAddress,
+        changePhoneVisible: false
       })
     })
   }
 
   codePhone = () => {
-    let str = this.state.phoneNumber
-    let strName = str.subStr(0, 4) + '***' + str.subStr(-1, 3)
-    console.log(strName)
-    return strName
+    let str = '' + this.state.phoneNumber
+    if (str !== '') {
+      let strName = str.substr(0, 4) + '***' + str.substr(7, 4)
+      console.log(strName)
+      return strName
+    }
   }
 
   hiddenModal = (type) => {
@@ -126,6 +130,13 @@ class BaseInfo extends Component {
   changeState = (key) => {
     this.setState({
       [key]: !this.state[key]
+    })
+  }
+
+  /* 修改手机 */
+  changephone =() => {
+    this.setState({
+      changePhoneVisible: true
     })
   }
 
@@ -220,7 +231,8 @@ class BaseInfo extends Component {
                   }
                 </Col>
                 <Col className='base-info-content-change'>
-                  <Button className='base-info-content-btn' onClick={() => this.changeState('changeName')}>{this.state.changeName ? '保存' : '修改'}</Button>
+                  {/* <Button className='base-info-content-btn' onClick={() => this.changeState('changeName')}>{this.state.changeName ? '保存' : '修改'}</Button> */}
+                  <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -233,14 +245,15 @@ class BaseInfo extends Component {
                       ? <Input defaultValue={this.state.phoneNumber} />
                       : <div>
                         <span className='info-tips'>您验证的手机:</span>
-                        <span>{this.codePhone}</span>
+                        <span>{this.codePhone()}</span>
                         <span className='info-tips'>若已丢失或停用，请立即更换,</span>
                         <span className='info-warn'>避免账户被盗</span>
                       </div>
                   }
                 </Col>
                 <Col className='base-info-content-change'>
-                  <Button className='base-info-content-btn' onClick={() => this.changeState('changeMobile')}>{this.state.changeMobile ? '保存' : '修改'}</Button>
+                  {/* <Button className='base-info-content-btn' onClick={this.changephone}>修改</Button> */}
+                  <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -260,7 +273,8 @@ class BaseInfo extends Component {
                   }
                 </Col>
                 <Col className='base-info-content-change'>
-                  <Button className='base-info-content-btn' onClick={() => this.changeState('changeMail')}>{this.state.changeMail ? '保存' : '修改'}</Button>
+                  {/* <Button className='base-info-content-btn' onClick={() => this.changeState('changeMail')}>{this.state.changeMail ? '保存' : '修改'}</Button> */}
+                  <Button className='base-info-content-btn'>修改</Button>
                 </Col>
               </Row>
               <Row className='base-info-content-top-row base-bottom'>
@@ -302,6 +316,10 @@ class BaseInfo extends Component {
           visible={this.state.lookFirmLicense}
           hiddenModal={() => this.hiddenModal('lookFirmLicense')}
           licensePhoto={this.state.licensePhoto}
+        /> : null}
+        {this.state.changePhoneVisible ? <ChangePhoneNumber
+          visible={this.state.changePhoneVisible}
+          hiddenModal={() => this.hiddenModal('changePhoneVisible')}
         /> : null}
       </div>
     )
