@@ -72,11 +72,12 @@ export default [
             title: '未通过审核',
             key: '3-2-5',
             to: '/software-market-home/software-manage/reject'
-          }, {
-            title: '应用统计',
-            key: '3-2-6',
-            to: '/software-market-home/platform-manage/app-count'
           }
+          // }, {
+          //   title: '应用统计',
+          //   key: '3-2-6',
+          //   to: '/software-market-home/platform-manage/app-count'
+          // }
         ]
       }
     ]
@@ -117,28 +118,35 @@ export default [
     key: '8',
     children: [
       {
-        title: '厂商',
-        key: '8-1',
-        to: '/software-market-home/member-manage/manufacturer'
-      }, {
-        title: '学校',
-        key: '8-2',
-        to: '/software-market-home/member-manage/school'
-      }, {
         title: '老师',
-        key: '8-3',
+        key: '8-1',
         to: '/software-market-home/member-manage/teacher'
       }, {
         title: '学生',
-        key: '8-4',
+        key: '8-2',
         to: '/software-market-home/member-manage/student'
       }, {
         title: '家长',
-        key: '8-5',
+        key: '8-3',
         to: '/software-market-home/member-manage/parent'
+      }
+    ]
+  }, {
+    title: '实体管理',
+    icon: ImgMemb,
+    key: '11',
+    children: [
+      {
+        title: '厂商',
+        key: '11-1',
+        to: '/software-market-home/member-manage/manufacturer'
+      }, {
+        title: '学校',
+        key: '11-2',
+        to: '/software-market-home/member-manage/school'
       }, {
         title: '教育机构',
-        key: '8-6',
+        key: '11-3',
         to: '/software-market-home/member-manage/educational-services'
       }
     ]
