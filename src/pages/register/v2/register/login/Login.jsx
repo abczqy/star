@@ -60,11 +60,12 @@ class Login extends Component {
                 webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
                 webStorage.setItem('STAR_WEB_IS_LOGGED', true)
                 message.success('登录成功')
-                if (roleCode === 'opeartor') {
+                if (roleCode === 'operator') {
                   this.props.history.push({
                     pathname: '/software-market-home'
                   })
                 } else {
+                  // 跳到首次登录
                   // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
                   //   this.props.history.push({
                   //     pathname: '/first-login'
