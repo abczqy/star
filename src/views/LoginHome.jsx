@@ -181,6 +181,8 @@ class LoginHome extends React.Component {
             <div className='header-container'>
               <li><a className={this.state.activeTab === 'home' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/', 'home')}><span>首页</span></a>
               </li>
+              {/* <li><a className={this.state.activeTab === 'indextest' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/home/indextest', 'indextest')}><span>首页test</span></a>
+              </li> */}
               {roleCode === '' ? null : <li><a className={this.state.activeTab === 'appStore' ? 'selected' : ''} onClick={this.handleTabChange.bind(this, '/operate-manage-home/home', 'appStore')}><span>软件市场</span></a>
               </li>}
               <li>
