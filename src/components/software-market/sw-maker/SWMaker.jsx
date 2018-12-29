@@ -4,8 +4,11 @@ import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './SWMaker.scss'
-import {getSoftwareDetail, getSoftMarketList, saveSoftwareMarket, getApptype} from 'services/software-manage'
+import {getSoftwareDetail, getSoftMarketList, getApptype} from 'services/software-manage'
 import ajaxUrl from 'config'
+import {axios} from '../../../utils'
+import config from '../../../config/index'
+const {API_BASE_URL_V2, SERVICE_EDU_MARKET} = config
 
 const Panel = Collapse.Panel
 
@@ -50,8 +53,9 @@ class SWMaker extends Component {
       render: (text) => text[0].appTypeName
     }, {
       title: '供应商',
-      dataIndex: 'companyId',
-      key: 'companyId'
+      dataIndex: 'companyInfo',
+      key: 'companyInfo',
+      render: (text) => text.companyName
     }, {
       title: '图片',
       dataIndex: 'APP_ICON',
@@ -63,7 +67,7 @@ class SWMaker extends Component {
       key: 'SW_MARKET_SHOW',
       render: (text, record, index) => {
         return (
-          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.SW_MARKET_SHOW === 1} />
+          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.isHotRecommend === 1} />
         )
       }
     }, {
@@ -89,65 +93,43 @@ class SWMaker extends Component {
    * 点击选择状态
    */
   checkClick = (record) => {
+    let param = {
+      appId: record.appId
+    }
+    console.log(param)
     if (this.state.imgList.length >= 6) {
-      if (record.SW_MARKET_SHOW === 0) {
+      if (record.isHotRecommend === 0) {
         message.warning('已达推送上限')
       } else {
-        record.SW_MARKET_SHOW = 0
-        // const params = {
-        //   sw_id: record.SW_ID,
-        //   state: '0'
-        // }
-        const params = [record.appid]
-        console.log(params)
-        saveSoftwareMarket(params, res => {
-          if (res.data) {
-            let bb = this.copyArray(this.state.imgList)
-            let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-            let index = bb.indexOf(cc)
-            bb.splice(index, 1)
-            message.success('已取消推送')
-            this.setState({
-              imgList: bb
-            })
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
+          if (res.data.code === 200) {
+            message.success('取消推送成功')
+            this.getList()
           } else {
-            message.warning('取消失败')
+            message.warn(res.data.msg)
           }
         })
       }
     } else {
-      const a = record.isTopRecommend ? 0 : 1
-      record.SW_MARKET_SHOW = a
-      const b = record.SW_MARKET_SHOW.toString()
-      const params = {
-        sw_id: record.SW_ID,
-        state: b
+      if (record.isHotRecommend === 0) {
+        axios.post('http://192.168.1.172:10301/hot-app/one', param).then((res) => {
+          if (res.data.code === 200) {
+            message.success('推送成功')
+            this.getList()
+          } else {
+            message.warn(res.data.msg)
+          }
+        })
+      } else {
+        axios.post('http://192.168.1.172:10301/hot-app/sub-one', param).then((res) => {
+          if (res.data.code === 200) {
+            message.success('取消推送成功')
+            this.getList()
+          } else {
+            message.warn(res.data.msg)
+          }
+        })
       }
-      saveSoftwareMarket(params, res => {
-        if (record.SW_MARKET_SHOW) {
-          console.log(record.SW_MARKET_SHOW)
-          let b = this.copyArray(this.state.imgList)
-          console.log(b)
-          let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-          b.push(c)
-          console.log(b)
-          message.success('推送成功')
-          this.setState({
-            imgList: b
-          })
-        } else {
-          let bb = this.copyArray(this.state.imgList)
-          console.log(record.SW_MARKET_SHOW + '11111111111111' + bb)
-          let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-          let index = bb.indexOf(cc)
-          bb.splice(index, 1)
-          console.log(bb)
-          message.success('已取消推送')
-          this.setState({
-            imgList: bb
-          })
-        }
-      })
     }
   }
   /**
@@ -197,24 +179,27 @@ class SWMaker extends Component {
       params.appType = this.state.type
     }
     getSoftMarketList(params, res => {
-      res.data.data.data.map((item, index) => {
-        let b = this.copyArray(this.state.imgList)
-        b.push(ajaxUrl.IMG_BASE_URL + item.SW_ICON)
-        if (item.SW_MARKET_SHOW === 1) {
+      console.log(res)
+      if (res.data.code === 200) {
+        let b = []
+        res.data.data.data.map((item, index) => {
+          if (item.isHotRecommend === 1) {
+            b.push(item.appIcon)
+          }
+        })
+        this.setState({
+          tableData: {
+            data: []
+          }
+        }, () => {
           this.setState({
+            tableData: res.data.data,
             imgList: b
           })
-        }
-      })
-      this.setState({
-        tableData: {
-          data: []
-        }
-      }, () => {
-        this.setState({
-          tableData: res.data.data
         })
-      })
+      } else {
+        message.warn(res.data.msg)
+      }
     })
   }
    // 显示‘详情’弹窗
@@ -222,10 +207,7 @@ class SWMaker extends Component {
      // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
      const thiz = this
      // 获取对应的后台数据
-     const params = {
-       appId: record.appId
-     }
-     getSoftwareDetail(params, (res) => {
+     getSoftwareDetail(record.appId, (res) => {
        console.log(res)
        const resData = res.data ? res.data : {}
        // 通过state将数据res传给子组件

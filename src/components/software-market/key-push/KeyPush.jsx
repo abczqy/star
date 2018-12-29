@@ -4,8 +4,11 @@ import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './KeyPush.scss'
-import {getSoftwareDetail, getSoftMarketList, saveKeyPush, getApptype} from 'services/software-manage'
+import {getSoftwareDetail, getSoftMarketList, getApptype} from 'services/software-manage'
 import ajaxUrl from 'config'
+import {axios} from '../../../utils'
+import config from '../../../config/index'
+const {API_BASE_URL_V2, SERVICE_EDU_MARKET} = config
 
 const Panel = Collapse.Panel
 
@@ -51,8 +54,9 @@ class KeyPush extends Component {
       render: (text) => text[0].appTypeName
     }, {
       title: '供应商',
-      dataIndex: 'companyId',
-      key: 'companyId'
+      dataIndex: 'companyInfo',
+      key: 'companyInfo',
+      render: (text) => text.companyName
     }, {
       title: '图片',
       dataIndex: 'APP_ICON',
@@ -64,7 +68,7 @@ class KeyPush extends Component {
       key: 'sw_key_push',
       render: (text, record, index) => {
         return (
-          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.sw_key_push === 1} />
+          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.isTopRecommend === 1} />
         )
       }
     }, {
@@ -90,61 +94,42 @@ class KeyPush extends Component {
    * 点击选择状态
    */
   checkClick = (record) => {
+    let param = {
+      appId: record.appId
+    }
     if (this.state.imgList.length >= 4) {
-      if (record.sw_key_push === 0) {
+      if (record.isTopRecommend === 0) {
         message.warning('已达推送上限')
       } else {
-        record.sw_key_push = 0
-        const params = {
-          sw_id: record.SW_ID,
-          state: '0'
-        }
-        saveKeyPush(params, res => {
-          if (res.data) {
-            let bb = this.copyArray(this.state.imgList)
-            let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-            let index = bb.indexOf(cc)
-            bb.splice(index, 1)
-            message.success('已取消推送')
-            this.setState({
-              imgList: bb
-            })
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/sub-one', param).then((res) => {
+          if (res.data.code === 200) {
+            message.success('取消推送成功')
+            this.getList()
           } else {
-            message.warning('取消失败')
+            message.warn(res.data.msg)
           }
         })
       }
     } else {
-      const a = record.sw_key_push ? 0 : 1
-      record.sw_key_push = a
-      const b = record.sw_key_push.toString()
-      const c = record.SW_ID
-      const params = {
-        sw_id: c,
-        state: b
+      if (record.isTopRecommend === 0) {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/one', param).then((res) => {
+          if (res.data.code === 200) {
+            message.success('推送成功')
+            this.getList()
+          } else {
+            message.warn(res.data.msg)
+          }
+        })
+      } else {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/sub-one', param).then((res) => {
+          if (res.data.code === 200) {
+            message.success('取消推送成功')
+            this.getList()
+          } else {
+            message.warn(res.data.msg)
+          }
+        })
       }
-      saveKeyPush(params, res => {
-        if (record.sw_key_push) {
-          console.log(record.sw_key_push)
-          let b = this.copyArray(this.state.imgList)
-          let c = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-          b.push(c)
-          message.success('推送成功')
-          this.setState({
-            imgList: b
-          })
-        } else {
-          let bb = this.copyArray(this.state.imgList)
-          console.log(record.sw_key_push + '11111111111111' + bb)
-          let cc = ajaxUrl.IMG_BASE_URL + record.SW_ICON
-          let index = bb.indexOf(cc)
-          bb.splice(index, 1)
-          message.success('已取消推送')
-          this.setState({
-            imgList: bb
-          })
-        }
-      })
     }
   }
   /**
@@ -217,24 +202,24 @@ class KeyPush extends Component {
       params.appType = this.state.type
     }
     getSoftMarketList(params, res => {
-      res.data.data.data.map((item, index) => {
-        let b = this.copyArray(this.state.imgList)
-        b.push(ajaxUrl.IMG_BASE_URL + item.SW_ICON)
-        if (item.sw_key_push === 1) {
+      if (res.data.code === 200) {
+        let b = []
+        res.data.data.data.map((item, index) => {
+          if (item.isTopRecommend === 1) {
+            b.push(item.appIcon)
+          }
+        })
+        this.setState({
+          tableData: {
+            data: []
+          }
+        }, () => {
           this.setState({
+            tableData: res.data.data,
             imgList: b
           })
-        }
-      })
-      this.setState({
-        tableData: {
-          data: []
-        }
-      }, () => {
-        this.setState({
-          tableData: res.data.data
         })
-      })
+      }
     })
   }
   componentDidMount () {
@@ -257,11 +242,7 @@ class KeyPush extends Component {
      // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
      const thiz = this
      // 获取对应的后台数据
-     const params = {
-       sw_id: record.SW_ID
-     }
-
-     getSoftwareDetail(params, (res) => {
+     getSoftwareDetail(record.appId, (res) => {
        const resData = res.data
        // 通过state将数据res传给子组件
        thiz.setState({

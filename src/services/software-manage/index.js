@@ -893,7 +893,6 @@ export function deleteGatewayBanner (params, sucFn) {
  * 教育新闻列表
  */
 export function newsList (params, auditStatus, sucFn) {
-  console.log(params, auditStatus)
   return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/news/list/${auditStatus}`, {params: params})
     .then(function (res) {
       sucFn(res)
@@ -1011,8 +1010,8 @@ export function addPlatformBanner (params, sucFn) {
 /**
  * 重点推介、软件市场、热门推介详情页
  */
-export function getSoftwareDetail (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/detail-by-id', {params: params})
+export function getSoftwareDetail (id, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_EDU_MARKET}/manage-app/detail-by-id/${id}`)
     .then(function (res) {
       sucFn(res)
     })
