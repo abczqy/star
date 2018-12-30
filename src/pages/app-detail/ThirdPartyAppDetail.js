@@ -5,7 +5,7 @@
 import React from 'react'
 import './ThirdPartyAppDetail.css'
 // import { Button, Icon, Carousel, Rate } from 'antd'
-import { Button, Icon, Carousel } from 'antd'
+import { Button, Icon, Carousel, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
 import {thirdPartyAppDetail} from 'services/all-app/'
@@ -23,11 +23,19 @@ class ThirdPartyAppDetail extends React.Component {
       obj: {
         display: 'none'
       },
+      picType: 'computer', // 默认截图展示类型
+      authItem: ['', '（基于网络的）粗略位置', '查看网络状态', '查看 Wi-Fi 状态', '创建蓝牙连接', '拍摄照片和视频', '更改 Wi-Fi 状态', '完全的互联网访问权限', '开机时自动启动'],
       addClassName: 'see-detail-itema',
       appId: '',
-      appDetailData: [],
+      appDetailData: '',
       computerCarousel: [],
-      relateData: []
+      phoneCarousel: [],
+      authArray: [], // 权限详情
+      verInfoArray: [], // 版本信息
+      verNameArray: [], // 包名
+      verSizeArray: [], // 包大小
+      verNumArray: [] // 版本号
+      // relateData: []
     }
   }
   static propTypes = {
@@ -52,20 +60,74 @@ class ThirdPartyAppDetail extends React.Component {
   // 获取应用详情数据
   getThirdPartyAppDetailData = () => {
     thirdPartyAppDetail({
-      sw_id: this.state.appId
+      appId: this.state.appId
     }, (res) => {
-      this.setState({
-        appDetailData: res.data
-      }, () => {
-        let bb = []
-        for (let i in this.state.appDetailData.sw_computer_photo) {
-          bb.push(this.state.appDetailData.sw_computer_photo[i])
-        }
+      if (res.data.code === 200) {
+        console.log('应用详情：', res.data.data[0])
         this.setState({
-          computerCarousel: bb,
-          relateData: this.state.appDetailData.sw_related || []
+          appDetailData: res.data.data[0]
+        }, () => {
+          // RUNNING_PLATFORM 没画
+          // pc图片处理
+          let bb = []
+          if (this.state.appDetailData && this.state.appDetailData.APP_PC_PIC) {
+            bb = this.state.appDetailData.APP_PC_PIC.split(',')
+            this.setState({
+              computerCarousel: bb || []
+            })
+          }
+          // 手机图片处理
+          let cc = []
+          if (this.state.appDetailData && this.state.appDetailData.APP_PHONE_PIC) {
+            cc = this.state.appDetailData.APP_PHONE_PIC.split(',')
+            this.setState({
+              phoneCarousel: cc || []
+            })
+          }
+          // 权限处理
+          let dd = []
+          if (this.state.appDetailData && this.state.appDetailData.AUTH_DETAIL) {
+            dd = this.state.appDetailData.AUTH_DETAIL.split(',')
+            this.setState({
+              authArray: dd || []
+            })
+          }
+          // 版本信息处理 32 64 ios
+          let ee = []
+          if (this.state.appDetailData && this.state.appDetailData.VERSION_INFO) {
+            ee = this.state.appDetailData.VERSION_INFO.split(',')
+            this.setState({
+              verInfoArray: ee || []
+            })
+          }
+          // 版本号处理
+          let ff = []
+          if (this.state.appDetailData && this.state.appDetailData.APP_VERSION) {
+            ff = this.state.appDetailData.APP_VERSION.split(',')
+            this.setState({
+              verNumArray: ff || []
+            })
+          }
+          // 软件大小处理
+          let gg = []
+          if (this.state.appDetailData && this.state.appDetailData.VERSION_SIZE) {
+            gg = this.state.appDetailData.VERSION_SIZE.split(',')
+            this.setState({
+              verSizeArray: gg || []
+            })
+          }
+          // 包名处理
+          let hh = []
+          if (this.state.appDetailData && this.state.appDetailData.PACKAGE_NAME) {
+            hh = this.state.appDetailData.PACKAGE_NAME.split(',')
+            this.setState({
+              verNameArray: hh || []
+            })
+          }
         })
-      })
+      } else {
+        console.log('查询应用详情失败：', res.data.msg || '')
+      }
     }).catch((e) => { console.log(e) })
   }
   handleSeeDetail = () => {
@@ -100,20 +162,12 @@ class ThirdPartyAppDetail extends React.Component {
   // pc展示  手机展示  切换
   handleSwitchCarousel = (type) => {
     if (type === 'computer') {
-      let bb = []
-      for (let i in this.state.appDetailData.sw_computer_photo) {
-        bb.push(this.state.appDetailData.sw_computer_photo[i])
-      }
       this.setState({
-        computerCarousel: bb
+        picType: 'computer'
       })
     } else {
-      let dd = []
-      for (let i in this.state.appDetailData.sw_phone_photo) {
-        dd.push(this.state.appDetailData.sw_phone_photo[i])
-      }
       this.setState({
-        computerCarousel: dd
+        picType: 'phone'
       })
     }
   }
@@ -135,49 +189,86 @@ class ThirdPartyAppDetail extends React.Component {
     this.refs['exhibition-inside-carousel'].next()
   }
   render () {
-    console.log(111111, this.state.appDetailData.sw_path ? this.state.appDetailData.sw_path[0].win32 : '')
-    const swPath = this.state.appDetailData.sw_path
-    const imgUrl = ajaxUrl.IMG_BASE_URL
+    // console.log(111111, this.state.appDetailData.sw_path ? this.state.appDetailData.sw_path[0].win32 : '')
+    const verInfoArray = this.state.verInfoArray
+    let win32 = 'win32'.indexOf(this.state.appDetailData.VERSION_INFO)
+    let win64 = 'win64'.indexOf(this.state.appDetailData.VERSION_INFO)
+    let android = 'android'.indexOf(this.state.appDetailData.VERSION_INFO)
+    let ios = 'ios'.indexOf(this.state.appDetailData.VERSION_INFO)
+    const imgUrl = ajaxUrl.IMG_BASE_URL_V2
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
+          <img src={ajaxUrl.IMG_BASE_URL_V2 + this.state.appDetailData.APP_ICON || ''} />
           <div className='app-detail-header-right'>
-            <h2 className='header-title'>{this.state.appDetailData.sw_name}</h2>
-            <p className='header-classification'>分类：{this.state.appDetailData.sw_type}</p>
+            <h2 className='header-title'>{this.state.appDetailData.APP_NAME || '无'}</h2>
+            <p className='header-classification'>分类：{this.state.appDetailData.APP_TYPE_NAME || '无'}</p>
             <div>
-              {swPath && swPath[0] ? <a href={imgUrl + swPath[0].win32}><Button className='header-button'>windows 32位<Icon style={{color: '#fff'}} type='download' /></Button></a> : null}
-              {swPath && swPath[1] ? <a href={imgUrl + swPath[1].win64}><Button className='header-button'>windows 64位<Icon style={{color: '#fff'}} type='download' /></Button></a> : null}
-              {swPath && swPath[2] ? <a href={imgUrl + swPath[2].ios}><Button className='header-button'>ios系统<Icon style={{color: '#fff'}} type='download' /></Button></a> : null}
-              {swPath && swPath[3] ? <a href={imgUrl + swPath[3].android}><Button className='header-button'>安卓系统<Icon style={{color: '#fff'}} type='download' /></Button></a> : null}
+              {verInfoArray && win32 > 0
+                ? <a href={imgUrl}>
+                  <Button className='header-button'>
+                windows 32位
+                    <Icon style={{color: '#fff'}} type='download' />
+                  </Button>
+                </a>
+                : null}
+              {verInfoArray && win64 > 0
+                ? <a href={imgUrl}>
+                  <Button className='header-button'>
+                windows 64位
+                    <Icon style={{color: '#fff'}} type='download' />
+                  </Button>
+                </a>
+                : null}
+              {verInfoArray && android > 0
+                ? <a href={imgUrl}>
+                  <Button className='header-button'>
+                  Android
+                    <Icon style={{color: '#fff'}} type='download' />
+                  </Button>
+                </a>
+                : null}
+              {verInfoArray && ios > 0
+                ? <a href={imgUrl}>
+                  <Button className='header-button'>
+                IOS
+                    <Icon style={{color: '#fff'}} type='download' />
+                  </Button>
+                </a>
+                : null}
             </div>
             <div className='header-see-detail'>
-              <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
+              <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>
+              查看详情
+              </span>
+              <Icon style={{marginLeft: '8px'}} type='caret-down' />
             </div>
           </div>
           <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
             <div className='see-detail-item-top'>
-              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>软件大小:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.sw_size}M</span></div>
-              <div style={{float: 'left', marginRight: '25%'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>版本号:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>{this.state.appDetailData.version}</span></div>
-              <div style={{float: 'left'}}><span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>包名:</span>&nbsp;&nbsp;&nbsp;<span style={{fontWeight: 400, color: '#666', fontSize: 14}}>com.netease.vopen</span></div>
+              {this.state.verInfoArray && this.state.verInfoArray.map((item, index) => {
+                return <Row key={index}>
+                  <Col span={6}>
+              软件版本：{this.state.verInfoArray[index]}
+                  </Col>
+                  <Col span={6}>
+              软件大小：{this.state.verSizeArray[index]}
+                  </Col>
+                  <Col span={6}>
+              版本号：{this.state.verNumArray[index]}
+                  </Col>
+                  <Col span={6}>
+              包名：{this.state.verNameArray[index]}
+                  </Col>
+                </Row>
+              })}
             </div>
             <div className='see-detail-item-jurisdiction'>
               <span className='jurisdiction-title'>权限详情:</span>
               <ul className='jurisdiction-list'>
-                <li className='jurisdiction-list-detail'>（基于网络的）粗略位置</li>
-                <li className='jurisdiction-list-detail'>精准的(GPS)位置</li>
-                <li className='jurisdiction-list-detail'>查看网络状态</li>
-                <li className='jurisdiction-list-detail'>查看 Wi-Fi 状态</li>
-                <li className='jurisdiction-list-detail'>创建蓝牙连接</li>
-                <li className='jurisdiction-list-detail'>蓝牙管理</li>
-                <li className='jurisdiction-list-detail'>拍摄照片和视频</li>
-                <li className='jurisdiction-list-detail'>更改网络连接性</li>
-                <li className='jurisdiction-list-detail'>更改 Wi-Fi 状态</li>
-                <li className='jurisdiction-list-detail'>完全的互联网访问权限</li>
-                <li className='jurisdiction-list-detail'>装载和卸载文件系统</li>
-                <li className='jurisdiction-list-detail'>开机时自动启动</li>
-                <li className='jurisdiction-list-detail'>使用帐户的身份验证凭据</li>
-                <li className='jurisdiction-list-detail'>修改全局系统设置</li>
+                {this.state.authArray && this.state.authArray.map((item, index) => {
+                  return <li key={index} className='jurisdiction-list-detail'>{this.state.authItem[item]}</li>
+                })}
               </ul>
             </div>
           </div>
@@ -192,18 +283,17 @@ class ThirdPartyAppDetail extends React.Component {
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
                 <div style={{width: '82%', marginLeft: '13%'}}>
                   <Carousel ref='exhibition-inside-carousel'>
-                    {this.state.computerCarousel.map((item, index, arr) => {
+                    {this.state.picType === 'computer' && this.state.computerCarousel && this.state.computerCarousel.map((item, index, arr) => {
                       return (
-                        <div key={index}>
-                          <div>
-                            {this.state.computerCarousel[index].map((item, index, arr) => {
-                              return (
-                                <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                                  <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
-                                </div>
-                              )
-                            })}
-                          </div>
+                        <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
+                          <img style={{width: '100%', height: '100%'}} src={item} />
+                        </div>
+                      )
+                    })}
+                    {this.state.picType === 'phone' && this.state.phoneCarousel && this.state.phoneCarousel.map((item, index, arr) => {
+                      return (
+                        <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
+                          <img style={{width: '100%', height: '100%'}} src={item} />
                         </div>
                       )
                     })}
@@ -215,13 +305,11 @@ class ThirdPartyAppDetail extends React.Component {
           </div>
           <div className='app-detail-introduceaa'>
             <h3>应用介绍</h3>
-            <p>{this.state.appDetailData.sw_desc}</p>
-            {/* <p>产品团队始终坚持在内容和设计上与时俱进、不断突破，曾荣登新周刊"优化生活特别奖"、新京报"年度公益奖"、DCCI"最学习奖"，并于2015年中国产业互联网峰会中荣获"最具价值在线教育平台"称号。· 课程资源好又多：作为中国最大最全的课程视频平台，拥有来自国内外顶尖学府的海量名师名课，覆盖文学艺术、历史哲学、经济社会、物理化学、心理管理、计算机技术等二十多个专业领域；作为TED官方合作伙伴，向国内用户提供最新最赞的TED演讲；引人入胜又发人深省的纪录片、轻松易学的可汗学院，无数好内容就在这里等着你。 </p>
-            <p>翻译实力坚强：拥有超过三百人的庞大翻译团队，具备各类专业素质的高级翻译人才，将在第一时间向您献出最优质的字幕翻译服务，再也不用因为看不懂国外好课而捉急了。</p> */}
+            <p>{this.state.appDetailData.APP_NOTES || '无'}</p>
           </div>
           <div className='app-detail-characteristic'>
             <h3>新版特性</h3>
-            <p>优化了部分细节，体验更贴心！</p>
+            <p>{this.state.appDetailData.NEW_FEATURES || '无'}</p>
           </div>
           {/* <div className='app-detail-relevant'>
             <h3>相关应用</h3>
@@ -229,7 +317,7 @@ class ThirdPartyAppDetail extends React.Component {
               return (
                 <dl key={index}>
                   <dt>
-                    <img src={ajaxUrl.IMG_BASE_URL + item.sw_icon} />
+                    <img src={ajaxUrl.IMG_BASE_URL_V2 + item.sw_icon} />
                   </dt>
                   <dd>
                     <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.sw_id}}><span>{item.sw_name}</span></Link>
