@@ -168,7 +168,7 @@ class Home extends Component {
           const data = res.data
           data.data.content &&
           thiz.setState({
-            recomApps: thiz.topAppsAdapter(data.data.content.slice())
+            recomApps: thiz.topApps2LabelIconAdapter(data.data.content.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -186,7 +186,7 @@ class Home extends Component {
           const data = res.data
           data.data &&
           thiz.setState({
-            myApps: thiz.topAppsAdapter(data.data.slice())
+            myApps: thiz.myApps2LabelIconAdapter(data.data.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -204,7 +204,7 @@ class Home extends Component {
           const data = res.data
           data.data &&
           thiz.setState({
-            myCollect: thiz.topAppsAdapter(data.data.slice())
+            myCollect: thiz.cellect2AppCardsAdapter(data.data.slice())
           })
         } else {
           message.warning(res.data.msg || '请求出错')
@@ -235,29 +235,49 @@ class Home extends Component {
    * 适配器 - 系统（重点）推荐数据适配 LabelIcon
    * @param { Array } data 输入的数据
    */
-  topAppsAdapter = (data) => {
+  topApps2LabelIconAdapter = (data) => {
     // 把从后台拿到的数据适配为view需要的数据格式
     let result = []
     data.map((v, i) => {
       result.push({
+        id: v.appId,
         label: v.appName || null,
-        icon: v.appIcon || null
+        icon: v.appIcon ? (config.IMG_BASE_URL_V2 + v.appIcon) : null
       })
     })
     return result
   }
 
   /**
-   * 适配器 - 系统（重点）推荐数据适配 AppCard
+   * 适配器 - 我的应用数据适配 LabelIcon
    * @param { Array } data 输入的数据
    */
-  topAppCardsAdapter = (data) => {
+  myApps2LabelIconAdapter = (data) => {
     // 把从后台拿到的数据适配为view需要的数据格式
     let result = []
     data.map((v, i) => {
       result.push({
-        label: v.appName || null,
-        icon: v.appIcon || null
+        id: v.APP_ID,
+        label: v.APP_NAME || null,
+        icon: v.APP_ICON ? (config.IMG_BASE_URL_V2 + v.APP_ICON) : null
+      })
+    })
+    return result
+  }
+
+  /**
+   * 适配器 - 我的收藏数据适配 AppCard
+   * @param { Array } data 输入的数据
+   */
+  cellect2AppCardsAdapter = (data) => {
+    // 把从后台拿到的数据适配为view需要的数据格式
+    let result = []
+    data.map((v, i) => {
+      result.push({
+        id: v.APP_ID,
+        title: v.APP_NAME || null,
+        desc: v.APP_NOTES || null,
+        icon: v.APP_ICON ? (config.IMG_BASE_URL_V2 + v.APP_ICON) : null
       })
     })
     return result
@@ -267,6 +287,7 @@ class Home extends Component {
    * 应用点击
    */
   onAppClick = (id, url) => {
+    console.log('id：', id)
     // 有一个默认的App_id
     url = url || `/operate-manage-home/all-app-detail?${id}`
     this.props.history.push(url)
@@ -276,6 +297,7 @@ class Home extends Component {
    * AppCard - 点击动作（下载/详情/开通）时的回调
    */
   onAppCardAction = (id, url) => {
+    console.log('id: ', id)
     this.props.history.push(`/operate-manage-home/all-app-detail?${id}`)
   }
 
@@ -429,9 +451,10 @@ class Home extends Component {
   getAppCardRender = (v, thiz) => {
     return (
       <AppCard
-        icon={v.APP_ICON || null}
-        title={v.APP_NAME || null}
-        desc={v.APP_NOTES || null}
+        id={v.id}
+        icon={v.icon || null}
+        title={v.title || null}
+        desc={v.desc || null}
         onAction={thiz.onAppCardAction}
       />
     )
@@ -447,12 +470,14 @@ class Home extends Component {
   getAppRender = (style, params, thiz) => {
     // 返回函数 -- 可以模拟一下集成和多态
     style = style || {}
-    // itemData 就是 传给LabelIcon的props数据
-    return function (itemData, style) {
+    // v 就是 传给LabelIcon的props数据
+    return function (v, style) {
       return (
         <LabelIcon
           style={{ ...style }}
-          label={itemData.label || '应用'}
+          id={v.id}
+          label={v.label || '应用'}
+          icon={v.icon}
           onClick={(id) => thiz.onAppClick(id, params.url)}
         />
       )

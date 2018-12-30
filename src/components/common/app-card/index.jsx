@@ -75,7 +75,7 @@ class AppCard extends Component {
               className='btn-wrap btn-text-wrap down-load-icon'
               onClick={this.onAction}
             >
-              { this.props.action || '详情'}
+              {this.props.action || '详情'}
             </span>
           </Col>
           <Col span={3} >
