@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider } from 'antd'
+import { Table, Switch, Divider, message } from 'antd'
 import ajaxUrl from 'config'
 import {
   // paGetData,
@@ -39,48 +39,44 @@ class Parent extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tableData: {
-        data: [],
-        total: 0
-      },
-      reqParam: {
-        mafName: '',
-        stuName: '',
-        mafStuSad: '',
-        mafId: '',
-        toLogin: ''
-      },
+      USER_ACCOUNT: '', // 家长账号
+      STUDENT_NAME: '', // 学生姓名
+      USER_NAME: '', // 家长姓名
+      FAMILY_ROLE: '', // 角色
       pagination,
       batchLeadParams: {
         idArrs: []
       },
-      selectList: {}
+      selectList: {},
+      dataSource: [],
+      total: 0,
+      toLogin: 'all'
     }
   }
 
   getColumns = () => {
     return ([{
       title: '家长姓名',
-      dataIndex: 'maf_name',
-      key: 'maf_name',
+      dataIndex: 'STUDENT_NAME',
+      key: 'STUDENT_NAME',
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'maf_id',
-      key: 'maf_id',
+      dataIndex: 'USER_ACCOUNT',
+      key: 'USER_ACCOUNT',
       width: 200
     }, {
       title: '角色',
-      dataIndex: 'maf_stu_sad',
-      key: 'maf_stu_sad'
+      dataIndex: 'FAMILY_ROLE',
+      key: 'FAMILY_ROLE'
     }, {
       title: '学生',
-      dataIndex: 'stu_name',
-      key: 'stu_name'
+      dataIndex: 'STUDENT_NAME',
+      key: 'STUDENT_NAME'
     }, {
       title: '允许登录',
-      dataIndex: 'to_login',
-      key: 'to_login',
+      dataIndex: 'LOGIN_PERMISSION_STATUS',
+      key: 'LOGIN_PERMISSION_STATUS',
       render: (text, record, index) => {
         let check = true
         if (text === 0) {
@@ -107,53 +103,39 @@ class Parent extends Component {
     }])
   }
 
-  getParams = () => {
-    const {
-      mafName,
-      mafId,
-      stuName,
-      toLogin,
-      mafStuSad
-    } = this.state.reqParam
-    // 最后都要赋空
-    return {
-      pageSize: this.state.pagination.pageSize,
-      pageNum: this.state.pagination.pageNum,
-      maf_name: mafName || '',
-      stu_name: stuName || '',
-      maf_stu_sad: mafStuSad || '',
-      maf_id: mafId || '',
-      to_login: toLogin || ''
-    }
-  }
-
   /**
    * 获取运营中的应用列表数据
    * 问题：如何把fa_id 转换为数据dataSource中每条数据的key
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    // paGetData(this.getParams(), (res) => {
-    //   const data = res.data
-    //   // console.log(`data: ${JSON.stringify(data)}`)
-    //   this.setState({
-    //     tableData: {
-    //       data: addKey2TableData(data.list, 'maf_id'),
-    //       total: data.total
-    //     }
-    //   })
-    // })
-    let param = {
-      pageSize: this.state.pagination.pageSize,
-      pageNum: this.state.pagination.pageNum,
-      stu_name: this.state.reqParam.stu_name || '',
-      maf_id: this.state.reqParam.maf_id || '',
-      to_login: this.state.to_login || '',
-      maf_stu_sad: this.state.maf_stu_sad || '',
-      maf_name: this.state.maf_name || ''
+    let param = {}
+    if (this.state.USER_ACCOUNT !== '') {
+      // 后台要求，回传数据的时候字段为小写
+      param.account = this.state.USER_ACCOUNT
     }
-    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
-      console.log(res)
+    if (this.state.USER_NAME !== '') {
+      // 后台要求，回传数据的时候字段为小写
+      param.name = this.state.USER_NAME
+    }
+    if (this.state.toLogin !== 'all') {
+      if (this.state.toLogin === 'allow') {
+        param.login = 1
+      } else {
+        param.login = 0
+      }
+    }
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
+      // 测试用路径
+      // axios.post(`http://192.168.2.119:10300/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
+      if (res.data.code === 200) {
+        this.setState({
+          dataSource: res.data.data.content,
+          total: res.data.data.totalElements
+        })
+      } else {
+        message.warn(res.data.msg)
+      }
     })
   }
 
@@ -161,13 +143,9 @@ class Parent extends Component {
    * 当搜索框‘账号’值改变时回调
    */
   onIdChange = (val) => {
-    // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        mafId: value
-      }
+      USER_ACCOUNT: value
     })
   }
 
@@ -175,24 +153,16 @@ class Parent extends Component {
    * 当搜索框‘学生’值改变时回调
    */
   onStuNameChange = (val) => {
-    // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        stuName: value
-      }
+      STUDENT_NAME: value
     })
   }
 
   onPaNameChange = (val) => {
-    // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        mafName: value
-      }
+      USER_NAME: value
     })
   }
 
@@ -200,13 +170,9 @@ class Parent extends Component {
    * 当下拉选择框"选择角色"值改变时回调
    */
   onRoleChange = (val) => {
-    // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        mafStuSad: value
-      }
+      FAMILY_ROLE: value
     })
   }
 
@@ -215,20 +181,8 @@ class Parent extends Component {
    */
   onToLogin = (val) => {
     console.log(`val: ${val}`)
-    let loginAllow = 0
-    if (val === 'allow') {
-      loginAllow = '1'
-    } else if (val === 'defuse') {
-      loginAllow = '0'
-    } else if (val === 'all') {
-      loginAllow = ''
-    }
-    // 修改state.reqParams中对应的值
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        toLogin: loginAllow
-      }
+      toLogin: val
     })
   }
 
@@ -367,15 +321,15 @@ class Parent extends Component {
   }
 
   render () {
-    const { pagination, tableData, selectList } = this.state
+    const { pagination, selectList } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberPa
           selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
-          onSelect2Change={this.onStuNameChange}
+          // onSelect2Change={this.onStuNameChange}
           onSelect3Change={this.onPaNameChange}
-          onSelect4Change={this.onRoleChange}
+          // onSelect4Change={this.onRoleChange}
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
@@ -383,16 +337,16 @@ class Parent extends Component {
         <BlankBar />
         <Table
           columns={this.getColumns()}
-          dataSource={tableData.data}
+          dataSource={this.state.dataSource}
           pagination={{
             ...pagination,
-            total: Number(this.state.tableData.total),
+            total: this.state.total,
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
-          rowSelection={{
-            onChange: this.rowSelectChange
-          }}
+          // rowSelection={{
+          //   onChange: this.rowSelectChange
+          // }}
         />
       </div>
     )

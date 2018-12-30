@@ -35,14 +35,14 @@ class SearchBarMemberStu extends Component {
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
-      onSelect4Change,
+      // onSelect4Change,
       onSelect5Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={8}>
-          <Col span={2}>
+          <Col span={3}>
             <span className='input-label'>账号</span>
             <Input
               className='select'
@@ -52,7 +52,7 @@ class SearchBarMemberStu extends Component {
               {/* {selectList.idList && this.getOptions(selectList.idList)} */}
             </Input>
           </Col>
-          <Col span={4}>
+          <Col span={5}>
             <span className='input-label'>学生姓名</span>
             <Input
               className='select'
@@ -72,20 +72,17 @@ class SearchBarMemberStu extends Component {
               {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
             </Input>
           </Col>
-          <Col span={4}>
+          {/* <Col span={4}>
             <span className='select-label'>家长姓名</span>
             <Input
               className='select'
               placeholder='请输入'
-              // showSearch
-              onChange={onSelect4Change} >
-              {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
-            </Input>
-          </Col>
+              onChange={onSelect4Change}  />
+          </Col> */}
           <Col span={4}>
             <span className='select-label'>允许登录</span>
-            <Select defaultValue='' className='select' onChange={onSelect5Change} >
-              <Option value=''>全部</Option>
+            <Select defaultValue='all' className='select' onChange={onSelect5Change} >
+              <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='refuse'>不允许</Option>
             </Select>
@@ -111,7 +108,7 @@ SearchBarMemberStu.propTypes = {
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
-  onSelect4Change: PropsTypes.func,
+  // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }

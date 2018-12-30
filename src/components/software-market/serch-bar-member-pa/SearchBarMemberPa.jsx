@@ -33,36 +33,30 @@ class SearchBarMemberPa extends Component {
       // selectList,
       onBtnSearchClick,
       onSelect1Change,
-      onSelect2Change,
+      // onSelect2Change,
       onSelect3Change,
-      onSelect4Change,
+      // onSelect4Change,
       onSelect5Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
-          <Col span={2}>
+          <Col span={4}>
             <span className='input-label'>账号</span>
             <Input
               className='select'
               placeholder='请输入'
-              // showSearch
-              onChange={onSelect1Change} >
-              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
-            </Input>
+              onChange={onSelect1Change} />
           </Col>
-          <Col span={4}>
+          {/* <Col span={4}>
             <span className='input-label'>学生姓名</span>
             <Input
               className='select'
               placeholder='请输入'
-              // showSearch
-              onChange={onSelect2Change} >
-              {/* {selectList.stuNameList && this.getOptions(selectList.stuNameList)} */}
-            </Input>
-          </Col>
-          <Col span={4}>
+              onChange={onSelect2Change} />
+          </Col> */}
+          <Col span={7}>
             <span className='select-label'>家长姓名</span>
             <Input
               className='select'
@@ -72,13 +66,11 @@ class SearchBarMemberPa extends Component {
               {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
             </Input>
           </Col>
-          <Col span={4}>
+          {/* <Col span={4}>
             <span className='select-label'>选择角色</span>
-            <Input className='select' onChange={onSelect4Change} placeholder='请输入' >
-              {/* {selectList.roleList && this.getOptions(selectList.roleList)} */}
-            </Input>
-          </Col>
-          <Col span={4}>
+            <Input className='select' onChange={onSelect4Change} placeholder='请输入'  />
+          </Col> */}
+          <Col span={7}>
             <span className='select-label'>允许登录</span>
             <Select defaultValue='all' className='select' onChange={onSelect5Change} >
               <Option value='all'>全部</Option>
@@ -105,9 +97,9 @@ SearchBarMemberPa.propTypes = {
   // selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
-  onSelect2Change: PropsTypes.func,
+  // onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
-  onSelect4Change: PropsTypes.func,
+  // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }

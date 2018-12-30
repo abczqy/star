@@ -42,10 +42,8 @@ class Teacher extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      tableData: {
-        data: [],
-        total: 0
-      },
+      dataSource: [],
+      total: 0,
       reqParam: {
         thId: '',
         thName: '',
@@ -64,22 +62,22 @@ class Teacher extends Component {
     return ([
       {
         title: '教师姓名',
-        dataIndex: 'th_name',
-        key: 'th_name',
+        dataIndex: 'USER_NAME',
+        key: 'USER_NAME',
         width: 200
       }, {
         title: '账号',
-        dataIndex: 'th_id',
-        key: 'th_id',
+        dataIndex: 'USER_ACCOUNT',
+        key: 'USER_ACCOUNT',
         width: 200
       }, {
-        title: '学校名称',
-        dataIndex: 'sh_name',
-        key: 'sh_name'
+        title: '所属机构',
+        dataIndex: 'AUTHORITY_NAME',
+        key: 'AUTHORITY_NAME'
       }, {
         title: '允许登录',
-        dataIndex: 'to_login',
-        key: 'to_login',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
+        key: 'LOGIN_PERMISSION_STATUS',
         render: (text, record, index) => {
           return (
             <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
@@ -130,26 +128,28 @@ class Teacher extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    // thGetData(this.getParams(), (res) => {
-    //   const data = res.data
-    //   // console.log(`data: ${JSON.stringify(data)}`)
-    //   this.setState({
-    //     tableData: {
-    //       data: data.list && addKey2TableData(data.list, 'th_id'),
-    //       total: data.total && data.total
-    //     }
-    //   })
-    // })
-    let param = {
-      pageSize: this.state.pagination.pageSize,
-      pageNum: this.state.pagination.pageNum,
-      th_name: this.state.reqParam.th_name || '',
-      th_id: this.state.reqParam.th_id || '',
-      to_login: this.state.to_login || '',
-      sh_name: this.state.sh_name || ''
+    let param = {}
+    if (this.state.USER_ACCOUNT !== '') {
+      // 后台要求，回传数据的时候字段为小写
+      param.account = this.state.USER_ACCOUNT
     }
-    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
-      console.log(res)
+    if (this.state.USER_NAME !== '') {
+      // 后台要求，回传数据的时候字段为小写
+      param.name = this.state.USER_NAME
+    }
+    if (this.state.AUTHORITY_NAME !== '') {
+      // 后台要求，回传数据的时候字段为小写
+      param.organization_name = this.state.AUTHORITY_NAME
+    }
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
+      if (res.data.code === 200) {
+        this.setState({
+          dataSource: res.data.data.content,
+          total: res.data.data.totalElements
+        })
+      } else {
+        message.warn(res.data.msg)
+      }
     })
   }
 
@@ -178,10 +178,7 @@ class Teacher extends Component {
     // 暂时val和显示的值是一个 看后台传入的数据结构
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        thId: value
-      }
+      USER_ACCOUNT: value
     })
   }
 
@@ -192,10 +189,7 @@ class Teacher extends Component {
     // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        thName: value
-      }
+      USER_NAME: value
     })
   }
 
@@ -203,14 +197,9 @@ class Teacher extends Component {
    * 当下拉选择框‘学校名称’值改变时回调
    */
   onSchNameChange = (val) => {
-    console.log(`val: ${val}`)
-    // 修改state.reqParams中对应的值
     let value = val.target.value
     this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        shName: value
-      }
+      AUTHORITY_NAME: value
     })
   }
 
@@ -355,7 +344,7 @@ class Teacher extends Component {
   }
 
   render () {
-    const { pagination, tableData, selectList } = this.state
+    const { pagination, selectList } = this.state
     // console.log(`render:this.state.selectList.idList: ${JSON.stringify(this.state.selectList.idList)}`)
     return (
       <div className='software-wrap'>
@@ -371,16 +360,16 @@ class Teacher extends Component {
         <BlankBar />
         <Table
           columns={this.getClomus()}
-          dataSource={tableData.data}
+          dataSource={this.state.dataSource}
           pagination={{
             ...pagination,
-            total: this.state.tableData.total,
+            total: this.state.total,
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
-          rowSelection={{
-            onChange: this.rowSelectChange
-          }}
+          // rowSelection={{
+          //   onChange: this.rowSelectChange
+          // }}
           rowKey={(record, index) => {
             return index
           }}
