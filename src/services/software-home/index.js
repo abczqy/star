@@ -35,7 +35,7 @@ export function teacherRecommend (params, sucFn) {
 }
 // 首页热门推荐
 export function hotRecommend (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/hot-app/' + params.pageNum + '/' + params.pageSize)
+  return axios.get(API_BASE_URL_V2 + '/edu-market/hot-app/detail-list/' + params.pageNum + '/' + params.pageSize)
     .then(function (res) {
       sucFn(res)
     })
@@ -49,7 +49,7 @@ export function homeCarousel (params, sucFn) {
 }
 // 首页收藏
 export function homeCollection (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/collect', {...params})
+  return axios.post(API_BASE_URL_V2 + '/edu-market/app-collect', {...params})
     .then(function (res) {
       sucFn(res)
     })

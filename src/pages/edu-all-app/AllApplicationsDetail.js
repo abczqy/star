@@ -58,12 +58,13 @@ class AllApplicationsDetail extends React.Component {
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
     homeCollection({
-      sw_id: id,
-      type: isCollect === 'false' ? 'collect' : 'cancel'
+      appId: id,
+      userId: '1'
     }, (res) => {
-      // console.log(777777, res.data.result)
-      if (res.data.result === 'success') {
+      if (res.data.code === 200) {
         this.getAllAppData()
+      } else {
+        // message.warning(res.data.msg || '出现异常')
       }
     }).catch((e) => { console.log(e) })
   }
@@ -105,9 +106,12 @@ class AllApplicationsDetail extends React.Component {
               详情
               </Button>
             </Link>
-            <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} onClick={() => this.handleCollection(item.APP_ID, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
-            <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}} type={item.isCollect === 'false' ? 'heart-o' : 'heart'} />
-            <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type={item.isCollect === 'false' ? 'share-alt-o' : 'share-alt'} />
+            <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='star' />
+            <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
+              onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECTION)}
+              type='heart' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
+            <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}}
+              type='share-alt' />
           </p>
         </div>
       )
@@ -134,22 +138,20 @@ class AllApplicationsDetail extends React.Component {
                                 }
                               </dt>
                               <dd>
-                                <span className='name'>{item.APP_NAME}</span>
+                                <span className='name'>{item.APP_NAME || '应用名称'}</span>
                                 {
-                                  item.IS_OPEN !== '0'
+                                  item.IS_OPEN === '1'
                                     ? <Button
-                                      style={{ height: '26px', lineHeight: '20px' }}
-                                      type='primary'>
-                                      <Link to={{pathname: '/operate-manage-home/all-app-detail', search: item.APP_ID}}>详情</Link>
-                                    </Button>
-                                    : <Button
-                                      // onClick={this.handleChangeJump(item)}
                                       style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}}
                                       className='open'
                                       type='primary'
                                     >
                                       <a style={{ cursor: 'pointer' }} href={item.APP_LINK} target='_blank'>打开</a>
-                                      {/* 打开 */}
+                                    </Button>
+                                    : <Button
+                                      style={{ height: '26px', lineHeight: '20px' }}
+                                      type='primary'>
+                                      <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
                                     </Button>
                                 }
                               </dd>

@@ -176,7 +176,7 @@ export default class AllApplications extends React.Component {
         })
       } else {
         // message.warning(response.data.msg || '出现异常')
-        console.log('getPortalBannerImg全部应用轮播图异常:', response.data.msg)
+        // console.log('getPortalBannerImg全部应用轮播图异常:', response.data.msg)
       }
     })
 
@@ -196,7 +196,7 @@ export default class AllApplications extends React.Component {
           menuData: result || []
         })
       } else {
-        console.log('getAppType出现异常:', response.data.msg || '')
+        // console.log('getAppType出现异常:', response.data.msg || '')
       }
     }).catch((e) => { console.log(e) })
   }

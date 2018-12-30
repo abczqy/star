@@ -127,9 +127,9 @@ class TeacherHome extends Component {
       pageSize: '10'
     }, (res) => {
       if (res.data.code === 200) {
-        // console.log('热门推荐', res.data.data.content)
+        // console.log('热门推荐', res.data.data)
         this.setState({
-          hotData: res.data.data.content
+          hotData: res.data.data || []
         })
       } else {
         // message.warning(res.data.msg || '出现异常')
@@ -156,14 +156,12 @@ class TeacherHome extends Component {
   handleCollection = (id, isCollect) => {
     homeCollection({
       appId: id,
-      type: isCollect === 'false' ? 'collect' : 'cancel'
+      userId: '1'
     }, (res) => {
       if (res.data.code === 200) {
-        // console.log('收藏按钮', res.data.result)
-        if (res.data.result === 'success') {
-          this.getTeacherData()
-          this.getHotData()
-        }
+        // console.log('收藏按钮：', res.data.msg)
+        this.getTeacherData()
+        this.getHotData()
       } else {
         // message.warning(res.data.msg || '出现异常')
       }
@@ -275,51 +273,32 @@ class TeacherHome extends Component {
   }
   // 老师推荐
   handleTeacherappSource = (item, index) => {
-    let jump = ''
-    if (item.APP_SOURCER === 'rj') {
-      jump = '/operate-manage-home/all-app-detail-third'
-    } else {
-      if (item.APP_SOURCER === 'pt' && item.isOpen === 'true') {
-      } else {
-        jump = '/operate-manage-home/all-app-detail'
-      }
-    }
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
           <dt className='dl-dt'>
             {item.APP_ICON
-              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={item.APP_ICON} />
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
               : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
-            <span className='dd-title'>{item.APP_NAME}</span>
-            <p className='dd-p'>{item.SW_DESC || '软件描述'}</p>
+            <span className='dd-title'>{item.APP_NAME || '软件名称'}</span>
+            <p className='dd-p'>{item.APP_NOTES || '软件描述'}</p>
           </dd>
         </dl>
         <p style={{float: 'right'}}>
-          {/* {item.APP_SOURCE === 'rj'
-            ? <Icon className='downloadIcon' type='download' />
-            : null} */}
-          {item.APP_SOURCE === 'rj'
-            ? <Button className='openButton' type='primary'>
-              <Link to={{pathname: jump, search: item.appId}}>详情</Link>
-            </Button>
-            : null}
-          {/* {item.APP_SOURCE === 'pt' && item.isOpen === 'false' */}
-          {item.APP_SOURCE === 'pt'
-            ? <Button className='openButton' type='primary'>
-              <Link to={{pathname: jump, search: item.appId}}>详情</Link>
-            </Button>
-            : null}
-          {item.APP_SOURCE === 'pt' && item.isOpen === 'true'
+          {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
             ? <Button className='openUpButton' type='primary'>
-              <a href={item.sw_url} target='_blank'>打开</a>
+              <a href={item.APP_LINK} target='_blank'>打开</a>
             </Button>
-            : null}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} onClick={() => this.handleCollection(item.appId, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
-          <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}} type={item.isCollect === 'false' ? 'heart-o' : 'heart'} />
-          <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type={item.isCollect === 'false' ? 'share-alt-o' : 'share-alt'} />
+            : <Button className='openButton' type='primary'>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
+            </Button>}
+          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
+            type='star' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
+          <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECTION)} type='heart' />
+          <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>
     )
@@ -329,51 +308,32 @@ class TeacherHome extends Component {
   }
   // 热门推荐
   handleHotRecomappSource = (item, index) => {
-    let jumpa = ''
-    if (item.APP_SOURCE === 'rj') { // 第三方的软件 跳到详情页下载
-      jumpa = '/operate-manage-home/all-app-detail-third'
-    } else {
-      if (item.APP_SOURCE === 'pt' && item.isOpen === 'true') { // 平台应用 已经开通 直接打开到平台应用地址
-      } else { // 平台应用 没有开通 去详情页开通
-        jumpa = '/operate-manage-home/all-app-detail'
-      }
-    }
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
           <dt className='dl-dt'>
-            {item.appIcon
-              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={item.appIcon} />
-              : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />}
+            {item.APP_ICON
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
+              : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
-            <span className='dd-title'>{item.appName}</span>
-            <p className='dd-p'>{item.appNotes || '应用描述'}</p>
+            <span className='dd-title'>{item.APP_NAME || '软件名称'}</span>
+            <p className='dd-p'>{item.APP_NOTES || '软件描述'}</p>
           </dd>
         </dl>
         <p style={{float: 'right'}}>
-          {/* {item.APP_SOURCE === 'false'
-            ? <Icon className='downloadIcon' type='download' />
-            : null} */}
-          {item.appSource === 'rj'
-            ? <Button className='openButton' type='primary'>
-              <Link to={{pathname: jumpa, search: item.appId}}>详情</Link>
-            </Button>
-            : null}
-          {item.appSource === 'pt' && item.isOpen === 'false'
-            ? <Button className='openButton' type='primary'>
-              <Link to={{pathname: jumpa, search: item.appId}}>开通</Link>
-            </Button>
-            : null}
-          {/* {item.appSource === 'pt' && item.isOpen === 'true' */}
-          {item.appSource === 'pt'
+          {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
             ? <Button className='openUpButton' type='primary'>
-              <a href={item.sw_url} target='_blank'>详情</a>
+              <a href={item.APP_LINK} target='_blank'>打开</a>
             </Button>
-            : null}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} onClick={() => this.handleCollection(item.appId, item.isCollect)} type={item.isCollect === 'false' ? 'star-o' : 'star'} />
-          <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}} type={item.isCollect === 'false' ? 'heart-o' : 'heart'} />
-          <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type={item.isCollect === 'false' ? 'share-alt-o' : 'share-alt'} />
+            : <Button className='openButton' type='primary'>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
+            </Button>}
+          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
+            type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
+          <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='heart' />
+          <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>
     )
