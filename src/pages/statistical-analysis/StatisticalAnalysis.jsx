@@ -3,13 +3,14 @@
  */
 
 import React, { Component } from 'react'
+import moment from 'moment'
 import './StatisticalAnalysis.scss'
 import { Row, Col, Card, DatePicker, Button, Select } from 'antd'
 import _ from 'lodash'
 import Empty from '../../components/common/Empty'
 import Echarts from '../../components/common/Echarts'
 import getEchartsOptions from '../../utils/getEchartsOptions'
-import {softwareDownload, softwareType, softwareDownloadConst, getAllAppCode} from '../../services/software-market/index'
+import {softwareCollect, softwareDownload, softwareType, softwareDownloadConst, getAllAppCode} from '../../services/software-market/index'
 
 const Option = Select.Option
 
@@ -41,26 +42,25 @@ class StatisticalAnalysis extends Component {
 
   // 搜索
   search = () => {
-    // console.log('搜索', this.dateRange, this.appCode)
+    console.log('搜索', this.dateRange, this.appCode)
+    // if(this.appCode)
     this.getDownloadLineData({
-      startTime: this.dateRange.startDate,
-      endTime: this.dateRange.endDate,
-      userId: this.appCode || '1'
+      userId: '1',
+      startTime: this.dateRange.startDate || '',
+      endTime: this.dateRange.endDate || '',
+      appId: this.appCode || ''
     })
   }
 
   // 软件下载量变化-折线图
   getDownloadLineData=(params) => {
     softwareDownload({
-      startTime: '',
-      endTime: '',
-      userId: '',
       ...params
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('软件下载量变化-折线图', res.data.data)
-        let data = res.data.data
-        if (data && data.length > 0) {
+        let dataDownload = res.data.data
+        if (dataDownload && dataDownload.length > 0) {
           let targetData = {
             xAxis: [], // 横坐标
             data: [{
@@ -68,16 +68,44 @@ class StatisticalAnalysis extends Component {
               value: [] // 下载量
             }]
           }
-          data.forEach((item, index) => {
+          dataDownload.forEach((item, index) => {
             targetData.xAxis.push(item.MONTH)
             targetData.data[0].value.push(item.COUNT)
           })
+          // console.log('seriesdata:', targetData)
           this.setState({
             downloadLineData: targetData
           })
         }
       } else {
         console.log('获取软件下载量变化出现异常', res.data.msg || '')
+      }
+    })
+
+    softwareCollect({
+      ...params
+    }, (res) => {
+      if (res.data.code === 200) {
+        // console.log('软件收藏量变化-折线图', res.data.data)
+        let dataCollect = res.data.data
+        if (dataCollect && dataCollect.length > 0) {
+          let targetData = this.state.downloadLineData
+          if (targetData.data instanceof Array) {
+            targetData.data.push({
+              name: '收藏量',
+              value: [] // 收藏量
+            })
+            dataCollect.forEach((item, index) => {
+              targetData.data[1].value.push(item.COUNT)
+            })
+          }
+          // console.log('seriesdata:', targetData)
+          this.setState({
+            downloadLineData: targetData
+          })
+        }
+      } else {
+        console.log('获取软件收藏量变化出现异常', res.data.msg || '')
       }
     })
   }
@@ -107,26 +135,43 @@ class StatisticalAnalysis extends Component {
 
   // 当月应用下载型占比-扇形图
   getDownloadTypeRadioData=() => {
-    softwareDownloadConst({}, (res) => {
-      // console.log(res.data)
-      let data = res.data
-      if (data && data.length > 0) {
-        this.setState({
-          downloadTypeRadioData: res.data
+    softwareDownloadConst({
+      startTime: moment(new Date()).format('YYYY-MM'),
+      userId: '1'
+    }, (res) => {
+      if (res.data.code === 200) {
+        console.log('当月应用下载型占比', res.data.data)
+        let data = res.data.data
+        data.map((item) => {
+          item.value = item.COUNT
+          item.name = item.APP_TYPE_NAME
         })
+        if (data && data.length > 0) {
+          this.setState({
+            downloadTypeRadioData: data
+          })
+        }
+      } else {
+        console.log('获取当月应用出现异常：', res.data.msg || '')
       }
     })
   }
 
   // 获取统计分析全部软件下拉列表
   getAllApps=() => {
-    getAllAppCode({}, (res) => {
-      // console.log('全部软件下拉列表', res.data)
-      let data = res.data
-      if (data && data.length > 0) {
-        this.setState({
-          allAppCode: res.data
-        })
+    getAllAppCode({
+      userId: '1'
+    }, (res) => {
+      if (res.data.code === 200) {
+        // console.log('全部软件下拉列表', res.data.data)
+        let data = res.data.data
+        if (data && data.length > 0) {
+          this.setState({
+            allAppCode: data
+          })
+        }
+      } else {
+        console.log('获取全部软件下载列表失败：', res.data.msg || '')
       }
     })
   }
@@ -157,8 +202,8 @@ class StatisticalAnalysis extends Component {
           <div>
             <Select onChange={this.appChange} placeholder='请选择应用' >
               {
-                allAppCode.map((item, index) => (
-                  <Option key={index} value={item.sw_id} >{item.sw_name}</Option>
+                allAppCode && allAppCode.map((item, index) => (
+                  <Option key={index} value={item.APP_ID} >{item.APP_NAME}</Option>
                 ))
               }
             </Select>
@@ -194,7 +239,7 @@ class StatisticalAnalysis extends Component {
                 {
                   _.isEmpty(downloadTypeRadioData)
                     ? <Empty style={{'lineHeight': '300px'}} />
-                    : <Echarts options={getEchartsOptions(downloadTypeRadioData, 'pie-doughnut', '当月应用下载型占比', {}, '下载总数')} />
+                    : <Echarts options={getEchartsOptions(downloadTypeRadioData, 'pie-doughnut', '当月应用下载类型占比', {}, '下载总数')} />
                 }
               </div>
             </Col>

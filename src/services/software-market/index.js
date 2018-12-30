@@ -95,6 +95,15 @@ export function softwareDownload (params, sucFn) {
       sucFn(res)
     })
 }
+/**
+ * 统计分析-软件收藏量变化
+ */
+export function softwareCollect (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/collection-change', {params: params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 
 /**
  * 统计分析-应用类型占比
@@ -110,7 +119,7 @@ export function softwareType (params, sucFn) {
  * 统计分析-当月应用下载型占比
  */
 export function softwareDownloadConst (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getAppTypeMonthStatisticalAnalysisList', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-type', {params})
     .then(function (res) {
       sucFn(res)
     })
@@ -120,7 +129,7 @@ export function softwareDownloadConst (params, sucFn) {
  * 统计分析-全部软件下拉列表
  */
 export function getAllAppCode (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getAppStatisticalAnalysisList', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/company-app', {params})
     .then(function (res) {
       sucFn(res)
     })

@@ -18,19 +18,19 @@ export function allAppPlatformList (params, sucFn) {
 }
 // 应用详情（第三方）
 export function thirdPartyAppDetail (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/details', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/manage-app/detail-by-id/' + params.appId)
     .then(function (res) {
       sucFn(res)
     })
 }
 
 // 应用详情 (自营)
-export function selfSupportAppDetail (params, sucFn) {
-  return axios.post(API_BASE_URL + '/app/platform/details', {...params})
-    .then(function (res) {
-      sucFn(res)
-    })
-}
+// export function selfSupportAppDetail (params, sucFn) {
+//   return axios.post(API_BASE_URL + '/app/platform/details', {...params})
+//     .then(function (res) {
+//       sucFn(res)
+//     })
+// }
 // 全部应用-应用详情-相关应用
 export function relatedApplications (params, sucFn) {
   return axios.post(API_BASE_URL + '/personal/relatedApp', {...params})
