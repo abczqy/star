@@ -16,13 +16,9 @@ import {
   paBatchLeadout,
   changePaToLogin,
   initPaPwd,
-  delPaLoginId,
-  getIdSelectList,
-  getNameSelectList,
-  getRoleSelectList
+  delPaLoginId
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberPa } from 'components/software-market'
-import { getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
@@ -147,7 +143,16 @@ class Parent extends Component {
     //     }
     //   })
     // })
-    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`).then((res) => {
+    let param = {
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      stu_name: this.state.reqParam.stu_name || '',
+      maf_id: this.state.reqParam.maf_id || '',
+      to_login: this.state.to_login || '',
+      maf_stu_sad: this.state.maf_stu_sad || '',
+      maf_name: this.state.maf_name || ''
+    }
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
       console.log(res)
     })
   }
@@ -359,11 +364,6 @@ class Parent extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
-    // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'student', 'idList', this)
-    getSelectList(getNameSelectList, 'student', 'stuNameList', this)
-    getSelectList(getNameSelectList, 'parent', 'paNameList', this)
-    getSelectListWithNoParam(getRoleSelectList, 'roleList', this)
   }
 
   render () {

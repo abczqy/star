@@ -140,7 +140,15 @@ class Teacher extends Component {
     //     }
     //   })
     // })
-    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`).then((res) => {
+    let param = {
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      th_name: this.state.reqParam.th_name || '',
+      th_id: this.state.reqParam.th_id || '',
+      to_login: this.state.to_login || '',
+      sh_name: this.state.sh_name || ''
+    }
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
       console.log(res)
     })
   }

@@ -42,20 +42,20 @@ class SearchBarMemberPa extends Component {
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
-          <Col span={3}>
+          <Col span={2}>
             <span className='input-label'>账号</span>
             <Input
-              className='input'
+              className='select'
               placeholder='请输入'
               // showSearch
               onChange={onSelect1Change} >
               {/* {selectList.idList && this.getOptions(selectList.idList)} */}
             </Input>
           </Col>
-          <Col span={5}>
+          <Col span={4}>
             <span className='input-label'>学生姓名</span>
             <Input
-              className='input'
+              className='select'
               placeholder='请输入'
               // showSearch
               onChange={onSelect2Change} >
@@ -90,7 +90,10 @@ class SearchBarMemberPa extends Component {
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
+            <Button type='primary' className='search-bar-btn'>下载模板</Button>
+          </Col>
+          <Col span={2}>
+            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
           </Col>
         </Row>
       </div>

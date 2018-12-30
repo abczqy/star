@@ -45,27 +45,27 @@ class SearchBarMemberTeac extends Component {
           <Col span={4}>
             <span className='input-label'>账号</span>
             <Input
-              className='input'
+              className='select'
               placeholder='请输入'
               // showSearch
               onChange={onSelect1Change} >
               {/* {selectList.idList && this.getOptions(selectList.idList)} */}
             </Input>
           </Col>
-          <Col span={5}>
+          <Col span={4}>
             <span className='input-label'>教师姓名</span>
             <Input
-              className='input'
+              className='select'
               placeholder='请输入'
               // showSearch
               onChange={onSelect2Change} >
               {/* {selectList.tchNameList && this.getOptions(selectList.tchNameList)} */}
             </Input>
           </Col>
-          <Col span={5}>
+          <Col span={4}>
             <span className='input-label'>学校名称</span>
             <Input
-              className='input'
+              className='select'
               placeholder='请输入'
               // showSearch
               onChange={onSelect3Change} >
@@ -84,7 +84,10 @@ class SearchBarMemberTeac extends Component {
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
+            <Button type='primary' className='search-bar-btn'>模板下载</Button>
+          </Col>
+          <Col span={2}>
+            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
           </Col>
         </Row>
       </div>

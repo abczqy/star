@@ -148,7 +148,16 @@ class Student extends Component {
     //     }
     //   })
     // })
-    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/1/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`).then((res) => {
+    let param = {
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      stu_name: this.state.reqParam.stu_name || '',
+      stu_id: this.state.reqParam.stu_id || '',
+      maf_name: this.state.reqParam.maf_name || '',
+      to_login: this.state.to_login || '',
+      sh_name: this.state.sh_name || ''
+    }
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/1/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
       console.log(res)
     })
   }
