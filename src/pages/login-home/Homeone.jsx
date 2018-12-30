@@ -354,7 +354,7 @@ class Home extends React.Component {
               <Slider {...settings}>
                 {
                   (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
-                    return item.picUrl ? <img key={index} src={(Config.IMG_BASE_URL + item.picUrl) || ''} style={{height: '530px', width: '100%'}} />
+                    return item.picUrl ? <img key={index} src={(Config.IMG_BASE_URL_V2 + item.picUrl) || ''} style={{height: '530px', width: '100%'}} />
                       : <img key={index} src={imgBanner} style={{height: '530px', width: '100%'}} />
                   })
                 }

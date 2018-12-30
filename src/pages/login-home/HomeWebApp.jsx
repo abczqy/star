@@ -61,7 +61,7 @@ class HomeWebApp extends React.Component {
                 <div style={{width: '100%', textAlign: 'center'}}>
                   {
                     item.appIcon && item.appIcon
-                      ? <img className='app-img' src={Config.IMG_BASE_URL + item.appIcon} />
+                      ? <img className='app-img' src={Config.IMG_BASE_URL_V2 + item.appIcon} />
                       : <img className='app-img' style={{backgroundColor: '#1890ff'}} src={imgApp} />
                     // <img className='app-img' src={imgApp} />
                   }

@@ -229,7 +229,7 @@ class MainBander extends React.Component {
             {
               this.state.bannerImg.map((item, index, arr) => {
                 return item.picUrl ? <div key={index} style={{height: '445px', width: '100%'}} >
-                  <img src={Config.IMG_BASE_URL + item.picUrl || ''} style={{height: '445px', width: '100%'}} />
+                  <img src={Config.IMG_BASE_URL_V2 + item.picUrl || ''} style={{height: '445px', width: '100%'}} />
                 </div>
                   : <div key={index} style={{height: '445px', width: '100%'}} >
                     <img src={imgBanner} style={{height: '445px', width: '100%'}} />

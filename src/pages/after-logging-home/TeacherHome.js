@@ -192,7 +192,7 @@ class TeacherHome extends Component {
             <dl className='app-install-dl'>
               <dt className='app-install-dt'>
                 {item.SW_ICON
-                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.SW_ICON} />
+                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.SW_ICON} />
                   : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />
                 }
               </dt>
@@ -229,7 +229,7 @@ class TeacherHome extends Component {
             <dl className='app-install-dl'>
               <dt className='app-install-dt'>
                 {item.appIcon
-                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item.appIcon} />
+                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.appIcon} />
                   : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />
                 }
               </dt>

@@ -233,7 +233,7 @@ export default class AllApplications extends React.Component {
             {
               (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
                 return item.picUrl
-                  ? <img key={index} src={(Config.IMG_BASE_URL + item.picUrl) || ''} />
+                  ? <img key={index} src={(Config.IMG_BASE_URL_V2 + item.picUrl) || ''} />
                   : <img key={index} src={allApp} />
               })
             }

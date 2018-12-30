@@ -70,7 +70,8 @@ class AllApplicationsDetail extends React.Component {
   loadNextFunc = () => {}
   // 打开按钮页面跳转
   handleChangeJump = (item) => {
-    // window.open(item.sw_url)
+    console.log('页面跳转了')
+    window.open(item.APP_LINK)
   }
   render () {
     let total = this.state.allAppListData.length
@@ -80,7 +81,7 @@ class AllApplicationsDetail extends React.Component {
           <dl>
             <dt>
               {item.APP_ICON
-                ? <img src={ajaxUrl.IMG_BASE_URL + item.APP_ICON} />
+                ? <img src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
                 : <img src={imgApp} style={{backgroundColor: '#1890ff'}} />
               }
             </dt>
@@ -125,17 +126,17 @@ class AllApplicationsDetail extends React.Component {
                       <div>
                         { this.state.platformAppDataa[index] && this.state.platformAppDataa[index] instanceof Array && this.state.platformAppDataa[index].map((item, index, arr) => {
                           return (
-                            <dl key={index} className='carousel-detail-item'>
+                            <dl key={index} className='carousel-detail-item' >
                               <dt>
                                 {item.APP_ICON
-                                  ? <img src={ajaxUrl.IMG_BASE_URL + item.APP_ICON} />
+                                  ? <img src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
                                   : <img src={imgApp} style={{backgroundColor: '#1890ff'}} />
                                 }
                               </dt>
                               <dd>
                                 <span className='name'>{item.APP_NAME}</span>
                                 {
-                                  item.IS_OPEN !== 1
+                                  item.IS_OPEN !== '0'
                                     ? <Button
                                       style={{ height: '26px', lineHeight: '20px' }}
                                       type='primary'>
@@ -146,7 +147,10 @@ class AllApplicationsDetail extends React.Component {
                                       style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}}
                                       className='open'
                                       type='primary'
-                                    ><a href={item.APP_LINK} target='_blank'>打开</a></Button>
+                                    >
+                                      <a style={{ cursor: 'pointer' }} href={item.APP_LINK} target='_blank'>打开</a>
+                                      {/* 打开 */}
+                                    </Button>
                                 }
                               </dd>
                             </dl>
