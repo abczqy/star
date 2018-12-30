@@ -12,17 +12,18 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
 import ajaxUrl from 'config'
 import {
-  getStudentDatas,
+  // getStudentDatas,
   changeStuToLogin,
   initStuPwd,
   delStuLoginId,
-  stBatchLeadout,
-  getIdSelectList,
-  getNameSelectList
+  stBatchLeadout
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberStu } from 'components/software-market'
-import { addKey2TableData, getSelectList } from 'utils/utils-sw-manage'
+// import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
+import config from '../../../../config/index'
+import {axios} from '../../../../utils'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
    * 表格分页器设置-默认值
@@ -137,15 +138,18 @@ class Student extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的stu_id映射过去即可
    */
   getTableDatas = () => {
-    getStudentDatas(this.getParams(), (res) => {
-      const data = res.data
-      // console.log(`data: ${JSON.stringify(data)}`)
-      this.setState({
-        tableData: {
-          data: addKey2TableData(data.list, 'stu_id'),
-          total: data.total
-        }
-      })
+    // getStudentDatas(this.getParams(), (res) => {
+    //   const data = res.data
+    //   // console.log(`data: ${JSON.stringify(data)}`)
+    //   this.setState({
+    //     tableData: {
+    //       data: addKey2TableData(data.list, 'stu_id'),
+    //       total: data.total
+    //     }
+    //   })
+    // })
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/1/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`).then((res) => {
+      console.log(res)
     })
   }
 
@@ -177,8 +181,6 @@ class Student extends Component {
         ...this.state.reqParam,
         stuName: e.target.value
       }
-    }, () => {
-      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
@@ -193,8 +195,6 @@ class Student extends Component {
         ...this.state.reqParam,
         num_day: val
       }
-    }, () => {
-      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
@@ -217,8 +217,6 @@ class Student extends Component {
         ...this.state.reqParam,
         toLogin: loginAllow
       }
-    }, () => {
-      console.log('存入了什么？', this.state.reqParam)
     })
   }
 
@@ -376,11 +374,6 @@ class Student extends Component {
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
     this.getTableDatas()
-    // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'student', 'idList', this)
-    getSelectList(getNameSelectList, 'student', 'stuNameList', this)
-    getSelectList(getNameSelectList, 'school', 'schNameList', this)
-    getSelectList(getNameSelectList, 'parent', 'paNameList', this)
   }
 
   render () {

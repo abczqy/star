@@ -12,7 +12,7 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider } from 'antd'
 import ajaxUrl from 'config'
 import {
-  paGetData,
+  // paGetData,
   paBatchLeadout,
   changePaToLogin,
   initPaPwd,
@@ -22,8 +22,11 @@ import {
   getRoleSelectList
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberPa } from 'components/software-market'
-import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
+import { getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
+import config from '../../../../config/index'
+import {axios} from '../../../../utils'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
    * 表格分页器设置-默认值
@@ -134,19 +137,22 @@ class Parent extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    paGetData(this.getParams(), (res) => {
-      const data = res.data
-      // console.log(`data: ${JSON.stringify(data)}`)
-      this.setState({
-        tableData: {
-          data: addKey2TableData(data.list, 'maf_id'),
-          total: data.total
-        }
-      })
+    // paGetData(this.getParams(), (res) => {
+    //   const data = res.data
+    //   // console.log(`data: ${JSON.stringify(data)}`)
+    //   this.setState({
+    //     tableData: {
+    //       data: addKey2TableData(data.list, 'maf_id'),
+    //       total: data.total
+    //     }
+    //   })
+    // })
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`).then((res) => {
+      console.log(res)
     })
   }
 
-  /**
+  /*
    * 当搜索框‘账号’值改变时回调
    */
   onIdChange = (val) => {

@@ -13,7 +13,7 @@ import { Table, Switch, Divider, message } from 'antd'
 import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
-  thGetData,
+  // thGetData,
   maDelId,
   maInitPwd,
   thBatchLeadout,
@@ -22,11 +22,10 @@ import {
   toLogin
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
-import {
-  addKey2TableData
-  // getSelectList
-} from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
+import config from '../../../../config/index'
+import {axios} from '../../../../utils'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
    * 表格分页器设置-默认值
@@ -131,15 +130,18 @@ class Teacher extends Component {
    * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
    */
   getTableDatas = () => {
-    thGetData(this.getParams(), (res) => {
-      const data = res.data
-      // console.log(`data: ${JSON.stringify(data)}`)
-      this.setState({
-        tableData: {
-          data: data.list && addKey2TableData(data.list, 'th_id'),
-          total: data.total && data.total
-        }
-      })
+    // thGetData(this.getParams(), (res) => {
+    //   const data = res.data
+    //   // console.log(`data: ${JSON.stringify(data)}`)
+    //   this.setState({
+    //     tableData: {
+    //       data: data.list && addKey2TableData(data.list, 'th_id'),
+    //       total: data.total && data.total
+    //     }
+    //   })
+    // })
+    axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`).then((res) => {
+      console.log(res)
     })
   }
 

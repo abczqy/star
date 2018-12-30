@@ -6,10 +6,12 @@ import React, { Component } from 'react'
 import { Menu, Input, Button, Row, Col, Upload, message, Icon, Modal } from 'antd'
 // import axios from 'axios'
 import ajaxUrl from 'config'
-import webStorage from 'webStorage'
+// import webStorage from 'webStorage'
 import PersonManageTable from './person-manage-table/PersonManageTable'
 import './PersonnelManagement.scss'
 import PersonManageAdd from './person-manage-table/PersonManageAdd'
+import config from '../../config/index'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 const Search = Input.Search
 
 const tableParams = {
@@ -30,8 +32,9 @@ class PersonnelManagement extends Component {
       newListVisibility: false
     }
     this.uploadProps = {
-      name: 'teachers',
-      action: ajaxUrl.API_BASE_URL + '/application/batchleadin?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID'),
+      // name: 'teachers',
+      action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
+      data: { fileType: 'document', userType: 3 },
       onChange: this.onChange
     }
   }
@@ -120,8 +123,9 @@ class PersonnelManagement extends Component {
       })
       if (obj.key === 'student') {
         this.uploadProps = {
-          name: 'student',
-          action: ajaxUrl.API_BASE_URL + '/application/batchleadins?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID'),
+          // name: 'student',
+          action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
+          data: { fileType: 'document', userType: 4 },
           onChange: this.onChange
         }
         this.setState({
@@ -129,8 +133,9 @@ class PersonnelManagement extends Component {
         })
       } else {
         this.uploadProps = {
-          name: 'teachers',
-          action: ajaxUrl.API_BASE_URL + '/application/batchleadin?STAR_WEB_SESSION_ID=' + webStorage.getItem('STAR_WEB_SESSION_ID'),
+          // name: 'teachers',
+          action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
+          data: { fileType: 'document', userType: 3 },
           onChange: this.onChange
         }
         this.setState({

@@ -11,7 +11,7 @@ class SWBox extends Component {
         <Row>
           {boxList.map((item, index) => {
             return (<Col span={2} key={index}><div className='sw-box-icon'>
-              {list.length >= item ? <img src={list[index]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '40px', color: '#999'}} type='plus' />}
+              {list.length >= item ? <img src={list[index]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '20px', color: '#999', marginLeft: '10px', marginTop: '10px'}} type='plus' />}
             </div></Col>)
           })}
         </Row>

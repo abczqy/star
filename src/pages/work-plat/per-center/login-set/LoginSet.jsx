@@ -83,7 +83,7 @@ class LoginSet extends Component {
             </div>
           </div>
           <div className='safe_item'>
-            <div className='list-img' >
+            <div className={this.state.phoneNumber === '' ? 'list-img-err' : 'list-img'} >
               <i />
             </div>
             <div className='safe-name'>
@@ -94,7 +94,7 @@ class LoginSet extends Component {
             </div>
           </div>
           <div className='safe_item'>
-            <div className='list-img'>
+            <div className={this.state.userName === '' ? 'list-img-err' : 'list-img'}>
               <i />
             </div>
             <div className='safe-name'>

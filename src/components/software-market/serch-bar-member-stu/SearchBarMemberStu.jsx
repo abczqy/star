@@ -94,7 +94,7 @@ class SearchBarMemberStu extends Component {
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
+            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
           </Col>
         </Row>
       </div>
