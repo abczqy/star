@@ -25,12 +25,12 @@ export function thirdPartyAppDetail (params, sucFn) {
 }
 
 // 应用详情 (自营)
-// export function selfSupportAppDetail (params, sucFn) {
-//   return axios.post(API_BASE_URL + '/app/platform/details', {...params})
-//     .then(function (res) {
-//       sucFn(res)
-//     })
-// }
+export function selfSupportAppDetail (params, sucFn) {
+  return axios.post(API_BASE_URL + '/app/platform/details', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 // 全部应用-应用详情-相关应用
 export function relatedApplications (params, sucFn) {
   return axios.post(API_BASE_URL + '/personal/relatedApp', {...params})
