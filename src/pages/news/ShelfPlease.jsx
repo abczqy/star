@@ -409,6 +409,13 @@ class ShelfPlease extends React.Component {
     // this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
   }
 
+  /**
+   * 取消
+   */
+  onCancel = () => {
+    this.props.history.goBack()
+  }
+
   // 提交表单啦
   submit=() => {
     if (!(this.state.conPeopleNumBlur && this.state.idNumberBlur)) {
@@ -921,7 +928,7 @@ class ShelfPlease extends React.Component {
         <div>
           <Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>
           <Button type='primary' style={{marginLeft: '5%'}} onClick={this.submit}>提交申请</Button>
-          <Button style={{marginLeft: '5%'}}>取消</Button>
+          <Button style={{marginLeft: '5%'}} onClick={this.onCancel}>取消</Button>
         </div>
       }>
       <div >
