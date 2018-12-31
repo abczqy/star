@@ -1,23 +1,32 @@
 /**
- * 全部应用
+ * 全部应用-应用详情
  */
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import './MyAppDetail.css'
-import { Icon, Carousel } from 'antd'
+import { Icon, Carousel, message } from 'antd'
 import PropTypes from 'prop-types'
-import ajaxUrl from 'config'
+import config from '../../config'
+import { axios } from 'utils'
 import {thirdPartyAppDetail} from 'services/all-app/'
 import {developmentRelated} from 'services/my-app/'
-export default class MyAppDetail extends React.Component {
+
+const IMG_BASE_URL_V2 = config.IMG_BASE_URL_V2
+const SOFT_BASE_URL_V2 = config.SOFT_BASE_URL_V2
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
+
+class MyAppDetail extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
+      appId: '1', // 应用id
       mode: 'inline',
       theme: 'light',
       appDetailId: '',
-      appDetailData: {},
+      appData: {},
       obj: {
         display: 'none'
       },
@@ -28,38 +37,30 @@ export default class MyAppDetail extends React.Component {
     }
   }
   static propTypes = {
-    location: PropTypes.object
+    history: PropTypes.object
   }
-  componentDidMount () {
-    let a = this.props.location.search.replace('?', '')
-    this.setState({
-      appDetailId: a
-    }, () => {
-      this.getMyAppDetailData()
-      this.getDevelopmentRelated()
-    })
-  }
-  getMyAppDetailData = () => {
+
+  getMyappData = () => {
     thirdPartyAppDetail({
       sw_id: this.state.appDetailId
     }, (res) => {
       this.setState({
-        appDetailData: res.data
+        appData: res.data
       }, () => {
-        // let shishi = this.state.appDetailData.sw_path.replace(/\//g, '')
+        // let shishi = this.state.appData.sw_path.replace(/\//g, '')
         // eslint-disable-next-line no-eval
         // let ceshi = eval('(' + shishi + ')')
-        // let a = this.state.appDetailData.sw_computer_photo + ''
+        // let a = this.state.appData.APP_PC_PIC + ''
         // let aa = JSON.parse(a)
         let bb = []
-        for (let i in this.state.appDetailData.sw_computer_photo) {
-          bb.push(this.state.appDetailData.sw_computer_photo[i])
+        for (let i in this.state.appData.APP_PC_PIC) {
+          bb.push(this.state.appData.APP_PC_PIC[i])
         }
         this.setState({
           computerCarousel: bb,
-          compatibleSystem: this.state.appDetailData.sw_path || []
+          compatibleSystem: this.state.appData.sw_path || []
         })
-        // this.handleCompatibleSystem(this.state.appDetailData.sw_path)
+        // this.handleCompatibleSystem(this.state.appData.sw_path)
       })
     }).catch((e) => { console.log(e) })
   }
@@ -112,16 +113,16 @@ export default class MyAppDetail extends React.Component {
   handleSwitchCarousel = (type) => {
     if (type === 'computer') {
       let bb = []
-      for (let i in this.state.appDetailData.sw_computer_photo) {
-        bb.push(this.state.appDetailData.sw_computer_photo[i])
+      for (let i in this.state.appData.APP_PC_PIC) {
+        bb.push(this.state.appData.APP_PC_PIC[i])
       }
       this.setState({
         computerCarousel: bb
       })
     } else {
       let dd = []
-      for (let i in this.state.appDetailData.sw_phone_photo) {
-        dd.push(this.state.appDetailData.sw_phone_photo[i])
+      for (let i in this.state.appData.sw_phone_photo) {
+        dd.push(this.state.appData.sw_phone_photo[i])
       }
       this.setState({
         computerCarousel: dd
@@ -148,21 +149,55 @@ export default class MyAppDetail extends React.Component {
       compatibleSystem: swPath
     })
   }
+
+  /**
+   * 获取详情数据
+   */
+  getData = (thiz) => {
+    let appId = this.state.appId
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/detail-by-id/${appId}`)
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          data.data &&
+          thiz.setState({
+            appData: data.data.slice()[0]
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+
+  componentDidMount () {
+    let appId = this.props.history.location.search.replace('?', '')
+    this.setState({
+      appId: appId
+    }, function () {
+      this.getData(this)
+    })
+    // this.setState({
+    //   appDetailId: appId
+    // }, () => {
+    //   this.getMyappData()
+    //   this.getDevelopmentRelated()
+    // })
+  }
   render () {
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
-          <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_icon} />
+          <img src={IMG_BASE_URL_V2 + this.state.appData.APP_PC_PIC} />
           <div className='app-detail-header-right'>
             <p>
-              <span className='header-titlea'>软件名称：{this.state.appDetailData.sw_name}</span>
-              <span className='header-titlea'>当前版本：{this.state.appDetailData.version}</span>
+              <span className='header-titlea'>软件名称：{this.state.appData.APP_NAME}</span>
+              <span className='header-titlea'>当前版本：{this.state.appData.APP_VERSION}</span>
             </p>
             <p>
-              <span className='header-titlea'>软件类型：{this.state.appDetailData.sw_type}</span>
-              <span className='header-titlea'>上架时间：{this.state.appDetailData.sw_time_real}</span>
+              <span className='header-titlea'>软件类型：{this.state.appData.APP_TYPE_NAME}</span>
+              <span className='header-titlea'>上架时间：{this.state.appData.CREATE_TIME}</span>
             </p>
-            <p>
+            {/* <p>
               <span className='header-titlea'>兼容系统：{
                 this.state.compatibleSystem.map((item, index, arr) => {
                   return (
@@ -170,6 +205,17 @@ export default class MyAppDetail extends React.Component {
                   )
                 })
               }</span>
+            </p> */}
+            <p>
+              <span className='header-titlea'>
+                兼容系统：
+                <span>{this.state.appData.RUNNING_PLATFORM}</span>
+              </span>
+              <span className='header-titlea'>
+                <a href={`${SOFT_BASE_URL_V2}${this.state.appData.APP_DOWNLOAD_ADDRESS}`}>
+                  下载
+                </a>
+              </span>
             </p>
           </div>
           <div className='app-detail-exhibition'>
@@ -190,7 +236,7 @@ export default class MyAppDetail extends React.Component {
                             {this.state.computerCarousel[index].map((item, index, arr) => {
                               return (
                                 <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                                  <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL + item} />
+                                  <img style={{width: '100%', height: '100%'}} src={IMG_BASE_URL_V2 + item} />
                                 </div>
                               )
                             })}
@@ -204,27 +250,27 @@ export default class MyAppDetail extends React.Component {
               </div>
             </div>
           </div>
-          <div className='app-detail-introducea'>
+          {/* <div className='app-detail-introducea'>
             <h3>开发相关</h3>
-            <img src={ajaxUrl.IMG_BASE_URL + this.state.developmentRelated.dev_photo} />
+            <img src={config.IMG_BASE_URL_V2 + this.state.developmentRelated.dev_photo} />
             <div>
               <div className='introduce-detail'>姓名：{this.state.developmentRelated.developers}</div>
               <div className='introduce-detail'>身份证号：{this.state.developmentRelated.dev_idcard}</div>
               <div className='introduce-detail'>主要联系人：{this.state.developmentRelated.dev_contact}</div>
               <div className='introduce-detail'>联系人电话：{this.state.developmentRelated.dev_contact_phone}</div>
             </div>
-          </div>
-          <div style={{width: '100%', height: '180px', float: 'left'}}>
+          </div> */}
+          {/* <div style={{width: '100%', height: '180px', float: 'left'}}>
             <div className='app-detail-characteristica'>
               <h3>软件版权</h3>
-              <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.sw_copyright} />
+              <img src={config.IMG_BASE_URL_V2 + this.state.appData.sw_copyright} />
             </div>
             <div className='app-detail-characteristica'>
               <h3>审核凭证</h3>
-              <img src={ajaxUrl.IMG_BASE_URL + this.state.appDetailData.fin_audit} />
+              <img src={config.IMG_BASE_URL_V2 + this.state.appData.fin_audit} />
             </div>
-          </div>
-          <div className='app-detail-relevanta'>
+          </div> */}
+          {/* <div className='app-detail-relevanta'>
             <h3>历史版本</h3>
             <div>
               <p className='relevant-introduce'>
@@ -240,9 +286,11 @@ export default class MyAppDetail extends React.Component {
                 <span>2018年1月1日</span>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     )
   }
 }
+
+export default withRouter(MyAppDetail)
