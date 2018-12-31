@@ -45,7 +45,7 @@ class HomeWebApp extends React.Component {
     if (item.appSource && item.appSource === 'pt') {
       window.open(item.apppath)
     } else {
-      this.props.history.push('/operate-manage-home/all-app-detail?'+item.appId)
+      this.props.history.push('/operate-manage-home/all-app-detail-third?'+item.appId)
     }
   }
 
