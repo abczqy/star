@@ -60,7 +60,7 @@ class MarketAnalysis extends Component {
           name: '数学游戏',
           value: '183'
         } ],
-      currentType: 'teaching'
+      currentType: '101'
     }
   }
   // static propTypes = {
@@ -69,22 +69,30 @@ class MarketAnalysis extends Component {
   // }
 
   typeSwitching = (e) => {
+    console.log(e.item.props.eventKey || '101')
     // this.type = e.item.props.children
-    this.getTableData(e.item.props.children)
+    this.getTableData(e.item.props.eventKey)
     this.setState({
-      currentType: e.key
+      currentType: e.item.props.eventKey
     })
   }
 
   // 获取表格数据
   getTableData = (type) => {
-    marketAnalysis({type}, res => {
-      // let resDatas = _.cloneDeep(res.data)
-      let resDatas = []
-      // console.log('获取表格数据', resDatas)
-      this.setState({
-        tableDatas: resDatas || []
-      })
+    marketAnalysis({
+      appType: type,
+      userId: '1'
+    }, res => {
+      if (res.data.code === 200) {
+        // console.log('市场分析获取表格数据', res.data.data.data)
+        let resDatas = res.data.data.data || []
+        // console.log('获取表格数据', resDatas)
+        this.setState({
+          tableDatas: resDatas || []
+        })
+      } else {
+        console.log(res.data.msg || '')
+      }
     })
   }
 
@@ -98,7 +106,7 @@ class MarketAnalysis extends Component {
   }
 
   componentDidMount () {
-    this.getTableData('教学类')
+    this.getTableData('101')
     // this.gethotSearch()  // 没有词云接口，暂时注释
   }
 
@@ -111,13 +119,13 @@ class MarketAnalysis extends Component {
             selectedKeys={[this.state.currentType]}
             mode='horizontal'
           >
-            <Menu.Item key='teaching'>
+            <Menu.Item key='101'>
               教学类
             </Menu.Item>
-            <Menu.Item key='auxiliary'>
+            <Menu.Item key='102'>
               教辅类
             </Menu.Item>
-            <Menu.Item key='management'>
+            <Menu.Item key='103'>
               管理类
             </Menu.Item>
           </Menu>

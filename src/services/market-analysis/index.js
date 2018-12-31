@@ -3,12 +3,12 @@
  */
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_V2} = config
 /**
  * 市场分析-表格
  */
 export function marketAnalysis (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getMarketAnalysisList', {...params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/list', {params: params})
     .then(function (res) {
       sucFn(res)
     })
