@@ -43,12 +43,8 @@ class MyAppTable extends Component {
       pageSize: 10,
       pageNum: 1,
       currentPage: 1,
-      sw_type: '',
-      sw_name: '',
-      searchFilter: {
-        sw_type: '',
-        sw_name: ''
-      }
+      typeId: '',
+      keyword: ''
     }
     this.columns = [{
       title: '应用名称',
@@ -57,7 +53,7 @@ class MyAppTable extends Component {
       title: '所属类型',
       dataIndex: 'APP_TYPE_NAME',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.sw_type - b.sw_type
+      sorter: (a, b) => a.typeId - b.typeId
       // width: 150
     }, {
       title: '下载次数',
@@ -99,12 +95,10 @@ class MyAppTable extends Component {
   getMyAppInOperationData = (thiz) => {
     let params = {
       auditStatus: '1', // 审核状态
-      keyword: '',
+      keyword: this.state.keyword || '', // 应用名称,
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 15,
-      typeId: this.state.sw_type || 0,
-      sw_type: this.state.sw_type, // 应用类型
-      sw_name: this.state.sw_name // 应用名称
+      typeId: this.state.typeId || 0
     }
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
       .then(function (res) {
@@ -118,14 +112,6 @@ class MyAppTable extends Component {
           message.warning(res.data.msg || '请求出错')
         }
       })
-    // myAppInOperation(Object.assign(params, searchParams), (res) => {
-    //   this.setState({
-    //     myAppInOperationData: res.data.list,
-    //     total: res.data.total
-    //   }, () => {
-    //     this.props.getNewNewsNum(res.data.new)
-    //   })
-    // }).catch((e) => { console.log(e) })
   }
   // 获取应用类型下拉框数据
   getApplicationTypeData = (thiz) => {
@@ -156,25 +142,24 @@ class MyAppTable extends Component {
   }
   // 分类搜索
   onChangeState=(value) => {
-    this.handleSearch({
-      sw_type: value || ''
-    })
     this.setState({
-      sw_type: value
+      typeId: value
+    }, function () {
+      this.handleSearch()
     })
   }
-  handleSearch = (searchFilter) => {
+  handleSearch = () => {
     this.setState({
-      pageNum: 1,
-      searchFilter
+      pageNum: 1
     }, () => {
       this.getMyAppInOperationData(this)
     })
   }
   // 名称搜索
   handleSearchTextChange (e) {
+    console.log('keyword: ', e.target.value.trim())
     this.setState({
-      sw_name: e.target.value.trim()
+      keyword: e.target.value.trim()
     })
   }
   handBtnleFilter =() => {
