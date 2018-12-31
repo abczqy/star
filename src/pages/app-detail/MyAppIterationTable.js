@@ -174,7 +174,7 @@ class MyAppIterationTable extends Component {
               >
                 {getFieldDecorator('progressState')(
                   <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
-                    { this.state.appTypeData.map((item, index, data) => {
+                    { this.state.appTypeData && this.state.appTypeData.map((item, index, data) => {
                       return <Option key={index} value={item}>{item}</Option>
                     })}
                   </Select>
