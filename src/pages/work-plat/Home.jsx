@@ -178,9 +178,9 @@ class Home extends Component {
   /**
    * 数据请求--我的应用
    */
-  getMyApps = (thiz) => {
+  getMyApps = (userId, thiz) => {
     // 需要全局用户id
-    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-open' + '/1')
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-open/${userId}`)
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
@@ -196,9 +196,9 @@ class Home extends Component {
   /**
    * 数据请求--我的收藏
    */
-  getMyCollect = (thiz) => {
+  getMyCollect = (userId, thiz) => {
     // 需要全局用户id
-    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-collect/list', { params: { userId: '1' } })
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-collect/list', { params: { userId: userId } })
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
@@ -215,9 +215,9 @@ class Home extends Component {
   /**
    * 数据请求-个人
    */
-  getUserInfo = (thiz) => {
+  getUserInfo = (userId, thiz) => {
     // 需要全局用户id - 测试默认值为1
-    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/1')
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + `/users/${userId}`)
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
@@ -287,9 +287,8 @@ class Home extends Component {
    * 应用点击
    */
   onAppClick = (id, url) => {
-    console.log('id：', id)
     // 有一个默认的App_id
-    url = url || `/operate-manage-home/all-app-detail?${id}`
+    url = url || `/operate-manage-home/all-app-detail-third?${id}`
     this.props.history.push(url)
   }
 
@@ -297,8 +296,7 @@ class Home extends Component {
    * AppCard - 点击动作（下载/详情/开通）时的回调
    */
   onAppCardAction = (id, url) => {
-    console.log('id: ', id)
-    this.props.history.push(`/operate-manage-home/all-app-detail?${id}`)
+    this.props.history.push(`/operate-manage-home/all-app-detail-third?${id}`)
   }
 
   /**
@@ -751,11 +749,13 @@ class Home extends Component {
   }
 
   componentDidMount () {
+    // 从本地获取用户个人信息-id
+    const userInfo = webStorage.getItem('STAR_WEB_PERSON_INFO')
     // 请求数据
     this.getTopApps(this)
-    this.getMyApps(this)
-    this.getMyCollect(this)
-    this.getUserInfo(this)
+    this.getMyApps(userInfo.userId, this)
+    this.getMyCollect(userInfo.userId, this)
+    this.getUserInfo(userInfo.userId, this)
   }
 
   render () {
