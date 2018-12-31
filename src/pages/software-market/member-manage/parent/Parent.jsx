@@ -12,10 +12,10 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 import ajaxUrl from 'config'
 import {
-  paBatchLeadout,
-  changePaToLogin,
-  initPaPwd,
-  delPaLoginId
+  paBatchLeadout
+  // // changePaToLogin,
+  // initPaPwd,
+  // delPaLoginId
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberPa } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -100,7 +100,7 @@ class Parent extends Component {
           check = false
         }
         return (
-          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+          <Switch defaultChecked={check} onChange={() => this.changeLoginState(record)} />
         )
       }
     }, {
@@ -120,6 +120,18 @@ class Parent extends Component {
         )
       }
     }])
+  }
+
+  changeState = (params) => {
+    axios.put(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-info/updateUserInfo?userId=${params.userId}`, params).then((res) => {
+      console.log(res)
+      if (res.data.code === 200) {
+        message.success('操作成功')
+        this.getTableDatas()
+      } else {
+        message.warn(res.data.msg)
+      }
+    })
   }
 
   cancelUp=(e) => {
@@ -205,20 +217,15 @@ class Parent extends Component {
   /**
    * 点击改变'改变登录状态'
    */
-  changeLoginState = (checked, record) => {
-    const toLogin = checked ? '1' : '0'
-    // console.log(`toLogin: ${toLogin}`)
-    // 调用‘改变登录状态的接口’更新后台数据
+  changeLoginState = (record) => {
+    console.log(record)
     const params = {
-      maf_id: record.maf_id,
-      to_login: toLogin
+      userId: record && record.USER_ID
     }
-    changePaToLogin(params, (res) => {
-      console.log(`res.data.msg: ${res.data.msg}`)
-    })
-    // 刷新表格数据
-    this.getTableDatas()
-    // 后面再加上loading + 操作成功的提示
+    record.LOGIN_PERMISSION_STATUS === 0 ? params.userInfo = {
+      isLogin: 1
+    } : params.userInfo = {isLogin: 0}
+    this.changeState(params)
   }
 
   /**
@@ -226,13 +233,12 @@ class Parent extends Component {
    */
   initPwd = (record) => {
     const params = {
-      maf_id: record.maf_id
+      userId: record && record.USER_ID,
+      userInfo: {
+        isReset: 0
+      }
     }
-    initPaPwd(params, (res) => {
-      console.log(`res.data.msg: ${res.data.msg}`)
-    })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
+    this.changeState(params)
   }
 
   /**
@@ -240,13 +246,12 @@ class Parent extends Component {
    */
   delLoginId = (record) => {
     const params = {
-      maf_id: record.maf_id
+      userId: record && record.USER_ID,
+      userInfo: {
+        isDelete: 0
+      }
     }
-    delPaLoginId(params, (res) => {
-      console.log(`res.data.msg: ${res.data.msg}`)
-    })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
+    this.changeState(params)
   }
 
   /**

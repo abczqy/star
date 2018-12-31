@@ -13,9 +13,9 @@ import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 import ajaxUrl from 'config'
 import {
   // getStudentDatas,
-  changeStuToLogin,
-  initStuPwd,
-  delStuLoginId,
+  // changeStuToLogin,
+  // initStuPwd,
+  // delStuLoginId,
   stBatchLeadout
 } from 'services/software-manage'
 import { BlankBar, SearchBarMemberStu } from 'components/software-market'
@@ -197,19 +197,25 @@ class Student extends Component {
    * 点击改变'改变登录状态'
    */
   changeLoginState = (checked, record) => {
-    const toLogin = checked ? '1' : '0'
-    console.log(`toLogin: ${toLogin}`)
-    // 调用‘改变登录状态的接口’更新后台数据
     const params = {
-      stu_id: record.stu_id,
-      to_login: toLogin
+      userId: record && record.USER_ID
     }
-    changeStuToLogin(params, (res) => {
-      console.log(`res.data.msg: ${res.data.msg}`)
+    record.LOGIN_PERMISSION_STATUS === 0 ? params.userInfo = {
+      isLogin: 1
+    } : params.userInfo = {isLogin: 0}
+    this.changeState(params)
+  }
+
+  changeState = (params) => {
+    axios.put(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-info/updateUserInfo?userId=${params.userId}`, params).then((res) => {
+      console.log(res)
+      if (res.data.code === 200) {
+        message.success('操作成功')
+        this.getTableDatas()
+      } else {
+        message.warn(res.data.msg)
+      }
     })
-    // 刷新表格数据
-    this.getTableDatas()
-    // 后面再加上loading + 操作成功的提示
   }
 
   /**
@@ -247,13 +253,12 @@ class Student extends Component {
    */
   delLoginId = (record) => {
     const params = {
-      stu_id: record.stu_id
+      userId: record && record.USER_ID,
+      userInfo: {
+        isDelete: 0
+      }
     }
-    delStuLoginId(params, (res) => {
-      console.log(`res.data.msg: ${res.data.msg}`)
-    })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
+    this.changeState(params)
   }
 
   /**
@@ -261,13 +266,12 @@ class Student extends Component {
    */
   initPwd = (record) => {
     const params = {
-      stu_id: record.stu_id
+      userId: record && record.USER_ID,
+      userInfo: {
+        isReset: 0
+      }
     }
-    initStuPwd(params, (res) => {
-      console.log(`res.data.msg: ${res.data.msg}`)
-    })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
+    this.changeState(params)
   }
 
   /**
