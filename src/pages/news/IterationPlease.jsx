@@ -4,12 +4,18 @@
 
 import React from 'react'
 import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon, message} from 'antd'
+import { withRouter } from 'react-router-dom'
+import { axios } from 'utils'
+import config from '../../config'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 import {iteration, appId} from 'services/software-manage'
 import webStorage from 'webStorage'
 
 const { TextArea } = Input
+
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
 
 class IterationPlease extends React.Component {
   constructor (props) {
@@ -306,6 +312,38 @@ zHs=() => {
       })
     }
   }
+
+  /**
+   * 数据获取-获取app详细信息
+   */
+  getAppDetail = (thiz) => {
+    let appId = thiz.state.appId
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/detail-by-id/${appId}`)
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          console.log('app详情：', data)
+          data.data &&
+        thiz.setState({
+          appDetail: data.data.slice()[0]
+        })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
+      })
+  }
+
+  componentDidMount () {
+    // 获取appId
+    const appId = this.props.history.location.search.replace('?', '')
+    this.setState({
+      appId: appId
+    }, function () {
+      // 拿到app的信息
+      this.getAppDetail(this)
+    })
+  }
+
   render () {
     const propsT = {
       onRemove: (file) => {
@@ -353,146 +391,145 @@ zHs=() => {
       },
       fileListThree: this.state.fileListThree
     }
-    return <Card title='迭代申请' style={{marginLeft: '12%', width: '80%', minHeight: this.state.viewHeight}}>
-      <div >
-        <Row>
-          <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span style={{visibility: 'hidden'}}>* </span>软件类型 :
+    return (
+      <Card title='迭代申请' style={{marginLeft: '12%', width: '80%', minHeight: this.state.viewHeight}}>
+        <div >
+          <Row>
+            <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row>
+            <Row className='Wxd'>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                  <span style={{visibility: 'hidden'}}>* </span>软件类型 :
+                </Col>
+                <Col span={5}>
+                  <span>
+                    { this.state.appDetail && (this.state.appDetail.APP_TYPE_NAME || '教学类') }
+                  </span>
+                </Col>
               </Col>
-              <Col span={5}>
-                <span>{this.state.AppData ? (this.state.AppData.data
-                  ? this.state.AppData.data.sw_type
-                  : '教学') : '教学'}</span>
-                {/* <span>教学类</span> */}
+              <Col span={8}>
+                <Col span={5}>
+                  <span style={{visibility: 'hidden'}}>* </span>软件名称 :
+                </Col>
+                <Col span={18}>
+                  {/* <span>超级教师</span> */}
+                  <span>
+                    { this.state.appDetail && (this.state.appDetail.APP_NAME || '英语教室') }
+                  </span>
+                </Col>
               </Col>
-            </Col>
-            <Col span={8}>
-              <Col span={5}>
-                <span style={{visibility: 'hidden'}}>* </span>软件名称 :
-              </Col>
-              <Col span={18}>
-                {/* <span>超级教师</span> */}
-                <span>
-                  {this.state.AppData ? (this.state.AppData.data
-                    ? this.state.AppData.data.sw_name
-                    : '超级教') : '超级教'}
-                </span>
-              </Col>
-            </Col>
-          </Row>
-          <Row className='Wxd'>
-            <Col span={12}>
-              <Col span={6}>
-                <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span style={{visibility: 'hidden'}}>* </span>当前版本 :
-              </Col>
-              <Col span={5}>
-                <span>{this.state.AppData ? (this.state.AppData.data
-                  ? this.state.AppData.data.version
-                  : 'v1.') : 'v1.'}</span>
-              </Col>
-            </Col>
-            <Col span={8}>
-              <Col span={5}>
-                <span style={{color: 'red'}}>* </span>更新版本 :
-              </Col>
-              <Col span={18}>
-                <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.newV} value={this.state.newV} /></Col>
-            </Col>
-          </Row>
-          <Row className='Wxd'>
-            <Col span={23}>
-              <span style={{visibility: 'hidden'}}>*PC无无无</span>
-              <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
-              <span style={{visibility: 'hidden'}}>无无无 </span>
-              <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
-          </Row>
-          <Row className='Wxd'>
-            <Row className='Wxds'>
-              {this.state.renderEdition.map((item, index) => {
-                return item
-              })}
             </Row>
             <Row className='Wxd'>
               <Col span={12}>
                 <Col span={6}>
                   <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                  <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
+                  <span style={{visibility: 'hidden'}}>* </span>当前版本 :
                 </Col>
                 <Col span={5}>
-                  <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+                  <span>
+                    { this.state.appDetail && (this.state.appDetail.APP_VERSION || 'v8.0') }
+                  </span>
                 </Col>
+              </Col>
+              <Col span={8}>
+                <Col span={5}>
+                  <span style={{color: 'red'}}>* </span>更新版本 :
+                </Col>
+                <Col span={18}>
+                  <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.newV} value={this.state.newV} /></Col>
               </Col>
             </Row>
             <Row className='Wxd'>
-              <Col span={12}>
-                <Col span={6}>
-                  <span style={{visibility: 'hidden'}}>** PC无无无</span>
-                  软件图标 :
-                </Col>
-                <Col span={9}>
-                  <Upload {...propsT}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                    <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （200px*200px）</span>
-                  </Upload></Col>
-              </Col>
-            </Row>
-            <Row className='Wxd'>
-              <Col span={12}>
-                <Col span={6}>
-                  <span style={{visibility: 'hidden'}}>*PC 无</span>
-                  <span>PC端界面截图 : </span>
-                </Col>
-                <Col span={9}>
-                  <Upload {...propsP}>
-                    <Button>
-                      <Icon type='upload' /> 上传文件
-                    </Button>
-                    <span className='extend'>
-                      <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （400px*400px）</span>
-                  </Upload>
-                </Col>
-              </Col>
-            </Row>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Col span={6}>
+              <Col span={23}>
                 <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span>更新时间 : </span>
+                <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
+                <span style={{visibility: 'hidden'}}>无无无 </span>
+                <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
+            </Row>
+            <Row className='Wxd'>
+              <Row className='Wxds'>
+                {this.state.renderEdition.map((item, index) => {
+                  return item
+                })}
+              </Row>
+              <Row className='Wxd'>
+                <Col span={12}>
+                  <Col span={6}>
+                    <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                    <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
+                  </Col>
+                  <Col span={5}>
+                    <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+                  </Col>
+                </Col>
+              </Row>
+              <Row className='Wxd'>
+                <Col span={12}>
+                  <Col span={6}>
+                    <span style={{visibility: 'hidden'}}>** PC无无无</span>
+                  软件图标 :
+                  </Col>
+                  <Col span={9}>
+                    <Upload {...propsT}>
+                      <Button>
+                        <Icon type='upload' /> 上传文件
+                      </Button>
+                      <span className='extend'>
+                        <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （200px*200px）</span>
+                    </Upload></Col>
+                </Col>
+              </Row>
+              <Row className='Wxd'>
+                <Col span={12}>
+                  <Col span={6}>
+                    <span style={{visibility: 'hidden'}}>*PC 无</span>
+                    <span>PC端界面截图 : </span>
+                  </Col>
+                  <Col span={9}>
+                    <Upload {...propsP}>
+                      <Button>
+                        <Icon type='upload' /> 上传文件
+                      </Button>
+                      <span className='extend'>
+                        <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （400px*400px）</span>
+                    </Upload>
+                  </Col>
+                </Col>
+              </Row>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <Col span={6}>
+                  <span style={{visibility: 'hidden'}}>*PC无无无</span>
+                  <span>更新时间 : </span>
+                </Col>
+                <Col span={16}>
+                  <DatePicker
+                    style={{width: '280px'}}
+                    showTime
+                    format='YYYY-MM-DD HH:mm:ss'
+                    placeholder='Select Time'
+                    onChange={this.onChange}
+                    onOk={this.onOk}
+                  />
+                </Col>
               </Col>
-              <Col span={16}>
-                <DatePicker
-                  style={{width: '280px'}}
-                  showTime
-                  format='YYYY-MM-DD HH:mm:ss'
-                  placeholder='Select Time'
-                  onChange={this.onChange}
-                  onOk={this.onOk}
-                />
-              </Col>
-            </Col>
+            </Row>
+            <Row>
+              <div style={{marginTop: '20px'}}>
+                <Col>
+                  <Col span={16} />
+                  <Col span={2}><Button type='primary' onClick={this.submit}>提交申请</Button></Col>
+                  <Col span={2}><Button>取消</Button></Col>
+                </Col>
+              </div>
+            </Row>
           </Row>
-          <Row>
-            <div style={{marginTop: '20px'}}>
-              <Col>
-                <Col span={16} />
-                <Col span={2}><Button type='primary' onClick={this.submit}>提交申请</Button></Col>
-                <Col span={2}><Button>取消</Button></Col>
-              </Col>
-            </div>
-          </Row>
-        </Row>
-      </div>
-    </Card>
+        </div>
+      </Card>
+    )
   }
 }
 
-export default IterationPlease
+export default withRouter(IterationPlease)
