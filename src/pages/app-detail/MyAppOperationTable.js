@@ -1,5 +1,5 @@
 /**
- * 市场分析 的表格
+ * 应用管理-运营中
  */
 
 import React, {Component} from 'react'
@@ -84,7 +84,7 @@ class MyAppTable extends Component {
               <Link to='/operate-manage-home/iteration'>日志下载</Link>
             </span> */}
             <span style={{marginRight: '10px'}}>
-              <Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.APP_ID}}>查看详情</Link>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: '?' + record.APP_ID}}>查看详情</Link>
             </span>
           </div>
         )
