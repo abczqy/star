@@ -5,11 +5,28 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Card, Form, Row, Col, Select, Input, Icon, Button, Modal, Checkbox } from 'antd'
+import {
+  Card,
+  Form,
+  Row,
+  Col,
+  Select,
+  Input,
+  Icon,
+  Button,
+  Modal,
+  Checkbox,
+  message } from 'antd'
 import { Link } from 'react-router-dom'
-import {myAppInOperation, applicationTypeData} from 'services/my-app/'
+import { axios } from 'utils'
+import config from '../../config'
+import {myAppInOperation} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
+
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
+
 const FormItem = Form.Item
 const Option = Select.Option
 const Search = Input.Search
@@ -75,7 +92,7 @@ class MyAppTable extends Component {
   componentDidMount () {
     this.props.form.validateFields()
     this.getMyAppInOperationData()
-    this.getApplicationTypeData()
+    this.getApplicationTypeData(this)
   }
   // 我的应用-运营中
   getMyAppInOperationData = (searchParams) => {
@@ -95,12 +112,20 @@ class MyAppTable extends Component {
     }).catch((e) => { console.log(e) })
   }
   // 获取应用类型下拉框数据
-  getApplicationTypeData = () => {
-    applicationTypeData({}, (res) => {
-      this.setState({
-        appTypeData: res.data.type
+  getApplicationTypeData = (thiz) => {
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-type')
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          console.log('type: ', data.data)
+          data.data &&
+          thiz.setState({
+            appTypeData: data.data.slice()
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
       })
-    }).catch((e) => { console.log(e) })
   }
   // 改变每页显示条数
   onShowSizeChange = (pageNum, pageSize) => {
@@ -186,8 +211,13 @@ class MyAppTable extends Component {
               >
                 {getFieldDecorator('progressState')(
                   <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
-                    { this.state.appTypeData && this.state.appTypeData instanceof Array && this.state.appTypeData.map((item, index, data) => {
-                      return <Option key={index} value={item}>{item}</Option>
+                    { this.state.appTypeData && this.state.appTypeData.map((item, index, data) => {
+                      return <Option
+                        key={index}
+                        value={item.APP_TYPE_ID}
+                      >
+                        {item.APP_TYPE_NAME}
+                      </Option>
                     })}
                   </Select>
                 )}
