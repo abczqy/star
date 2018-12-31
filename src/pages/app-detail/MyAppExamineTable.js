@@ -174,7 +174,7 @@ class MyAppExamineTable extends Component {
                 {getFieldDecorator('progressState')(
                   <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
                     { this.state.appTypeData && this.state.appTypeData.map((item, index, data) => {
-                      return <Option key={index} value={item}>{item}</Option>
+                      return <Option key={index} value={item.APP_TYPE_ID}>{item.APP_TYPE_NAME}</Option>
                     })}
                   </Select>
                 )}
