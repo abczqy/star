@@ -1,5 +1,5 @@
 /**
- * 应用管理-未通过审核
+ * 应用管理-下架列表
  * 1- 内容自主添加
  */
 import React, { Component } from 'react'
@@ -9,7 +9,7 @@ import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import { getAppListDatav2, getApptype } from 'services/software-manage'
 // import webStorage from 'webStorage'
-import './Reject.scss'
+import './Remove.scss'
 
 /**
    * 表格分页器设置-默认值
@@ -21,7 +21,7 @@ const pagination = {
   showSizeChanger: true
 }
 
-class Reject extends Component {
+class Remove extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -42,17 +42,13 @@ class Reject extends Component {
       options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
       pageNum: 1,
       pageSize: 10,
-      auditStatus: 3, // 软件状态3未通过审核
+      auditStatus: 5, // 软件状态5下架
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
       keyword: ''
     }
   }
-  dateToString = (date) => {
-    var dateee = new Date(date).toJSON()
-    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
-    return dateString
-  }
+
   /**
    * 获取运营中的应用列表数据
    */
@@ -65,6 +61,7 @@ class Reject extends Component {
       downloadCount: this.state.downloadCount,
       keyword: this.state.keyword
     }, (res) => {
+      // console.log('获取运营中的应用列表数据' + this.state.sw_type)
       const data = res.data.data
       // let jsonStr = JSON.stringify(data)
       // console.log(jsonStr)
@@ -84,7 +81,7 @@ class Reject extends Component {
     getApptype({}, (res) => {
       // const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
       // const dataArray = data.concat(res.data.data)
-      const dataArray = res.data.data
+      const dataArray = res.data.data.slice()
       // const a = this.copyArray(data.type)
       // a.unshift('')
       thiz.setState({
@@ -114,6 +111,8 @@ class Reject extends Component {
         item.sw_path = version
       })
     })
+    // let jsonStr = JSON.stringify(data)
+    // console.log('path' + jsonStr)
     return data
   }
   /**
@@ -132,22 +131,6 @@ class Reject extends Component {
       title: '所属类型',
       dataIndex: 'APP_TYPE_NAME',
       key: 'APP_TYPE_NAME'
-    },
-    // {
-    //   title: '下载次数',
-    //   dataIndex: 'DOWNLOAD_COUNT',
-    //   key: 'DOWNLOAD_COUNT'
-    // },
-    {
-      title: '供应商',
-      dataIndex: 'version',
-      key: 'version',
-      render: (text, record, index) => {
-        return (
-          <span >{text && text ? text : 'baidu'}
-          </span>
-        )
-      }
     }, {
       title: '类型',
       dataIndex: 'LX',
@@ -155,6 +138,20 @@ class Reject extends Component {
       render: (text, record, index) => {
         return (
           <span >{text && text ? text : 'win32'}
+          </span>
+        )
+      }
+    }, {
+      title: '下载次数',
+      dataIndex: 'DOWNLOAD_COUNT',
+      key: 'DOWNLOAD_COUNT'
+    }, {
+      title: '供应商',
+      dataIndex: 'sw_path',
+      key: 'sw_path',
+      render: (text, record, index) => {
+        return (
+          <span >{text && text ? text : 'baidu'}
           </span>
         )
       }
@@ -171,8 +168,8 @@ class Reject extends Component {
           <span >{this.dateToString(text)}</span>
         )
       }
-    }]
-    // }, {
+    // },
+    //  {
     //   title: '操作',
     //   dataIndex: 'options',
     //   key: 'options',
@@ -180,14 +177,17 @@ class Reject extends Component {
     //     const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
     //     return (
     //       <span>
-    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>撤销</a>
-    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)} className='margin-lef5'>{roleCode === 'operator' ? '审核' : '查看详情'}</a>
+    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>{roleCode === 'operator' ? '撤销' : '详情'}</a>
     //       </span>
     //     )
     //   }
-    // }
+    }]
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   // 显示‘详情’弹窗
   showDetModal = (record) => {
     // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
@@ -210,7 +210,11 @@ class Reject extends Component {
     //   })
     // })
   }
-
+  dateToString = (date) => {
+    var dateee = new Date(date).toJSON()
+    var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    return dateString
+  }
   // 关闭‘详情’弹窗
   handleAppDetCancel = () => {
     this.setState({
@@ -309,7 +313,7 @@ class Reject extends Component {
   }
 
   render () {
-    const { tableData, pagination, detModalCon, options } = this.state
+    const { tableData, pagination, detModalCon, options, data } = this.state
     return (
       <div className='software-wrap'>
         <SearchBar
@@ -318,6 +322,7 @@ class Reject extends Component {
           onBtnClick={this.getSearchData}
           onSelectChange={this.onSelect}
           options={options}
+          data={data}
         />
         <BlankBar />
         <Table
@@ -352,4 +357,4 @@ class Reject extends Component {
   }
 }
 
-export default Reject
+export default Remove

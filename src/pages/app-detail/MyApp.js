@@ -6,8 +6,8 @@ import { Tabs, Badge } from 'antd'
 import MyAppOperationTable from './MyAppOperationTable'
 import MyAppExamineTable from './MyAppExamineTable'
 import MyAppIterationTable from './MyAppIterationTable'
-import Reject from '../software-market/software-manage/reject/Reject'
-import Remove from '../software-market/software-manage/remove/Remove'
+import Reject from './reject/Reject'
+import Remove from './remove/Remove'
 // import './MarketAnalysis.scss'
 
 // const TabPane = Tabs.TabPane
