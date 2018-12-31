@@ -838,7 +838,7 @@ export function deleteGatewayNavigation (params, sucFn) {
  * 信息公开删除
  */
 export function informationEdListDelete (params, id, sucFn) {
-  return axios.get(`/manage/deleteEduMsgList?InfoId=${id}`, params)
+  return axios.delete(API_BASE_URL_V2 + SERVICE_PORTAL + '/notifications', {params: id})
     .then(function (res) {
       sucFn(res)
     })

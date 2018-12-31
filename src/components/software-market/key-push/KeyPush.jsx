@@ -5,10 +5,10 @@ import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/softwa
 import { AppDetailModal } from 'pages/software-market'
 import './KeyPush.scss'
 import {getSoftwareDetail, getSoftMarketList, getApptype} from 'services/software-manage'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import {axios} from '../../../utils'
 import config from '../../../config/index'
-const {API_BASE_URL_V2, SERVICE_EDU_MARKET} = config
+const {API_BASE_URL_V2, SERVICE_EDU_MARKET, IMG_BASE_URL_V2} = config
 
 const Panel = Collapse.Panel
 
@@ -59,9 +59,9 @@ class KeyPush extends Component {
       render: (text) => text.companyName
     }, {
       title: '图片',
-      dataIndex: 'APP_ICON',
-      key: 'APP_ICON',
-      render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={ajaxUrl.IMG_BASE_URL + text} /> : '无'
+      dataIndex: 'appIcon',
+      key: 'appIcon',
+      render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={IMG_BASE_URL_V2 + text} /> : '无'
     }, {
       title: '选择',
       dataIndex: 'sw_key_push',
@@ -158,12 +158,12 @@ class KeyPush extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
-      const dataArray = data.concat(res.data.data)
+      // const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      // const dataArray = data.concat(res.data.data)
       // const a = this.copyArray(data.type)
       // a.unshift('')
       thiz.setState({
-        options: dataArray
+        options: res.data.data
       })
     })
   }

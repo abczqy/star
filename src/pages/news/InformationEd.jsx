@@ -16,9 +16,10 @@ import _ from 'lodash'
 import webStorage from 'webStorage'
 import {processStr} from 'utils'
 import CustomPagingTable from '../../components/common/PagingTable'
-import {informationEdListDelete, informationEdList, information} from 'services/software-manage'
+import {informationEdListDelete, information} from 'services/software-manage'
 // import ajaxUrl from 'config'
 import { withRouter } from 'react-router'
+import moment from 'moment'
 
 const Search = Input.Search
 class InformationEd extends React.Component {
@@ -34,7 +35,7 @@ class InformationEd extends React.Component {
       imgH: hand,
       imgP: people,
       input: '', // 这个是关键字搜索
-      select: '', // 这是状态筛选
+      select: '3', // 这是状态筛选
       pageNum: 1,
       pageSize: 10,
       dataP: [], // 公告和分享的list
@@ -48,35 +49,36 @@ class InformationEd extends React.Component {
     this.columns = [
       {
         title: '信息标题',
-        dataIndex: 'info_title',
-        key: 'info_title',
+        dataIndex: 'contentTitle',
+        key: 'contentTitle',
         render (text, record, index) {
           return processStr(text, 8)
         }
       }, {
         title: '详情',
-        dataIndex: 'info_desc',
-        key: 'info_desc',
+        dataIndex: 'content',
+        key: 'content',
         render (text, record, index) {
           return processStr(text, 12)
         }
       }, {
         title: '状态',
-        dataIndex: 'info_state',
-        key: 'info_state',
+        dataIndex: 'contentStatus',
+        key: 'contentStatus',
         render (text, record, index) {
-          if (record.info_state === 0) {
+          if (text === '0') {
             return <span style={{color: '#ff7947'}}>审核中</span>
-          } else if (record.info_state === 1) {
+          } else if (text === '2') {
             return <span style={{color: 'red'}}>已驳回</span>
-          } else if (record.info_state === 2) {
+          } else if (text === '1') {
             return <span style={{color: 'green'}}>已发布</span>
           }
         }
       }, {
         title: '发布时间',
-        dataIndex: 'info_time',
-        key: 'info_time'
+        dataIndex: 'updateTime',
+        key: 'updateTime',
+        render: (text) => moment(text).format('YYYY-MM-DD')
       }, {
         title: '操作',
         dataIndex: 'do',
@@ -98,12 +100,14 @@ class InformationEd extends React.Component {
     ]
   }
   confirmUp =(record) => {
-    console.log('点击删除')
-    let value = record.info_id
-    console.log('删除传送行传的id', value)
-    informationEdListDelete('', value, (response) => {
-      message.success(`信息删除成功!`)
-      console.log(response)
+    let value = record.id
+    informationEdListDelete('', {list: value}, (response) => {
+      if (response.data.code === 200) {
+        message.success(`信息删除成功!`)
+        this.getList()
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
 
@@ -116,15 +120,17 @@ class InformationEd extends React.Component {
     let value = {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10,
-      keyword: this.state.input || '',
-      state: this.state.select || ''
+      content: this.state.input || ''
     }
-    console.log('教育局信息公开获取数据传送信息', value)
-    informationEdList(value, (response) => {
-      console.log(response)
-      this.setState({
-        tableData: response.data
-      })
+    information(value, this.state.select, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          dataSource: response.data.data.info,
+          total: response.data.data.total
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let values = {
@@ -173,8 +179,6 @@ class InformationEd extends React.Component {
   stateValue = (value) => {
     this.setState({
       select: value
-    }, () => {
-      this.getList()
     })
   }
   // 名称搜索
@@ -264,7 +268,6 @@ handleTabChanges (e) {
   })
 }
 render () {
-  console.log('返回数据', this.state.tableData)
   const dataT = [
     {'title': '全部', value: '3'}, {'title': '审核中', value: '0'}, {'title': '已驳回', value: '2'}, {'title': '已发布', value: '1'}
   ]
@@ -309,7 +312,7 @@ render () {
           </Row>
           <div className='marketAnalysis-table'>
             <CustomPagingTable
-              dataSource={this.state.tableData.data}
+              dataSource={this.state.dataSource}
               columns={this.columns}
               pageVisible
               //   loading={this.state.loading}

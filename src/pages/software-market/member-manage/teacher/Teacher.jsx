@@ -9,8 +9,8 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, message } from 'antd'
-import { Link } from 'react-router-dom'
+import { Table, Switch, Divider, message, Popconfirm } from 'antd'
+// import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
   // thGetData,
@@ -108,15 +108,21 @@ class Teacher extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <Link to={{pathname: '/software-market-home/member-manage/student', search: record.th_id}}>学生</Link>
-              <Divider type='vertical' />
+              {/* <Link to={{pathname: '/software-market-home/member-manage/student', search: record.th_id}}>学生</Link>
+              <Divider type='vertical' /> */}
               <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
               <Divider type='vertical' />
-              <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+              <Popconfirm title='您确定要删除这个用户吗?' style={{width: '200px'}} onConfirm={() => this.delLoginId(record)} onCancel={this.cancelUp} okText='确定' cancelText='取消'>
+                <span ><a href='javascript:0;' >删除</a></span>
+              </Popconfirm>
             </span>
           )
         }
       }])
+  }
+
+  cancelUp=(e) => {
+    message.error('您打消了删除这一条消息的这个决定。')
   }
 
   getParams = () => {
@@ -265,8 +271,6 @@ class Teacher extends Component {
     maDelId(params, (res) => {
       console.log(`res.data.result: ${res.data.result}`)
     })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
   }
 
   /**

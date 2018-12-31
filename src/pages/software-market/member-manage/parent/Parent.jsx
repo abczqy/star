@@ -9,10 +9,9 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, message } from 'antd'
+import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 import ajaxUrl from 'config'
 import {
-  // paGetData,
   paBatchLeadout,
   changePaToLogin,
   initPaPwd,
@@ -114,18 +113,19 @@ class Parent extends Component {
           <span>
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+            <Popconfirm title='您确定要删除这个用户吗?' style={{width: '200px'}} onConfirm={() => this.delLoginId(record)} onCancel={this.cancelUp} okText='确定' cancelText='取消'>
+              <span ><a href='javascript:0;' >删除</a></span>
+            </Popconfirm>
           </span>
         )
       }
     }])
   }
 
-  /**
-   * 获取运营中的应用列表数据
-   * 问题：如何把fa_id 转换为数据dataSource中每条数据的key
-   * 用一个程序-专门转换后台数据-给每一条记录加上key值--把自身的fa_id映射过去即可
-   */
+  cancelUp=(e) => {
+    message.error('您打消了删除这一条消息的这个决定。')
+  }
+
   getTableDatas = () => {
     let param = {}
     if (this.state.USER_ACCOUNT !== '') {

@@ -4,7 +4,7 @@
  * 游客的信息公开
  */
 import React from 'react'
-import {Row, Col, Card, Pagination, Cascader} from 'antd'
+import {Row, Col, Card, Pagination, Cascader, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
@@ -89,14 +89,14 @@ class Information extends React.Component {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 10
     }
-    console.log('游客的信息公开获取数据传的参数', value)
     information(value, 1, (response) => {
-      this.setState({
-        infoData: response.data.data
-      }, () => {
-        console.log('this.state.infoData', this.state.infoData)
-        console.log('this.state.infoData.list', this.state.infoData.list)
-      })
+      if (response.data.code === 200) {
+        this.setState({
+          infoData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let values = {
@@ -105,9 +105,14 @@ class Information extends React.Component {
       type: 0
     }
     information(values, 1, (response) => {
-      this.setState({
-        infoDatas: response.data.data
-      })
+      if (response.data.code === 200) {
+        console.log(response)
+        this.setState({
+          infoDatas: response.data.data
+        }, () => console.log(this.state.infoDatas))
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   // 标题的点击事件
@@ -248,7 +253,7 @@ class Information extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super1'>
-                {this.state.infoDatas && this.state.infoDatas.info && this.state.infoDatas.info.length !== 0 && this.state.infoData.info.map((item, index) => {
+                {this.state.infoDatas && this.state.infoDatas.info && this.state.infoDatas.info.length !== 0 && this.state.infoDatas.info.map((item, index) => {
                   return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
                 })}
               </ul>
