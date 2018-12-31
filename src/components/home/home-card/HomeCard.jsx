@@ -16,7 +16,7 @@ export default class HomeCard extends React.Component {
 
   render () {
     return (
-      <Card
+      <Card className='home-card-container'
         title={this.props.title}
         // extra={<a href={this.props.moreUrl} style={{color: this.props.titleColor, zIndex: 10}}>更多...</a>}
         // eslint-disable-next-line react/jsx-no-duplicate-props
