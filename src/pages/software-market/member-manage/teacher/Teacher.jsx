@@ -11,16 +11,7 @@
 import React, { Component } from 'react'
 import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 // import { Link } from 'react-router-dom'
-import ajaxUrl from 'config'
-import {
-  // thGetData,
-  maDelId,
-  maInitPwd,
-  thBatchLeadout,
-  // getIdSelectList,
-  // getNameSelectList
-  toLogin
-} from 'services/software-manage'
+// import ajaxUrl from 'config'
 import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
@@ -97,7 +88,7 @@ class Teacher extends Component {
         key: 'LOGIN_PERMISSION_STATUS',
         render: (text, record, index) => {
           return (
-            <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
+            <Switch checked={record.LOGIN_PERMISSION_STATUS === 1} onChange={() => this.handleToLogin(record)} />
           )
         }
       }, {
@@ -178,17 +169,23 @@ class Teacher extends Component {
 
   // 允许登录状态切换
   handleToLogin = (record) => {
-    const thiz = this
     const params = {
-      id: record && record.th_id,
-      to_login: record.to_login ? 0 : 1
+      userId: record && record.USER_ID
     }
-    toLogin(params, (res) => {
-      const data = res.data ? res.data : {}
-      console.log(data)
-      if (data.SUCCESS) {
-        message.success(data.msg)
-        thiz.getTableDatas()
+    record.LOGIN_PERMISSION_STATUS === 0 ? params.userInfo = {
+      isLogin: 1
+    } : params.userInfo = {isLogin: 0}
+    this.changeState(params)
+  }
+
+  changeState = (params) => {
+    axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/user-info/updateUserInfo', params).then((res) => {
+      console.log(res)
+      if (res.data.code === 200) {
+        message.success('操作成功')
+        this.getTableDatas()
+      } else {
+        message.warn(res.data.msg)
       }
     })
   }
@@ -266,11 +263,12 @@ class Teacher extends Component {
    */
   delLoginId = (record) => {
     const params = {
-      th_id: record.th_id
+      userId: record && record.USER_ID,
+      userInfo: {
+        isDelete: 0
+      }
     }
-    maDelId(params, (res) => {
-      console.log(`res.data.result: ${res.data.result}`)
-    })
+    this.changeState(params)
   }
 
   /**
@@ -278,13 +276,12 @@ class Teacher extends Component {
    */
   initPwd = (record) => {
     const params = {
-      th_id: record.th_id
+      userId: record && record.USER_ID,
+      userInfo: {
+        isReset: 0
+      }
     }
-    maInitPwd(params, (res) => {
-      console.log(`res.data.result: ${res.data.result}`)
-    })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
+    this.changeState(params)
   }
 
   /**
@@ -297,15 +294,15 @@ class Teacher extends Component {
   /**
    * 当点击'批量导出'按钮时的回调
    */
-  onBatchLeadout = () => {
-    // 从state中获取实时的th_id数组的值 作为请求参数传给后台
-    const { idArrs } = this.state.batchLeadParams
-    // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
-    thBatchLeadout({th_id: idArrs}, (res) => {
-      window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
-      console.log(`${res.data.info}`)
-    })
-  }
+  // onBatchLeadout = () => {
+  //   // 从state中获取实时的th_id数组的值 作为请求参数传给后台
+  //   const { idArrs } = this.state.batchLeadParams
+  //   // console.log(`IdArrs: ${JSON.stringify(idArrs)}`)
+  //   thBatchLeadout({th_id: idArrs}, (res) => {
+  //     window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
+  //     console.log(`${res.data.info}`)
+  //   })
+  // }
   /**
    * 多选选项变化
    */
