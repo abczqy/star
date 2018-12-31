@@ -23,12 +23,9 @@ class IterationPlease extends React.Component {
     this.state = {
       viewHeight: 500,
       imgTitle: title,
-      newV: '',
       type: '',
-      rDescribe: '',
       Edition: 1,
       renderEdition: [],
-      hopeTime: null,
       // 有关上传截图
       previewVisible: false,
       previewImage: '',
@@ -57,11 +54,14 @@ class IterationPlease extends React.Component {
         }
       ],
       AppData: null,
-      fileListOneC: [], // 用来存软件版本的文件的系统版本
       fileListOneF: [], // 用来存软件版本的文件id
       fileListTwo: [], // 用来存软件图标的文件id
       fileListThree: [], // 用来存PC端界面截图的文件id
-      appId: ''
+      appId: '', // app的id
+      newVersion: '', // 新版本号
+      desc: '', // 描述
+      updateTime: null, // 更新时间
+      sysVersion: [] // 用来存软件版本的文件的系统版本
     }
   }
   componentWillMount () {
@@ -104,13 +104,7 @@ class IterationPlease extends React.Component {
       }
     }
   }
-  // 更新版本
-  newV=(e) => {
-    let {value} = e.target
-    this.setState({
-      newV: value
-    })
-  }
+
 // 获取app数据
 getAppData=(a) => {
   let value = {
@@ -123,13 +117,6 @@ getAppData=(a) => {
     })
   })
 }
-  // 软件描述
-  rDescribe=(e) => {
-    let {value} = e.target
-    this.setState({
-      rDescribe: value
-    })
-  }
   // 添加按钮
   addBtn=() => {
     this.setState({
@@ -138,16 +125,7 @@ getAppData=(a) => {
       this.renderEdition()
     })
   }
-  // 用来存软件版本的文件的系统版本
-  SChange =(value, index) => {
-    let a = this.state.fileListOneC
-    a[index] = value
-    this.setState({
-      fileListOneC: a
-    }, () => {
-      console.log('软件版本的文件的系统版本', this.state.fileListOneC)
-    })
-  }
+
   // 渲染软件版本列表
   renderEdition=() => {
     let value = []
@@ -181,7 +159,7 @@ getAppData=(a) => {
                   <span style={{color: 'red'}}>* </span>软件版本 :
                 </Col>
                 <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.onSelectChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
                       return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                     })}
@@ -208,7 +186,7 @@ getAppData=(a) => {
                   <span style={{visibility: 'hidden'}}>*PC无无无<span style={{color: 'red'}}>* </span>软件版本 :</span>
                 </Col>
                 <Col span={9}>
-                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.SChange(value, i)}>
+                  <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.onSelectChange(value, i)}>
                     {this.state.dataL.map((item, index) => {
                       return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
                     })}
@@ -234,19 +212,12 @@ getAppData=(a) => {
       console.log(this.state.renderEdition)
     })
   }
-  // 日期变化
-  onChange=(value, dateString) => {
-    console.log('Selected Time: ', value)
-    console.log('Formatted Selected Time: ', dateString)
-    this.setState({
-      hopeTime: value
-    })
-  }
+
   // 日期点击确定
   onOk=(value) => {
     console.log('onOk: ', value)
     this.setState({
-      hopeTime: value
+      updateTime: value
     })
   }
 // 整合软件版本数据
@@ -263,7 +234,7 @@ zHs=() => {
   let a = []
   for (let i = 0; i < this.state.Edition; i++) {
     let c = []
-    let w = this.state.fileListOneC[i]
+    let w = this.state.sysVersion[i]
     c.push(w)
     c.push(this.state.fileListOneF[i] ? this.state.fileListOneF[i].name : '')
     // c[w] = this.state.fileListOneF[i].name // 用来存软件版本的文件的系统版本
@@ -274,12 +245,12 @@ zHs=() => {
 
   // 提交表单啦
   submit=() => {
-    if (this.state.newV && this.state.rDescribe && this.state.fileListOneC.length !== 0 && this.state.fileListOneF.length !== 0) {
+    if (this.state.newVersion && this.state.desc && this.state.sysVersion.length !== 0 && this.state.fileListOneF.length !== 0) {
       console.log('全填写完啦')
       const formData = new FormData()
-      formData.append('newV', this.state.newV)// 软件图标
-      formData.append('rDescribe_new', encodeURI(this.state.rDescribe))// 软件描述
-      formData.append('updateTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD')) // 期望上架时间
+      formData.append('newVersion', this.state.newVersion)// 软件图标
+      formData.append('desc_new', encodeURI(this.state.desc))// 软件描述
+      formData.append('updateTime', this.state.updateTime === null ? '' : this.state.updateTime.format('YYYY-MM-DD')) // 期望上架时间
       this.state.fileListThree.forEach((file) => {
         formData.append('sw_computer_photo_new', file)
       })
@@ -312,6 +283,51 @@ zHs=() => {
       })
     }
   }
+
+  // 用来存软件版本的文件的系统版本
+  onSelectChange =(value, index) => {
+    let a = this.state.sysVersion
+    a[index] = value
+    this.setState({
+      sysVersion: a
+    }, () => {
+      console.log('软件版本的文件的系统版本', this.state.sysVersion)
+    })
+  }
+
+  // 日期变化
+  onDateChange=(value, dateString) => {
+    console.log('Selected Time: ', value)
+    console.log('Formatted Selected Time: ', dateString)
+    this.setState({
+      updateTime: value
+    })
+  }
+
+  /**
+  * 更新版本
+  */
+  onGetVersion=(e) => {
+    let {value} = e.target
+    this.setState({
+      newVersion: value
+    })
+  }
+
+  /**
+   * 软件描述
+   */
+  onGetDesc=(e) => {
+    let {value} = e.target
+    this.setState({
+      desc: value
+    })
+  }
+
+  /**
+   * 组织params
+   */
+  getParams = () => {}
 
   /**
    * 数据获取-获取app详细信息
@@ -437,7 +453,7 @@ zHs=() => {
                   <span style={{color: 'red'}}>* </span>更新版本 :
                 </Col>
                 <Col span={18}>
-                  <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.newV} value={this.state.newV} /></Col>
+                  <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.onGetVersion} value={this.state.newVersion} /></Col>
               </Col>
             </Row>
             <Row className='Wxd'>
@@ -445,7 +461,7 @@ zHs=() => {
                 <span style={{visibility: 'hidden'}}>*PC无无无</span>
                 <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
                 <span style={{visibility: 'hidden'}}>无无无 </span>
-                <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} /></Col>
+                <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onGetDesc} value={this.state.desc} /></Col>
             </Row>
             <Row className='Wxd'>
               <Row className='Wxds'>
@@ -510,7 +526,7 @@ zHs=() => {
                     showTime
                     format='YYYY-MM-DD HH:mm:ss'
                     placeholder='Select Time'
-                    onChange={this.onChange}
+                    onChange={this.onDateChange}
                     onOk={this.onOk}
                   />
                 </Col>
