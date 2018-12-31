@@ -64,7 +64,7 @@ class StatTable extends Component {
             <Button>重置</Button>
           </Col>
           <Col span={11} >
-            <Button style={{float: 'right', backgroundColor: '#4ECB73', color: 'white'}}>倒出Excel</Button>
+            <Button style={{float: 'right', backgroundColor: '#4ECB73', color: 'white'}}>导出Excel</Button>
           </Col>
         </Row>
         <Table

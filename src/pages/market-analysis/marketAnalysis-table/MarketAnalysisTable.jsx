@@ -15,7 +15,7 @@ class MarketAnalysisTable extends Component {
     super(props)
     this.columns = [{
       title: '序号',
-      dataIndex: 'id',
+      dataIndex: 'APP_ID',
       render: (id) => {
         let serialNumber = id
         switch (id) {
@@ -37,27 +37,27 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: 'APP名称',
-      dataIndex: 'APPNAME',
+      dataIndex: 'APP_NAME',
       render: (text, record) => (
         <span className='app-title'>
-          <img src={ajaxUrl.IMG_BASE_URL + record.APPURL} alt='' />
+          <img src={ajaxUrl.IMG_BASE_URL_V2 + record.APP_ICON} alt='' />
           <span>{text}</span>
         </span>
       )
       // width: 150
     }, {
       title: 'APP类型',
-      dataIndex: 'APPTYPE'
+      dataIndex: 'APP_TYPE_NAME'
       // width: 150
     }, {
       title: '下载数量',
-      dataIndex: 'DOWNLOADS',
+      dataIndex: 'DOWNLOAD_COUNT',
       render: (downLoadCount, record) => (
         <Row className='download'>
           <Col span={8} className='down-number' >{downLoadCount}</Col>
           <Col span={16} >
             {
-              <CountShow percent={record.PROGROSS} index={record.id} />
+              <CountShow percent={30} index={record.id} />
             }
 
           </Col>
@@ -66,15 +66,16 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: '收藏数量',
-      dataIndex: 'COLLNUM'
+      dataIndex: 'COLLECTION_COUNT'
       // width: 150
     }, {
       title: '点击率',
-      dataIndex: 'CLICKNUM'
+      dataIndex: 'CLICKNUM',
+      render: () => { return '30%' }
       // width: 150
     }, {
       title: '上线时间',
-      dataIndex: 'TIME',
+      dataIndex: 'CREATE_TIME',
       render: date => moment(date).format('YYYY-MM-DD')
       // width: 150
     }]
@@ -85,7 +86,7 @@ class MarketAnalysisTable extends Component {
       <div className='marketAnalysis-table'>
         <Table
           className='data-table'
-          rowKey='id'
+          rowKey='APP_ID'
           columns={this.columns}
           dataSource={this.props.dataSource || []}
           pagination={false}
