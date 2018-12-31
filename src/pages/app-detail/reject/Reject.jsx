@@ -10,6 +10,7 @@ import 'pages/software-market/SoftwareMarket.scss'
 import { getAppListDatav2, getApptype } from 'services/software-manage'
 // import webStorage from 'webStorage'
 import './Reject.scss'
+import moment from 'moment'
 
 /**
    * 表格分页器设置-默认值
@@ -168,7 +169,7 @@ class Reject extends Component {
       key: 'CREATE_TIME',
       render: (text, record, index) => {
         return (
-          <span >{this.dateToString(text)}</span>
+          <span >{moment(text).format('YYYY-MM-DD')}</span>
         )
       }
     }]

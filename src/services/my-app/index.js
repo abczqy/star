@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_EDU_MARKET} = config
 
 // 我的应用-运营中
 export function myAppInOperation (params, sucFn) {
@@ -25,7 +25,7 @@ export function myAppToExamine (params, sucFn) {
 }
 // 我的应用-迭代审核
 export function myAppIteration (params, sucFn) {
-  return axios.post(API_BASE_URL + '/application/myappiteratrionexamine', {...params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
     .then(function (res) {
       sucFn(res)
     })

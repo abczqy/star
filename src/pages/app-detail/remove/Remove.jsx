@@ -10,6 +10,7 @@ import 'pages/software-market/SoftwareMarket.scss'
 import { getAppListDatav2, getApptype } from 'services/software-manage'
 // import webStorage from 'webStorage'
 import './Remove.scss'
+import moment from 'moment'
 
 /**
    * 表格分页器设置-默认值
@@ -151,8 +152,7 @@ class Remove extends Component {
       key: 'sw_path',
       render: (text, record, index) => {
         return (
-          <span >{text && text ? text : 'baidu'}
-          </span>
+          <span >{text && text ? text : 'baidu'}</span>
         )
       }
     }, {
@@ -165,11 +165,11 @@ class Remove extends Component {
       key: 'CREATE_TIME',
       render: (text, record, index) => {
         return (
-          <span >{this.dateToString(text)}</span>
+          <span >{moment(text).format('YYYY-MM-DD')}</span>
         )
       }
     // },
-    //  {
+    // {
     //   title: '操作',
     //   dataIndex: 'options',
     //   key: 'options',

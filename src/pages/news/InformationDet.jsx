@@ -43,37 +43,44 @@ class InformationDet extends React.Component {
   getList=() => {
     console.log('获取数据')
     let a = window.location.href.split('?')
-    let value = {
-      info_id: Number(a[a.length - 1])
-    }
-    console.log('游客的信息公开详情传递参数', value)
-    informationDet(value, (response) => {
-      this.setState({
-        infoData: response.data
-      }, () => {
-        console.log('this.state.infoData', this.state.infoData)
-      })
+    let id = Number(a[a.length - 1])
+    informationDet({}, id, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          infoData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let values = {
       pageNum: 1,
-      pageSize: 10
+      pageSize: 100
     }
-    newsList(values, (response) => {
-      this.setState({
-        newDatas: response.data
-      })
+    newsList(values, 1, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          newDatas: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let valuez = {
       pageNum: 1,
       pageSize: 100,
-      info_class: ''
+      type: 0
     }
-    information(valuez, (response) => {
-      this.setState({
-        infoDatas: response.data
-      })
+    information(valuez, 1, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          infoDatas: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   componentDidMount () {
@@ -191,10 +198,10 @@ class InformationDet extends React.Component {
             <Row>
               <Col span={24}>
                 <div className='details-right-div'>
-                  <p className='details-right-title'>{this.state.infoData ? this.state.infoData.info_title : '1'}</p>
-                  <span className='details-right-time'>发布时间:{this.state.infoData ? moment(this.state.infoData.info_time).format('YYYY-MM-DD') : '时间'}</span>
+                  <p className='details-right-title'>{this.state.infoData ? this.state.infoData.contentTitle : '1'}</p>
+                  <span className='details-right-time'>发布时间:{this.state.infoData ? moment(this.state.infoData.updateTime).format('YYYY-MM-DD') : '时间'}</span>
                   <div className='details-right-div-div'>
-                    {this.state.infoData ? this.state.infoData.info_desc : '文章'}
+                    {this.state.infoData ? this.state.infoData.content : '文章'}
                   </div>
                   {this.state.infoData
                     ? <div style={{width: '700px', alignContent: 'right'}}>
@@ -219,8 +226,8 @@ class InformationDet extends React.Component {
                   <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
                 </div>
                 <ul className='details-li-ul-down'>
-                  {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
-                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></li> : null
+                  {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.info.map((item, index) => {
+                    return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : null
                   })}
                 </ul>
               </div>
@@ -230,15 +237,15 @@ class InformationDet extends React.Component {
           <div className='center-public-info'>
             <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
               <ul className='ul-margin super'>
-                {(!_.isEmpty(this.state.infoDatas)) && this.state.infoDatas.list.map((item, index) => {
-                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
+                {(!_.isEmpty(this.state.infoDatas)) && this.state.infoDatas.info.map((item, index) => {
+                  return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
                 })}
               </ul>
             </Card>
           </div>
-          <div className='bottom-img'>
+          {/* <div className='bottom-img'>
             <img src={this.state.infoDatas ? ajaxUrl.IMG_BASE_URL + this.state.infoDatas.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
-          </div>
+          </div> */}
         </div>
       </div>
     )

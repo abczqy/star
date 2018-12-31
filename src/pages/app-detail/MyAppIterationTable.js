@@ -5,9 +5,10 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Card, Form, Row, Col, Select, Input, Popconfirm, Button } from 'antd'
+import { Card, Form, Row, Col, Select, Input, message } from 'antd'
 import { Link } from 'react-router-dom'
-import {myAppIteration, myAppRevoke, applicationTypeData} from 'services/my-app/'
+import {myAppIteration, myAppRevoke} from 'services/my-app/'
+import { getApptype } from 'services/software-manage'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -23,7 +24,7 @@ class MyAppIterationTable extends Component {
       pageSize: 10,
       pageNum: 1,
       currentPage: 1,
-      sw_type: '',
+      sw_type: 0,
       sw_name: '',
       searchFilter: {
         sw_type: '',
@@ -32,31 +33,29 @@ class MyAppIterationTable extends Component {
     }
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'sw_name'
+      dataIndex: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.sw_type - b.sw_type
+      dataIndex: 'APP_TYPE_NAME'
       // width: 150
     }, {
       title: '当前版本',
-      dataIndex: 'version'
+      dataIndex: 'APP_VERSION'
       // width: 150
     }, {
       title: '迭代版本',
-      dataIndex: 'iteration_version'
+      dataIndex: 'UPDATE_VERSION'
       // width: 150
     }, {
       title: '下载次数',
-      dataIndex: 'sw_downloads',
+      dataIndex: 'DOWNLOAD_COUNT',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.sw_downloads - b.sw_downloads
       // width: 150
     }, {
       title: '变更时间',
-      dataIndex: 'updateDate',
-      render: date => moment(date).format('YYYY-MM-DD')
+      dataIndex: 'UPDATE_TIME',
+      render: date => date ? moment(date).format('YYYY-MM-DD') : null
       // width: 150
     }, {
       title: '操作',
@@ -65,8 +64,8 @@ class MyAppIterationTable extends Component {
       render: (text, record, index) => {
         return (
           <div key={index}>
-            <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span>
-            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.sw_id}}>查看详情</Link></span>
+            {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
+            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: '?' + record.APP_ID}}>查看详情</Link></span>
           </div>
         )
       }
@@ -77,30 +76,39 @@ class MyAppIterationTable extends Component {
     this.getMyAppInOperationData()
     this.getApplicationTypeData()
   }
-  // 我的应用-运营中
-  getMyAppInOperationData = (searchParams) => {
+  // 我的应用-迭代审核
+  getMyAppInOperationData = () => {
     let params = {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize,
-      sw_type: this.state.sw_type, // 应用类型
-      sw_name: this.state.sw_name // 应用名称
+      typeId: this.state.sw_type,
+      auditStatus: 2
     }
-    myAppIteration(Object.assign(params, searchParams), (res) => {
-      console.log(2222222, res.data)
-      this.setState({
-        myAppInOperationData: res.data.list,
-        total: res.data.total
-      }, () => {
-        console.log(this.state.myAppInOperationData)
-      })
+    if (this.state.sw_name !== '') {
+      params.keyword = this.state.sw_name
+    }
+    myAppIteration(params, (res) => {
+      console.log(res)
+      if (res.data.code === 200) {
+        this.setState({
+          myAppInOperationData: res.data.data.data,
+          total: res.data.data.totalCount
+        })
+      } else {
+        message.warn(res.data.msg)
+      }
     }).catch((e) => { console.log(e) })
   }
   // 获取应用类型下拉框数据
   getApplicationTypeData = () => {
-    applicationTypeData({}, (res) => {
-      this.setState({
-        appTypeData: res.data.type
-      })
+    getApptype({}, (res) => {
+      if (res.data.code === 200) {
+        this.setState({
+          appTypeData: res.data.data
+        })
+      } else {
+        message.warn(res.data.msg)
+      }
     }).catch((e) => { console.log(e) })
   }
   // 改变每页显示条数
@@ -119,19 +127,15 @@ class MyAppIterationTable extends Component {
   }
   // 分类搜索
   onChangeState=(value) => {
-    this.handleSearch({
-      sw_type: value || ''
-    })
     this.setState({
       sw_type: value
     })
   }
-  handleSearch = (searchFilter) => {
+  handleSearch = () => {
     this.setState({
-      pageNum: 1,
-      searchFilter
+      pageNum: 1
     }, () => {
-      this.getMyAppInOperationData(searchFilter)
+      this.getMyAppInOperationData()
     })
   }
   // 名称搜索
@@ -174,8 +178,8 @@ class MyAppIterationTable extends Component {
               >
                 {getFieldDecorator('progressState')(
                   <Select placeholder='全部' style={{ width: '150%' }} onChange={this.onChangeState} allowClear>
-                    { this.state.appTypeData && this.state.appTypeData.map((item, index, data) => {
-                      return <Option key={index} value={item}>{item}</Option>
+                    { this.state.appTypeData && this.state.appTypeData.map((item, index) => {
+                      return <Option key={index} value={item.APP_TYPE_ID}>{item.APP_TYPE_NAME}</Option>
                     })}
                   </Select>
                 )}

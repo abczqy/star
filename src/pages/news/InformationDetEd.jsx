@@ -49,7 +49,6 @@ class InformationDetEd extends React.Component {
     this.getHeight()
     this.getList()
     let a = window.location.href.split('?')
-    console.log(a)
     let id = Number(a[a.length - 1])
     informationDet({}, id, (response) => {
       if (response.data.code === 200) {

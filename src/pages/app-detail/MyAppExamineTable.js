@@ -5,9 +5,10 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Card, Form, Row, Col, Select, Input, Popconfirm, Button } from 'antd'
+import { Card, Form, Row, Col, Select, Input, message } from 'antd'
 import { Link } from 'react-router-dom'
-import {myAppToExamine, myAppRevoke, applicationTypeData} from 'services/my-app/'
+import { getApptype } from 'services/software-manage'
+import {myAppIteration, myAppRevoke} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 const FormItem = Form.Item
@@ -23,7 +24,7 @@ class MyAppExamineTable extends Component {
       pageSize: 10,
       pageNum: 1,
       currentPage: 1,
-      sw_type: '',
+      sw_type: 0,
       sw_name: '',
       searchFilter: {
         sw_type: '',
@@ -32,25 +33,23 @@ class MyAppExamineTable extends Component {
     }
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'sw_name',
-      key: 'sw_name'
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
-      key: 'sw_type',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.sw_type - b.sw_type
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
       // width: 150
     }, {
       title: '提交时间',
-      dataIndex: 'sw_time_real',
-      key: 'sw_time_real',
-      render: date => moment(date).format('YYYY-MM-DD')
+      dataIndex: 'UPDATE_TIME',
+      key: 'UPDATE_TIME',
+      render: date => date ? moment(date).format('YYYY-MM-DD') : null
       // width: 150
     }, {
       title: '支持系统',
-      dataIndex: 'sw_path',
-      key: 'sw_path'
+      dataIndex: 'RUNNING_PLATFORM',
+      key: 'RUNNING_PLATFORM'
       // width: 150
     }, {
       title: '操作',
@@ -60,8 +59,8 @@ class MyAppExamineTable extends Component {
       render: (text, record, index) => {
         return (
           <div key={index}>
-            <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span>
-            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.sw_id}}>查看详情</Link></span>
+            {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
+            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: '?' + record.sw_id}}>查看详情</Link></span>
           </div>
         )
       }
@@ -72,30 +71,39 @@ class MyAppExamineTable extends Component {
     this.getMyAppInOperationData()
     this.getApplicationTypeData()
   }
-  // 我的应用-运营中
-  getMyAppInOperationData = (searchParams) => {
+  // 我的应用-审核中
+  getMyAppInOperationData = () => {
     let params = {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize,
-      sw_type: this.state.sw_type, // 应用类型
-      sw_name: this.state.sw_name // 应用名称
+      typeId: this.state.sw_type,
+      auditStatus: 1
     }
-    myAppToExamine(Object.assign(params, searchParams), (res) => {
-      console.log(2222222, res.data)
-      this.setState({
-        myAppInOperationData: res.data.list,
-        total: res.data.total
-      }, () => {
-        console.log(this.state.myAppInOperationData)
-      })
+    if (this.state.sw_name !== '') {
+      params.keyword = this.state.sw_name
+    }
+    myAppIteration(params, (res) => {
+      console.log(res)
+      if (res.data.code === 200) {
+        this.setState({
+          myAppInOperationData: res.data.data.data,
+          total: res.data.data.totalCount
+        })
+      } else {
+        message.warn(res.data.msg)
+      }
     }).catch((e) => { console.log(e) })
   }
   // 获取应用类型下拉框数据
   getApplicationTypeData = () => {
-    applicationTypeData({}, (res) => {
-      this.setState({
-        appTypeData: res.data.type
-      })
+    getApptype({}, (res) => {
+      if (res.data.code === 200) {
+        this.setState({
+          appTypeData: res.data.data
+        })
+      } else {
+        message.warn(res.data.msg)
+      }
     }).catch((e) => { console.log(e) })
   }
   // 改变每页显示条数
@@ -114,19 +122,15 @@ class MyAppExamineTable extends Component {
   }
   // 分类搜索
   onChangeState=(value) => {
-    this.handleSearch({
-      sw_type: value || ''
-    })
     this.setState({
       sw_type: value
     })
   }
-  handleSearch = (searchFilter) => {
+  handleSearch = () => {
     this.setState({
-      pageNum: 1,
-      searchFilter
+      pageNum: 1
     }, () => {
-      this.getMyAppInOperationData(searchFilter)
+      this.getMyAppInOperationData()
     })
   }
   // 名称搜索
