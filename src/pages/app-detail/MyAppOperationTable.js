@@ -20,7 +20,7 @@ import {
 import { Link } from 'react-router-dom'
 import { axios } from 'utils'
 import config from '../../config'
-import {myAppInOperation} from 'services/my-app/'
+// import {myAppInOperation} from 'services/my-app/'
 import CustomPagingTable from '../../components/common/PagingTable'
 import './MyAppOperationTable.scss'
 
@@ -52,26 +52,26 @@ class MyAppTable extends Component {
     }
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'sw_name'
+      dataIndex: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'sw_type',
+      dataIndex: 'APP_TYPE_NAME',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.sw_type - b.sw_type
       // width: 150
     }, {
       title: '下载次数',
-      dataIndex: 'sw_downloads',
+      dataIndex: 'DOWNLOAD_COUNT',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.sw_downloads - b.sw_downloads
       // width: 150
     }, {
       title: '版本',
-      dataIndex: 'version'
+      dataIndex: 'APP_VERSION'
       // width: 150
     }, {
       title: '上线时间',
-      dataIndex: 'sw_update_time',
+      dataIndex: 'CREATE_TIME',
       render: date => moment(date).format('YYYY-MM-DD')
       // width: 150
     }, {
@@ -81,35 +81,51 @@ class MyAppTable extends Component {
       render: (text, record, index) => {
         return (
           <div key={index}>
-            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.sw_id}}>迭代</Link></span>
-            <span style={{marginRight: '10px'}}><Link to={record.sw_log}>日志下载</Link></span>
-            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.sw_id}}>查看详情</Link></span>
+            <span style={{marginRight: '10px'}}>
+              <Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.APP_ID}}>迭代</Link>
+            </span>
+            {/* <span style={{marginRight: '10px'}}>
+              <Link to='/operate-manage-home/iteration'>日志下载</Link>
+            </span> */}
+            <span style={{marginRight: '10px'}}>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-mineabc', search: '?' + record.APP_ID}}>查看详情</Link>
+            </span>
           </div>
         )
       }
     }]
   }
-  componentDidMount () {
-    this.props.form.validateFields()
-    this.getMyAppInOperationData()
-    this.getApplicationTypeData(this)
-  }
   // 我的应用-运营中
-  getMyAppInOperationData = (searchParams) => {
+  getMyAppInOperationData = (thiz) => {
     let params = {
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
+      auditStatus: '1', // 审核状态
+      keyword: '',
+      pageNum: this.state.pageNum || 1,
+      pageSize: this.state.pageSize || 15,
+      typeId: this.state.sw_type || 0,
       sw_type: this.state.sw_type, // 应用类型
       sw_name: this.state.sw_name // 应用名称
     }
-    myAppInOperation(Object.assign(params, searchParams), (res) => {
-      this.setState({
-        myAppInOperationData: res.data.list,
-        total: res.data.total
-      }, () => {
-        this.props.getNewNewsNum(res.data.new)
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          data.data.data &&
+        thiz.setState({
+          myAppInOperationData: data.data.data.slice()
+        })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
       })
-    }).catch((e) => { console.log(e) })
+    // myAppInOperation(Object.assign(params, searchParams), (res) => {
+    //   this.setState({
+    //     myAppInOperationData: res.data.list,
+    //     total: res.data.total
+    //   }, () => {
+    //     this.props.getNewNewsNum(res.data.new)
+    //   })
+    // }).catch((e) => { console.log(e) })
   }
   // 获取应用类型下拉框数据
   getApplicationTypeData = (thiz) => {
@@ -117,7 +133,6 @@ class MyAppTable extends Component {
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
-          console.log('type: ', data.data)
           data.data &&
           thiz.setState({
             appTypeData: data.data.slice()
@@ -130,13 +145,13 @@ class MyAppTable extends Component {
   // 改变每页显示条数
   onShowSizeChange = (pageNum, pageSize) => {
     this.setState({pageNum, pageSize}, () => {
-      this.getMyAppInOperationData()
+      this.getMyAppInOperationData(this)
     })
   }
   // 页码
   onPageNumChange = (pageNum, pageSize) => {
     this.setState({pageNum, pageSize}, () => {
-      this.getMyAppInOperationData()
+      this.getMyAppInOperationData(this)
     })
   }
   // 分类搜索
@@ -153,7 +168,7 @@ class MyAppTable extends Component {
       pageNum: 1,
       searchFilter
     }, () => {
-      this.getMyAppInOperationData(searchFilter)
+      this.getMyAppInOperationData(this)
     })
   }
   // 名称搜索
@@ -187,6 +202,11 @@ class MyAppTable extends Component {
         checked: false
       })
     }
+  }
+  componentDidMount () {
+    this.props.form.validateFields()
+    this.getMyAppInOperationData(this)
+    this.getApplicationTypeData(this)
   }
   render () {
     const { getFieldDecorator } = this.props.form
