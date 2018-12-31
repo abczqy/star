@@ -46,7 +46,7 @@ class StatTable extends Component {
 
   render () {
     return (
-      <div>
+      <div style={{padding: '20px', background: '#fff', border: '1px solid #f00'}}>
         <Row align='middle' style={{marginBottom: '1%'}}>
           <Col span={1}>
           日期：
