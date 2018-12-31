@@ -901,8 +901,8 @@ export function newsList (params, auditStatus, sucFn) {
 /**
  * 教育新闻列表详情
  */
-export function newsListDet (params, sucFn) {
-  return axios.post(API_BASE_URL + '/application/newdetial', params)
+export function newsListDet (id, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/news/${id}`)
     .then(function (res) {
       sucFn(res)
     })

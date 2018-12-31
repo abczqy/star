@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col, Input } from 'antd'
+import { Select, Button, Row, Col, Input, Upload } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberTeac.scss'
 
@@ -37,7 +37,8 @@ class SearchBarMemberTeac extends Component {
       onSelect2Change,
       onSelect3Change,
       // onSelect4Change,
-      onBtnBatchExport
+      // onBtnBatchExport,
+      uploadProps
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -86,9 +87,11 @@ class SearchBarMemberTeac extends Component {
           <Col span={2}>
             <Button type='primary' className='search-bar-btn'>模板下载</Button>
           </Col>
-          <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
-          </Col>
+          <Upload {...uploadProps}>
+            <Col span={2}>
+              <Button type='primary' className='search-bar-btn'>批量导入</Button>
+            </Col>
+          </Upload>
         </Row>
       </div>
     )
@@ -102,7 +105,8 @@ SearchBarMemberTeac.propTypes = {
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
   // onSelect4Change: PropsTypes.func,
-  onBtnBatchExport: PropsTypes.func
+  onBtnBatchExport: PropsTypes.func,
+  uploadProps: PropsTypes.object
 }
 
 export default SearchBarMemberTeac

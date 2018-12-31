@@ -4,7 +4,7 @@
  * 无身份区分新闻列表详情
  */
 import React from 'react'
-import {Row, Col, Card, Tooltip} from 'antd'
+import {Row, Col, Card, Tooltip, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
@@ -17,7 +17,7 @@ import webStorage from 'webStorage'
 import { withRouter } from 'react-router'
 import {newsListDet, newsList, information} from 'services/software-manage'
 import moment from 'moment'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 // import _ from 'lodash'
 
 class NewsDetails extends React.Component {
@@ -95,34 +95,45 @@ class NewsDetails extends React.Component {
   getList=() => {
     console.log('获取数据')
     let a = window.location.href.split('?')
-    let value = {
-      news_id: Number(a[a.length - 1])
-    }
-    newsListDet(value, (response) => {
-      this.setState({
-        newData: response.data
-      })
+    let id = Number(a[a.length - 1])
+    newsListDet(id, (response) => {
+      console.log(response)
+      if (response.data.code === 200) {
+        this.setState({
+          newData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let values = {
       pageNum: 1,
       pageSize: 100
     }
-    newsList(values, (response) => {
-      this.setState({
-        newDatas: response.data
-      })
+    newsList(values, 1, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          newDatas: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
 
     let valuez = {
       pageNum: 1,
       pageSize: 100,
-      info_class: ''
+      type: 0
     }
-    information(valuez, (response) => {
-      this.setState({
-        infoData: response.data
-      })
+    information(valuez, 1, (response) => {
+      if (response.data.code === 200) {
+        this.setState({
+          infoData: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   // 更多的点击事件
@@ -192,10 +203,10 @@ render () {
           <Row>
             <Col span={24}>
               <div className='details-right-div'>
-                <p className='details-right-title'>{this.state.newData ? this.state.newData.news_title : '1'}</p>
-                <span className='details-right-time'>发布时间:{this.state.newData ? moment(this.state.newData.news_time).format('YYYY-MM-DD') : '时间'}</span>
+                <p className='details-right-title'>{this.state.newData ? this.state.newData.contentTitle : '1'}</p>
+                <span className='details-right-time'>发布时间:{this.state.newData ? moment(this.state.newData.updateTime).format('YYYY-MM-DD') : '时间'}</span>
                 <div className='details-right-div-div'>
-                  {this.state.newData ? this.state.newData.news_desc : '文章'}
+                  {this.state.newData ? this.state.newData.content : '文章'}
                 </div>
               </div>
             </Col>
@@ -214,8 +225,8 @@ render () {
                 <img src={this.state.imgZui} style={{width: '80%'}} alt='' />
               </div>
               <ul className='details-li-ul-down'>
-                {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.list.map((item, index) => {
-                  return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.news_id}</span> {item.news_title}</a></li> : null
+                {(!_.isEmpty(this.state.newDatas)) && this.state.newDatas.info && this.state.newDatas.info.map((item, index) => {
+                  return index < 4 ? <li key={index} style={{lineHeight: '25px'}}><img src={this.state.imgUl} style={{width: '6px', marginRight: '8px'}} alt='' /><a onClick={this.handleTabChangess.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : null
                 })}
               </ul>
             </div>
@@ -225,14 +236,14 @@ render () {
         <div className='center-public-info'>
           <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
             <ul className='ul-margin super'>
-              {this.state.infoData && this.state.infoData.list.map((item, index) => {
-                return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.info_id}</span> {item.info_title}</a></li> : ''
+              {this.state.infoData && this.state.infoData.info && this.state.infoData.info.map((item, index) => {
+                return index < 12 ? <li className='li-hover' key={index} ><img src={_ul} /><a onClick={this.handleTabChanges.bind(this)} className='span-color'><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></li> : ''
               })}
             </ul>
           </Card>
         </div>
         <div className='bottom-img'>
-          <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
+          {/* <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' /> */}
         </div>
       </div>
 

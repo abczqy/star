@@ -34,7 +34,7 @@ class PersonnelManagement extends Component {
     this.uploadProps = {
       // name: 'teachers',
       action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
-      data: { fileType: 'document', userType: 3 },
+      data: { fileType: 'document', userType: 2 },
       onChange: this.onChange
     }
   }
@@ -125,7 +125,7 @@ class PersonnelManagement extends Component {
         this.uploadProps = {
           // name: 'student',
           action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
-          data: { fileType: 'document', userType: 4 },
+          data: { fileType: 'document', userType: 1 },
           onChange: this.onChange
         }
         this.setState({
@@ -135,7 +135,7 @@ class PersonnelManagement extends Component {
         this.uploadProps = {
           // name: 'teachers',
           action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
-          data: { fileType: 'document', userType: 3 },
+          data: { fileType: 'document', userType: 2 },
           onChange: this.onChange
         }
         this.setState({

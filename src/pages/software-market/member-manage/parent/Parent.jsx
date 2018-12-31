@@ -52,6 +52,24 @@ class Parent extends Component {
       total: 0,
       toLogin: 'all'
     }
+    // 与后台沟通，此处导入暂时不做
+    this.uploadProps = {
+      action: '',
+      // action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
+      data: { fileType: 'document', userType: 2 },
+      onChange: this.onChange
+    }
+  }
+
+  onChange=(info) => {
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} 导入成功`)
+      this.setState({
+        updateList: this.state.updateList + 1
+      })
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} 导入失败`)
+    }
   }
 
   getColumns = () => {
@@ -126,8 +144,6 @@ class Parent extends Component {
       }
     }
     axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
-      // 测试用路径
-      // axios.post(`http://192.168.2.119:10300/user-list/role/5/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
       if (res.data.code === 200) {
         this.setState({
           dataSource: res.data.data.content,
@@ -333,6 +349,7 @@ class Parent extends Component {
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
+          upload={this.upload}
         />
         <BlankBar />
         <Table

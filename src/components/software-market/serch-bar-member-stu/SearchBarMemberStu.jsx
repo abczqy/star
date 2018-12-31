@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col, Input } from 'antd'
+import { Select, Button, Row, Col, Input, Upload } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberStu.scss'
 
@@ -37,7 +37,8 @@ class SearchBarMemberStu extends Component {
       onSelect3Change,
       // onSelect4Change,
       onSelect5Change,
-      onBtnBatchExport
+      // onBtnBatchExport,
+      uploadProps
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -93,9 +94,11 @@ class SearchBarMemberStu extends Component {
           <Col span={2}>
             <Button type='primary' className='search-bar-btn'>下载模板</Button>
           </Col>
-          <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
-          </Col>
+          <Upload {...uploadProps}>
+            <Col span={2}>
+              <Button type='primary' className='search-bar-btn'>批量导入</Button>
+            </Col>
+          </Upload>
         </Row>
       </div>
     )
@@ -110,7 +113,8 @@ SearchBarMemberStu.propTypes = {
   onSelect3Change: PropsTypes.func,
   // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
-  onBtnBatchExport: PropsTypes.func
+  onBtnBatchExport: PropsTypes.func,
+  uploadProps: PropsTypes.object
 }
 
 export default SearchBarMemberStu
