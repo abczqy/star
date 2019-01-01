@@ -1,7 +1,6 @@
 /**
  * 迭代申请
  */
-
 import React from 'react'
 import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon, message} from 'antd'
 import { withRouter } from 'react-router-dom'
@@ -16,6 +15,7 @@ const { TextArea } = Input
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
+const SERVICE_PORTAL = config.SERVICE_PORTAL
 
 class IterationPlease extends React.Component {
   constructor (props) {
@@ -61,7 +61,9 @@ class IterationPlease extends React.Component {
       newVersion: '', // 新版本号
       newFeatrue: '', // 描述
       updateTime: null, // 更新时间
-      sysVersion: [] // 用来存软件版本的文件的系统版本
+      sysVersion: [], // 用来存软件版本的文件的系统版本
+      appIcon: null, // 文件-上传的软件图标
+      pcIcons: [] // 文件-上传的pc图标
     }
   }
   componentWillMount () {
@@ -87,7 +89,6 @@ class IterationPlease extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
         this.setState({
@@ -111,7 +112,6 @@ getAppData=(a) => {
     sw_id: a
   }
   appId(value, (response) => {
-    console.log(response)
     this.setState({
       AppData: response
     })
@@ -130,7 +130,7 @@ getAppData=(a) => {
   renderEdition=() => {
     let value = []
     for (let i = 0; i < this.state.Edition; i++) {
-      let propsO = {
+      let uploadSoftProps = {
         onRemove: (file) => {
           this.setState(({ fileListOneF }) => {
             const index = fileListOneF.indexOf(file)
@@ -166,7 +166,7 @@ getAppData=(a) => {
                   </Select>
                 </Col>
                 <Col span={9}>
-                  <Upload {...propsO}>
+                  <Upload {...uploadSoftProps}>
                     <Button>
                       <Icon type='upload' /> 上传文件
                     </Button>
@@ -193,7 +193,7 @@ getAppData=(a) => {
                   </Select>
                 </Col>
                 <Col span={9}>
-                  <Upload {...propsO}>
+                  <Upload {...uploadSoftProps}>
                     <Button>
                       <Icon type='upload' /> 上传文件
                     </Button>
@@ -299,8 +299,6 @@ zHs=() => {
 
   // 日期变化
   onDateChange=(value, dateString) => {
-    console.log('Selected Time: ', value)
-    console.log('Formatted Selected Time: ', dateString)
     this.setState({
       updateTime: value
     })
@@ -366,7 +364,6 @@ zHs=() => {
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
-          console.log('app详情：', data)
           data.data &&
         thiz.setState({
           appDetail: data.data.slice()[0]
@@ -378,15 +375,71 @@ zHs=() => {
   }
 
   /**
-   * 提交
+   * 接口调用-上传文件
+   * 1- 在提交时调用
+   * 2- 这里利用封装 - 避免下回调地狱
    */
-  onSubmit = (thiz) => {
+  getUpload = (fileType, file, thiz, callBack) => {
+    // 构造参数
+    let params = new FormData()
+    params.append('fileType', fileType)
+    params.append('file', file)
+    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload`, params)
+      .then(function (res) {
+      // 不阻塞 - 执行成功会执行回调
+        callBack && callBack(res, thiz)
+      }).catch(function (e) {
+      // 不阻塞 - 执行失败也会执行回调
+        callBack && callBack(e, thiz)
+      })
+  }
+
+  /**
+   * 接口调用-上传多文件
+   * 1- 在提交时调用
+   * 2- 这里利用封装 - 避免下回调地狱
+   */
+  getMultiUpload = (fileType, fileList, thiz, callBack) => {
+    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload/all`, {
+      fileType: fileType,
+      file: fileList
+    }).then(function (res) {
+      // 不阻塞 - 执行成功会执行回调
+      callBack && callBack()
+    }).catch(function () {
+      // 不阻塞 - 执行失败也会执行回调
+      callBack && callBack()
+    })
+  }
+
+  /**
+   * 接口调用 - 提交数据
+   */
+  getSubmit = (thiz) => {
     const appId = thiz.state.appId
     const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
       .then(function (res) {
-        console.log('res: ', res)
+        if (res.data.code === 200) {
+          message.success(res.data.msg || '提交成功')
+          // 还要跳回上一页
+          thiz.props.history.goBack()
+        } else {
+          message.warning(res.data.msg || '提交失败')
+        }
       })
+  }
+
+  /**
+   * 提交
+   */
+  onSubmit = (thiz) => {
+    // 先上传state中的文件数据
+    //
+    this.getUpload('pic', this.state.appIcon, thiz, (res) => {
+      
+    })
+    // 再在上传回调中提交本次表单数据
   }
 
   componentDidMount () {
@@ -401,51 +454,47 @@ zHs=() => {
   }
 
   render () {
+    // 上传软件图标 - 只能上传一个 + 图片
     const uploadSoftIconProps = {
-      onRemove: (file) => {
-        this.setState(({ fileListTwo }) => {
-          const index = fileListTwo.indexOf(file)
-          const newFileList = fileListTwo.slice()
-          newFileList.splice(index, 1)
-          return {
-            fileListTwo: newFileList
-          }
-        }, () => {
-          console.log('this.state.fileListTwo', this.state.fileListTwo)
+      onRemove: (file, fileList) => {
+        this.setState({
+          appIcon: null
         })
       },
-      beforeUpload: (file) => {
-        this.setState(({ fileListTwo }) => ({
-          fileListTwo: [...fileListTwo, file]
-        }), () => {
-          console.log('this.state.fileListTwo', this.state.fileListTwo)
+      beforeUpload: (file, fileList) => {
+        this.setState({
+          appIcon: file
         })
+        // 采用手动上传
         return false
-      },
-      fileListTwo: this.state.fileListTwo
+      }
+      // fileListTwo: this.state.fileListTwo
     }
+    // 上传pc图标
     const uploadPcIconProps = {
-      onRemove: (file) => {
-        this.setState(({ fileListThree }) => {
-          const index = fileListThree.indexOf(file)
-          const newFileList = fileListThree.slice()
-          newFileList.splice(index, 1)
-          return {
-            fileListThree: newFileList
-          }
-        }, () => {
-          console.log('fileListThree', this.state.fileListThree)
+      onRemove: (file, fileList) => {
+        // this.setState(({ fileListThree }) => {
+        //   const index = fileListThree.indexOf(file)
+        //   const newFileList = fileListThree.slice()
+        //   newFileList.splice(index, 1)
+        // }
+        // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
+        let newFileList = this.state.pcIcons.slice()
+        const index = newFileList.indexOf(file)
+        newFileList.splice(index, 1)
+        this.setState({
+          pcIcons: newFileList
         })
       },
-      beforeUpload: (file) => {
-        this.setState(({ fileListThree }) => ({
-          fileListThree: [...fileListThree, file]
-        }), () => {
-          console.log('fileListThree', this.state.fileListThree)
+      beforeUpload: (file, fileList) => {
+        // 把新文件添加到state原来的数组中
+        this.setState({
+          pcIcons: [...this.state.fileList, file]
         })
+        // 采用手动上传
         return false
-      },
-      fileListThree: this.state.fileListThree
+      }
+      // fileListThree: this.state.fileListThree
     }
     return (
       <Card title='迭代申请' style={{marginLeft: '12%', width: '80%', minHeight: this.state.viewHeight}}>
