@@ -168,10 +168,10 @@ class OperateManage extends React.Component {
       text: '全部应用',
       tabKey: 'allApp',
       src: '/operate-manage-home/all-app/all-app'
-    }, {
-      text: '个人中心',
-      tabKey: 'peopleCenter',
-      src: '/operate-manage-home/center'
+    // }, {
+    //   text: '个人中心',
+    //   tabKey: 'peopleCenter',
+    //   src: '/operate-manage-home/center'
     }, {
       text: '工作台', // 工作台首页
       tabKey: 'workPlat',
@@ -197,10 +197,10 @@ class OperateManage extends React.Component {
         tabKey: 'peopleMang',
         src: '/operate-manage-home/member'
       }, {
-        text: '个人中心',
-        tabKey: 'peopleCenter',
-        src: '/operate-manage-home/center'
-      }, {
+      //   text: '个人中心',
+      //   tabKey: 'peopleCenter',
+      //   src: '/operate-manage-home/center'
+      // }, {
         text: '工作台', // 工作台首页
         tabKey: 'workPlat',
         src: '/operate-manage-home/work-plat/home'
@@ -243,10 +243,10 @@ class OperateManage extends React.Component {
         tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
       }, {
-        text: '个人中心',
-        tabKey: 'peopleCenter',
-        src: '/operate-manage-home/center'
-      }, {
+      //   text: '个人中心',
+      //   tabKey: 'peopleCenter',
+      //   src: '/operate-manage-home/center'
+      // }, {
         text: '工作台', // 工作台首页
         tabKey: 'workPlat',
         src: '/operate-manage-home/work-plat/home'
