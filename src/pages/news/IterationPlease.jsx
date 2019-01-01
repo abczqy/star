@@ -9,7 +9,7 @@ import { axios } from 'utils'
 import config from '../../config'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
-import {iteration, appId} from 'services/software-manage'
+import {appId} from 'services/software-manage'
 import webStorage from 'webStorage'
 
 const { TextArea } = Input
@@ -59,7 +59,7 @@ class IterationPlease extends React.Component {
       fileListThree: [], // 用来存PC端界面截图的文件id
       appId: '', // app的id
       newVersion: '', // 新版本号
-      desc: '', // 描述
+      newFeatrue: '', // 描述
       updateTime: null, // 更新时间
       sysVersion: [] // 用来存软件版本的文件的系统版本
     }
@@ -244,38 +244,40 @@ zHs=() => {
 }
 
   // 提交表单啦
-  submit=() => {
-    if (this.state.newVersion && this.state.desc && this.state.sysVersion.length !== 0 && this.state.fileListOneF.length !== 0) {
-      console.log('全填写完啦')
-      const formData = new FormData()
-      formData.append('newVersion', this.state.newVersion)// 软件图标
-      formData.append('desc_new', encodeURI(this.state.desc))// 软件描述
-      formData.append('updateTime', this.state.updateTime === null ? '' : this.state.updateTime.format('YYYY-MM-DD')) // 期望上架时间
-      this.state.fileListThree.forEach((file) => {
-        formData.append('sw_computer_photo_new', file)
-      })
-      // formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
-      this.state.fileListTwo.forEach((file) => {
-        formData.append('sw_icon_new', file)
-      })
-      // formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
-      this.zHs().forEach((file) => {
-        formData.append('type', file)
-      })
-      // formData.append('type', this.zHs())// 软件版本的文件id和系统类别
-      this.zH().forEach((file) => {
-        formData.append('copType', file)
-      })
-      // formData.append('copType', this.zH())// 软件版本的文件id和系统类别
-      formData.append('sw_id', this.state.appId ? this.state.appId : '')// 软件id
-      // formData.append('sw_id', this.state.appId)// appId
-      iteration(formData, (response) => {
-        console.log(response)
-      })
-    } else {
-      message.error('请填写完带有*号的填写项')
-    }
-  }// 获取高度
+  // onSubmit=() => {
+  //   if (this.state.newVersion && this.state.newFeatrue && this.state.sysVersion.length !== 0 && this.state.fileListOneF.length !== 0) {
+  //     console.log('全填写完啦')
+  //     const formData = new FormData()
+  //     formData.append('newVersion', this.state.newVersion)// 软件图标
+  //     formData.append('newFeatrue_new', encodeURI(this.state.newFeatrue))// 软件描述
+  //     formData.append('updateTime', this.state.updateTime === null ? '' : this.state.updateTime.format('YYYY-MM-DD')) // 期望上架时间
+  //     this.state.fileListThree.forEach((file) => {
+  //       formData.append('sw_computer_photo_new', file)
+  //     })
+  //     // formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
+  //     this.state.fileListTwo.forEach((file) => {
+  //       formData.append('sw_icon_new', file)
+  //     })
+  //     // formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
+  //     this.zHs().forEach((file) => {
+  //       formData.append('type', file)
+  //     })
+  //     // formData.append('type', this.zHs())// 软件版本的文件id和系统类别
+  //     this.zH().forEach((file) => {
+  //       formData.append('copType', file)
+  //     })
+  //     // formData.append('copType', this.zH())// 软件版本的文件id和系统类别
+  //     formData.append('sw_id', this.state.appId ? this.state.appId : '')// 软件id
+  //     // formData.append('sw_id', this.state.appId)// appId
+  //     iteration(formData, (response) => {
+  //       console.log(response)
+  //     })
+  //   } else {
+  //     message.error('请填写完带有*号的填写项')
+  //   }
+  // }
+
+  // 获取高度
   getHeight=() => {
     if (this.state.webStorage) {
       this.setState({
@@ -286,10 +288,10 @@ zHs=() => {
 
   // 用来存软件版本的文件的系统版本
   onSelectChange =(value, index) => {
-    let a = this.state.sysVersion
-    a[index] = value
+    // let a = this.state.sysVersion
+    // a[index] = value
     this.setState({
-      sysVersion: a
+      sysVersion: value
     }, () => {
       console.log('软件版本的文件的系统版本', this.state.sysVersion)
     })
@@ -317,17 +319,43 @@ zHs=() => {
   /**
    * 软件描述
    */
-  onGetDesc=(e) => {
+  onGetNewFeatrue=(e) => {
     let {value} = e.target
     this.setState({
-      desc: value
+      newFeatrue: value
     })
   }
 
   /**
-   * 组织params
+   * params组织 - 获取迭代接口需要的params
    */
-  getParams = () => {}
+  getParams = (thiz) => {
+    const {
+      appId,
+      sysVersion,
+      newVersion,
+      newFeatrue
+    } = this.state
+    let result = {}
+    // userId部分
+    // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    // marketAppVersion 部分
+    result.marketAppVersion = {
+      appDownloadAddress: '', // 下载地址 - 给后台静态文件id
+      appId: appId || '', // appId
+      appPcPic: '',
+      appPhonePic: '',
+      appStatus: '',
+      appVersion: newVersion || '', // 新版本信息
+      authDetail: '',
+      newFeatures: newFeatrue || '', // app新特性
+      packageName: '',
+      runningPlatform: sysVersion || '', // 平台信息
+      versionInfo: '',
+      versionSize: ''
+    }
+    return result
+  }
 
   /**
    * 数据获取-获取app详细信息
@@ -349,6 +377,18 @@ zHs=() => {
       })
   }
 
+  /**
+   * 提交
+   */
+  onSubmit = (thiz) => {
+    const appId = thiz.state.appId
+    const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
+      .then(function (res) {
+        console.log('res: ', res)
+      })
+  }
+
   componentDidMount () {
     // 获取appId
     const appId = this.props.history.location.search.replace('?', '')
@@ -361,7 +401,7 @@ zHs=() => {
   }
 
   render () {
-    const propsT = {
+    const uploadSoftIconProps = {
       onRemove: (file) => {
         this.setState(({ fileListTwo }) => {
           const index = fileListTwo.indexOf(file)
@@ -384,7 +424,7 @@ zHs=() => {
       },
       fileListTwo: this.state.fileListTwo
     }
-    const propsP = {
+    const uploadPcIconProps = {
       onRemove: (file) => {
         this.setState(({ fileListThree }) => {
           const index = fileListThree.indexOf(file)
@@ -459,9 +499,9 @@ zHs=() => {
             <Row className='Wxd'>
               <Col span={23}>
                 <span style={{visibility: 'hidden'}}>*PC无无无</span>
-                <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span>
+                <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版本特性 : </span>
                 <span style={{visibility: 'hidden'}}>无无无 </span>
-                <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onGetDesc} value={this.state.desc} /></Col>
+                <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onGetNewFeatrue} value={this.state.newFeatrue} /></Col>
             </Row>
             <Row className='Wxd'>
               <Row className='Wxds'>
@@ -487,7 +527,7 @@ zHs=() => {
                   软件图标 :
                   </Col>
                   <Col span={9}>
-                    <Upload {...propsT}>
+                    <Upload {...uploadSoftIconProps}>
                       <Button>
                         <Icon type='upload' /> 上传文件
                       </Button>
@@ -503,7 +543,7 @@ zHs=() => {
                     <span>PC端界面截图 : </span>
                   </Col>
                   <Col span={9}>
-                    <Upload {...propsP}>
+                    <Upload {...uploadPcIconProps}>
                       <Button>
                         <Icon type='upload' /> 上传文件
                       </Button>
@@ -536,7 +576,11 @@ zHs=() => {
               <div style={{marginTop: '20px'}}>
                 <Col>
                   <Col span={16} />
-                  <Col span={2}><Button type='primary' onClick={this.submit}>提交申请</Button></Col>
+                  <Col span={2}>
+                    <Button type='primary' onClick={() => this.onSubmit(this)}>
+                      提交申请
+                    </Button>
+                  </Col>
                   <Col span={2}><Button>取消</Button></Col>
                 </Col>
               </div>
