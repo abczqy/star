@@ -33,6 +33,7 @@
   padding-bottom: 6px;
   margin-bottom: 6px;
   border-bottom: 1px dashed $padColor;
+  white-space: nowrap;
   &:nth-last-child(1) {
     border: none;
   }

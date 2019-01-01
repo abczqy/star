@@ -217,10 +217,11 @@ class Home extends Component {
    */
   getUserInfo = (userId, thiz) => {
     // 需要全局用户id - 测试默认值为1
-    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + `/users/${userId}`)
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + `/users/detailed/${userId}`)
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
+          console.log('敏感信息', data.data)
           data.data &&
         thiz.setState({
           usrInfo: { ...data.data } // 引用类型浅拷贝一下
@@ -384,7 +385,7 @@ class Home extends Component {
             <Col span={6}>
               { v.title || '' }
             </Col>
-            <Col span={6} offset={12}>
+            <Col span={8} style={{float: 'right', width: 'auto'}}>
               { v.date || '' }
             </Col>
           </Row>
@@ -541,7 +542,7 @@ class Home extends Component {
               <Col span={16}>
                 <img src={Call} className='mini-icon' />
                 电话：
-                <span>{ this.state.usrInfo.phoneNumber || '13766284490' }</span>
+                <span>{ this.state.usrInfo.phoneNumber || '无' }</span>
               </Col>
               <Col span={8}>
                 <img src={Job} className='mini-icon' />
@@ -564,7 +565,7 @@ class Home extends Component {
           <Col span={10}>
             <img src={Call} className='mini-icon' />
                 电话：
-            <span>12345678901</span>
+            <span>{ this.state.usrInfo.phoneNumber || '无' }</span>
           </Col>
         </Row>
       )
@@ -586,8 +587,8 @@ class Home extends Component {
       )
     } else {
       return (
-        <Row gutter={128} className='row-box'>
-          <Col span={6} offset={1}>
+        <Row type='flex' justify='space-between' className='row-box'>
+          <Col span={6}>
             <LabelIcon
               style={{ ...iconStyle, backgroundColor: '#40B3F9' }}
               imgStyle={{ ...imgStyle }}
@@ -776,10 +777,12 @@ class Home extends Component {
                 type='flex'
                 justify='space-around'
                 align='middle'
+                style={{whiteSpace: 'nowrap'}}
               >
                 <Col span={6}>
                   <Avatar
-                    size={88}
+                    // size={88}
+                    style={{width: '100%', height: '100%'}}
                     src={AvatarIcon}
                   />
                 </Col>
@@ -809,7 +812,7 @@ class Home extends Component {
               <Row>
                 <Col span={6} offset={18}>
                   <img src={Location} className='mini-icon' />
-                  <span style={{fontSize: '12px'}}>福建-福州</span>
+                  <span style={{fontSize: '12px'}}>{ this.state.usrInfo.briefAddress || '无' }</span>
                 </Col>
               </Row>
               {
