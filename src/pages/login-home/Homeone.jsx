@@ -400,7 +400,7 @@ class Home extends React.Component {
               ? ''
               : <Row style={{marginTop: '18%'}}>
                 <Col span={3}>详情咨询<br />Tel：18729910829</Col>
-                <Col span={6} offset={15}><Button type='primary' size='large'>开通智慧校园</Button></Col>
+                <Col span={6} offset={15}><Button type='primary' onClick={() => this.onJump('/register-home', this)} size='large'>开通智慧校园</Button></Col>
               </Row>
             }
 
