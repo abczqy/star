@@ -4,7 +4,7 @@
 import React from 'react'
 import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon, message} from 'antd'
 import { withRouter } from 'react-router-dom'
-import { axios } from 'utils'
+import { axios, array2Str } from 'utils'
 import config from '../../config'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
@@ -61,7 +61,7 @@ class IterationPlease extends React.Component {
       newVersion: '', // 新版本号
       newFeatrue: '', // 描述
       updateTime: null, // 更新时间
-      sysVersion: [], // 用来存软件版本的文件的系统版本
+      sysVersion: '', // 用来存软件版本的文件的系统版本
       appIconId: null, // 软件图标-文件上传后后台传回的id
       appSoftId: null, // 软件本身-文件上传后后台传回的id
       pcIconIds: [], // 软件pc图标-文件上传后后台传回的id
@@ -264,7 +264,6 @@ getAppData=(a) => {
 
   // 日期点击确定
   onOk=(value) => {
-    console.log('onOk: ', value)
     this.setState({
       updateTime: value
     })
@@ -352,6 +351,7 @@ zHs=() => {
       pcIconIds,
       appIconId
     } = this.state
+
     let result = {}
     // userId部分
     // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
@@ -359,7 +359,7 @@ zHs=() => {
     result.marketAppVersion = {
       appDownloadAddress: appSoftId, // 下载地址 - 给后台静态文件id
       appId: appId || '', // appId
-      appPcPic: pcIconIds, // app的pc截图 -- 数组
+      appPcPic: array2Str(pcIconIds), // app的pc截图 -- 数组
       appPhonePic: appIconId, // app的图标
       appStatus: '',
       appVersion: newVersion || '', // 新版本信息
@@ -434,7 +434,6 @@ zHs=() => {
    * 接口调用 - 提交数据
    */
   getSubmit = (thiz) => {
-    console.log('开始提交表单数据')
     const appId = thiz.state.appId
     const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
@@ -453,54 +452,71 @@ zHs=() => {
    * 上传AppIcon
    */
   uploadAppIcon = (thiz, callBack) => {
-    thiz.getUpload('pic', this.state.appIcon, (res, thiz) => {
-      // 设置对应的文件id
-      if (res.data && res.data.code === 200) {
-        thiz.setState({
-          appIconId: res.data.data
-        }, function (thiz) {
+    if (thiz.state.appIcon) {
+      // 当appIcon有值时 -- 有文件上传时
+      thiz.getUpload('pic', this.state.appIcon, (res) => {
+        // 设置对应的文件id
+        if (res.data && res.data.code === 200) {
+          thiz.setState({
+            appIconId: res.data.data
+          }, function () {
+            callBack && callBack(thiz)
+          })
+        } else {
           callBack && callBack(thiz)
-        })
-      } else {
-        callBack && callBack(thiz)
-      }
-    })
+        }
+      })
+    } else {
+      // 保证回调执行-不阻塞
+      callBack && callBack(thiz)
+    }
   }
 
   /**
    * 上传App本身
    */
   uploadApp = (thiz, callBack) => {
-    thiz.getUpload('soft', this.state.appSoft, (res) => {
+    if (thiz.state.appSoft) {
+      // 当appSoft有值时 -- 有文件上传时
+      thiz.getUpload('soft', this.state.appSoft, (res) => {
       // 设置对应的文件id
-      if (res.data && res.data.code === 200) {
-        thiz.setState({
-          appSoftId: res.data.data
-        }, function (thiz) {
+        if (res.data && res.data.code === 200) {
+          thiz.setState({
+            appSoftId: res.data.data
+          }, function () {
+            callBack && callBack(thiz)
+          })
+        } else {
           callBack && callBack(thiz)
-        })
-      } else {
-        callBack && callBack(thiz)
-      }
-    })
+        }
+      })
+    } else {
+      // 保证回调执行-不阻塞
+      callBack && callBack(thiz)
+    }
   }
 
   /**
    * 上传App的pc截图
    */
   uploadPcPics = (thiz, callBack) => {
-    thiz.getMultiUpload('pic', this.state.pcIcons, (res) => {
-      // 设置对应的文件id
-      if (res.data && res.data.code === 200) {
-        thiz.setState({
-          pcIconIds: res.data.data.slice()
-        }, function (thiz) {
+    if (thiz.state.pcIcons.length !== 0) {
+      thiz.getMultiUpload('pic', this.state.pcIcons, (res) => {
+        // 设置对应的文件id
+        if (res.data && res.data.code === 200) {
+          thiz.setState({
+            pcIconIds: res.data.data.slice()
+          }, function () {
+            callBack && callBack(thiz)
+          })
+        } else {
           callBack && callBack(thiz)
-        })
-      } else {
-        callBack && callBack(thiz)
-      }
-    })
+        }
+      })
+    } else {
+      // 保证回调执行-不阻塞
+      callBack && callBack(thiz)
+    }
   }
 
   /**
@@ -510,14 +526,10 @@ zHs=() => {
     // 先上传state中的文件数据
     // 先上传app的图标
     thiz.uploadAppIcon(thiz, () => {
-      console.log('开始上传app图标')
       // 上传app软件
       thiz.uploadApp(thiz, () => {
-        // 上传pc图片
-        console.log('开始上传app软件')
         thiz.uploadPcPics(thiz, () => {
           // 提交整个表单
-          console.log('开始上传pc截图')
           thiz.getSubmit(thiz)
         })
       })
