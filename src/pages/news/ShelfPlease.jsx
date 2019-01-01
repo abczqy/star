@@ -88,7 +88,9 @@ class ShelfPlease extends React.Component {
       idNum: '', // 身份证号
       relation: '', // 主要联系人
       relationNum: '', // 联系人电话
-      appIcon: null // 软件图标-文件
+      appIcon: null, // 软件图标-文件/上传后用来存储后台返回的id
+      pcPics: [], // pc图片-图片/上传后用来存储后台返回的id的数组
+      phonePics: [] // pc图片-图片/上传后用来存储后台返回的id的数组
     }
   }
   componentWillMount () {
@@ -260,8 +262,6 @@ class ShelfPlease extends React.Component {
 
   // 日期变化
   onShelfDateChange=(value, dateString) => {
-    console.log('Selected Time: ', value)
-    console.log('Formatted Selected Time: ', dateString)
     this.setState({
       shelfTime: value
     })
@@ -456,15 +456,62 @@ class ShelfPlease extends React.Component {
   }
 
   /**
-   * 上传App的pc截图
+   * 上传App的icon
    */
   uploadAppIcon = (thiz, callBack) => {
     if (thiz.state.appIcon) {
       thiz.getUpload('pic', this.state.appIcon, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
+          // appIcon上传完之后 我们就用它来存后台返回的id
           thiz.setState({
             appIcon: res.data.data
+          }, function () {
+            callBack && callBack(thiz)
+          })
+        } else {
+          callBack && callBack(thiz)
+        }
+      })
+    } else {
+      // 保证回调执行-不阻塞
+      callBack && callBack(thiz)
+    }
+  }
+
+  /**
+   * 上传App的pc截图
+   */
+  uploadPcPics = (thiz, callBack) => {
+    if (thiz.state.pcPics) {
+      thiz.getMultiUpload('pic', this.state.pcPics, (res) => {
+        // 设置对应的文件id
+        if (res.data && res.data.code === 200) {
+          thiz.setState({
+            pcPics: res.data.data.slice()
+          }, function () {
+            callBack && callBack(thiz)
+          })
+        } else {
+          callBack && callBack(thiz)
+        }
+      })
+    } else {
+      // 保证回调执行-不阻塞
+      callBack && callBack(thiz)
+    }
+  }
+
+  /**
+   * 上传App的phone截图
+   */
+  uploadPhonePics = (thiz, callBack) => {
+    if (thiz.state.phonePics) {
+      thiz.getMultiUpload('pic', this.state.phonePics, (res) => {
+        // 设置对应的文件id
+        if (res.data && res.data.code === 200) {
+          thiz.setState({
+            phonePics: res.data.data.slice()
           }, function () {
             callBack && callBack(thiz)
           })
@@ -494,7 +541,9 @@ class ShelfPlease extends React.Component {
       appDesc,
       appType,
       feature,
-      appIcon
+      appIcon,
+      pcPics,
+      phonePics
     } = this.state
 
     let result = {}
@@ -505,8 +554,8 @@ class ShelfPlease extends React.Component {
       appIcon: appIcon,
       appName: appName, // app名称
       appNotes: appDesc, // app描述
-      appPcPic: [],
-      appPhonePic: [],
+      appPcPic: pcPics,
+      appPhonePic: phonePics,
       appTypeId: appType, // app的类型
       authDetail: '',
       newFeatures: feature // app的新版特性
@@ -549,7 +598,13 @@ class ShelfPlease extends React.Component {
   onSubmit = (thiz) => {
     thiz.uploadAppIcon(thiz, () => {
       console.log('appIcon上传结束')
-      thiz.getSubmit(thiz)
+      thiz.uploadPcPics(thiz, () => {
+        console.log('pcIcons上传结束')
+        this.uploadPhonePics(thiz, () => {
+          console.log('phoneIcons上传结束')
+          thiz.getSubmit(thiz)
+        })
+      })
     })
   }
 
@@ -639,66 +694,45 @@ class ShelfPlease extends React.Component {
       },
       fileListFive: this.state.fileListFive
     }
-    const propsPC = {
-      // action: '//jsonplaceholder.typicode.com/posts/',
+    const pcPicsProps = {
       listType: 'picture',
-      // defaultFileList: [...fileList11],
-      // className: 'upload-list-inline',
       onRemove: (file) => {
-        this.setState(({ fileListPC, fileListPCUrl }) => {
-          const index = fileListPC.indexOf(file)
-          const newFileList = fileListPC.slice()
-          const newFileListPCUrl = fileListPCUrl.slice()
-          newFileList.splice(index, 1)
-          newFileListPCUrl.splice(index, 1)
-          return {
-            fileListPC: newFileList,
-            fileListPCUrl: newFileListPCUrl
-          }
+        // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
+        let newFileList = this.state.pcPics.slice()
+        const index = newFileList.indexOf(file)
+        newFileList.splice(index, 1)
+        this.setState({
+          pcPics: newFileList
         })
       },
       beforeUpload: (file) => {
-        this.getBase64(file, (imageUrl) => {
-          this.setState(({ fileListPC, fileListPCUrl }) => ({
-            fileListPC: [...fileListPC, file],
-            fileListPCUrl: [...fileListPCUrl, imageUrl]
-          }), () => {
-            console.log('fileListPC', this.state.fileListPC)
-          })
+        // 把新文件添加到state原来的数组中
+        this.setState({
+          pcPics: [...this.state.pcPics, file]
         })
+        // 采用手动上传
         return false
-      },
-      fileListPC: this.state.fileListPC,
-      fileListPCUrl: this.state.fileListPCUrl
+      }
     }
     const propsPhone = {
       listType: 'picture',
       onRemove: (file) => {
-        this.setState(({ fileListPhone, fileListPhoneUrl }) => {
-          const index = fileListPhone.indexOf(file)
-          const newFileList = fileListPhone.slice()
-          const newFileListPhoneUrl = fileListPhoneUrl.slice()
-          newFileList.splice(index, 1)
-          newFileListPhoneUrl.splice(index, 1)
-          return {
-            fileListPhone: newFileList,
-            fileListPhoneUrl: newFileListPhoneUrl
-          }
+        // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
+        let newFileList = this.state.phonePics.slice()
+        const index = newFileList.indexOf(file)
+        newFileList.splice(index, 1)
+        this.setState({
+          phonePics: newFileList
         })
       },
       beforeUpload: (file) => {
-        this.getBase64(file, (imageUrl) => {
-          this.setState(({ fileListPhone, fileListPhoneUrl }) => ({
-            fileListPhone: [...fileListPhone, file],
-            fileListPhoneUrl: [...fileListPhoneUrl, imageUrl]
-          }), () => {
-            console.log('fileListPhone', this.state.fileListPhone)
-          })
+        // 把新文件添加到state原来的数组中
+        this.setState({
+          phonePics: [...this.state.phonePics, file]
         })
+        // 采用手动上传
         return false
-      },
-      fileListPhone: this.state.fileListPhone,
-      fileListPhoneUrl: this.state.fileListPhoneUrl
+      }
     }
     const propsFinVour = {
       onRemove: (file) => {
@@ -824,7 +858,7 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='top'>
         <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>PC端界面截图 :&nbsp;&nbsp;</Col>
         <Col span={9}>
-          <Upload {...propsPC}>
+          <Upload {...pcPicsProps}>
             <Button>
               <Icon type='upload' /> 上传文件
             </Button>

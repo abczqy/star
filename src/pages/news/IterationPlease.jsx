@@ -353,9 +353,6 @@ zHs=() => {
     } = this.state
 
     let result = {}
-    // userId部分
-    // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
-    // marketAppVersion 部分
     result.marketAppVersion = {
       appDownloadAddress: appSoftId, // 下载地址 - 给后台静态文件id
       appId: appId || '', // appId
