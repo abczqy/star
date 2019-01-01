@@ -10,8 +10,8 @@
    * @param {string} idName 这里是父组件数据中的id值 参与key值的生成 可选参数
    */
 const addKey2TableData = (datas, idName) => {
-  let resArr = datas
-  datas.map((curVal, index) => {
+  let resArr = datas || []
+  datas && datas instanceof Array && datas.map((curVal, index) => {
     // 当idName没有的时候 我们有自己的生成key值的算法
     resArr[index].key = idName
       ? (curVal[idName] + index)
