@@ -8,6 +8,7 @@ import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import { getAppListDatav2, getApptype } from 'services/software-manage'
+import { Link } from 'react-router-dom'
 // import webStorage from 'webStorage'
 import './Remove.scss'
 import moment from 'moment'
@@ -168,19 +169,19 @@ class Remove extends Component {
           <span >{moment(text).format('YYYY-MM-DD')}</span>
         )
       }
-    // },
-    // {
-    //   title: '操作',
-    //   dataIndex: 'options',
-    //   key: 'options',
-    //   render: (text, record, index) => {
-    //     const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
-    //     return (
-    //       <span>
-    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>{roleCode === 'operator' ? '撤销' : '详情'}</a>
-    //       </span>
-    //     )
-    //   }
+    },
+    {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      render: (text, record, index) => {
+        return (
+          <div key={index}>
+            {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
+            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: '?' + record.APP_ID}}>查看详情</Link></span>
+          </div>
+        )
+      }
     }]
   }
   dateToString = (date) => {
