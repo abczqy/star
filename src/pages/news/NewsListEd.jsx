@@ -16,6 +16,8 @@ import {processStr} from 'utils'
 import {newsList} from 'services/software-manage'
 import { withRouter } from 'react-router'
 import pic from '../../assets/images/u18499.png'
+import config from '../../../config/index'
+const {IMG_BASE_URL_V2} = config
 
 class News extends React.Component {
   constructor (props) {
@@ -97,10 +99,7 @@ class News extends React.Component {
   ptChange=(page, pageSize) => {
     this.setState({
       pageNum: page
-    }, () => {
-      console.log('获取分页存到state', this.state.pageNum)
-    })
-    this.getList()
+    }, () => this.getList())
   }
   // 每页展示数量改变
   stChange=(current, size) => {
@@ -108,9 +107,8 @@ class News extends React.Component {
     this.setState({
       pageSize: size
     }, () => {
-      console.log('获取每页显示数量存到state', this.state.pageSize)
+      this.getList()
     })
-    this.getList()
   }
   // a标签的跳转方法哦~
   handleTabChange= (e) => {
@@ -150,7 +148,7 @@ class News extends React.Component {
               return index === 0
                 ? <li style={{listStyle: 'none', paddingTop: '25px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '35%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={item.picUrl ? item.picUrl : pic} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={item.picUrl ? IMG_BASE_URL_V2 + item.picUrl : pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>

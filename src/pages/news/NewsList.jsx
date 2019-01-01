@@ -15,6 +15,8 @@ import {processStr} from 'utils'
 import { withRouter } from 'react-router'
 import {newsList} from 'services/software-manage'
 import pic from '../../assets/images/u18499.png'
+import config from '../../../config/index'
+const {IMG_BASE_URL_V2} = config
 
 // import { renderRoutes } from 'react-router-config'
 class News extends React.Component {
@@ -179,7 +181,7 @@ class News extends React.Component {
                   </Row>
                 </li> : <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}} key={index}>
                   <Row>
-                    <Col span={5}><img src={item.picUrl ? item.picUrl : pic} width='80%' height='120' alt='' /></Col>
+                    <Col span={5}><img src={item.picUrl ? IMG_BASE_URL_V2 + item.picUrl : pic} width='80%' height='120' alt='' /></Col>
                     <Col span={19}>
                       <Row>
                         <Col span={20}><p className='p'><a onClick={this.handleTabChange.bind(this)}><span style={{display: 'none'}}>{item.id}</span> {item.contentTitle}</a></p></Col>
