@@ -62,10 +62,10 @@ class IterationPlease extends React.Component {
       newFeatrue: '', // 描述
       updateTime: null, // 更新时间
       sysVersion: '', // 用来存软件版本的文件的系统版本
-      appIconId: null, // 软件图标-文件上传后后台传回的id
+      phoneIconId: null, // 软件图标-文件上传后后台传回的id
       appSoftId: null, // 软件本身-文件上传后后台传回的id
       pcIconIds: [], // 软件pc图标-文件上传后后台传回的id
-      appIcon: null, // 文件-上传的软件图标
+      phoneIcons: null, // 文件-上传的软件图标
       appSoft: null, // 文件-上传的文件本身
       pcIcons: [] // 文件-上传的pc图标
     }
@@ -349,7 +349,7 @@ zHs=() => {
       newFeatrue,
       appSoftId,
       pcIconIds,
-      appIconId
+      phoneIconId
     } = this.state
 
     let result = {}
@@ -360,7 +360,7 @@ zHs=() => {
       appDownloadAddress: appSoftId, // 下载地址 - 给后台静态文件id
       appId: appId || '', // appId
       appPcPic: array2Str(pcIconIds), // app的pc截图 -- 数组
-      appPhonePic: appIconId, // app的图标
+      appPhonePic: phoneIconId, // app的图标
       appStatus: '',
       appVersion: newVersion || '', // 新版本信息
       authDetail: '',
@@ -431,34 +431,16 @@ zHs=() => {
   }
 
   /**
-   * 接口调用 - 提交数据
+   * 上传App本身
    */
-  getSubmit = (thiz) => {
-    const appId = thiz.state.appId
-    const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
-    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
-      .then(function (res) {
-        if (res.data.code === 200) {
-          message.success(res.data.msg || '提交成功')
-          // 还要跳回上一页
-          thiz.props.history.goBack()
-        } else {
-          message.warning(res.data.msg || '提交失败')
-        }
-      })
-  }
-
-  /**
-   * 上传AppIcon
-   */
-  uploadAppIcon = (thiz, callBack) => {
-    if (thiz.state.appIcon) {
-      // 当appIcon有值时 -- 有文件上传时
-      thiz.getUpload('pic', this.state.appIcon, (res) => {
-        // 设置对应的文件id
+  uploadApp = (thiz, callBack) => {
+    if (thiz.state.appSoft) {
+      // 当appSoft有值时 -- 有文件上传时
+      thiz.getUpload('soft', this.state.appSoft, (res) => {
+      // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
-            appIconId: res.data.data
+            appSoftId: res.data.data
           }, function () {
             callBack && callBack(thiz)
           })
@@ -473,16 +455,16 @@ zHs=() => {
   }
 
   /**
-   * 上传App本身
+   * 上传phoneIcons
    */
-  uploadApp = (thiz, callBack) => {
-    if (thiz.state.appSoft) {
-      // 当appSoft有值时 -- 有文件上传时
-      thiz.getUpload('soft', this.state.appSoft, (res) => {
-      // 设置对应的文件id
+  uploadPhoneIcons = (thiz, callBack) => {
+    if (thiz.state.phoneIcons) {
+      // 当phoneIcons有值时 -- 有文件上传时
+      thiz.getMultiUpload('pic', this.state.phoneIcons, (res) => {
+        // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
-            appSoftId: res.data.data
+            phoneIconId: res.data.data.slice()
           }, function () {
             callBack && callBack(thiz)
           })
@@ -520,12 +502,30 @@ zHs=() => {
   }
 
   /**
+   * 接口调用 - 提交数据
+   */
+  getSubmit = (thiz) => {
+    const appId = thiz.state.appId
+    const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
+      .then(function (res) {
+        if (res.data.code === 200) {
+          message.success(res.data.msg || '提交成功')
+          // 还要跳回上一页
+          thiz.props.history.goBack()
+        } else {
+          message.warning(res.data.msg || '提交失败')
+        }
+      })
+  }
+
+  /**
    * 提交
    */
   onSubmit = (thiz) => {
     // 先上传state中的文件数据
     // 先上传app的图标
-    thiz.uploadAppIcon(thiz, () => {
+    thiz.uploadPhoneIcons(thiz, () => {
       // 上传app软件
       thiz.uploadApp(thiz, () => {
         thiz.uploadPcPics(thiz, () => {
@@ -549,16 +549,20 @@ zHs=() => {
   }
 
   render () {
-    // 上传软件图标 - 只能上传一个 + 图片
+    // 上传手机端图标
     const uploadSoftIconProps = {
       onRemove: (file, fileList) => {
+        // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
+        let newFileList = this.state.phoneIcons.slice()
+        const index = newFileList.indexOf(file)
+        newFileList.splice(index, 1)
         this.setState({
-          appIcon: null
+          phoneIcons: null
         })
       },
       beforeUpload: (file, fileList) => {
         this.setState({
-          appIcon: file
+          phoneIcons: [...this.state.phoneIcons, file]
         })
         // 采用手动上传
         return false

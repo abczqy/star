@@ -5,19 +5,26 @@
  */
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import {Tabs, Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message, Checkbox} from 'antd'
+import { axios } from 'utils'
+import config from '../../config'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 // import Upload from './Upload'
 // import axios from 'axios'
 // import ajaxUrl from 'config'
-import {shelf} from 'services/software-manage'
-import PropTypes from 'prop-types'
+// import {shelf} from 'services/software-manage'
 import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
 import {AppPurCombination} from 'components/software-market'
+import webStorage from 'webStorage'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
+
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
+// const SERVICE_PORTAL = config.SERVICE_PORTAL
 
 class ShelfPlease extends React.Component {
   static propTypes = {
@@ -28,16 +35,8 @@ class ShelfPlease extends React.Component {
     this.state = {
       previewApp: false, // 是否显示预览弹窗
       imgTitle: title,
-      rname: '',
-      type: null,
-      rDescribe: '',
       Edition: 1,
       renderEdition: [],
-      hopeTime: null,
-      name: '',
-      idNumber: '',
-      conPeople: '',
-      conPeopleNum: '',
       radio: '',
       // 有关上传截图
       previewVisible: false,
@@ -61,12 +60,10 @@ class ShelfPlease extends React.Component {
           value: 'android'
         }
       ],
-      rFeatures: '', // 新版特性
       fileListDetailType: [], // 用来存软件版本类型的文件id
       fileListDetailSize: [], // 用来存软件版本包大小的文件id
       fileListDetailVersionNum: [], // 用来存软件版本版本号的文件id
       fileListDetailPackName: [], // 用来存软件版本包名的文件id
-      fileListDetailAuth: [], // 用来存软件版本权限
       fileListSoftwareEdt: [], // 用来存软件版本的文件id
       fileListIcon: [], // 用来存软件图标的文件id
       fileListIconUrl: [], // 用来存软件图标地址的文件id
@@ -78,9 +75,19 @@ class ShelfPlease extends React.Component {
       fileListFive: [], // 用来存软件版权的文件id
       fileListFinVour: [], // 用来存财务审核凭证的文件id
       fileListContract: [], // 用来存财务审核凭证的文件id
-      conPeopleNumBlur: false,
-      idNumberBlur: false,
-      formDataPre1: '' // 预览数据
+      relationNumBlur: false,
+      idNumBlur: false,
+      formDataPre1: '', // 预览数据
+      appName: '', // 软件名称 -- v2
+      appType: '', // 软件类型
+      appDesc: '', // 软件描述
+      feature: '', // 新版特性
+      rights: [], // 权限详情
+      shelfTime: null, // 期望上架时间
+      authName: '', // 开发相关-姓名
+      idNum: '', // 身份证号
+      relation: '', // 主要联系人
+      relationNum: '' // 联系人电话
     }
   }
   componentWillMount () {
@@ -92,30 +99,30 @@ class ShelfPlease extends React.Component {
     })
   }
   // 软件名称
-  rnameChange=(e) => {
+  onAppNameChange=(e) => {
     let {value} = e.target
     this.setState({
-      rname: value
+      appName: value
     })
   }
   // 新版特性
-  rFeaturesChange=(e) => {
+  onFeatureChange=(e) => {
     let {value} = e.target
     this.setState({
-      rFeatures: value
+      feature: value
     })
   }
   // 类型
-  type=(value) => {
+  onTypeChange = (value) => {
     this.setState({
-      type: value
+      appType: value
     })
   }
   // 软件描述
-  rDescribe=(e) => {
+  onDescChange=(e) => {
     let {value} = e.target
     this.setState({
-      rDescribe: value
+      appDesc: value
     })
   }
   // 添加按钮
@@ -171,13 +178,13 @@ class ShelfPlease extends React.Component {
     this.renderEdition()
   }
   // 用来存软件版本权限详情
-  SDetailAuthChange =(checkedValues, index) => {
-    // let a = this.state.fileListDetailAuth
+  onRightChange = (checkedValues, index) => {
+    // let a = this.state.rights
     // a[index] = checkedValues
     this.setState({
-      fileListDetailAuth: checkedValues
+      rights: checkedValues
     }, () => {
-      console.log('用来存软件版本权限详情', this.state.fileListDetailAuth)
+      console.log('用来存软件版本权限详情', this.state.rights)
     })
   }
   // 渲染软件版本列表
@@ -251,88 +258,88 @@ class ShelfPlease extends React.Component {
   }
 
   // 日期变化
-  onChange=(value, dateString) => {
+  onShelfDateChange=(value, dateString) => {
     console.log('Selected Time: ', value)
     console.log('Formatted Selected Time: ', dateString)
     this.setState({
-      hopeTime: value
+      shelfTime: value
     })
   }
   // 日期点击确定
   onOk=(value) => {
     console.log('onOk: ', value)
     this.setState({
-      hopeTime: value
+      shelfTime: value
     })
   }
   // 日期取消
   onBlur =(value) => {
     if (value) {
       this.setState({
-        hopeTime: value
+        shelfTime: value
       })
     }
   }
   // 存开发相关的name
-  name=(e) => {
+  onAuthNameChange = (e) => {
     let {value} = e.target
     this.setState({
-      name: value
+      authName: value
     })
   }
   // 存身份证号
-  idNumber=(e) => {
+  onIdNumChange=(e) => {
     let {value} = e.target
 
     this.setState({
-      idNumber: value
+      idNum: value
     })
   }
   // 身份证校验
-  idNumberBlur=(e) => {
+  idNumBlur=(e) => {
     console.log('aaaaaaaaaaaa')
     let {value} = e.target
     var regu = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
     var re = new RegExp(regu)
     if (re.test(value)) {
       this.setState({
-        idNumberBlur: true
+        idNumBlur: true
       })
     } else {
       message.error('请输入身份证号格式不正确')
       this.setState({
-        idNumberBlur: false
+        idNumBlur: false
       })
     }
   }
   // 存联系人
-  conPeople=(e) => {
+  onRelationChange=(e) => {
     let {value} = e.target
     this.setState({
-      conPeople: value
+      relation: value
     })
   }
   // 存联系人电话
-  conPeopleNum=(e) => {
+  relationNum=(e) => {
     let {value} = e.target
     this.setState({
-      conPeopleNum: value
+      relationNum: value
     })
   }
   // 手机校验
-  conPeopleNumBlur = (e) => {
+  relationNumBlur = (e) => {
     console.log('aaaaaaaaaaaa')
     let {value} = e.target
     var regu = /^1[34578]\d{9}$/
     var re = new RegExp(regu)
     if (re.test(value)) {
       this.setState({
-        conPeopleNumBlur: true
+        relationNumBlur: true
       })
     } else {
       message.error('请输入手机号格式不正确')
       this.setState({
-        conPeopleNumBlur: false
+        relationNumBlur: false
       })
     }
   }
@@ -379,8 +386,8 @@ class ShelfPlease extends React.Component {
   handlePreview () {
     const thiz = this
     let formDataPre = new FormData()
-    formDataPre.append('rname', this.state.rname || '')// 软件名称*
-    formDataPre.append('rType', this.state.type || '')// 软件类型*
+    formDataPre.append('appName', this.state.appName || '')// 软件名称*
+    formDataPre.append('appType', this.state.appType || '')// 软件类型*
     formDataPre.append('sw_icon', this.state.fileListIcon || '')// 软件图标*
     // 查看详情
     formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
@@ -388,12 +395,12 @@ class ShelfPlease extends React.Component {
     formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
     formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
 
-    formDataPre.append('detailAuth', this.state.fileListDetailAuth || [])// 权限详情*
+    formDataPre.append('detailAuth', this.state.rights || [])// 权限详情*
     this.state.fileListPhone.forEach((file) => { // 手机展示
       formDataPre.append('phonePhoto', file)
     })
-    formDataPre.append('rDescribe', this.state.rDescribe || '')// 应用介绍*
-    formDataPre.append('rFeatures', this.state.rFeatures || '')// 新版特性*
+    formDataPre.append('appDesc', this.state.appDesc || '')// 应用介绍*
+    formDataPre.append('feature', this.state.feature || '')// 新版特性*
 
     // this.getPicUrl(function (state) {
     //   // console.log(' 图片； ', thiz.state.fileListIconUrl)
@@ -416,81 +423,95 @@ class ShelfPlease extends React.Component {
     this.props.history.goBack()
   }
 
-  // 提交表单啦
-  submit=() => {
-    if (!(this.state.conPeopleNumBlur && this.state.idNumberBlur)) {
-      message.error('身份证号或者手机号填写有误')
-    } else if (this.state.rname && this.state.type && this.state.rDescribe && this.state.name && this.state.idNumber && this.state.conPeople && this.state.fileListIcon.length !== 0 && this.state.fileListFour.length !== 0 && this.state.fileListDetailType.length !== 0 && this.state.fileListSoftwareEdt.length !== 0) {
-      console.log('全填完了')
-      const formData = new FormData()
-      formData.append('rname', encodeURI(this.state.rname))// 软件名称*
-      formData.append('rType', encodeURI(this.state.type))// 软件类型*
-      formData.append('rDescribe', encodeURI(this.state.rDescribe))// 软件描述*
-      formData.append('hopeTime', this.state.hopeTime === null ? '' : this.state.hopeTime.format('YYYY-MM-DD'))// 期望上架时间
-      formData.append('name', encodeURI(this.state.name))// 开发相关名字*
-      formData.append('idNumber', this.state.idNumber)// 身份证号*
-      formData.append('conPeople', encodeURI(this.state.conPeople))// 主要联系人*
-      formData.append('conPeopleNum', this.state.conPeopleNum)// 主要联系人电话*
-      formData.append('sw_type', this.state.radio)// 软件版权类别
-      this.state.fileListIcon.forEach((file) => {
-        formData.append('sw_icon', file)
-      })
-      // formData.append('sw_icon', this.state.fileListIcon)// 软件图标*
-      this.state.fileListPC.forEach((file) => {
-        formData.append('sw_computer_photo', file)
-      })
-      this.state.fileListPhone.forEach((file) => {
-        formData.append('sw_phone_photo', file)
-      })
-      // formData.append('sw_computer_photo', this.state.fileListPC)// pc图片
-      this.state.fileListFour.forEach((file) => {
-        formData.append('idNumber_photo', file)
-      })
-      // formData.append('idNumber_photo', this.state.fileListFour) // 手持身份证照片*
-      this.state.fileListFive.forEach((file) => {
-        formData.append('sw_copyright', file)
-      })
-      // formData.append('sw_copyright', this.state.fileListFive)// 软件版权的文件
-      this.state.fileListFinVour.forEach((file) => {
-        formData.append('fin_audit', file)
-      })
-      // formData.append('fin_audit', this.state.fileListFinVour)// 财务凭证
-      this.zH().forEach((file) => {
-        formData.append('copType', file)
-      })
-      // formData.append('copType', this.zH())// 软件版本的文件*
-      this.zHs().forEach((a) => {
-        formData.append('type', a)
-      })
-      // formData.append('type', this.zHs())// 软件版本的文件和系统类别*
-      formData.append('fa_id', 'fa_123456')// 厂商Id
-      // console.log('看看那是什么', this.zHs())
-      shelf(formData, (response) => {
-        message.success(`上架申请成功!`)
-        console.log(response)
-      })
-    } else {
-      message.error('请填写完带有*号的填写项')
+  /**
+   * params组织 - 获取迭代接口需要的params
+   */
+  getParams = (thiz) => {
+    const {
+      appName,
+      appDesc,
+      appType,
+      feature
+    } = this.state
+
+    let result = {}
+    // userId部分
+    result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    // appInfo 部分
+    result.appInfo = {
+      appIcon: '',
+      appName: appName, // app名称
+      appNotes: appDesc, // app描述
+      appPcPic: [],
+      appPhonePic: [],
+      appTypeId: appType, // app的类型
+      authDetail: '',
+      newFeatures: feature // app的新版特性
     }
+
+    // appInfo.pc部分 -- 这个是什么
+    result.appInfo.pc = [
+      {
+        address: '',
+        appVersion: '',
+        packageName: '',
+        versioInfo: '',
+        versionSize: ''
+      }
+    ]
+
+    return result
+  }
+
+  /**
+   * 接口调用 - 提交数据
+   */
+  getSubmit = (thiz) => {
+    // const appId = thiz.state.appId
+    // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app`, {...thiz.getParams()})
+      .then(function (res) {
+        if (res.data.code === 200) {
+          message.success(res.data.msg || '提交成功')
+          // 还要跳回上一页
+          thiz.props.history.goBack()
+        } else {
+          message.warning(res.data.msg || '提交失败')
+        }
+      })
+  }
+  /**
+   * 提交数据
+   */
+  onSubmit = (thiz) => {
+    // 数据接口-提交
+    thiz.getSubmit(thiz)
   }
 
   render () {
+    // 需要改
     const data = [
       {
-        key: '教学类',
-        value: '教学类'
-      },
-      {
-        key: '教辅类',
-        value: '教辅类'
-      },
-      {
-        key: '管理类',
-        value: '管理类'
-      },
-      {
-        key: '其他',
-        value: '其他'
+        name: '教学类',
+        value: '101'
+      }, {
+        name: '教辅类',
+        value: '102'
+      }, {
+        name: '管理类',
+        value: '103'
+      }, {
+        name: '评价类',
+        value: '105'
+      }, {
+        name: '学习类',
+        value: '106'
+      }, {
+        name: '亲子互动类',
+        value: '37'
+      }, {
+        name: '其他',
+        value: '107'
       }
     ]
     const propsIcon = {
@@ -675,12 +696,12 @@ class ShelfPlease extends React.Component {
       {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row> */}
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件名称 :</Col>
-        <Col span={7}><Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.rnameChange} value={this.state.rname} /></Col>
+        <Col span={7}><Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.onAppNameChange} value={this.state.appName} /></Col>
         <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
         <Col span={7}>
-          <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.type(value)} value={this.state.type} >
+          <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.onTypeChange(value)} value={this.state.appType} >
             {data.map((item, index) => {
-              return <Select.Option value={item.value} key={index}>{item.value}</Select.Option>
+              return <Select.Option value={item.value} key={index}>{item.name}</Select.Option>
             })}
           </Select>
         </Col>
@@ -688,13 +709,13 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
         <Col span={20}>
-          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rDescribe} value={this.state.rDescribe} />
+          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onDescChange} value={this.state.appDesc} />
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
         <Col span={20}>
-          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.rFeaturesChange} value={this.state.rFeatures} />
+          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onFeatureChange} value={this.state.feature} />
         </Col>
       </Row>
       <Row className='Wxds'>
@@ -710,7 +731,7 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>权限详情 : </span></Col>
         <Col span={20}>
-          <Checkbox.Group style={{ width: '100%' }} onChange={this.SDetailAuthChange}>
+          <Checkbox.Group style={{ width: '100%' }} onChange={this.onRightChange}>
             <Row>
               <Col span={6}><Checkbox value='1'>（基于网络的）粗略位置</Checkbox></Col>
               <Col span={6}><Checkbox value='2'>查看网络状态</Checkbox></Col>
@@ -741,7 +762,7 @@ class ShelfPlease extends React.Component {
             showTime
             format='YYYY-MM-DD HH:mm:ss'
             placeholder='Select Time'
-            onChange={this.onChange}
+            onChange={this.onShelfDateChange}
             onOk={this.onOk}
           />
         </Col>
@@ -779,14 +800,14 @@ class ShelfPlease extends React.Component {
             <span style={{visibility: 'hidden'}}>*PC无无无五五</span>
             <span style={{color: 'red'}}>* </span>姓名 :
           </Col>
-          <Input placeholder='请输入名字' style={{ width: 280 }} onChange={this.name} value={this.state.name} />
+          <Input placeholder='请输入名字' style={{ width: 280 }} onChange={this.onAuthNameChange} value={this.state.authName} />
         </Col>
         <Col span={8}>
           <Col span={5}>
             <span style={{color: 'red'}}>* </span>身份证号 :
           </Col>
           <Col span={17}>
-            <Input placeholder='请输入身份证号' style={{ width: 200 }} onBlur={this.idNumberBlur} onChange={this.idNumber} value={this.state.idNumber} /></Col>
+            <Input placeholder='请输入身份证号' style={{ width: 200 }} onBlur={this.idNumBlur} onChange={this.onIdNumChange} value={this.state.idNum} /></Col>
         </Col>
       </Row>
       <Row className='Wxd'>
@@ -812,13 +833,13 @@ class ShelfPlease extends React.Component {
             <span style={{visibility: 'hidden'}}>*PC无无</span>
             <span style={{color: 'red'}}>* </span>主要联系人 :
           </Col>
-          <Input placeholder='请输入联系人' style={{ width: 280 }} onChange={this.conPeople} value={this.state.conPeople} /></Col>
+          <Input placeholder='请输入联系人' style={{ width: 280 }} onChange={this.onRelationChange} value={this.state.relation} /></Col>
         <Col span={8}>
           <Col span={6}>
             <span style={{color: 'red'}}>* </span>联系人电话 :
           </Col>
           <Col span={18}>
-            <Input placeholder='请输入联系人电话' style={{ width: 200 }} onBlur={this.conPeopleNumBlur} onChange={this.conPeopleNum} value={this.state.conPeopleNum} /></Col>
+            <Input placeholder='请输入联系人电话' style={{ width: 200 }} onBlur={this.relationNumBlur} onChange={this.relationNum} value={this.state.relationNum} /></Col>
         </Col>
       </Row>
       <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
@@ -927,7 +948,7 @@ class ShelfPlease extends React.Component {
       extra={
         <div>
           <Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>
-          <Button type='primary' style={{marginLeft: '5%'}} onClick={this.submit}>提交申请</Button>
+          <Button type='primary' style={{marginLeft: '5%'}} onClick={() => this.onSubmit(this)}>提交申请</Button>
           <Button style={{marginLeft: '5%'}} onClick={this.onCancel}>取消</Button>
         </div>
       }>
