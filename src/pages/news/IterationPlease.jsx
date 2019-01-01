@@ -524,7 +524,7 @@ zHs=() => {
    */
   onSubmit = (thiz) => {
     // 先上传state中的文件数据
-    // 先上传app的图标
+    // 先上传app的手机端图标
     thiz.uploadPhoneIcons(thiz, () => {
       // 上传app软件
       thiz.uploadApp(thiz, () => {
@@ -550,14 +550,14 @@ zHs=() => {
 
   render () {
     // 上传手机端图标
-    const uploadSoftIconProps = {
+    const uploadPhonePicsProps = {
       onRemove: (file, fileList) => {
         // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
         let newFileList = this.state.phoneIcons.slice()
         const index = newFileList.indexOf(file)
         newFileList.splice(index, 1)
         this.setState({
-          phoneIcons: null
+          phoneIcons: newFileList
         })
       },
       beforeUpload: (file, fileList) => {
@@ -669,7 +669,7 @@ zHs=() => {
                   软件图标 :
                   </Col>
                   <Col span={9}>
-                    <Upload {...uploadSoftIconProps}>
+                    <Upload {...uploadPhonePicsProps}>
                       <Button>
                         <Icon type='upload' /> 上传文件
                       </Button>

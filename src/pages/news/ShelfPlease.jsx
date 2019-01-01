@@ -24,7 +24,7 @@ const RadioGroup = Radio.Group
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
-// const SERVICE_PORTAL = config.SERVICE_PORTAL
+const SERVICE_PORTAL = config.SERVICE_PORTAL
 
 class ShelfPlease extends React.Component {
   static propTypes = {
@@ -87,7 +87,8 @@ class ShelfPlease extends React.Component {
       authName: '', // 开发相关-姓名
       idNum: '', // 身份证号
       relation: '', // 主要联系人
-      relationNum: '' // 联系人电话
+      relationNum: '', // 联系人电话
+      appIcon: null // 软件图标-文件
     }
   }
   componentWillMount () {
@@ -417,6 +418,67 @@ class ShelfPlease extends React.Component {
   }
 
   /**
+   * 接口调用-上传文件
+   * 1- 在提交时调用
+   * 2- 这里利用封装 - 避免下回调地狱
+   */
+  getUpload = (fileType, file, callBack) => {
+    // 构造参数
+    let params = new FormData()
+    params.append('fileType', fileType)
+    params.append('file', file)
+    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload`, params)
+      .then(function (res) {
+      // 不阻塞 - 执行成功会执行回调
+        callBack && callBack(res)
+      }).catch(function (e) {
+      // 不阻塞 - 执行失败也会执行回调
+        callBack && callBack(e)
+      })
+  }
+
+  /**
+   * 接口调用-上传多文件
+   * 1- 在提交时调用
+   * 2- 这里利用封装 - 避免下回调地狱
+   */
+  getMultiUpload = (fileType, fileList, callBack) => {
+    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload/all`, {
+      fileType: fileType,
+      file: fileList
+    }).then(function (res) {
+      // 不阻塞 - 执行成功会执行回调
+      callBack && callBack(res)
+    }).catch(function (e) {
+      // 不阻塞 - 执行失败也会执行回调
+      callBack && callBack(e)
+    })
+  }
+
+  /**
+   * 上传App的pc截图
+   */
+  uploadAppIcon = (thiz, callBack) => {
+    if (thiz.state.appIcon) {
+      thiz.getUpload('pic', this.state.appIcon, (res) => {
+        // 设置对应的文件id
+        if (res.data && res.data.code === 200) {
+          thiz.setState({
+            appIcon: res.data.data
+          }, function () {
+            callBack && callBack(thiz)
+          })
+        } else {
+          callBack && callBack(thiz)
+        }
+      })
+    } else {
+      // 保证回调执行-不阻塞
+      callBack && callBack(thiz)
+    }
+  }
+
+  /**
    * 取消
    */
   onCancel = () => {
@@ -431,7 +493,8 @@ class ShelfPlease extends React.Component {
       appName,
       appDesc,
       appType,
-      feature
+      feature,
+      appIcon
     } = this.state
 
     let result = {}
@@ -439,7 +502,7 @@ class ShelfPlease extends React.Component {
     result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // appInfo 部分
     result.appInfo = {
-      appIcon: '',
+      appIcon: appIcon,
       appName: appName, // app名称
       appNotes: appDesc, // app描述
       appPcPic: [],
@@ -484,8 +547,10 @@ class ShelfPlease extends React.Component {
    * 提交数据
    */
   onSubmit = (thiz) => {
-    // 数据接口-提交
-    thiz.getSubmit(thiz)
+    thiz.uploadAppIcon(thiz, () => {
+      console.log('appIcon上传结束')
+      thiz.getSubmit(thiz)
+    })
   }
 
   render () {
@@ -514,30 +579,19 @@ class ShelfPlease extends React.Component {
         value: '107'
       }
     ]
-    const propsIcon = {
+    // 上传软件图标
+    const appIconProps = {
       listType: 'picture',
       onRemove: (file) => {
-        this.setState(({ fileListIcon, fileListIconUrl }) => {
-          const index = fileListIcon.indexOf(file)
-          const newFileList = fileListIcon.slice()
-          const newFileListIconUrl = fileListIconUrl.slice()
-          newFileList.splice(index, 1)
-          newFileListIconUrl.splice(index, 1)
-          return {
-            fileListIcon: newFileList,
-            fileListIconUrl: newFileListIconUrl
-          }
+        this.setState({
+          appIcon: null
         })
       },
       beforeUpload: (file) => {
-        this.getBase64(file, (imageUrl) => {
-          this.setState(({ fileListIcon, fileListIconUrl }) => ({
-            fileListIcon: [...fileListIcon, file],
-            fileListIconUrl: [...fileListIconUrl, imageUrl]
-          }), () => {
-            console.log('this.state.fileListIcon', this.state.fileListIcon)
-          })
+        this.setState({
+          appIcon: file
         })
+        // 开启手动上传
         return false
       },
       fileListIconUrl: this.state.fileListIconUrl,
@@ -748,7 +802,7 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='top'>
         <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
         <Col span={9} id='iconDiv'>
-          <Upload {...propsIcon}>
+          <Upload {...appIconProps}>
             <Button>
               <Icon type='upload' /> 上传文件
             </Button>
