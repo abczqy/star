@@ -52,7 +52,13 @@ class NewsList extends Component {
       [{
         title: '新闻标题',
         dataIndex: 'contentTitle',
-        key: 'contentTitle'
+        key: 'contentTitle',
+        width: '20%',
+        render: (text, record, index) => {
+          return (
+            <span className='desc-box'>{text}</span>
+          )
+        }
       }, {
         title: '新闻描述',
         width: 300,
@@ -77,6 +83,7 @@ class NewsList extends Component {
         title: '新闻图片',
         dataIndex: 'picUrl',
         key: 'picUrl',
+        width: '10%',
         render: (text, record, index) =>
           text ? <img className='img-table-box' src={ajaxUrl.IMG_BASE_URL + '/' + text} /> : '无'
       }, {
