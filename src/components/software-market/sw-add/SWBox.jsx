@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Row, Col, Icon } from 'antd'
 import PropsTypes from 'prop-types'
 import './SWBox.scss'
+import config from '../../../config/index'
+const {IMG_BASE_URL_V2} = config
 
 class SWBox extends Component {
   render () {
@@ -11,7 +13,7 @@ class SWBox extends Component {
         <Row>
           {boxList.map((item, index) => {
             return (<Col span={2} key={index}><div className='sw-box-icon'>
-              {list.length >= item ? <img src={list[index]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '20px', color: '#999', marginLeft: '10px', marginTop: '10px'}} type='plus' />}
+              {list.length >= item ? <img src={IMG_BASE_URL_V2 + list[index]} style={{width: '40px', height: '40px'}} /> : <Icon style={{fontSize: '20px', color: '#999', marginLeft: '10px', marginTop: '10px'}} type='plus' />}
             </div></Col>)
           })}
         </Row>

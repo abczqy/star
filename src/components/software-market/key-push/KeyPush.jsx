@@ -196,7 +196,7 @@ class KeyPush extends Component {
       appName: this.state.searchValue,
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      orderType: 'time'
+      orderType: 'download'
     }
     if (this.state.type && this.state.type !== '') {
       params.appType = this.state.type

@@ -58,8 +58,8 @@ class SWMaker extends Component {
       render: (text) => text.companyName
     }, {
       title: '图片',
-      dataIndex: 'APP_ICON',
-      key: 'APP_ICON',
+      dataIndex: 'appIcon',
+      key: 'appIcon',
       render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={IMG_BASE_URL_V2 + text} /> : '无'
     }, {
       title: '选择',
@@ -172,7 +172,7 @@ class SWMaker extends Component {
       appName: this.state.searchValue,
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
-      orderType: 'time'
+      orderType: 'download'
     }
     if (this.state.type && this.state.type !== '') {
       params.appType = this.state.type

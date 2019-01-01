@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-import { Card, Icon, Button, Col, Row, Input, Upload } from 'antd'
+import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
 import Editor from 'wangeditor'
 import {
   insertV2NewsList
 } from 'services/software-manage'
 import { BlankBar } from 'components/software-market'
+import _ from 'lodash'
 import './NewsListAdd.scss'
+import config from '../../../../../config/index'
+const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 class NewsListAdd extends Component {
   constructor (props) {
@@ -67,6 +70,17 @@ class NewsListAdd extends Component {
     })
   }
 
+  // 上传文件
+  onUploadChange = (e) => {
+    if (e.fileList[0].status === 'done') {
+      if (e.fileList[0].response.code === 200) {
+        this.setState({picId: e.fileList[0].response.data})
+      } else {
+        message.warn(e.fileList[0].response.msg)
+      }
+    }
+  }
+
   componentDidMount () {
     // 创建富文本编辑器
     const mountedElem = this.refs.mountedElem
@@ -79,8 +93,10 @@ class NewsListAdd extends Component {
       <Button className='upload-btn'><Icon type='upload' />上传文件</Button>
     )
     const upLoadProps = {
+      action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload`,
+      data: {fileType: 'pic'},
+      onChange: this.onUploadChange,
       onRemove: (file) => {
-        console.log('移除附件')
         this.setState(({ fileList }) => {
           const index = fileList.indexOf(file)
           const newFileList = fileList.slice()
@@ -91,13 +107,19 @@ class NewsListAdd extends Component {
         })
       },
       beforeUpload: (file) => {
-        console.log('上传之前')
-        this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
-        }))
-        return false
+        if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
+          message.warn('不支持该附件类型上传!')
+        } else if (file.size > 10 * 1024 * 1024) {
+          message.warn('文件大小不能超过10M')
+        } else if (this.state.fileList.length >= 1) {
+          message.warn('只能上传一个文件')
+        } else {
+          this.setState(({ fileList }) => ({
+            fileList: [...fileList, file]
+          }))
+        }
       },
-      fileList: fileList
+      fileList: this.state.fileList
     }
     return (
       <div className='news-list-wrap' >
