@@ -57,12 +57,16 @@ class IterationPlease extends React.Component {
       fileListOneF: [], // 用来存软件版本的文件id
       fileListTwo: [], // 用来存软件图标的文件id
       fileListThree: [], // 用来存PC端界面截图的文件id
-      appId: '', // app的id
+      appId: '', // app的id  -- 新的state
       newVersion: '', // 新版本号
       newFeatrue: '', // 描述
       updateTime: null, // 更新时间
       sysVersion: [], // 用来存软件版本的文件的系统版本
+      appIconId: null, // 软件图标-文件上传后后台传回的id
+      appSoftId: null, // 软件本身-文件上传后后台传回的id
+      pcIconIds: [], // 软件pc图标-文件上传后后台传回的id
       appIcon: null, // 文件-上传的软件图标
+      appSoft: null, // 文件-上传的文件本身
       pcIcons: [] // 文件-上传的pc图标
     }
   }
@@ -118,12 +122,57 @@ getAppData=(a) => {
   })
 }
   // 添加按钮
-  addBtn=() => {
-    this.setState({
-      Edition: this.state.Edition + 1
-    }, () => {
-      this.renderEdition()
-    })
+  // addBtn=() => {
+  //   this.setState({
+  //     Edition: this.state.Edition + 1
+  //   }, () => {
+  //     this.renderEdition()
+  //   })
+  // }
+
+  /**
+   * 渲染软件版本-上传文件部分
+   */
+  getEditionRender = () => {
+    let uploadSoftProps = {
+      onRemove: (file) => {
+        this.setState({
+          appSoft: null
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState({
+          appSoft: file
+        })
+        // 采用手动上传
+        return false
+      }
+    }
+    return (
+      <Row>
+        <Col span={12}>
+          <Col span={6}><span style={{visibility: 'hidden'}}>*PC无无无</span>
+            <span style={{color: 'red'}}>* </span>软件版本 :
+          </Col>
+          <Col span={9}>
+            <Select placeholder='请选择安装包版本' style={{ width: 200 }} onChange={(value) => this.onSelectChange(value)}>
+              {this.state.dataL.map((item, index) => {
+                return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
+              })}
+            </Select>
+          </Col>
+          <Col span={9}>
+            <Upload {...uploadSoftProps}>
+              <Button>
+                <Icon type='upload' /> 上传文件
+              </Button>
+              <span className='extend'>
+                <span style={{visibility: 'hidden'}}>无无无无无呜呜呜无无无无</span>支持扩展名：.exe..</span>
+            </Upload>
+          </Col>
+        </Col>
+      </Row>
+    )
   }
 
   // 渲染软件版本列表
@@ -243,40 +292,6 @@ zHs=() => {
   return a
 }
 
-  // 提交表单啦
-  // onSubmit=() => {
-  //   if (this.state.newVersion && this.state.newFeatrue && this.state.sysVersion.length !== 0 && this.state.fileListOneF.length !== 0) {
-  //     console.log('全填写完啦')
-  //     const formData = new FormData()
-  //     formData.append('newVersion', this.state.newVersion)// 软件图标
-  //     formData.append('newFeatrue_new', encodeURI(this.state.newFeatrue))// 软件描述
-  //     formData.append('updateTime', this.state.updateTime === null ? '' : this.state.updateTime.format('YYYY-MM-DD')) // 期望上架时间
-  //     this.state.fileListThree.forEach((file) => {
-  //       formData.append('sw_computer_photo_new', file)
-  //     })
-  //     // formData.append('sw_computer_photo_new', this.state.fileListThree)// pc电脑图片
-  //     this.state.fileListTwo.forEach((file) => {
-  //       formData.append('sw_icon_new', file)
-  //     })
-  //     // formData.append('sw_icon_new', this.state.fileListTwo)// 软件图标
-  //     this.zHs().forEach((file) => {
-  //       formData.append('type', file)
-  //     })
-  //     // formData.append('type', this.zHs())// 软件版本的文件id和系统类别
-  //     this.zH().forEach((file) => {
-  //       formData.append('copType', file)
-  //     })
-  //     // formData.append('copType', this.zH())// 软件版本的文件id和系统类别
-  //     formData.append('sw_id', this.state.appId ? this.state.appId : '')// 软件id
-  //     // formData.append('sw_id', this.state.appId)// appId
-  //     iteration(formData, (response) => {
-  //       console.log(response)
-  //     })
-  //   } else {
-  //     message.error('请填写完带有*号的填写项')
-  //   }
-  // }
-
   // 获取高度
   getHeight=() => {
     if (this.state.webStorage) {
@@ -332,17 +347,20 @@ zHs=() => {
       appId,
       sysVersion,
       newVersion,
-      newFeatrue
+      newFeatrue,
+      appSoftId,
+      pcIconIds,
+      appIconId
     } = this.state
     let result = {}
     // userId部分
     // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // marketAppVersion 部分
     result.marketAppVersion = {
-      appDownloadAddress: '', // 下载地址 - 给后台静态文件id
+      appDownloadAddress: appSoftId, // 下载地址 - 给后台静态文件id
       appId: appId || '', // appId
-      appPcPic: '',
-      appPhonePic: '',
+      appPcPic: pcIconIds, // app的pc截图 -- 数组
+      appPhonePic: appIconId, // app的图标
       appStatus: '',
       appVersion: newVersion || '', // 新版本信息
       authDetail: '',
@@ -379,7 +397,7 @@ zHs=() => {
    * 1- 在提交时调用
    * 2- 这里利用封装 - 避免下回调地狱
    */
-  getUpload = (fileType, file, thiz, callBack) => {
+  getUpload = (fileType, file, callBack) => {
     // 构造参数
     let params = new FormData()
     params.append('fileType', fileType)
@@ -387,10 +405,10 @@ zHs=() => {
     axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload`, params)
       .then(function (res) {
       // 不阻塞 - 执行成功会执行回调
-        callBack && callBack(res, thiz)
+        callBack && callBack(res)
       }).catch(function (e) {
       // 不阻塞 - 执行失败也会执行回调
-        callBack && callBack(e, thiz)
+        callBack && callBack(e)
       })
   }
 
@@ -399,16 +417,16 @@ zHs=() => {
    * 1- 在提交时调用
    * 2- 这里利用封装 - 避免下回调地狱
    */
-  getMultiUpload = (fileType, fileList, thiz, callBack) => {
+  getMultiUpload = (fileType, fileList, callBack) => {
     axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload/all`, {
       fileType: fileType,
       file: fileList
     }).then(function (res) {
       // 不阻塞 - 执行成功会执行回调
-      callBack && callBack()
-    }).catch(function () {
+      callBack && callBack(res)
+    }).catch(function (e) {
       // 不阻塞 - 执行失败也会执行回调
-      callBack && callBack()
+      callBack && callBack(e)
     })
   }
 
@@ -416,6 +434,7 @@ zHs=() => {
    * 接口调用 - 提交数据
    */
   getSubmit = (thiz) => {
+    console.log('开始提交表单数据')
     const appId = thiz.state.appId
     const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
@@ -431,13 +450,77 @@ zHs=() => {
   }
 
   /**
+   * 上传AppIcon
+   */
+  uploadAppIcon = (thiz, callBack) => {
+    thiz.getUpload('pic', this.state.appIcon, (res, thiz) => {
+      // 设置对应的文件id
+      if (res.data && res.data.code === 200) {
+        thiz.setState({
+          appIconId: res.data.data
+        }, function (thiz) {
+          callBack && callBack(thiz)
+        })
+      } else {
+        callBack && callBack(thiz)
+      }
+    })
+  }
+
+  /**
+   * 上传App本身
+   */
+  uploadApp = (thiz, callBack) => {
+    thiz.getUpload('soft', this.state.appSoft, (res) => {
+      // 设置对应的文件id
+      if (res.data && res.data.code === 200) {
+        thiz.setState({
+          appSoftId: res.data.data
+        }, function (thiz) {
+          callBack && callBack(thiz)
+        })
+      } else {
+        callBack && callBack(thiz)
+      }
+    })
+  }
+
+  /**
+   * 上传App的pc截图
+   */
+  uploadPcPics = (thiz, callBack) => {
+    thiz.getMultiUpload('pic', this.state.pcIcons, (res) => {
+      // 设置对应的文件id
+      if (res.data && res.data.code === 200) {
+        thiz.setState({
+          pcIconIds: res.data.data.slice()
+        }, function (thiz) {
+          callBack && callBack(thiz)
+        })
+      } else {
+        callBack && callBack(thiz)
+      }
+    })
+  }
+
+  /**
    * 提交
    */
   onSubmit = (thiz) => {
     // 先上传state中的文件数据
-    //
-    this.getUpload('pic', this.state.appIcon, thiz, (res) => {
-      
+    // 先上传app的图标
+    thiz.uploadAppIcon(thiz, () => {
+      console.log('开始上传app图标')
+      // 上传app软件
+      thiz.uploadApp(thiz, () => {
+        // 上传pc图片
+        console.log('开始上传app软件')
+        thiz.uploadPcPics(thiz, () => {
+          // 提交整个表单
+          console.log('开始上传pc截图')
+          thiz.getSubmit(thiz)
+        })
+      })
     })
     // 再在上传回调中提交本次表单数据
   }
@@ -468,16 +551,10 @@ zHs=() => {
         // 采用手动上传
         return false
       }
-      // fileListTwo: this.state.fileListTwo
     }
     // 上传pc图标
     const uploadPcIconProps = {
       onRemove: (file, fileList) => {
-        // this.setState(({ fileListThree }) => {
-        //   const index = fileListThree.indexOf(file)
-        //   const newFileList = fileListThree.slice()
-        //   newFileList.splice(index, 1)
-        // }
         // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
         let newFileList = this.state.pcIcons.slice()
         const index = newFileList.indexOf(file)
@@ -489,12 +566,11 @@ zHs=() => {
       beforeUpload: (file, fileList) => {
         // 把新文件添加到state原来的数组中
         this.setState({
-          pcIcons: [...this.state.fileList, file]
+          pcIcons: [...this.state.pcIcons, file]
         })
         // 采用手动上传
         return false
       }
-      // fileListThree: this.state.fileListThree
     }
     return (
       <Card title='迭代申请' style={{marginLeft: '12%', width: '80%', minHeight: this.state.viewHeight}}>
@@ -554,9 +630,10 @@ zHs=() => {
             </Row>
             <Row className='Wxd'>
               <Row className='Wxds'>
-                {this.state.renderEdition.map((item, index) => {
+                {/* {this.state.renderEdition.map((item, index) => {
                   return item
-                })}
+                })} */}
+                { this.getEditionRender() }
               </Row>
               <Row className='Wxd'>
                 <Col span={12}>
@@ -564,9 +641,9 @@ zHs=() => {
                     <span style={{visibility: 'hidden'}}>*PC无无无</span>
                     <span style={{visibility: 'hidden'}}>* 软件描述 : </span>
                   </Col>
-                  <Col span={5}>
+                  {/* <Col span={5}>
                     <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
-                  </Col>
+                  </Col> */}
                 </Col>
               </Row>
               <Row className='Wxd'>
