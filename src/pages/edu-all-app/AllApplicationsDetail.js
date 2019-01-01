@@ -58,8 +58,7 @@ class AllApplicationsDetail extends React.Component {
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
     homeCollection({
-      appId: id,
-      userId: '1'
+      appId: id
     }, (res) => {
       if (res.data.code === 200) {
         this.getAllAppData()

@@ -86,8 +86,8 @@ class TeacherHome extends Component {
     }).catch((e) => { console.log(e) })
 
     newAppRankingList({
-      num: 10,
-      chartType: activeKey === '1' ? 0 : 1
+      // num: 10,
+      // chartType: activeKey === '1' ? 0 : 1
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('新应用排行', res.data.data.data)
@@ -155,8 +155,7 @@ class TeacherHome extends Component {
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
     homeCollection({
-      appId: id,
-      userId: '1'
+      appId: id
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('收藏按钮：', res.data.msg)
@@ -189,13 +188,13 @@ class TeacherHome extends Component {
           <div className='app-install'>
             <dl className='app-install-dl'>
               <dt className='app-install-dt'>
-                {item.SW_ICON
-                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.SW_ICON} />
+                {item.APP_ICON
+                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
                   : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />
                 }
               </dt>
               <dd className='app-install-dd'>
-                <p className='download-num'>下载次数： {item.DOWNLOAD}</p>
+                <p className='download-num'>下载次数： {item.DOWNLOAD || '0'}</p>
                 <Rate disabled value={item.SW_STAR || 10} />
               </dd>
             </dl>
@@ -222,17 +221,17 @@ class TeacherHome extends Component {
       <div className='lista' key={index}>
         <div className='lista-title'>
           <span className='title-num' style={b}>{index + 1}</span>
-          <span className='title-detaila'>{item.appName || '无'}</span>
+          <span className='title-detaila'>{item.APP_NAME || '无'}</span>
           <div className='app-install'>
             <dl className='app-install-dl'>
               <dt className='app-install-dt'>
-                {item.appIcon
-                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.appIcon} />
+                {item.APP_ICON
+                  ? <img style={{width: '100%', height: '100%'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
                   : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} />
                 }
               </dt>
               <dd className='app-install-dd'>
-                <p className='download-num'>下载次数： {item.downloadCount}</p>
+                <p className='download-num'>下载次数： {item.DOWNLOAD || '0'}</p>
                 <Rate disabled value={item.SW_STAR || 10} />
               </dd>
             </dl>
@@ -244,31 +243,20 @@ class TeacherHome extends Component {
   }
 
   handleBtnClick (item) {
-    if (item.APP_SOURCE === 'false') {
+    if (item.APP_SOURCE === 'pt' && item.IS_OPEN === '1') {
+      window.open(item.APP_LINK || '')
+    } else {
       this.props.history.push({
         pathname: '/operate-manage-home/all-app-detail-third',
-        search: item.appId
+        search: item.APP_ID
       })
-    } else {
-      if (item.APP_SOURCE === 'true' && item.isOpen === 'true') {
-        window.open(item.sw_url)
-      } else {
-        this.props.history.push({
-          pathname: '/operate-manage-home/all-app-detail',
-          search: item.appId
-        })
-      }
     }
   }
   getBtnText (item) {
-    if (item.APP_SOURCE === 'false') {
-      return '安装'
+    if (item.APP_SOURCE === 'pt' && item.IS_OPEN === '1') {
+      return '打开'
     } else {
-      if (item.APP_SOURCE === 'true' && item.isOpen === 'true') {
-        return '打开'
-      } else {
-        return '开通'
-      }
+      return '安装'
     }
   }
   // 老师推荐
@@ -295,9 +283,9 @@ class TeacherHome extends Component {
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='star' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
+            type='star' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECTION)} type='heart' />
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='heart' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>
@@ -330,9 +318,9 @@ class TeacherHome extends Component {
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
+            type='star' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='heart' />
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='heart' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>

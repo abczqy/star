@@ -2,10 +2,10 @@ import axios from 'axios'
 // import config from '../config/index'
 import webStorage from 'webStorage'
 // const {API_BASE_URL} = config
-
+const ticket = webStorage.getItem('STAR_V2_TICKET') || ''
 Object.assign(axios.defaults, {
   // baseURL: API_BASE_URL,
-  headers: {'X-Requested-With': 'XMLHttpRequest'},
+  headers: {'X-Requested-With': 'XMLHttpRequest', 'authentication': '' + ticket},
   withCredentials: false
 })
 
