@@ -3,6 +3,7 @@
   position: relative;
   overflow: hidden;
   & > input {
+    margin: -1px;
     position: absolute;
     top: 0;
     right: 0;

@@ -40,6 +40,35 @@ class Home extends Component {
       'menu-item-select': this.state.selectKey === key
     })
   }
+  /**
+   * 获得角色名
+   */
+  getRolecodeName = (code) => {
+    let rolecodeName = ''
+    switch (code) {
+      case 'teacher':
+        rolecodeName = '教师'
+        break
+      case 'parents':
+        rolecodeName = '家长'
+        break
+      case 'students':
+        rolecodeName = '学生'
+        break
+      case 'school':
+        rolecodeName = '学校'
+        break
+      case 'vendor':
+        rolecodeName = '厂商'
+        break
+      case 'eduBureau':
+        rolecodeName = '教育局'
+        break
+      default:
+        rolecodeName = '游客'
+    }
+    return rolecodeName
+  }
 
   /**
    * menu的Item在被选中时调用
@@ -64,6 +93,8 @@ class Home extends Component {
   }
 
   render () {
+    let rolecode = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    let rolecodeName = this.getRolecodeName(rolecode)
     return (
       <Page
         paddingTop='10px'
@@ -101,7 +132,7 @@ class Home extends Component {
                     <Align>
                       <LabelBox margin='15px 0 10px 0'>
                         <span className='label-font color-normal'>
-                          账户名 | 账户对应角色名
+                          {webStorage.getItem('STAR_WEB_PERSON_INFO').userName || '无'} | {rolecodeName}
                         </span>
                       </LabelBox>
                     </Align>
