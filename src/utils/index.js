@@ -1,6 +1,7 @@
 import getEchartsOptions from './getEchartsOptions'
 import getSearchString from './getSearchParams'
 import {axios} from './HttpClient'
+import { array2Str } from './Array2Str'
 
 /**
  * 截取字符串
@@ -20,5 +21,6 @@ export {
   getEchartsOptions,
   axios,
   getSearchString,
-  processStr
+  processStr,
+  array2Str
 }
