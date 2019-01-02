@@ -49,10 +49,11 @@ class NewsListAdd extends Component {
    * @returns {*}
    */
   getFormData () {
-    const { newsTitle } = this.state
+    const { newsTitle, picId } = this.state
     return {
       contentTitle: newsTitle,
-      content: this.getRichText()
+      content: this.getRichText(),
+      picId: picId
     }
   }
 

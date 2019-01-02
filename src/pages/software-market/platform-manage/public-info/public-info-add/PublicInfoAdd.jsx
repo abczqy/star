@@ -49,10 +49,11 @@ class PublicInfoAdd extends Component {
    * @returns {*}
    */
   getFormData () {
-    const { infoTitle } = this.state
+    const { infoTitle, picId } = this.state
     return {
       contentTitle: infoTitle,
-      content: this.getRichText()
+      content: this.getRichText(),
+      picId: picId
     }
   }
 

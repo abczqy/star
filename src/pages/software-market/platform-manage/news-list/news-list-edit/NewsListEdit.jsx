@@ -57,7 +57,8 @@ class NewsListEdit extends Component {
       data: {
         ...this.state.data,
         content: content,
-        contentTitle: contentTitle
+        contentTitle: contentTitle,
+        picId: this.state.picId
       }
     }, () => {
       updateV2NewsList(this.state.data, (res) => {

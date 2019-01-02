@@ -57,7 +57,8 @@ class PublicInfoEdit extends Component {
       data: {
         ...this.state.data,
         content: content,
-        contentTitle: contentTitle
+        contentTitle: contentTitle,
+        picId: this.state.picId
       }
     }, () => {
       updateV2PubInfoList(this.state.data, (res) => {
