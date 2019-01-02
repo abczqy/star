@@ -433,7 +433,7 @@ class ShelfPlease extends React.Component {
    */
   onappVersionChange = (v, index) => {
     let arr = this.state.versions.slice()
-    arr[index].packageName = v
+    arr[index].appVersion = v
     this.setState({
       versions: arr
     })
@@ -468,6 +468,7 @@ class ShelfPlease extends React.Component {
       versions: arr
     })
   }
+
   /**
    * 事件-删除一个版本编辑器
    * 1- 利用版本编辑器的id（就是state.versions中的对应的index）
@@ -496,6 +497,7 @@ class ShelfPlease extends React.Component {
       }]
     })
   }
+
   /**
    * 渲染List-版本编辑器
    */
@@ -509,22 +511,30 @@ class ShelfPlease extends React.Component {
    * 渲染Item-版本编辑器
    */
   getVerEditorRender = (index) => {
+    const thiz = this
     const propsVer = {
       onRemove: (file) => {
-        // this.setState(({fileListSoftwareEdt}) => {
-        //   const index = fileListSoftwareEdt.indexOf(file)
-        //   const newFileList = fileListSoftwareEdt.slice()
-        //   newFileList.splice(index, 1)
-        //   return {
-        //     fileListSoftwareEdt: newFileList
-        //   }
-        // })
+        // 删除对应的state
+        let arr = this.state.versions.slice()
+        arr[index].address = ''
+        this.setState({
+          versions: arr
+        })
       },
       beforeUpload: (file) => {
-        // console.log('接受的文件格式？？？？？', file)
-        // this.setState(({fileListSoftwareEdt}) => ({
-        //   fileListSoftwareEdt: [...fileListSoftwareEdt, file]
-        // }))
+        // 把文件上传上去
+        getUpload('soft', file, (res) => {
+        // 设置对应的文件id
+          if (res.data && res.data.code === 200) {
+          // 构造一个versions的数组arr 把后台返回的id映射到arr
+            let arr = this.state.versions.slice()
+            arr[index].address = res.data.data
+            // 把arr复制给state.versions
+            thiz.setState({
+              versions: arr
+            })
+          }
+        })
         return false
       }
       // fileListSoftwareEdt: this.state.fileListSoftwareEdt
@@ -682,7 +692,8 @@ class ShelfPlease extends React.Component {
       appIcon,
       pcPics,
       phonePics,
-      rights
+      rights,
+      versions
     } = this.state
 
     let result = {}
@@ -701,15 +712,7 @@ class ShelfPlease extends React.Component {
     }
 
     // appInfo.pc部分 -- 这里需要一个函数从数据专门生成
-    result.appInfo.pc = [
-      {
-        address: '', // 上传文件
-        appVersion: '', // 软件平台版本
-        packageName: '', // 包名
-        versioInfo: '', // 版本号
-        versionSize: '' // 软件大小
-      }
-    ]
+    result.appInfo.pc = versions
 
     return result
   }
