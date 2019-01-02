@@ -5,9 +5,10 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Table, Row, Col } from 'antd'
+import { Table } from 'antd'
+// import { Table, Row, Col } from 'antd'
 import ajaxUrl from 'config'
-import CountShow from '../count-show/CountShow'
+// import CountShow from '../count-show/CountShow'
 import './MarketAnalysisTable.scss'
 
 class MarketAnalysisTable extends Component {
@@ -15,7 +16,7 @@ class MarketAnalysisTable extends Component {
     super(props)
     this.columns = [{
       title: '序号',
-      dataIndex: 'APP_ID',
+      dataIndex: 'Index',
       render: (id) => {
         let serialNumber = id
         switch (id) {
@@ -51,29 +52,29 @@ class MarketAnalysisTable extends Component {
       // width: 150
     }, {
       title: '下载数量',
-      dataIndex: 'DOWNLOAD_COUNT',
-      render: (downLoadCount, record) => (
-        <Row className='download'>
-          <Col span={8} className='down-number' >{downLoadCount}</Col>
-          <Col span={16} >
-            {
-              <CountShow percent={30} index={record.id} />
-            }
+      dataIndex: 'DOWNLOAD_COUNT'
+      // render: (downLoadCount, record) => (
+      // <Row className='download'>
+      //   <Col span={8} className='down-number' >{downLoadCount}</Col>
+      //   <Col span={16} >
+      //     {
+      //       <CountShow percent={30} index={record.id} />
+      //     }
 
-          </Col>
-        </Row>
-      )
+      //   </Col>
+      // </Row>
+      // )
       // width: 150
     }, {
       title: '收藏数量',
       dataIndex: 'COLLECTION_COUNT'
       // width: 150
     }, {
-      title: '点击率',
-      dataIndex: 'CLICKNUM',
-      render: () => { return '30%' }
-      // width: 150
-    }, {
+    //   title: '点击率',
+    //   dataIndex: 'CLICKNUM',
+    //   render: () => { return '30%' }
+    //   // width: 150
+    // }, {
       title: '上线时间',
       dataIndex: 'CREATE_TIME',
       render: date => moment(date).format('YYYY-MM-DD')
@@ -89,7 +90,7 @@ class MarketAnalysisTable extends Component {
           rowKey='APP_ID'
           columns={this.columns}
           dataSource={this.props.dataSource || []}
-          pagination={false}
+          pagination={this.props.pagination}
         />
       </div>
     )
@@ -97,7 +98,8 @@ class MarketAnalysisTable extends Component {
 }
 
 MarketAnalysisTable.propTypes = {
-  dataSource: PropTypes.array
+  dataSource: PropTypes.array,
+  pagination: PropTypes.object
 }
 
 export default MarketAnalysisTable
