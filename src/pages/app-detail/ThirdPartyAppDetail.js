@@ -4,15 +4,11 @@
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
 import './ThirdPartyAppDetail.css'
-// import { Button, Icon, Carousel, Rate } from 'antd'
 import { Button, Icon, Carousel, Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
 import {thirdPartyAppDetail, appIsOpen, appOpen} from 'services/all-app/'
-// import { renderRoutes } from 'react-router-config'
-// import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
-// const { Sider, Content } = Layout
 class ThirdPartyAppDetail extends React.Component {
   constructor (props) {
     super(props)
@@ -58,6 +54,7 @@ class ThirdPartyAppDetail extends React.Component {
     })
   }
   componentDidMount () {
+    window.scrollTo(0, 0)
     let a = this.props.location.search.replace('?', '')
     this.setState({
       appId: a
@@ -213,6 +210,7 @@ class ThirdPartyAppDetail extends React.Component {
   handleRightClick = () => {
     this.refs['exhibition-inside-carousel'].next()
   }
+
   render () {
     // console.log(111111, this.state.appDetailData.sw_path ? this.state.appDetailData.sw_path[0].win32 : '')
     // const verInfoArray = this.state.verInfoArray
