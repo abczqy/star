@@ -448,7 +448,6 @@ class Home extends Component {
    * 获得单个App的card
    */
   getAppCardRender = (v, thiz) => {
-    console.log('v', v)
     return (
       <AppCard
         id={v.id}
