@@ -9,7 +9,7 @@ import {Layout, Icon, Badge, Row, message} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
-import GlobalSearch from '../pages/after-logging-home/GlobalSearch'
+// import GlobalSearch from '../pages/after-logging-home/GlobalSearch'
 import {getMessageCount} from '../services/topbar-mation/index'
 import {Logged} from 'components/common/hoc/Logged'
 import './Operateview.scss'
@@ -296,7 +296,7 @@ class OperateManage extends React.Component {
           </div>
           <div className='xingyun-header'>
             <div className='xingyun-logo' onClick={() => { this.handleLogoClick() }} />
-            <GlobalSearch />
+            {/* <GlobalSearch /> */}
           </div>
           <Layout className='xingyun-iden-top-bar'>
             <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
