@@ -82,7 +82,7 @@ export function sessionLogout (params, sucFn) {
  * 消息通知-消息通知列表
  */
 export function getAllMessageList (params, id, sucFn) {
-  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/${id}`, {...params})
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/${id}`, {params: params})
     .then(function (res) {
       sucFn(res)
     })

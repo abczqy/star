@@ -59,7 +59,7 @@ class MessageDetail extends React.Component {
         <Card title='消息通知详情' bordered={false} className='message-notice-card'extra={<a onClick={() => { this.handleTabChange('notice') }}>{'<返回'}</a>}>
           <div className='notice-detail'>
             <h4>{(this.state.detailData && this.state.detailData.msg_title) || '通知消息'}</h4>
-            <p>{this.state.detailData && this.state.detailData.content}</p>
+            <p>{this.state.detailData && this.state.detailData.message.content}</p>
           </div>
         </Card>
       </div>
