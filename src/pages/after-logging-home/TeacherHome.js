@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Tabs, Rate, message } from 'antd'
+import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
@@ -13,6 +13,7 @@ import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import imgApp from '../../assets/images/work-plat/app-more.png'
 const TabPane = Tabs.TabPane
+const Search = Input.Search
 class TeacherHome extends Component {
   static propTypes = {
     history: PropTypes.object
@@ -54,7 +55,7 @@ class TeacherHome extends Component {
   componentDidMount () {
     // console.log('teacherhome~~~~~~')
     // 学生 老师 家长才显示教师推荐
-    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher') {
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students') {
       this.setState({
         obj: {
           display: 'block'
@@ -334,23 +335,23 @@ class TeacherHome extends Component {
     return (
       <div className='logged-home'>
         <HomeCarousel />
+        <Row style={{ marginTop: '1%', paddingTop: '1%' }} type='flex' align='middle'>
+          <Col span={8} offset={5}>
+            <Search
+              placeholder='应用'
+              enterButton='搜索'
+              size='large'
+              onSearch={value => console.log(value)}
+              style={{ width: '100%' }}
+            />
+          </Col>
+          <Col span={1}>&nbsp;</Col>
+          <Col span={1}>资源类</Col>
+          <Col span={1}>应用类</Col>
+          <Col span={1}>最新上架</Col>
+        </Row>
         <div className='logged-home-recommendation'>
           <div className='logged-home-border'>
-            <div className='popular-recommendation' style={this.state.obj}>
-              <div className='popular-recommendation-title'>
-                <h3 className='chinese'>老师推荐</h3>
-                <span className='english'>Teacher recommendation</span>
-                {/* <span className='more' onClick={this.handleTeacherMore}>更多 > ></span> */}
-                <span className='more'>
-                  <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
-                </span>
-              </div>
-              <div className='popular-recommendation-item'>
-                {this.state.teacherData && this.state.teacherData instanceof Array && this.state.teacherData.map((item, index, arr) => {
-                  return this.handleTeacherappSource(item, index)
-                })}
-              </div>
-            </div>
             <div className='popular-recommendation'>
               <div className='popular-recommendation-title'>
                 <h3 className='chinese'>热门推荐</h3>
@@ -364,6 +365,21 @@ class TeacherHome extends Component {
                 {this.state.hotData && this.state.hotData instanceof Array && this.state.hotData.map((item, index, arr) => {
                   return this.handleHotRecomappSource(item, index)
                 })}
+              </div>
+              <div className='popular-recommendation' style={this.state.obj}>
+                <div className='popular-recommendation-title'>
+                  <h3 className='chinese'>老师推荐</h3>
+                  <span className='english'>Teacher recommendation</span>
+                  {/* <span className='more' onClick={this.handleTeacherMore}>更多 > ></span> */}
+                  <span className='more'>
+                    <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
+                  </span>
+                </div>
+                <div className='popular-recommendation-item'>
+                  {this.state.teacherData && this.state.teacherData instanceof Array && this.state.teacherData.map((item, index, arr) => {
+                    return this.handleTeacherappSource(item, index)
+                  })}
+                </div>
               </div>
             </div>
           </div>
