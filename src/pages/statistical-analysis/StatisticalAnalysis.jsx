@@ -42,7 +42,7 @@ class StatisticalAnalysis extends Component {
 
   // 搜索
   search = () => {
-    console.log('搜索', this.dateRange, this.appCode)
+    // console.log('搜索', this.dateRange, this.appCode)
     // if(this.appCode)
     this.getDownloadLineData({
       // userId: '1',
@@ -76,6 +76,10 @@ class StatisticalAnalysis extends Component {
           this.setState({
             downloadLineData: targetData
           })
+        } else {
+          this.setState({
+            downloadLineData: []
+          })
         }
       } else {
         console.log('获取软件下载量变化出现异常', res.data.msg || '')
@@ -102,6 +106,10 @@ class StatisticalAnalysis extends Component {
           // console.log('seriesdata:', targetData)
           this.setState({
             downloadLineData: targetData
+          })
+        } else {
+          this.setState({
+            downloadLineData: []
           })
         }
       } else {
@@ -140,7 +148,7 @@ class StatisticalAnalysis extends Component {
       // userId: '1'
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('当月应用下载型占比', res.data.data)
+        // console.log('当月应用下载型占比', res.data.data)
         let data = res.data.data
         data.map((item) => {
           item.value = item.COUNT
@@ -200,7 +208,7 @@ class StatisticalAnalysis extends Component {
       <div className='statistical-analysis center-view mtb20'>
         <Card title='统计分析' bordered={false}>
           <div>
-            <Select onChange={this.appChange} placeholder='请选择应用' >
+            <Select allowClear onChange={this.appChange} placeholder='请选择应用' >
               {
                 allAppCode && allAppCode.map((item, index) => (
                   <Option key={index} value={item.APP_ID} >{item.APP_NAME}</Option>

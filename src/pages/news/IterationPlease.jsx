@@ -357,7 +357,7 @@ zHs=() => {
       appDownloadAddress: appSoftId, // 下载地址 - 给后台静态文件id
       appId: appId || '', // appId
       appPcPic: array2Str(pcIconIds), // app的pc截图 -- 数组
-      appPhonePic: phoneIconId, // app的图标
+      appPhonePic: array2Str(phoneIconId), // app的图标
       appStatus: '',
       appVersion: newVersion || '', // 新版本信息
       authDetail: '',
@@ -466,7 +466,9 @@ zHs=() => {
   getSubmit = (thiz) => {
     const appId = thiz.state.appId
     const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
-    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`, {...thiz.getParams()})
+    const url = `http://192.168.2.142:10301/app-version/apply/${appId}?userId=${userId}`
+    // const url = API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`
+    axios.post(url, {...thiz.getParams()})
       .then(function (res) {
         if (res.data.code === 200) {
           message.success(res.data.msg || '提交成功')
@@ -494,6 +496,13 @@ zHs=() => {
       })
     })
     // 再在上传回调中提交本次表单数据
+  }
+
+  /**
+   * 取消
+   */
+  onCancel = () => {
+    this.props.history.goBack()
   }
 
   componentDidMount () {
@@ -686,7 +695,11 @@ zHs=() => {
                       提交申请
                     </Button>
                   </Col>
-                  <Col span={2}><Button>取消</Button></Col>
+                  <Col span={2}>
+                    <Button onClick={this.onCancel}>
+                      取消
+                    </Button>
+                  </Col>
                 </Col>
               </div>
             </Row>
