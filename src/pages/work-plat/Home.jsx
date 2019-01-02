@@ -180,7 +180,7 @@ class Home extends Component {
    */
   getMyApps = (userId, thiz) => {
     // 需要全局用户id
-    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-open/${userId}`)
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-open`)
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
