@@ -285,9 +285,9 @@ class TeacherHome extends Component {
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='star' />
+            type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='heart' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>
@@ -320,9 +320,9 @@ class TeacherHome extends Component {
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='star' />
+            type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='heart' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>

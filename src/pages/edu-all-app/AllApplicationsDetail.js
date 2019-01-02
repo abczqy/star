@@ -89,10 +89,10 @@ class AllApplicationsDetail extends React.Component {
               详情
               </Button>
             </Link>
-            <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='star' />
+            <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' />
             <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
               onClick={() => this.props.handleCollection(item.APP_ID, item.IS_COLLECTION)}
-              type='heart' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
+              type='star' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
             <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}}
               type='share-alt' />
           </p>
