@@ -4,7 +4,7 @@
  * maol/setting/poweroff
  */
 import React from 'react'
-import { Icon, Badge } from 'antd'
+import { Icon, Badge, message } from 'antd'
 // import { renderRoutes } from 'react-router-config'
 import BottomHeader from 'components/common/BottomHeader'
 import SignOut from '../../views/SignOut'
@@ -34,13 +34,16 @@ class MessageTopBar extends React.Component {
   }
   // 未读消息数
   getMessageCo = () => {
-    let id = webStorage.getItem('STAR_V2_USERID') || 'string'
+    let id = webStorage.getItem('STAR_V2_USERID')
     getMessageCount({}, id, (response) => {
-      console.log(response)
-      webStorage.setItem('Unread_Message', response.data.data)
-      this.setState({
-        messageCount: response.data.data
-      })
+      if (response.data.code === 200) {
+        webStorage.setItem('Unread_Message', response.data.data)
+        this.setState({
+          messageCount: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   handleTabChange (link) {

@@ -5,7 +5,7 @@
  * 运营管理入口
  */
 import React from 'react'
-import {Layout, Icon, Badge, Row} from 'antd'
+import {Layout, Icon, Badge, Row, message} from 'antd'
 import { renderRoutes } from 'react-router-config'
 import BottomHeader from '../components/common/BottomHeader'
 import SignOut from './SignOut'
@@ -118,11 +118,16 @@ class OperateManage extends React.Component {
   }
   // 未读消息数
   getMessageCo=() => {
-    getMessageCount({}, (response) => {
-      webStorage.setItem('Unread_Message', response.data.count)
-      this.setState({
-        messageCount: response.data.count
-      })
+    let id = webStorage.getItem('STAR_V2_USERID')
+    getMessageCount({}, id, (response) => {
+      if (response.data.code === 200) {
+        webStorage.setItem('Unread_Message', response.data.data)
+        this.setState({
+          messageCount: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   handleTabChange (link, tabKey) {

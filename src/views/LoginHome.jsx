@@ -105,11 +105,16 @@ class LoginHome extends React.Component {
   }
   // 未读消息数
   getMessageCo=() => {
-    getMessageCount({}, (response) => {
-      webStorage.setItem('Unread_Message', response.data.count)
-      this.setState({
-        messageCount: response.data.count
-      })
+    let id = webStorage.getItem('STAR_V2_USERID')
+    getMessageCount({}, id, (response) => {
+      if (response.data.code === 200) {
+        webStorage.setItem('Unread_Message', response.data.data)
+        this.setState({
+          messageCount: response.data.data
+        })
+      } else {
+        message.warn(response.data.msg)
+      }
     })
   }
   handleTabChange (link, key) {
