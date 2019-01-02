@@ -11,7 +11,7 @@ import {login} from 'services/portal'
 import PropTypes from 'prop-types'
 import webStorage from 'webStorage'
 import Config from 'config'
-import {clearCookie, setCookie, getCookie} from 'utils/cookie'
+// import {clearCookie, setCookie, getCookie} from 'utils/cookie'
 import imgBanner from '../../assets/images/login-home/u664.jpg'
 
 class MainBander extends React.Component {
@@ -33,9 +33,10 @@ class MainBander extends React.Component {
   }
 
   getDefaultLoginFormVisible () {
+    // debugger
     let flag = false
-    let name = getCookie('id')
-    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === '' || webStorage.getItem('STAR_WEB_ROLE_CODE') === null || name === '') {
+    // let name = getCookie('id')
+    if (webStorage.getItem('STAR_WEB_ROLE_CODE') === '' || webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
       flag = true
       webStorage.clear()
     }
@@ -56,13 +57,13 @@ class MainBander extends React.Component {
       let data = response.data
       // 如果登陆成功
       if (data.success) {
-        webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
+        // webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)
         webStorage.setItem('STAR_WEB_PERSON_INFO', data.personInfo)
         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
 
-        clearCookie()
-        setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 0)
+        // clearCookie()
+        // setCookie('id', webStorage.getItem('STAR_WEB_PERSON_INFO').id, 0)
 
         window.location.reload()
         // 清空提示信息

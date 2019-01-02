@@ -297,7 +297,7 @@ class Home extends React.Component {
                               type='primary'
                               onClick={() => this.onJump('/login', this)}
                             >
-                              登陆
+                              登录
                             </Button>
                           </Col>
                         </Row>
