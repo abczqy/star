@@ -100,7 +100,7 @@ class Parent extends Component {
           check = false
         }
         return (
-          <Switch defaultChecked={check} onChange={() => this.changeLoginState(record)} />
+          <Switch checked={check} onChange={() => this.changeLoginState(record)} />
         )
       }
     }, {

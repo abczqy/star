@@ -103,7 +103,7 @@ class Student extends Component {
           check = false
         }
         return (
-          <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
+          <Switch checked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
         )
       }
     }, {
