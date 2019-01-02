@@ -9,7 +9,6 @@ import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
 import {getAllMessageList} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
-import webStorage from 'webStorage'
 import moment from 'moment'
 import {axios} from '../../utils'
 import config from '../../config/index'
@@ -54,11 +53,10 @@ class MessageNotice extends React.Component {
     this.getPageList()
   }
   getPageList =() => {
-    let id = webStorage.getItem('STAR_V2_USERID') || 'string'
     getAllMessageList({
       page: this.state.pageNum,
       pageSize: 5
-    }, id, (response) => {
+    }, (response) => {
       console.log(response)
       if (response.data.code === 200) {
         this.setState({

@@ -222,9 +222,7 @@ class Parent extends Component {
     const params = {
       userId: record && record.USER_ID
     }
-    record.LOGIN_PERMISSION_STATUS === 0 ? params.userInfo = {
-      isLogin: 1
-    } : params.userInfo = {isLogin: 0}
+    record.LOGIN_PERMISSION_STATUS === 0 ? params.isLogin = 1 : params.isLogin = 0
     this.changeState(params)
   }
 
@@ -234,9 +232,7 @@ class Parent extends Component {
   initPwd = (record) => {
     const params = {
       userId: record && record.USER_ID,
-      userInfo: {
-        isReset: 0
-      }
+      isReset: 0
     }
     this.changeState(params)
   }
@@ -247,9 +243,7 @@ class Parent extends Component {
   delLoginId = (record) => {
     const params = {
       userId: record && record.USER_ID,
-      userInfo: {
-        isDelete: 0
-      }
+      isDelete: 0
     }
     this.changeState(params)
   }

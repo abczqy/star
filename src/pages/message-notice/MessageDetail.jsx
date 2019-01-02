@@ -8,7 +8,6 @@ import {getSearchString} from 'utils/index'
 import {getAllMessageList} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 import { withRouter } from 'react-router'
-import webStorage from 'webStorage'
 
 class MessageDetail extends React.Component {
   constructor (props) {
@@ -39,10 +38,9 @@ class MessageDetail extends React.Component {
     //   this.setState({
     //     detailData: response.data[0]
     //   })
-    let id = webStorage.getItem('STAR_V2_USERID') || 'string'
     getAllMessageList({
       id: this.state.msg_id
-    }, id, (response) => {
+    }, (response) => {
       console.log(response)
       this.setState({
         detailData: response.data.data

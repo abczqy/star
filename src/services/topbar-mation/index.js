@@ -81,8 +81,8 @@ export function sessionLogout (params, sucFn) {
 /**
  * 消息通知-消息通知列表
  */
-export function getAllMessageList (params, id, sucFn) {
-  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/${id}`, {params: params})
+export function getAllMessageList (params, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages`, {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -90,8 +90,8 @@ export function getAllMessageList (params, id, sucFn) {
 /**
  * 消息通知-未读消息数
  */
-export function getMessageCount (params, id, sucFn) {
-  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/count/${id}`, {...params})
+export function getMessageCount (params, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/count`, {...params})
     .then(function (res) {
       sucFn(res)
     })
