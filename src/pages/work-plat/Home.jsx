@@ -448,10 +448,11 @@ class Home extends Component {
    * 获得单个App的card
    */
   getAppCardRender = (v, thiz) => {
+    console.log('v', v)
     return (
       <AppCard
         id={v.id}
-        icon={v.icon || null}
+        icon={v.icon ? (config.IMG_BASE_URL_V2 + v.icon) : null}
         title={v.title || null}
         desc={v.desc || null}
         onAction={thiz.onAppCardAction}
