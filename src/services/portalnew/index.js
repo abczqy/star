@@ -76,7 +76,7 @@ export function getMessageCaro (userId, params, sucFn) {
  * 门户首页-工作台我的应用
  */
 export function getRecommendApp (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/app-open/' + params.userId)
+  return axios.get(API_BASE_URL_V2 + '/edu-market/app-open')
     .then(function (res) {
       sucFn(res)
     })

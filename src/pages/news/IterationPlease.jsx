@@ -6,6 +6,7 @@ import {Row, Col, Card, Input, Select, Button, DatePicker, Upload, Icon, message
 import { withRouter } from 'react-router-dom'
 import { axios, array2Str } from 'utils'
 import config from '../../config'
+import { getUpload, getMultiUpload } from '../../services/upload'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 import {appId} from 'services/software-manage'
@@ -15,7 +16,6 @@ const { TextArea } = Input
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
-const SERVICE_PORTAL = config.SERVICE_PORTAL
 
 class IterationPlease extends React.Component {
   constructor (props) {
@@ -65,9 +65,9 @@ class IterationPlease extends React.Component {
       phoneIconId: null, // 软件图标-文件上传后后台传回的id
       appSoftId: null, // 软件本身-文件上传后后台传回的id
       pcIconIds: [], // 软件pc图标-文件上传后后台传回的id
-      phoneIcons: null, // 文件-上传的软件图标
       appSoft: null, // 文件-上传的文件本身
-      pcIcons: [] // 文件-上传的pc图标
+      pcIcons: [], // 文件-上传的pc截图
+      phoneIcons: [] // 文件-上传的手机端截图
     }
   }
   componentWillMount () {
@@ -390,50 +390,12 @@ zHs=() => {
   }
 
   /**
-   * 接口调用-上传文件
-   * 1- 在提交时调用
-   * 2- 这里利用封装 - 避免下回调地狱
-   */
-  getUpload = (fileType, file, callBack) => {
-    // 构造参数
-    let params = new FormData()
-    params.append('fileType', fileType)
-    params.append('file', file)
-    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload`, params)
-      .then(function (res) {
-      // 不阻塞 - 执行成功会执行回调
-        callBack && callBack(res)
-      }).catch(function (e) {
-      // 不阻塞 - 执行失败也会执行回调
-        callBack && callBack(e)
-      })
-  }
-
-  /**
-   * 接口调用-上传多文件
-   * 1- 在提交时调用
-   * 2- 这里利用封装 - 避免下回调地狱
-   */
-  getMultiUpload = (fileType, fileList, callBack) => {
-    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload/all`, {
-      fileType: fileType,
-      file: fileList
-    }).then(function (res) {
-      // 不阻塞 - 执行成功会执行回调
-      callBack && callBack(res)
-    }).catch(function (e) {
-      // 不阻塞 - 执行失败也会执行回调
-      callBack && callBack(e)
-    })
-  }
-
-  /**
    * 上传App本身
    */
   uploadApp = (thiz, callBack) => {
     if (thiz.state.appSoft) {
       // 当appSoft有值时 -- 有文件上传时
-      thiz.getUpload('soft', this.state.appSoft, (res) => {
+      getUpload('soft', this.state.appSoft, (res) => {
       // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
@@ -457,7 +419,7 @@ zHs=() => {
   uploadPhoneIcons = (thiz, callBack) => {
     if (thiz.state.phoneIcons) {
       // 当phoneIcons有值时 -- 有文件上传时
-      thiz.getMultiUpload('pic', this.state.phoneIcons, (res) => {
+      getMultiUpload('pic', this.state.phoneIcons, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
@@ -480,7 +442,7 @@ zHs=() => {
    */
   uploadPcPics = (thiz, callBack) => {
     if (thiz.state.pcIcons.length !== 0) {
-      thiz.getMultiUpload('pic', this.state.pcIcons, (res) => {
+      getMultiUpload('pic', this.state.pcIcons, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
@@ -546,8 +508,9 @@ zHs=() => {
   }
 
   render () {
-    // 上传手机端图标
+    // 上传手机端截图
     const uploadPhonePicsProps = {
+      listType: 'picture',
       onRemove: (file, fileList) => {
         // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
         let newFileList = this.state.phoneIcons.slice()
@@ -558,6 +521,7 @@ zHs=() => {
         })
       },
       beforeUpload: (file, fileList) => {
+        // 把新文件添加到state原来的数组中
         this.setState({
           phoneIcons: [...this.state.phoneIcons, file]
         })
@@ -565,8 +529,9 @@ zHs=() => {
         return false
       }
     }
-    // 上传pc图标
+    // 上传pc界面截图
     const uploadPcIconProps = {
+      listType: 'picture',
       onRemove: (file, fileList) => {
         // 从state中拷贝一个文件数组 删除一个文件对应的元素 返回一个删除后的新数组
         let newFileList = this.state.pcIcons.slice()
@@ -662,8 +627,8 @@ zHs=() => {
               <Row className='Wxd'>
                 <Col span={12}>
                   <Col span={6}>
-                    <span style={{visibility: 'hidden'}}>** PC无无无</span>
-                  软件图标 :
+                    <span style={{visibility: 'hidden'}}>*PC</span>
+                  手机端界面截图 :
                   </Col>
                   <Col span={9}>
                     <Upload {...uploadPhonePicsProps}>
@@ -671,8 +636,9 @@ zHs=() => {
                         <Icon type='upload' /> 上传文件
                       </Button>
                       <span className='extend'>
-                        <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （200px*200px）</span>
-                    </Upload></Col>
+                        <span style={{visibility: 'hidden'}}>无无无无无无无无无无五五</span>支持扩展名：.png .jpg ... （400px*400px）</span>
+                    </Upload>
+                  </Col>
                 </Col>
               </Row>
               <Row className='Wxd'>
