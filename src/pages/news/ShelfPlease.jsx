@@ -38,8 +38,6 @@ class ShelfPlease extends React.Component {
     this.state = {
       previewApp: false, // 是否显示预览弹窗
       imgTitle: title,
-      Edition: 1,
-      renderEdition: [],
       radio: '',
       // 有关上传截图
       previewVisible: false,
@@ -103,9 +101,6 @@ class ShelfPlease extends React.Component {
       }] // 渲染用state-用来映射软件版本编辑器/同时也是表单数据中的pc字段
     }
   }
-  componentWillMount () {
-    this.renderEdition()
-  }
   hiddenModal () {
     this.setState({
       previewApp: false
@@ -136,14 +131,6 @@ class ShelfPlease extends React.Component {
     let {value} = e.target
     this.setState({
       appDesc: value
-    })
-  }
-  // 添加按钮
-  addBtn=() => {
-    this.setState({
-      Edition: this.state.Edition + 1
-    }, () => {
-      this.renderEdition()
     })
   }
 
@@ -196,75 +183,6 @@ class ShelfPlease extends React.Component {
       rights: checkedValues
     }, () => {
       console.log('用来存软件版本权限详情', this.state.rights)
-    })
-  }
-  // 渲染软件版本列表
-  renderEdition=() => {
-    let value = []
-    const propsSoftEdt = {
-      onRemove: (file) => {
-        this.setState(({fileListSoftwareEdt}) => {
-          const index = fileListSoftwareEdt.indexOf(file)
-          const newFileList = fileListSoftwareEdt.slice()
-          newFileList.splice(index, 1)
-          return {
-            fileListSoftwareEdt: newFileList
-          }
-        }, () => {
-          console.log('this.state.fileListSoftwareEdt', this.state.fileListSoftwareEdt)
-        })
-      },
-      beforeUpload: (file) => {
-        console.log('接受的文件格式？？？？？', file)
-        this.setState(({fileListSoftwareEdt}) => ({
-          fileListSoftwareEdt: [...fileListSoftwareEdt, file]
-        }), () => {
-          console.log('this.state.fileListSoftwareEdt', this.state.fileListSoftwareEdt)
-        })
-        return false
-      },
-      fileListSoftwareEdt: this.state.fileListSoftwareEdt
-    }
-    for (let i = 0; i < this.state.Edition; i++) {
-      value.push(
-        <div key={i} style={{marginBottom: '10px'}}>
-          <Row className='Wxd' type='flex' align='top'>
-            <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件版本 :</Col>
-            <Col span={3}>
-              <Select placeholder='请选择安装包版本' style={{ width: 150 }} onChange={(value) => this.SDetailTypeChange(value, i)}>
-                {this.state.dataL.map((item, index) => {
-                  return <Select.Option value={item.key} key={index}>{item.value}</Select.Option>
-                })}
-              </Select>
-            </Col>
-            <Col span={3}>
-              <Upload {...propsSoftEdt}>
-                <Button>
-                  <Icon type='upload' /> 上传文件
-                </Button>
-                <br />
-                <span className='extend'>支持扩展名：.exe..</span>
-              </Upload>
-            </Col>
-            <Col span={3}>
-              <span style={{color: 'red'}}>* </span>软件大小 :&nbsp;
-              <Input placeholder='' style={{ width: 60 }} onChange={(e) => this.SDetailSizeChange(e, i)} value={this.state.fileListDetailSize[i]} />
-            </Col>
-            <Col span={4}>
-              <span style={{color: 'red'}}>* </span>版本号 :&nbsp;
-              <Input placeholder='' style={{ width: 130 }} onChange={(e) => this.SDetailVersionNumChange(e, i)} value={this.state.fileListDetailVersionNum[i]} />
-            </Col>
-            <Col span={7}>
-              <span style={{color: 'red'}}>* </span>包名 :&nbsp;
-              <Input placeholder='' style={{ width: 160 }} onChange={(e) => this.SDetailPackNameChange(e, i)} value={this.state.fileListDetailPackName[i]} />
-            </Col>
-          </Row>
-        </div>)
-    }
-    this.setState({
-      renderEdition: value
-    }, () => {
-      // console.log(this.state.renderEdition)
     })
   }
 
@@ -948,16 +866,6 @@ class ShelfPlease extends React.Component {
           <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onFeatureChange} value={this.state.feature} />
         </Col>
       </Row>
-      <Row className='Wxds'>
-        {this.state.renderEdition.map((item, index) => {
-          return item
-        })}
-      </Row>
-      <Row className='Wxd'>
-        <Col span={21} offset={3}>
-          <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
-        </Col>
-      </Row>
       {
         this.getVerEditorListRender(this.state.versions)
       }
@@ -984,7 +892,7 @@ class ShelfPlease extends React.Component {
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='top'>
-        <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
+        <Col span={2} offset={1}>软件图标 :</Col>
         <Col span={9} id='iconDiv'>
           <Upload {...appIconProps}>
             <Button>
@@ -1006,7 +914,7 @@ class ShelfPlease extends React.Component {
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='top'>
-        <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>PC端界面截图 :&nbsp;&nbsp;</Col>
+        <Col span={3} align='middle'>PC端界面截图 :&nbsp;&nbsp;</Col>
         <Col span={9}>
           <Upload {...pcPicsProps}>
             <Button>
@@ -1017,7 +925,7 @@ class ShelfPlease extends React.Component {
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='top'>
-        <Col span={3} align='middle'><span style={{color: 'red'}}>* </span>手机端界面截图 :&nbsp;&nbsp;</Col>
+        <Col span={3} align='middle'>手机端界面截图 :&nbsp;&nbsp;</Col>
         <Col span={9}>
           <Upload {...propsPhone}>
             <Button>
