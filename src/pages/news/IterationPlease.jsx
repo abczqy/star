@@ -352,8 +352,7 @@ zHs=() => {
       phoneIconId
     } = this.state
 
-    let result = {}
-    result.marketAppVersion = {
+    let result = {
       appDownloadAddress: appSoftId, // 下载地址 - 给后台静态文件id
       appId: appId || '', // appId
       appPcPic: array2Str(pcIconIds), // app的pc截图 -- 数组
@@ -367,6 +366,8 @@ zHs=() => {
       versionInfo: '',
       versionSize: ''
     }
+    // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    // result.userId = userId
     return result
   }
 
@@ -465,9 +466,9 @@ zHs=() => {
    */
   getSubmit = (thiz) => {
     const appId = thiz.state.appId
-    const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
-    const url = `http://192.168.2.142:10301/app-version/apply/${appId}?userId=${userId}`
-    // const url = API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}?userId=${userId}`
+    // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    // const url = `http://192.168.2.142:10301/app-version/apply/${appId}`
+    const url = API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}`
     axios.post(url, {...thiz.getParams()})
       .then(function (res) {
         if (res.data.code === 200) {
