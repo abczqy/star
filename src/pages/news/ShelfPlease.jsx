@@ -429,6 +429,59 @@ class ShelfPlease extends React.Component {
    * --------------------------v2方法--------------------------------
    */
   /**
+   * 事件-版本编辑器-软件版本（运行环境）
+   */
+  onappVersionChange = (v, index) => {
+    let arr = this.state.versions.slice()
+    arr[index].packageName = v
+    this.setState({
+      versions: arr
+    })
+  }
+  /**
+   * 事件-版本编辑器-包名
+   */
+  onVerPackName = (e, index) => {
+    let arr = this.state.versions.slice()
+    arr[index].packageName = e.target.value
+    this.setState({
+      versions: arr
+    })
+  }
+  /**
+   * 事件-版本编辑器-版本号
+   */
+  onVerNumChange = (e, index) => {
+    let arr = this.state.versions.slice()
+    arr[index].versioInfo = e.target.value
+    this.setState({
+      versions: arr
+    })
+  }
+  /**
+   * 事件-版本编辑器-软件大小
+   */
+  onVerSizeChange = (e, index) => {
+    let arr = this.state.versions.slice()
+    arr[index].versionSize = e.target.value
+    this.setState({
+      versions: arr
+    })
+  }
+  /**
+   * 事件-删除一个版本编辑器
+   * 1- 利用版本编辑器的id（就是state.versions中的对应的index）
+   */
+  onVerEditorRemove = (id) => {
+    let arr = this.state.versions.slice()
+    // 删除数据中对应index的元素
+    arr.splice(id, 1)
+    // 把删除后的数据映射到state中 驱动view渲染
+    this.setState({
+      versions: arr
+    })
+  }
+  /**
    * 事件-增加一个版本编辑器
    */
   onAddVerEditor = () => {
@@ -477,7 +530,7 @@ class ShelfPlease extends React.Component {
       // fileListSoftwareEdt: this.state.fileListSoftwareEdt
     }
     return (
-      <Row>
+      <Row key={index}>
         <Col span={2} offset={1}>
           <span style={{color: 'red'}}>* </span>
           软件版本：
@@ -486,7 +539,7 @@ class ShelfPlease extends React.Component {
           <Select
             style={{ width: 150 }}
             placeholder='请选择安装包版本'
-            onChange={(value) => this.SDetailTypeChange(value)}>
+            onChange={(value) => this.onappVersionChange(value, index)}>
             {
               this.state.dataL.map((item, index) => {
                 return (
@@ -512,26 +565,26 @@ class ShelfPlease extends React.Component {
           <span style={{color: 'red'}}>* </span>软件大小 :
           <Input
             style={{ width: 60 }}
-            value={this.state.versions[index]}
-            onChange={(e) => this.SDetailSizeChange(e, index)} />
+            value={this.state.versions[index].versionSize}
+            onChange={(e) => this.onVerSizeChange(e, index)} />
         </Col>
         <Col span={4}>
           <span style={{color: 'red'}}>* </span>版本号 :
           <Input
             style={{ width: 130 }}
-            value={this.state.versions[index]}
-            onChange={(e) => this.SDetailVersionNumChange(e, index)} />
+            value={this.state.versions[index].versioInfo}
+            onChange={(e) => this.onVerNumChange(e, index)} />
         </Col>
         <Col span={4}>
           <span style={{color: 'red'}}>* </span>包名 :
           <Input
             style={{ width: 160 }}
-            value={this.state.versions[index]}
-            onChange={(e) => this.SDetailPackNameChange(e, index)} />
+            value={this.state.versions[index].packageName}
+            onChange={(e) => this.onVerPackName(e, index)} />
         </Col>
         <Col span={3}>
           <Button
-            onClick={this.onVerEditorRemove}
+            onClick={() => this.onVerEditorRemove(index)}
           >
               删除
           </Button>
