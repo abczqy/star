@@ -58,9 +58,10 @@ class Teacher extends Component {
   onChange=(info) => {
     if (info.file.status === 'done') {
       message.success(`${info.file.name} 导入成功`)
-      this.setState({
-        updateList: this.state.updateList + 1
-      })
+      // this.setState({
+      //   updateList: this.state.updateList + 1
+      // })
+      this.getTableDatas()
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} 导入失败`)
     }
