@@ -179,7 +179,7 @@ class Teacher extends Component {
   }
 
   changeState = (params) => {
-    axios.put(API_BASE_URL_V2 + SERVICE_PORTAL + '/user-info/updateUserInfo', params).then((res) => {
+    axios.put(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-info/updateUserInfo?userId=${params.userId}`, params).then((res) => {
       console.log(res)
       if (res.data.code === 200) {
         message.success('操作成功')
