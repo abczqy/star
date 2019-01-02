@@ -81,7 +81,7 @@ class Home extends React.Component {
   getHomeData () {
   // 门户首页-工作台我的应用
     getRecommendApp({
-      userId: '1'
+      // userId: '1'
     }, (response) => {
       if (response.data.code === 200) {
         let result = response.data.data || []
