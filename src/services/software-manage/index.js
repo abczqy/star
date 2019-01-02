@@ -728,7 +728,7 @@ export function waitVeriExam (params, sucFn) {
  * 软件管理-待审核-同意审核
  */
 export function waitVeriAgreev2 (paramsList, params1, sucFn) {
-  return axios.put(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/approve/' + params1.userID, paramsList)
+  return axios.put(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/approve', paramsList)
     .then(function (res) {
       sucFn(res)
     })
@@ -737,7 +737,7 @@ export function waitVeriAgreev2 (paramsList, params1, sucFn) {
  * 软件管理-待审核-驳回审核
  */
 export function waitVeriRejectv2 (paramsList, params1, sucFn) {
-  return axios.put(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/reject/' + params1.userID + '?rejectReason=' +
+  return axios.put(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/reject' + '?rejectReason=' +
   params1.rejectReason, paramsList)
     .then(function (res) {
       sucFn(res)
