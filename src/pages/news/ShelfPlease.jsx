@@ -12,10 +12,6 @@ import config from '../../config'
 import { getUpload, getMultiUpload } from '../../services/upload'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
-// import Upload from './Upload'
-// import axios from 'axios'
-// import ajaxUrl from 'config'
-// import {shelf} from 'services/software-manage'
 import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
 import {AppPurCombination} from 'components/software-market'
 import webStorage from 'webStorage'
@@ -25,7 +21,13 @@ const RadioGroup = Radio.Group
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
-// const SERVICE_PORTAL = config.SERVICE_PORTAL
+
+/**
+ * 文件内组件-版本编辑器
+ * 1- 对应state中的一组数据
+ * 1- 内部的按钮有对应的函数 -- 把自身的id -- index传出去
+ * 3- 删除函数 -- 组件对应的id + 对应的state数据 -》 操作数据
+ */
 
 class ShelfPlease extends React.Component {
   static propTypes = {
@@ -91,7 +93,14 @@ class ShelfPlease extends React.Component {
       relationNum: '', // 联系人电话
       appIcon: null, // 软件图标-文件/上传后用来存储后台返回的id
       pcPics: [], // pc图片-图片/上传后用来存储后台返回的id的数组
-      phonePics: [] // pc图片-图片/上传后用来存储后台返回的id的数组
+      phonePics: [], // pc图片-图片/上传后用来存储后台返回的id的数组
+      versions: [{
+        address: '', // 上传文件
+        appVersion: '', // 软件平台版本
+        packageName: '', // 包名
+        versioInfo: '', // 版本号
+        versionSize: '' // 软件大小
+      }] // 渲染用state-用来映射软件版本编辑器/同时也是表单数据中的pc字段
     }
   }
   componentWillMount () {
@@ -417,6 +426,121 @@ class ShelfPlease extends React.Component {
   }
 
   /**
+   * --------------------------v2方法--------------------------------
+   */
+  /**
+   * 事件-增加一个版本编辑器
+   */
+  onAddVerEditor = () => {
+    // 直接操作view映射过去的state
+    this.setState({
+      versions: [...this.state.versions, {
+        address: '', // 上传文件
+        appVersion: '', // 软件平台版本
+        packageName: '', // 包名
+        versioInfo: '', // 版本号
+        versionSize: '' // 软件大小
+      }]
+    })
+  }
+  /**
+   * 渲染List-版本编辑器
+   */
+  getVerEditorListRender = (list) => {
+    let arr = list || []
+    return arr.map((v, i) => {
+      return this.getVerEditorRender(i)
+    })
+  }
+  /**
+   * 渲染Item-版本编辑器
+   */
+  getVerEditorRender = (index) => {
+    const propsVer = {
+      onRemove: (file) => {
+        // this.setState(({fileListSoftwareEdt}) => {
+        //   const index = fileListSoftwareEdt.indexOf(file)
+        //   const newFileList = fileListSoftwareEdt.slice()
+        //   newFileList.splice(index, 1)
+        //   return {
+        //     fileListSoftwareEdt: newFileList
+        //   }
+        // })
+      },
+      beforeUpload: (file) => {
+        // console.log('接受的文件格式？？？？？', file)
+        // this.setState(({fileListSoftwareEdt}) => ({
+        //   fileListSoftwareEdt: [...fileListSoftwareEdt, file]
+        // }))
+        return false
+      }
+      // fileListSoftwareEdt: this.state.fileListSoftwareEdt
+    }
+    return (
+      <Row>
+        <Col span={2} offset={1}>
+          <span style={{color: 'red'}}>* </span>
+          软件版本：
+        </Col>
+        <Col span={3}>
+          <Select
+            style={{ width: 150 }}
+            placeholder='请选择安装包版本'
+            onChange={(value) => this.SDetailTypeChange(value)}>
+            {
+              this.state.dataL.map((item, index) => {
+                return (
+                  <Select.Option
+                    key={index}
+                    value={item.key}
+                  >
+                    {item.value}
+                  </Select.Option>
+                )
+              })}
+          </Select>
+        </Col>
+        <Col span={3}>
+          <Upload {...propsVer}>
+            <Button>
+              <Icon type='upload' /> 上传文件
+            </Button>
+            <div className='extend'>支持扩展名：.exe..</div>
+          </Upload>
+        </Col>
+        <Col span={3}>
+          <span style={{color: 'red'}}>* </span>软件大小 :
+          <Input
+            style={{ width: 60 }}
+            value={this.state.versions[index]}
+            onChange={(e) => this.SDetailSizeChange(e, index)} />
+        </Col>
+        <Col span={4}>
+          <span style={{color: 'red'}}>* </span>版本号 :
+          <Input
+            style={{ width: 130 }}
+            value={this.state.versions[index]}
+            onChange={(e) => this.SDetailVersionNumChange(e, index)} />
+        </Col>
+        <Col span={4}>
+          <span style={{color: 'red'}}>* </span>包名 :
+          <Input
+            style={{ width: 160 }}
+            value={this.state.versions[index]}
+            onChange={(e) => this.SDetailPackNameChange(e, index)} />
+        </Col>
+        <Col span={3}>
+          <Button
+            onClick={this.onVerEditorRemove}
+          >
+              删除
+          </Button>
+        </Col>
+      </Row>
+    )
+  }
+
+  /**
    * 上传App的icon
    */
   uploadAppIcon = (thiz, callBack) => {
@@ -504,7 +628,8 @@ class ShelfPlease extends React.Component {
       feature,
       appIcon,
       pcPics,
-      phonePics
+      phonePics,
+      rights
     } = this.state
 
     let result = {}
@@ -518,7 +643,7 @@ class ShelfPlease extends React.Component {
       appPcPic: pcPics, // app的pc端截图
       appPhonePic: phonePics, // app的手机端截图
       appTypeId: appType, // app的类型
-      authDetail: '', // 权限详情
+      authDetail: rights, // 权限详情
       newFeatures: feature // app的新版特性
     }
 
@@ -775,6 +900,14 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd'>
         <Col span={21} offset={3}>
           <Button type='danger' onClick={this.addBtn}>+添加提供版本</Button>
+        </Col>
+      </Row>
+      {
+        this.getVerEditorListRender(this.state.versions)
+      }
+      <Row className='Wxd'>
+        <Col span={21} offset={3}>
+          <Button type='danger' onClick={this.onAddVerEditor}>+添加提供版本</Button>
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='middle'>
