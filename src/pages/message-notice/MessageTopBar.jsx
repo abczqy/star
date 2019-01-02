@@ -34,10 +34,12 @@ class MessageTopBar extends React.Component {
   }
   // 未读消息数
   getMessageCo = () => {
-    getMessageCount({}, (response) => {
-      webStorage.setItem('Unread_Message', response.data.count)
+    let id = webStorage.getItem('STAR_V2_USERID') || 'string'
+    getMessageCount({}, id, (response) => {
+      console.log(response)
+      webStorage.setItem('Unread_Message', response.data.data)
       this.setState({
-        messageCount: response.data.count
+        messageCount: response.data.data
       })
     })
   }

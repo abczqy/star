@@ -90,8 +90,8 @@ export function getAllMessageList (params, id, sucFn) {
 /**
  * 消息通知-未读消息数
  */
-export function getMessageCount (params, sucFn) {
-  return axios.post(API_BASE_URL + '/getUnreadMessageCount', {...params})
+export function getMessageCount (params, id, sucFn) {
+  return axios.get(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/count/${id}`, {...params})
     .then(function (res) {
       sucFn(res)
     })
