@@ -120,8 +120,8 @@ class StatisticalAnalysis extends Component {
         let data = res.data.data.slice()
         if (data && data.length > 0) {
           data.map((item, index) => {
-            item.name = item.APP_TYPE_NAME
-            item.value = item.COUNT
+            item.name = item.APP_TYPE_NAME || '无'
+            item.value = item.APP_TYPE_COUNT || 0
           })
           this.setState({
             appTypeRadioData: data

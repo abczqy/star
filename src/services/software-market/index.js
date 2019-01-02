@@ -109,7 +109,7 @@ export function softwareCollect (params, sucFn) {
  * 统计分析-应用类型占比
  */
 export function softwareType (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-type', {params: params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/app-type-percent', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -119,7 +119,7 @@ export function softwareType (params, sucFn) {
  * 统计分析-当月应用下载型占比
  */
 export function softwareDownloadConst (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-type', {params})
+  return axios.get(API_BASE_URL_V2 + '/edu-market/count/download-type', {params: params})
     .then(function (res) {
       sucFn(res)
     })

@@ -8,7 +8,7 @@ import ajaxUrl from 'config'
 // import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {homeCollection} from 'services/software-home/'
+// import {homeCollection} from 'services/software-home/'
 import './AllApplicationsDetail.css'
 import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
 import imgApp from '../../assets/images/work-plat/app-more.png'
@@ -26,6 +26,7 @@ class AllApplicationsDetail extends React.Component {
   }
   static propTypes = {
     // location: PropTypes.object,
+    handleCollection: PropTypes.func,
     handleShelfTime: PropTypes.func,
     handleDownloadNum: PropTypes.func,
     allAppListData: PropTypes.array,
@@ -55,18 +56,6 @@ class AllApplicationsDetail extends React.Component {
     this.refs['test'].prev()
   }
 
-  // 处理收藏按钮
-  handleCollection = (id, isCollect) => {
-    homeCollection({
-      appId: id
-    }, (res) => {
-      if (res.data.code === 200) {
-        this.getAllAppData()
-      } else {
-        // message.warning(res.data.msg || '出现异常')
-      }
-    }).catch((e) => { console.log(e) })
-  }
   loadNextFunc = () => {}
   // 打开按钮页面跳转
   handleChangeJump = (item) => {
@@ -107,7 +96,7 @@ class AllApplicationsDetail extends React.Component {
             </Link>
             <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='star' />
             <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-              onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECTION)}
+              onClick={() => this.props.handleCollection(item.APP_ID, item.IS_COLLECTION)}
               type='heart' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
             <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}}
               type='share-alt' />

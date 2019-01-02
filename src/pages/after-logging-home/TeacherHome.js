@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Tabs, Rate } from 'antd'
+import { Button, Icon, Tabs, Rate, message } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
@@ -124,7 +124,7 @@ class TeacherHome extends Component {
   getHotData = () => {
     hotRecommend({
       pageNum: '1',
-      pageSize: '10'
+      pageSize: '16'
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('热门推荐', res.data.data)
@@ -158,11 +158,12 @@ class TeacherHome extends Component {
       appId: id
     }, (res) => {
       if (res.data.code === 200) {
+        message.success('收藏成功')
         // console.log('收藏按钮：', res.data.msg)
         this.getTeacherData()
         this.getHotData()
       } else {
-        // message.warning(res.data.msg || '出现异常')
+        message.warning(res.data.msg || '出现异常')
       }
     }).catch((e) => { console.log(e) })
   }

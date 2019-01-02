@@ -5,7 +5,7 @@
 import React from 'react'
 import Slider from 'react-slick'
 import Config from 'config'
-import { Layout, Menu, Row, Col, Input } from 'antd'
+import { Layout, Menu, Row, Col, Input, message } from 'antd'
 import PropTypes from 'prop-types'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
@@ -14,6 +14,7 @@ import {Logged} from 'components/common/hoc/Logged'
 import { Route } from 'react-router'
 import AllApplicationsDetail from 'pages/edu-all-app/AllApplicationsDetail'
 import {getAppType, allAppList} from 'services/all-app/'
+import {homeCollection} from 'services/software-home/'
 import {getPortalBannerImg} from 'services/portalnew/'
 import './AllApplications.css'
 const Search = Input.Search
@@ -53,13 +54,6 @@ export default class AllApplications extends React.Component {
           orderType: 'time',
           appType: this.state.key
         })
-        // // 获取平台应用
-        // this.getAppListPt({
-        //   sort: 'asc',
-        //   orderType: 'time',
-        //   appType: this.state.key,
-        //   platformType: 'pt'
-        // })
       })
     } else {
       this.setState({
@@ -71,16 +65,27 @@ export default class AllApplications extends React.Component {
           orderType: 'time',
           appType: this.state.key
         })
-        // // 获取平台应用
-        // this.getAppListPt({
-        //   sort: 'desc',
-        //   orderType: 'time',
-        //   appType: this.state.key,
-        //   platformType: 'pt'
-        // })
       })
     }
   }
+// 处理收藏按钮
+handleCollection = (id, isCollect) => {
+  // console.log('收藏')
+  homeCollection({
+    appId: id
+  }, (res) => {
+    if (res.data.code === 200) {
+      message.success('收藏成功')
+      // 获取软件应用数据
+      this.getAppListRj({
+        appType: this.state.key
+      })
+    } else {
+      message.warning(res.data.msg || '出现异常')
+    }
+  }).catch((e) => { console.log(e) })
+}
+
   // 下载量处理
   handleDownloadNum = () => {
     // console.log('下载量')
@@ -153,10 +158,12 @@ export default class AllApplications extends React.Component {
     }, () => {
       // 获取软件应用数据
       this.getAppListRj({
+        pageSize: 1000,
         appType: key
       })
       // 获取平台应用
       this.getAppListPt({
+        pageSize: 1000,
         appType: key,
         platformType: 'pt'
       })
@@ -181,9 +188,10 @@ export default class AllApplications extends React.Component {
     })
 
     // 获取全部软件应用数据 appType platformType 默认是软件应用
-    this.getAppListRj()
+    this.getAppListRj({pageSize: 1000})
     // 获取全部平台应用
     this.getAppListPt({
+      pageSize: 1000,
       platformType: 'pt'
     })
 
@@ -264,6 +272,7 @@ export default class AllApplications extends React.Component {
               <Route path='/operate-manage-home/all-app/all-app' render={() => {
                 // eslint-disable-next-line react/jsx-no-undef
                 return <LAllApplicationsDetail
+                  handleCollection={this.handleCollection}
                   allAppListData={this.state.allAppListData} platformAppDataa={this.state.platformAppDataa}
                   handleDownloadNum={this.handleDownloadNum}
                   handleShelfTime={this.handleShelfTime} />
