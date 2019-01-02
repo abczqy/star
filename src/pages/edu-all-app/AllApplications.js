@@ -221,6 +221,19 @@ handleCollection = (id, isCollect) => {
     }
     return (
       <div>
+        <div className='img-slider-container' style={{width: '100%', height: '242px'}}>
+          <Slider {...settings}>
+            {
+              (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
+                return item.picUrl
+                  ? <img key={index} src={(Config.IMG_BASE_URL_V2 + item.picUrl) || ''} />
+                  : <img key={index} src={allApp} />
+              })
+            }
+            {/* <img src={allApp} style={{height: '100%'}} /> */}
+          </Slider>
+          {/* <img style={{width: '100%', height: '100%'}} src={allApp} /> */}
+        </div>
         <Row style={{ marginTop: '1%', paddingTop: '1%' }} type='flex' align='middle'>
           <Col span={8} offset={5}>
             <Search
@@ -236,19 +249,6 @@ handleCollection = (id, isCollect) => {
           <Col span={1}>应用类</Col>
           <Col span={1}>最新上架</Col>
         </Row>
-        <div className='img-slider-container' style={{width: '100%', height: '242px', marginTop: '1%'}}>
-          <Slider {...settings}>
-            {
-              (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
-                return item.picUrl
-                  ? <img key={index} src={(Config.IMG_BASE_URL_V2 + item.picUrl) || ''} />
-                  : <img key={index} src={allApp} />
-              })
-            }
-            {/* <img src={allApp} style={{height: '100%'}} /> */}
-          </Slider>
-          {/* <img style={{width: '100%', height: '100%'}} src={allApp} /> */}
-        </div>
         <Layout style={{marginLeft: '10%', marginTop: '20px'}}>
           <Sider >
             <Menu
