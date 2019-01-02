@@ -5,10 +5,10 @@
 import React from 'react'
 import './ThirdPartyAppDetail.css'
 // import { Button, Icon, Carousel, Rate } from 'antd'
-import { Button, Icon, Carousel, Row, Col } from 'antd'
+import { Button, Icon, Carousel, Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
-import {thirdPartyAppDetail} from 'services/all-app/'
+import {thirdPartyAppDetail, appIsOpen, appOpen} from 'services/all-app/'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
@@ -23,6 +23,7 @@ class ThirdPartyAppDetail extends React.Component {
       obj: {
         display: 'none'
       },
+      isOpen: false,
       picType: 'computer', // 默认截图展示类型
       authItem: ['', '（基于网络的）粗略位置', '查看网络状态', '查看 Wi-Fi 状态', '创建蓝牙连接', '拍摄照片和视频', '更改 Wi-Fi 状态', '完全的互联网访问权限', '开机时自动启动'],
       addClassName: 'see-detail-itema',
@@ -34,12 +35,27 @@ class ThirdPartyAppDetail extends React.Component {
       verInfoArray: [], // 版本信息
       verNameArray: [], // 包名
       verSizeArray: [], // 包大小
-      verNumArray: [] // 版本号
+      verNumArray: [], // 版本号
+      verLinkArray: [] // 下载链接
       // relateData: []
     }
   }
   static propTypes = {
     location: PropTypes.object
+  }
+  getIsOpen = () => {
+    appIsOpen({
+      appId: this.state.appId
+    }, (res) => {
+      if (res.data.code === 200) {
+        // console.log('应用是否开通', res.data.data.OPEN)
+        this.setState({
+          isOpen: res.data.data.OPEN || false
+        })
+      } else {
+        // console.log('获取应用是否开通出现异常,', res.data.msg || '')
+      }
+    })
   }
   componentDidMount () {
     let a = this.props.location.search.replace('?', '')
@@ -47,6 +63,7 @@ class ThirdPartyAppDetail extends React.Component {
       appId: a
     }, () => {
       this.getThirdPartyAppDetailData()
+      this.getIsOpen()
     })
   }
   componentWillReceiveProps (nextprops) {
@@ -63,7 +80,7 @@ class ThirdPartyAppDetail extends React.Component {
       appId: this.state.appId
     }, (res) => {
       if (res.data.code === 200) {
-        console.log('应用详情：', res.data.data[0])
+        console.log('应用详情：', res.data.data)
         this.setState({
           appDetailData: res.data.data[0]
         }, () => {
@@ -94,36 +111,28 @@ class ThirdPartyAppDetail extends React.Component {
           }
           // 版本信息处理 32 64 ios
           let ee = []
-          if (this.state.appDetailData && this.state.appDetailData.VERSION_INFO) {
-            ee = this.state.appDetailData.VERSION_INFO.split(',')
-            this.setState({
-              verInfoArray: ee || []
-            })
-          }
           // 版本号处理
           let ff = []
-          if (this.state.appDetailData && this.state.appDetailData.APP_VERSION) {
-            ff = this.state.appDetailData.APP_VERSION.split(',')
-            this.setState({
-              verNumArray: ff || []
-            })
-          }
           // 软件大小处理
           let gg = []
-          if (this.state.appDetailData && this.state.appDetailData.VERSION_SIZE) {
-            gg = this.state.appDetailData.VERSION_SIZE.split(',')
-            this.setState({
-              verSizeArray: gg || []
-            })
-          }
           // 包名处理
           let hh = []
-          if (this.state.appDetailData && this.state.appDetailData.PACKAGE_NAME) {
-            hh = this.state.appDetailData.PACKAGE_NAME.split(',')
-            this.setState({
-              verNameArray: hh || []
-            })
-          }
+          // 链接处理
+          let ll = []
+          res.data.data && res.data.data.map((item) => {
+            ee.push(item.VERSION_INFO)
+            ff.push(item.APP_VERSION)
+            gg.push(item.VERSION_SIZE)
+            hh.push(item.PACKAGE_NAME)
+            ll.push(item.APP_DOWNLOAD_ADDRESS)
+          })
+          this.setState({
+            verInfoArray: ee || [],
+            verNumArray: ff || [],
+            verSizeArray: gg || [],
+            verNameArray: hh || [],
+            verLinkArray: ll || []
+          })
         })
       } else {
         console.log('查询应用详情失败：', res.data.msg || '')
@@ -171,6 +180,22 @@ class ThirdPartyAppDetail extends React.Component {
       })
     }
   }
+
+  // 开通应用
+  onOpenClick = () => {
+    appOpen({
+      appId: this.props.location.search.replace('?', '')
+    }, (res) => {
+      if (res.data.code === 200) {
+        message.success('开通成功')
+        this.setState({
+          isOpen: true
+        })
+      } else {
+        message.warn(res.data.msg || '开通失败')
+      }
+    })
+  }
   // // 获取相关应用数据
   // getRelatedApplications = () => {
   //   relatedApplications({
@@ -190,12 +215,8 @@ class ThirdPartyAppDetail extends React.Component {
   }
   render () {
     // console.log(111111, this.state.appDetailData.sw_path ? this.state.appDetailData.sw_path[0].win32 : '')
-    const verInfoArray = this.state.verInfoArray
-    let win32 = 'win32'.indexOf(this.state.appDetailData.VERSION_INFO)
-    let win64 = 'win64'.indexOf(this.state.appDetailData.VERSION_INFO)
-    let android = 'android'.indexOf(this.state.appDetailData.VERSION_INFO)
-    let ios = 'ios'.indexOf(this.state.appDetailData.VERSION_INFO)
-    const imgUrl = ajaxUrl.IMG_BASE_URL_V2
+    // const verInfoArray = this.state.verInfoArray
+    // const imgUrl = ajaxUrl
     return (
       <div className='app-detail'>
         <div className='app-detail-header'>
@@ -204,38 +225,29 @@ class ThirdPartyAppDetail extends React.Component {
             <h2 className='header-title'>{this.state.appDetailData.APP_NAME || '无'}</h2>
             <p className='header-classification'>分类：{this.state.appDetailData.APP_TYPE_NAME || '无'}</p>
             <div>
-              {verInfoArray && win32 > 0
-                ? <a href={imgUrl}>
+              {this.state.appDetailData.APP_SOURCE === 'rj' && this.state.verInfoArray && this.state.verInfoArray.map((item, index) => {
+                return <a key={index} target='_blank' href={this.state.verLinkArray[index] || 'http://baidu.com'}>
                   <Button className='header-button'>
-                windows 32位
+                    {this.state.verInfoArray[index] || '版本信息'}
                     <Icon style={{color: '#fff'}} type='download' />
                   </Button>
                 </a>
-                : null}
-              {verInfoArray && win64 > 0
-                ? <a href={imgUrl}>
-                  <Button className='header-button'>
-                windows 64位
-                    <Icon style={{color: '#fff'}} type='download' />
+              })}
+              {
+                this.state.appDetailData.APP_SOURCE === 'pt' ? (this.state.isOpen
+                  ? <Button className='header-button'>
+                    <a href={this.state.appDetailData.APP_LINK || ''}
+                      target='_blank' style={{color: 'white'}}>打开</a>
+                    <Icon style={{color: '#fff'}} type='primary' />
                   </Button>
-                </a>
-                : null}
-              {verInfoArray && android > 0
-                ? <a href={imgUrl}>
-                  <Button className='header-button'>
-                  Android
-                    <Icon style={{color: '#fff'}} type='download' />
-                  </Button>
-                </a>
-                : null}
-              {verInfoArray && ios > 0
-                ? <a href={imgUrl}>
-                  <Button className='header-button'>
-                IOS
-                    <Icon style={{color: '#fff'}} type='download' />
-                  </Button>
-                </a>
-                : null}
+                  : <Button className='header-button'
+                    onClick={this.onOpenClick}
+                  >
+                    开通
+                    <Icon style={{color: '#fff'}} type='primary' />
+                  </Button>)
+                  : null
+              }
             </div>
             <div className='header-see-detail'>
               <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>
@@ -249,16 +261,16 @@ class ThirdPartyAppDetail extends React.Component {
               {this.state.verInfoArray && this.state.verInfoArray.map((item, index) => {
                 return <Row key={index}>
                   <Col span={6}>
-              软件版本：{this.state.verInfoArray[index]}
+              软件版本：{this.state.verInfoArray[index] || '无'}
                   </Col>
                   <Col span={6}>
-              软件大小：{this.state.verSizeArray[index]}
+              软件大小：{this.state.verSizeArray[index] || '无'}
                   </Col>
                   <Col span={6}>
-              版本号：{this.state.verNumArray[index]}
+              版本号：{this.state.verNumArray[index] || '无'}
                   </Col>
                   <Col span={6}>
-              包名：{this.state.verNameArray[index]}
+              包名：{this.state.verNameArray[index] || '无'}
                   </Col>
                 </Row>
               })}

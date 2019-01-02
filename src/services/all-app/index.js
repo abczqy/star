@@ -23,6 +23,20 @@ export function thirdPartyAppDetail (params, sucFn) {
       sucFn(res)
     })
 }
+// 判断应用是否开通
+export function appIsOpen (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '/edu-market/manage-app/detail/open/' + params.appId)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+// 开通应用
+export function appOpen (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + '/edu-market/app-open', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
 
 // 应用详情 (自营)
 export function selfSupportAppDetail (params, sucFn) {
