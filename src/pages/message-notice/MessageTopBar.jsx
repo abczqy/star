@@ -86,8 +86,15 @@ class MessageTopBar extends React.Component {
       <div className='xingyun'>
         <div style={{ height: '30px', width: '100%' }}>
           <div style={{ marginLeft: '10%', float: 'left', lineHeight: '30px' }}>
-            欢迎您 , <span onClick={this.handlePerson.bind(this, '/operate-manage-home/center')}>{webStorage.getItem('STAR_WEB_PERSON_INFO') ? (webStorage.getItem('STAR_WEB_PERSON_INFO').userName || '游客') : '游客'
-            }</span></div>
+            欢迎您 ,
+            <span onClick={this.handlePerson.bind(this, '/operate-manage-home/center')}>
+              {webStorage.getItem('STAR_WEB_PERSON_INFO')
+                ? (webStorage.getItem('STAR_WEB_PERSON_INFO').userName || '游客')
+                : '游客'
+              }
+              {webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' ? '老师' : ''}
+            </span>
+          </div>
           <div style={{ height: '30px', float: 'right', marginRight: '10%' }} className='header-bar-icon'>
             <Badge count={this.state.messageCount} >
               <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />

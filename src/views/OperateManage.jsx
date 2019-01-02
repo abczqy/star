@@ -285,6 +285,7 @@ class OperateManage extends React.Component {
               <span>{ webStorage.getItem('STAR_WEB_PERSON_INFO')
                 ? (webStorage.getItem('STAR_WEB_PERSON_INFO').userName || '游客')
                 : '游客'}</span>
+              {webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' ? '老师' : ''}
             </div>
             <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
               <Badge count={this.state.messageCount} >
