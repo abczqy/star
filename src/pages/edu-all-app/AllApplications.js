@@ -224,9 +224,9 @@ export default class AllApplications extends React.Component {
             />
           </Col>
           <Col span={1}>&nbsp;</Col>
-          <Col span={1}><a href=''>资源类</a></Col>
-          <Col span={1}><a href=''>应用类</a></Col>
-          <Col span={1}><a href=''>最新上架</a></Col>
+          <Col span={1}>资源类</Col>
+          <Col span={1}>应用类</Col>
+          <Col span={1}>最新上架</Col>
         </Row>
         <div className='img-slider-container' style={{width: '100%', height: '242px', marginTop: '1%'}}>
           <Slider {...settings}>

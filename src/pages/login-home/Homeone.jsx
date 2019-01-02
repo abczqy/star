@@ -236,11 +236,11 @@ class Home extends React.Component {
             />
           </Col>
           <Col span={1}>&nbsp;</Col>
-          <Col span={1}><a href=''>资源类</a></Col>
-          <Col span={1}><a href=''>应用类</a></Col>
-          <Col span={1}><a href=''>新闻类</a></Col>
-          <Col span={1}><a href=''>信息类</a></Col>
-          <Col span={1}><a href=''>最新上架</a></Col>
+          <Col span={1}>资源类</Col>
+          <Col span={1}>应用类</Col>
+          <Col span={1}>新闻类</Col>
+          <Col span={1}>信息类</Col>
+          <Col span={1}>最新上架</Col>
         </Row>
         <Row style={{ marginTop: '1%' }}>
           <Col span={20} offset={2}>
