@@ -120,7 +120,7 @@ class HomeNewsAndInfo extends React.Component {
                 display: 'inline-block'
               }}
             >
-              {item.content || '无'}
+              {item.contentTitle || '无'}
             </a>
           </Col>
           <Col span={3}>
