@@ -30,7 +30,9 @@ class AllApplicationsDetail extends React.Component {
     handleShelfTime: PropTypes.func,
     handleDownloadNum: PropTypes.func,
     allAppListData: PropTypes.array,
-    platformAppDataa: PropTypes.array
+    platformAppDataa: PropTypes.array,
+    onClickLeft: PropTypes.func,
+    onClickRight: PropTypes.func
   }
   componentDidMount () {
     // this.getAllAppData()
@@ -39,6 +41,7 @@ class AllApplicationsDetail extends React.Component {
       allAppListData: this.props.allAppListData,
       platformAppDataa: this.props.platformAppDataa
     })
+    // this.refs['test'].goTo(1)
   }
   componentWillReceiveProps (nextProps) {
     // let a = nextProps.location ? (nextProps.location.search ? nextProps.location.search.replace('?', '') : '') : ''
@@ -46,14 +49,6 @@ class AllApplicationsDetail extends React.Component {
       allAppListData: nextProps.allAppListData,
       platformAppDataa: nextProps.platformAppDataa
     })
-  }
-
-  // 轮播图左右翻页
-  onClickRight = () => {
-    this.refs['test'].next()
-  }
-  onClickLeft = () => {
-    this.refs['test'].prev()
   }
 
   loadNextFunc = () => {}
@@ -109,7 +104,7 @@ class AllApplicationsDetail extends React.Component {
         <div>
           <span style={{ fontSize: 20 }}>平台应用</span>
           <div className='all-app-carousel'>
-            <div className='all-app-left-arrow' onClick={this.onClickLeft}> &lt; </div>
+            <div className='all-app-left-arrow' onClick={this.props.onClickLeft}> &lt; </div>
             <div className='all-app-carousel-detail'>
               <Carousel style={{width: 800}} ref='test'>
                 {this.state.platformAppDataa && this.state.platformAppDataa instanceof Array && this.state.platformAppDataa.map((item, index, arr) => {
@@ -152,7 +147,7 @@ class AllApplicationsDetail extends React.Component {
                 })}
               </Carousel>
             </div>
-            <div className='all-app-right-arrow' onClick={this.onClickRight}> &gt; </div>
+            <div className='all-app-right-arrow' onClick={this.props.onClickRight}> &gt; </div>
           </div>
         </div>
         <div style={{ marginTop: 10, width: 1019 }}>

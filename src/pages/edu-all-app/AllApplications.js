@@ -33,6 +33,8 @@ export default class AllApplications extends React.Component {
       shelfTimeSort: 'desc',
       downloadNum: 'decsc',
       key: '0',
+      currentPage: 1,
+      totalCountPt: 0,
       menuData: [] // 存全部应用的分类
     }
   }
@@ -68,23 +70,65 @@ export default class AllApplications extends React.Component {
       })
     }
   }
-// 处理收藏按钮
-handleCollection = (id, isCollect) => {
-  // console.log('收藏')
-  homeCollection({
-    appId: id
-  }, (res) => {
-    if (res.data.code === 200) {
-      message.success('收藏成功')
-      // 获取软件应用数据
-      this.getAppListRj({
-        appType: this.state.key
+  // 轮播图左右翻页
+  onClickRight = () => {
+    // console.log('下一页')
+    // console.log('total:', this.state.totalCountPt)
+    // console.log('当前页:', this.state.currentPage)
+    let page = this.state.currentPage + 1
+    if (this.state.currentPage * 6 < this.state.totalCountPt) {
+      this.setState({
+        currentPage: page
+      }, () => {
+        // 获取平台应用
+        this.getAppListPt({
+          pageNum: this.state.currentPage,
+          pageSize: 6,
+          appType: this.state.key,
+          platformType: 'pt'
+        })
       })
     } else {
-      message.warning(res.data.msg || '出现异常')
+      message.warning('没有更多数据')
     }
-  }).catch((e) => { console.log(e) })
-}
+  }
+  onClickLeft = () => {
+    // console.log('上一页')
+
+    let page = this.state.currentPage - 1
+    if (page > 0) {
+      this.setState({
+        currentPage: page
+      }, () => {
+        // 获取平台应用
+        this.getAppListPt({
+          pageNum: this.state.currentPage,
+          pageSize: 6,
+          appType: this.state.key,
+          platformType: 'pt'
+        })
+      })
+    } else {
+      message.warning('没有更多数据')
+    }
+  }
+  // 处理收藏按钮
+  handleCollection = (id, isCollect) => {
+    // console.log('收藏')
+    homeCollection({
+      appId: id
+    }, (res) => {
+      if (res.data.code === 200) {
+        message.success('收藏成功')
+        // 获取软件应用数据
+        this.getAppListRj({
+          appType: this.state.key
+        })
+      } else {
+        message.warning(res.data.msg || '出现异常')
+      }
+    }).catch((e) => { console.log(e) })
+  }
 
   // 下载量处理
   handleDownloadNum = () => {
@@ -99,13 +143,6 @@ handleCollection = (id, isCollect) => {
           orderType: 'download',
           appType: this.state.key
         })
-        // // 获取平台应用
-        // this.getAppListPt({
-        //   sort: 'asc',
-        //   orderType: 'download',
-        //   appType: this.state.key,
-        //   platformType: 'pt'
-        // })
       })
     } else {
       this.setState({
@@ -117,13 +154,6 @@ handleCollection = (id, isCollect) => {
           orderType: 'download',
           appType: this.state.key
         })
-        // // 获取平台应用
-        // this.getAppListPt({
-        //   sort: 'desc',
-        //   orderType: 'download',
-        //   appType: this.state.key,
-        //   platformType: 'pt'
-        // })
       })
     }
   }
@@ -146,6 +176,7 @@ handleCollection = (id, isCollect) => {
       }
       // console.log('获取平台应用数据---转化', result)
       this.setState({
+        totalCountPt: res.data.data.totalCount || 0,
         platformAppDataa: result || []
       })
     }).catch((e) => { console.log(e) })
@@ -163,7 +194,8 @@ handleCollection = (id, isCollect) => {
       })
       // 获取平台应用
       this.getAppListPt({
-        pageSize: 1000,
+        pageNum: this.state.currentPage,
+        pageSize: 6,
         appType: key,
         platformType: 'pt'
       })
@@ -191,7 +223,8 @@ handleCollection = (id, isCollect) => {
     this.getAppListRj({pageSize: 1000})
     // 获取全部平台应用
     this.getAppListPt({
-      pageSize: 1000,
+      pageNum: this.state.currentPage,
+      pageSize: 6,
       platformType: 'pt'
     })
 
@@ -275,7 +308,9 @@ handleCollection = (id, isCollect) => {
                   handleCollection={this.handleCollection}
                   allAppListData={this.state.allAppListData} platformAppDataa={this.state.platformAppDataa}
                   handleDownloadNum={this.handleDownloadNum}
-                  handleShelfTime={this.handleShelfTime} />
+                  handleShelfTime={this.handleShelfTime}
+                  onClickLeft={this.onClickLeft}
+                  onClickRight={this.onClickRight} />
               }} />
             </Content>
           </Layout>
