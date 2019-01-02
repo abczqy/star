@@ -103,9 +103,9 @@ class SelfPleasePreview extends React.Component {
   }
 
   render () {
-    console.log('render')
-    console.log('render this.props.dataIcon.icon = ', this.props.dataIcon)
-    console.log('render this.props.dataIcon.icon.length= ', this.props.dataIcon.length)
+    // console.log('render')
+    // console.log('render this.props.dataIcon.icon = ', this.props.dataIcon)
+    // console.log('render this.props.dataIcon.icon.length= ', this.props.dataIcon.length)
     // console.log('this.state.icon[0] render= ', this.state.icon.shift())
     let thiz = this.state.appDetailData
     let rname = thiz.get('rname')

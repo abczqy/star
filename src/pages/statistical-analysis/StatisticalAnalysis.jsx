@@ -45,7 +45,7 @@ class StatisticalAnalysis extends Component {
     console.log('搜索', this.dateRange, this.appCode)
     // if(this.appCode)
     this.getDownloadLineData({
-      userId: '1',
+      // userId: '1',
       startTime: this.dateRange.startDate || '',
       endTime: this.dateRange.endDate || '',
       appId: this.appCode || ''
@@ -113,7 +113,7 @@ class StatisticalAnalysis extends Component {
   // 应用类型占比-扇形图
   getAppTypeRadioData=() => {
     softwareType({
-      userId: '1'
+      // userId: '1'
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('应用类型占比', res.data.data)
@@ -136,8 +136,8 @@ class StatisticalAnalysis extends Component {
   // 当月应用下载型占比-扇形图
   getDownloadTypeRadioData=() => {
     softwareDownloadConst({
-      startTime: moment(new Date()).format('YYYY-MM'),
-      userId: '1'
+      startTime: moment(new Date()).format('YYYY-MM')
+      // userId: '1'
     }, (res) => {
       if (res.data.code === 200) {
         console.log('当月应用下载型占比', res.data.data)
@@ -160,7 +160,7 @@ class StatisticalAnalysis extends Component {
   // 获取统计分析全部软件下拉列表
   getAllApps=() => {
     getAllAppCode({
-      userId: '1'
+      // userId: '1'
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('全部软件下拉列表', res.data.data)

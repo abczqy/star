@@ -70,7 +70,7 @@ class AllApplicationsDetail extends React.Component {
   loadNextFunc = () => {}
   // 打开按钮页面跳转
   handleChangeJump = (item) => {
-    console.log('页面跳转了')
+    // console.log('页面跳转了')
     window.open(item.APP_LINK)
   }
   render () {

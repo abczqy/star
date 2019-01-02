@@ -53,7 +53,7 @@ class Home extends React.Component {
    * @param { object } thiz 函数执行的上下文
    */
   onJump = (url, thiz) => {
-    console.log('url: ', url)
+    // console.log('url: ', url)
     thiz.props.history.push(url)
   }
 

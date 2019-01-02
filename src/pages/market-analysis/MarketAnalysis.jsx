@@ -80,8 +80,7 @@ class MarketAnalysis extends Component {
   // 获取表格数据
   getTableData = (type) => {
     marketAnalysis({
-      appType: type,
-      userId: '1'
+      appType: type
     }, res => {
       if (res.data.code === 200) {
         // console.log('市场分析获取表格数据', res.data.data.data)

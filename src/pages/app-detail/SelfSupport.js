@@ -34,7 +34,7 @@ class SelfSupport extends React.Component {
   }
   componentDidMount () {
     let a = this.props.location.search.replace('?', '')
-    console.log('取来的帐号', a)
+    // console.log('取来的帐号', a)
     this.setState({
       appId: a
     }, () => {
