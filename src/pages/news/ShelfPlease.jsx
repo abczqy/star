@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import {Tabs, Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message, Checkbox} from 'antd'
 import { axios } from 'utils'
 import config from '../../config'
+import { getUpload, getMultiUpload } from '../../services/upload'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 // import Upload from './Upload'
@@ -24,7 +25,7 @@ const RadioGroup = Radio.Group
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
-const SERVICE_PORTAL = config.SERVICE_PORTAL
+// const SERVICE_PORTAL = config.SERVICE_PORTAL
 
 class ShelfPlease extends React.Component {
   static propTypes = {
@@ -182,8 +183,6 @@ class ShelfPlease extends React.Component {
   }
   // 用来存软件版本权限详情
   onRightChange = (checkedValues, index) => {
-    // let a = this.state.rights
-    // a[index] = checkedValues
     this.setState({
       rights: checkedValues
     }, () => {
@@ -418,49 +417,11 @@ class ShelfPlease extends React.Component {
   }
 
   /**
-   * 接口调用-上传文件
-   * 1- 在提交时调用
-   * 2- 这里利用封装 - 避免下回调地狱
-   */
-  getUpload = (fileType, file, callBack) => {
-    // 构造参数
-    let params = new FormData()
-    params.append('fileType', fileType)
-    params.append('file', file)
-    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload`, params)
-      .then(function (res) {
-      // 不阻塞 - 执行成功会执行回调
-        callBack && callBack(res)
-      }).catch(function (e) {
-      // 不阻塞 - 执行失败也会执行回调
-        callBack && callBack(e)
-      })
-  }
-
-  /**
-   * 接口调用-上传多文件
-   * 1- 在提交时调用
-   * 2- 这里利用封装 - 避免下回调地狱
-   */
-  getMultiUpload = (fileType, fileList, callBack) => {
-    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload/all`, {
-      fileType: fileType,
-      file: fileList
-    }).then(function (res) {
-      // 不阻塞 - 执行成功会执行回调
-      callBack && callBack(res)
-    }).catch(function (e) {
-      // 不阻塞 - 执行失败也会执行回调
-      callBack && callBack(e)
-    })
-  }
-
-  /**
    * 上传App的icon
    */
   uploadAppIcon = (thiz, callBack) => {
     if (thiz.state.appIcon) {
-      thiz.getUpload('pic', this.state.appIcon, (res) => {
+      getUpload('pic', this.state.appIcon, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           // appIcon上传完之后 我们就用它来存后台返回的id
@@ -484,7 +445,7 @@ class ShelfPlease extends React.Component {
    */
   uploadPcPics = (thiz, callBack) => {
     if (thiz.state.pcPics) {
-      thiz.getMultiUpload('pic', this.state.pcPics, (res) => {
+      getMultiUpload('pic', this.state.pcPics, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
@@ -507,7 +468,7 @@ class ShelfPlease extends React.Component {
    */
   uploadPhonePics = (thiz, callBack) => {
     if (thiz.state.phonePics) {
-      thiz.getMultiUpload('pic', this.state.phonePics, (res) => {
+      getMultiUpload('pic', this.state.phonePics, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           thiz.setState({
@@ -551,24 +512,24 @@ class ShelfPlease extends React.Component {
     result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // appInfo 部分
     result.appInfo = {
-      appIcon: appIcon,
+      appIcon: appIcon, // 软件图标
       appName: appName, // app名称
       appNotes: appDesc, // app描述
-      appPcPic: pcPics,
-      appPhonePic: phonePics,
+      appPcPic: pcPics, // app的pc端截图
+      appPhonePic: phonePics, // app的手机端截图
       appTypeId: appType, // app的类型
-      authDetail: '',
+      authDetail: '', // 权限详情
       newFeatures: feature // app的新版特性
     }
 
-    // appInfo.pc部分 -- 这个是什么
+    // appInfo.pc部分 -- 这里需要一个函数从数据专门生成
     result.appInfo.pc = [
       {
-        address: '',
-        appVersion: '',
-        packageName: '',
-        versioInfo: '',
-        versionSize: ''
+        address: '', // 上传文件
+        appVersion: '', // 软件平台版本
+        packageName: '', // 包名
+        versioInfo: '', // 版本号
+        versionSize: '' // 软件大小
       }
     ]
 
