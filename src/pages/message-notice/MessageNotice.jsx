@@ -86,7 +86,7 @@ class MessageNotice extends React.Component {
             {this.state.listData && this.state.listData.info && this.state.listData.info.map((item, index, arr) => {
               return <div className='list_itme' key={item.id}>
                 <div className='list-img'>
-                  <div className={item.isRead === '1' ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
+                  <div className={item.isRead === 1 ? 'list_icon list_icon_bg' : 'list_icon list_icon_rg'}>
                     <i />
                   </div>
                 </div>
