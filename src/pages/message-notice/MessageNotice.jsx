@@ -7,8 +7,9 @@ import React from 'react'
 import {Card, Pagination, message} from 'antd'
 import '../../views/Operateview.scss'
 import { renderRoutes } from 'react-router-config'
-import {getAllMessageList} from '../../services/topbar-mation'
+import {getAllMessageList, getMessageCount} from '../../services/topbar-mation'
 import { withRouter } from 'react-router'
+import webStorage from 'webStorage'
 import moment from 'moment'
 import {axios} from '../../utils'
 import config from '../../config/index'
@@ -27,10 +28,16 @@ class MessageNotice extends React.Component {
   handleTabChange (link, id, ready) {
     console.log(ready)
     if (ready === 0) {
-      // getMessageCount({msg_id: id}, (response) => {
-      //   webStorage.setItem('Unread_Message', response.data.count)
-      //   this.props.updateMessageCount(response.data.count)
-      // })
+      getMessageCount({}, (response) => {
+        if (response.data.code === 200) {
+          webStorage.setItem('Unread_Message', response.data.data)
+          this.setState({
+            messageCount: response.data.data
+          })
+        } else {
+          message.warn(response.data.msg)
+        }
+      })
       axios.put(`${API_BASE_URL_V2}${SERVICE_PORTAL}/messages/${id}`).then((res) => {
         console.log(res)
       })
