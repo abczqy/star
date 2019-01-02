@@ -286,7 +286,7 @@ class OperateManage extends React.Component {
                 : '游客'}</span>
               {webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' ? '老师' : ''}
             </div>
-            <div style={{height: '30px', float: 'right', marginRight: '10%'}} className='header-bar-icon'>
+            <div style={{height: '30px', float: 'right', marginRight: '10%', 'line-height': '32px'}} className='header-bar-icon'>
               <Badge count={this.state.messageCount} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
