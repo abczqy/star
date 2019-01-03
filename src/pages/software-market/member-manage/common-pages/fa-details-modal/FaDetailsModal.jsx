@@ -20,6 +20,7 @@ class FaDetailsModal extends Component {
 
   render () {
     const { getContainer, visible, footer, title, onCancel, resData } = this.props
+    // console.log('resData:', resData)
     return (
       <Modal
         {...modalConfig}
@@ -34,10 +35,21 @@ class FaDetailsModal extends Component {
             <Icon type='check' className='icon-check' />
           </Col>
           <Col span={3}>
+        厂商编号
+          </Col>
+          <Col span={19} className='col-border-left'>
+            {resData ? resData.companyId : '无'}
+          </Col>
+        </Row>
+        <Row className='row-bottom-border row-top-padding'>
+          <Col span={1}>
+            <Icon type='check' className='icon-check' />
+          </Col>
+          <Col span={3}>
         厂商名称
           </Col>
           <Col span={19} className='col-border-left'>
-            {resData ? resData.fa_name : null}
+            {resData ? resData.companyName : '无'}
           </Col>
         </Row>
         <Row className='row-bottom-border row-top-padding'>
@@ -45,10 +57,10 @@ class FaDetailsModal extends Component {
             <Icon type='check' className='icon-check' />
           </Col>
           <Col span={3}>
-            厂商描述
+            厂商地址
           </Col>
           <Col span={19} className='col-border-left'>
-            {resData ? resData.fa_desc : null}
+            {resData ? resData.companyAddress : '无'}
           </Col>
         </Row>
         <Row className='row-bottom-border row-top-padding'>
@@ -56,23 +68,12 @@ class FaDetailsModal extends Component {
             <Icon type='check' className='icon-check' />
           </Col>
           <Col span={3}>
-          合同编号
+          厂商税号
           </Col>
           <Col span={19} className='col-border-left'>
             <span>
-              {resData ? resData.fa_con_num : null}
+              {resData ? resData.companyTaxNum : '无'}
             </span>
-          </Col>
-        </Row>
-        <Row className='row-top-padding'>
-          <Col span={1}>
-            <Icon type='check' className='icon-check' />
-          </Col>
-          <Col span={3}>
-        营业执照
-          </Col>
-          <Col span={19} className='col-border-left'>
-            <img src={resData ? resData.contract_path : null} alt={resData ? resData.contract_path : null} />
           </Col>
         </Row>
       </Modal>

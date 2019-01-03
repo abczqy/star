@@ -422,7 +422,7 @@ export function getEduClassSelectList (sucFn) {
  * 会员管理-厂商-列表/查询
  */
 export function firmRenewList (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/company', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + '/company', {params: params})
     .then(function (res) {
       if (res.data.code === 200) {
         sucFn(res)
@@ -446,7 +446,7 @@ export function getFactoryDetail (params, sucFn) {
  * 会员管理-厂商-删除某个厂商账号
  */
 export function delFaId (params, sucFn) {
-  return axios.post(API_BASE_URL + '/factoryManage/deleteFactory', {...params})
+  return axios.delete(API_BASE_URL_V2 + '/portal/company/' + params.fa_id)
     .then(function (res) {
       sucFn(res)
     })
@@ -476,7 +476,7 @@ export function initFaPwd (params, sucFn) {
  * 会员管理-厂商-获取厂商详情
  */
 export function getFaDetails (params, sucFn) {
-  return axios.post(API_BASE_URL + '/factoryManage/getdetail', {...params})
+  return axios.get(API_BASE_URL_V2 + '/portal/company/one/' + params.fa_id)
     .then((res) => {
       sucFn(res)
     })

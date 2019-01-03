@@ -407,7 +407,7 @@ class Businessing extends Component {
 
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
-    console.log('tableData.data: ', tableData.data)
+    // console.log('tableData.data: ', tableData.data)
     return (
       <div className='software-wrap'>
         <SearchBar

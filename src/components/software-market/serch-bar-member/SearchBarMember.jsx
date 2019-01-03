@@ -43,26 +43,32 @@ class SearchBarMember extends Component {
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
-          <Col span={3}>
-            <span className='input-label'>{inputText1}</span>
-            <Input
-              className='input'
-              placeholder='请输入'
-              // showSearch
-              onChange={onSelect1Change} >
-              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
-            </Input>
-          </Col>
-          <Col span={5}>
-            <span className='input-label'>{inputText2}</span>
-            <Input
-              className='input'
-              placeholder='请输入'
-              // showSearch
-              onChange={onSelect2Change} >
-              {/* {selectList.faNameList && this.getOptions(selectList.faNameList)} */}
-            </Input>
-          </Col>
+          {
+            this.props.inputText1 &&
+            <Col span={3}>
+              <span className='input-label'>{inputText1}</span>
+              <Input
+                className='input'
+                placeholder='请输入'
+                // showSearch
+                onChange={onSelect1Change} >
+                {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+              </Input>
+            </Col>
+          }
+          {
+            this.props.inputText2 &&
+            <Col span={5}>
+              <span className='input-label'>{inputText2}</span>
+              <Input
+                className='input'
+                placeholder='请输入'
+                // showSearch
+                onChange={onSelect2Change} >
+                {/* {selectList.faNameList && this.getOptions(selectList.faNameList)} */}
+              </Input>
+            </Col>
+          }
           {
             this.props.inputText3 &&
             <Col span={5}>

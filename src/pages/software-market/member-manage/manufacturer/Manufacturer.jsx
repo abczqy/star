@@ -10,7 +10,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Divider, Button } from 'antd'
+import { Table, Divider, Button, message } from 'antd'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
@@ -91,19 +91,25 @@ class Manufacturer extends Component {
   getColumns () {
     return [
       {
+        title: '序号',
+        dataIndex: 'index',
+        key: 'index',
+        width: 100
+      }, {
         title: '厂商名称',
         dataIndex: 'COMPANY_NAME',
         key: 'COMPANY_NAME',
-        width: 200
+        width: 500
       }, {
         title: '在运营软件数',
         dataIndex: 'APP_COUNT',
-        key: 'APP_COUNT'
+        key: 'APP_COUNT',
+        width: 400
       }, {
         title: '操作',
         dataIndex: 'options',
         key: 'options',
-        width: 280,
+        width: 400,
         render: (text, record, index) => {
           return (
             <span>
@@ -129,15 +135,15 @@ class Manufacturer extends Component {
   // }
 
   getParams = () => {
-    const { faName, numDay } = this.state.reqParam
+    const { faName } = this.state.reqParam
     // 最后都要赋空
     return {
       pageSize: this.state.pagination.pageSize,
       pageNum: this.state.pagination.pageNum,
-      companyName: faName || '',
+      companyName: faName || ''
       // companyId: faId || '',
       // to_login: toLogin || '', // 无该参数？
-      num_day: numDay || ''// 无该参数？
+      // num_day: numDay || ''// 无该参数？
     }
   }
 
@@ -148,36 +154,50 @@ class Manufacturer extends Component {
    */
   getTableDatas = () => {
     firmRenewList(this.getParams(), (res) => {
-      // const resData = res.data
-      // console.log(`resData: ${JSON.stringify(resData)}`)
-      // this.setState({
-      //   tableData: {
-      //     data: addKey2TableData(resData.list, 'fa_id'),
-      //     total: resData.total
-      //   }
-      // })
-      console.log('res: ', res)
+      if (res.data.code === 200) {
+        const resData = res.data.data
+        resData && resData.data instanceof Array && resData.data.map((item, index) => {
+          item.index = index + 1
+        })
+        // console.log('厂商数据：', resData)
+        // console.log(`resData: ${JSON.stringify(resData)}`)
+        this.setState({
+          tableData: {
+            // data: addKey2TableData(resData.list, 'fa_id'),
+            data: resData.data || [],
+            total: resData.totalCount || 0
+          }
+        })
+      } else {
+        console.log('获取厂商数据异常：', res.data.msg || '')
+      }
     })
   }
 
   // 显示‘详情’弹窗
   showFaDetModal = (record) => {
+    // console.log('record:', record)
     // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      fa_id: record.fa_id
+      fa_id: record.COMPANY_ID
     }
     getFaDetails(params, (res) => {
-      const resData = res.data
-      // 通过state将数据res传给子组件
-      thiz.setState({
-        faDetModalCon: {
-          ...this.state.faDetModalCon,
-          visible: true,
-          resData: resData
-        }
-      })
+      if (res.data.code === 200) {
+        const resData = res.data.data
+        // console.log('详情:', resData)
+        // 通过state将数据res传给子组件
+        thiz.setState({
+          faDetModalCon: {
+            ...this.state.faDetModalCon,
+            visible: true,
+            resData: resData
+          }
+        })
+      } else {
+        console.log('获取厂商详情出现异常：', res.data.msg || '')
+      }
     })
   }
   // 关闭‘详情’弹窗
@@ -197,7 +217,7 @@ class Manufacturer extends Component {
       delModalCon: {
         ...this.state.delModalCon,
         visible: true,
-        faId: record.fa_id // 还要对齐 后台用的哪个参数
+        faId: record.COMPANY_ID // 还要对齐 后台用的哪个参数
       }
     })
   }
@@ -238,6 +258,8 @@ class Manufacturer extends Component {
         ...this.state.reqParam,
         faName: value
       }
+    }, () => {
+      this.getTableDatas()
     })
   }
 
@@ -288,10 +310,16 @@ class Manufacturer extends Component {
    * 删除某个厂商的账号
    */
   handleDelLoginId = () => {
+    // console.log('this.state.delModalCon:', this.state.delModalCon)
     const params = {
       fa_id: this.state.delModalCon.faId
     }
     delFaId(params, (res) => {
+      if (res.data.code === 200) {
+        message.success('删除成功')
+      } else {
+        message.warn(res.data.msg || '删除失败')
+      }
       // 这里其实应改通过state映射到一个view上 有个'删除成功'的提示
       console.log(`res.data.msg: ${res.data.msg}`)
     })
@@ -436,11 +464,11 @@ class Manufacturer extends Component {
     return (
       <div className='software-wrap'>
         <SearchBarMember
-          inputText1='账号 '
           inputText2='厂商名称 '
+          // inputText2='厂商名称 '
           selectList={{...selectList}}
-          onSelect1Change={this.onFaLoginidChange}
           onSelect2Change={this.onFaNameChange}
+          // onSelect2Change={this.onFaNameChange}
           // onSelect3Change={this.onNumDayChange}
           // onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
@@ -456,9 +484,9 @@ class Manufacturer extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
-          rowSelection={{
-            onChange: this.rowSelectChange
-          }}
+          // rowSelection={{
+          //   onChange: this.rowSelectChange
+          // }}
         />
         <MemRenewWin record={this.state.memRenewRecord} visible={this.state.memRenewWinVisible} handleClose={() => { this.handleCloseMemRenewWin() }} />
         <div ref='delLoginIdElem' />
