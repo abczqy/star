@@ -1,5 +1,5 @@
 /**
- * 上架申请
+ * 上架(运营中)
  * 还需：
  * 状态有redux管理
  * form的加入
@@ -10,14 +10,18 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
+import moment from 'moment'
 import { Table, Divider, Button, message } from 'antd'
-// import ajaxUrl from 'config'
-// import axios from 'axios'
+import { axios } from 'utils'
+import config from '../../../../config'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
-import { getAppListDatav2, bussDetailv2, undercarriagev2, stick, getApptype, getRenewDetail } from 'services/software-manage'
+import { bussDetailv2, undercarriagev2, stick, getApptype, getRenewDetail } from 'services/software-manage'
+
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
 
 /**
    * 表格分页器设置-默认值
@@ -68,67 +72,19 @@ class Businessing extends Component {
       dataIndex: 'APP_TYPE_NAME',
       key: 'APP_TYPE_NAME'
     }, {
-      title: '供应商',
-      dataIndex: 'fa_name',
-      key: 'fa_name',
-      render: (text, record, index) => {
-        return (
-          <span >{text && text ? text : 'baidu'}
-          </span>
-        )
-      }
+      title: '版本',
+      dataIndex: 'APP_VERSION'
+      // width: 150
     }, {
-      title: '类型',
-      dataIndex: 'LX',
-      key: 'LX',
-      render: (text, record, index) => {
-        return (
-          <span >{text && text ? text : 'app'}
-          </span>
-        )
-      }
-    }, {
-      title: '当前版本',
-      dataIndex: 'APP_VERSION',
-      key: 'APP_VERSION'
+      title: '上线时间',
+      dataIndex: 'CREATE_TIME',
+      render: date => moment(date).format('YYYY-MM-DD')
+      // width: 150
     }, {
       title: '下载次数',
       dataIndex: 'DOWNLOAD_COUNT',
       key: 'DOWNLOAD_COUNT'
     }, {
-      title: '变更时间',
-      dataIndex: 'CREATE_TIME',
-      key: 'CREATE_TIME',
-      render: (text, record, index) => {
-        return (
-          <span >{this.dateToString(text)}</span>
-        )
-      }
-    },
-    // {
-    //   title: '置顶',
-    //   dataIndex: 'stickTop',
-    //   key: 'stickTop',
-    //   render: (text, record, index) => {
-    //     return (
-    //       <Switch checked={record.sw_stick === 1} onChange={() => this.handleStick(record)} />
-    //     )
-    //   }
-    // }, {
-    //   title: '缴费状态',
-    //   dataIndex: 'num_day',
-    //   key: 'num_day',
-    //   render: (text, record, index) => {
-    //     if (record.num_day === '正常') {
-    //       return <span className='normal-color' >正常</span>
-    //     } else if (record.num_day === '已过期') {
-    //       return <span className='alert-color' >已过期</span>
-    //     } else {
-    //       return <span className='warn-color' >{record.num_day}</span>
-    //     }
-    //   }
-    // },
-    {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
@@ -164,26 +120,48 @@ class Businessing extends Component {
   /**
    * 获取运营中的应用列表数据
    */
-  getTableDatas = () => {
-    getAppListDatav2(
-      {
-        pageNum: this.state.pagination.pageNum,
-        pageSize: this.state.pagination.pageSize,
-        auditStatus: this.state.auditStatus,
-        typeId: this.state.typeId,
-        downloadCount: this.state.downloadCount,
-        keyword: this.state.keyword
-      }, (res) => {
-        const data = res.data.data
-        // let jsonStr = JSON.stringify(data)
-        // console.log(jsonStr)
-        let dataList = res.data.data.data
-        this.setState({
-          tableData: {
-            data: this.getSwPath(dataList),
-            total: data.total
-          }
-        })
+  getTableDatas = (thiz) => {
+    // getAppListDatav2(
+    //   {
+    //     pageNum: this.state.pagination.pageNum,
+    //     pageSize: this.state.pagination.pageSize,
+    //     auditStatus: this.state.auditStatus,
+    //     typeId: this.state.typeId,
+    //     downloadCount: this.state.downloadCount,
+    //     keyword: this.state.keyword
+    //   }, (res) => {
+    //     const data = res.data.data
+    //     // let jsonStr = JSON.stringify(data)
+    //     // console.log(jsonStr)
+    //     let dataList = res.data.data.data
+    //     this.setState({
+    //       tableData: {
+    //         data: this.getSwPath(dataList),
+    //         total: data.total
+    //       }
+    //     })
+    //   })
+    let params = {
+      auditStatus: '1', // 审核状态
+      keyword: this.state.keyword || '', // 应用名称,
+      pageNum: this.state.pageNum || 1,
+      pageSize: this.state.pageSize || 15,
+      typeId: this.state.typeId || 0
+    }
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
+      .then(function (res) {
+        if (res.data.code === 200) {
+          const data = res.data
+          data.data &&
+          thiz.setState({
+            tableData: {
+              data: data.data.data.slice(),
+              total: data.data.totalCount
+            }
+          })
+        } else {
+          message.warning(res.data.msg || '请求出错')
+        }
       })
   }
 
@@ -284,7 +262,7 @@ class Businessing extends Component {
     stick(params, (res) => {
       const data = res.data ? res.data : {}
       message.success(data.info)
-      thiz.getTableDatas()
+      thiz.getTableDatas(this)
     })
   }
 
@@ -311,7 +289,7 @@ class Businessing extends Component {
       const data = res.data ? res.data : {}
       message.success(data.info)
       thiz.closeModal()
-      thiz.getTableDatas()
+      thiz.getTableDatas(thiz)
     })
   }
 
@@ -337,7 +315,7 @@ class Businessing extends Component {
         pageSize: size
       }
     }, () => {
-      this.getTableDatas()
+      this.getTableDatas(this)
     })
   }
 
@@ -351,7 +329,7 @@ class Businessing extends Component {
         pageNum: page
       }
     }, () => {
-      this.getTableDatas()
+      this.getTableDatas(this)
     })
   }
 
@@ -361,7 +339,7 @@ class Businessing extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    this.getTableDatas()
+    this.getTableDatas(this)
   }
 
   inputChange = (e) => {
@@ -369,11 +347,6 @@ class Businessing extends Component {
     this.setState({
       keyword: value
     })
-  }
-
-  componentDidMount () {
-    this.getTableDatas()
-    this.getSelectOptions()
   }
 
   // 应用类型下拉框数据获取
@@ -426,8 +399,14 @@ class Businessing extends Component {
     })
   }
 
+  componentDidMount () {
+    this.getTableDatas(this)
+    this.getSelectOptions()
+  }
+
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
+    console.log('tableData.data: ', tableData.data)
     return (
       <div className='software-wrap'>
         <SearchBar
