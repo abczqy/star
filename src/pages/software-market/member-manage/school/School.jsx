@@ -167,7 +167,8 @@ class School extends Component {
         //   total: res.data.data.totalElements
         // })
         this.setState({
-          dataSource: res.data.data
+          dataSource: res.data.data.info,
+          total: res.data.data.total
         })
       } else {
         message.warn(res.data.msg)
@@ -384,7 +385,7 @@ class School extends Component {
           dataSource={this.state.dataSource}
           pagination={{
             ...pagination,
-            total: this.state.dataSource.length,
+            total: this.state.total,
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
