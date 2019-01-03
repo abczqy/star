@@ -119,7 +119,7 @@ export default class AllApplications extends React.Component {
         appId: id + ''
       }, (res) => {
         if (res.data.code === 200) {
-          message.success('收藏成功')
+          message.success('取消收藏成功')
           // 获取软件应用数据
           this.getAppListRj({
             pageSize: this.state.pageSizeRj,
@@ -134,7 +134,7 @@ export default class AllApplications extends React.Component {
         appId: id
       }, (res) => {
         if (res.data.code === 200) {
-          message.success('取消收藏成功')
+          message.success('收藏成功')
           // 获取软件应用数据
           this.getAppListRj({
             appType: this.state.key
