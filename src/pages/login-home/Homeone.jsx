@@ -225,23 +225,6 @@ class Home extends React.Component {
     }
     return (
       <div className='login-home-container' style={{ background: '#FAFCFF' }}>
-        <Row style={{ marginTop: '1%', paddingTop: '1%' }} type='flex' align='middle'>
-          <Col span={8} offset={5}>
-            <Search
-              placeholder='教育'
-              enterButton='搜索'
-              size='large'
-              onSearch={value => console.log(value)}
-              style={{ width: '100%' }}
-            />
-          </Col>
-          <Col span={1}>&nbsp;</Col>
-          <Col span={1}>资源类</Col>
-          <Col span={1}>应用类</Col>
-          <Col span={1}>新闻类</Col>
-          <Col span={1}>信息类</Col>
-          <Col span={1}>最新上架</Col>
-        </Row>
         <Row style={{ marginTop: '1%' }}>
           <Col span={20} offset={2}>
             <MainBander {...this.props}
@@ -271,6 +254,23 @@ class Home extends React.Component {
               </Carousel>
             </div>
           </Col>
+        </Row>
+        <Row style={{ marginTop: '1%', paddingTop: '1%' }} type='flex' align='middle'>
+          <Col span={8} offset={5}>
+            <Search
+              placeholder='教育'
+              enterButton='搜索'
+              size='large'
+              onSearch={value => console.log(value)}
+              style={{ width: '100%' }}
+            />
+          </Col>
+          <Col span={1}>&nbsp;</Col>
+          <Col span={1}>资源类</Col>
+          <Col span={1}>应用类</Col>
+          <Col span={1}>新闻类</Col>
+          <Col span={1}>信息类</Col>
+          <Col span={1}>最新上架</Col>
         </Row>
         <Row style={{ marginTop: '1%' }}>
           <Col span={20} offset={2}>
