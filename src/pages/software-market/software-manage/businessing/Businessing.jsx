@@ -11,11 +11,14 @@
  */
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Table, Divider, Button, message } from 'antd'
+import { Table, Divider, Button, message, Modal } from 'antd'
 import { axios } from 'utils'
 import config from '../../../../config'
 import { BlankBar, SearchBar } from 'components/software-market'
-import { AppStandOffModal, AppDetailModal } from 'pages/software-market'
+import {
+  // AppStandOffModal,
+  AppDetailModal
+} from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
 import { bussDetailv2, undercarriagev2, stick, getApptype, getRenewDetail } from 'services/software-manage'
@@ -262,6 +265,24 @@ class Businessing extends Component {
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
     undercarriagev2(params, params1, (res) => {
       const data = res.data ? res.data : {}
+      message.success('下架成功')
+      thiz.closeModal()
+      thiz.getTableDatas(thiz)
+    })
+  }
+
+  handleRemove = () => {
+    // 当然 在关闭之前要提交表单
+    let appIdList = []
+    appIdList.push(this.state.appOffModalCon.APP_ID * 1)// 这里的list后端要int的
+    const thiz = this
+    const params = {
+      applyType: 5, // applyType 5为下架
+      userId: 1
+    }
+    const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
+    undercarriagev2(params, params1, (res) => {
+      const data = res.data ? res.data : {}
       message.success(data.info)
       thiz.closeModal()
       thiz.getTableDatas(thiz)
@@ -404,7 +425,7 @@ class Businessing extends Component {
             return index
           }}
         />
-        {appOffModalCon.visible ? <AppStandOffModal
+        {/* {appOffModalCon.visible ? <AppStandOffModal
           visible={appOffModalCon.visible}
           getVeriCode={this.getVeriCode}
           getVeriStatus={this.getVeriStatus}
@@ -415,7 +436,15 @@ class Businessing extends Component {
             <Button key='back' onClick={this.handleCancel}>取消</Button>
           ]}
           swName={appOffModalCon.swName}
-        /> : null}
+        /> : null} */}
+        <Modal
+          title='确认框'
+          visible={appOffModalCon.visible}
+          onOk={this.handleRemove}
+          onCancel={this.handleCancel}
+        >
+          <span>您是否确认下架软件，此操作不可逆转！</span>
+        </Modal>
         <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
         <div ref='appDetailElem' className='app-detail-wrap' />
         <AppDetailModal
