@@ -621,6 +621,22 @@ class ShelfPlease extends React.Component {
   }
 
   /**
+   * 专门的一个参数生成器
+   * 1- 因为有的用户添加版本编辑器 -- 有问题
+   */
+  versions2Params = (versions) => {
+    let arr = versions ? versions.slice() : []
+    let result = []
+    arr.forEach((v, i) => {
+      if (v.address !== '' || v.appVersion !== '') {
+        // 将有有效值的参数传递出来
+        result.push(v)
+      }
+    })
+    return result
+  }
+
+  /**
    * params组织 - 获取迭代接口需要的params
    */
   getParams = (thiz) => {
@@ -636,11 +652,11 @@ class ShelfPlease extends React.Component {
       versions
     } = this.state
 
-    let result = {}
+    // let result = {}
     // userId部分
     // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // appInfo 部分
-    result.appInfo = {
+    let result = {
       appIcon: appIcon, // 软件图标
       appName: appName, // app名称
       appNotes: appDesc, // app描述
@@ -651,8 +667,8 @@ class ShelfPlease extends React.Component {
       newFeatures: feature // app的新版特性
     }
 
-    // appInfo.pc部分 -- 这里需要一个函数从数据专门生成
-    result.appInfo.pc = versions
+    // result.pc部分 -- 这里需要一个函数从state.version中生成
+    result.pc = this.versions2Params(versions)
 
     return result
   }
