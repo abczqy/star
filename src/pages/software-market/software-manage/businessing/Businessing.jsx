@@ -264,7 +264,7 @@ class Businessing extends Component {
     }
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
     undercarriagev2(params, params1, (res) => {
-      const data = res.data ? res.data : {}
+      // const data = res.data ? res.data : {}
       message.success('下架成功')
       thiz.closeModal()
       thiz.getTableDatas(thiz)
