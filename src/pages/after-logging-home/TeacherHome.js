@@ -61,9 +61,9 @@ class TeacherHome extends Component {
           display: 'block'
         }
       })
+      this.getTeacherData()
     }
     this.getRankingData()
-    this.getTeacherData()
     this.getHotData()
   }
   // componentWillMount () {
@@ -108,8 +108,8 @@ class TeacherHome extends Component {
   // 获取老师推荐数据
   getTeacherData = () => {
     teacherRecommend({
-      // num: this.state.teacherMoreNum
-      teacherId: '1'
+      pageSize: this.state.teacherMoreNum
+      // teacherId: '1'
     }, (res) => {
       if (res.data.code === 200) {
         // console.log('教师推荐', res.data.data.data)
@@ -125,10 +125,10 @@ class TeacherHome extends Component {
   getHotData = () => {
     hotRecommend({
       pageNum: '1',
-      pageSize: '16'
+      pageSize: this.state.hotMoreNum
     }, (res) => {
       if (res.data.code === 200) {
-        // console.log('热门推荐', res.data.data)
+        console.log('热门推荐', res.data.data)
         this.setState({
           hotData: res.data.data || []
         })
@@ -139,16 +139,18 @@ class TeacherHome extends Component {
   }
   // 处理老师推荐的更多按钮
   handleTeacherMore = () => {
+    let pageNum = this.state.teacherMoreNum + 8
     this.setState({
-      teacherMoreNum: 16
+      teacherMoreNum: pageNum
     }, () => {
       this.getTeacherData()
     })
   }
   // 处理热门推荐的更多按钮
   handleHotMor = () => {
+    let pageNum = this.state.hotMoreNum + 8
     this.setState({
-      hotMoreNum: 16
+      hotMoreNum: pageNum
     }, () => {
       this.getHotData()
     })
@@ -161,7 +163,10 @@ class TeacherHome extends Component {
       }, (res) => {
         if (res.data.code === 200) {
           message.success('取消收藏成功')
-          this.getTeacherData()
+          // 学生 老师 家长才显示教师推荐
+          if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students') {
+            this.getTeacherData()
+          }
           this.getHotData()
         } else {
           message.warning(res.data.msg || '出现异常')
@@ -174,7 +179,10 @@ class TeacherHome extends Component {
         if (res.data.code === 200) {
           message.success('收藏成功')
           // console.log('收藏按钮：', res.data.msg)
-          this.getTeacherData()
+          // 学生 老师 家长才显示教师推荐
+          if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students') {
+            this.getTeacherData()
+          }
           this.getHotData()
         } else {
           message.warning(res.data.msg || '出现异常')
@@ -372,10 +380,10 @@ class TeacherHome extends Component {
               <div className='popular-recommendation-title'>
                 <h3 className='chinese'>热门推荐</h3>
                 <span className='english'>Hot recommendation</span>
-                {/* <span className='more' onClick={this.handleHotMor}>更多 > ></span> */}
-                <span className='more'>
+                <span className='more' onClick={this.handleHotMor}>更多 > ></span>
+                {/* <span className='more'>
                   <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
-                </span>
+                </span> */}
               </div>
               <div className='popular-recommendation-item'>
                 {this.state.hotData && this.state.hotData instanceof Array && this.state.hotData.map((item, index, arr) => {
@@ -386,10 +394,10 @@ class TeacherHome extends Component {
                 <div className='popular-recommendation-title'>
                   <h3 className='chinese'>老师推荐</h3>
                   <span className='english'>Teacher recommendation</span>
-                  {/* <span className='more' onClick={this.handleTeacherMore}>更多 > ></span> */}
-                  <span className='more'>
+                  <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
+                  {/* <span className='more'>
                     <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
-                  </span>
+                  </span> */}
                 </div>
                 <div className='popular-recommendation-item'>
                   {this.state.teacherData && this.state.teacherData instanceof Array && this.state.teacherData.map((item, index, arr) => {
