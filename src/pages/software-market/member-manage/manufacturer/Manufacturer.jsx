@@ -1,4 +1,5 @@
 /**
+ * 后台管理-实体管理-厂商
  * 还需：
  * 状态有redux管理
  * form的加入
@@ -10,8 +11,6 @@
  */
 import React, { Component } from 'react'
 import { Table, Switch, Divider, Button } from 'antd'
-// import axios from 'axios'
-import ajaxUrl from 'config'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
@@ -22,12 +21,15 @@ import {
   initFaPwd,
   getFaDetails,
   getFactoryDetail,
-  faBatchLeadout,
   getIdSelectList,
   getNameSelectList,
   getContractSelectList
 } from 'services/software-manage'
-import { addKey2TableData, getSelectList, getSelectListWithNoParam } from 'utils/utils-sw-manage'
+import {
+  // addKey2TableData,
+  getSelectList,
+  getSelectListWithNoParam
+} from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -90,26 +92,22 @@ class Manufacturer extends Component {
     return [
       {
         title: '厂商名称',
-        dataIndex: 'fa_name',
-        key: 'fa_name',
+        dataIndex: 'COMPANY_NAME',
+        key: 'COMPANY_NAME',
         width: 200
       }, {
-        title: '账号',
+        title: '账号', // 需要和新后台对一下
         dataIndex: 'fa_id',
         key: 'fa_id',
         width: 200
       }, {
         title: '在运营软件数',
-        dataIndex: 'num',
-        key: 'num'
-      }, {
-        title: '合同状态',
-        dataIndex: 'num_day',
-        key: 'num_day'
+        dataIndex: 'APP_COUNT',
+        key: 'APP_COUNT'
       }, {
         title: '允许登录',
-        dataIndex: 'to_login',
-        key: 'to_login',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
+        key: 'LOGIN_PERMISSION_STATUS',
         render: (text, record, index) => {
           let check = true
           if (text === 0) {
@@ -127,12 +125,12 @@ class Manufacturer extends Component {
         render: (text, record, index) => {
           return (
             <span>
-              <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续签</a>
-              <Divider type='vertical' />
+              {/* <a href='javascript:void(0)' onClick={(e) => this.showMemRenewWin(record)}>续签</a> */}
+              {/* <Divider type='vertical' /> */}
               <a href='javascript:void(0)' onClick={(e) => this.showFaDetModal(record)}>详情</a>
               <Divider type='vertical' />
-              <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a>
-              <Divider type='vertical' />
+              {/* <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>初始密码</a> */}
+              {/* <Divider type='vertical' /> */}
               <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>删除账号</a>
             </span>
           )
@@ -154,10 +152,10 @@ class Manufacturer extends Component {
     return {
       pageSize: this.state.pagination.pageSize,
       pageNum: this.state.pagination.pageNum,
-      fa_name: faName || '',
-      fa_id: faId || '',
-      to_login: toLogin || '',
-      num_day: numDay || ''
+      companyName: faName || '',
+      companyId: faId || '',
+      to_login: toLogin || '', // 无该参数？
+      num_day: numDay || ''// 无该参数？
     }
   }
 
@@ -168,14 +166,15 @@ class Manufacturer extends Component {
    */
   getTableDatas = () => {
     firmRenewList(this.getParams(), (res) => {
-      const resData = res.data
+      // const resData = res.data
       // console.log(`resData: ${JSON.stringify(resData)}`)
-      this.setState({
-        tableData: {
-          data: addKey2TableData(resData.list, 'fa_id'),
-          total: resData.total
-        }
-      })
+      // this.setState({
+      //   tableData: {
+      //     data: addKey2TableData(resData.list, 'fa_id'),
+      //     total: resData.total
+      //   }
+      // })
+      console.log('res: ', res)
     })
   }
 
@@ -263,15 +262,15 @@ class Manufacturer extends Component {
   /**
    * 当下拉选择框‘合同状态’值改变时回调
    */
-  onNumDayChange = (val) => {
-    // 修改state.reqParams中对应的值
-    this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        numDay: val
-      }
-    })
-  }
+  // onNumDayChange = (val) => {
+  //   // 修改state.reqParams中对应的值
+  //   this.setState({
+  //     reqParam: {
+  //       ...this.state.reqParam,
+  //       numDay: val
+  //     }
+  //   })
+  // }
 
   /**
    * 当下拉选择框‘允许登录’值改变时回调
@@ -427,21 +426,22 @@ class Manufacturer extends Component {
   /**
    * 批量导出
    */
-  onBatchLeadout = () => {
-    // 从state中获取实时的fa_id数组的值 作为请求参数传给后台
-    const { faIdArrs } = this.state.batchLeadParams
-    console.log(`faIdArrs: ${JSON.stringify(faIdArrs)}`)
-    faBatchLeadout({fa_id: faIdArrs}, (res) => {
-      window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
-      console.log(`${res.data.info}`)
-    })
-  }
+  // onBatchLeadout = () => {
+  //   // 从state中获取实时的fa_id数组的值 作为请求参数传给后台
+  //   const { faIdArrs } = this.state.batchLeadParams
+  //   console.log(`faIdArrs: ${JSON.stringify(faIdArrs)}`)
+  //   faBatchLeadout({fa_id: faIdArrs}, (res) => {
+  //     window.open(ajaxUrl.IMG_BASE_URL + '/' + res.data.info)
+  //     console.log(`${res.data.info}`)
+  //   })
+  // }
 
   /**
    *获取一系列参数
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
+    // 请求厂商列表数据
     this.getTableDatas()
     // 请求下拉框的数据
     getSelectList(getIdSelectList, 'firm', 'idList', this)
@@ -456,15 +456,14 @@ class Manufacturer extends Component {
         <SearchBarMember
           inputText1='账号 '
           inputText2='厂商名称 '
-          inputText3='合同状态 '
           inputText4='允许登录 '
           selectList={{...selectList}}
           onSelect1Change={this.onFaLoginidChange}
           onSelect2Change={this.onFaNameChange}
-          onSelect3Change={this.onNumDayChange}
+          // onSelect3Change={this.onNumDayChange}
           onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
-          onBtnBatchExport={this.onBatchLeadout}
+          // onBtnBatchExport={this.onBatchLeadout}
         />
         <BlankBar />
         <Table

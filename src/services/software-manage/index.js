@@ -1,5 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
+import { message } from 'antd'
 const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL, SERVICE_EDU_MARKET} = config
 
 /**
@@ -421,9 +422,13 @@ export function getEduClassSelectList (sucFn) {
  * 会员管理-厂商-列表/查询
  */
 export function firmRenewList (params, sucFn) {
-  return axios.post(API_BASE_URL + '/factoryManage/getFactory', {...params})
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/company', {params: params})
     .then(function (res) {
-      sucFn(res)
+      if (res.data.code === 200) {
+        sucFn(res)
+      } else {
+        message.warn('数据请求失败')
+      }
     })
 }
 

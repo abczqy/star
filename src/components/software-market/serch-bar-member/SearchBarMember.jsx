@@ -35,13 +35,11 @@ class SearchBarMember extends Component {
       onBtnSearchClick,
       inputText1,
       inputText2,
-      inputText3,
       inputText4,
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
-      onSelect4Change,
-      onBtnBatchExport
+      onSelect4Change
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -66,16 +64,19 @@ class SearchBarMember extends Component {
               {/* {selectList.faNameList && this.getOptions(selectList.faNameList)} */}
             </Input>
           </Col>
-          <Col span={5}>
-            <span className='select-label'>{inputText3}</span>
-            <Select
-              className='input'
-              placeholder='请输入'
-              showSearch
-              onChange={onSelect3Change} >
-              {selectList.contractList && this.getOptions(selectList.contractList)}
-            </Select>
-          </Col>
+          {
+            this.props.inputText3 &&
+            <Col span={5}>
+              <span className='select-label'>{this.props.inputText3.inputText3}</span>
+              <Select
+                className='input'
+                placeholder='请输入'
+                showSearch
+                onChange={onSelect3Change} >
+                {selectList.contractList && this.getOptions(selectList.contractList)}
+              </Select>
+            </Col>
+          }
           <Col span={4}>
             <span className='select-label'>{inputText4}</span>
             <Select defaultValue='all' className='select' onChange={onSelect4Change} >
@@ -87,9 +88,12 @@ class SearchBarMember extends Component {
           <Col span={5}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
-          <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
-          </Col>
+          {
+            this.props.onBtnBatchExport &&
+            <Col span={2}>
+              <Button type='primary' className='search-bar-btn' onClick={this.props.onBtnBatchExport}>批量导出</Button>
+            </Col>
+          }
         </Row>
       </div>
     )
