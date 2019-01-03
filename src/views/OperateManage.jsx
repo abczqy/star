@@ -286,7 +286,7 @@ class OperateManage extends React.Component {
                 : '游客'}</span>
               {webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' ? '老师' : ''}
             </div>
-            <div style={{height: '30px', float: 'right', marginRight: '10%', 'line-height': '32px'}} className='header-bar-icon'>
+            <div style={{height: '30px', float: 'right', marginRight: '10%', 'lineHeight': '32px'}} className='header-bar-icon'>
               <Badge count={this.state.messageCount} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
@@ -299,11 +299,19 @@ class OperateManage extends React.Component {
             {/* <GlobalSearch /> */}
           </div>
           <Layout className='xingyun-iden-top-bar'>
-            <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
+            {/* <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
+              <div className='header-container'> */}
+            <div className='xingyun-top-header'>
               <div className='header-container'>
                 {
                   tabArr.map((item, index) => {
-                    return <li style={{textAlign: 'center'}} className={this.state.activeTab === item.tabKey ? 'selected' : ''} key={index}><a onClick={this.handleTabChange.bind(this, item.src, item.tabKey)}>{item.text}</a></li>
+                    return <li style={{textAlign: 'center'}}
+                      key={index}>
+                      <a className={this.state.activeTab === item.tabKey ? 'selected' : ''}
+                        onClick={this.handleTabChange.bind(this, item.src, item.tabKey)}>
+                        <span>{item.text}</span>
+                      </a>
+                    </li>
                   })
                 }
               </div>
