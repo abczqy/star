@@ -14,7 +14,7 @@ import {Logged} from 'components/common/hoc/Logged'
 import { Route } from 'react-router'
 import AllApplicationsDetail from 'pages/edu-all-app/AllApplicationsDetail'
 import {getAppType, allAppList} from 'services/all-app/'
-import {homeCollection} from 'services/software-home/'
+import {homeCollection, homeCancelCollection} from 'services/software-home/'
 import {getPortalBannerImg} from 'services/portalnew/'
 import './AllApplications.css'
 const Search = Input.Search
@@ -114,20 +114,35 @@ export default class AllApplications extends React.Component {
   }
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
-    // console.log('收藏')
-    homeCollection({
-      appId: id
-    }, (res) => {
-      if (res.data.code === 200) {
-        message.success('收藏成功')
-        // 获取软件应用数据
-        this.getAppListRj({
-          appType: this.state.key
-        })
-      } else {
-        message.warning(res.data.msg || '出现异常')
-      }
-    }).catch((e) => { console.log(e) })
+    if (isCollect === '1') {
+      homeCancelCollection({
+        appId: id + ''
+      }, (res) => {
+        if (res.data.code === 200) {
+          message.success('收藏成功')
+          // 获取软件应用数据
+          this.getAppListRj({
+            appType: this.state.key
+          })
+        } else {
+          message.warning(res.data.msg || '出现异常')
+        }
+      }).catch((e) => { console.log(e) })
+    } else {
+      homeCollection({
+        appId: id
+      }, (res) => {
+        if (res.data.code === 200) {
+          message.success('取消收藏成功')
+          // 获取软件应用数据
+          this.getAppListRj({
+            appType: this.state.key
+          })
+        } else {
+          message.warning(res.data.msg || '出现异常')
+        }
+      }).catch((e) => { console.log(e) })
+    }
   }
 
   // 下载量处理
@@ -306,7 +321,8 @@ export default class AllApplications extends React.Component {
                 // eslint-disable-next-line react/jsx-no-undef
                 return <LAllApplicationsDetail
                   handleCollection={this.handleCollection}
-                  allAppListData={this.state.allAppListData} platformAppDataa={this.state.platformAppDataa}
+                  allAppListData={this.state.allAppListData}
+                  platformAppDataa={this.state.platformAppDataa}
                   handleDownloadNum={this.handleDownloadNum}
                   handleShelfTime={this.handleShelfTime}
                   onClickLeft={this.onClickLeft}

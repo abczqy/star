@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
-import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection} from 'services/software-home/'
+import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection, homeCancelCollection} from 'services/software-home/'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 import { withRouter } from 'react-router'
@@ -155,18 +155,32 @@ class TeacherHome extends Component {
   }
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
-    homeCollection({
-      appId: id
-    }, (res) => {
-      if (res.data.code === 200) {
-        message.success('收藏成功')
-        // console.log('收藏按钮：', res.data.msg)
-        this.getTeacherData()
-        this.getHotData()
-      } else {
-        message.warning(res.data.msg || '出现异常')
-      }
-    }).catch((e) => { console.log(e) })
+    if (isCollect === '1') {
+      homeCancelCollection({
+        appId: id + ''
+      }, (res) => {
+        if (res.data.code === 200) {
+          message.success('取消收藏成功')
+          this.getTeacherData()
+          this.getHotData()
+        } else {
+          message.warning(res.data.msg || '出现异常')
+        }
+      }).catch((e) => { console.log(e) })
+    } else {
+      homeCollection({
+        appId: id
+      }, (res) => {
+        if (res.data.code === 200) {
+          message.success('收藏成功')
+          // console.log('收藏按钮：', res.data.msg)
+          this.getTeacherData()
+          this.getHotData()
+        } else {
+          message.warning(res.data.msg || '出现异常')
+        }
+      }).catch((e) => { console.log(e) })
+    }
   }
 
   // 经典或者下载排行
@@ -287,7 +301,8 @@ class TeacherHome extends Component {
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
             type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)}
+            type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>
@@ -322,7 +337,8 @@ class TeacherHome extends Component {
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
             type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)} type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
+            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)}
+            type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>

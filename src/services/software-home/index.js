@@ -54,3 +54,10 @@ export function homeCollection (params, sucFn) {
       sucFn(res)
     })
 }
+// 首页取消收藏
+export function homeCancelCollection (params, sucFn) {
+  return axios.delete(API_BASE_URL_V2 + '/edu-market/app-collect/' + params.appId)
+    .then(function (res) {
+      sucFn(res)
+    })
+}
