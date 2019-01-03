@@ -2,10 +2,9 @@ import axios from 'axios'
 // import config from '../config/index'
 import webStorage from 'webStorage'
 // const {API_BASE_URL} = config
-const ticket = webStorage.getItem('STAR_V2_TICKET') || ''
 Object.assign(axios.defaults, {
   // baseURL: API_BASE_URL,
-  headers: {'X-Requested-With': 'XMLHttpRequest', 'authentication': '' + ticket},
+  // headers: {'X-Requested-With': 'XMLHttpRequest', 'authentication': '' + ticket},
   withCredentials: false
 })
 
@@ -17,6 +16,10 @@ axios.interceptors.request.use(function (config) {
   // if (config.showLoading) {
   // //  xhrQueue.push(1)
   // }
+  const ticket = webStorage.getItem('STAR_V2_TICKET')
+  if (ticket && ticket !== '') {
+    config.headers.authentication = ticket
+  }
   let STAR_WEB_SESSION_ID = webStorage.getItem('STAR_WEB_SESSION_ID') ? webStorage.getItem('STAR_WEB_SESSION_ID') : ''
   if (config.url.indexOf('?') > 0) {
     config.url = config.url + '&STAR_WEB_SESSION_ID=' + STAR_WEB_SESSION_ID

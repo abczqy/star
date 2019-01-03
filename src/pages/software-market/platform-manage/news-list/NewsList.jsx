@@ -85,7 +85,7 @@ class NewsList extends Component {
         key: 'picUrl',
         width: '10%',
         render: (text, record, index) =>
-          text ? <img className='img-table-box' src={'http://' + text} /> : '无'
+          text ? <img className='img-table-box' src={text} /> : '无'
       }, {
         title: '操作',
         dataIndex: 'options',

@@ -74,7 +74,7 @@ class PublicInfo extends Component {
         key: 'picUrl',
         render: (text, record, index) => {
           return (
-            <a href={'http://' + text} target='_blank'>
+            <a href={text} target='_blank'>
               <Icon type='link' />
             </a>
           )
