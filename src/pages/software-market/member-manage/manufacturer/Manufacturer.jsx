@@ -10,7 +10,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, Button } from 'antd'
+import { Table, Divider, Button } from 'antd'
 import { BlankBar, SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
@@ -51,17 +51,17 @@ class Manufacturer extends Component {
         total: 0
       },
       reqParam: {
-        faName: '', // 临时值 后面赋空
-        faId: '',
-        toLogin: '',
-        numDay: ''
+        faName: '' // 临时值 后面赋空
+        // faId: '',
+        // toLogin: '',
+        // numDay: ''
       },
       pagination,
       memRenewWinVisible: false,
       memRenewRecord: {},
       delModalCon: {
-        visible: false,
-        faId: null
+        visible: false
+        // faId: null
       },
       faDetModalCon: {
         visible: false,
@@ -96,27 +96,9 @@ class Manufacturer extends Component {
         key: 'COMPANY_NAME',
         width: 200
       }, {
-        title: '账号', // 需要和新后台对一下
-        dataIndex: 'fa_id',
-        key: 'fa_id',
-        width: 200
-      }, {
         title: '在运营软件数',
         dataIndex: 'APP_COUNT',
         key: 'APP_COUNT'
-      }, {
-        title: '允许登录',
-        dataIndex: 'LOGIN_PERMISSION_STATUS',
-        key: 'LOGIN_PERMISSION_STATUS',
-        render: (text, record, index) => {
-          let check = true
-          if (text === 0) {
-            check = false
-          }
-          return (
-            <Switch defaultChecked={check} onChange={(checked) => this.changeLoginState(checked, record)} />
-          )
-        }
       }, {
         title: '操作',
         dataIndex: 'options',
@@ -147,14 +129,14 @@ class Manufacturer extends Component {
   // }
 
   getParams = () => {
-    const { faName, faId, toLogin, numDay } = this.state.reqParam
+    const { faName, numDay } = this.state.reqParam
     // 最后都要赋空
     return {
       pageSize: this.state.pagination.pageSize,
       pageNum: this.state.pagination.pageNum,
       companyName: faName || '',
-      companyId: faId || '',
-      to_login: toLogin || '', // 无该参数？
+      // companyId: faId || '',
+      // to_login: toLogin || '', // 无该参数？
       num_day: numDay || ''// 无该参数？
     }
   }
@@ -275,24 +257,24 @@ class Manufacturer extends Component {
   /**
    * 当下拉选择框‘允许登录’值改变时回调
    */
-  onToLogin = (val) => {
-    // console.log(`val: ${val}`)
-    // 修改state.reqParams中对应的值
-    let loginAllow = 0
-    if (val === 'allow') {
-      loginAllow = '1'
-    } else if (val === 'refuse') {
-      loginAllow = '0'
-    } else if (val === 'all') {
-      loginAllow = ''
-    }
-    this.setState({
-      reqParam: {
-        ...this.state.reqParam,
-        toLogin: loginAllow
-      }
-    })
-  }
+  // onToLogin = (val) => {
+  // console.log(`val: ${val}`)
+  //   // 修改state.reqParams中对应的值
+  //   let loginAllow = 0
+  //   if (val === 'allow') {
+  //     loginAllow = '1'
+  //   } else if (val === 'refuse') {
+  //     loginAllow = '0'
+  //   } else if (val === 'all') {
+  //     loginAllow = ''
+  //   }
+  //   this.setState({
+  //     reqParam: {
+  //       ...this.state.reqParam,
+  //       toLogin: loginAllow
+  //     }
+  //   })
+  // }
 
   /**
    * 当点击'搜索按钮时的回调'
@@ -456,12 +438,11 @@ class Manufacturer extends Component {
         <SearchBarMember
           inputText1='账号 '
           inputText2='厂商名称 '
-          inputText4='允许登录 '
           selectList={{...selectList}}
           onSelect1Change={this.onFaLoginidChange}
           onSelect2Change={this.onFaNameChange}
           // onSelect3Change={this.onNumDayChange}
-          onSelect4Change={this.onToLogin}
+          // onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
           // onBtnBatchExport={this.onBatchLeadout}
         />

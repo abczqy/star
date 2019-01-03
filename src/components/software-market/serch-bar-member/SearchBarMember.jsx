@@ -35,7 +35,6 @@ class SearchBarMember extends Component {
       onBtnSearchClick,
       inputText1,
       inputText2,
-      inputText4,
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
@@ -77,14 +76,17 @@ class SearchBarMember extends Component {
               </Select>
             </Col>
           }
-          <Col span={4}>
-            <span className='select-label'>{inputText4}</span>
-            <Select defaultValue='all' className='select' onChange={onSelect4Change} >
-              <Option value='all'>全部</Option>
-              <Option value='allow'>允许</Option>
-              <Option value='refuse'>不允许</Option>
-            </Select>
-          </Col>
+          {
+            this.props.inputText4 &&
+            <Col span={4}>
+              <span className='select-label'>{this.props.inputText4}</span>
+              <Select defaultValue='all' className='select' onChange={onSelect4Change} >
+                <Option value='all'>全部</Option>
+                <Option value='allow'>允许</Option>
+                <Option value='refuse'>不允许</Option>
+              </Select>
+            </Col>
+          }
           <Col span={5}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
