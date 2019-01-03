@@ -49,6 +49,7 @@ class Student extends Component {
         toLogin: '',
         shName: ''
       },
+      toLogin: 'all',
       pagination,
       batchLeadParams: {
         idArrs: []
