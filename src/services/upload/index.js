@@ -47,7 +47,24 @@ const getMultiUpload = (fileType, fileList, callBack) => {
     })
 }
 
+/**
+   * 接口调用-根据文件id的数组批量删除文件
+   * 1- 在antd的upload中的onRemove中改
+   */
+const deleteFiles = (idList, callBack) => {
+  const url = API_BASE_URL_V2 + SERVICE_PORTAL + `/file-upload`
+  axios.delete(url, {data: idList})
+    .then(function (res) {
+      // 不阻塞 - 执行成功会执行回调
+      callBack && callBack(res)
+    }).catch(function (e) {
+      // 不阻塞 - 执行失败也会执行回调
+      callBack && callBack(e)
+    })
+}
+
 export {
   getUpload,
-  getMultiUpload
+  getMultiUpload,
+  deleteFiles
 }
