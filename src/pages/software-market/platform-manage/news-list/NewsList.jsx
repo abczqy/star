@@ -12,6 +12,8 @@ import {
 } from 'services/software-manage'
 import { BlankBar, NewsBar } from 'components/software-market'
 import './NewsList.scss'
+import config from '../../../../config/index'
+const {IMG_BASE_URL_V2} = config
 const confirm = Modal.confirm
 
 /**
@@ -85,7 +87,7 @@ class NewsList extends Component {
         key: 'picUrl',
         width: '10%',
         render: (text, record, index) =>
-          text ? <img className='img-table-box' src={text} /> : '无'
+          text ? <img className='img-table-box' src={IMG_BASE_URL_V2 + text} /> : '无'
       }, {
         title: '操作',
         dataIndex: 'options',

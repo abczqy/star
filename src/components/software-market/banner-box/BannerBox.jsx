@@ -6,7 +6,9 @@ import React, { Component } from 'react'
 import { Col, Row, Upload, Button, Icon, Popconfirm, message } from 'antd'
 import PropsTypes from 'prop-types'
 import './BannerBox.scss'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
+import config from '../../../../config/index'
+const {IMG_BASE_URL_V2} = config
 
 // const { Header, Content } = Layout
 
@@ -35,8 +37,8 @@ class BannerBox extends Component {
       uid: id,
       name: url,
       status: 'done',
-      url: ajaxUrl.IMG_BASE_URL + url,
-      thumbUrl: ajaxUrl.IMG_BASE_URL + url
+      url: IMG_BASE_URL_V2 + url,
+      thumbUrl: IMG_BASE_URL_V2 + url
     }]
     const aaa = {
       action: '333333333',
