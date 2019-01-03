@@ -15,8 +15,8 @@ const Config = {
   SERVICE_PORTAL: '/portal', // 门户
   SERVICE_EDU_MARKET: '/edu-market', // 市场
   SERVICE_AUTHENTICATION: '/authentication', // 用户认证
-  // IMG_BASE_URL_V2: 'http://192.168.1.31:4400/img', // 文件服务器-图片
-  IMG_BASE_URL_V2: '', // 文件服务器-图片
+  IMG_BASE_URL_V2: 'http://192.168.1.31:4400/img', // 文件服务器-图片
+  // IMG_BASE_URL_V2: '', // 文件服务器-图片
   DOC_BASE_URL_V2: 'http://192.168.1.31:4400/document', // 文件服务器-文档
   SOFT_BASE_URL_V2: 'http://192.168.1.31:4400/soft' // 文件服务器-软件
 }
