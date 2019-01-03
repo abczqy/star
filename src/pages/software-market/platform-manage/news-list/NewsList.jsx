@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { Table, Divider, message, Modal } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 // import PropsTypes from 'prop-types'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import {
   getV2NewsList,
   delV2NewsList
@@ -85,7 +85,7 @@ class NewsList extends Component {
         key: 'picUrl',
         width: '10%',
         render: (text, record, index) =>
-          text ? <img className='img-table-box' src={ajaxUrl.IMG_BASE_URL + '/' + text} /> : '无'
+          text ? <img className='img-table-box' src={'http://' + text} /> : '无'
       }, {
         title: '操作',
         dataIndex: 'options',

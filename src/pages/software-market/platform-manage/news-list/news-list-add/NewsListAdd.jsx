@@ -67,6 +67,8 @@ class NewsListAdd extends Component {
         this.props.history.push({
           pathname: '/software-market-home/platform-manage/news-list'
         })
+      } else {
+        message.warn(res.data.msg)
       }
     })
   }

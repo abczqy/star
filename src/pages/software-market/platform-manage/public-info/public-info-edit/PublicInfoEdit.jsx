@@ -66,6 +66,8 @@ class PublicInfoEdit extends Component {
           this.props.history.push({
             pathname: '/software-market-home/platform-manage/public-info'
           })
+        } else {
+          message.warn(res.data.msg)
         }
       })
     })

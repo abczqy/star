@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import { Table, Divider, Icon, message, Modal } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import {
   getV2PubInfoList,
   delV2PubInfoList
@@ -74,7 +74,7 @@ class PublicInfo extends Component {
         key: 'picUrl',
         render: (text, record, index) => {
           return (
-            <a href={ajaxUrl.IMG_BASE_URL + '/' + text} target='_blank'>
+            <a href={'http://' + text} target='_blank'>
               <Icon type='link' />
             </a>
           )
