@@ -288,7 +288,7 @@ export default class AllApplications extends React.Component {
           {/* <img style={{width: '100%', height: '100%'}} src={allApp} /> */}
         </div>
         <Row style={{ marginTop: '1%', paddingTop: '1%' }} type='flex' align='middle'>
-          <Col span={8} offset={5}>
+          <Col span={8} offset={6}>
             <Search
               placeholder='应用'
               enterButton='搜索'
