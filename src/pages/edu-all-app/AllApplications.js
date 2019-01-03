@@ -35,6 +35,7 @@ export default class AllApplications extends React.Component {
       key: '0',
       currentPage: 1,
       totalCountPt: 0,
+      pageSizeRj: 1000,
       menuData: [] // 存全部应用的分类
     }
   }
@@ -45,13 +46,14 @@ export default class AllApplications extends React.Component {
   }
   // 上架时间处理
   handleShelfTime = () => {
-    // console.log('上架时间')
+    console.log('上架时间')
     if (this.state.shelfTimeSort === 'desc') {
       this.setState({
         shelfTimeSort: 'asc'
       }, () => {
         // 获取软件应用数据
         this.getAppListRj({
+          pageSize: this.state.pageSizeRj,
           sort: 'asc',
           orderType: 'time',
           appType: this.state.key
@@ -63,6 +65,7 @@ export default class AllApplications extends React.Component {
       }, () => {
         // 获取软件应用数据
         this.getAppListRj({
+          pageSize: this.state.pageSizeRj,
           sort: 'desc',
           orderType: 'time',
           appType: this.state.key
@@ -70,11 +73,8 @@ export default class AllApplications extends React.Component {
       })
     }
   }
-  // 轮播图左右翻页
+  // 轮播图左右翻页-向右
   onClickRight = () => {
-    // console.log('下一页')
-    // console.log('total:', this.state.totalCountPt)
-    // console.log('当前页:', this.state.currentPage)
     let page = this.state.currentPage + 1
     if (this.state.currentPage * 6 < this.state.totalCountPt) {
       this.setState({
@@ -92,9 +92,8 @@ export default class AllApplications extends React.Component {
       message.warning('没有更多数据')
     }
   }
+  // 轮播图左右翻页-向左
   onClickLeft = () => {
-    // console.log('上一页')
-
     let page = this.state.currentPage - 1
     if (page > 0) {
       this.setState({
@@ -114,6 +113,7 @@ export default class AllApplications extends React.Component {
   }
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
+    console.log('收藏和取消收藏')
     if (isCollect === '1') {
       homeCancelCollection({
         appId: id + ''
@@ -122,6 +122,7 @@ export default class AllApplications extends React.Component {
           message.success('收藏成功')
           // 获取软件应用数据
           this.getAppListRj({
+            pageSize: this.state.pageSizeRj,
             appType: this.state.key
           })
         } else {
@@ -147,13 +148,14 @@ export default class AllApplications extends React.Component {
 
   // 下载量处理
   handleDownloadNum = () => {
-    // console.log('下载量')
+    console.log('下载量')
     if (this.state.downloadNum === 'desc') {
       this.setState({
         downloadNum: 'asc'
       }, () => {
         // 获取软件应用数据
         this.getAppListRj({
+          pageSize: this.state.pageSizeRj,
           sort: 'asc',
           orderType: 'download',
           appType: this.state.key
@@ -165,6 +167,7 @@ export default class AllApplications extends React.Component {
       }, () => {
         // 获取软件应用数据
         this.getAppListRj({
+          pageSize: this.state.pageSizeRj,
           sort: 'desc',
           orderType: 'download',
           appType: this.state.key
@@ -175,7 +178,7 @@ export default class AllApplications extends React.Component {
   // 获取软件应用数据
   getAppListRj = (params) => {
     allAppList(params, (res) => {
-      // console.log('获取软件应用数据', res.data.data.data)
+      console.log('获取软件应用数据', params)
       this.setState({
         allAppListData: res.data.data.data || []
       })
@@ -204,7 +207,7 @@ export default class AllApplications extends React.Component {
     }, () => {
       // 获取软件应用数据
       this.getAppListRj({
-        pageSize: 1000,
+        pageSize: this.state.pageSizeRj,
         appType: key
       })
       // 获取平台应用
@@ -235,7 +238,9 @@ export default class AllApplications extends React.Component {
     })
 
     // 获取全部软件应用数据 appType platformType 默认是软件应用
-    this.getAppListRj({pageSize: 1000})
+    this.getAppListRj({
+      pageSize: this.state.pageSizeRj
+    })
     // 获取全部平台应用
     this.getAppListPt({
       pageNum: this.state.currentPage,

@@ -380,7 +380,7 @@ class TeacherHome extends Component {
               <div className='popular-recommendation-title'>
                 <h3 className='chinese'>热门推荐</h3>
                 <span className='english'>Hot recommendation</span>
-                <span className='more' onClick={this.handleHotMor}>更多 > ></span>
+                <span className='more' onClick={this.handleHotMor}>加载更多>></span>
                 {/* <span className='more'>
                   <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
                 </span> */}
@@ -394,7 +394,7 @@ class TeacherHome extends Component {
                 <div className='popular-recommendation-title'>
                   <h3 className='chinese'>老师推荐</h3>
                   <span className='english'>Teacher recommendation</span>
-                  <span className='more' onClick={this.handleTeacherMore}>更多 > ></span>
+                  <span className='more' onClick={this.handleTeacherMore}>加载更多>></span>
                   {/* <span className='more'>
                     <Link to={{pathname: '/operate-manage-home/all-app/all-app'}}>更多 > ></Link>
                   </span> */}
