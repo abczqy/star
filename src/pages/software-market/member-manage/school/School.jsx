@@ -104,7 +104,7 @@ class School extends Component {
               <Divider type='vertical' />
               <Link to={{pathname: '/software-market-home/member-manage/student', search: record.sh_id}}>学生</Link>
               <Divider type='vertical' /> */}
-              <a href='javascript:void(0)' onClick={(e) => this.delId(record)}>删除</a>
+              <a href='javascript:void(0)'>详情</a>
             </span>
           )
         }
