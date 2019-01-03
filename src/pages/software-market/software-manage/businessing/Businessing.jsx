@@ -121,26 +121,6 @@ class Businessing extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = (thiz) => {
-    // getAppListDatav2(
-    //   {
-    //     pageNum: this.state.pagination.pageNum,
-    //     pageSize: this.state.pagination.pageSize,
-    //     auditStatus: this.state.auditStatus,
-    //     typeId: this.state.typeId,
-    //     downloadCount: this.state.downloadCount,
-    //     keyword: this.state.keyword
-    //   }, (res) => {
-    //     const data = res.data.data
-    //     // let jsonStr = JSON.stringify(data)
-    //     // console.log(jsonStr)
-    //     let dataList = res.data.data.data
-    //     this.setState({
-    //       tableData: {
-    //         data: this.getSwPath(dataList),
-    //         total: data.total
-    //       }
-    //     })
-    //   })
     let params = {
       auditStatus: '1', // 审核状态
       keyword: this.state.keyword || '', // 应用名称,
@@ -200,9 +180,6 @@ class Businessing extends Component {
 
     bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
-      // 通过state将数据res传给子组件
-      // let jsonStr = JSON.stringify(resData)
-      // console.log(jsonStr)
       thiz.setState({
         appDetailModalCon: {
           ...thiz.state.detModalCon,
@@ -226,8 +203,6 @@ class Businessing extends Component {
   }
   // 显示下架弹窗
   showAppOffStandModal = (record) => {
-    // console.log(`record.sw_name: ${record.sw_name}`)
-    // console.log(`record: ${Obj2String(record)}`)
     this.setState({
       appOffModalCon: {
         ...this.state.appOffModalCon,
@@ -297,7 +272,6 @@ class Businessing extends Component {
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-    // console.log('val:' + val)
     // 需要以val为参数向后台请求表格数据并刷新
     this.setState({
       typeId: val
@@ -407,7 +381,6 @@ class Businessing extends Component {
 
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
-    // console.log('tableData.data: ', tableData.data)
     return (
       <div className='software-wrap'>
         <SearchBar

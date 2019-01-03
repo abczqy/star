@@ -717,7 +717,11 @@ export function verifyDetail (params, sucFn) {
 export function bussDetailv2 (params, sucFn) {
   return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/detail-by-id/' + params.APP_ID)
     .then(function (res) {
-      sucFn(res)
+      if (res.data.code === 200) {
+        sucFn(res)
+      } else {
+        message.warn('数据请求失败')
+      }
     })
 }
 /**
