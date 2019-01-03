@@ -299,7 +299,15 @@ class ThirdPartyAppDetail extends React.Component {
                       this.state.computerCarousel.map((item, index, arr) => {
                         return (
                           <div key={index} style={{height: '100%'}}>
-                            <img style={{float: 'none', margin: 'auto', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '448px'}} src={item} />
+                            <img
+                              style={{
+                                float: 'none',
+                                margin: 'auto',
+                                width: 'auto',
+                                height: 'auto',
+                                maxWidth: '100%',
+                                maxHeight: '448px'}}
+                              src={ajaxUrl.IMG_BASE_URL_V2 + item} />
                           </div>
                         )
                       })}
@@ -308,7 +316,15 @@ class ThirdPartyAppDetail extends React.Component {
                       this.state.phoneCarousel.map((item, index, arr) => {
                         return (
                           <div key={index} style={{height: '100%'}}>
-                            <img style={{float: 'none', margin: 'auto', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '448px'}} src={item} />
+                            <img
+                              style={{
+                                float: 'none',
+                                margin: 'auto',
+                                width: 'auto',
+                                height: 'auto',
+                                maxWidth: '100%',
+                                maxHeight: '448px'}}
+                              src={ajaxUrl.IMG_BASE_URL_V2 + item} />
                           </div>
                         )
                       })}
