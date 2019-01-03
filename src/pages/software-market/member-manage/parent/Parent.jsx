@@ -74,8 +74,8 @@ class Parent extends Component {
   getColumns = () => {
     return ([{
       title: '家长姓名',
-      dataIndex: 'STUDENT_NAME',
-      key: 'STUDENT_NAME',
+      dataIndex: 'USER_NAME',
+      key: 'USER_NAME',
       width: 200
     }, {
       title: '账号',
