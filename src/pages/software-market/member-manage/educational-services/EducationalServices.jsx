@@ -23,7 +23,8 @@ import {
   // getEduUpperSelectList,
   // getEduClassSelectList
 } from 'services/software-manage'
-import { BlankBar, SearchBarMemberEduSer } from 'components/software-market'
+// import { BlankBar, SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
+import { BlankBar } from 'components/software-market'
 import {
 // addKey2TableData
 // getSelectList,
@@ -69,13 +70,13 @@ class EducationalServices extends Component {
   getColumns = () => {
     return ([{
       title: '机构名称',
-      dataIndex: 'edu_name',
-      key: 'edu_name',
+      dataIndex: 'authorityName',
+      key: 'authorityName',
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'edu_id',
-      key: 'edu_id',
+      dataIndex: 'id',
+      key: 'id',
       width: 200
     }, {
       title: '所属级别',
@@ -90,8 +91,9 @@ class EducationalServices extends Component {
       dataIndex: 'to_login',
       key: 'to_login',
       render: (text, record, index) => {
+        console.log('record', record)
         return (
-          <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
+          <Switch checked={record.isDelete !== 1} onChange={() => this.handleToLogin(record)} />
         )
       }
     }, {
@@ -102,7 +104,7 @@ class EducationalServices extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.edu_id }}>学校</Link>
+            <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.id }}>学校</Link>
             <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
@@ -157,14 +159,19 @@ class EducationalServices extends Component {
    */
   getTableDatas = () => {
     eduGetData(this.getParams(), (res) => {
-      const data = res.data
-      this.setState({
-        // edu_id:,
-        tableData: {
-          data: data.list,
-          total: data.total
-        }
-      })
+      if (res.data.code === 200) {
+        const data = res.data
+        console.log('教育机构：', data)
+        this.setState({
+          // edu_id:,
+          tableData: {
+            data: data.data || [],
+            total: data.total || 0
+          }
+        })
+      } else {
+        console.log('获取教育机构数据异常：', res.data.msg || '')
+      }
     })
   }
 
@@ -365,10 +372,11 @@ class EducationalServices extends Component {
   }
 
   render () {
-    const { pagination, tableData, selectList } = this.state
+    // const { pagination, tableData, selectList } = this.state
+    const { pagination, tableData } = this.state
     return (
       <div className='software-wrap'>
-        <SearchBarMemberEduSer
+        {/* <SearchBarMemberEduSer
           selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
           onSelect2Change={this.onInstChange}
@@ -377,7 +385,7 @@ class EducationalServices extends Component {
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
-        />
+        /> */}
         <BlankBar />
         <Table
           columns={this.getColumns()}

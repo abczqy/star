@@ -666,7 +666,7 @@ export function thBatchLeadout (params, sucFn) {
  * 会员管理-教育机构-查询
  */
 export function eduGetData (params, sucFn) {
-  axios.post(API_BASE_URL + '/manage/educationalPage', {...params})
+  axios.get(API_BASE_URL_V2 + '/portal/authoritys', {...params})
     .then((res) => {
       sucFn(res)
     })
