@@ -6,15 +6,28 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Tabs, Row, Col, Card, Input, Select, Button, DatePicker, Radio, Icon, Upload, message, Checkbox} from 'antd'
+import {
+  Tabs,
+  Row,
+  Col,
+  Card,
+  Input,
+  Select,
+  Button,
+  DatePicker,
+  Radio,
+  Icon,
+  Upload,
+  message,
+  Checkbox
+} from 'antd'
 import { axios } from 'utils'
 import config from '../../config'
-import { getUpload, getMultiUpload } from '../../services/upload'
+import { getUpload, getMultiUpload, deleteFiles } from '../../services/upload'
 import title from '../../assets/images/title.png'
 import './NewsList.scss'
 import SelfPleasePreview from 'pages/app-detail/SelfPleasePreview'
 import {AppPurCombination} from 'components/software-market'
-import webStorage from 'webStorage'
 
 const { TextArea } = Input
 const RadioGroup = Radio.Group
@@ -194,7 +207,6 @@ class ShelfPlease extends React.Component {
   }
   // 日期点击确定
   onOk=(value) => {
-    console.log('onOk: ', value)
     this.setState({
       shelfTime: value
     })
@@ -224,7 +236,6 @@ class ShelfPlease extends React.Component {
   }
   // 身份证校验
   idNumBlur=(e) => {
-    console.log('aaaaaaaaaaaa')
     let {value} = e.target
     var regu = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
     var re = new RegExp(regu)
@@ -255,7 +266,6 @@ class ShelfPlease extends React.Component {
   }
   // 手机校验
   relationNumBlur = (e) => {
-    console.log('aaaaaaaaaaaa')
     let {value} = e.target
     var regu = /^1[34578]\d{9}$/
     var re = new RegExp(regu)
@@ -297,10 +307,6 @@ class ShelfPlease extends React.Component {
       a.push(c)
     }
     return a
-  }
-
-  handleChangePC=() => {
-    console.log('handleChangePC')
   }
 
   getBase64=(img, callback) => {
@@ -432,11 +438,27 @@ class ShelfPlease extends React.Component {
     const thiz = this
     const propsVer = {
       onRemove: (file) => {
-        // 删除对应的state
-        let arr = this.state.versions.slice()
-        arr[index].address = ''
-        this.setState({
-          versions: arr
+        // 里面的部分如果多个地方使用 就抽象出去
+        // 拿到要删除的state.versions中的文件id(address)
+        let idList = [parseInt(this.state.versions[index].address)]
+        // 调用后台接口 删除id对应的文件
+        deleteFiles(idList, function (res) {
+        // 设置对应的文件id
+          if (res.data && res.data.code === 200) {
+          // appIcon上传完之后 我们就用它来存后台返回的id
+          // 删除state.versions映射中的id
+            let arr = thiz.state.versions.slice()
+            arr[index].address = ''
+            // 映射到state中
+            thiz.setState({
+              versions: arr
+            }, function () {
+              message.success('删除成功')
+            })
+          } else {
+            message.warn('删除失败')
+            return false
+          }
         })
       },
       beforeUpload: (file) => {
@@ -616,7 +638,7 @@ class ShelfPlease extends React.Component {
 
     let result = {}
     // userId部分
-    result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
+    // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // appInfo 部分
     result.appInfo = {
       appIcon: appIcon, // 软件图标
@@ -656,12 +678,13 @@ class ShelfPlease extends React.Component {
    * 提交数据
    */
   onSubmit = (thiz) => {
+    // appIcon上传
     thiz.uploadAppIcon(thiz, () => {
-      console.log('appIcon上传结束')
+      // pcIcons上传结束
       thiz.uploadPcPics(thiz, () => {
-        console.log('pcIcons上传结束')
+        // PhonePics上传
         this.uploadPhonePics(thiz, () => {
-          console.log('phoneIcons上传结束')
+          // 提交整个表单
           thiz.getSubmit(thiz)
         })
       })
