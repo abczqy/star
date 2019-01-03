@@ -32,25 +32,22 @@ class SearchBarMemberSch extends Component {
     const {
       // selectList,
       onBtnSearchClick,
-      onSelect1Change,
+      // onSelect1Change,
       onSelect2Change,
-      onSelect3Change,
-      onSelect4Change,
+      // onSelect3Change,
+      // onSelect4Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
         <Row gutter={16}>
-          <Col span={3}>
+          {/* <Col span={3}>
             <span className='input-label'>账号</span>
             <Input
               className='input'
               placeholder='请输入'
-              // showSearch
-              onChange={onSelect1Change} >
-              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
-            </Input>
-          </Col>
+              onChange={onSelect1Change} />
+          </Col> */}
           <Col span={6}>
             <span className='input-label'>学校名称</span>
             <Input
@@ -61,29 +58,26 @@ class SearchBarMemberSch extends Component {
               {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
             </Input>
           </Col>
-          <Col span={5}>
+          {/* <Col span={5}>
             <span className='select-label'>所属教育机构</span>
             <Input
               className='select'
               placeholder='请输入'
-              // showSearch
-              onChange={onSelect3Change} >
-              {/* {selectList.eduNameList && this.getOptions(selectList.eduNameList)} */}
-            </Input>
-          </Col>
-          <Col span={4}>
+              onChange={onSelect3Change} />
+          </Col> */}
+          {/* <Col span={4}>
             <span className='select-label'>允许登录</span>
             <Select defaultValue='all' className='select' onChange={onSelect4Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='refuse'>不允许</Option>
             </Select>
-          </Col>
+          </Col> */}
           <Col span={3}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
+            <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
           </Col>
         </Row>
       </div>
@@ -94,10 +88,10 @@ class SearchBarMemberSch extends Component {
 SearchBarMemberSch.propTypes = {
   // selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
-  onSelect1Change: PropsTypes.func,
+  // onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
-  onSelect3Change: PropsTypes.func,
-  onSelect4Change: PropsTypes.func,
+  // onSelect3Change: PropsTypes.func,
+  // onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }
 
