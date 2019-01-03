@@ -4,6 +4,7 @@
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
 import './ThirdPartyAppDetail.css'
+// import { Button, Icon, Row, Col, message } from 'antd'
 import { Button, Icon, Carousel, Row, Col, message } from 'antd'
 import PropTypes from 'prop-types'
 import ajaxUrl from 'config'
@@ -117,7 +118,7 @@ class ThirdPartyAppDetail extends React.Component {
           // 链接处理
           let ll = []
           res.data.data && res.data.data.map((item) => {
-            ee.push(item.VERSION_INFO)
+            ee.push(item.RUNNING_PLATFORM)
             ff.push(item.APP_VERSION)
             gg.push(item.VERSION_SIZE)
             hh.push(item.PACKAGE_NAME)
@@ -291,23 +292,28 @@ class ThirdPartyAppDetail extends React.Component {
             <div className='exhibition-outside'>
               <div className='exhibition-insideb'>
                 <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                <div style={{width: '82%', marginLeft: '13%'}}>
-                  <Carousel ref='exhibition-inside-carousel'>
-                    {this.state.picType === 'computer' && this.state.computerCarousel && this.state.computerCarousel.map((item, index, arr) => {
-                      return (
-                        <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src={item} />
-                        </div>
-                      )
-                    })}
-                    {this.state.picType === 'phone' && this.state.phoneCarousel && this.state.phoneCarousel.map((item, index, arr) => {
-                      return (
-                        <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                          <img style={{width: '100%', height: '100%'}} src={item} />
-                        </div>
-                      )
-                    })}
+                <div style={{width: '80%', marginLeft: '10%', height: '100%'}}>
+                  <Carousel ref='exhibition-inside-carousel' style={{height: '100%'}}>
+                    {this.state.picType === 'computer' &&
+                      this.state.computerCarousel &&
+                      this.state.computerCarousel.map((item, index, arr) => {
+                        return (
+                          <div key={index} style={{height: '100%'}}>
+                            <img style={{float: 'none', margin: 'auto', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '448px'}} src={item} />
+                          </div>
+                        )
+                      })}
+                    {this.state.picType === 'phone' &&
+                      this.state.phoneCarousel &&
+                      this.state.phoneCarousel.map((item, index, arr) => {
+                        return (
+                          <div key={index} style={{height: '100%'}}>
+                            <img style={{float: 'none', margin: 'auto', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '448px'}} src={item} />
+                          </div>
+                        )
+                      })}
                   </Carousel>
+                  {/* <img style={{width: 'auto', height: 'auto',  maxWidth: '100%', maxHeight: '100%'}} src={this.state.phoneCarousel[0]} /> */}
                 </div>
                 <Icon onClick={this.handleRightClick} className='exhibition-inside-right' type='right' />
               </div>
