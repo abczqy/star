@@ -353,8 +353,9 @@ class Businessing extends Component {
   getSelectOptions () {
     const thiz = this
     getApptype({}, (res) => {
-      const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
-      const dataArray = data.concat(res.data.data)
+      // const data = [{APP_TYPE_ID: '', APP_TYPE_NAME: '全部'}]
+      // const dataArray = data.concat(res.data.data)
+      const dataArray = res.data.data
       // const a = this.copyArray(data.type)
       // a.unshift('')
       thiz.setState({
