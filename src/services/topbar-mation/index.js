@@ -277,3 +277,12 @@ export function batchImport (params, sucFn) {
       sucFn(res)
     })
 }
+/**
+ * 人员管理-新增
+ */
+export function userInfoAdd (roleId, params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + '/portal/user-info/addUser/' + roleId, {params: params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}

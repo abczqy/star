@@ -101,7 +101,7 @@ class AllApplicationsDetail extends React.Component {
       )
     })
     return (
-      <div className='gundongtiao' style={{ overflow: 'auto', width: 1020, marginLeft: '6%' }}>
+      <div className='gundongtiao' style={{ overflow: 'auto', width: 1020, marginLeft: '6%', userSelect: 'none' }}>
         <div>
           <span style={{ fontSize: 20 }}>平台应用</span>
           <div className='all-app-carousel'>

@@ -125,10 +125,12 @@ class BannerMaker extends Component {
   // 保存新增banner图
   addBanner = () => {
     let obj = {
-      id: this.state.picId
+      url: this.state.picId
     }
-    if (this.props.header.title !== '平台介绍') {
+    if (this.props.header.title !== '平台介绍' && this.props.header.from !== '软件超市') {
       obj.type = 1
+    } else if (this.props.header.title !== '平台介绍' && this.props.header.from === '软件超市') {
+      obj.type = 3
     } else {
       obj.type = 2
     }
@@ -335,7 +337,7 @@ class BannerMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-              } id={item.id} url={item.picUrl} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
+              } id={item.id} url={item.url} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1

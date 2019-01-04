@@ -9,7 +9,7 @@ import {
 } from 'services/software-manage'
 import { BlankBar } from 'components/software-market'
 import './PublicInfoEdit.scss'
-import _ from 'lodash'
+// import _ from 'lodash'
 import config from '../../../../../config/index'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
@@ -58,7 +58,7 @@ class PublicInfoEdit extends Component {
         ...this.state.data,
         content: content,
         contentTitle: contentTitle,
-        picId: this.state.picId
+        fileId: this.state.fileId
       }
     }, () => {
       updateV2PubInfoList(this.state.data, (res) => {
@@ -77,7 +77,7 @@ class PublicInfoEdit extends Component {
    onUploadChange = (e) => {
      if (e.fileList[0].status === 'done') {
        if (e.fileList[0].response.code === 200) {
-         this.setState({picId: e.fileList[0].response.data})
+         this.setState({fileId: e.fileList[0].response.data})
        } else {
          message.warn(e.fileList[0].response.msg)
        }
@@ -126,9 +126,10 @@ class PublicInfoEdit extends Component {
          })
        },
        beforeUpload: (file) => {
-         if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
-           message.warn('不支持该附件类型上传!')
-         } else if (file.size > 10 * 1024 * 1024) {
+         //    if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
+         //      message.warn('不支持该附件类型上传!')
+         //    } else if (file.size > 10 * 1024 * 1024) {
+         if (file.size > 10 * 1024 * 1024) {
            message.warn('文件大小不能超过10M')
          } else if (this.state.fileList.length >= 1) {
            message.warn('只能上传一个文件')
