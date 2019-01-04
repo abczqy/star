@@ -1149,7 +1149,7 @@ class ShelfPlease extends React.Component {
         /> : null}
         <div>
           <Tabs defaultActiveKey='软件相关'>
-            {tabs.map((item, index) => <TabPane key={item.title} tab={item.title}>{tabs[index].content}</TabPane>)}
+            {tabs.map((item, index) => <TabPane className='shelf-tab-panel' key={item.title} tab={item.title}>{tabs[index].content}</TabPane>)}
           </Tabs>
         </div>
       </div>
