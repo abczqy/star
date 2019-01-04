@@ -279,7 +279,7 @@ class Businessing extends Component {
     appIdList.push(this.state.appOffModalCon.APP_ID)// 这里的list后端要int的
     const thiz = this
     const params = {
-      applyType: 0, // applyType 5为下架
+      applyType: 5, // applyType 5为下架
       userId: 1
     }
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
