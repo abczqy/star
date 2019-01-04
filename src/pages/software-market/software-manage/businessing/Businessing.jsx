@@ -135,6 +135,7 @@ class Businessing extends Component {
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
+          console.log(`data:`, data)
           data.data &&
           thiz.setState({
             tableData: {
@@ -206,6 +207,7 @@ class Businessing extends Component {
   }
   // 显示下架弹窗
   showAppOffStandModal = (record) => {
+    // 把记录的值映射到state上
     this.setState({
       appOffModalCon: {
         ...this.state.appOffModalCon,
@@ -274,16 +276,16 @@ class Businessing extends Component {
   handleRemove = () => {
     // 当然 在关闭之前要提交表单
     let appIdList = []
-    appIdList.push(this.state.appOffModalCon.APP_ID * 1)// 这里的list后端要int的
+    appIdList.push(this.state.appOffModalCon.APP_ID)// 这里的list后端要int的
     const thiz = this
     const params = {
-      applyType: 5, // applyType 5为下架
+      applyType: 0, // applyType 5为下架
       userId: 1
     }
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
     undercarriagev2(params, params1, (res) => {
-      const data = res.data ? res.data : {}
-      message.success(data.info)
+      // const data = res.data ? res.data : {}
+      message.success('下架成功')
       thiz.closeModal()
       thiz.getTableDatas(thiz)
     })
