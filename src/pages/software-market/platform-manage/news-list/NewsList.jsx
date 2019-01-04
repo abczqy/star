@@ -43,6 +43,7 @@ class NewsList extends Component {
         endTime: '',
         keywords: ''
       },
+      rowKeys: [],
       batchLeadParams: {
         idArrs: ''
       }
@@ -189,7 +190,16 @@ class NewsList extends Component {
       onOk () {
         if (idArrs) {
           delV2NewsList({list: idArrs}, (res) => {
-            that.getTableDatas()
+            if (res.data.code === 200) {
+              message.success('删除成功')
+              that.setState({
+                batchLeadParams: {idArrs: ''},
+                rowKeys: []
+              })
+              that.getTableDatas()
+            } else {
+              message.warn(res.data.msg)
+            }
           })
         } else {
           message.info('请选择数据')
@@ -204,6 +214,7 @@ class NewsList extends Component {
    * 多选选项变化
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
+    console.log(selectedRowKeys)
     // 从view中得到数据 并把th_id提取出来组合为一个新数组
     let idArr = ''
     selectedRows.map((val, index) => {
@@ -217,7 +228,8 @@ class NewsList extends Component {
     this.setState({
       batchLeadParams: {
         idArrs: idArr
-      }
+      },
+      rowKeys: selectedRowKeys
     })
   }
 
@@ -320,6 +332,7 @@ class NewsList extends Component {
             onChange: this.pageNumChange
           }}
           rowSelection={{
+            selectedRowKeys: this.state.rowKeys,
             onChange: this.rowSelectChange
           }}
         />

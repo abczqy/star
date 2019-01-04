@@ -39,6 +39,7 @@ class PublicInfo extends Component {
         infoPer: '',
         keywords: ''
       },
+      rowKeys: [],
       pagination,
       batchLeadParams: {
         idArrs: ''
@@ -176,7 +177,16 @@ class PublicInfo extends Component {
       onOk () {
         if (idArrs) {
           delV2PubInfoList({list: idArrs}, (res) => {
-            that.getTableDatas()
+            if (res.data.code === 200) {
+              message.success('删除成功')
+              that.setState({
+                batchLeadParams: {idArrs: ''},
+                rowKeys: []
+              })
+              that.getTableDatas()
+            } else {
+              message.warn(res.data.msg)
+            }
           })
         } else {
           message.info('请选择数据')
@@ -204,7 +214,8 @@ class PublicInfo extends Component {
     this.setState({
       batchLeadParams: {
         idArrs: idArr
-      }
+      },
+      rowKeys: selectedRowKeys
     })
   }
 
@@ -308,6 +319,7 @@ class PublicInfo extends Component {
             onChange: this.pageNumChange
           }}
           rowSelection={{
+            selectedRowKeys: this.state.rowKeys,
             onChange: this.rowSelectChange
           }}
         />
