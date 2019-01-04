@@ -3,19 +3,76 @@
  */
 
 import React, { Component } from 'react'
-import { Form, Input, Row, Col, Button } from 'antd'
-// import {teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from 'services/topbar-mation'
+import { Form, Input, Row, Col, Button, message } from 'antd'
+import { userInfoAdd } from 'services/topbar-mation'
 import PropTypes from 'prop-types'
 import './PersonManageAdd.scss'
 const FormItem = Form.Item
 
 class PersonManageAdd extends Component {
-  // constructor (props) {
-  //   super(props)
-  // }
+  constructor (props) {
+    super(props)
+    this.state = {
+      confirmDirty: false
+    }
+  }
 
-  handleSubmitTeacher = () => {
+  // 教师表单上传
+  handleSubmitTeacher = (e) => {
+    e.preventDefault()
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        // console.log('教师表单数据: ', values)
+        userInfoAdd('1', {map: values}, (res) => {
+          if (res.data.code === 200) {
+            this.props.close()
+            message.success('添加成功')
+          } else {
+            message.warn('添加失败')
+          }
+        })
+      }
+    })
+  }
+  // 学生表单上传
+  handleSubmitStudent = (e) => {
+    e.preventDefault()
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        // console.log('学生表单数据: ', values)
+        userInfoAdd('2', {map: values}, (res) => {
+          if (res.data.code === 200) {
+            this.props.close()
+            message.success('添加成功')
+          } else {
+            message.warn('添加失败')
+          }
+        })
+      }
+    })
+  }
 
+  handleConfirmBlur = (e) => {
+    const value = e.target.value
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value })
+  }
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const form = this.props.form
+    if (value && value !== form.getFieldValue('beginCode')) {
+      // eslint-disable-next-line standard/no-callback-literal
+      callback('两次输入的密码不一致!')
+    } else {
+      callback()
+    }
+  }
+
+  validateToNextPassword = (rule, value, callback) => {
+    const form = this.props.form
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['PASSWORD'], { force: true })
+    }
+    callback()
   }
 
   render () {
@@ -39,12 +96,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='teacherName'
+                    key='USER_NAME'
                     label='教师姓名'
                   >
-                    {getFieldDecorator('teacherName', {
+                    {getFieldDecorator('USER_NAME', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入教师姓名!'
                       }]
                     })(
                       <Input />
@@ -54,12 +111,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='sex'
+                    key='GENDER'
                     label='性别'
                   >
-                    {getFieldDecorator('sex', {
+                    {getFieldDecorator('GENDER', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入性别!'
                       }]
                     })(
                       <Input />
@@ -71,12 +128,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='IdCard'
+                    key='CERTIFICATE_NUMBER'
                     label='身份证号'
                   >
-                    {getFieldDecorator('IdCard', {
+                    {getFieldDecorator('CERTIFICATE_NUMBER', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入身份证号!'
                       }]
                     })(
                       <Input />
@@ -91,7 +148,7 @@ class PersonManageAdd extends Component {
                   >
                     {getFieldDecorator('grade', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入教学年级!'
                       }]
                     })(
                       <Input />
@@ -108,7 +165,7 @@ class PersonManageAdd extends Component {
                   >
                     {getFieldDecorator('teachYears', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入执教时间!'
                       }]
                     })(
                       <Input />
@@ -118,12 +175,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='mobile'
+                    key='PHONE_NUMBER'
                     label='联系方式'
                   >
-                    {getFieldDecorator('mobile', {
+                    {getFieldDecorator('PHONE_NUMBER', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入联系方式!'
                       }]
                     })(
                       <Input />
@@ -140,7 +197,7 @@ class PersonManageAdd extends Component {
                   >
                     {getFieldDecorator('job', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入行政职务!'
                       }]
                     })(
                       <Input />
@@ -150,10 +207,10 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='userId'
+                    key='LOGIN_NAME'
                     label='账号ID'
                   >
-                    {getFieldDecorator('userId', {
+                    {getFieldDecorator('LOGIN_NAME', {
                       rules: [{
                         required: true, message: '请输入账号ID!'
                       }]
@@ -172,7 +229,9 @@ class PersonManageAdd extends Component {
                   >
                     {getFieldDecorator('beginCode', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入初始密码!'
+                      }, {
+                        validator: this.validateToNextPassword
                       }]
                     })(
                       <Input />
@@ -182,15 +241,17 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='conformCode'
+                    key='PASSWORD'
                     label='确认密码'
                   >
-                    {getFieldDecorator('conformCode', {
+                    {getFieldDecorator('PASSWORD', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请再次输入密码!'
+                      }, {
+                        validator: this.compareToFirstPassword
                       }]
                     })(
-                      <Input />
+                      <Input type='password' onBlur={this.handleConfirmBlur} />
                     )}
                   </FormItem>
                 </Col>
@@ -205,12 +266,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='studentName'
+                    key='USER_NAME'
                     label='学生姓名'
                   >
-                    {getFieldDecorator('studentName', {
+                    {getFieldDecorator('USER_NAME', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入学生姓名!'
                       }]
                     })(
                       <Input />
@@ -220,12 +281,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='sex'
+                    key='GENDER'
                     label='性别'
                   >
-                    {getFieldDecorator('sex', {
+                    {getFieldDecorator('GENDER', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入性别!'
                       }]
                     })(
                       <Input />
@@ -237,12 +298,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='IdCard'
+                    key='CERTIFICATE_NUMBER'
                     label='身份证号'
                   >
-                    {getFieldDecorator('IdCard', {
+                    {getFieldDecorator('CERTIFICATE_NUMBER', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入身份证号!'
                       }]
                     })(
                       <Input />
@@ -257,7 +318,7 @@ class PersonManageAdd extends Component {
                   >
                     {getFieldDecorator('parentName', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入家长姓名!'
                       }]
                     })(
                       <Input />
@@ -269,12 +330,12 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='phone'
+                    key='PHONE_NUMBER'
                     label='手机号'
                   >
-                    {getFieldDecorator('phone', {
+                    {getFieldDecorator('PHONE_NUMBER', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入手机号!'
                       }]
                     })(
                       <Input />
@@ -301,10 +362,10 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='userId'
+                    key='LOGIN_NAME'
                     label='账号ID'
                   >
-                    {getFieldDecorator('userId', {
+                    {getFieldDecorator('LOGIN_NAME', {
                       rules: [{
                         required: true, message: '请输入账号ID!'
                       }]
@@ -321,7 +382,9 @@ class PersonManageAdd extends Component {
                   >
                     {getFieldDecorator('beginCode', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请输入初始密码!'
+                      }, {
+                        validator: this.validateToNextPassword
                       }]
                     })(
                       <Input />
@@ -333,15 +396,17 @@ class PersonManageAdd extends Component {
                 <Col span={12}>
                   <FormItem
                     {...formItemLayout}
-                    key='conformCode'
+                    key='PASSWORD'
                     label='确认密码'
                   >
-                    {getFieldDecorator('conformCode', {
+                    {getFieldDecorator('PASSWORD', {
                       rules: [{
-                        required: true, message: '请输入账号ID!'
+                        required: true, message: '请再次输入密码!'
+                      }, {
+                        validator: this.compareToFirstPassword
                       }]
                     })(
-                      <Input />
+                      <Input type='password' onBlur={this.handleConfirmBlur} />
                     )}
                   </FormItem>
                 </Col>
