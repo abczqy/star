@@ -44,6 +44,7 @@
     background-color: rgba(244, 244, 244, 1);
   }
   .carousel-detail-item {
+    text-align: center;
     width: 100px;
     height: 130px;
     /* background: blue; */

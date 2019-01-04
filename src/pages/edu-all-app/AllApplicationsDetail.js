@@ -3,7 +3,7 @@
  */
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
-import { Carousel, Button, Icon } from 'antd'
+import { Button, Icon } from 'antd'
 import ajaxUrl from 'config'
 // import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
@@ -105,46 +105,46 @@ class AllApplicationsDetail extends React.Component {
           <div className='all-app-carousel'>
             <div className='all-app-left-arrow' onClick={this.props.onClickLeft}> &lt; </div>
             <div className='all-app-carousel-detail'>
-              <Carousel style={{width: 800}} ref='test'>
-                {this.state.platformAppDataa && this.state.platformAppDataa instanceof Array && this.state.platformAppDataa.map((item, index, arr) => {
-                  return (
-                    <div key={index}>
-                      <div>
-                        { this.state.platformAppDataa[index] && this.state.platformAppDataa[index] instanceof Array && this.state.platformAppDataa[index].map((item, index, arr) => {
-                          return (
-                            <dl key={index} className='carousel-detail-item' >
-                              <dt>
-                                {item.APP_ICON
-                                  ? <img src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
-                                  : <img src={imgApp} style={{backgroundColor: '#1890ff'}} />
-                                }
-                              </dt>
-                              <dd>
-                                <span className='name'>{item.APP_NAME || '应用名称'}</span>
-                                {
-                                  item.IS_OPEN === '1'
-                                    ? <Button
-                                      style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}}
-                                      className='open'
-                                      type='primary'
-                                    >
-                                      <a style={{ cursor: 'pointer' }} href={item.APP_LINK} target='_blank'>打开</a>
-                                    </Button>
-                                    : <Button
-                                      style={{ height: '26px', lineHeight: '20px' }}
-                                      type='primary'>
-                                      <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
-                                    </Button>
-                                }
-                              </dd>
-                            </dl>
-                          )
-                        }) }
-                      </div>
+              {/* <Carousel style={{width: 800}} ref='test'> */}
+              {this.state.platformAppDataa && this.state.platformAppDataa instanceof Array && this.state.platformAppDataa.map((item, index, arr) => {
+                return (
+                  <div key={index}>
+                    <div>
+                      { this.state.platformAppDataa[index] && this.state.platformAppDataa[index] instanceof Array && this.state.platformAppDataa[index].map((item, index, arr) => {
+                        return (
+                          <dl key={index} className='carousel-detail-item' >
+                            <dt>
+                              {item.APP_ICON
+                                ? <img src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
+                                : <img src={imgApp} style={{backgroundColor: '#1890ff'}} />
+                              }
+                            </dt>
+                            <dd>
+                              <span className='name'>{item.APP_NAME || '应用名称'}</span>
+                              {
+                                item.IS_OPEN === '1'
+                                  ? <Button
+                                    style={{height: '26px', lineHeight: '20px', backgroundColor: '#7ED321', border: 0}}
+                                    className='open'
+                                    type='primary'
+                                  >
+                                    <a style={{ cursor: 'pointer' }} href={item.APP_LINK} target='_blank'>打开</a>
+                                  </Button>
+                                  : <Button
+                                    style={{ height: '26px', lineHeight: '20px' }}
+                                    type='primary'>
+                                    <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
+                                  </Button>
+                              }
+                            </dd>
+                          </dl>
+                        )
+                      }) }
                     </div>
-                  )
-                })}
-              </Carousel>
+                  </div>
+                )
+              })}
+              {/* </Carousel> */}
             </div>
             <div className='all-app-right-arrow' onClick={this.props.onClickRight}> &gt; </div>
           </div>
