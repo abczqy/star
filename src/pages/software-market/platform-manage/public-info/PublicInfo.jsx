@@ -75,13 +75,9 @@ class PublicInfo extends Component {
         title: '附件',
         dataIndex: 'fileUrl',
         key: 'fileUrl',
-        render: (text, record, index) => {
-          return (
-            <a href={DOC_BASE_URL_V2 + text} target='_blank'>
-              <Icon type='link' />
-            </a>
-          )
-        }
+        render: (text, record, index) => text ? <a href={DOC_BASE_URL_V2 + text} target='_blank'>
+          <Icon type='link' />
+        </a> : '无'
       }, {
         title: '操作',
         dataIndex: 'options',
