@@ -127,8 +127,10 @@ class BannerMaker extends Component {
     let obj = {
       id: this.state.picId
     }
-    if (this.props.header.title !== '平台介绍') {
+    if (this.props.header.title !== '平台介绍' && this.props.header.from !== '软件超市') {
       obj.type = 1
+    } else if (this.props.header.title !== '平台介绍' && this.props.header.from === '软件超市') {
+      obj.type = 3
     } else {
       obj.type = 2
     }
