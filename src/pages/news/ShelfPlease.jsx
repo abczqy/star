@@ -1129,7 +1129,7 @@ class ShelfPlease extends React.Component {
     }]
     const TabPane = Tabs.TabPane
 
-    return <Card title='上架申请' className='main-card' style={{marginLeft: '5%', width: '1300px', minHeight: '540px'}}
+    return <Card title='上架申请' className='main-card' style={{margin: '0 5%', width: '90%', minHeight: '540px'}}
       extra={
         <div>
           <Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>
