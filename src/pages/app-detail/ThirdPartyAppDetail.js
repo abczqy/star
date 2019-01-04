@@ -227,7 +227,7 @@ class ThirdPartyAppDetail extends React.Component {
               {this.state.appDetailData.APP_SOURCE === 'rj' && this.state.verInfoArray && this.state.verInfoArray.map((item, index) => {
                 return <a key={index} target='_blank' href={this.state.verLinkArray[index] || 'http://baidu.com'}>
                   <Button className='header-button'>
-                    {this.state.verInfoArray[index] || '版本信息'}
+                    {this.state.verInfoArray[index] || 'windows'}
                     <Icon style={{color: '#fff'}} type='download' />
                   </Button>
                 </a>
