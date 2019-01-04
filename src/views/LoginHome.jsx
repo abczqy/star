@@ -176,7 +176,7 @@ class LoginHome extends React.Component {
                   <Badge count={this.state.messageCount} >
                     <Icon type='mail' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/notice') }} />
                   </Badge>
-                  <Icon type='setting' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/setting') }} />
+                  {/* <Icon type='setting' style={{ fontSize: 16 }} onClick={() => { this.handleTabChange('/topbar-manage/setting') }} /> */}
                   <Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} />
                 </div>
               </div>
