@@ -343,7 +343,7 @@ class BannerMaker extends Component {
             <div style={{ clear: 'both' }} />
             <BlankBar />
             {
-              this.props.header.title !== '平台介绍'
+              this.props.header.title !== '平台介绍' && this.props.header.from !== '软件超市'
                 ? <div>
                   <div>
                     <Row gutter={16}>

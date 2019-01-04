@@ -13,7 +13,7 @@ class PlatManage extends Component {
           header={{title: '导航'}}
         />
         <BannerMaker
-          header={{title: 'Banner 图'}}
+          header={{title: 'Banner 图', from: '软件超市'}}
         />
         <KeyPush
           header={{title: '重点推送'}}
