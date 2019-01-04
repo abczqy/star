@@ -125,7 +125,7 @@ class BannerMaker extends Component {
   // 保存新增banner图
   addBanner = () => {
     let obj = {
-      id: this.state.picId
+      url: this.state.picId
     }
     if (this.props.header.title !== '平台介绍' && this.props.header.from !== '软件超市') {
       obj.type = 1
