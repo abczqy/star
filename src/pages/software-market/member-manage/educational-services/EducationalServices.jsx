@@ -9,7 +9,8 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Switch, Divider, message } from 'antd'
+import { Table, message } from 'antd'
+// import { Table, Switch, Divider, message } from 'antd'
 import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
@@ -69,6 +70,11 @@ class EducationalServices extends Component {
 
   getColumns = () => {
     return ([{
+      title: '序号',
+      dataIndex: 'index',
+      key: 'index',
+      width: 200
+    }, {
       title: '机构名称',
       dataIndex: 'authorityName',
       key: 'authorityName',
@@ -79,24 +85,24 @@ class EducationalServices extends Component {
       key: 'id',
       width: 200
     }, {
-      title: '所属级别',
-      dataIndex: 'edu_class',
-      key: 'edu_class'
-    }, {
-      title: '上级机构名称',
-      dataIndex: 'edu_upper',
-      key: 'edu_upper'
-    }, {
-      title: '允许登录',
-      dataIndex: 'to_login',
-      key: 'to_login',
-      render: (text, record, index) => {
-        console.log('record', record)
-        return (
-          <Switch checked={record.isDelete !== 1} onChange={() => this.handleToLogin(record)} />
-        )
-      }
-    }, {
+    //   title: '所属级别',
+    //   dataIndex: 'edu_class',
+    //   key: 'edu_class'
+    // }, {
+    //   title: '上级机构名称',
+    //   dataIndex: 'edu_upper',
+    //   key: 'edu_upper'
+    // }, {
+    //   title: '允许登录',
+    //   dataIndex: 'to_login',
+    //   key: 'to_login',
+    //   render: (text, record, index) => {
+    //     console.log('record', record)
+    //     return (
+    //       <Switch checked={record.isDelete !== 1} onChange={() => this.handleToLogin(record)} />
+    //     )
+    //   }
+    // }, {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
@@ -105,10 +111,10 @@ class EducationalServices extends Component {
         return (
           <span>
             <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.id }}>学校</Link>
-            <Divider type='vertical' />
+            {/* <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a> */}
           </span>
         )
       }
@@ -144,7 +150,7 @@ class EducationalServices extends Component {
     }
     toLogin(params, (res) => {
       const data = res.data ? res.data : {}
-      console.log(data)
+      // console.log(data)
       if (data.SUCCESS) {
         message.success(data.msg)
         thiz.getTableDatas()
@@ -160,12 +166,15 @@ class EducationalServices extends Component {
   getTableDatas = () => {
     eduGetData(this.getParams(), (res) => {
       if (res.data.code === 200) {
-        const data = res.data
-        console.log('教育机构：', data)
+        const data = res.data.data
+        // console.log('教育机构：', data)
+        data.info && data.info instanceof Array && data.info.map((item, index) => {
+          item.index = index + 1
+        })
         this.setState({
           // edu_id:,
           tableData: {
-            data: data.data || [],
+            data: data.info || [],
             total: data.total || 0
           }
         })
@@ -256,7 +265,7 @@ class EducationalServices extends Component {
       eduId: record.eduId
     }
     maInitPwd(params, (res) => {
-      console.log(`res.data.result: ${res.data.result}`)
+      // console.log(`res.data.result: ${res.data.result}`)
     })
     // 最好有个确认的弹窗什么的
     // 后面再加上loading + 操作成功的提示
@@ -270,7 +279,7 @@ class EducationalServices extends Component {
       eduId: record.eduId
     }
     maDelId(params, (res) => {
-      console.log(`res.data.result: ${res.data.result}`)
+      // console.log(`res.data.result: ${res.data.result}`)
     })
     // 最好有个确认的弹窗什么的
     // 后面再加上loading + 操作成功的提示
@@ -396,9 +405,9 @@ class EducationalServices extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange: this.pageNumChange
           }}
-          rowSelection={{
-            onChange: this.rowSelectChange
-          }}
+          // rowSelection={{
+          //   onChange: this.rowSelectChange
+          // }}
         />
       </div>
     )
