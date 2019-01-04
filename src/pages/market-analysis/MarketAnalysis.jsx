@@ -67,7 +67,7 @@ class MarketAnalysis extends Component {
           name: '数学游戏',
           value: '183'
         } ],
-      currentType: '101',
+      currentType: '0',
       pagination,
       total: 0,
       menuData: [] // 存全部应用的分类

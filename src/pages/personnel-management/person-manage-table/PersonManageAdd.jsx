@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react'
 import { Form, Input, Row, Col, Button } from 'antd'
+// import {teacherUpdate, teacherDelete, sutdentUpdate, sutdentDelete} from 'services/topbar-mation'
 import PropTypes from 'prop-types'
 import './PersonManageAdd.scss'
 const FormItem = Form.Item
@@ -12,6 +13,10 @@ class PersonManageAdd extends Component {
   // constructor (props) {
   //   super(props)
   // }
+
+  handleSubmitTeacher = () => {
+
+  }
 
   render () {
     const { getFieldDecorator } = this.props.form
@@ -29,7 +34,7 @@ class PersonManageAdd extends Component {
       <div className='add-person'>
         {
           this.props.role === 'teacher'
-            ? <Form onSubmit={this.handleSubmit}>
+            ? <Form onSubmit={this.handleSubmitTeacher}>
               <Row>
                 <Col span={12}>
                   <FormItem
@@ -195,7 +200,7 @@ class PersonManageAdd extends Component {
                 <Button type='primary' htmlType='submit'>确认</Button>
               </FormItem>
             </Form>
-            : <Form onSubmit={this.handleSubmit}>
+            : <Form onSubmit={this.handleSubmitStudent}>
               <Row>
                 <Col span={12}>
                   <FormItem
