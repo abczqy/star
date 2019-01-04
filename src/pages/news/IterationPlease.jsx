@@ -606,7 +606,7 @@ zHs=() => {
                   <span style={{color: 'red'}}>* </span>更新版本 :
                 </Col>
                 <Col span={18}>
-                  <Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.onGetVersion} value={this.state.newVersion} /></Col>
+                  <Input placeholder='请输入版本号' style={{ width: 280 }} onChange={this.onGetVersion} value={this.state.newVersion} /></Col>
               </Col>
             </Row>
             <Row className='Wxd'>
@@ -614,7 +614,7 @@ zHs=() => {
                 <span style={{visibility: 'hidden'}}>*PC无无无</span>
                 <span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版本特性 : </span>
                 <span style={{visibility: 'hidden'}}>无无无 </span>
-                <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onGetNewFeatrue} value={this.state.newFeatrue} /></Col>
+                <TextArea placeholder='请输入新版本特性' style={{ width: 880 }} onChange={this.onGetNewFeatrue} value={this.state.newFeatrue} /></Col>
             </Row>
             <Row className='Wxd'>
               <Row className='Wxds'>

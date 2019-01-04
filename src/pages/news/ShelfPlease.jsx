@@ -883,7 +883,7 @@ class ShelfPlease extends React.Component {
       {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />软件相关</p></Row> */}
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件名称 :</Col>
-        <Col span={7}><Input placeholder='请输入关键字' style={{ width: 280 }} onChange={this.onAppNameChange} value={this.state.appName} /></Col>
+        <Col span={7}><Input placeholder='请输入软件名称' style={{ width: 280 }} onChange={this.onAppNameChange} value={this.state.appName} /></Col>
         <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
         <Col span={7}>
           <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.onTypeChange(value)} value={this.state.appType} >
@@ -896,13 +896,13 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
         <Col span={20}>
-          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onDescChange} value={this.state.appDesc} />
+          <TextArea placeholder='请输入软件描述' style={{ width: 880 }} onChange={this.onDescChange} value={this.state.appDesc} />
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
         <Col span={20}>
-          <TextArea placeholder='请输入关键字' style={{ width: 880 }} onChange={this.onFeatureChange} value={this.state.feature} />
+          <TextArea placeholder='请输入新版特性' style={{ width: 880 }} onChange={this.onFeatureChange} value={this.state.feature} />
         </Col>
       </Row>
       {
