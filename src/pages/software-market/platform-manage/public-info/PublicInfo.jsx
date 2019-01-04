@@ -11,7 +11,7 @@ import {
 } from 'services/software-manage'
 import { BlankBar, PublicInfoBar } from 'components/software-market'
 import config from '../../../../config/index'
-const {IMG_BASE_URL_V2} = config
+const {DOC_BASE_URL_V2} = config
 const confirm = Modal.confirm
 
 /**
@@ -73,11 +73,11 @@ class PublicInfo extends Component {
         }
       }, {
         title: '附件',
-        dataIndex: 'picUrl',
-        key: 'picUrl',
+        dataIndex: 'fileUrl',
+        key: 'fileUrl',
         render: (text, record, index) => {
           return (
-            <a href={IMG_BASE_URL_V2 + text} target='_blank'>
+            <a href={DOC_BASE_URL_V2 + text} target='_blank'>
               <Icon type='link' />
             </a>
           )

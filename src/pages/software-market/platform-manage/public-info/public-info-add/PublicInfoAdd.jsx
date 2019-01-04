@@ -7,7 +7,7 @@ import {
 } from 'services/software-manage'
 import { BlankBar } from 'components/software-market'
 import './PublicInfoAdd.scss'
-import _ from 'lodash'
+// import _ from 'lodash'
 import config from '../../../../../config/index'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
@@ -49,11 +49,11 @@ class PublicInfoAdd extends Component {
    * @returns {*}
    */
   getFormData () {
-    const { infoTitle, picId } = this.state
+    const { infoTitle, fileId } = this.state
     return {
       contentTitle: infoTitle,
       content: this.getRichText(),
-      picId: picId
+      fileId: fileId
     }
   }
 
@@ -84,7 +84,7 @@ class PublicInfoAdd extends Component {
    onUploadChange = (e) => {
      if (e.fileList[0].status === 'done') {
        if (e.fileList[0].response.code === 200) {
-         this.setState({picId: e.fileList[0].response.data})
+         this.setState({fileId: e.fileList[0].response.data})
        } else {
          message.warn(e.fileList[0].response.msg)
        }
@@ -110,9 +110,7 @@ class PublicInfoAdd extends Component {
          })
        },
        beforeUpload: (file) => {
-         if (_.indexOf(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp'], file.type) === -1) {
-           message.warn('不支持该附件类型上传!')
-         } else if (file.size > 10 * 1024 * 1024) {
+         if (file.size > 10 * 1024 * 1024) {
            message.warn('文件大小不能超过10M')
          } else if (this.state.fileList.length >= 1) {
            message.warn('只能上传一个文件')
@@ -126,7 +124,7 @@ class PublicInfoAdd extends Component {
      }
      return (
        <div className='news-list-wrap' >
-         <Card title='编辑新闻' extra={<Link to='/software-market-home/platform-manage/public-info'><Icon type='double-left' />返回列表页</Link>}>
+         <Card title='新增通知' extra={<Link to='/software-market-home/platform-manage/public-info'><Icon type='double-left' />返回列表页</Link>}>
            <div className='edit-add-bar-wrap' >
              <Row gutter={16}>
                <Col span={12}>
