@@ -3,7 +3,7 @@
 import React from 'react'
 import {Modal, Button} from 'antd'
 import PropTypes from 'prop-types'
-import {sessionLogout} from '../services/topbar-mation'
+// import {sessionLogout} from '../services/topbar-mation'
 import { withRouter } from 'react-router'
 import {clearCookie} from 'utils/cookie'
 import webStorage from 'webStorage'
@@ -19,11 +19,14 @@ class SignOutModal extends React.Component {
     }
   }
   saveOrSubmit =(value) => {
-    sessionLogout({}, (response) => {
-      this.backHome()
-      // this.props.hiddenModal()
-      webStorage.clear()
-    })
+    // sessionLogout({}, (response) => {
+    //   this.backHome()
+    //   // this.props.hiddenModal()
+    //   webStorage.clear()
+    // })
+    this.backHome()
+    // this.props.hiddenModal()
+    webStorage.clear()
   }
   backHome=() => {
     clearCookie()
