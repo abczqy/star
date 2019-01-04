@@ -167,8 +167,10 @@ class BannerMaker extends Component {
   getList = () => {
     let param = {}
     let type
-    if (this.props.header.title !== '平台介绍') {
+    if (this.props.header.title !== '平台介绍' && this.props.header.from !== '软件超市') {
       type = 1
+    } else if (this.props.header.title !== '平台介绍' && this.props.header.from === '软件超市') {
+      type = 3
     } else {
       type = 2
     }
