@@ -16,7 +16,7 @@ import {processStr} from 'utils'
 import {newsList} from 'services/software-manage'
 import { withRouter } from 'react-router'
 import pic from '../../assets/images/u18499.png'
-import config from '../../../config/index'
+import config from '../../config/index'
 const {IMG_BASE_URL_V2} = config
 
 class News extends React.Component {
