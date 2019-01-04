@@ -50,14 +50,16 @@ class AllApplicationsDetail extends React.Component {
     })
   }
 
-  loadNextFunc = () => {}
+  loadNextFunc = () => {
+    console.log('加载更多')
+  }
   // 打开按钮页面跳转
   handleChangeJump = (item) => {
     // console.log('页面跳转了')
     window.open(item.APP_LINK)
   }
   render () {
-    let total = this.state.allAppListData.length
+    let total = this.state.allAppListData.length // 暂时没有实现滚动加载
     const items = this.state.allAppListData && this.state.allAppListData instanceof Array && this.state.allAppListData.map((item, index) => {
       return (
         <div key={index} className='software-application'>
@@ -152,7 +154,7 @@ class AllApplicationsDetail extends React.Component {
         <div style={{ marginTop: 10, width: 1019 }}>
           <div>
             <span style={{ fontSize: 20 }}>软件应用</span>
-            <p style={{float: 'right', marginTop: '10px'}}>
+            <p style={{float: 'right', marginTop: '10px', marginRight: '13px'}}>
               <span
                 style={{cursor: 'pointer'}}
                 onClick={this.props.handleShelfTime}>
@@ -166,11 +168,12 @@ class AllApplicationsDetail extends React.Component {
               </span>
               <Icon className='arrowhead-rotation' type='swap' /></p>
           </div>
-          <div style={{overflow: 'auto', height: 550, width: 1020}}>
+          <div style={{overflow: 'hidden', height: 550, width: 1020}}>
             <LimitedInfiniteScroll
               limit={5}
               pageStart={0}
               hasMore={total === undefined || items.length < total}
+              // hasMore
               spinLoader={<div className='loader'>Loading...</div>}
               mannualLoader={<span style={{fontSize: 20, lineHeight: 1.5, marginTop: 20, marginBottom: 20, display: 'inline-block'}}>Load More</span>}
               // noMore={<div className='loader'>No More Items</div>}

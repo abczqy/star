@@ -5,7 +5,7 @@
 import React from 'react'
 import Slider from 'react-slick'
 import Config from 'config'
-import { Layout, Menu, Row, Col, Input, message } from 'antd'
+import { Layout, Menu, Row, Col, Input, message, Pagination } from 'antd'
 import PropTypes from 'prop-types'
 // import { renderRoutes } from 'react-router-config'
 // import { Link } from 'react-router-dom'
@@ -34,8 +34,10 @@ export default class AllApplications extends React.Component {
       orderType: 'download',
       key: '0',
       currentPagePt: 1, // 平台应用的当前页
+      currentPageRj: 1, // 软件应用的当前页
       totalCountPt: 0, // 平台应用总数
-      pageSizeRj: 1000, // 软件应用每页大小
+      totalCountRj: 0, // 软件应用总数
+      pageSizeRj: 16, // 软件应用每页大小
       menuData: [] // 存全部应用的分类
     }
   }
@@ -46,7 +48,7 @@ export default class AllApplications extends React.Component {
   }
   // 上架时间处理
   handleShelfTime = () => {
-    console.log('上架时间')
+    // console.log('上架时间')
     if (this.state.shelfTimeSort === 'desc') {
       this.setState({
         sortRj: 'asc',
@@ -93,9 +95,17 @@ export default class AllApplications extends React.Component {
       message.warning('没有更多数据')
     }
   }
+  // 处理软件分页
+  onRjPageChange = (page, pageSize) => {
+    this.setState({
+      currentPageRj: page
+    }, () => {
+      this.getAppListRj()
+    })
+  }
   // 处理收藏按钮
   handleCollection = (id, isCollect) => {
-    console.log('收藏和取消收藏')
+    // console.log('收藏和取消收藏')
     if (isCollect === '1') {
       homeCancelCollection({
         appId: id + ''
@@ -125,7 +135,7 @@ export default class AllApplications extends React.Component {
 
   // 下载量处理
   handleDownloadNum = () => {
-    console.log('下载量')
+    // console.log('下载量')
     if (this.state.downloadNumSort === 'desc') {
       this.setState({
         downloadNumSort: 'asc',
@@ -149,13 +159,14 @@ export default class AllApplications extends React.Component {
     allAppList({
       appType: this.state.key,
       orderType: this.state.orderType,
-      pageNum: 1,
+      pageNum: this.state.currentPageRj,
       pageSize: this.state.pageSizeRj,
       platformType: 'rj',
       sort: this.state.sortRj
     }, (res) => {
-      // console.log('获取软件应用数据', params)
+      // console.log('获取软件应用数据', res.data.data)
       this.setState({
+        totalCountRj: res.data.data.totalCount || 0,
         allAppListData: res.data.data.data || []
       })
     }).catch((e) => { console.log(e) })
@@ -272,7 +283,7 @@ export default class AllApplications extends React.Component {
         <Layout style={{marginLeft: '10%', marginTop: '20px'}}>
           <Sider >
             <Menu
-              style={{ width: 256, height: 800, textAlign: 'center', border: 0, boxShadow: '2px 2px 5px #999' }}
+              style={{ width: 256, height: 820, textAlign: 'center', border: 0, boxShadow: '2px 2px 5px #999' }}
               defaultSelectedKeys={['0']}
               defaultOpenKeys={['sub1']}
               mode={this.state.mode}
@@ -300,6 +311,14 @@ export default class AllApplications extends React.Component {
                   onClickLeft={this.onClickLeft}
                   onClickRight={this.onClickRight} />
               }} />
+              <div style={{display: 'block', width: 1020, marginLeft: '6%'}}>
+                <Pagination
+                  simple
+                  defaultCurrent={this.state.currentPageRj}
+                  total={this.state.totalCountRj}
+                  style={{ float: 'right', marginRight: '20px' }}
+                  onChange={this.onRjPageChange} />
+              </div>
             </Content>
           </Layout>
         </Layout>
