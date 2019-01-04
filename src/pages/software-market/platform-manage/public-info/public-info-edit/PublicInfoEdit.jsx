@@ -142,7 +142,7 @@ class PublicInfoEdit extends Component {
      }
      return (
        <div className='news-list-wrap' >
-         <Card title='编辑新闻' extra={<Link to='/software-market-home/platform-manage/public-info'><Icon type='double-left' />返回列表页</Link>}>
+         <Card title='编辑通知' extra={<Link to='/software-market-home/platform-manage/public-info'><Icon type='double-left' />返回列表页</Link>}>
            <div className='edit-add-bar-wrap' >
              <Row gutter={16}>
                <Col span={12}>
