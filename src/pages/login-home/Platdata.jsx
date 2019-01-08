@@ -63,7 +63,7 @@ class Platdata extends React.Component {
             }
           }
         }, {
-          value: 100 - value,
+          value: 100.0000001 - value,
           name: 'invisible',
           label: {
             show: false
