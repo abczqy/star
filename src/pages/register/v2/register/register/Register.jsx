@@ -442,7 +442,8 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  form: PropTypes.object
+  form: PropTypes.object,
+  history: PropTypes.object
 }
 
 export default Form.create()(Register)

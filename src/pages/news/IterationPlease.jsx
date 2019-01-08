@@ -11,6 +11,7 @@ import title from '../../assets/images/title.png'
 import './NewsList.scss'
 import {appId} from 'services/software-manage'
 import webStorage from 'webStorage'
+import PropTypes from 'prop-types'
 
 const { TextArea } = Input
 
@@ -709,6 +710,10 @@ zHs=() => {
       </Card>
     )
   }
+}
+
+IterationPlease.propTypes = {
+  history: PropTypes.object
 }
 
 export default withRouter(IterationPlease)

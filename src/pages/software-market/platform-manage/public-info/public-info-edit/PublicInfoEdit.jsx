@@ -187,7 +187,8 @@ class PublicInfoEdit extends Component {
 }
 
 PublicInfoEdit.propTypes = {
-  location: PropsTypes.object
+  location: PropsTypes.object,
+  history: PropsTypes.object
 }
 
 export default PublicInfoEdit

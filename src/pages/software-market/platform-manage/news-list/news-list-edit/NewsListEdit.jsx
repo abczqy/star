@@ -181,7 +181,8 @@ class NewsListEdit extends Component {
 }
 
 NewsListEdit.propTypes = {
-  location: PropsTypes.object
+  location: PropsTypes.object,
+  history: PropsTypes.object
 }
 
 export default NewsListEdit
