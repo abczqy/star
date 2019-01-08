@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
-import PropsTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Editor from 'wangeditor'
 import {
   getV2PubInfoForEdit,
@@ -187,8 +187,8 @@ class PublicInfoEdit extends Component {
 }
 
 PublicInfoEdit.propTypes = {
-  location: PropsTypes.object,
-  history: PropsTypes.object
+  location: PropTypes.object,
+  history: PropTypes.any.isRequired
 }
 
 export default PublicInfoEdit

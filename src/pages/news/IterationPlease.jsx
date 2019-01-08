@@ -713,7 +713,7 @@ zHs=() => {
 }
 
 IterationPlease.propTypes = {
-  history: PropTypes.object
+  history: PropTypes.object.isRequired
 }
 
 export default withRouter(IterationPlease)

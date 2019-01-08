@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
-import PropsTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Editor from 'wangeditor'
 import {
   getV2News,
@@ -181,8 +181,8 @@ class NewsListEdit extends Component {
 }
 
 NewsListEdit.propTypes = {
-  location: PropsTypes.object,
-  history: PropsTypes.object
+  location: PropTypes.object,
+  history: PropTypes.object.isRequired
 }
 
 export default NewsListEdit

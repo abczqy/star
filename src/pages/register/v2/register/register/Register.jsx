@@ -443,7 +443,7 @@ class Register extends Component {
 
 Register.propTypes = {
   form: PropTypes.object,
-  history: PropTypes.object
+  history: PropTypes.object.isRequired
 }
 
 export default Form.create()(Register)

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
 import { Link } from 'react-router-dom'
 import Editor from 'wangeditor'
-import PropsTypes from 'prop-types'
 import {
   insertV2NewsList
 } from 'services/software-manage'
@@ -10,6 +9,7 @@ import { BlankBar } from 'components/software-market'
 import _ from 'lodash'
 import './NewsListAdd.scss'
 import config from '../../../../../config/index'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 class NewsListAdd extends Component {
@@ -171,6 +171,6 @@ class NewsListAdd extends Component {
   }
 }
 NewsListAdd.propTypes = {
-  history: PropsTypes.object
+  history: PropTypes.object.isRequired
 }
 export default NewsListAdd

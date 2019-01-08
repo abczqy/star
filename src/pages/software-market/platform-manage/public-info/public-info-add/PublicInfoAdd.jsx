@@ -7,9 +7,9 @@ import {
 } from 'services/software-manage'
 import { BlankBar } from 'components/software-market'
 import './PublicInfoAdd.scss'
-import PropTypes from 'prop-types'
 // import _ from 'lodash'
 import config from '../../../../../config/index'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 class PublicInfoAdd extends Component {
@@ -169,7 +169,7 @@ class PublicInfoAdd extends Component {
 }
 
 PublicInfoAdd.propTypes = {
-  history: PropTypes.object
+  history: PropTypes.object.isRequired
 }
 
 export default PublicInfoAdd
