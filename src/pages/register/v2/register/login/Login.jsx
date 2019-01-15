@@ -24,68 +24,79 @@ class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      code: ''
     }
+  }
+  componentWillMount () {
+    this.getCode()
   }
   /** 登录 */
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const identifier = this.props.form.getFieldValue('username')
-        const password = this.props.form.getFieldValue('password')
-        loginNew({
-          'authType': 0,
-          'identifier': identifier,
-          'password': password,
-          'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
-          'extraInfo': ''
-        }, (response) => {
-          let data1 = response.data
-          if (data1.code === 200) {
-            /** ticket userId */
-            let userId
-            let roleCode
-            if (data1.data.ticket) {
-              webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
-              const arr = data1.data.ticket.split('.')
-              if (arr.length > 1) {
-                userId = JSON.parse(window.atob(arr[1])).userId
-                webStorage.setItem('STAR_V2_USERID', userId)
-                roleCode = JSON.parse(window.atob(arr[1])).ruleCode
-                webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
-              }
-            }
-            getUserInfoV2(userId, (response) => {
-              if (response.data.code === 200) {
-                webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
-                webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-                message.success('登录成功')
-                if (roleCode === 'operator') {
-                  this.props.history.push({
-                    pathname: '/software-market-home'
-                  })
-                } else {
-                  // 跳到首次登录
-                  // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
-                  //   this.props.history.push({
-                  //     pathname: '/first-login'
-                  //   })
-                  // } else {
-                  this.props.history.push({
-                    pathname: '/home/index'
-                  })
-                  // }
+        console.log(values)
+        let inputCode = values.code
+        const { code } = this.state
+        if (inputCode === code) {
+          const identifier = this.props.form.getFieldValue('username')
+          const password = this.props.form.getFieldValue('password')
+          loginNew({
+            'authType': 0,
+            'identifier': identifier,
+            'password': password,
+            'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
+            'extraInfo': ''
+          }, (response) => {
+            let data1 = response.data
+            if (data1.code === 200) {
+              /** ticket userId */
+              let userId
+              let roleCode
+              if (data1.data.ticket) {
+                webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
+                const arr = data1.data.ticket.split('.')
+                if (arr.length > 1) {
+                  userId = JSON.parse(window.atob(arr[1])).userId
+                  webStorage.setItem('STAR_V2_USERID', userId)
+                  roleCode = JSON.parse(window.atob(arr[1])).ruleCode
+                  webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
                 }
-              } else {
-                /** 登录失败 */
-                message.error('登录失败')
               }
-            })
-          } else {
-            /** 登录失败 */
-            message.error('登录失败')
-          }
-        })
+              getUserInfoV2(userId, (response) => {
+                if (response.data.code === 200) {
+                  webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
+                  webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+                  message.success('登录成功')
+                  if (roleCode === 'operator') {
+                    this.props.history.push({
+                      pathname: '/software-market-home'
+                    })
+                  } else {
+                    // 跳到首次登录
+                    // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
+                    //   this.props.history.push({
+                    //     pathname: '/first-login'
+                    //   })
+                    // } else {
+                    this.props.history.push({
+                      pathname: '/home/index'
+                    })
+                    // }
+                  }
+                } else {
+                  /** 登录失败 */
+                  message.error('登录失败')
+                }
+              })
+            } else {
+              /** 登录失败 */
+              message.error('登录失败')
+            }
+          })
+        } else {
+          message.warn('请输入正确的验证码')
+        }
       }
     })
   }
@@ -101,8 +112,20 @@ class Login extends Component {
       pathname: '/register-home'
     })
   }
+  /** 获取验证码的随机数 **/
+  getCode = () => {
+    let arr = []
+    for (let i = 0; i < 4; i++) {
+      let num = Math.floor(Math.random() * 10)
+      arr.push(num)
+    }
+    this.setState({
+      code: arr.join('')
+    })
+  }
   render () {
     const { getFieldDecorator } = this.props.form
+    const { code } = this.state
     return (
       <Layout className='log-content'>
         <Content>
@@ -139,7 +162,23 @@ class Login extends Component {
                       )}
                     </FormItem>
                   </Row>
-                  <Row className='mar-top--1'>
+                  <Row>
+                    <Col span={6}>
+                      <FormItem>
+                        {getFieldDecorator('code', {
+                          rules: [{required: true, message: '请输入验证码'}]
+                        })(
+                          <Input placeholder='验证码' className='hei-40' />
+                        )
+                        }
+                      </FormItem>
+                    </Col>
+                    <Col span={10}>
+                      <span className='codeSpan'>{ code }</span>
+                      <a onClick={this.getCode}>切换</a>
+                    </Col>
+                  </Row>
+                  <Row >
                     <a className='a-code ml36' onClick={this.toRegister}>注册</a>
                     <a className='a-code' onClick={this.toFindPassWord}>忘记密码</a>
                   </Row>

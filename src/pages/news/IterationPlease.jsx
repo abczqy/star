@@ -147,7 +147,8 @@ getAppData=(a) => {
         })
         // 采用手动上传
         return false
-      }
+      },
+      accept: '.exe'
     }
     return (
       <Row>
@@ -365,7 +366,8 @@ zHs=() => {
       packageName: '',
       runningPlatform: sysVersion || '', // 平台信息
       versionInfo: '',
-      versionSize: ''
+      versionSize: '',
+      currentVersion: this.state.appDetail.APP_VERSION
     }
     // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // result.userId = userId
@@ -383,7 +385,7 @@ zHs=() => {
           const data = res.data
           data.data &&
         thiz.setState({
-          appDetail: data.data.slice()[0]
+          appDetail: data.data[0]
         })
         } else {
           message.warning(res.data.msg || '请求出错')

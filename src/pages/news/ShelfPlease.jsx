@@ -461,22 +461,33 @@ class ShelfPlease extends React.Component {
           }
         })
       },
+      onChange: (info) => {
+        if (info.fileList.length > 1) {
+          info.fileList.splice(1)
+        }
+      },
       beforeUpload: (file) => {
+        let hide = message.loading(`${file.name} 上传中`, 0)
         // 把文件上传上去
         getUpload('soft', file, (res) => {
         // 设置对应的文件id
           if (res.data && res.data.code === 200) {
-          // 构造一个versions的数组arr 把后台返回的id映射到arr
+            hide()
+            // 构造一个versions的数组arr 把后台返回的id映射到arr
             let arr = this.state.versions.slice()
             arr[index].address = res.data.data
             // 把arr复制给state.versions
             thiz.setState({
               versions: arr
             })
+            message.success(`${file.name} 上传成功！`)
+          } else {
+            message.warn(`${file.name} 上传失败！`)
           }
         })
         return false
-      }
+      },
+      accept: '.exe'
       // fileListSoftwareEdt: this.state.fileListSoftwareEdt
     }
     return (
@@ -749,7 +760,8 @@ class ShelfPlease extends React.Component {
         return false
       },
       fileListIconUrl: this.state.fileListIconUrl,
-      fileListIcon: this.state.fileListIcon
+      fileListIcon: this.state.fileListIcon,
+      accept: '.png,.jpeg,.jpg'
     }
     const propsP = {
       onRemove: (file) => {

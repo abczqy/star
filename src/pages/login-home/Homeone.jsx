@@ -43,7 +43,8 @@ class Home extends React.Component {
       softMarketData: [], // 软件市场重点推荐
       newsData: [], // 新闻列表
       infoData: [], // 信息公开
-      appCountData: []// 软件统计
+      appCountData: [], // 软件统计
+      sourceData: [] // 资源库
     }
   }
 
@@ -315,7 +316,7 @@ class Home extends React.Component {
               </Col>
               <Col className='news-info-content' style={{ width: '22.25%' }}>
                 <HomeCard title='资源库' moreUrl='' cardWidth={'100%'} cardBgColor='rgba(5, 187, 246, 1)' titleColor='white'>
-                  <HomeSrcLibEcharts />
+                  <HomeSrcLibEcharts source={this.state.sourceData} />
                 </HomeCard>
               </Col>
             </Row>

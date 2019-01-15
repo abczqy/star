@@ -16,7 +16,7 @@ import _ from 'lodash'
 import shareContent from '../../utils/shareContent'
 import webStorage from 'webStorage'
 import moment from 'moment'
-import ajaxUrl from 'config'
+// import ajaxUrl from 'config'
 import {informationDet, newsList, information} from 'services/software-manage'
 
 class InformationDet extends React.Component {
@@ -205,9 +205,9 @@ class InformationDet extends React.Component {
                   </div>
                   {this.state.infoData
                     ? <div style={{width: '700px', alignContent: 'right'}}>
-                      <span>下载附件 :
+                      {/* <span>下载附件 :
                         <a href={ajaxUrl.IMG_BASE_URL + this.state.infoData.info_attachment}>{this.state.dataRight.a}</a>
-                      </span>
+                      </span> */}
                     </div> : ''}
                 </div>
               </Col>
