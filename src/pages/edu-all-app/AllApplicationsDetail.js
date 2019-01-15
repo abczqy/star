@@ -51,11 +51,9 @@ class AllApplicationsDetail extends React.Component {
   }
 
   loadNextFunc = () => {
-    console.log('加载更多')
   }
   // 打开按钮页面跳转
   handleChangeJump = (item) => {
-    // console.log('页面跳转了')
     window.open(item.APP_LINK)
   }
   render () {
@@ -153,7 +151,7 @@ class AllApplicationsDetail extends React.Component {
         </div>
         <div style={{ marginTop: 10, width: 1019 }}>
           <div>
-            <span style={{ fontSize: 20 }}>软件应用</span>
+            <span style={{ fontSize: 20 }}>资源应用</span>
             <p style={{float: 'right', marginTop: '10px', marginRight: '13px'}}>
               <span
                 style={{cursor: 'pointer'}}

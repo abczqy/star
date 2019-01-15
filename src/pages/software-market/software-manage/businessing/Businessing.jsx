@@ -212,7 +212,8 @@ class Businessing extends Component {
       appOffModalCon: {
         ...this.state.appOffModalCon,
         visible: true,
-        APP_ID: record.APP_ID
+        APP_ID: record.APP_ID,
+        APP_VERSION: record.APP_VERSION
       }
     })
   }
@@ -246,7 +247,7 @@ class Businessing extends Component {
     })
   }
 
-  handleOk = () => {
+  /* handleOk = () => {
     if (this.state.veriCode === '') {
       message.info('请输入验证码!')
       return
@@ -271,12 +272,17 @@ class Businessing extends Component {
       thiz.closeModal()
       thiz.getTableDatas(thiz)
     })
-  }
+  } */
 
   handleRemove = () => {
     // 当然 在关闭之前要提交表单
     let appIdList = []
-    appIdList.push(this.state.appOffModalCon.APP_ID)// 这里的list后端要int的
+    console.log(this.state.appOffModalCon)
+    const {appOffModalCon} = this.state
+    appIdList.push({
+      appId: appOffModalCon.APP_ID,
+      appVersion: appOffModalCon.APP_VERSION
+    })
     const thiz = this
     const params = {
       applyType: 5, // applyType 5为下架

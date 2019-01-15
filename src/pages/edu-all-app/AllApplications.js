@@ -48,8 +48,7 @@ export default class AllApplications extends React.Component {
   }
   // 上架时间处理
   handleShelfTime = () => {
-    // console.log('上架时间')
-    if (this.state.shelfTimeSort === 'desc') {
+    if (this.state.sortRj === 'desc') {
       this.setState({
         sortRj: 'asc',
         orderType: 'time'
@@ -135,10 +134,9 @@ export default class AllApplications extends React.Component {
 
   // 下载量处理
   handleDownloadNum = () => {
-    // console.log('下载量')
-    if (this.state.downloadNumSort === 'desc') {
+    if (this.state.sortRj === 'desc') {
       this.setState({
-        downloadNumSort: 'asc',
+        sortRj: 'asc',
         orderType: 'download'
       }, () => {
         // 获取软件应用数据
@@ -146,7 +144,7 @@ export default class AllApplications extends React.Component {
       })
     } else {
       this.setState({
-        downloadNumSort: 'desc',
+        sortRj: 'desc',
         orderType: 'download'
       }, () => {
         // 获取软件应用数据
@@ -164,7 +162,6 @@ export default class AllApplications extends React.Component {
       platformType: 'rj',
       sort: this.state.sortRj
     }, (res) => {
-      // console.log('获取软件应用数据', res.data.data)
       this.setState({
         totalCountRj: res.data.data.totalCount || 0,
         allAppListData: res.data.data.data || []
@@ -179,7 +176,6 @@ export default class AllApplications extends React.Component {
       appType: this.state.key,
       platformType: 'pt'
     }, (res) => {
-      // console.log('获取平台应用数据', res.data.data.data)
       var result = []
       for (var i = 0; i < res.data.data.data.length; i += 6) {
         result.push(res.data.data.data.slice(i, i + 6))
@@ -271,7 +267,7 @@ export default class AllApplications extends React.Component {
               placeholder='应用'
               enterButton='搜索'
               size='large'
-              onSearch={value => console.log(value)}
+              onSearch={value => {}}
               style={{ width: '100%' }}
             />
           </Col>

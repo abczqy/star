@@ -4,7 +4,7 @@ import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './SWMaker.scss'
-import {getSoftwareDetail, getSoftMarketList, getApptype} from 'services/software-manage'
+import {getSoftwareDetail, getSoftMarketList, getApptype, getSoftMarketHot} from 'services/software-manage'
 // import ajaxUrl from 'config'
 import {axios} from '../../../utils'
 import config from '../../../config/index'
@@ -39,7 +39,8 @@ class SWMaker extends Component {
         swName: ''
       },
       boxList: [1, 2, 3, 4, 5, 6],
-      imgList: []
+      imgList: [],
+      hotList: []
     }
     // 表格的列信息
     this.columns = [{
@@ -67,7 +68,10 @@ class SWMaker extends Component {
       key: 'SW_MARKET_SHOW',
       render: (text, record, index) => {
         return (
-          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.isHotRecommend === 1} />
+          <Checkbox onClick={() => { this.checkClick(record) }} checked={this.state.hotList && this.state.hotList.find((hot) => {
+            return hot.APP_ID === record.appId
+          })}
+          />
         )
       }
     }, {
@@ -96,14 +100,14 @@ class SWMaker extends Component {
     let param = {
       appId: record.appId
     }
-    if (this.state.imgList.length >= 6) {
+    if (this.state.hotList.length >= 6) {
       if (record.isHotRecommend === 0) {
         message.warning('已达推送上限')
       } else {
         axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('取消推送成功')
-            this.getList()
+            this.getMarketHot()
           } else {
             message.warn(res.data.msg)
           }
@@ -114,7 +118,7 @@ class SWMaker extends Component {
         axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('推送成功')
-            this.getList()
+            this.getMarketHot()
           } else {
             message.warn(res.data.msg)
           }
@@ -123,7 +127,7 @@ class SWMaker extends Component {
         axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('取消推送成功')
-            this.getList()
+            this.getMarketHot()
           } else {
             message.warn(res.data.msg)
           }
@@ -157,7 +161,6 @@ class SWMaker extends Component {
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
-    console.log()
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -178,22 +181,14 @@ class SWMaker extends Component {
       params.appType = this.state.type
     }
     getSoftMarketList(params, res => {
-      console.log(res)
       if (res.data.code === 200) {
-        let b = []
-        res.data.data.data.map((item, index) => {
-          if (item.isHotRecommend === 1) {
-            b.push(item.appIcon)
-          }
-        })
         this.setState({
           tableData: {
             data: []
           }
         }, () => {
           this.setState({
-            tableData: res.data.data,
-            imgList: b
+            tableData: res.data.data
           })
         })
       } else {
@@ -207,7 +202,6 @@ class SWMaker extends Component {
      const thiz = this
      // 获取对应的后台数据
      getSoftwareDetail(record.appId, (res) => {
-       console.log(res)
        const resData = res.data ? res.data : {}
        // 通过state将数据res传给子组件
        thiz.setState({
@@ -265,6 +259,25 @@ class SWMaker extends Component {
       })
     })
   }
+  /**
+   * 获取热门应用
+   */
+  getMarketHot () {
+    let thiz = this
+    getSoftMarketHot({}, function (res) {
+      if (res.data.code === 200) {
+        const data = res.data.data
+        let s = []
+        data.forEach((img) => {
+          s.push(img.APP_ICON)
+        })
+        thiz.setState({
+          hotList: data,
+          imgList: s
+        })
+      }
+    })
+  }
   addpage = () => {
     message.success('保存成功')
   }
@@ -272,6 +285,7 @@ class SWMaker extends Component {
   componentDidMount () {
     this.getList()
     this.getSelectOptions()
+    this.getMarketHot()
   }
   render () {
     const { expand, tableData, pagination, appDetailModalCon, options } = this.state

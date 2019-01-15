@@ -81,7 +81,7 @@ class SoftwareMarket extends React.Component {
         <div className='operManaPlat-body' >
           <Layout>
             <Header style={{ padding: '15px 2%', background: 'white', height: '65px' }}>
-              <div className='logo' style={{ float: 'left' }} onClick={() => { this.handleLogoClick() }} />
+              <div className='logo' style={{ float: 'left', cursor: 'pointer' }} onClick={() => { this.handleLogoClick() }} />
               <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} /></div>
             </Header>
             <Layout className='sider-bar'>

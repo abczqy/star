@@ -122,3 +122,13 @@ export function getAllAppCount (params, sucFn) {
       sucFn(res)
     })
 }
+
+/**
+ * 门户首页-资源库
+ */
+export function getSourceCount (params, sucFn) {
+  return axios.get(API_BASE_URL_V2 + '')
+    .then(function (res) {
+      sucFn(res)
+    })
+}
