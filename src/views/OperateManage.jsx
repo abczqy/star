@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind,react/prop-types */
 /* eslint-disable react/jsx-no-bind */
 /**
- * 有身份登陆进来的首页
+ * 有身份登录进来的首页
  * 运营管理入口
  */
 import React from 'react'
@@ -286,7 +286,7 @@ class OperateManage extends React.Component {
                 : '游客'}</span>
               {webStorage.getItem('STAR_WEB_ROLE_CODE') === 'teacher' ? '老师' : ''}
             </div>
-            <div style={{height: '30px', float: 'right', marginRight: '10%', 'lineHeight': '32px'}} className='header-bar-icon'>
+            <div style={{height: '30px', float: 'right', marginRight: '10%', lineHeight: '32px'}} className='header-bar-icon'>
               <Badge count={this.state.messageCount} >
                 <Icon type='mail' style={{ fontSize: 16 }} onClick={this.handleTabChange.bind(this, '/topbar-manage/notice')} />
               </Badge>
@@ -301,7 +301,7 @@ class OperateManage extends React.Component {
           <Layout className='xingyun-iden-top-bar'>
             {/* <div style={{minHeight: '40px', _height: '40px', width: '100%', backgroundColor: '#1890FF'}}>
               <div className='header-container'> */}
-            <div className='xingyun-top-header'>
+            <div className='xingyun-top-header-software-market'>
               <div className='header-container'>
                 {
                   tabArr.map((item, index) => {

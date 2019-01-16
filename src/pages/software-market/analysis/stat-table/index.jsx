@@ -19,7 +19,7 @@ class StatTable extends Component {
       defaultSortOrder: 'ascend',
       sorter: (a, b) => a.newStuNum - b.newStuNum
     }, {
-      title: '登陆学生数量',
+      title: '登录学生数量',
       dataIndex: 'loginStuNum',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.loginStuNum - b.loginStuNum

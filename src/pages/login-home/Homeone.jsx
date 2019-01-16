@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line react/jsx-no-bind
 /**
- * 游客登陆-首页
+ * 游客登录-首页
  */
 import React from 'react'
 import Slider from 'react-slick'
@@ -282,7 +282,7 @@ class Home extends React.Component {
                   {roleCode
                     ? <HomeWebApp data={this.state.webAppData || []} />
                     : <div style={{ textAlign: 'center' }}>
-                      <div style={{ marginTop: '20%' }}>你好，请先登陆、免费注册</div>
+                      <div style={{ marginTop: '20%' }}>你好，请先登录、免费注册</div>
                       <div style={{ marginTop: '20%' }}>
                         <Row>
                           <Col span={12}>

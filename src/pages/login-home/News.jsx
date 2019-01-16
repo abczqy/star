@@ -1,5 +1,5 @@
 /**
- * 游客登陆-教育新闻
+ * 游客登录-教育新闻
  */
 import React from 'react'
 import NewsList from '../news/newsList'
