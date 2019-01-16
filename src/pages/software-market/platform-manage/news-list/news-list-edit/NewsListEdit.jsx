@@ -145,7 +145,7 @@ class NewsListEdit extends Component {
              <div className='edit-bar-wrap' >
                <Row gutter={16}>
                  <Col span={12}>
-                   <span className='edit-bar-left-label'>通知标题: </span>
+                   <span className='edit-bar-left-label'>新闻标题: </span>
                    <Input
                      className='edit-bar-right-Input'
                      value={this.state.newsTitle}

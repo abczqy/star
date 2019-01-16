@@ -44,7 +44,9 @@ class MyAppTable extends Component {
       pageNum: 1,
       currentPage: 1,
       typeId: '',
-      keyword: ''
+      keyword: '',
+      detailVisible: false,
+      detail: {}
     }
     this.columns = [{
       title: '应用名称',
@@ -78,13 +80,13 @@ class MyAppTable extends Component {
         return (
           <div key={index}>
             <span style={{marginRight: '10px'}}>
-              <Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.APP_ID}}>迭代</Link>
+              <Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.APP_ID + '&' + record.APP_VERSION}}>迭代</Link>
             </span>
             {/* <span style={{marginRight: '10px'}}>
               <Link to='/operate-manage-home/iteration'>日志下载</Link>
             </span> */}
-            <span style={{marginRight: '10px'}}>
-              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: '?' + record.APP_ID}}>查看详情</Link>
+            <span style={{marginRight: '10px', color: '#1890ff', cursor: 'pointer'}} onClick={() => this.props.showDetail(record)}>
+              查看详情
             </span>
           </div>
         )
@@ -299,7 +301,8 @@ class MyAppTable extends Component {
 MyAppTable.propTypes = {
   dataSource: PropTypes.array,
   form: PropTypes.object,
-  getNewNewsNum: PropTypes.func
+  getNewNewsNum: PropTypes.func,
+  showDetail: PropTypes.func
 }
 
 export default Form.create()(MyAppTable)

@@ -32,7 +32,6 @@ class SWRelate extends Component {
     // 转换接收到的PC端界面截图sw_computer_photo参数类型为数组
     let computerPho = []
     computerPho = resData && resData.sw_computer_photo ? resData.sw_computer_photo.split(';') : []
-
     return (
       <div className='ralate-wrap'>
         <Row>
@@ -110,7 +109,7 @@ class SWRelate extends Component {
           </Row>
           <BlankBar height='20px' />
           {isWaitItera || isBusiDeta ? <Row className='sw-relate-move-L'>
-            <Col span={3}>
+            <Col span={3} style={{textIndent: 10}}>
               <span>PC端界面截图:</span>
             </Col>
             <Col>

@@ -131,7 +131,7 @@ class NewsListAdd extends Component {
           <div className='edit-add-bar-wrap' >
             <Row gutter={16}>
               <Col span={12}>
-                <span className='edit-bar-left-label'>通知标题: </span>
+                <span className='edit-bar-left-label'>新闻标题: </span>
                 <Input
                   className='edit-bar-right-Input'
                   placeholder='请输入通知标题'

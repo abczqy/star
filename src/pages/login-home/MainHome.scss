@@ -11,11 +11,11 @@
       height: 40px;
       background: url("../../assets/images/login-home/u23.png") no-repeat center;
       background-size: 100% 100%;
-      transform:rotate(180deg);
-      -ms-transform:rotate(180deg); 	/* IE 9 */
-      -moz-transform:rotate(180deg); 	/* Firefox */
-      -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
-      -o-transform:rotate(180deg); 	/* Opera */
+      transform:rotate(180deg) translateY(50%);
+      -ms-transform:rotate(180deg) translateY(50%); 	/* IE 9 */
+      -moz-transform:rotate(180deg) translateY(50%); 	/* Firefox */
+      -webkit-transform:rotate(180deg) translateY(50%); /* Safari 和 Chrome */
+      -o-transform:rotate(180deg) translateY(50%); 	/* Opera */
     }
     .slick-prev:before{
       color: transparent;
