@@ -96,7 +96,7 @@ class MyAppTable extends Component {
   // 我的应用-运营中
   getMyAppInOperationData = (thiz) => {
     let params = {
-      auditStatus: '1', // 审核状态
+      auditStatus: '4', // 审核状态
       keyword: this.state.keyword || '', // 应用名称,
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 15,

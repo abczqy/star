@@ -50,6 +50,11 @@ class NewsList extends Component {
     }
   }
 
+  escape2Html = (text) => {
+    let arrEntities = {'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"'}
+    return text.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) { return arrEntities[t] })
+  }
+
   getColumns = () => {
     return (
       [{
@@ -69,7 +74,7 @@ class NewsList extends Component {
         key: 'content',
         render: (text, record, index) => {
           return (
-            <span className='desc-box'>{text}</span>
+            <span className='desc-box'>{this.escape2Html(text)}</span>
           )
         }
       }, {
