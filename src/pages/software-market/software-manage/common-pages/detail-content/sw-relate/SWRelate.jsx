@@ -80,7 +80,7 @@ class SWRelate extends Component {
               版本号:
             </Col>
             <Col span={4}>
-              <span>V{data.data[0].APP_VERSION}</span>
+              <span>{data.data[0].APP_VERSION}</span>
             </Col>
           </Row> : null}
           {isWaitItera || isBusiDeta ? <Row>
