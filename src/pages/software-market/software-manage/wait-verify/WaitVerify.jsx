@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Button, message } from 'antd'
+import { Table, Button, message, Modal, Input } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -26,6 +26,7 @@ const pagination = {
   showSizeChanger: true
 }
 
+const {TextArea} = Input
 class WaitVerify extends Component {
   constructor (props) {
     super(props)
@@ -48,7 +49,9 @@ class WaitVerify extends Component {
       auditStatus: 1, // 软件状态1待审核
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
-      keyword: ''
+      keyword: '',
+      showModal: false,
+      reason: ''
     }
   }
 
@@ -250,16 +253,17 @@ class WaitVerify extends Component {
         thiz.getTableDatas()
       })
     } else {
-      waitVeriRejectv2(paramsList, params1, (res) => {
-        const data = res.data
-        if (data.code === 200) {
-          message.success('驳回成功')
-        } else {
-          message.success('驳回失败')
-        }
-        thiz.handleAppDetCancel()
-        thiz.getTableDatas()
-      })
+      this.showModals()
+      // waitVeriRejectv2(paramsList, params1, (res) => {
+      //   const data = res.data
+      //   if (data.code === 200) {
+      //     message.success('驳回成功')
+      //   } else {
+      //     message.success('驳回失败')
+      //   }
+      //   thiz.handleAppDetCancel()
+      //   thiz.getTableDatas()
+      // })
     }
   }
 
@@ -322,6 +326,60 @@ class WaitVerify extends Component {
     this.getTableDatas()
   }
 
+  // 显示审核不通过输入原因的弹窗
+  showModals = () => {
+    this.setState({
+      showModal: true
+    })
+  }
+  // 隐藏弹窗
+  cancle = () => {
+    this.setState({
+      showModal: false
+    })
+  }
+  // 填写审核原因后确认提交
+  onOk = () => {
+    const thiz = this
+    const { reason } = this.state
+    if (reason === '') {
+      message.warn('请填写不通过的理由')
+    } else {
+      let paramsList = []
+      const params = {
+        'APP_ID': this.state.detModalCon.APP_ID,
+        'APP_VERSION': this.state.detModalCon.APP_VERSION
+      }
+      paramsList.push(params)
+      const params1 = {
+        // userID: 123,
+        rejectReason: reason
+      }
+      waitVeriRejectv2(paramsList, params1, (res) => {
+        const data = res.data
+        if (data.code === 200) {
+          message.success('驳回成功')
+        } else {
+          message.warn('驳回失败')
+        }
+        this.setState({
+          reason: ''
+        })
+        thiz.handleAppDetCancel()
+        thiz.getTableDatas()
+      })
+    }
+    this.setState({
+      showModal: false
+    })
+  }
+  // 输入框change事件
+  inputReason = (e) => {
+    const { value } = e.target
+    this.setState({
+      reason: value
+    })
+  }
   componentDidMount () {
     this.getTableDatas()
     this.getSelectOptions()
@@ -365,6 +423,14 @@ class WaitVerify extends Component {
             <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}
         />
+        <Modal
+          visible={this.state.showModal}
+          onCancel={this.cancle}
+          onOk={this.onOk}
+          title='请输入审核不通过的原因'
+        >
+          <TextArea row={4} onChange={this.inputReason} />
+        </Modal>
       </div>
     )
   }

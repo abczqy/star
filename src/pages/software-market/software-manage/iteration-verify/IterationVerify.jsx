@@ -9,11 +9,11 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Button, message } from 'antd'
+import { Table, Button, message, Modal, Input } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
-import { getAppListDatav2, bussDetailv2, iterVerifyv2, getApptype } from 'services/software-manage'
+import { getAppListDatav2, bussDetailv2, iterVerifyv2, getApptype, waitVeriRejectv2 } from 'services/software-manage'
 import webStorage from 'webStorage'
 
 /**
@@ -25,6 +25,7 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
+const { TextArea } = Input
 
 class IterationVerify extends Component {
   constructor (props) {
@@ -50,7 +51,9 @@ class IterationVerify extends Component {
       auditStatus: 2, // 软件状态2迭代审核
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
-      keyword: ''
+      keyword: '',
+      showModal: false, // 审核不通过显示的弹窗
+      reason: ''
     }
   }
 
@@ -154,12 +157,17 @@ class IterationVerify extends Component {
       }
     }, {
       title: '当前版本',
-      dataIndex: 'APP_VERSION',
-      key: 'APP_VERSION'
+      dataIndex: 'CURRENT_VERSION',
+      key: 'CURRENT_VERSION',
+      render: (text, record, index) => {
+        return (
+          <span>{text && text ? text : ''}</span>
+        )
+      }
     }, {
       title: '迭代版本',
-      dataIndex: 'iteration_version',
-      key: 'iteration_version',
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION',
       render: (text, record, index) => {
         return (
           <span >{text && text ? text : 'v2.0'}
@@ -210,6 +218,7 @@ class IterationVerify extends Component {
           ...thiz.state.detModalCon,
           visible: true,
           APP_NAME: record.APP_NAME,
+          CURRENT_VERSION: record.CURRENT_VERSION,
           APP_VERSION: record.APP_VERSION,
           resData: resData,
           APP_ID: record.APP_ID
@@ -235,7 +244,8 @@ class IterationVerify extends Component {
     let paramsList = []
     const params = {
       'APP_ID': this.state.detModalCon.APP_ID,
-      'APP_VERSION': this.state.detModalCon.APP_VERSION
+      'APP_VERSION': this.state.detModalCon.APP_VERSION,
+      'CURRENT_VERSION': this.state.detModalCon.CURRENT_VERSION
     }
     paramsList.push(params)
     const params1 = {
@@ -263,9 +273,10 @@ class IterationVerify extends Component {
         thiz.getTableDatas()
       })
     } else {
-      message.success('驳回成功')
-      thiz.handleAppDetCancel()
-      thiz.getTableDatas()
+      // message.success('驳回成功')
+      this.showModals()
+      // thiz.handleAppDetCancel()
+      // thiz.getTableDatas()
     }
   }
 
@@ -335,6 +346,60 @@ class IterationVerify extends Component {
     this.getTableDatas()
   }
 
+  // 显示审核不通过输入原因的弹窗
+  showModals = () => {
+    this.setState({
+      showModal: true
+    })
+  }
+  // 隐藏弹窗
+  cancle = () => {
+    this.setState({
+      showModal: false
+    })
+  }
+  // 填写审核原因后确认提交
+  onOk = () => {
+    const thiz = this
+    const { reason } = this.state
+    if (reason === '') {
+      message.warn('请填写不通过的理由')
+    } else {
+      let paramsList = []
+      const params = {
+        'APP_ID': this.state.detModalCon.APP_ID,
+        'APP_VERSION': this.state.detModalCon.APP_VERSION
+      }
+      paramsList.push(params)
+      const params1 = {
+        // userID: 123,
+        rejectReason: reason
+      }
+      waitVeriRejectv2(paramsList, params1, (res) => {
+        const data = res.data
+        if (data.code === 200) {
+          message.success('驳回成功')
+        } else {
+          message.warn('驳回失败')
+        }
+        this.setState({
+          reason: ''
+        })
+        thiz.handleAppDetCancel()
+        thiz.getTableDatas()
+      })
+    }
+    this.setState({
+      showModal: false
+    })
+  }
+  // 输入框change事件
+  inputReason = (e) => {
+    const { value } = e.target
+    this.setState({
+      reason: value
+    })
+  }
   componentDidMount () {
     this.getTableDatas()
     this.getSelectOptions()
@@ -379,6 +444,14 @@ class IterationVerify extends Component {
             <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}
         />
+        <Modal
+          visible={this.state.showModal}
+          onCancel={this.cancle}
+          onOk={this.onOk}
+          title='请输入审核不通过的原因'
+        >
+          <TextArea row={4} onChange={this.inputReason} />
+        </Modal>
       </div>
     )
   }
