@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import webStorage from 'webStorage'
-import { Button, Input, Row, Col } from 'antd'
+import { Input, Row, Col } from 'antd'
 import './BaseInfo.scss'
 import ChangeFirmName from '../../../message-notice/ChangeFirmName'
 import ChangeFirmDescribe from '../../../message-notice/ChangeFirmDescribe'
@@ -159,7 +159,7 @@ class BaseInfo extends Component {
                 <div className='safe-name'>
                   <span className='tit'>厂商名称</span>
                   <span className='word f-color'>福州市第一实验小学</span>
-                  <a className='modify' onClick={this.changefirmname}> 修改</a>
+                  {/* <a className='modify' onClick={this.changefirmname}> 修改</a> */}
                 </div>
               </div>
               <div className='safe_item'>
@@ -173,7 +173,7 @@ class BaseInfo extends Component {
                     这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述
                     这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述这是一段厂商描述
                   </div>
-                  <a className='modify' onClick={this.changefirmdescribe}> 修改</a>
+                  {/* <a className='modify' onClick={this.changefirmdescribe}> 修改</a> */}
                 </div>
               </div>
               <div className='safe_item'>
@@ -183,7 +183,7 @@ class BaseInfo extends Component {
                 <div className='safe-name'>
                   <span className='tit'>合同编号</span>
                   <span className='word f-color'>HT217897438927189470</span>
-                  <a className='modify' onClick={this.changeFirmcontract}> 修改</a>
+                  {/* <a className='modify' onClick={this.changeFirmcontract}> 修改</a> */}
                 </div>
               </div>
               <div className='safe_item'>
@@ -195,7 +195,7 @@ class BaseInfo extends Component {
                   <span className='word f-color'>
                     {/* <img style={{height: '50px'}} src={Config.IMG_BASE_URL + (firmData && firmData.fa_contract)} /> */}
                   </span>
-                  <a className='modify' onClick={this.changeFirmLicense}>重新上传</a>
+                  {/* <a className='modify' onClick={this.changeFirmLicense}>重新上传</a> */}
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ class BaseInfo extends Component {
                 </Col>
                 <Col className='base-info-content-change'>
                   {/* <Button className='base-info-content-btn' onClick={() => this.changeState('changeName')}>{this.state.changeName ? '保存' : '修改'}</Button> */}
-                  <Button className='base-info-content-btn'>修改</Button>
+                  {/* <Button className='base-info-content-btn'>修改</Button> */}
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -253,7 +253,7 @@ class BaseInfo extends Component {
                 </Col>
                 <Col className='base-info-content-change'>
                   {/* <Button className='base-info-content-btn' onClick={this.changephone}>修改</Button> */}
-                  <Button className='base-info-content-btn'>修改</Button>
+                  {/* <Button className='base-info-content-btn'>修改</Button> */}
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -274,7 +274,7 @@ class BaseInfo extends Component {
                 </Col>
                 <Col className='base-info-content-change'>
                   {/* <Button className='base-info-content-btn' onClick={() => this.changeState('changeMail')}>{this.state.changeMail ? '保存' : '修改'}</Button> */}
-                  <Button className='base-info-content-btn'>修改</Button>
+                  {/* <Button className='base-info-content-btn'>修改</Button> */}
                 </Col>
               </Row>
               <Row className='base-info-content-top-row base-bottom'>

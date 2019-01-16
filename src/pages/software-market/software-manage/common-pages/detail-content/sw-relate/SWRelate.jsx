@@ -12,26 +12,26 @@ import ajaxUrl from 'config'
 class SWRelate extends Component {
   render () {
     const { resData, isWaitItera, isBusiDeta } = this.props
-
+    let data = resData.data
     // +++转换接收到的兼容系统sw_path参数内容为数组+++
     // 第一步把获取到的sw_path以逗号为分隔符分割
-    let pathArray = []
-    pathArray = resData && resData.sw_path ? resData.sw_path.split(',') : []
+    // let pathArray = []
+    // pathArray = resData && resData.sw_path ? resData.sw_path.split(',') : []
     let swPath = []
     // 刨除第一个元素剩余的内容
     let swPathRest = []
-    for (let i = 0; i < pathArray.length; i++) {
-      // 第二步以冒号为分隔符分割
-      swPath.push(pathArray[i].split(':'))
-    }
-    // 给swPathRest赋值
-    for (let i = 1; i < swPath.length; i++) {
-      swPathRest.push(swPath[i])
-    }
+    // for (let i = 0; i < pathArray.length; i++) {
+    //   // 第二步以冒号为分隔符分割
+    //   swPath.push(pathArray[i].split(':'))
+    // }
+    // // 给swPathRest赋值
+    // for (let i = 1; i < swPath.length; i++) {
+    //   swPathRest.push(swPath[i])
+    // }
 
     // 转换接收到的PC端界面截图sw_computer_photo参数类型为数组
     let computerPho = []
-    computerPho = resData && resData.sw_computer_photo ? resData.sw_computer_photo.split(';') : []
+    // computerPho = resData && resData.sw_computer_photo ? resData.sw_computer_photo.split(';') : []
 
     return (
       <div className='ralate-wrap'>
@@ -47,13 +47,13 @@ class SWRelate extends Component {
               软件分类:
             </Col>
             <Col span={9}>
-              <span>{resData && resData.data[0].APP_TYPE_NAME ? resData.data[0].APP_TYPE_NAME : '默认分类'}</span>
+              <span>{data && data.data[0].APP_TYPE_NAME ? data.data[0].APP_TYPE_NAME : '默认分类'}</span>
             </Col>
             <Col span={2} offset={6}>
               上架时间:
             </Col>
             <Col span={4}>
-              <span>{resData && resData.data[0].CREATE_TIME ? moment(resData.data[0].CREATE_TIME).format('YYYY-MM-DD') : '2099-9-9'}</span>
+              <span>{data && data.data[0].CREATE_TIME ? moment(data.data[0].CREATE_TIME).format('YYYY-MM-DD') : '2099-9-9'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -62,7 +62,7 @@ class SWRelate extends Component {
               <span>软件描述:</span>
             </Col>
             <Col span={19}>
-              <span>{resData && resData.data[0].APP_NOTES ? resData.data[0].APP_NOTES : '此软件用于教学，可以让学生寓教于乐'}</span>
+              <span>{data && data.data[0].APP_NOTES ? data.data[0].APP_NOTES : '此软件用于教学，可以让学生寓教于乐'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -80,7 +80,7 @@ class SWRelate extends Component {
               版本号:
             </Col>
             <Col span={4}>
-              <span>V{resData.version}</span>
+              <span>V{data.data[0].APP_VERSION}</span>
             </Col>
           </Row> : null}
           {isWaitItera || isBusiDeta ? <Row>
@@ -103,8 +103,8 @@ class SWRelate extends Component {
             </Col>
             <Col>
               {
-                resData.sw_icon &&
-                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
+                data.data[0].APP_ICON &&
+                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={data.data[0].APP_ICON && ajaxUrl.IMG_BASE_URL + data.data[0].APP_ICON} />
               }
             </Col>
           </Row>

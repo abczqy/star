@@ -125,11 +125,11 @@ class PublicInfoAdd extends Component {
      }
      return (
        <div className='news-list-wrap' >
-         <Card title='新增通知' extra={<Link to='/software-market-home/platform-manage/public-info'><Icon type='double-left' />返回列表页</Link>}>
+         <Card title='信息公开' extra={<Link to='/software-market-home/platform-manage/public-info'><Icon type='double-left' />返回列表页</Link>}>
            <div className='edit-add-bar-wrap' >
              <Row gutter={16}>
                <Col span={12}>
-                 <span className='edit-bar-left-label'>通知标题: </span>
+                 <span className='edit-bar-left-label'>标题: </span>
                  <Input
                    className='edit-bar-right-Input'
                    placeholder='请输入通知标题'

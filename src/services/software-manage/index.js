@@ -715,7 +715,12 @@ export function verifyDetail (params, sucFn) {
  * 软件管理-待审核详情
  */
 export function bussDetailv2 (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/detail-by-id/' + params.APP_ID)
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version', {
+    params: {
+      appId: params.appId,
+      appVersion: params.appVersion
+    }
+  })
     .then(function (res) {
       if (res.data.code === 200) {
         sucFn(res)

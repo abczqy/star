@@ -76,7 +76,8 @@ class Businessing extends Component {
       key: 'APP_TYPE_NAME'
     }, {
       title: '版本',
-      dataIndex: 'APP_VERSION'
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
       // width: 150
     }, {
       title: '上线时间',
@@ -179,7 +180,8 @@ class Businessing extends Component {
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      APP_ID: record.APP_ID
+      appId: record.APP_ID,
+      appVersion: record.APP_VERSION
     }
 
     bussDetailv2(params, (res) => {
@@ -189,6 +191,7 @@ class Businessing extends Component {
           ...thiz.state.detModalCon,
           visible: true,
           APP_NAME: record.APP_NAME,
+          APP_VERSION: record.APP_VERSION,
           resData: resData,
           APP_ID: record.APP_ID
         }

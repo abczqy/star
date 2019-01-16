@@ -191,14 +191,16 @@ class WaitVerify extends Component {
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      APP_ID: record.APP_ID
+      appId: record.APP_ID,
+      appVersion: record.APP_VERSION
     }
 
     bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
+      console.log(resData)
       // 通过state将数据res传给子组件
-      // let jsonStr = JSON.stringify(resData)
-      // console.log(jsonStr)
+      let jsonStr = JSON.stringify(resData)
+      console.log(jsonStr)
       thiz.setState({
         detModalCon: {
           ...thiz.state.detModalCon,
@@ -230,8 +232,8 @@ class WaitVerify extends Component {
     // console.log('detModalCon' + this.state.detModalCon)
     let paramsList = []
     const params = {
-      'APP_ID': this.state.detModalCon.APP_ID,
-      'APP_VERSION': this.state.detModalCon.APP_VERSION
+      'appId': this.state.detModalCon.APP_ID,
+      'appVersion': this.state.detModalCon.APP_VERSION
     }
     paramsList.push(params)
     const params1 = {

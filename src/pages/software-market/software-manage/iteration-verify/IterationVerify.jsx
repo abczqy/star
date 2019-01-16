@@ -208,7 +208,8 @@ class IterationVerify extends Component {
     const thiz = this
     // 获取对应的后台数据
     const params = {
-      APP_ID: record.APP_ID
+      appId: record.APP_ID,
+      appVersion: record.APP_VERSION
     }
     bussDetailv2(params, (res) => {
       const resData = res.data ? res.data : {}
@@ -243,9 +244,9 @@ class IterationVerify extends Component {
     // let paramsList = []
     let paramsList = []
     const params = {
-      'APP_ID': this.state.detModalCon.APP_ID,
-      'APP_VERSION': this.state.detModalCon.APP_VERSION,
-      'CURRENT_VERSION': this.state.detModalCon.CURRENT_VERSION
+      'appId': this.state.detModalCon.APP_ID,
+      'appVersion': this.state.detModalCon.APP_VERSION,
+      'currentVersion': this.state.detModalCon.CURRENT_VERSION
     }
     paramsList.push(params)
     const params1 = {
