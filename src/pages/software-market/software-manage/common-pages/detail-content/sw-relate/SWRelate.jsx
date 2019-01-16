@@ -47,13 +47,13 @@ class SWRelate extends Component {
               软件分类:
             </Col>
             <Col span={9}>
-              <span>{data && data.data[0].APP_TYPE_NAME ? data.data[0].APP_TYPE_NAME : '默认分类'}</span>
+              <span>{resData && resData.data[0].APP_TYPE_NAME ? resData.data[0].APP_TYPE_NAME : '默认分类'}</span>
             </Col>
             <Col span={2} offset={6}>
               上架时间:
             </Col>
             <Col span={4}>
-              <span>{data && data.data[0].CREATE_TIME ? moment(data.data[0].CREATE_TIME).format('YYYY-MM-DD') : '2099-9-9'}</span>
+              <span>{resData && resData.data[0].CREATE_TIME ? moment(resData.data[0].CREATE_TIME).format('YYYY-MM-DD') : '2099-9-9'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -62,7 +62,7 @@ class SWRelate extends Component {
               <span>软件描述:</span>
             </Col>
             <Col span={19}>
-              <span>{data && data.data[0].APP_NOTES ? data.data[0].APP_NOTES : '此软件用于教学，可以让学生寓教于乐'}</span>
+              <span>{resData && resData.data[0].APP_NOTES ? resData.data[0].APP_NOTES : '此软件用于教学，可以让学生寓教于乐'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -80,7 +80,7 @@ class SWRelate extends Component {
               版本号:
             </Col>
             <Col span={4}>
-              <span>V{data.data[0].APP_VERSION}</span>
+              <span>V{resData.version}</span>
             </Col>
           </Row> : null}
           {isWaitItera || isBusiDeta ? <Row>
@@ -103,8 +103,8 @@ class SWRelate extends Component {
             </Col>
             <Col>
               {
-                data.data[0].APP_ICON &&
-                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={data.data[0].APP_ICON && ajaxUrl.IMG_BASE_URL + data.data[0].APP_ICON} />
+                resData.sw_icon &&
+                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_icon} />
               }
             </Col>
           </Row>

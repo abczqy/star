@@ -95,8 +95,17 @@ class ThirdPartyAppDetail extends React.Component {
           let cc = []
           if (this.state.appDetailData && this.state.appDetailData.APP_PHONE_PIC) {
             cc = this.state.appDetailData.APP_PHONE_PIC.split(',')
+            const length = Math.ceil(cc.length / 3)
+            let dd = new Array(length)
+            for (let i = 0; i < length; i++) {
+              let arr = []
+              arr.push(cc[i * 3])
+              arr.push(cc[i * 3 + 1] || null)
+              arr.push(cc[i * 3 + 2] || null)
+              dd[i] = arr
+            }
             this.setState({
-              phoneCarousel: cc || []
+              phoneCarousel: dd || []
             })
           }
           // 权限处理
@@ -316,15 +325,21 @@ class ThirdPartyAppDetail extends React.Component {
                       this.state.phoneCarousel.map((item, index, arr) => {
                         return (
                           <div key={index} style={{height: '100%'}}>
-                            <img
-                              style={{
-                                float: 'none',
-                                margin: 'auto',
-                                width: 'auto',
-                                height: 'auto',
-                                maxWidth: '100%',
-                                maxHeight: '448px'}}
-                              src={ajaxUrl.IMG_BASE_URL_V2 + item} />
+                            <div style={{height: '100%', display: 'flex', width: '100%'}}>
+                              {item.length && item.map((img, i) => {
+                                return img && <div style={{flex: '1', textAlign: 'center', height: '100%'}}>
+                                  <img
+                                    style={{
+                                      float: 'none',
+                                      margin: 'auto',
+                                      width: 'auto',
+                                      height: 'auto',
+                                      maxWidth: '100%',
+                                      maxHeight: '448px'}}
+                                    src={ajaxUrl.IMG_BASE_URL_V2 + img} />
+                                </div>
+                              })}
+                            </div>
                           </div>
                         )
                       })}

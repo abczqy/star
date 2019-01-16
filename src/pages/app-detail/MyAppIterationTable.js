@@ -6,7 +6,6 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Form, Row, Col, Select, Input, message } from 'antd'
-import { Link } from 'react-router-dom'
 import {myAppIteration, myAppRevoke} from 'services/my-app/'
 import { getApptype } from 'services/software-manage'
 import CustomPagingTable from '../../components/common/PagingTable'
@@ -65,7 +64,9 @@ class MyAppIterationTable extends Component {
         return (
           <div key={index}>
             {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
-            <span style={{marginRight: '10px'}}><Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: '?' + record.APP_ID}}>查看详情</Link></span>
+            <span style={{marginRight: '10px', color: '#1890ff', cursor: 'pointer'}} onClick={() => this.props.showDetail(record)}>
+              查看详情
+            </span>
           </div>
         )
       }
@@ -229,7 +230,8 @@ class MyAppIterationTable extends Component {
 
 MyAppIterationTable.propTypes = {
   dataSource: PropTypes.array,
-  form: PropTypes.object
+  form: PropTypes.object,
+  showDetail: PropTypes.func
 }
 
 export default Form.create()(MyAppIterationTable)

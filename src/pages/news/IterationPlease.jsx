@@ -68,16 +68,18 @@ class IterationPlease extends React.Component {
       pcIconIds: [], // 软件pc图标-文件上传后后台传回的id
       appSoft: null, // 文件-上传的文件本身
       pcIcons: [], // 文件-上传的pc截图
-      phoneIcons: [] // 文件-上传的手机端截图
+      phoneIcons: [], // 文件-上传的手机端截图
+      currentVersion: null
     }
   }
   componentWillMount () {
-    let a = window.location.href.split('?')
+    let a = window.location.href.split('?')[1].split('&')
     this.setState({
-      appId: String(a[1])
+      appId: String(a[0]),
+      currentVersion: String(a[1])
     })
     this.renderEdition()
-    this.getAppData(String(a[1]))
+    this.getAppData(String(a[0]))
     this.getHeight()
     if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
       this.setState({
@@ -112,7 +114,7 @@ class IterationPlease extends React.Component {
   }
 
 // 获取app数据
-getAppData=(a) => {
+getAppData = (a) => {
   let value = {
     sw_id: a
   }
@@ -351,7 +353,8 @@ zHs=() => {
       newFeatrue,
       appSoftId,
       pcIconIds,
-      phoneIconId
+      phoneIconId,
+      currentVersion
     } = this.state
 
     let result = {
@@ -367,7 +370,7 @@ zHs=() => {
       runningPlatform: sysVersion || '', // 平台信息
       versionInfo: '',
       versionSize: '',
-      currentVersion: this.state.appDetail.APP_VERSION
+      currentVersion: currentVersion
     }
     // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // result.userId = userId
@@ -378,14 +381,14 @@ zHs=() => {
    * 数据获取-获取app详细信息
    */
   getAppDetail = (thiz) => {
-    let appId = thiz.state.appId
-    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/detail-by-id/${appId}`)
+    let { appId, currentVersion } = thiz.state
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version?appId=${appId}&appVersion=${currentVersion}`)
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
           data.data &&
         thiz.setState({
-          appDetail: data.data[0]
+          appDetail: data.data.data[0]
         })
         } else {
           message.warning(res.data.msg || '请求出错')

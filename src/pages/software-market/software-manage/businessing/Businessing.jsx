@@ -280,7 +280,6 @@ class Businessing extends Component {
   handleRemove = () => {
     // 当然 在关闭之前要提交表单
     let appIdList = []
-    console.log(this.state.appOffModalCon)
     const {appOffModalCon} = this.state
     appIdList.push({
       appId: appOffModalCon.APP_ID,

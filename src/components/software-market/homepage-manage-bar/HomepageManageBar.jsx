@@ -17,7 +17,8 @@ class HomepageManageBar extends Component {
       <div className='bar-wrap'>
         <span className='bar-left' onClick={this.onCancel}>
           <span>{title}</span>
-          {expand ? <Button onClick={click} className='bar-btn2-right'>撤销修改</Button> : ''}
+          {/* 如果 click 传递了一个空，则说明本页面不需要撤销修改功能，否则，展示撤销修改按钮 */}
+          {expand && click != null ? <Button onClick={click} className='bar-btn2-right'>撤销修改</Button> : ''}
           {expand ? <Button className='bar-btn1-right' type='primary' onClick={addpage}>保存</Button> : ''}
         </span>
         <span className='bar-right' ><Icon type={expand ? 'up' : 'down'} />{expand ? '收起' : '展开'}</span>

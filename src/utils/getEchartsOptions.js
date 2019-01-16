@@ -50,7 +50,7 @@ const getEchartsOptions = (data, type, title, config, totalName) => {
             return leng
           }
         },
-        color: ['#f0647e', '#58acfb', '#fad352'], // 配置颜色
+        color: ['#f0647e', '#58acfb', '#fad352', '#38dd48', '#ac3cdd'], // 配置颜色
         series: [{
           name: title,
           type: 'pie',
