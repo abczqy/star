@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /**
- * 游客登陆-信息公开
+ * 游客登录-信息公开
  */
 import React from 'react'
 import { Row, Col, List } from 'antd'

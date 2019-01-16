@@ -23,7 +23,7 @@ class MainBander extends React.Component {
     this.state = {
       userName: '', // 用户名密码
       passWord: '', // 密码
-      msgTip: '', // 用户登陆信息提示
+      msgTip: '', // 用户登录信息提示
       bannerImg: [],
       levelList: [], // 年级下拉列表值
       dutyList: []// 行政职务下拉列表值
@@ -42,7 +42,7 @@ class MainBander extends React.Component {
       userPassword: this.state.passWord || ''
     }, (response) => {
       let data = response.data
-      // 如果登陆成功
+      // 如果登录成功
       if (data.success) {
         // webStorage.setItem('STAR_WEB_SESSION_ID', data.sessionId)
         webStorage.setItem('STAR_WEB_ROLE_CODE', data.roleCode)

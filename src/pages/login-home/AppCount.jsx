@@ -1,5 +1,5 @@
 /**
- * 游客登陆-首页-应用个数统计
+ * 游客登录-首页-应用个数统计
  */
 import React from 'react'
 import { Row, Col } from 'antd'

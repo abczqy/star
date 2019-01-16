@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind,react/prop-types */
 /* eslint-disable react/jsx-no-bind */
 /**
- * 有身份登陆进来的首页
+ * 有身份登录进来的首页
  * 运营管理入口
  */
 import React from 'react'

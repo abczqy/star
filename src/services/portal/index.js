@@ -3,7 +3,7 @@ import config from '../../config/index'
 const {API_BASE_URL, API_BASE_URL_V2, SERVICE_AUTHENTICATION} = config
 
 /**
- * 用户登陆
+ * 用户登录
  */
 export function login (params, sucFn) {
   return axios.put(API_BASE_URL + '/session/login', {...params})
@@ -13,7 +13,7 @@ export function login (params, sucFn) {
 }
 
 /**
- * 用户登陆(新)
+ * 用户登录(新)
  */
 export function loginNew (params, sucFn) {
   return axios.post(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication', {...params})

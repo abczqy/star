@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind,react/prop-types,no-undef,no-return-assign */
 /**
- * 游客登陆界面
+ * 游客登录界面
  */
 import React from 'react'
 import { Badge, Icon } from 'antd'

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line react/jsx-no-bind
 /**
- * 游客登陆-首页
+ * 游客登录-首页
  */
 import React from 'react'
 import { Row, Col } from 'antd'

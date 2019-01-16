@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /**
- * 有身份登陆进来的首页
+ * 有身份登录进来的首页
  * 软件市场入口
  */
 import React from 'react'
