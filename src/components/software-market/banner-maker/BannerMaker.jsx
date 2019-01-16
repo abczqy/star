@@ -124,6 +124,10 @@ class BannerMaker extends Component {
   }
   // 保存新增banner图
   addBanner = () => {
+    if (!this.state.picId) {
+      message.warn('请先添加banner并上传图片后再进行保存')
+      return false
+    }
     let obj = {
       url: this.state.picId
     }
@@ -160,6 +164,9 @@ class BannerMaker extends Component {
     deleteGatewayBanner(a, res => {
       if (res.data.code === 200) {
         this.getList()
+        this.setState({
+          picId: null
+        })
         message.success('删除成功')
       } else {
         message.error(res.data.msg)
@@ -329,7 +336,8 @@ class BannerMaker extends Component {
         }
         // return false
       },
-      fileList: this.state.fileList
+      fileList: this.state.fileList,
+      accept: 'image/*'
     }
     return (
       <div className='hp-maker'>
@@ -337,7 +345,7 @@ class BannerMaker extends Component {
           <Panel showArrow={false} header={<HomepageManageBar title={title} expand={expand} addpage={this.addBanner} click={this.recerve} />} key='1'>
             {bannerData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerBox title={title} orderNum={index + 1
-              } id={item.id} url={item.url} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
+              } id={item.id} url={item.picUrl} type={item.type} datas={datas} bannerData={bannerData} datab={item.banner_url} getList={this.getList} onDelete={this.onDelete} /></div>)
             })}
             {bannerNewData.map((item, index) => {
               return (<div className='float-box' key={index}><BannerNewBox title={title} orderNum={index + 1

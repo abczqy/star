@@ -385,13 +385,13 @@ class ShelfPlease extends React.Component {
   /**
    * 事件-版本编辑器-软件大小
    */
-  onVerSizeChange = (e, index) => {
+  /* onVerSizeChange = (e, index) => {
     let arr = this.state.versions.slice()
     arr[index].versionSize = e.target.value
     this.setState({
       versions: arr
     })
-  }
+  } */
 
   /**
    * 事件-删除一个版本编辑器
@@ -449,6 +449,7 @@ class ShelfPlease extends React.Component {
           // 删除state.versions映射中的id
             let arr = thiz.state.versions.slice()
             arr[index].address = ''
+            arr[index].versionSize = ''
             // 映射到state中
             thiz.setState({
               versions: arr
@@ -476,6 +477,7 @@ class ShelfPlease extends React.Component {
             // 构造一个versions的数组arr 把后台返回的id映射到arr
             let arr = this.state.versions.slice()
             arr[index].address = res.data.data
+            arr[index].versionSize = (file.size / 1024 / 1024).toFixed(2) + 'MB'
             // 把arr复制给state.versions
             thiz.setState({
               versions: arr
@@ -522,12 +524,8 @@ class ShelfPlease extends React.Component {
             <div className='extend'>支持扩展名：.exe..</div>
           </Upload>
         </Col>
-        <Col span={3}>
-          <span style={{color: 'red'}}>* </span>软件大小 :
-          <Input
-            style={{ width: 60 }}
-            value={this.state.versions[index].versionSize}
-            onChange={(e) => this.onVerSizeChange(e, index)} />
+        <Col span={2} style={{width: '6%', lineHeight: '32px'}}>
+          {this.state.versions[index].versionSize}
         </Col>
         <Col span={4}>
           <span style={{color: 'red'}}>* </span>版本号 :
