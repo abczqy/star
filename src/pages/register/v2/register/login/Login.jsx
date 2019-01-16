@@ -15,7 +15,11 @@ import webStorage from 'webStorage'
 import PropTypes from 'prop-types'
 import './Login.scss'
 import {getUserInfoV2, loginNew} from 'services/portal'
+import {axios} from 'utils'
+import config from '../../../../../config'
 const FormItem = Form.Item
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_AUTHENTICATION = config.SERVICE_AUTHENTICATION
 const {
   Footer, Content
 } = Layout
@@ -24,7 +28,7 @@ class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      code: ''
+      code: {}
     }
   }
   componentWillMount () {
@@ -35,68 +39,68 @@ class Login extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values)
-        let inputCode = values.code
-        const { code } = this.state
-        if (inputCode === code) {
-          const identifier = this.props.form.getFieldValue('username')
-          const password = this.props.form.getFieldValue('password')
-          loginNew({
-            'authType': 0,
-            'identifier': identifier,
-            'password': password,
-            'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
-            'extraInfo': ''
-          }, (response) => {
-            let data1 = response.data
-            if (data1.code === 200) {
-              /** ticket userId */
-              let userId
-              let roleCode
-              if (data1.data.ticket) {
-                webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
-                const arr = data1.data.ticket.split('.')
-                if (arr.length > 1) {
-                  userId = JSON.parse(window.atob(arr[1])).userId
-                  webStorage.setItem('STAR_V2_USERID', userId)
-                  roleCode = JSON.parse(window.atob(arr[1])).ruleCode
-                  webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
-                }
+        // console.log(values)
+        // let inputCode = values.code
+        // const { code } = this.state
+        // if (inputCode === code) {
+        const identifier = this.props.form.getFieldValue('username')
+        const password = this.props.form.getFieldValue('password')
+        loginNew({
+          'authType': 0,
+          'identifier': identifier,
+          'password': password,
+          'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
+          'extraInfo': ''
+        }, (response) => {
+          let data1 = response.data
+          if (data1.code === 200) {
+            /** ticket userId */
+            let userId
+            let roleCode
+            if (data1.data.ticket) {
+              webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
+              const arr = data1.data.ticket.split('.')
+              if (arr.length > 1) {
+                userId = JSON.parse(window.atob(arr[1])).userId
+                webStorage.setItem('STAR_V2_USERID', userId)
+                roleCode = JSON.parse(window.atob(arr[1])).ruleCode
+                webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
               }
-              getUserInfoV2(userId, (response) => {
-                if (response.data.code === 200) {
-                  webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
-                  webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-                  message.success('登录成功')
-                  if (roleCode === 'operator') {
-                    this.props.history.push({
-                      pathname: '/software-market-home'
-                    })
-                  } else {
-                    // 跳到首次登录
-                    // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
-                    //   this.props.history.push({
-                    //     pathname: '/first-login'
-                    //   })
-                    // } else {
-                    this.props.history.push({
-                      pathname: '/home/index'
-                    })
-                    // }
-                  }
-                } else {
-                  /** 登录失败 */
-                  message.error('登录失败')
-                }
-              })
-            } else {
-              /** 登录失败 */
-              message.error('登录失败')
             }
-          })
-        } else {
-          message.warn('请输入正确的验证码')
-        }
+            getUserInfoV2(userId, (response) => {
+              if (response.data.code === 200) {
+                webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
+                webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+                message.success('登录成功')
+                if (roleCode === 'operator') {
+                  this.props.history.push({
+                    pathname: '/software-market-home'
+                  })
+                } else {
+                  // 跳到首次登录
+                  // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
+                  //   this.props.history.push({
+                  //     pathname: '/first-login'
+                  //   })
+                  // } else {
+                  this.props.history.push({
+                    pathname: '/home/index'
+                  })
+                  // }
+                }
+              } else {
+                /** 登录失败 */
+                message.error('登录失败')
+              }
+            })
+          } else {
+            /** 登录失败 */
+            message.error('登录失败')
+          }
+        })
+        // } else {
+        //   message.warn('请输入正确的验证码')
+        // }
       }
     })
   }
@@ -112,16 +116,20 @@ class Login extends Component {
       pathname: '/register-home'
     })
   }
-  /** 获取验证码的随机数 **/
+  /** 获取验证码 **/
   getCode = () => {
-    let arr = []
-    for (let i = 0; i < 4; i++) {
-      let num = Math.floor(Math.random() * 10)
-      arr.push(num)
-    }
-    this.setState({
-      code: arr.join('')
-    })
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator', {})
+      .then((res) => {
+        if (res.data.data.status === 'success') {
+          let response = {
+            flag: res.data.data.flag,
+            images: res.data.data.images
+          }
+          this.setState({
+            code: response
+          })
+        }
+      })
   }
   render () {
     const { getFieldDecorator } = this.props.form
@@ -162,21 +170,23 @@ class Login extends Component {
                       )}
                     </FormItem>
                   </Row>
-                  <Row>
+                  <Row style={{marginBottom: '5px'}}>
                     <Col span={6}>
-                      <FormItem>
-                        {getFieldDecorator('code', {
-                          rules: [{required: true, message: '请输入验证码'}]
-                        })(
-                          <Input placeholder='验证码' className='hei-40' />
-                        )
-                        }
-                      </FormItem>
+                      <img src={`data:image/jpeg;base64,${code.images}`} alt='二维码' />
                     </Col>
-                    <Col span={10}>
-                      <span className='codeSpan'>{ code }</span>
-                      <a onClick={this.getCode}>切换</a>
+                    <Col span={5} offset={1}>
+                      <Button type='primary' onClick={this.getCode}>获取验证码</Button>
                     </Col>
+                  </Row>
+                  <Row>
+                    <FormItem>
+                      {getFieldDecorator('code', {
+                        rules: [{required: true, message: '请输入验证码'}]
+                      })(
+                        <Input placeholder='验证码' className='wid-50 hei-40' />
+                      )
+                      }
+                    </FormItem>
                   </Row>
                   <Row >
                     <a className='a-code ml36' onClick={this.toRegister}>注册</a>
