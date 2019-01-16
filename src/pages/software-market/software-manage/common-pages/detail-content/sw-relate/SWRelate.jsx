@@ -12,6 +12,7 @@ import ajaxUrl from 'config'
 class SWRelate extends Component {
   render () {
     const { resData, isWaitItera, isBusiDeta } = this.props
+    let data = resData.data
     // +++转换接收到的兼容系统sw_path参数内容为数组+++
     // 第一步把获取到的sw_path以逗号为分隔符分割
     // let pathArray = []
