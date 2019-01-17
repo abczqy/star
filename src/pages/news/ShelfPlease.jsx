@@ -110,7 +110,7 @@ class ShelfPlease extends React.Component {
         address: '', // 上传文件
         appVersion: '', // 软件平台版本
         packageName: '', // 包名
-        versioInfo: '', // 版本号
+        runningPlatform: '', // 版本号
         versionSize: '' // 软件大小
       }], // 渲染用state-用来映射软件版本编辑器/同时也是表单数据中的pc字段
       imgUrl: ''
@@ -362,7 +362,7 @@ class ShelfPlease extends React.Component {
    */
   onappVersionChange = (v, index) => {
     let arr = this.state.versions.slice()
-    arr[index].appVersion = v
+    arr[index].runningPlatform = v
     this.setState({
       versions: arr
     })
@@ -383,7 +383,7 @@ class ShelfPlease extends React.Component {
    */
   onVerNumChange = (e, index) => {
     let arr = this.state.versions.slice()
-    arr[index].versioInfo = e.target.value
+    arr[index].appVersion = e.target.value
     this.setState({
       versions: arr
     })
@@ -422,7 +422,7 @@ class ShelfPlease extends React.Component {
         address: '', // 上传文件
         appVersion: '', // 软件平台版本
         packageName: '', // 包名
-        versioInfo: '', // 版本号
+        runningPlatform: '', // 版本号
         versionSize: '' // 软件大小
       }]
     })
@@ -537,7 +537,7 @@ class ShelfPlease extends React.Component {
           <span style={{color: 'red'}}>* </span>版本号 :
           <Input
             style={{ width: 130 }}
-            value={this.state.versions[index].versioInfo}
+            value={this.state.versions[index].appVersion}
             onChange={(e) => this.onVerNumChange(e, index)} />
         </Col>
         <Col span={4}>
