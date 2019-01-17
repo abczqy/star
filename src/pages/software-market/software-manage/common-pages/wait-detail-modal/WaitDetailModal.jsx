@@ -4,9 +4,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'antd'
 import PropsTypes from 'prop-types'
-import { SWRelate
-// DevRelate,VoucherRelate
-} from '../detail-content'
+import { SWRelate, DevRelate, VoucherRelate } from '../detail-content'
 import { BlankBar } from 'components/software-market'
 import './WaitDetailModal.scss'
 
@@ -28,9 +26,9 @@ class WaitDetailModal extends Component {
       >
         <SWRelate resData={resData} isWaitItera />
         <BlankBar />
-        {/* <DevRelate resData={resData} /> */}
+        <DevRelate resData={resData} />
         <BlankBar />
-        {/* <VoucherRelate resData={resData} /> */}
+        <VoucherRelate resData={resData} />
         <BlankBar />
       </Modal>
     )

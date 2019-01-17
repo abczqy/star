@@ -349,8 +349,8 @@ class WaitVerify extends Component {
     } else {
       let paramsList = []
       const params = {
-        'APP_ID': this.state.detModalCon.APP_ID,
-        'APP_VERSION': this.state.detModalCon.APP_VERSION
+        'appId': this.state.detModalCon.APP_ID,
+        'appVersion': this.state.detModalCon.APP_VERSION
       }
       paramsList.push(params)
       const params1 = {

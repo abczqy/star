@@ -14,6 +14,10 @@ import './Register.scss'
 import PropTypes from 'prop-types'
 import {setCookie, getCookie} from 'utils/cookie'
 import {SMSVerificationv2, registerParent} from 'services/topbar-mation'
+import {axios} from '../../../../../utils'
+import config from '../../../../../config'
+const API_BASE_URL_V2 = config.API_BASE_URL_V2
+const SERVICE_AUTHENTICATION = config.SERVICE_AUTHENTICATION
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -26,7 +30,8 @@ class Register extends Component {
       validateCodeFlag: true,
       validateParentCodeFlag: true,
       validateParentPhoneFlag: false,
-      validatePhoneFlag: false
+      validatePhoneFlag: false,
+      code: {}
     }
   }
   componentDidMount () {
@@ -38,6 +43,7 @@ class Register extends Component {
     if (countdownss !== undefined && countdownss > 0) {
       this.settimess()// 开始倒计时
     }
+    this.getCodeFromBackground()
   }
   /** 提交表单 */
   handleSubmit = (e) => {
@@ -252,8 +258,27 @@ class Register extends Component {
       callback()
     }
   }
+  // 获取后台提供的验证码
+  getCodeFromBackground () {
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator')
+      .then((res) => {
+        let response = {
+          generator_date: res.data.data.generator_date,
+          images: res.data.data.images,
+          verify_code: res.data.data.verify_code
+        }
+        this.setState({
+          code: response
+        })
+      })
+  }
+  // 点击图片刷新验证码
+  onClick = () => {
+    this.getCodeFromBackground()
+  }
   render () {
     const { getFieldDecorator } = this.props.form
+    const { code } = this.state
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -323,6 +348,22 @@ class Register extends Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
+              className='err-css-small-in'
+              label='验证码'
+            >
+              {
+                getFieldDecorator('textCode', {
+                  relues: [{
+                    required: true, message: '请输入验证码'
+                  }]
+                })(
+                  <Input placeholder='请输入验证码' className='input-size-code' />
+                )
+              }
+              <img onClick={this.onClick} src={`data:image/jpeg;base64,${code.images}`} alt='二维码' />
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
               label='电话'
               className='err-css-small-in'
               hasFeedback
@@ -340,7 +381,7 @@ class Register extends Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label='验证码'
+              label='短信验证码'
               className='err-css-in'
               hasFeedback
             >

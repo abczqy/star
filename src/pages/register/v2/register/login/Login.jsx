@@ -24,7 +24,7 @@ const {
   Footer, Content
 } = Layout
 
-let start = 10
+let start = 120
 let count = 0
 class Login extends Component {
   constructor (props) {
@@ -132,8 +132,9 @@ class Login extends Component {
       .then((res) => {
         if (res.data.data.status === 'success') {
           let response = {
-            flag: res.data.data.flag,
-            images: res.data.data.images
+            generator_date: res.data.data.generator_date,
+            images: res.data.data.images,
+            verify_code: res.data.data.verify_code
           }
           this.setState({
             code: response
@@ -148,11 +149,13 @@ class Login extends Component {
   // input失去焦点事件
   inputOnblur = (e) => {
     const {code} = this.state
+    console.log(code)
     const {value} = e.target
     axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/verify', {
       params: {
         code: value,
-        flag: code.flag
+        verify_code: code.verify_code,
+        generator_date: code.generator_date
       }
     })
       .then((res) => {
