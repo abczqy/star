@@ -311,6 +311,7 @@ export default class AllApplications extends React.Component {
                 <Pagination
                   simple
                   defaultCurrent={this.state.currentPageRj}
+                  defaultPageSize={this.state.pageSizeRj}
                   total={this.state.totalCountRj}
                   style={{ float: 'right', marginRight: '20px' }}
                   onChange={this.onRjPageChange} />

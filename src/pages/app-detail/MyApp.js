@@ -55,7 +55,8 @@ class MyApp extends Component {
     console.log(record)
     // 获取对应的后台数据
     const params = {
-      APP_ID: record.APP_ID
+      appId: record.APP_ID,
+      appVersion: record.APP_VERSION
     }
 
     bussDetailv2(params, (res) => {

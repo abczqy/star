@@ -35,7 +35,8 @@ class BannerMaker extends Component {
       pagination,
       total: 0,
       id: '',
-      picId: null
+      picId: null,
+      saveOk: true
     }
 
     // 表格的列信息
@@ -124,6 +125,20 @@ class BannerMaker extends Component {
   }
   // 保存新增banner图
   addBanner = () => {
+    const thiz = this
+    if (!this.state.saveOk) {
+      return false
+    } else {
+      this.setState({
+        saveOk: false
+      }, () => {
+        setTimeout(() => {
+          thiz.setState({
+            saveOk: true
+          })
+        }, 500)
+      })
+    }
     if (!this.state.picId) {
       message.warn('请先添加banner并上传图片后再进行保存')
       return false
@@ -142,7 +157,8 @@ class BannerMaker extends Component {
       if (res.data.code === 200) {
         this.setState({
           bannerNewData: [],
-          fileList: []
+          fileList: [],
+          picId: null
         })
         message.success('图片保存成功')
         this.getList()

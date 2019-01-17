@@ -12,9 +12,11 @@
     }
     .slick-dots {
         display: block!important;
-        width: 100px!important;
-        margin: auto;
-        margin-left: 47.5%!important;
+        position: relative;
+        width: fit-content;
+        width: -moz-fit-content;
+        margin: 0 auto;
+        bottom: 30px;
         background: #ccc;
         opacity: 1;
         height: 14px!important;

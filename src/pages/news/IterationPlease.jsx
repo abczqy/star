@@ -514,13 +514,7 @@ zHs=() => {
 
   componentDidMount () {
     // 获取appId
-    const appId = this.props.history.location.search.replace('?', '')
-    this.setState({
-      appId: appId
-    }, function () {
-      // 拿到app的信息
-      this.getAppDetail(this)
-    })
+    this.getAppDetail(this)
   }
 
   render () {

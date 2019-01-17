@@ -226,19 +226,21 @@ class Information extends React.Component {
               </li>
             })}
             <li style={{listStyle: 'none', width: '100%', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}}>
-              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '10px'}}>
+              <Row style={{marginRight: '4.5%', marginBottom: '10px'}}>
                 {/* <Col span={12} />
                 <Col > */}
+                <div style={{float: 'left'}}>总共有 {this.state.infoData && this.state.infoData.total} 条数据</div>
                 {this.state.infoData.total >= 5
                   ? <Pagination
+                    style={{float: 'right'}}
                     current={this.state.pageNum}
                     defaultPageSize={5}
-                    pageSizeOptions={['5']}
+                    pageSizeOptions={['5', '10', '15', '20']}
                     total={this.state.infoData.total}// {this.state.newData.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                    // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                     // pageSizeOptions={5}
                   /> : null}
                 {/* </Col> */}

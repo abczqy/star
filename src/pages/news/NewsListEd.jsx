@@ -185,15 +185,17 @@ class News extends React.Component {
                 </li>
             })}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '0px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '15%'}}>
-              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '5px'}}>
+              <Row style={{marginRight: '4.5%', marginBottom: '5px'}}>
                 {/* <Col span={12} />
                 <Col > */}
+                <div style={{float: 'left'}}>总共有 {this.state.newData && this.state.newData.total} 条数据</div>
                 {this.state.newData.total >= 5
                   ? <Pagination
+                    style={{float: 'right'}}
                     current={this.state.pageNum}
                     total={this.state.newData.total}
                     defaultPageSize={5}
-                    pageSizeOptions={['5']}
+                    pageSizeOptions={['5', '10', '15', '20']}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}

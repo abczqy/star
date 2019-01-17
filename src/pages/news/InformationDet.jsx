@@ -108,7 +108,7 @@ class InformationDet extends React.Component {
       informationDet({}, id, (response) => {
         if (response.data.code === 200) {
           this.setState({
-            infoData: response.data
+            infoData: response.data.data
           })
         } else {
           message.warn(response.data.msg)
@@ -181,7 +181,7 @@ class InformationDet extends React.Component {
   // a标签的跳转方法哦~
   handleTabChangess (e) {
     this.props.history.push({
-      pathname: '/home/newsDetails',
+      pathname: '/home/informationDet',
       search: e.target.text.split(' ')[0]
     })
   }
