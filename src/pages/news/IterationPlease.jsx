@@ -74,10 +74,12 @@ class IterationPlease extends React.Component {
   }
   componentWillMount () {
     let a = window.location.href.split('?')[1].split('&')
+    let appId = a[0]
+    let currentVersion = a[1]
     this.setState({
-      appId: String(a[0]),
-      currentVersion: String(a[1])
-    })
+      appId,
+      currentVersion
+    }, () => console.log(this.state.appId))
     this.renderEdition()
     this.getAppData(String(a[0]))
     this.getHeight()
@@ -261,8 +263,6 @@ getAppData = (a) => {
     }
     this.setState({
       renderEdition: value
-    }, () => {
-      console.log(this.state.renderEdition)
     })
   }
 
@@ -472,6 +472,7 @@ zHs=() => {
    */
   getSubmit = (thiz) => {
     const appId = thiz.state.appId
+    console.log(appId)
     // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // const url = `http://192.168.2.142:10301/app-version/apply/${appId}`
     const url = API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${appId}`
@@ -514,13 +515,7 @@ zHs=() => {
 
   componentDidMount () {
     // 获取appId
-    const appId = this.props.history.location.search.replace('?', '')
-    this.setState({
-      appId: appId
-    }, function () {
-      // 拿到app的信息
-      this.getAppDetail(this)
-    })
+    this.getAppDetail(this)
   }
 
   render () {

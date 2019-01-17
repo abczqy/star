@@ -38,7 +38,6 @@ class News extends React.Component {
     }
   }
   getList = () => {
-    console.log('获取数据')
     let value = {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize
@@ -72,7 +71,6 @@ class News extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
         this.setState({
@@ -101,7 +99,6 @@ class News extends React.Component {
   }
   // 分页页码改变
   ptChange=(page, pageSize) => {
-    console.log('页码改变', page, pageSize)
     this.setState({
       pageNum: page
     }, () => {
@@ -111,11 +108,9 @@ class News extends React.Component {
   }
   // 每页展示数量改变
   stChange=(current, size) => {
-    console.log('每页的数量改变', current, size)
     this.setState({
       pageSize: size
     }, () => {
-      console.log('获取每页显示数量存到state', this.state.pageSize)
       this.getList()
     })
   }
@@ -200,19 +195,21 @@ class News extends React.Component {
                 </li>
             }) : '暂无数据'}
             <li style={{listStyle: 'none', paddingTop: '15px', paddingBottom: '10px', paddingLeft: '30px', backgroundColor: '#fff', width: '100%', height: '19%'}}>
-              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '5px'}}>
+              <Row style={{marginRight: '4.5%', marginBottom: '5px'}}>
                 {/* <Col span={12} />
                 <Col > */}
+                <div style={{float: 'left'}}>总共有 {this.state.newData ? this.state.newData.total : ''} 条数据</div>
                 {this.state.newData ? (this.state.newData.total >= 5
                   ? <Pagination
+                    style={{float: 'right'}}
                     current={this.state.pageNum}
                     defaultPageSize={5}
-                    pageSizeOptions={['5']}
+                    pageSizeOptions={['5', '10', '15', '20']}
                     total={this.state.newData.total}// {this.state.newData.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                    // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
+                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                   /> : null) : ''
                 }
                 {/* </Col> */}

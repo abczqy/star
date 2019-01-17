@@ -37,6 +37,7 @@ class HomeWebApp extends React.Component {
   }
 
   handleAppClick (item) {
+    console.log(item.appId)
     let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
     if (STAR_WEB_ROLE_CODE=== '' || STAR_WEB_ROLE_CODE=== null) {
       message.warning('请先登录!')
@@ -61,8 +62,8 @@ class HomeWebApp extends React.Component {
                 <div style={{width: '100%', textAlign: 'center'}}>
                   {
                     item.appIcon && item.appIcon
-                      ? <img className='app-img' src={Config.IMG_BASE_URL_V2 + item.appIcon} />
-                      : <img className='app-img' style={{backgroundColor: '#1890ff'}} src={imgApp} />
+                      ? <img className='app-img' src={Config.IMG_BASE_URL_V2 + item.appIcon} style={{cursor: 'pointer'}} />
+                      : <img className='app-img' style={{backgroundColor: '#1890ff', cursor: 'pointer'}} src={imgApp} />
                     // <img className='app-img' src={imgApp} />
                   }
                   <div className='title'>{item.appName || ''}

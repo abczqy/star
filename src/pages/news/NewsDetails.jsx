@@ -4,13 +4,13 @@
  * 无身份区分新闻列表详情
  */
 import React from 'react'
-import {Row, Col, Card, Tooltip, message} from 'antd'
+import {Row, Col, Tooltip, message} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import './NewsList.scss'
 import ul from '../../assets/images/u1427.png'
 import zui from '../../assets/images/u1417.png'
 import fen from '../../assets/images/u1415.png'
-import _ul from '../../assets/images/_ul.png'
+// import _ul from '../../assets/images/_ul.png'
 import shareContent from '../../utils/shareContent'
 import _ from 'lodash'
 import webStorage from 'webStorage'
@@ -193,7 +193,7 @@ handleTabChangess (e) {
 render () {
   return (
     <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
-      <div id='right-container' style={{minHeight: this.state.viewHeight}}>
+      <div id='right-container' style={{minHeight: this.state.viewHeight, float: 'none', margin: '0 auto'}}>
         <div style={{backgroundColor: '#fff', width: '100%', minHeight: this.state.viewHeights}}>
           <Row>
             <ul className='details-li-ul'>
@@ -232,7 +232,7 @@ render () {
             </div>
           </Row></div>
       </div>
-      <div id='left-container'>
+      {/* <div id='left-container'>
         <div className='center-public-info'>
           <Card title='公告' bordered={false} extra={<a onClick={this.more}>更多...</a>} style={{ width: '98%' }}>
             <ul className='ul-margin super'>
@@ -243,10 +243,9 @@ render () {
           </Card>
         </div>
         <div className='bottom-img'>
-          {/* <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' /> */}
+           <img src={this.state.infoData ? ajaxUrl.IMG_BASE_URL + this.state.infoData.list[0].info_picture : ''} style={{width: '98%', marginTop: '10px', height: '120px'}} alt='' />
         </div>
-      </div>
-
+      </div> */}
     </div>
   )
 }

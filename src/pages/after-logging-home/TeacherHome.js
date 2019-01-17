@@ -326,8 +326,8 @@ class TeacherHome extends Component {
         <dl className='list-item'>
           <dt className='dl-dt'>
             {item.APP_ICON
-              ? <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
-              : <img style={{width: '100%', height: '100%', backgroundColor: '#1890ff'}} src={imgApp} /> }
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
+              : <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
             <span className='dd-title'>{item.APP_NAME || '软件名称'}</span>

@@ -4,8 +4,8 @@
  */
 import React from 'react'
 import { withRouter } from 'react-router'
-import { Row, Col, Card } from 'antd'
-import Echarts from 'components/common/Echarts'
+import { Row, Col, Card, Progress } from 'antd'
+// import Echarts from 'components/common/Echarts'
 import './Platdata.scss'
 import imgTeacher from '../../assets/images/login-home/u888.png'
 import imgStudent from '../../assets/images/login-home/u892.png'
@@ -153,11 +153,16 @@ class Platdata extends React.Component {
         <Row>
           <div className='echartsRow-bg'>
             <div className='echartsRow'>
-              <Col span={12}>
+              {/* <Col span={12}>
                 <Echarts options={this.state.optionUserActivity} />
               </Col>
               <Col span={12}>
                 <Echarts options={this.state.optionUserUtilization} />
+              </Col> */}
+              <Col span={2} />
+              <Col span={20}>
+                用户活跃度：<br />
+                <Progress percent={80} status='active' />
               </Col>
             </div>
           </div>

@@ -170,7 +170,7 @@ class MainBander extends React.Component {
   /**
    * 获取门户首页Banner图片
    */
-  getPortalBannerImg () {
+  getPortalBannerImg = () => {
     getPortalBannerImg({
       bannerType: '1'
     }, (response) => {
@@ -180,14 +180,33 @@ class MainBander extends React.Component {
         this.setState({
           bannerImg: result || []
         })
+        this.addHoverButton()
       } else {
         // message.warning(response.data.msg || '出现异常')
       }
     })
   }
+  /**
+   * 给轮播图按钮添加hover暂停轮播事件
+   */
+  addHoverButton = () => {
+    const thiz = this
+    document.getElementsByClassName('slick-arrow')[0].onmouseover = () => {
+      thiz.refs.slider.slickPause()
+    }
+    document.getElementsByClassName('slick-arrow')[1].onmouseover = () => {
+      thiz.refs.slider.slickPause()
+    }
+    document.getElementsByClassName('slick-arrow')[0].onmouseout = () => {
+      thiz.refs.slider.slickPlay()
+    }
+    document.getElementsByClassName('slick-arrow')[1].onmouseout = () => {
+      thiz.refs.slider.slickPlay()
+    }
+  }
 
   render () {
-    var settings = {
+    let settings = {
       dots: false, // 下侧省略号
       infinite: true,
       speed: 500,
@@ -200,7 +219,7 @@ class MainBander extends React.Component {
     return (
       <div className='main-bander-container'>
         <div className='custom-slider'>
-          <Slider {...settings}>
+          <Slider {...settings} ref='slider'>
             {
               this.state.bannerImg.map((item, index, arr) => {
                 return item.picUrl ? <div key={index} style={{height: '228px', width: '100%'}} >

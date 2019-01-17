@@ -6,12 +6,16 @@ import React from 'react'
 import { Card } from 'antd'
 import { Link } from 'react-router-dom'
 import './HomeCard.scss'
+import PropTypes from 'prop-types'
 
 export default class HomeCard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
     }
+  }
+  static propTyps = {
+    cardBgColor: PropTypes.string
   }
 
   render () {

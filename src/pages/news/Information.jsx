@@ -122,7 +122,6 @@ class Information extends React.Component {
 
   // 分页页码改变
   ptChange=(page, pageSize) => {
-    console.log('页码改变', page, pageSize)
     this.setState({
       pageNum: page
     }, () => {
@@ -131,7 +130,6 @@ class Information extends React.Component {
   }
   // 每页展示数量改变
   stChange=(current, size) => {
-    console.log('每页的数量改变', current, size)
     this.setState({
       pageSize: size
     }, () => {
@@ -140,7 +138,6 @@ class Information extends React.Component {
   }
   // 下拉分级改变
   onChangeF =(value) => {
-    console.log(value)
     this.setState({
       selete: String(value)
     }, () => {
@@ -226,20 +223,21 @@ class Information extends React.Component {
               </li>
             })}
             <li style={{listStyle: 'none', width: '100%', height: '140px', paddingTop: '0px', paddingLeft: '30px', backgroundColor: '#fff'}}>
-              <Row style={{float: 'right', marginRight: '4.5%', marginBottom: '10px'}}>
+              <Row style={{marginRight: '4.5%', marginBottom: '10px'}}>
                 {/* <Col span={12} />
                 <Col > */}
+                <div style={{float: 'left'}}>总共有 {this.state.infoData ? this.state.infoData.total : ''} 条数据</div>
                 {this.state.infoData.total >= 5
                   ? <Pagination
+                    style={{float: 'right'}}
                     current={this.state.pageNum}
                     defaultPageSize={5}
-                    pageSizeOptions={['5']}
+                    pageSizeOptions={['5', '10', '15', '20']}
                     total={this.state.infoData.total}// {this.state.newData.total}
                     showSizeChanger
                     showQuickJumper
                     onChange={(page, pageSize) => { this.ptChange(page, pageSize) }}
-                    // onShowSizeChange={(current, size) => { this.stChange(current, size) }}
-                    // pageSizeOptions={5}
+                    onShowSizeChange={(current, size) => { this.stChange(current, size) }}
                   /> : null}
                 {/* </Col> */}
               </Row>

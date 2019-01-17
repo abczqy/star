@@ -128,8 +128,8 @@ class Businessing extends Component {
     let params = {
       auditStatus: '4', // 审核状态
       keyword: this.state.keyword || '', // 应用名称,
-      pageNum: this.state.pageNum || 1,
-      pageSize: this.state.pageSize || 15,
+      pageNum: this.state.pagination.pageNum || 1,
+      pageSize: this.state.pagination.pageSize || 10,
       typeId: this.state.typeId || 0
     }
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})

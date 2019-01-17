@@ -30,57 +30,8 @@ class HomeNewsAndInfo extends React.Component {
     if (str) {
       s = parseInt(moment(str).month()) + 1
     }
-    // switch (s) {
-    //   case 1:
-    //     s = '01'
-    //     break
-    //   case 2:
-    //     s = '02'
-    //     break
-    //   case 3:
-    //     s = '03'
-    //     break
-    //   case 4:
-    //     s = '04'
-    //     break
-    //   case 5:
-    //     s = '05'
-    //     break
-    //   case 6:
-    //     s = '06'
-    //     break
-    //   case 7:
-    //     s = '07'
-    //     break
-    //   case 8:
-    //     s = '08'
-    //     break
-    //   case 9:
-    //     s = '09'
-    //     break
-    //   case 10:
-    //     s = '10'
-    //     break
-    //   case 11:
-    //     s = '11'
-    //     break
-    //   case 12:
-    //     s = '12'
-    //     break
-    //   default:
-    //     s = ''
-    // }
     return s
   }
-
-  // getDay (str) {
-  //   let s = ''
-  //   if (str) {
-  //     s =
-  //   }
-  //   console.log(s)
-  //   return s
-  // }
 
   render () {
     let item = this.props.infoOrNewsData || ''
