@@ -35,7 +35,7 @@ class NewsListEdit extends Component {
    * 获取“富文本编辑器”输入的内容
    */
   getRichText = () => {
-    return this.editor.txt.text()
+    return this.editor.txt.html()
   }
 
   /**
@@ -52,6 +52,7 @@ class NewsListEdit extends Component {
    */
   subMit = () => {
     const content = this.getRichText()
+    console.log(content)
     const contentTitle = this.state.newsTitle
     this.setState({
       data: {

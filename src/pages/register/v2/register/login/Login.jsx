@@ -24,16 +24,23 @@ const {
   Footer, Content
 } = Layout
 
+let start = 10
+let count = 0
 class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      code: {}
+      code: {},
+      btnClick: false
     }
   }
   componentWillMount () {
-    this.getCode()
+    this.getCode(false)
   }
+  componentWillUnmount () {
+    clearTimeout(count)
+  }
+
   /** 登录 */
   handleSubmit = (e) => {
     e.preventDefault()
@@ -117,7 +124,10 @@ class Login extends Component {
     })
   }
   /** 获取验证码 **/
-  getCode = () => {
+  getCode = (isClick) => {
+    if (isClick === true) {
+      count = setInterval(this.countDown, 1000)
+    }
     axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator', {})
       .then((res) => {
         if (res.data.data.status === 'success') {
@@ -130,6 +140,39 @@ class Login extends Component {
           })
         }
       })
+  }
+  // 点击获取验证码
+  btnGetCdode = () => {
+    this.getCode(true)
+  }
+  // input失去焦点事件
+  inputOnblur = (e) => {
+    const {code} = this.state
+    const {value} = e.target
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/verify', {
+      params: {
+        code: value,
+        flag: code.flag
+      }
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.data.code === 500) {
+          message.warn(res.data.data)
+        }
+      })
+  }
+  countDown () {
+    start--
+    if (start > 0) {
+      document.getElementById('btnCode').innerHTML = `验证码(${start})`
+      document.getElementById('btnCode').disabled = true
+    } else {
+      clearTimeout(count)
+      document.getElementById('btnCode').innerHTML = '获取验证码'
+      document.getElementById('btnCode').disabled = false
+      return ''
+    }
   }
   render () {
     const { getFieldDecorator } = this.props.form
@@ -175,7 +218,7 @@ class Login extends Component {
                       <img src={`data:image/jpeg;base64,${code.images}`} alt='二维码' />
                     </Col>
                     <Col span={5} offset={1}>
-                      <Button type='primary' onClick={this.getCode}>获取验证码</Button>
+                      <Button id='btnCode' type='primary' onClick={this.btnGetCdode}>获取验证码</Button>
                     </Col>
                   </Row>
                   <Row>
@@ -183,7 +226,7 @@ class Login extends Component {
                       {getFieldDecorator('code', {
                         rules: [{required: true, message: '请输入验证码'}]
                       })(
-                        <Input placeholder='验证码' className='wid-50 hei-40' />
+                        <Input onBlur={this.inputOnblur} placeholder='验证码' className='wid-50 hei-40' />
                       )
                       }
                     </FormItem>
@@ -197,12 +240,12 @@ class Login extends Component {
                       登录
                     </Button>
                   </Row>
-                  <Row className='mar-top-10'>
-                    <Col span={8} offset={4}>
-                      <span>客服电话：</span>
-                      <span className='span-style'>010-5232714</span>
-                    </Col>
-                  </Row>
+                  {/* <Row className='mar-top-10'> */}
+                  {/* < Col span={8} offset={4}> */}
+                  {/* <span>客服电话：</span> */}
+                  {/* <span className='span-style'>010-5232714</span> */}
+                  {/* </Col> */}
+                  {/* </Row> */}
                 </Form>
               </Col>
             </Row>

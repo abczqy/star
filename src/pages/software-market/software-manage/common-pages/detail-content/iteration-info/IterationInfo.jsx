@@ -14,7 +14,8 @@ class IterationInfo extends Component {
   }
   render () {
     const { resData } = this.props
-
+    console.log(resData)
+    let data = resData.data.data[0]
     // +++转换接收到的兼容系统sw_path0参数内容为数组+++
     // 第一步把获取到的sw_path0以逗号为分隔符分割
     let pathArray = []
@@ -48,7 +49,7 @@ class IterationInfo extends Component {
               兼容系统:
             </Col>
             <Col span={9}>
-              <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
+              <span>{data.RUNNING_PLATFORM ? data.RUNNING_PLATFORM : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
               <span>{swPath && swPath[0] ? swPath[0][1].substr(swPath[0][1].lastIndexOf('/') + 1) : 'PC端.dmg'}</span>
               <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a>
@@ -57,7 +58,7 @@ class IterationInfo extends Component {
               版本号:
             </Col>
             <Col span={4}>
-              <span>{resData.iteration_version}</span>
+              <span>{data.APP_VERSION}</span>
             </Col>
           </Row>
           <Row>

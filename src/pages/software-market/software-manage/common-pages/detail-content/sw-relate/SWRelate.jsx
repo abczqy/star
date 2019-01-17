@@ -12,12 +12,13 @@ import ajaxUrl from 'config'
 class SWRelate extends Component {
   render () {
     const { resData, isWaitItera, isBusiDeta } = this.props
-    let data = resData.data
+    console.log(resData.data.data[0])
+    let data = resData.data.data[0]
     // +++转换接收到的兼容系统sw_path参数内容为数组+++
     // 第一步把获取到的sw_path以逗号为分隔符分割
     // let pathArray = []
     // pathArray = resData && resData.sw_path ? resData.sw_path.split(',') : []
-    let swPath = []
+    let swPath = data.RUNNING_PLATFORM
     // 刨除第一个元素剩余的内容
     let swPathRest = []
     // for (let i = 0; i < pathArray.length; i++) {
@@ -47,13 +48,13 @@ class SWRelate extends Component {
               软件分类:
             </Col>
             <Col span={9}>
-              <span>{data && data.data[0].APP_TYPE_NAME ? data.data[0].APP_TYPE_NAME : '默认分类'}</span>
+              <span>{data && data.APP_TYPE_NAME ? data.APP_TYPE_NAME : '默认分类'}</span>
             </Col>
             <Col span={2} offset={6}>
               上架时间:
             </Col>
             <Col span={4}>
-              <span>{data && data.data[0].CREATE_TIME ? moment(data.data[0].CREATE_TIME).format('YYYY-MM-DD') : '2099-9-9'}</span>
+              <span>{data && data.CREATE_TIME ? moment(data.CREATE_TIME).format('YYYY-MM-DD') : '2099-9-9'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -62,7 +63,7 @@ class SWRelate extends Component {
               <span>软件描述:</span>
             </Col>
             <Col span={19}>
-              <span>{data && data.data[0].APP_NOTES ? data.data[0].APP_NOTES : '此软件用于教学，可以让学生寓教于乐'}</span>
+              <span>{data && data.APP_NOTES ? data.APP_NOTES : '此软件用于教学，可以让学生寓教于乐'}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />
@@ -71,16 +72,16 @@ class SWRelate extends Component {
               <span>兼容系统:</span>
             </Col>
             <Col span={9}>
-              <span>{swPath && swPath[0] ? swPath[0][0] : 'Windows32'}:</span>
+              <span>{swPath !== undefined ? swPath : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
-              <span>{swPath && swPath[0] ? swPath[0][1].substr(swPath[0][1].lastIndexOf('/') + 1) : 'PC端.dmg'}</span>
-              {!isBusiDeta ? <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a> : null}
+              <span>{data && data.APP_DOWNLOAD_ADDRESS ? data.APP_DOWNLOAD_ADDRESS : 'PC端.dmg'}</span>
+              {/* {!isBusiDeta ? <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a> : null} */}
             </Col>
             <Col span={2} offset={6}>
               版本号:
             </Col>
             <Col span={4}>
-              <span>{data.data[0].APP_VERSION}</span>
+              <span>{data.APP_VERSION}</span>
             </Col>
           </Row> : null}
           {isWaitItera || isBusiDeta ? <Row>
@@ -103,8 +104,8 @@ class SWRelate extends Component {
             </Col>
             <Col>
               {
-                data.data[0].APP_ICON &&
-                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={data.data[0].APP_ICON && ajaxUrl.IMG_BASE_URL + data.data[0].APP_ICON} />
+                data.APP_ICON &&
+                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={data.APP_ICON && ajaxUrl.IMG_BASE_URL + data.APP_ICON} />
               }
             </Col>
           </Row>

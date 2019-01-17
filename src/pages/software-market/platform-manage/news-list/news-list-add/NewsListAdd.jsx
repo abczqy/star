@@ -33,7 +33,8 @@ class NewsListAdd extends Component {
    * 获取“富文本编辑器”输入的内容
    */
   getRichText = () => {
-    return this.editor.txt.text()
+    // 转换成html格式
+    return this.editor.txt.html()
   }
 
   /**
@@ -63,6 +64,7 @@ class NewsListAdd extends Component {
    */
   subMit = () => {
     const param = this.getFormData()
+    console.log(param)
     insertV2NewsList(param, (res) => {
       if (res.data.code === 200) {
         this.props.history.push({

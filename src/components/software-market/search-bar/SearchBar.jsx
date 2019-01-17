@@ -41,11 +41,15 @@ class SearchBar extends Component {
               })}
             </Select>
           </Col>
-          <Col span={6}>
-            <Search
-              onSearch={onSearch}
-              onChange={onSeachChange}
-            />
+          <Col span={8}>
+            <Col style={{width: '24%'}} span={5}><span className='search-bar-label'>应用名称:</span></Col>
+            <Col span={14}>
+              <Search
+                style={{display: 'inline-block'}}
+                onSearch={onSearch}
+                onChange={onSeachChange}
+              />
+            </Col>
           </Col>
           <Col span={4}>
             <Button type='primary' onClick={onBtnClick}>搜索</Button>

@@ -94,6 +94,7 @@ class ShelfPlease extends React.Component {
       formDataPre1: '', // 预览数据
       appName: '', // 软件名称 -- v2
       appType: '', // 软件类型
+      appTypeName: '', // 软件类型名称
       appDesc: '', // 软件描述
       feature: '', // 新版特性
       rights: [], // 权限详情
@@ -111,7 +112,8 @@ class ShelfPlease extends React.Component {
         packageName: '', // 包名
         versioInfo: '', // 版本号
         versionSize: '' // 软件大小
-      }] // 渲染用state-用来映射软件版本编辑器/同时也是表单数据中的pc字段
+      }], // 渲染用state-用来映射软件版本编辑器/同时也是表单数据中的pc字段
+      imgUrl: ''
     }
   }
   hiddenModal () {
@@ -135,8 +137,10 @@ class ShelfPlease extends React.Component {
   }
   // 类型
   onTypeChange = (value) => {
+    // console.log(value)
     this.setState({
-      appType: value
+      appType: value.key,
+      appTypeName: value.label
     })
   }
   // 软件描述
@@ -318,16 +322,17 @@ class ShelfPlease extends React.Component {
   // 预览表单
   handlePreview () {
     const thiz = this
+    console.log(this.state)
     let formDataPre = new FormData()
     formDataPre.append('appName', this.state.appName || '')// 软件名称*
-    formDataPre.append('appType', this.state.appType || '')// 软件类型*
-    formDataPre.append('sw_icon', this.state.fileListIcon || '')// 软件图标*
+    formDataPre.append('appType', this.state.appTypeName || '')// 软件类型*
+    formDataPre.append('sw_icon', this.state.imgUrl.thumbUrl || '')// 软件图标*
     // 查看详情
-    formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
-    formDataPre.append('detailSize', this.state.fileListDetailSize || [])// 软件大小*
-    formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
-    formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
-
+    formDataPre.append('appInfo', JSON.stringify(this.state.versions))
+    // formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
+    // formDataPre.append('detailSize', this.state.fileListDetailSize || [])// 软件大小*
+    // formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
+    // formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
     formDataPre.append('detailAuth', this.state.rights || [])// 权限详情*
     this.state.fileListPhone.forEach((file) => { // 手机展示
       formDataPre.append('phonePhoto', file)
@@ -367,6 +372,7 @@ class ShelfPlease extends React.Component {
    */
   onVerPackName = (e, index) => {
     let arr = this.state.versions.slice()
+    // console.log(arr)
     arr[index].packageName = e.target.value
     this.setState({
       versions: arr
@@ -751,11 +757,17 @@ class ShelfPlease extends React.Component {
         })
       },
       beforeUpload: (file) => {
+        // console.log(file)
         this.setState({
           appIcon: file
         })
         // 开启手动上传
         return false
+      },
+      onChange: ({fileList}) => {
+        this.setState({
+          imgUrl: fileList[0]
+        })
       },
       fileListIconUrl: this.state.fileListIconUrl,
       fileListIcon: this.state.fileListIcon,
@@ -776,7 +788,7 @@ class ShelfPlease extends React.Component {
         this.setState(({ fileListFour }) => ({
           fileListFour: [...fileListFour, file]
         }), () => {
-          console.log('fileListFour', this.state.fileListFour)
+          // console.log('fileListFour', this.state.fileListFour)
         })
         return false
       },
@@ -797,7 +809,7 @@ class ShelfPlease extends React.Component {
         this.setState(({ fileListFive }) => ({
           fileListFive: [...fileListFive, file]
         }), () => {
-          console.log('fileListFive', this.state.fileListFive)
+          // console.log('fileListFive', this.state.fileListFive)
         })
         return false
       },
@@ -821,6 +833,12 @@ class ShelfPlease extends React.Component {
         })
         // 采用手动上传
         return false
+      },
+      onChange: ({fileList}) => {
+        // console.log(fileList)
+        this.setState({
+          fileListPCURL: fileList
+        })
       }
     }
     const propsPhone = {
@@ -841,6 +859,11 @@ class ShelfPlease extends React.Component {
         })
         // 采用手动上传
         return false
+      },
+      onChange: ({fileList}) => {
+        this.setState({
+          fileListPhoneUrl: fileList
+        })
       }
     }
     const propsFinVour = {
@@ -858,7 +881,7 @@ class ShelfPlease extends React.Component {
         this.setState(({ fileListFinVour }) => ({
           fileListFinVour: [...fileListFinVour, file]
         }), () => {
-          console.log('this.state.fileListFinVour', this.state.fileListFinVour)
+          // console.log('this.state.fileListFinVour', this.state.fileListFinVour)
         })
         return false
       },
@@ -896,7 +919,7 @@ class ShelfPlease extends React.Component {
         <Col span={7}><Input placeholder='请输入软件名称' style={{ width: 280 }} onChange={this.onAppNameChange} value={this.state.appName} /></Col>
         <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
         <Col span={7}>
-          <Select placeholder='教育类' allowClear style={{ width: 260 }} onChange={(value) => this.onTypeChange(value)} value={this.state.appType} >
+          <Select labelInValue defaultValue={{key: '101'}} allowClear style={{ width: 260 }} onChange={this.onTypeChange} >
             {data.map((item, index) => {
               return <Select.Option value={item.value} key={index}>{item.name}</Select.Option>
             })}
@@ -1153,7 +1176,7 @@ class ShelfPlease extends React.Component {
           visible={this.state.previewApp}
           hiddenModal={this.hiddenModal.bind(this, 'previewApp')}
           dataPre={this.state.formDataPre1}
-          dataPc={this.state.fileListPCUrl}
+          dataPc={this.state.fileListPCURL}
           dataPhone={this.state.fileListPhoneUrl}
           dataIcon={this.state.fileListIconUrl}
         /> : null}

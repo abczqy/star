@@ -108,15 +108,30 @@ class SelfPleasePreview extends React.Component {
     // console.log('render this.props.dataIcon.icon.length= ', this.props.dataIcon.length)
     // console.log('this.state.icon[0] render= ', this.state.icon.shift())
     let thiz = this.state.appDetailData
-    let rname = thiz.get('rname')
-    let rType = thiz.get('rType')
-    let detailType = thiz.get('detailType').split(',')
-    let detailSize = thiz.get('detailSize').split(',')
-    let detailVersionNum = thiz.get('detailVersionNum').split(',')
-    let detailPackName = thiz.get('detailPackName').split(',')
+    let appInfo = JSON.parse(thiz.get('appInfo'))
+    let rname = thiz.get('appName')
+    let rType = thiz.get('appType')
+    // let detailType = thiz.get('detailType').split(',')
+    // let detailSize = thiz.get('detailSize').split(',')
+    // let detailVersionNum = thiz.get('detailVersionNum')
+    // let detailPackName = thiz.get('detailPickName')
     let detailAuth = thiz.get('detailAuth').split(',')
-    let rDescribe = thiz.get('rDescribe')
-    let rFeatures = thiz.get('rFeatures')
+    let rDescribe = thiz.get('appDesc')
+    let rFeatures = thiz.get('feature')
+    let icon = thiz.get('sw_icon')
+    // 处理传过来的app信息
+    let detailType = []
+    let detailPackName = []
+    let detailVersionNum = []
+    let detailSize = []
+    for (let i = 0; i < appInfo.length; i++) {
+      detailType.push(appInfo[i].appVersion)
+      detailPackName.push(appInfo[i].packageName)
+      detailVersionNum.push(appInfo[i].versioInfo)
+      detailSize.push(appInfo[i].versionSize)
+    }
+    // const {pcPhoto} = this.state
+    // console.log(this.props.dataPc)
     return (
       <Modal
         title='上架预览'
@@ -127,9 +142,9 @@ class SelfPleasePreview extends React.Component {
       >
         <div className='app-preview'>
           <div className='app-preview-header'>
-            <img src={this.state.icon && this.state.icon[0]} />
+            <img src={icon} />
             <div className='app-preview-header-right'>
-              <h2 className='header-title'>{rname || '无'}</h2>
+              <h2 className='header-title'>{rname}</h2>
               <p className='header-classification'>分类：{rType || '无'}</p>
               <div className='header-see-detail'>
                 <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
@@ -193,14 +208,15 @@ class SelfPleasePreview extends React.Component {
                       {this.state.pictype === 'computer' && this.state.pcPhoto && this.state.pcPhoto.map((item, index, arr) => {
                         return (
                           <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                            <img style={{width: '100%', height: '100%'}} src={item} />
+                            <img style={{width: '100%', height: '100%'}} src={item.thumbUrl} />
                           </div>
                         )
                       })}
                       {this.state.pictype === 'phone' && this.state.phonePhoto && this.state.phonePhoto.map((item, index, arr) => {
+                        // console.log(item)
                         return (
                           <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                            <img style={{width: '100%', height: '100%'}} src={item} />
+                            <img style={{width: '100%', height: '100%'}} src={item.thumbUrl} />
                           </div>
                         )
                       })}

@@ -4,7 +4,9 @@
 import React, { Component } from 'react'
 import { Modal } from 'antd'
 import PropsTypes from 'prop-types'
-import { SWRelate, DevRelate, IterationInfo } from '../detail-content'
+import { SWRelate, // DevRelate,
+  IterationInfo
+} from '../detail-content'
 import { BlankBar } from 'components/software-market'
 import './IterationDetailModal.scss'
 
@@ -32,7 +34,7 @@ class IterationDetailModal extends Component {
         <BlankBar />
         <IterationInfo resData={resData} getOnShelfTime={this.getOnShelfTime} />
         <BlankBar />
-        <DevRelate resData={resData} />
+        {/* <DevRelate resData={resData} /> */}
         <BlankBar />
       </Modal>
     )
