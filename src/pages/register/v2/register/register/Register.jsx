@@ -21,6 +21,8 @@ const SERVICE_AUTHENTICATION = config.SERVICE_AUTHENTICATION
 const FormItem = Form.Item
 const Option = Select.Option
 
+// let start = 120
+// let count = 0
 class Register extends Component {
   constructor (props) {
     super(props)
@@ -31,7 +33,9 @@ class Register extends Component {
       validateParentCodeFlag: true,
       validateParentPhoneFlag: false,
       validatePhoneFlag: false,
-      code: {}
+      code: {},
+      codeValue: '',
+      codeMessage: ''
     }
   }
   componentDidMount () {
@@ -116,25 +120,30 @@ class Register extends Component {
   }
   /** 获取验证码 */
   getParentCode = () => {
-    if (this.state.parentCodeText === '获取验证码' && this.state.validateParentCodeFlag) {
-      if (this.state.validateParentPhoneFlag) {
-        this.setState({
-          validateParentCodeFlag: false
-        })
-        setCookie('secondsremainedss', 60, 60)
-        this.settimess()
-        SMSVerificationv2({
-          'phone': this.props.form.getFieldValue('parentPhone')
-        }, (response) => {
-          if (response.status === 200) {
-            message.success('获取验证码成功')
-          } else {
-            message.error('获取验证码失败')
-          }
-        })
-      } else {
-        this.props.form.validateFields(['parentPhone'])
+    const { codeValue, codeMessage } = this.state
+    if (codeValue && codeMessage === '验证成功') {
+      if (this.state.parentCodeText === '获取验证码' && this.state.validateParentCodeFlag) {
+        if (this.state.validateParentPhoneFlag) {
+          this.setState({
+            validateParentCodeFlag: false
+          })
+          setCookie('secondsremainedss', 60, 60)
+          this.settimess()
+          SMSVerificationv2({
+            'phone': this.props.form.getFieldValue('parentPhone')
+          }, (response) => {
+            if (response.status === 200) {
+              message.success('获取验证码成功')
+            } else {
+              message.error('获取验证码失败')
+            }
+          })
+        } else {
+          this.props.form.validateFields(['parentPhone'])
+        }
       }
+    } else {
+      message.warn('请先输入验证码再获取手机验证码！')
     }
   }
   /** 验证码倒计时 */
@@ -274,7 +283,35 @@ class Register extends Component {
   }
   // 点击图片刷新验证码
   onClick = () => {
+    // count = setInterval(this.countDown, 1000)
+    // console.log(count)
     this.getCodeFromBackground()
+  }
+  // input失去焦点事件
+  inputOnblur = (e) => {
+    const {code} = this.state
+    console.log(code)
+    const {value} = e.target
+    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/verify', {
+      params: {
+        input_code: value,
+        verify_code: code.verify_code,
+        generator_date: code.generator_date
+      }
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.data.code === 500) {
+          message.warn('错误或验证码失效，请点击图片获取新的验证码')
+        }
+        if (res.data.code === 200) {
+          this.setState({
+            codeValue: value,
+            codeMessage: res.data.data
+          })
+          message.success(res.data.data)
+        }
+      })
   }
   render () {
     const { getFieldDecorator } = this.props.form
@@ -357,10 +394,10 @@ class Register extends Component {
                     required: true, message: '请输入验证码'
                   }]
                 })(
-                  <Input placeholder='请输入验证码' className='input-size-code' />
+                  <Input onBlur={this.inputOnblur} placeholder='请输入验证码' className='input-size-code' />
                 )
               }
-              <img onClick={this.onClick} src={`data:image/jpeg;base64,${code.images}`} alt='二维码' />
+              <img onClick={this.onClick} src={`data:image/jpeg;base64,${code.images}`} alt='验证码' />
             </FormItem>
             <FormItem
               {...formItemLayout}

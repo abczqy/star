@@ -31,7 +31,9 @@ class Login extends Component {
     super(props)
     this.state = {
       code: {},
-      btnClick: false
+      btnClick: false,
+      codeValue: '',
+      codeMessage: ''
     }
   }
   componentWillMount () {
@@ -46,68 +48,66 @@ class Login extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log(values)
-        // let inputCode = values.code
-        // const { code } = this.state
-        // if (inputCode === code) {
-        const identifier = this.props.form.getFieldValue('username')
-        const password = this.props.form.getFieldValue('password')
-        loginNew({
-          'authType': 0,
-          'identifier': identifier,
-          'password': password,
-          'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
-          'extraInfo': ''
-        }, (response) => {
-          let data1 = response.data
-          if (data1.code === 200) {
-            /** ticket userId */
-            let userId
-            let roleCode
-            if (data1.data.ticket) {
-              webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
-              const arr = data1.data.ticket.split('.')
-              if (arr.length > 1) {
-                userId = JSON.parse(window.atob(arr[1])).userId
-                webStorage.setItem('STAR_V2_USERID', userId)
-                roleCode = JSON.parse(window.atob(arr[1])).ruleCode
-                webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
-              }
-            }
-            getUserInfoV2(userId, (response) => {
-              if (response.data.code === 200) {
-                webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
-                webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-                message.success('登录成功')
-                if (roleCode === 'operator') {
-                  this.props.history.push({
-                    pathname: '/software-market-home'
-                  })
-                } else {
-                  // 跳到首次登录
-                  // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
-                  //   this.props.history.push({
-                  //     pathname: '/first-login'
-                  //   })
-                  // } else {
-                  this.props.history.push({
-                    pathname: '/home/index'
-                  })
-                  // }
+        const { codeValue, codeMessage } = this.state
+        if (codeValue && codeMessage === '验证成功') {
+          const identifier = this.props.form.getFieldValue('username')
+          const password = this.props.form.getFieldValue('password')
+          loginNew({
+            'authType': 0,
+            'identifier': identifier,
+            'password': password,
+            'ticketReceiveUrl': 'http://www.mysite.com/authentication/ticket',
+            'extraInfo': ''
+          }, (response) => {
+            let data1 = response.data
+            if (data1.code === 200) {
+              /** ticket userId */
+              let userId
+              let roleCode
+              if (data1.data.ticket) {
+                webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
+                const arr = data1.data.ticket.split('.')
+                if (arr.length > 1) {
+                  userId = JSON.parse(window.atob(arr[1])).userId
+                  webStorage.setItem('STAR_V2_USERID', userId)
+                  roleCode = JSON.parse(window.atob(arr[1])).ruleCode
+                  webStorage.setItem('STAR_WEB_ROLE_CODE', roleCode)
                 }
-              } else {
-                /** 登录失败 */
-                message.error('登录失败')
               }
-            })
-          } else {
-            /** 登录失败 */
-            message.error('登录失败')
-          }
-        })
-        // } else {
-        //   message.warn('请输入正确的验证码')
-        // }
+              getUserInfoV2(userId, (response) => {
+                if (response.data.code === 200) {
+                  webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
+                  webStorage.setItem('STAR_WEB_IS_LOGGED', true)
+                  message.success('登录成功')
+                  if (roleCode === 'operator') {
+                    this.props.history.push({
+                      pathname: '/software-market-home'
+                    })
+                  } else {
+                    // 跳到首次登录
+                    // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
+                    //   this.props.history.push({
+                    //     pathname: '/first-login'
+                    //   })
+                    // } else {
+                    this.props.history.push({
+                      pathname: '/home/index'
+                    })
+                    // }
+                  }
+                } else {
+                  /** 登录失败 */
+                  message.error('登录失败')
+                }
+              })
+            } else {
+              /** 登录失败 */
+              message.error('登录失败')
+            }
+          })
+        } else {
+          message.warn('验证码失效或错误，请重新输入验证码')
+        }
       }
     })
   }
@@ -153,7 +153,7 @@ class Login extends Component {
     const {value} = e.target
     axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/verify', {
       params: {
-        code: value,
+        input_code: value,
         verify_code: code.verify_code,
         generator_date: code.generator_date
       }
@@ -162,6 +162,13 @@ class Login extends Component {
         console.log(res)
         if (res.data.code === 500) {
           message.warn(res.data.data)
+        }
+        if (res.data.code === 200) {
+          this.setState({
+            codeValue: value,
+            codeMessage: res.data.data
+          })
+          message.success(res.data.data)
         }
       })
   }
