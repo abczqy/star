@@ -1,5 +1,5 @@
 .home-carousel {
-    .ant-carousel .slick-slide {
+  .slick-slide {
         text-align: center;
         height: 360px;
         line-height: 360px;
@@ -10,7 +10,7 @@
     .ant-carousel .slick-slide h3 {
         width: 100%;
     }
-  .ant-carousel .slick-dots {
+  .slick-dots {
         display: block!important;
         position: relative;
         width: fit-content;
@@ -38,4 +38,8 @@
     .ant-carousel .slick-dots li button {
         opacity: 1;
     }
+  .slick-dots li{
+    height: 14px;
+    overflow: hidden;
+  }
 }

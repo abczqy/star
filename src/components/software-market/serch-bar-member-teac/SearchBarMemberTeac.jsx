@@ -29,6 +29,10 @@ class SearchBarMemberTeac extends Component {
     })
   }
 
+  download = () => {
+    window.open('static/')
+  }
+
   render () {
     const {
       // selectList,
@@ -85,7 +89,7 @@ class SearchBarMemberTeac extends Component {
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
-            <Button type='primary' className='search-bar-btn'>模板下载</Button>
+            <Button type='primary' className='search-bar-btn'><a href='/static/document/UserMessages.xls' target='_blank'>模板下载</a></Button>
           </Col>
           <Upload {...uploadProps}>
             <Col span={2}>

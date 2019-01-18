@@ -33,10 +33,10 @@ class SearchBarMemberSch extends Component {
       // selectList,
       onBtnSearchClick,
       // onSelect1Change,
-      onSelect2Change,
+      onSelect2Change
       // onSelect3Change,
       // onSelect4Change,
-      onBtnBatchExport
+      // onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -76,9 +76,9 @@ class SearchBarMemberSch extends Component {
           <Col span={3}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
-          <Col span={2}>
+          {/* <Col span={2}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     )
@@ -89,10 +89,10 @@ SearchBarMemberSch.propTypes = {
   // selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   // onSelect1Change: PropsTypes.func,
-  onSelect2Change: PropsTypes.func,
+  onSelect2Change: PropsTypes.func
   // onSelect3Change: PropsTypes.func,
   // onSelect4Change: PropsTypes.func,
-  onBtnBatchExport: PropsTypes.func
+  // onBtnBatchExport: PropsTypes.func
 }
 
 export default SearchBarMemberSch
