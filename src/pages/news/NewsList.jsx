@@ -167,8 +167,8 @@ class News extends React.Component {
                         <Col span={4}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                       </Row>
                       <Row>
-                        <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 100)}</p>
+                        <Col span={22}>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}} dangerouslySetInnerHTML={{__html: processStr(item.content, 100)}} />
                         </Col>
                       </Row>
                     </Col>
@@ -185,8 +185,8 @@ class News extends React.Component {
                         <Col span={4}><span className='span-top'>{moment(item.updateTime).format('YYYY-MM-DD')}</span></Col>
                       </Row>
                       <Row>
-                        <Col span={23}>
-                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}}>{processStr(item.content, 100)}</p>
+                        <Col span={22}>
+                          <p className='paragraph' style={{height: '55px', fontSize: '12px'}} dangerouslySetInnerHTML={{__html: processStr(item.content, 100)}} />
                         </Col>
                       </Row>
                     </Col>

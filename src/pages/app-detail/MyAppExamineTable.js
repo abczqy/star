@@ -41,8 +41,8 @@ class MyAppExamineTable extends Component {
       // width: 150
     }, {
       title: '提交时间',
-      dataIndex: 'UPDATE_TIME',
-      key: 'UPDATE_TIME',
+      dataIndex: 'CREATE_TIME',
+      key: 'CREATE_TIME',
       render: date => date ? moment(date).format('YYYY-MM-DD') : null
       // width: 150
     }, {
