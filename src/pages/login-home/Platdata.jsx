@@ -107,15 +107,15 @@ class Platdata extends React.Component {
         let userInfo = {}
         data.roleCount.forEach((item) => {
           if (item.ROLE_ID === 1) {
-            userInfo.student = item.COUNT
+            userInfo.student = item.COUNT || 0
           } else if (item.ROLE_ID === 2) {
-            userInfo.teacher = item.COUNT
+            userInfo.teacher = item.COUNT || 0
           } else if (item.ROLE_ID === 5) {
-            userInfo.parent = item.COUNT
+            userInfo.parent = item.COUNT || 0
           }
         })
-        userInfo.activeProportion = data.activeProportion
-        userInfo.userCount = data.userCount
+        userInfo.activeProportion = data.activeProportion || 0
+        userInfo.userCount = data.userCount || 0
         this.setState({userInfo})
       }
     })
