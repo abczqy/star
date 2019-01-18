@@ -40,6 +40,7 @@ class PublicInfo extends Component {
         keywords: ''
       },
       rowKeys: [],
+      informationsOnSelected: [],
       pagination,
       batchLeadParams: {
         idArrs: ''
@@ -197,6 +198,7 @@ class PublicInfo extends Component {
    * 多选选项变化
    */
   rowSelectChange = (selectedRowKeys, selectedRows) => {
+    console.log('selected change')
     // 从view中得到数据 并把th_id提取出来组合为一个新数组
     let idArr = ''
     selectedRows.map((val, index) => {
@@ -264,6 +266,7 @@ class PublicInfo extends Component {
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
+    console.log(current, size)
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -279,11 +282,16 @@ class PublicInfo extends Component {
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
+    console.log('page change')
+
     this.setState({
       pagination: {
         ...this.state.pagination,
         pageNum: page
-      }
+      },
+      // 清空被选择的 info
+      rowKeys: [],
+      batchLeadParams: {idArrs: ''}
     }, () => {
       this.getTableDatas()
     })

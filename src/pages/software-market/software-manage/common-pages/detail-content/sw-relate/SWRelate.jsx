@@ -32,7 +32,7 @@ class SWRelate extends Component {
 
     // 转换接收到的PC端界面截图sw_computer_photo参数类型为数组
     let computerPho = []
-    // computerPho = resData && resData.sw_computer_photo ? resData.sw_computer_photo.split(';') : []
+    computerPho = data && data.APP_PC_PIC ? data.APP_PC_PIC.split(',') : []
 
     return (
       <div className='ralate-wrap'>
@@ -105,7 +105,7 @@ class SWRelate extends Component {
             <Col>
               {
                 data.APP_ICON &&
-                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={data.APP_ICON && ajaxUrl.IMG_BASE_URL + data.APP_ICON} />
+                <img style={{ width: 48, height: 42 }} alt='软件的图标' src={ajaxUrl.IMG_BASE_URL_V2 + '/' + data.APP_ICON} />
               }
             </Col>
           </Row>
@@ -117,7 +117,7 @@ class SWRelate extends Component {
             <Col>
               {computerPho.length > 0 && computerPho.map((item, index) => {
                 return (
-                  item && <img key={index} style={{ width: 81, height: 55 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL + item} />
+                  item && <img key={index} style={{ width: '20%', height: 100 }} alt='pc端的界面截图' src={resData && ajaxUrl.IMG_BASE_URL_V2 + item} />
                 )
               })}
             </Col>

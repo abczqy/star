@@ -154,7 +154,8 @@ class Home extends Component {
       recomApps: [], // 系统（重点）推荐
       myApps: [], // 我的应用
       myCollect: [], // 我的收藏
-      usrInfo: {} // 用户信息
+      usrInfo: {}, // 用户信息,
+      appUseTime: [] // 应用使用时长
     }
   }
 
@@ -231,7 +232,18 @@ class Home extends Component {
         }
       })
   }
-
+  /** 数据请求--使用时长 **/
+  getAppUseTimeRank = () => {
+    axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/count/getAppUseTimeRank')
+      .then((res) => {
+        if (res.data.code === 200) {
+          this.setState({
+            appUseTime: res.data.data
+          })
+        }
+        console.log(res.data.data)
+      })
+  }
   /**
    * 适配器 - 系统（重点）推荐数据适配 LabelIcon
    * @param { Array } data 输入的数据
@@ -426,6 +438,22 @@ class Home extends Component {
     ))
   }
 
+  getAppUseTimeListRender = (data) => {
+    let datas = data.content || []
+    if (datas.length > 6) {
+      // 取前5条
+      datas = datas.slice(0, 5)
+    }
+    return datas.map((v, i) => (
+      <StatItem
+        key={i}
+        orderNum={i + 1 + ''}
+        orderColor={i > 2 ? orderColor[3] : orderColor[i]}
+        title={v.APP_NAME}
+        percent={v.TIME}
+      />
+    ))
+  }
   /**
    * 获取待办列表的渲染
    */
@@ -714,7 +742,7 @@ class Home extends Component {
                   tab='使用时长'
                 >
                   {
-                    this.getStatListRender(mock.statList)
+                    this.getAppUseTimeListRender(this.state.appUseTime)
                   }
                 </TabPane>
                 <TabPane
@@ -757,6 +785,8 @@ class Home extends Component {
     this.getMyApps(userInfo.userId, this)
     this.getMyCollect(userInfo.userId, this)
     this.getUserInfo(userInfo.userId, this)
+    // 获取使用时长
+    this.getAppUseTimeRank()
   }
 
   render () {
@@ -839,7 +869,7 @@ class Home extends Component {
           webStorage.getItem('STAR_WEB_ROLE_CODE') === 'vendor'
             ? <Card
               bordered={false}
-              title={'用户管理'}
+              title={'消费列表'}
               headStyle={{...headStyle}}
               bodyStyle={{...bodyStyle}}
               extra={<Extra />}

@@ -344,7 +344,14 @@ class Businessing extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-    this.getTableDatas(this)
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        pageNum: 1
+      }
+    }, () => {
+      this.getTableDatas(this)
+    })
   }
 
   inputChange = (e) => {

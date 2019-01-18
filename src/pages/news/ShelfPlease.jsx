@@ -146,7 +146,6 @@ class ShelfPlease extends React.Component {
   }
   // 类型
   onTypeChange = (value) => {
-    // console.log(value)
     this.setState({
       appType: value.key,
       appTypeName: value.label
@@ -513,7 +512,7 @@ class ShelfPlease extends React.Component {
           <span style={{color: 'red'}}>* </span>
           软件版本：
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <Select
             style={{ width: 150 }}
             placeholder='请选择安装包版本'
@@ -539,7 +538,7 @@ class ShelfPlease extends React.Component {
             <div className='extend'>支持扩展名：.exe..</div>
           </Upload>
         </Col>
-        <Col span={2} style={{width: '6%', lineHeight: '32px'}}>
+        <Col span={1} style={{width: '6%', lineHeight: '32px'}}>
           {this.state.versions[index].versionSize}
         </Col>
         <Col span={4}>
@@ -549,7 +548,7 @@ class ShelfPlease extends React.Component {
             value={this.state.versions[index].appVersion}
             onChange={(e) => this.onVerNumChange(e, index)} />
         </Col>
-        <Col span={4}>
+        <Col span={5}>
           <span style={{color: 'red'}}>* </span>包名 :
           <Input
             style={{ width: 160 }}
@@ -753,6 +752,24 @@ class ShelfPlease extends React.Component {
     const {value} = e.target
     const {platform} = this.state
     platform.special = value
+    this.setState({
+      ...platform
+    })
+  }
+  /** 链接地址 */
+  changePlatformUrl = (e) => {
+    const {value} = e.target
+    const {platform} = this.state
+    platform.urlAddress = value
+    this.setState({
+      ...platform
+    })
+  }
+  /** 平台应用类型选择 **/
+  ChangePlatformType = (value) => {
+    const {platform} = this.state
+    platform.typeName = value.label
+    platform.typeId = value.key
     this.setState({
       ...platform
     })
@@ -1186,7 +1203,7 @@ class ShelfPlease extends React.Component {
         <Col span={7}><Input placeholder='请输入应用名称' style={{ width: 280 }} onChange={this.changePlatformName} value={platform.name} /></Col>
         <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
         <Col span={7}>
-          <Select labelInValue defaultValue={{key: '101'}} allowClear style={{ width: 260 }} >
+          <Select labelInValue defaultValue={{key: '101'}} onChange={this.ChangePlatformType} allowClear style={{ width: 260 }} >
             {data.map((item, index) => {
               return <Select.Option value={item.value} key={index}>{item.name}</Select.Option>
             })}
@@ -1208,7 +1225,7 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='felx' algin='middle'>
         <Col span={3} offset={1}><span style={{color: 'red'}}>*</span>平台应用链接地址：</Col>
         <Col span={7}>
-          <Input placeholder='请输入链接' value={platform.urlAddress} />
+          <Input placeholder='请输入链接' onChange={this.changePlatformUrl} value={platform.urlAddress} />
         </Col>
         <Col span={4} offset={1}>
           <Button type='primary'>测试链接</Button>
@@ -1253,7 +1270,7 @@ class ShelfPlease extends React.Component {
       </div>
     )
     return (
-      <Row className='tab-wrapper'>
+      <div className='tab-wrapper'>
         <div style={{margin: '20px'}}><strong>上架申请</strong></div>
         <Tabs tabBarStyle={{border: 'none', background: '#fff'}} defaultActiveKey='01'>
           <TabPane key='01' tab={<strong>软件应用</strong>}>
@@ -1288,7 +1305,7 @@ class ShelfPlease extends React.Component {
             </div>
           </TabPane>
         </Tabs>
-      </Row>
+      </div>
     )
   }
 }
