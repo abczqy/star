@@ -1143,7 +1143,45 @@ class ShelfPlease extends React.Component {
       </Row>
       <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
     </Row>
-
+    // 应用相关
+    const aboutPlatform = <Row>
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>应用名称 :</Col>
+        <Col span={7}><Input placeholder='请输入应用名称' style={{ width: 280 }} value={this.state.appName} /></Col>
+        <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
+        <Col span={7}>
+          <Select labelInValue defaultValue={{key: '101'}} allowClear style={{ width: 260 }} >
+            {data.map((item, index) => {
+              return <Select.Option value={item.value} key={index}>{item.name}</Select.Option>
+            })}
+          </Select>
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入软件描述' style={{ width: 880 }} value={this.state.appDesc} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入新版特性' style={{ width: 880 }} value={this.state.feature} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='felx' algin='middle'>
+        <Col span={3} offset={1}><span style={{color: 'red'}}>*</span>平台应用链接地址：</Col>
+        <Col span={7}>
+          <Input placeholder='请输入链接' />
+        </Col>
+        <Col span={4} offset={1}>
+          <Button type='primary'>测试链接</Button>
+        </Col>
+        <Col span={4}>
+          <span>测试</span>
+        </Col>
+      </Row>
+    </Row>
     const tabs = [{
       title: '软件相关',
       content: aboutSoftware
@@ -1160,33 +1198,62 @@ class ShelfPlease extends React.Component {
       title: '财务凭证',
       content: aboutVoucher
     }]
+    let softTabs = [{
+      title: '应用相关',
+      content: aboutPlatform
+    }, {
+      title: '计费模式',
+      content: aboutFee
+    }, {
+      title: '财务凭证',
+      content: aboutVoucher
+    }]
     const TabPane = Tabs.TabPane
-
-    return <Card title='上架申请' className='main-card' style={{margin: '0 auto', width: '90%', minHeight: '540px', maxWidth: '1300px'}}
-      extra={
-        <div>
-          <Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>
-          <Button type='primary' style={{marginLeft: '5%'}} onClick={() => this.onSubmit(this)}>提交申请</Button>
-          <Button style={{marginLeft: '5%'}} onClick={this.onCancel}>取消</Button>
-        </div>
-      }>
-      <div >
-        {/* 修改厂商合同编号 */}
-        {this.state.previewApp ? <SelfPleasePreview
-          visible={this.state.previewApp}
-          hiddenModal={this.hiddenModal.bind(this, 'previewApp')}
-          dataPre={this.state.formDataPre1}
-          dataPc={this.state.fileListPCURL}
-          dataPhone={this.state.fileListPhoneUrl}
-          dataIcon={this.state.fileListIconUrl}
-        /> : null}
-        <div>
-          <Tabs defaultActiveKey='软件相关'>
-            {tabs.map((item, index) => <TabPane className='shelf-tab-panel' key={item.title} tab={item.title}>{tabs[index].content}</TabPane>)}
-          </Tabs>
-        </div>
+    let extraBtn = (
+      <div style={{width: '300px'}}>
+        <Button type='primary' onClick={() => { this.handlePreview() }}>预览</Button>
+        <Button type='primary' style={{marginLeft: '5%'}} onClick={() => this.onSubmit(this)}>提交申请</Button>
+        <Button style={{marginLeft: '5%'}} onClick={this.onCancel}>取消</Button>
       </div>
-    </Card>
+    )
+    return (
+      <Row className='tab-wrapper'>
+        <div style={{margin: '20px'}}><strong>上架申请</strong></div>
+        <Tabs tabBarStyle={{border: 'none', background: '#fff'}} defaultActiveKey='01'>
+          <TabPane key='01' tab={<strong>软件应用</strong>}>
+            <Card className='main-card' style={{margin: '0 auto', width: '100%', minHeight: '540px', border: 'none'}}>
+              <div >
+                {/* 修改厂商合同编号 */}
+                {this.state.previewApp ? <SelfPleasePreview
+                  visible={this.state.previewApp}
+                  hiddenModal={this.hiddenModal.bind(this, 'previewApp')}
+                  dataPre={this.state.formDataPre1}
+                  dataPc={this.state.fileListPCURL}
+                  dataPhone={this.state.fileListPhoneUrl}
+                  dataIcon={this.state.fileListIconUrl}
+                /> : null}
+                <div>
+                  <Tabs defaultActiveKey='软件相关' tabBarExtraContent={extraBtn} >
+                    {tabs.map((item, index) => <TabPane className='shelf-tab-panel' key={item.title} tab={item.title}>{tabs[index].content}</TabPane>)}
+                  </Tabs>
+                </div>
+              </div>
+            </Card>
+          </TabPane>
+          <TabPane key='02' tab={<strong>平台应用</strong>}>
+            <div>
+              <Tabs defaultActiveKey='应用相关' tabBarExtraContent={extraBtn}>
+                {
+                  softTabs.map((item, index) => {
+                    return <TabPane className='shelf-tab-panel' key={item.title} tab={item.title}>{item.content}</TabPane>
+                  })
+                }
+              </Tabs>
+            </div>
+          </TabPane>
+        </Tabs>
+      </Row>
+    )
   }
 }
 

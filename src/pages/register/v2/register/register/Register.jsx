@@ -35,7 +35,9 @@ class Register extends Component {
       validatePhoneFlag: false,
       code: {},
       codeValue: '',
-      codeMessage: ''
+      codeMessage: '',
+      getImgCode: true,
+      imgText: ''
     }
   }
   componentDidMount () {
@@ -47,7 +49,7 @@ class Register extends Component {
     if (countdownss !== undefined && countdownss > 0) {
       this.settimess()// 开始倒计时
     }
-    this.getCodeFromBackground()
+    this.getCodeFromBackground(false)
   }
   /** 提交表单 */
   handleSubmit = (e) => {
@@ -168,6 +170,23 @@ class Register extends Component {
       setCookie('secondsremainedss', countdown, countdown + 1)
     }, 1000)
   }
+  /** 计时器 **/
+  setTime = () => {
+    let count = 120
+    const timer = setInterval(() => {
+      if (count <= 0) {
+        clearInterval(timer)
+        this.setState({
+          getImgCode: true
+        })
+      } else {
+        this.setState({
+          imgText: '请' + count + '秒后再试'
+        })
+      }
+      count--
+    }, 1000)
+  }
   /** 校验身份证 */
   validateCard = (rule, value, callback) => {
     if (!value) {
@@ -268,24 +287,52 @@ class Register extends Component {
     }
   }
   // 获取后台提供的验证码
-  getCodeFromBackground () {
-    axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator')
-      .then((res) => {
-        let response = {
-          generator_date: res.data.data.generator_date,
-          images: res.data.data.images,
-          verify_code: res.data.data.verify_code
-        }
-        this.setState({
-          code: response
+  getCodeFromBackground (value) {
+    if (value) {
+      const {getImgCode} = this.state
+      if (getImgCode) {
+        axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator')
+          .then((res) => {
+            this.setState({
+              getImgCode: false
+            })
+            this.setTime()
+            if (res.data.code === 200) {
+              let response = {
+                generator_date: res.data.data.generator_date,
+                images: res.data.data.images,
+                verify_code: res.data.data.verify_code
+              }
+              this.setState({
+                code: response
+              })
+            }
+          })
+      }
+    } else {
+      axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator')
+        .then((res) => {
+          if (res.data.code === 200) {
+            let response = {
+              generator_date: res.data.data.generator_date,
+              images: res.data.data.images,
+              verify_code: res.data.data.verify_code
+            }
+            this.setState({
+              code: response
+            })
+          }
         })
-      })
+    }
   }
   // 点击图片刷新验证码
   onClick = () => {
-    // count = setInterval(this.countDown, 1000)
-    // console.log(count)
-    this.getCodeFromBackground()
+    const {getImgCode, imgText} = this.state
+    if (getImgCode) {
+      this.getCodeFromBackground(true)
+    } else {
+      message.warn(imgText)
+    }
   }
   // input失去焦点事件
   inputOnblur = (e) => {
