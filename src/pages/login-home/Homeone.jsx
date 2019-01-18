@@ -253,6 +253,7 @@ class Home extends React.Component {
             <div className='message-container'>
               <Carousel vertical autoplay autoplaySpeed='20'>
                 {this.state.messageCaro && this.state.messageCaro.map((item, index) => {
+                  console.log(item.message.content)
                   return <div key={index}>
                     <span className='messageleft' />
                     <div className='messageright'>{item.message.content}</div>

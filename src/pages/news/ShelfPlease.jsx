@@ -512,7 +512,7 @@ class ShelfPlease extends React.Component {
           <span style={{color: 'red'}}>* </span>
           软件版本：
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <Select
             style={{ width: 150 }}
             placeholder='请选择安装包版本'
@@ -538,7 +538,7 @@ class ShelfPlease extends React.Component {
             <div className='extend'>支持扩展名：.exe..</div>
           </Upload>
         </Col>
-        <Col span={2} style={{width: '6%', lineHeight: '32px'}}>
+        <Col span={1} style={{width: '6%', lineHeight: '32px'}}>
           {this.state.versions[index].versionSize}
         </Col>
         <Col span={4}>
@@ -548,7 +548,7 @@ class ShelfPlease extends React.Component {
             value={this.state.versions[index].appVersion}
             onChange={(e) => this.onVerNumChange(e, index)} />
         </Col>
-        <Col span={4}>
+        <Col span={5}>
           <span style={{color: 'red'}}>* </span>包名 :
           <Input
             style={{ width: 160 }}
