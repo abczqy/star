@@ -113,7 +113,16 @@ class ShelfPlease extends React.Component {
         runningPlatform: '', // 版本号
         versionSize: '' // 软件大小
       }], // 渲染用state-用来映射软件版本编辑器/同时也是表单数据中的pc字段
-      imgUrl: ''
+      imgUrl: '',
+      platform: {
+        name: '', // 应用名称
+        typeId: '', // 类型
+        typeName: '', // 类型名称
+        description: '', // 应用描述
+        special: '', // 新版特性
+        urlAddress: '', // 链接地址
+        urlTest: '' // 链接测试结果
+      }
     }
   }
   hiddenModal () {
@@ -721,8 +730,35 @@ class ShelfPlease extends React.Component {
       })
     })
   }
-
+  /** 平台名称 **/
+  changePlatformName = (e) => {
+    const {value} = e.target
+    const {platform} = this.state
+    platform.name = value
+    this.setState({
+      ...platform
+    })
+  }
+  /** 平台应用描述**/
+  changePlatformDescription = (e) => {
+    const {value} = e.target
+    const {platform} = this.state
+    platform.description = value
+    this.setState({
+      ...platform
+    })
+  }
+  /** 平台应用新特性 */
+  changePlatfromSpecial = (e) => {
+    const {value} = e.target
+    const {platform} = this.state
+    platform.special = value
+    this.setState({
+      ...platform
+    })
+  }
   render () {
+    const {platform} = this.state
     // 需要改
     const data = [
       {
@@ -1147,7 +1183,7 @@ class ShelfPlease extends React.Component {
     const aboutPlatform = <Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>应用名称 :</Col>
-        <Col span={7}><Input placeholder='请输入应用名称' style={{ width: 280 }} value={this.state.appName} /></Col>
+        <Col span={7}><Input placeholder='请输入应用名称' style={{ width: 280 }} onChange={this.changePlatformName} value={platform.name} /></Col>
         <Col span={2} offset={3}><span style={{color: 'red'}}>* </span>类型 :</Col>
         <Col span={7}>
           <Select labelInValue defaultValue={{key: '101'}} allowClear style={{ width: 260 }} >
@@ -1158,27 +1194,27 @@ class ShelfPlease extends React.Component {
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='middle'>
-        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>软件描述 : </span></Col>
+        <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>应用描述 : </span></Col>
         <Col span={20}>
-          <TextArea placeholder='请输入软件描述' style={{ width: 880 }} value={this.state.appDesc} />
+          <TextArea placeholder='请输入软件描述' style={{ width: 880 }} onChange={this.changePlatformDescription} value={platform.description} />
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>新版特性 : </span></Col>
         <Col span={20}>
-          <TextArea placeholder='请输入新版特性' style={{ width: 880 }} value={this.state.feature} />
+          <TextArea placeholder='请输入新版特性' style={{ width: 880 }} onChange={this.changePlatfromSpecial} value={platform.special} />
         </Col>
       </Row>
       <Row className='Wxd' type='felx' algin='middle'>
         <Col span={3} offset={1}><span style={{color: 'red'}}>*</span>平台应用链接地址：</Col>
         <Col span={7}>
-          <Input placeholder='请输入链接' />
+          <Input placeholder='请输入链接' value={platform.urlAddress} />
         </Col>
         <Col span={4} offset={1}>
           <Button type='primary'>测试链接</Button>
         </Col>
         <Col span={4}>
-          <span>测试</span>
+          <span>{platform.urlTest}</span>
         </Col>
       </Row>
     </Row>
