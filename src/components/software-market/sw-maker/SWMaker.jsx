@@ -100,6 +100,7 @@ class SWMaker extends Component {
     let param = {
       appId: record.appId
     }
+    console.log(record)
     if (this.state.hotList.length >= 6) {
       if (record.isHotRecommend === 0) {
         message.warning('已达推送上限')
@@ -108,6 +109,7 @@ class SWMaker extends Component {
           if (res.data.code === 200) {
             message.success('取消推送成功')
             this.getMarketHot()
+            this.getList()
           } else {
             message.warn(res.data.msg)
           }
@@ -119,6 +121,7 @@ class SWMaker extends Component {
           if (res.data.code === 200) {
             message.success('推送成功')
             this.getMarketHot()
+            this.getList()
           } else {
             message.warn(res.data.msg)
           }
@@ -128,6 +131,7 @@ class SWMaker extends Component {
           if (res.data.code === 200) {
             message.success('取消推送成功')
             this.getMarketHot()
+            this.getList()
           } else {
             message.warn(res.data.msg)
           }

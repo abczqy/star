@@ -234,7 +234,7 @@ class ThirdPartyAppDetail extends React.Component {
             <p className='header-classification'>分类：{this.state.appDetailData.APP_TYPE_NAME || '无'}</p>
             <div>
               {this.state.appDetailData.APP_SOURCE === 'rj' && this.state.verInfoArray && this.state.verInfoArray.map((item, index) => {
-                return <a key={index} target='_blank' href={this.state.verLinkArray[index] || 'http://baidu.com'}>
+                return <a key={index} target='_blank' href={ajaxUrl.IMG_BASE_URL_V2 + this.state.verLinkArray[index] || 'http://baidu.com'}>
                   <Button className='header-button'>
                     {this.state.verInfoArray[index] || 'windows'}
                     <Icon style={{color: '#fff'}} type='download' />

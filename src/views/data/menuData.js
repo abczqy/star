@@ -11,15 +11,16 @@
 import ImgSoft from 'assets/images/operationMana/u103.png'
 import ImgMemb from 'assets/images/operationMana/u15.png'
 import ImgPlat from 'assets/images/operationMana/u57.png'
-import ImgOper from 'assets/images/operationMana/u83.png'
+// import ImgOper from 'assets/images/operationMana/u83.png'
 
 export default [
-  {
+  /* {
     title: '工单管理',
     icon: ImgSoft,
     key: '1',
     to: '/software-market-home/software-manage/businessing'
-  }, {
+  }, */
+  {
     title: '门户平台管理',
     icon: ImgPlat,
     key: '2',
@@ -81,7 +82,7 @@ export default [
         ]
       }
     ]
-  }, {
+  }, /* {
     title: '运营统计',
     icon: ImgOper,
     key: '4',
@@ -112,7 +113,7 @@ export default [
     icon: ImgSoft,
     key: '7',
     to: '/software-market-home/software-manage/businessing'
-  }, {
+  }, */{
     title: '用户管理',
     icon: ImgMemb,
     key: '8',
@@ -129,6 +130,10 @@ export default [
         title: '家长',
         key: '8-3',
         to: '/software-market-home/member-manage/parent'
+      }, {
+        title: '游客',
+        key: '8-4',
+        to: '/software-market-home/member-manage/tourist'
       }
     ]
   }, {
@@ -150,15 +155,15 @@ export default [
         to: '/software-market-home/member-manage/educational-services'
       }
     ]
-  }, {
+  }, /* {
     title: '系统设置',
     icon: ImgSoft,
     key: '9',
     to: '/software-market-home/software-manage/businessing'
-  }, {
+  }, */{
     title: '消息管理',
     icon: ImgSoft,
     key: '10',
-    to: '/software-market-home/software-manage/businessing'
+    to: '/software-market-home/software-manage/messages'
   }
 ]

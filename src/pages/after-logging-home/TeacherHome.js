@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
-import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, hotRecommend, homeCollection, homeCancelCollection} from 'services/software-home/'
+import { getSoftMarketList } from 'services/portalnew'
+import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection} from 'services/software-home'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 import { withRouter } from 'react-router'
@@ -123,7 +124,17 @@ class TeacherHome extends Component {
   }
   // 获取热门推荐数据
   getHotData = () => {
-    hotRecommend({
+    getSoftMarketList({}, (response) => {
+      if (response.data.code === 200) {
+        let result = response.data.data.content || []
+        this.setState({
+          hotData: result || []
+        })
+      } else {
+        // message.warning(response.data.msg || '出现异常')
+      }
+    })
+    /* hotRecommend({
       pageNum: '1',
       pageSize: this.state.hotMoreNum
     }, (res) => {
@@ -135,7 +146,7 @@ class TeacherHome extends Component {
       } else {
         // message.warning(res.data.msg || '出现异常')
       }
-    }).catch((e) => { console.log(e) })
+    }).catch((e) => { console.log(e) }) */
   }
   // 处理老师推荐的更多按钮
   handleTeacherMore = () => {
@@ -325,8 +336,8 @@ class TeacherHome extends Component {
       <div key={index} className='list'>
         <dl className='list-item'>
           <dt className='dl-dt'>
-            {item.APP_ICON
-              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
+            {item.appIcon
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.appIcon} />
               : <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
@@ -340,12 +351,12 @@ class TeacherHome extends Component {
               <a href={item.APP_LINK} target='_blank'>打开</a>
             </Button>
             : <Button className='openButton' type='primary'>
-              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.appId}}>详情</Link>
             </Button>}
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
             type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)}
+            onClick={() => this.handleCollection(item.appId, item.IS_COLLECT)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>

@@ -60,6 +60,8 @@ import {
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
+import Tourist from 'pages/software-market/member-manage/tourist/Tourist'
+import Messages from 'pages/software-market/software-manage/messages/Messages'
 
 export default {
   workPlat: [{
@@ -128,6 +130,9 @@ export default {
     path: '/software-market-home/member-manage/parent',
     component: Logged(Parent)
   }, {
+    path: '/software-market-home/member-manage/tourist',
+    component: Logged(Tourist)
+  }, {
     path: '/software-market-home/member-manage/school',
     component: Logged(School)
   }, {
@@ -175,5 +180,8 @@ export default {
   }, {
     path: '/software-market-home/soft-market-manage/plat-manage',
     component: Logged(PlatManage)
+  }, {
+    path: '/software-market-home/software-manage/messages',
+    component: Logged(Messages)
   }]
 }
