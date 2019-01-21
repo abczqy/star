@@ -9,7 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Button, message, Modal, Input } from 'antd'
+import { Table, Button, message, Modal, Input, Tabs } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -26,7 +26,7 @@ const pagination = {
   showSizeChanger: true
 }
 const { TextArea } = Input
-
+const TabPane = Tabs.TabPane
 class IterationVerify extends Component {
   constructor (props) {
     super(props)
@@ -195,6 +195,29 @@ class IterationVerify extends Component {
           </span>
         )
       }
+    }]
+  }
+  getPlatColumns = () => {
+    return [{
+      title: '应用名称'
+    }, {
+      title: '所属类型'
+    }, {
+      title: '当前版本'
+    }, {
+      title: '迭代版本'
+    }, {
+      title: '提交时间'
+    }, {
+      title: '链接地址'
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      render: (text, record, index) => (
+        <span>
+          <a>审核</a>
+        </span>
+      )
     }]
   }
   dateToString = (date) => {
@@ -409,51 +432,68 @@ class IterationVerify extends Component {
   render () {
     const { tableData, pagination, detModalCon, options } = this.state
     return (
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-        />
-        <BlankBar />
-        <Table
-          columns={this.getColumns()}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        <div ref='IterDetailElem' className='Iter-detail-wrap' />
-        <IterationDetailModal
-          title={detModalCon.APP_NAME}
-          getContainer={() => this.refs.IterDetailElem}
-          visible={detModalCon.visible}
-          onCancel={this.handleAppDetCancel}
-          resData={detModalCon.resData}
-          getOnShelfTime={this.getOnShelfTime}
-          footer={[
-            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
-            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-        <Modal
-          visible={this.state.showModal}
-          onCancel={this.cancle}
-          onOk={this.onOk}
-          title='请输入审核不通过的原因'
-        >
-          <TextArea row={4} onChange={this.inputReason} />
-        </Modal>
-      </div>
+      <Tabs defaultActiveKey='soft'>
+        <TabPane key='soft' tab={<strong>软件应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+            />
+            <BlankBar />
+            <Table
+              columns={this.getColumns()}
+              dataSource={tableData.data}
+              pagination={{
+                ...pagination,
+                total: this.state.tableData.total,
+                onShowSizeChange: this.onShowSizeChange,
+                onChange: this.pageNumChange
+              }}
+              rowKey={(record, index) => {
+                return index
+              }}
+            />
+            <div ref='IterDetailElem' className='Iter-detail-wrap' />
+            <IterationDetailModal
+              title={detModalCon.APP_NAME}
+              getContainer={() => this.refs.IterDetailElem}
+              visible={detModalCon.visible}
+              onCancel={this.handleAppDetCancel}
+              resData={detModalCon.resData}
+              getOnShelfTime={this.getOnShelfTime}
+              footer={[
+                <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
+                <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
+                <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
+              ]}
+            />
+            <Modal
+              visible={this.state.showModal}
+              onCancel={this.cancle}
+              onOk={this.onOk}
+              title='请输入审核不通过的原因'
+            >
+              <TextArea row={4} onChange={this.inputReason} />
+            </Modal>
+          </div>
+        </TabPane>
+        <TabPane key='plat' tab={<strong>平台应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+            />
+            <BlankBar />
+            <Table columns={this.getPlatColumns()} />
+          </div>
+        </TabPane>
+      </Tabs>
     )
   }
 }

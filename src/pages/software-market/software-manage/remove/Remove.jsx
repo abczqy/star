@@ -3,7 +3,7 @@
  * 1- 内容自主添加
  */
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, Tabs } from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -20,6 +20,7 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
+const TabPane = Tabs.TabPane
 
 class Remove extends Component {
   constructor (props) {
@@ -183,6 +184,20 @@ class Remove extends Component {
     //   }
     }]
   }
+  getPlatColumns = () => {
+    return [{
+      title: '应用名称'
+    }, {
+      title: '所属类型'
+    }, {
+      title: '当前版本'
+    }, {
+      title: '提交时间'
+    }, {
+      title: '链接地址'
+    }
+    ]
+  }
   dateToString = (date) => {
     var dateee = new Date(date).toJSON()
     var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
@@ -315,44 +330,62 @@ class Remove extends Component {
   render () {
     const { tableData, pagination, detModalCon, options, data } = this.state
     return (
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-          data={data}
-        />
-        <BlankBar />
-        <Table
-          columns={this.getColumns()}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        <div ref='IterDetailElem' className='Iter-detail-wrap' />
-        <IterationDetailModal
-          title={detModalCon.swName}
-          getContainer={() => this.refs.IterDetailElem}
-          visible={detModalCon.visible}
-          onCancel={this.handleAppDetCancel}
-          resData={detModalCon.resData}
-          getOnShelfTime={this.getOnShelfTime}
-          footer={[
-            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
-            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-      </div>
+      <Tabs defaultActiveKey='soft'>
+        <TabPane key='soft' tab={<strong>软件应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+              data={data}
+            />
+            <BlankBar />
+            <Table
+              columns={this.getColumns()}
+              dataSource={tableData.data}
+              pagination={{
+                ...pagination,
+                total: this.state.tableData.total,
+                onShowSizeChange: this.onShowSizeChange,
+                onChange: this.pageNumChange
+              }}
+              rowKey={(record, index) => {
+                return index
+              }}
+            />
+            <div ref='IterDetailElem' className='Iter-detail-wrap' />
+            <IterationDetailModal
+              title={detModalCon.swName}
+              getContainer={() => this.refs.IterDetailElem}
+              visible={detModalCon.visible}
+              onCancel={this.handleAppDetCancel}
+              resData={detModalCon.resData}
+              getOnShelfTime={this.getOnShelfTime}
+              footer={[
+                <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
+                <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
+                <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
+              ]}
+            />
+          </div>
+        </TabPane>
+        <TabPane key='plat' tab={<strong>平台应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+              data={data}
+            />
+            <BlankBar />
+            <Table columns={this.getPlatColumns()} />
+          </div>
+        </TabPane>
+      </Tabs>
     )
   }
 }
