@@ -496,19 +496,6 @@ class Register extends React.Component {
           <Card title='家长注册' bordered={false} className='register-card'>
             <div>
               <Form>
-                {/* <Form.Item
-                  {...formItemLayout}
-                  label='电子邮箱'
-                >
-                  {getFieldDecorator('maf_loginid', {
-                    rules: [{
-                      required: true, message: ' '
-                    }]
-                  })(
-                    <Input placeholder='请输邮箱地址' onBlur={this.handlemialonblur} onChange={this.onLoginidChange} />
-                  )}
-                  <span className={this.state.checkemail_icon ? 'success' : 'fail'}>{this.state.checkemail}</span>
-                </Form.Item> */}
                 <Form.Item
                   {...formItemLayout}
                   label='密码'
