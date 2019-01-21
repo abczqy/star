@@ -1,0 +1,6 @@
+export { default as EducationalServices } from './educational-services/EducationalServices'
+export { default as Manufacturer } from './manufacturer/Manufacturer'
+export { default as Parent } from './parent/Parent'
+export { default as School } from './school/School'
+export { default as Student } from './student/Student'
+export { default as Teacher } from './teacher/Teacher'

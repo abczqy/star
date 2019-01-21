@@ -1,0 +1,184 @@
+/*-------------应用卡片--------------*/
+
+.application-card {
+  position: relative; 
+  margin-bottom: 20px;
+  border: 1px solid #EFF0EF; // border: 1px solid #666;
+  border-radius: 4px; // height: 102px;
+  // overflow: hidden;
+  /*应用图标*/
+  &:hover {
+    .update {
+      transition: .3s;
+      display: block;
+      z-index: 1;
+      bottom: 0px;
+    }
+  }
+  .ant-badge {
+    margin: 15px;
+    .ant-badge-dot {
+      width: 12px;
+      height: 12px;
+    }
+    .appLogo {
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  /*应用信息*/
+  .info {
+    display: inline-block;
+    width: calc(100% - 100px);
+    margin-top: 15px;
+    line-height: 35px;
+    vertical-align: top;
+    .name {
+      font-size: 14px;
+      color: #333;
+      width: calc(100% - 35px)
+    }
+    .description {
+      font-size: 12px;
+      color: #999;
+    }
+  }
+  /*分享*/
+  .share {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 15px;
+    right: 15px;
+    font-size: 16px;
+    color: #BCBCBC;
+    cursor: pointer;
+  } // 删除多选框
+  .delete {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 15px;
+    right: 15px;
+    font-size: 16px;
+    color: #BCBCBC;
+    cursor: pointer;
+  }
+  /*更新*/
+  .update {
+    position: absolute;
+    z-index: -1;
+    left: 0px;
+    bottom: -50px; // width: calc(100% - 14px);
+    width: 100%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center; // display: none;
+    button {
+      background: #15DB66;
+      border: none;
+      width: 95px;
+      height: 25 px;
+      line-height: 25px;
+      color: #efefef;
+      font-size: 12px;
+      border-radius: 3px;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+  }
+  /*下载和打开和开通*/
+  .opt-box {
+    background: #FAFAFA;
+    height: 35px;
+    font-size: 12px; // overflow: hidden;
+    &>span,
+    &>a {
+      float: right;
+      line-height: 25px;
+      margin-right: 10px;
+      margin-top: 5px;
+      color: #efefef;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .plr6 {
+      padding: 0 6px;
+    }
+  }
+  /*下载*/
+  .download {
+    &>a {
+      background: #08A1E9;
+      &>span {
+        background: #40B3F9;
+        display: inline-block;
+        height: 100%;
+      }
+      .anticon {
+        font-size: 14px;
+      }
+    }
+  }
+  /*打开*/
+  .open {
+    &>a {
+      background: #7ED321;
+    }
+  }
+  /*开通*/
+  .set-up {
+    &>a {
+      background: #08A1E9;
+    }
+  }
+  
+  /*收藏*/
+  .collection {
+    background-color: #FFBB45 !important; // background-color: transparent !important;
+    .anticon {
+      font-size: 14px;
+      cursor: pointer; // color: #FFBB45;
+    }
+  }
+}
+
+body {
+  .share-list {
+    // 选择分享对象的下拉框
+    background-color: #fff;
+    width: 85px;
+    margin-top: 5px;
+    border-radius: 2px;
+    .ant-dropdown-menu-item {
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      padding: 5px 0;
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+  .share-confirm-modal {
+    //分享确认的弹窗
+    .ant-modal-body {
+      text-align: center;
+      .confirm-info {
+        font-size: 20px;
+        color: #666;
+        font-weight: 400;
+        margin-top: 10px;
+      }
+    }
+    .warn-img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+}

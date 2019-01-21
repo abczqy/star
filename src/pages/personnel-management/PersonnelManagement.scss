@@ -1,0 +1,125 @@
+/*-----------------人员管理------------------*/
+
+.personnel-management {
+  min-height: 800px;
+  background-color: #fff;
+  /*侧边导航*/
+  .sider {
+    display: inline-block;
+    width: 250px !important;
+    max-width: 250px !important;
+    min-width: 250px !important;
+    background-color: #fff;
+    padding: 20px;
+    vertical-align: top;
+    .sider-header {
+      margin-bottom: 10px;
+      .title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+        margin-right: 10px;
+      }
+      .sub-title {
+        font-size: 12px;
+        color: #BCBCBC;
+      }
+    }
+    .ant-menu-dark {
+      background-color: #fff;
+      .ant-menu-item {
+        border-radius: 2px;
+        background-color: #F9F9F9;
+        border: 1px #E9E9E9 solid;
+        color: #666;
+        padding-left: 18px !important;
+        &:hover {
+          color: #39f
+        }
+        .icon {
+          position: relative;
+          top: 3px;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-right: 8px;
+          &.teacher {
+            background: url('../../assets/images/personal/teacher-blue.png') no-repeat;
+            background-size: 100%;
+          }
+          &.student {
+            background: url('../../assets/images/personal/student-blue.png') no-repeat;
+            background-size: 100%;
+          }
+        }
+      }
+      .ant-menu-item-selected {
+        background: #39f;
+        border-color: #39f;
+        color: #fff;
+        &:hover {
+          color: #fff
+        }
+        .icon.teacher {
+          background: url('../../assets/images/personal/teacher-white.png') no-repeat;
+          background-size: 100%;
+        }
+        .icon.student {
+          background: url('../../assets/images/personal/student-white.png') no-repeat;
+          background-size: 100%;
+        }
+      }
+    }
+  }
+  /*右侧内容区域*/
+  .content {
+    display: inline-block;
+    width: calc(100% - 250px);
+    vertical-align: top;
+    padding: 20px;
+    padding-left: 0;
+    .per-header {
+      .search {
+        // .ant-input {
+        //   width: calc(100% - 75px)
+        // }
+        .ant-btn {
+          float: right
+        }
+      }
+      .opt-box {
+        text-align: right;
+        .link {
+          margin-right: 16px;
+          color: #1890FF;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        .btn-style {
+          width: 80px;
+          height: 32px;
+          border-radius: 2px;
+          padding: 0;
+          margin-left: 5px;
+        }
+        .add-btn {
+          background-color: #3c0;
+          border-color: #3c0;
+          color: #FFFFFF;
+        }
+        .back-btn {
+          background-color: rgba(243, 243, 243, 1);
+          border-color: rgba(217, 217, 217, 1);
+          color: #666666;
+        }
+        // .upload-btn {
+        //   background-color: #3c0;
+        //   border-color: #3c0;
+        // }
+      }
+    } // 隐藏上传列表
+    .ant-upload-list {
+      display: none !important;
+    }
+  }
+}

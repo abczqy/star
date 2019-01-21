@@ -1,0 +1,150 @@
+.register_home {
+  .xingyun-header{
+    background: white !important;
+    height: 65px;
+    padding: 15px 10% !important;
+    .xingyun-logo {
+      width: 172px;
+      height: 27px;
+      background: url("../../assets/images/software-market/u49.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+  }
+  .xingyun-logo{
+    margin-top: 10px !important;
+  }
+  .center-view{
+    width: 100%;
+    padding-bottom: 30px;
+    //height: calc(100vh - 92px);
+    background: url("../../assets/images/register_bg.jpg") no-repeat center;
+    background-size: 100% 100%;
+    padding-top: 30px;
+    margin-bottom: 0px !important;
+    min-height: calc(100vh - 157px);
+    .register-card{
+      width: 55vw;
+      margin: 0 auto;
+      .ant-form-item-children{
+        float: left;
+        input{
+          width: 18vw!important;
+        }
+        #maf_phone{
+          width: 10vw!important;
+        }
+        .maf_phone{
+          background-color: #F2F2F2;
+          padding-left: 10px;
+          padding-right: 10px;
+          margin-left: 10px;
+        }
+        #maf_phone_code{
+          width: 10vw!important;
+        }
+        #code_input{
+          width: 10vw!important;
+        }
+        #v_container{
+          float: right;
+          padding-left: 10px;
+        }
+        #maf_phone_con{
+          width: 10vw!important;
+        }
+      }
+      .ant-form-explain{
+        float: left;
+        line-height: inherit !important;
+        padding-left: 15px;
+      }
+      .ant-form-item{
+        margin-bottom: 10px !important;
+      }
+      .has-success{
+        position: relative;
+      }
+      .success{
+        background:url(../../assets/images/register_rig.png) no-repeat;
+        background-size:20px;
+        width:20px;
+        height:20px;
+        visibility: visible;
+        position: absolute;
+        top:3px;
+        margin-left: 10px;
+      }
+      .fail{
+        font-weight: 400;
+        font-style: normal;
+        font-size: 12px;
+        color: #FF0000;
+        margin-left: 10px;
+      }
+      .false{float: right}
+      .succ{
+        position: inherit !important;
+        float: right;
+        padding-left: 5px;
+      }
+      .check-box{
+        margin-left: 25%;
+        float: left;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+      .agree{
+        margin-bottom: 30px;
+      }
+      .submitbtn{
+        text-align: center;
+       button{
+         background-color: #FF6600;
+         color: #FFFFFF;
+         width: 20vw;
+         height: 34px;
+         line-height: 34px;
+       }
+        .subdis{
+          background-color: #F2F2F2;
+          color: #333333;
+        }
+      }
+    }
+}
+}
+.registe-success{
+  .registesucc-icon{
+    padding: 20px;
+    span{
+      width: 4vw;
+      height: 4vw;
+      background: url("../../assets/images/u2456.png") no-repeat center top;
+      background-size: 100% 100%;
+      display: block;
+      position: relative;
+      left: 50%;
+      margin-left: -2vw;
+    }
+  }
+  .register_tip{
+    text-align: center;
+    font-size: 20px;
+  }
+  .ant-modal-footer{
+    border-top: inherit !important;
+  }
+  .ant-modal-footer{
+    padding: inherit!important;
+  }
+  .time{
+    text-align: center;
+    margin-top: 70px;
+  }
+  .account_nmum{
+    text-align: center;
+    font-size: 20px;
+    color: #EE881E;
+  }
+}
+

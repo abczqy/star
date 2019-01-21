@@ -1,0 +1,246 @@
+
+/* tabs panel的样式 */
+.shelf-tab-panel {
+  min-height: 500px;
+}
+.li-hover{
+  color: rgb(85, 162, 224);
+  height:25px;
+  line-height: 20px;
+  width:100%; 
+  white-space:nowrap; 
+  text-overflow:ellipsis; 
+  overflow: hidden; 
+}
+.ul-margin{
+  width:100%;
+  padding: 0px;
+  font-size: 20px;
+  list-style-image:url('../../assets/images/_ul.png');
+}
+.span-color:hover{
+  background-color: rgb(144, 197, 240)
+}
+.span-color{
+  color:black;
+  font-size: 12px;
+  margin-left: 5px;
+  width:100%
+}
+.span-colors{
+  color:black;
+  font-size: 12px;
+  margin-left: 5px
+}
+.span-top{
+  display: inline-block;
+  margin-top:24px;
+  font-size: 12px;
+  color:rgb(153, 153, 153)
+}
+.p{
+  color:rgb(24, 144, 255);
+  font-size: 16px;
+  margin-top:20px;
+  margin-top: 8px;
+}
+.ST{
+  color:rgb(144, 197, 240)
+}
+.details-right-title{
+  color:rgb(238, 136, 30);
+  font-size: 16px;
+  margin-top:20px;
+  min-height:13px;
+}
+.details-right-div{
+  width:60%;
+  text-align:center;
+  margin-left:21%;
+}
+.details-right-div-div{
+  text-indent: 2em;
+  margin-bottom: 50px;
+  text-align: left!important;
+  font-size: 12px;
+}
+.details-right-time{
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color:rgb(153, 153, 153);
+}
+.details-li-hover{
+  color: rgb(85, 162, 224);
+  // margin-left: -100px;
+  height:20px;
+  width:60%
+}
+.details-li-ul{
+  font-size: 28px;
+  list-style-image:url('../../assets/images/ull.png') 
+}
+.details-li-ul-down{
+  list-style-type: none;
+ // margin-left: 30%;
+  margin-top: '1%';
+  margin-bottom: '5%';
+  padding-left: 0;
+  color:rgb(51,51,51)
+}
+.left-downer{
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+.ant-btn-danger{
+  color:#fff!important;
+  background-color: rgb(53, 230, 53)!important;
+  border:0!important
+}
+.ant-btn-danger:focus{
+  border-color: rgb(53, 230, 53)!important;
+}
+.paragraph{
+  line-height: 24px;
+  font-size: 12px;
+  text-overflow:ellipsis; 
+  overflow: hidden; 
+  color:rgb(51,51,51);
+  margin:0;
+}
+.Wxd{
+  margin-bottom: 25px;
+}
+.Wxds{
+  margin-bottom: 15px;
+}
+
+.share-Qzone{
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  background: url("../../assets/images/Qzone.png") no-repeat center;
+  background-size: 100% 100%;
+}
+.share-WeChat{
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  width: 17px;
+  height: 17px;
+  margin-top: 5px;
+  background: url("../../assets/images/WeChat.png") no-repeat center;
+  background-size: 100% 100%;
+}
+.share-SinaWB{
+  cursor: pointer;
+  float: left;
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  background: url("../../assets/images/SinaWB.png") no-repeat center;
+  background-size: 100% 100%;
+}
+.custom-share-container{
+  .ant-tooltip-inner {
+    max-width: 250px;
+    padding: 6px 8px;
+    color: black;
+    font: 12px/20px "Sim sun";
+    text-align: left;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-height: 32px;
+  }
+}
+.ant-card-head-title{
+  font-size: 14px!important;
+}
+.right-div{
+  background-color: #fff
+}
+.information-fabu{
+  color:rgb(107,107,107)
+}
+.information-dianji{
+  color:rgb(153,153,153);
+  font-size: 12px;
+}
+.line{
+  height:1px;
+  width:87.5%;
+  background-color: #e4e4e4;
+  margin-top:10px;
+}
+.information-line{
+  height:1px;
+  width:100%;
+  background-color: #e4e4e4;
+  margin-top:10px;
+}
+.place-line{
+  height:1px;
+  width:96%;
+  background-color: #e4e4e4;
+  margin-top:10px;
+}
+.news-list-container{
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10px;
+  height: 100%;
+  #left-container{
+    width: 19%;
+    float:right;
+    margin-right: 5px;
+    .top-img{
+      margin-top: 10px;
+      height: 120px;
+      margin-bottom: 10px;
+    }
+    .bottom-img{
+      margin-top: 10px;
+      height: 120px;
+    }
+  }
+  #right-container{
+    width: 80%;
+    float:right;
+    background-color: #fff;
+  }
+  
+}
+.extend{
+  margin-left: 15px;
+  font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px;
+  color: #999999;
+  line-height: 18px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+
+.main-card{
+  .ant-card-extra{
+    width: 40%;
+  }
+}
+.tab-wrapper{
+  width: 80%;
+  padding: 10px;
+  margin: 0 auto;
+  background: #ffffff;
+}

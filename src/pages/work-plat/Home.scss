@@ -1,0 +1,151 @@
+/* 公用样式尽量引用公用变量 */
+@import "../../assets/index.scss";
+
+/* 宽屏的容器 */
+.content-wrap {
+  width: 1000px;
+  height: 100%;
+  border: 1px solid #000;
+}
+
+/* echarts的容器 */
+.echarts-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+/* 移动到上面时 小手指 */
+.point {
+  cursor: pointer;
+}
+
+/* 小图标 */
+.mini-icon {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  margin-right: 4px;
+  color: $grayColor;
+}
+
+/* 待办列表-厂商 */
+.wait-to-do-vend {
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed $padColor;
+  white-space: nowrap;
+  &:nth-last-child(1) {
+    border: none;
+  }
+  .message-icon-wrap {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    img {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  /* 父样式的缩写为前缀 */
+  .wtdv-col {
+    padding-top: 5px;
+  }
+}
+
+
+/* 应用统计-Item */
+.order-item-wrap {
+  padding-top: 10px;
+  /* 应用统计-Item-序号容器 */
+  .order-num {
+    display: inline-block;
+    width: $fontSizeH8 * 2;
+    height: $fontSizeH8 * 2;
+    border-radius: 50%;
+    color: $light;
+    text-align: center;
+  }
+}
+
+/* Extra的icon */
+.extra-icon {
+  width: $fontSizeH9;
+  height: $fontSizeH9;
+  margin-top: -4px;
+}
+
+/* 待办的Item */
+.wait-to-do-item {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  position: relative;
+  & > span {
+    margin-left: 10px;
+    margin-right: 5px;
+    color: $linkColor;
+    font-weight: 400;
+    font-style: normal;
+    font-size: $fontSizeH7;
+    cursor: pointer;
+  }
+  /* 待办的item的日期 */
+.wait-to-do-item-date {
+  position: absolute;
+  right: 0;
+  color: $grayColor;
+  font-size: $fontSizeH7;
+  color:$perNameColor;
+}
+}
+
+/* 待办的Item的前缀icon */
+.wait-to-do-item-icon-pre {
+  width: $fontSizeH6;
+  height: $fontSizeH6;
+  margin-top: -4px;
+}
+
+/* 待办的Item的后缀icon */
+.wait-to-do-item-icon-suffix {
+  width: $fontSizeH4;
+  height: $fontSizeH4;
+  margin-top: -4px;
+}
+
+/* Extra的字体大小 */
+.extra-font {
+  font-family: $fontFamily;
+  font-size: $fontSizeH2;
+  color: $grayColor;
+}
+
+/* 标题栏的红色提示 */
+.tip-red {
+  font-family: $fontFamily;
+  font-size: $fontSizeH2;
+  color: $importTipColor;
+  margin-left: 3px;
+}
+
+/* 工作台-盛放按钮的容器 */
+.row-box {
+  margin-top: 10px;
+  // padding-top: 10px;
+  border-top: 1px dashed #f4f4f4;
+}
+
+/* 工作台-个人中心（老师） */
+.row-box-tch {
+  padding-top: 20px;
+  font-family: $fontFamily;
+  font-Size: $fontSizeH7;
+  span {
+    color: $fontColor;
+  }
+}

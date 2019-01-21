@@ -1,0 +1,13 @@
+.upload-wrap {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  // color: transparent;
+  & > input {
+    margin: -1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: transparent;
+  }
+}

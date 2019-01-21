@@ -1,0 +1,104 @@
+.software-wrap {
+  width: 100%;
+  // min-height: calc(100vh - 185px);
+  .ant-table-wrapper{
+    // min-height: calc(100vh - 242px);
+    .ant-spin-nested-loading{
+      // min-height: calc(100vh - 242px);
+      .ant-spin-container{
+        // min-height: calc(100vh - 242px);
+        .ant-table .ant-table-body{
+          height: calc(100vh - 300.2px);
+          overflow-y: auto
+        }
+      }
+    }
+  }
+}
+
+//不能在函数生成的<span>中生效
+.normal-color {
+  color: #0f0
+}
+
+.warn-color {
+  color: #ff6600
+}
+
+.alert-color {
+  color: #f00
+}
+.slim-divid {
+  margin: 3% 0 3% 0;
+}
+
+.busi-renew-container{
+  .ant-row {
+    position: relative;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 15px;
+    height: auto;
+    zoom: 1;
+    display: block;
+    box-sizing: border-box;
+  }
+  .soft-name{
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.847058823529412);
+    line-height: 22px;
+  }
+  .contract-title{
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    color: rgba(161, 161, 161, 0.847058823529412);
+    line-height: 22px;
+    .contract-value{
+      margin-left: 10px;
+      font-family: 'PingFangSC-Regular', 'PingFang SC';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.847058823529412);
+      line-height: 22px;
+    }
+  }
+  .contract-status{
+    background: #F9F9F9;
+    padding: 30px 120px;
+    .ant-radio-wrapper{
+      margin-bottom: 10px;
+    }
+  }
+  .finance-voucher{
+    .title{
+      font-family: 'PingFangSC-Regular', 'PingFang SC';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 12px;
+      text-align: right;
+      line-height: 18px;
+      margin-right: 15px;
+    }
+    .extend{
+      margin-left: 15px;
+      font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 12px;
+      color: #999999;
+      line-height: 18px;
+    }
+  }
+}
+.tourist-wrapper{
+  .operation-click{
+    color: #00A4F7;
+    cursor: pointer;
+  }
+}

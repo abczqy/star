@@ -1,0 +1,36 @@
+.real-name-title {
+  background-color: #fff4e6;
+  border: 1px solid #fdb866;
+  border-radius: 2px;
+  font-size: 14px;
+  text-align: left;
+  line-height: 30px;
+  width: 100%;
+  height: 30px;
+  .real-name {
+    background-image: url('../../assets/images/u28666.png');
+    margin-left: 5px;
+    margin-right: 5px;
+    .real-name-img {
+      width: 18px;
+      height: 20px;
+    }
+  }
+  .real-name-label {
+    color: black;
+    margin-right:10px;
+  }
+  .red-color {
+    color: #fc8b00;
+  }
+}
+
+.real-name-data-title {
+  border-bottom: 1px solid black;
+}
+.upload-real-name {
+  display: inline-block;
+}
+.real-name-div {
+  float: left;
+}

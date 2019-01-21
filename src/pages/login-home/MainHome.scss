@@ -1,0 +1,470 @@
+.main-bander-container{
+  position: relative;
+  .custom-slider{
+    // min-height: 200px;
+    min-height: 228px;
+    height: auto;
+    .slick-prev{
+      left: 40px;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      background: url("../../assets/images/login-home/u23.png") no-repeat center;
+      background-size: 100% 100%;
+      transform:rotate(180deg) translateY(50%);
+      -ms-transform:rotate(180deg) translateY(50%); 	/* IE 9 */
+      -moz-transform:rotate(180deg) translateY(50%); 	/* Firefox */
+      -webkit-transform:rotate(180deg) translateY(50%); /* Safari 和 Chrome */
+      -o-transform:rotate(180deg) translateY(50%); 	/* Opera */
+    }
+    .slick-prev:before{
+      color: transparent;
+    }
+    .slick-next{
+      right: 40px;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      background: url("../../assets/images/login-home/u23.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .slick-next:before{
+      color: transparent;
+    }
+  }
+  .login-div-container{
+    position: absolute;
+    width: 300px;
+    height: 340px;
+    float: right;
+    right: 15%;
+    top: 55px;
+    background: rgba(0, 0, 0, 0.549019607843137);
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 1);
+    .custom-input{
+      .ant-input{
+        color: white;
+        background: transparent!important;
+      }
+      span{
+        i:before{
+          color: #8A8D91;
+        }
+      }
+    }
+    
+    .login-btn{
+      border: 0px;
+      width: 100%; 
+      background: linear-gradient(180deg, rgba(33, 113, 220, 1) 0%, rgba(33, 113, 220, 1) 0%, rgba(32, 81, 146, 1) 100%, rgba(32, 81, 146, 1) 100%);
+    }
+    .login-btn:hover{
+      border: 0px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(32, 81, 146, 1) 0%, rgba(32, 81, 146, 1) 0%, rgba(33, 113, 220, 1) 100%, rgba(33, 113, 220, 1) 100%);
+    }
+    .register-btn{
+      border: 0px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(230, 58, 27, 1) 0%, rgba(230, 58, 27, 1) 0%, rgba(198, 57, 28, 1) 100%, rgba(198, 57, 28, 1) 100%)
+    }
+    .register-btn:hover{
+      border: 0px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(198, 57, 28, 1) 0%, rgba(198, 57, 28, 1) 0%, rgba(230, 58, 27, 1) 100%, rgba(230, 58, 27, 1) 100%)
+    }
+    .ant-form-item-control{
+      line-height: 15px;
+      position: relative;
+      zoom: 1;
+    }
+  }
+}
+
+/**
+  游客-首页
+ */
+.xingyun-top-header{
+  height: 50px;
+  background: linear-gradient(180deg, rgba(33, 113, 220, 1) 0%, rgba(33, 113, 220, 1) 0%, rgba(32, 81, 146, 1) 100%, rgba(32, 81, 146, 1) 100%)!important;
+  .header-container{
+    height: 50px;
+    line-height: 50px;
+    margin-left: 8.5%;
+    li{
+      float: left;
+      width: 128px;
+      list-style: none;
+      padding-top: 5px;
+      a{
+        display: block;
+        position: relative;
+        text-align: center;
+        height: 48px;
+        border-radius: 3px;
+        span{
+          height: 48px;
+          line-height: 48px;
+          display: block;
+          color: white;
+        }
+        &.selected{
+          background: white;
+          span{
+            color: #20519E;
+          }
+        }
+      }
+    }
+  }
+}
+
+.login-home-container{
+  margin-top: 10px;
+  width: 100%;
+  height: 100%;
+  .news-info-content{
+    a:hover{
+      color: #1890ff;
+      text-decoration: #1890ff;
+    }
+  }
+  .home-title-container{
+    width: 30%;
+    position: absolute;
+    top: 125px;
+    left: 20%;
+    .title-logo{
+      float: left;
+      width: 240px;
+      height: 38px;
+      background: url("../../assets/images/login-home/u28.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .title-content-top{
+      float: left;
+      fontFamily: 'PingFangSC-Regular', 'PingFang SC'!important;
+      fontWeight: 400!important;
+      fontStyle: normal!important;
+      fontSize: 26px!important;
+      color: #FFFFFF
+    }
+    .title-split{
+      float: left;
+      width: 2px;
+      height: 39px;
+      background: url("../../assets/images/login-home/u32.png") no-repeat center;
+      background-size: 100% 100%;
+      margin: 0 20px;
+    }
+    .title-hori-split{
+      width: 388px;
+      height: 2px;
+      background: url("../../assets/images/login-home/u30.png") no-repeat center;
+      background-size: 100% 100%;
+      margin: 20px 0px;
+    }
+    .title-content-bottom{
+      margin-top: 30px;
+      font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';
+      font-weight: 200;
+      font-style: normal;
+      font-size: 47px;
+      color: #FFFFFF;
+      line-height: 50px;
+    }
+  }
+  
+  .center-banner{
+    width: 100%;
+    height: 160px;
+    background: url("../../assets/images/login-home/u376.png") no-repeat center;
+    background-size: 100% 100%;
+  }
+  .bottom-banner{
+    width: 100%;
+    height: 180px;
+    background: url("../../assets/images/login-home/u303.png") no-repeat center;
+    background-size: 100% 100%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    .div-wapper{
+      position: relative;
+      width:40%;
+      .item{
+        text-align: center;
+        .num{
+          font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+          font-style: normal;
+          font-size: 40px;
+          color: #FFFFFF;
+        }
+        .more{
+          position: absolute;
+          font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+          font-style: normal;
+          font-size: 40px;
+          color: #FFFFFF;
+          margin-top: -25px;
+        }
+        .category{
+          margin: 0 auto;
+          background: #DE3815;
+          width:80%;
+          height: 36px;
+          line-height: 36px;
+          font-family: 'PingFangSC-Regular', 'PingFang SC';
+          font-weight: 400;
+          font-style: normal;
+          font-size: 14px;
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+  .web-app-container{
+    margin: 50px 10%;
+    .item{
+      height: 220px;
+      background: inherit;
+      background-color: rgba(255, 255, 255, 1);
+      border: none;
+      border-radius: 3px;
+      box-shadow: 0px 0px 5px rgba(168, 205, 255, 0.349019607843137);
+      .empty{
+        width: 100%;
+        height: 100%;
+        background: url("../../assets/images/login-home/qidai.jpg") no-repeat center;
+        background-size: 100% 100%;
+      }
+      .item-split{
+        display: flex;
+        justify-content: center;
+        .split{
+          height: 1px;
+          border: 1px solid #2171DC;
+          width: 20px;
+        }
+      }
+      .item-content{
+        text-align: center;
+        padding: 30px 10px;
+        .app-img{
+          margin: 0 auto;
+          width: 100%;
+          height: 100%;
+        }
+        .title{
+          margin-top: 10px;
+          color: black;
+          font-family: 'PingFangSC-Regular', 'PingFang SC';
+          font-weight: 400;
+          font-style: normal;
+        }
+        .content{
+          margin-top: 10px;
+          margin-bottom: 10px;
+          font-family: 'PingFangSC-Regular', 'PingFang SC';
+          font-weight: 400;
+          font-style: normal;
+          font-size: 12px;
+          color: #999999;
+        }
+      }
+    }
+  }
+  .news-info-container{
+    margin: 50px 10%;
+    .title{
+      font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+      font-style: normal;
+      font-size: 16px;
+      color: #333333;
+      span{
+        font-family: 'PingFangSC-Regular', 'PingFang SC';
+        font-weight: 400;
+        font-style: normal;
+        font-size: 12px;
+        color: #C9C9C9;
+      }
+    }
+
+    .info-list{
+      .avatar-title{
+        text-align: center;
+        width: 60px;
+        height: 60px;
+        border-style: solid;
+        border-color: #e4e4e4 #2171DC #e4e4e4 #e4e4e4;
+        border-width: 1px 2px 1px 1px;
+        div:first-child{
+          font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+          font-style: normal;
+          font-size: 20px;
+          color: #2171DC;
+        }
+        div:last-child{
+          font-family: 'PingFangSC-Regular', 'PingFang SC';
+          font-weight: 400;
+          font-style: normal;
+          font-size: 12px;
+          color: #C9C9C9;
+        }
+      }
+    }
+  }
+  .bottom-header{
+    width: 100%;
+    height: 65px;
+    background-color: rgba(0, 0, 0, 1);
+    background-size: 100% 100%;
+    p:first-child{
+      padding-top: 8px;
+      font-family: 'ArialMT', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      height: 24px;
+      color: #868686;
+      text-align: center;
+    }
+    p:last-child{
+      height: 15px;
+      font-family: 'ArialMT', 'Arial';
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      color: #868686;
+      text-align: center;
+    }
+  }
+  .soft-market-container{
+    background: #FFFFFF;
+    padding: 20px 10%;
+    .soft-market-header{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span:first-child{
+        div:first-child{
+          font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC';
+          font-style: normal;
+          font-size: 26px;
+        }
+        div:last-child{
+          font-family: 'PingFangSC-Regular', 'PingFang SC';
+          font-weight: 400;
+          font-style: normal;
+          font-size: 12px;
+          color: #C9C9C9;
+        }
+      }
+      span:last-child{
+        background: #DE3815;
+        color: white;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        font-weight: bold;
+        margin-top: -18px;
+        margin-left: 20px;
+        font-size: 30px;
+        position: relative;
+        border-radius: 3px;
+        div{
+          position: absolute;
+          top: -16px;
+          left: -0.5px;
+        }
+      }
+    }
+    .soft-market-content{
+      margin-top: 20px;
+      .item{
+        display: flex;
+        justify-content: center;
+        .soft-market-list-container{
+          width: 100%;
+          margin-left: 60px;
+          .img{
+            width: 60px;
+            height: 60px;
+          }
+          .title{
+            font-family: 'PingFangSC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            color: black;
+            cursor: default;
+          }
+        }
+      }
+    }
+  }
+  .ad-carousel{
+    .ant-carousel .slick-list .slick-slide.slick-active {
+      height: auto;
+    }
+  }
+  .ad-content{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0 8.33%;
+    display: block;
+    text-align: center;
+  }
+  .message-container{
+    height: 25px;
+    font-size: 10px;
+    overflow: hidden;
+    background:rgba(44, 44, 44, 0.8);
+    margin-top: -2.5%;
+    padding: 3px 18%;
+    .messageleft{
+      float: left;
+      padding: 0 .1rem;
+      width: 17px;
+      height: 17px;
+      background: url("../../assets/images/login-home/u903.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    .messageright{
+      color: #FFFF00;
+      font-size: 10px;
+      float: left;
+      padding: 0 .1rem;
+    }
+  }
+}
+.sure-info-item{
+  font-family: 'PingFangSC-Regular', 'PingFang SC';
+  font-weight: 400;
+  font-style: normal;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+.change-ok-tip{
+  width: 60px;
+  height: 60px;
+  background: url("../../assets/images/login-home/u2456.png") no-repeat center;
+  background-size: 100% 100%;
+}
+
+.ant-advanced-search-form {
+  padding: 24px;
+  border-radius: 6px;
+}
+
+.ant-advanced-search-form .ant-form-item {
+  display: flex;
+}
+
+.ant-advanced-search-form .ant-form-item-control-wrapper {
+  flex: 1;
+}

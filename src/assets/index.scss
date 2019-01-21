@@ -1,0 +1,92 @@
+
+/*-----------------公用样式-----------------*/
+
+.center-view {
+  width: calc(80%);
+}
+.mtb20{
+  margin: 20px auto;  
+}
+.mb20{
+  margin: 0 auto;
+  margin-bottom: 20px;
+  min-height: calc(100vh - 120px);
+  .message-setting-card{
+    .ant-card-head{
+      background-color: #F8F8F8;
+    }
+  }
+  .ant-card-head{
+    height: 45px !important;
+  }
+}
+/*单行省略号*/
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.data-table{
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding: 12px 16px
+  }
+}
+
+/*-----------------------星云v2新加公用样式-参照设计规范------------------------*/
+/**** 尺寸 ****/
+/* 顶层页面的尺寸 */
+$width: 1425px;
+/* 按钮/Input的高度 */
+$eleHeight: 32px;
+/* 图标尺寸 */
+$iconSize: 10px;
+
+/***** 色彩 *****/
+/* 背景色 */
+$backgroundColor: #f4f4f4;
+/* 深色背景下的内容颜色 */
+$light: #fff;
+/* 选择器下拉悬浮色调 */
+$hoverBackColor: #DFEFFE;
+/* 链接激活蓝 */
+$linkColor: #1890ff;
+/* 字体主色 */
+$fontColor: #333;
+/* 常规灰 */
+$grayColor: #666;
+/* 常规灰 */
+$perNameColor: #999999;
+/* 填充色 */
+$padColor: #EFF0EF;
+/* 重点提示色调 */
+$importTipColor: #f00;
+/* 辅助色 */
+$assistBlue: #40B3F9;
+/* 辅助色-orange */
+$assistOrange: #FF6D4A;
+/* 辅助色-green */
+$assistGreen: #4ECB73;
+ /* 字体颜色1 */
+ $colorWord1: #474747;
+
+
+/***** 字体 *****/
+/* 基础字体 */
+$fontFamily: "PingFang SC", "微软雅黑", "黑体"， "宋体", "arial";
+$fontSizeH1: 24px;
+$fontSizeH2: 12px;
+$fontSizeH3: 20px;
+$fontSizeH4: 18px;
+$fontSizeH5: 16px;
+$fontSizeH6: 14px;
+$fontSizeH7: 12px;
+$fontSizeH8: 10px;
+$fontSizeH9: 11px;
+
+
+/**** 其他 ****/
+/* 圆角 */
+$radius: 4px;
+/* 按钮圆角 */
+$btnRadius: 2px;

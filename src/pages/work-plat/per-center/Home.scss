@@ -1,0 +1,66 @@
+/* 公用样式尽量引用公用变量 */
+@import "../../../assets/index.scss";
+
+/* 整个页面-layout的颜色 */
+.layout-wrap {
+  background-color: $backgroundColor;
+  .ant-layout-sider-light {
+    background-color: $backgroundColor;
+  }
+}
+
+.menu-item {
+  width: 100%;
+  color: $grayColor;
+  // padding-left: 10%;
+  font-family: $fontFamily;
+  font-Size: $fontSizeH6;
+  // color: $fontColorH3;
+}
+
+
+/* 部分card的样式补充 */
+.margin-card {
+  margin-top: 10px;
+}
+
+
+/*antd部分样式复写*/
+/* Menu */
+.per-menu-wrap {
+  /* Menu.Item */
+  .ant-menu-item {
+    padding-left: 20%;
+  }
+  /* Menu.Item 被选中时 */
+  .menu-item-select {
+    height: 100%;
+    // &:before {
+    //   content: '';
+    //   display: inline-block;
+    //   width: 5px;
+    //   height: 30px;
+    //   background: $linkColor;
+    // }
+  }
+}
+
+
+/*字体*/
+.label-font {
+  font-family: $fontFamily;
+  font-Size: $fontSizeH5;
+}
+
+/*--颜色--*/
+/* 链接蓝 */
+.color-link {
+  color: $linkColor;
+}
+
+/* 常规灰 */
+.color-normal {
+  color: $perNameColor;
+  font-weight: 400;
+  font-size: $fontSizeH6;
+}

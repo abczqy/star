@@ -1,0 +1,14 @@
+.ant-upload-list.ant-upload-list-text{
+  margin-top: 5px;
+  height: 80px;
+  overflow-y: auto;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+/*如果不能点击  隐藏叉号*/
+.disabled {
+  .anticon-cross {
+    display: none;
+  }
+}

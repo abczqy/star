@@ -1,0 +1,205 @@
+@import "./assets/index.scss";
+body {
+  width: 100%;
+  background-color: #f4f4f4 !important;
+}
+
+.bonc-mung-loadding {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100px;
+  width: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+}
+.xingyun{
+  width: 100%;
+  height:100%;
+  .xingyun-header{
+    background: white !important;
+    height: 65px;
+    padding: 15px 10% !important;
+    .xingyun-logo {
+      width: 172px;
+      height: 27px;
+      background: url("./assets/images/software-market/u49.png") no-repeat center;
+      background-size: 100% 100%;
+      cursor: pointer
+    }
+  }
+  .content-container{
+    // border: 1px solid blue;
+    overflow: hidden;
+    // height: 100%;
+    width: 100%;
+    height: calc(100% - 180px);
+  }
+}
+.logo{
+  width: 172px;
+  height: 27px;
+  background: url("./assets/images/software-market/u49.png") no-repeat center;
+  background-size: 100% 100%;
+}
+
+.sider-bar {
+  .ant-menu {
+    font-family: "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    color: white;
+    background: #001529;
+    line-height: 0;
+    transition: background .3s, width .2s;
+    zoom: 1;
+  }
+  .ant-menu-item-selected {
+    color: white;
+  }
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #1890FF;
+  }
+}
+
+/**
+  软件超市入口
+ */
+
+// .xingyun-iden-top-bar {
+//   min-height: 40px;
+//   _height: 40px;
+//   .header-container{
+//     background: #1890FF !important;
+//     margin: auto;
+//     width: 80%;
+//     height: 40px;
+//     line-height: 40px;
+//     li{
+//       float: left;
+//       width: 86px;
+//       list-style: none;
+//       a {
+//         color: white;
+//         padding: 6px 14px;
+//         width: 100px;
+//       }
+//       &.selected{
+//         background: #137DE2 !important;
+//       }
+//     }
+//     li:hover {
+//       background: #137DE2 !important;
+//     }
+//   }
+// }
+.xingyun-top-header{
+  height: 50px;
+  background: linear-gradient(180deg, rgba(33, 113, 220, 1) 0%, rgba(33, 113, 220, 1) 0%, rgba(32, 81, 146, 1) 100%, rgba(32, 81, 146, 1) 100%)!important;
+  .header-container{
+    height: 50px;
+    line-height: 50px;
+    margin-left: 8.5%;
+    li{
+      float: left;
+      width: 128px;
+      list-style: none;
+      padding-top: 5px;
+      a{
+        display: block;
+        position: relative;
+        text-align: center;
+        height: 48px;
+        border-radius: 3px;
+        span{
+          height: 48px;
+          line-height: 48px;
+          display: block;
+          color: white;
+        }
+        &.selected{
+          background: white;
+          span{
+            color: #20519E;
+          }
+        }
+      }
+    }
+  }
+}
+
+// sorfware market head nav
+.xingyun-top-header-software-market{
+  height: 50px;
+  background-color: #1890ff;
+  .header-container{
+    height: 50px;
+    line-height: 50px;
+    margin-left: 8.5%;
+    li{
+      float: left;
+      width: 128px;
+      list-style: none;
+      a{
+        display: block;
+        position: relative;
+        text-align: center;
+        height: 50px;
+        border-radius: 3px;
+        span{
+          height: 48px;
+          line-height: 48px;
+          display: block;
+          color: white;
+        }
+        &.selected{
+          background: #137de2;
+          span{
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.bottom-header{
+  width: 100%;
+  height: 65px;
+  background-color: rgba(0, 0, 0, 1);
+  background-size: 100% 100%;
+  p:first-child{
+    padding-top: 8px;
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    height: 24px;
+    color: #868686;
+    text-align: center;
+  }
+  p:last-child{
+    height: 15px;
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    color: #868686;
+    text-align: center;
+  }
+}
+
+// 运营管理平台
+.operManaPlat-body > .ant-layout{
+    height: 100vh
+}
+
+.operManaPlat-body > .ant-layout >.sider-bar > .ant-layout-sider{
+  overflow: auto;
+}

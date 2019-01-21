@@ -1,0 +1,12 @@
+/*---------------------下载数量条状展示---------------------*/
+
+.count-show {
+  background-color: #F2F2F2; // background-color: red;
+  height: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 7px;
+  &>div {
+    height: 100%;
+  }
+}

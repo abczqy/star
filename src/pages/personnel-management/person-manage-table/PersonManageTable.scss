@@ -1,0 +1,25 @@
+/*----------------------------- 人员管理-表格 -----------------------------*/
+.person-manage-table{
+  .data-table{
+    margin-top: 20px;
+    .opt-box{
+      span{
+        color: #1890FF;
+        cursor: pointer;
+        // &:first-child{
+          margin-right: 10px;
+        // }
+      }
+    }
+    .ant-table-content{
+      min-height: 600px;
+    }
+  }
+}
+body{
+  .edit-modal{
+    .submit-box{
+      text-align: right;
+    }
+  }
+}

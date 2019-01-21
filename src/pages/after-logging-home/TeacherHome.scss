@@ -1,0 +1,314 @@
+.logged-home {
+    width: 100%;
+    min-height: 550px;
+    _height: 550px;
+    user-select: none;
+    .logged-home-recommendation {
+        width: 1523px;
+        margin: auto;
+        min-height: 700px;
+        _height: 700px;
+        margin-top: 20px;
+        .logged-home-border {
+            width: 1218px;
+            min-height: 500px;
+            _height: 500px;
+            margin-right: 10px;
+            float: left;
+            .popular-recommendation {
+                width: 100%;
+                min-height: 100px;
+                _height: 100px;
+                float: left;
+                .popular-recommendation-title {
+                    width: 100%;
+                    height: 50px;
+                    line-height: 50px;
+                    border-bottom: 1px solid #ccc;
+                    .chinese {
+                        margin: 0;
+                        font-size: 16px;
+                        margin-left: 5px;
+                        width: 70px;
+                        height: 50px;
+                        float: left;
+                    }
+                    .english {
+                        font-family: 'PingFangSC-Regular', 'PingFang SC';
+                        font-weight: 400;
+                        font-style: normal;
+                        font-size: 12px;
+                        color: #999999;
+                        float: left;
+                    }
+                    .more {
+                        font-family: 'PingFangSC-Regular', 'PingFang SC';
+                        font-weight: 400;
+                        cursor:pointer;
+                        font-style: normal;
+                        font-size: 12px;
+                        color: #999999;
+                        float: right;
+                    }
+                    .more:hover {
+                        color: #000;
+                    }
+                }
+                .popular-recommendation-item {
+                    width: 100%;
+                    min-height: 120px;
+                    _height: 120px;
+                    margin-top: 12px;
+                    overflow: hidden;
+                    .list {
+                        width: 260px;
+                        height: 125px;
+                        background: #fff;
+                        margin-right: 4.7%;
+                        float: left;
+                        margin-top: 10px;
+                        .downloadIcon {
+                            width: 20px;
+                            height: 20px;
+                            background: #08A1E9;
+                            color: #fff;
+                            line-height: 20px;
+                            border-top-left-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            float: left
+                        }
+                        .downloadButton {
+                            width: 60px;
+                            height: 20px;
+                            line-height: 18px;
+                            font-size: 10px;
+                            text-align: center;
+                            border-bottom-left-radius: 0;
+                            border-top-left-radius: 0;
+                            border-bottom-right-radius: 4px;
+                            border-top-right-radius: 4px;
+                            background-color: #40B3F9;
+                            border: 0;
+                            float: left
+                        }
+                        .openButton {
+                            width: 60px;
+                            height: 23px;
+                            line-height: 23px;
+                            font-size: 10px;
+                            text-align: center;
+                            margin-right: 10px;
+                            border-bottom-left-radius: 4px;
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-top-right-radius: 4px;
+                            border: 0;
+                            float: left
+                        }
+                        .openUpButton {
+                            width: 60px;
+                            height: 23px;
+                            line-height: 23px;
+                            font-size: 10px;
+                            text-align: center;
+                            margin-right: 10px;
+                            border-bottom-left-radius: 4px;
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-top-right-radius: 4px;
+                            background-color: #7ED321;
+                            border: 0;
+                            float: left
+                        }
+                        .list-item {
+                            width: 220px;
+                            height: 74px;
+                            float: left;
+                            margin-top: 10px;
+                            margin-left: 10px;
+                            .dl-dt {
+                                width: 75px;
+                                height: 74px;
+                                float: left;
+                            }
+                            .dl-dd {
+                                width: 130px;
+                                height: 50px;
+                                float: left;
+                                margin-top: 15px;
+                                .dd-title {
+                                    display: block;
+                                    width: 150px;
+                                    font-size: 16px;
+                                    margin-left: 10px;
+                                    overflow: hidden;
+                                    text-overflow:ellipsis;
+                                    white-space: nowrap;
+                                }
+                                .dd-p {
+                                    width: 150px;
+                                    height: 74px;
+                                    overflow: hidden;
+                                    text-overflow:ellipsis;
+                                    white-space: nowrap;
+                                    margin-left: 10px;
+                                    font-size: 14px;
+                                    margin-top: 4px;
+                                    color: #999;
+                                }
+                            }
+                        }
+                        i{
+                            width: 20px;
+                            height: 20px;
+                            background-color: rgb(255, 187, 69);
+                            line-height: 23px;
+                            color: rgb(255, 255, 255);
+                            cursor: pointer;
+                            margin-right: 5px;
+                            border-radius: 4px;
+                        }
+                    }
+                }
+                .list:nth-child(4n) {
+                    margin-right: 0;
+                }
+            }
+        }
+        
+        .ranking {
+            width: 274px;
+            min-height: 550px;
+            _height: 550px;
+            float: left;
+            .ant-tabs-bar {
+                margin-bottom: 0px;
+            }
+            .ant-tabs-tabpane {
+                padding-top: 20px;
+                margin-left: 1px;
+            }
+            .ranking-title {
+                width: 100%;
+                height: 50px;
+                line-height: 50px;
+                border-bottom: 1px solid #ccc;
+                margin-bottom: 20px;
+                .title-detail {
+                    font-size: 16px;
+                    float: left;
+                    margin: 0 8px 0 8px;
+                }
+                .english {
+                    font-family: 'PingFangSC-Regular', 'PingFang SC';
+                    font-weight: 400;
+                    font-style: normal;
+                    font-size: 12px;
+                    color: #999999;
+                    float: left;
+                }
+            }
+            .ant-tabs-nav {
+                width: 100%;
+                .ant-tabs-tab {
+                    width: 50%;
+                    margin: 0;
+                    text-align: center;
+                }
+            }
+            .lista {
+                width: 100%;
+                min-height: 30px;
+                _height: 30px;
+                background: #fff;
+                padding: 0 4px;
+                margin-left: 10px;
+                .lista-title {
+                    width: 100%;
+                    margin: 0;
+                    min-height: 40px;
+                    _height: 40px;
+                    .title-num {
+                        width: 20px;
+                        height: 20px;
+                        display: block;
+                        color: #fff;
+                        border-radius: 5px;
+                        // background: #CC9900;
+                        text-align: center;
+                        float: left;
+                        margin-right: 5px;
+                    }
+                    .title-detaila {
+                        display: block;
+                        width: 80%;
+                        font-size: 14px;
+                        float: left;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+                .lista-title:hover {
+                    height: 110px;
+                    .app-install {
+                        display: block;
+                    }
+                }
+                // .lista-titleb:hover {
+                //     #bbbbbb {
+                //         display: block;
+                //     }
+                // }
+                .app-install {
+                    display: none;
+                    width: 100%;
+                    height: 66px;
+                    background: #fff;
+                    margin-top: 4px;
+                    float: left;
+                    .app-install-dl {
+                        width: 83%;
+                        height: 66px;
+                        margin: 0;
+                        .app-install-dt {
+                            width: 60px;
+                            height: 60px;
+                            float: left;
+                        }
+                        .app-install-dd {
+                            width: 70%;
+                            float: left;
+                            margin: 0;
+                            height: 60px;
+                            margin-left: 4px;
+                            margin-top: 4px;
+                            .download-num {
+                                width: 69%;
+                                overflow: hidden;
+                                text-overflow:ellipsis;
+                                white-space: nowrap;
+                                margin: 0;
+                                font-size: 14px;
+                                color: #aaa;
+                            }
+                        }
+                    }
+                    .install-button {
+                        float: right;
+                        padding: 0;
+                        margin-top: -50px;
+                        margin-right: 12px;
+                        width: 40px;
+                        text-align: center;
+                        border: 0;
+                    }
+                }
+            }
+            .ant-tabs-tabpane {
+                height: 480px;
+                background: #fff;
+            }
+        }
+    }
+}
