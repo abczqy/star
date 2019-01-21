@@ -16,6 +16,7 @@ import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -365,6 +366,7 @@ class Teacher extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
+          changeState={this.props.changeState}
         />
         <BlankBar />
         <Table
@@ -386,6 +388,9 @@ class Teacher extends Component {
       </div>
     )
   }
+}
+Teacher.propTypes = {
+  changeState: PropTypes.func
 }
 
 export default Teacher

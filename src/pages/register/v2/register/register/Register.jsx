@@ -13,7 +13,7 @@ import {
 import './Register.scss'
 import PropTypes from 'prop-types'
 import {setCookie, getCookie} from 'utils/cookie'
-import {SMSVerificationv2, registerParent} from 'services/topbar-mation'
+import {SMSVerificationv2, registerParent, registerFree} from 'services/topbar-mation'
 import {axios} from '../../../../../utils'
 import config from '../../../../../config'
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
@@ -62,7 +62,7 @@ class Register extends Component {
         if (isParent) {
           registerParent(param, (response) => {
             if (response.data.code === 200) {
-              message.success('注册成功')
+              message.success('家长注册成功，等待审核')
               this.props.history.push({
                 pathname: '/login'
               })
@@ -76,7 +76,16 @@ class Register extends Component {
           pathname: '/operate-manage-home/work-plat/login'
         }) */
         } else {
-          console.log(param)
+          registerFree(param, (res) => {
+            if (res.data.code === 200) {
+              message.success('用户注册成功')
+              this.props.history.push({
+                pathname: '/login'
+              })
+            } else {
+              message.error(res.data.msg)
+            }
+          })
         }
       }
     })

@@ -137,6 +137,10 @@ export default [
       }
     ]
   }, {
+    title: '管理',
+    key: '12',
+    to: '/software-market-home/member-manage/home'
+  }, {
     title: '实体管理',
     icon: ImgMemb,
     key: '11',
