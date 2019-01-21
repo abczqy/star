@@ -18,7 +18,8 @@ import {
   PublicInfoAdd,
   PublicInfoEdit,
   PublicInfoVerifyDetail,
-  Analysis // v2 - 运营分析
+  Analysis, // v2 - 运营分析
+  HomeMember
 } from 'pages/software-market'
 import {
   Reject,
@@ -141,6 +142,9 @@ export default {
   }, {
     path: '/software-market-home/member-manage/teacher',
     component: Logged(Teacher)
+  }, {
+    path: '/software-market-home/member-manage/home',
+    component: Logged(HomeMember)
   }, {
     path: '/software-market-home/platform-manage/news-list',
     component: Logged(NewsListManage)

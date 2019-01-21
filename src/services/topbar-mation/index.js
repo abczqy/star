@@ -34,6 +34,15 @@ export function registerParent (params, sucFn) {
     })
 }
 /**
+ * 用户自注册
+ */
+export function registerFree (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/parentsOperation/free', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
  * 注册用户协议
  */
 export function getRegisterAgreement (params, sucFn) {
