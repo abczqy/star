@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col, Input, Upload } from 'antd'
+import { Select, Button, Input, Upload } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberPa.scss'
 
@@ -42,55 +42,39 @@ class SearchBarMemberPa extends Component {
     } = this.props
     return (
       <div className='search-bar-wrap'>
-        <Row gutter={16}>
-          <Col span={4}>
-            <span className='input-label'>账号</span>
-            <Input
-              className='select'
-              placeholder='请输入'
-              onChange={onSelect1Change} />
-          </Col>
-          {/* <Col span={4}>
-            <span className='input-label'>学生姓名</span>
-            <Input
-              className='select'
-              placeholder='请输入'
-              onChange={onSelect2Change} />
-          </Col> */}
-          <Col span={7}>
-            <span className='select-label'>家长姓名</span>
-            <Input
-              className='select'
-              placeholder='请输入'
-              // showSearch
-              onChange={onSelect3Change} >
-              {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
-            </Input>
-          </Col>
-          {/* <Col span={4}>
-            <span className='select-label'>选择角色</span>
-            <Input className='select' onChange={onSelect4Change} placeholder='请输入'  />
-          </Col> */}
-          <Col span={7}>
-            <span className='select-label'>允许登录</span>
-            <Select defaultValue='all' className='select' onChange={onSelect5Change} >
-              <Option value='all'>全部</Option>
-              <Option value='allow'>允许</Option>
-              <Option value='defuse'>不允许</Option>
-            </Select>
-          </Col>
-          <Col span={2}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
-          </Col>
-          <Col span={2}>
-            <Button type='primary' className='search-bar-btn'>下载模板</Button>
-          </Col>
-          <Upload {...uploadProps}>
-            <Col span={2}>
-              <Button type='primary' className='search-bar-btn'>批量导入</Button>
-            </Col>
+        <div className='search-bar-item'>
+          <span className='input-label'>账号</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            onChange={onSelect1Change} />
+        </div>
+        <div className='search-bar-item'>
+          <span className='select-label'>家长姓名</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect3Change} >
+            {/* {selectList.paNameList && this.getOptions(selectList.paNameList)} */}
+          </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='select-label'>允许登录</span>
+          <Select defaultValue='all' className='select' onChange={onSelect5Change} >
+            <Option value='all'>全部</Option>
+            <Option value='allow'>允许</Option>
+            <Option value='defuse'>不允许</Option>
+          </Select>
+        </div>
+        <div className='search-bar-buttons'>
+          <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
+          <Button type='primary' className='search-bar-btn'>下载模板</Button>
+          <Upload {...uploadProps} style={{display: 'inline-block'}} className='search-bar-btn'>
+            <Button type='primary'>批量导入</Button>
           </Upload>
-        </Row>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增家长</Button>
+        </div>
       </div>
     )
   }
