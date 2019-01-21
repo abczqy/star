@@ -11,7 +11,7 @@
  */
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Table, Divider, Button, message, Modal } from 'antd'
+import { Table, Divider, Button, message, Modal, Tabs } from 'antd'
 import { axios } from 'utils'
 import config from '../../../../config'
 import { BlankBar, SearchBar } from 'components/software-market'
@@ -25,7 +25,7 @@ import { bussDetailv2, undercarriagev2, stick, getApptype, getRenewDetail } from
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
-
+const TabPane = Tabs.TabPane
 /**
    * 表格分页器设置-默认值
    */
@@ -102,8 +102,30 @@ class Businessing extends Component {
         </span>
       )
     }]
+    this.platColunms = [{
+      title: '应用名称'
+    }, {
+      title: '所属类型'
+    }, {
+      title: '版本'
+    }, {
+      title: '上线时间'
+    }, {
+      title: '地址'
+    }, {
+      title: '操作',
+      dataIndex: 'options',
+      key: 'options',
+      render: (text, record, index) => (
+        <span>
+          <a>详情</a>
+          <Divider type='vertical' />
+          <a>下架</a>
+        </span>
+      )
+    }
+    ]
   }
-
   /**
    * 请求表格参数
    * @returns {{pageNum: number, pageSize: number, sw_type: string, sw_name: string}}
@@ -420,29 +442,31 @@ class Businessing extends Component {
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
     return (
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-        />
-        <BlankBar />
-        <Table
-          columns={this.columns}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        {/* {appOffModalCon.visible ? <AppStandOffModal
+      <Tabs defaultActiveKey='soft'>
+        <TabPane key='soft' tab={<strong>软件应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+            />
+            <BlankBar />
+            <Table
+              columns={this.columns}
+              dataSource={tableData.data}
+              pagination={{
+                ...pagination,
+                total: this.state.tableData.total,
+                onShowSizeChange: this.onShowSizeChange,
+                onChange: this.pageNumChange
+              }}
+              rowKey={(record, index) => {
+                return index
+              }}
+            />
+            {/* {appOffModalCon.visible ? <AppStandOffModal
           visible={appOffModalCon.visible}
           getVeriCode={this.getVeriCode}
           getVeriStatus={this.getVeriStatus}
@@ -454,27 +478,42 @@ class Businessing extends Component {
           ]}
           swName={appOffModalCon.swName}
         /> : null} */}
-        <Modal
-          title='确认框'
-          visible={appOffModalCon.visible}
-          onOk={this.handleRemove}
-          onCancel={this.handleCancel}
-        >
-          <span>您是否确认下架软件，此操作不可逆转！</span>
-        </Modal>
-        <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
-        <div ref='appDetailElem' className='app-detail-wrap' />
-        <AppDetailModal
-          title={appDetailModalCon.APP_NAME}
-          getContainer={() => this.refs.appDetailElem}
-          visible={appDetailModalCon.visible}
-          onCancel={this.handleAppDetCancel}
-          resData={appDetailModalCon.resData}
-          footer={[
-            <Button key='back' type='primary' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-      </div>
+            <Modal
+              title='确认框'
+              visible={appOffModalCon.visible}
+              onOk={this.handleRemove}
+              onCancel={this.handleCancel}
+            >
+              <span>您是否确认下架软件，此操作不可逆转！</span>
+            </Modal>
+            <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
+            <div ref='appDetailElem' className='app-detail-wrap' />
+            <AppDetailModal
+              title={appDetailModalCon.APP_NAME}
+              getContainer={() => this.refs.appDetailElem}
+              visible={appDetailModalCon.visible}
+              onCancel={this.handleAppDetCancel}
+              resData={appDetailModalCon.resData}
+              footer={[
+                <Button key='back' type='primary' onClick={this.handleAppDetCancel}>关闭</Button>
+              ]}
+            />
+          </div>
+        </TabPane>
+        <TabPane key='plat' tab={<strong>平台应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+            />
+            <BlankBar />
+            <Table columns={this.platColunms} />
+          </div>
+        </TabPane>
+      </Tabs>
     )
   }
 }
