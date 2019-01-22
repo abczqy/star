@@ -74,7 +74,7 @@ class Remove extends Component {
       this.setState({
         tableData: {
           data: this.getSwPath(dataList),
-          total: data.total
+          total: data.totalCount
         }
       })
     })
@@ -320,6 +320,7 @@ class Remove extends Component {
 
   render () {
     const { tableData, pagination, detModalCon, options, data } = this.state
+    console.log(tableData)
     return (
       <div className='software-wrap'>
         <SearchBar

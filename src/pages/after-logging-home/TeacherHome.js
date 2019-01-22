@@ -344,14 +344,14 @@ class TeacherHome extends Component {
               : <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
-            <span className='dd-title'>{item.APP_NAME || '软件名称'}</span>
-            <p className='dd-p'>{item.APP_NOTES || '软件描述'}</p>
+            <span className='dd-title'>{item.appName || '软件名称'}</span>
+            <p className='dd-p'>{item.appNotes || '软件描述'}</p>
           </dd>
         </dl>
         <p style={{float: 'right'}}>
-          {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
+          {item.appSource === 'pt' && item.IS_OPEN === '1'
             ? <Button className='openUpButton' type='primary'>
-              <a href={item.APP_LINK} target='_blank'>打开</a>
+              <a href={item.appLink} target='_blank'>打开</a>
             </Button>
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.appId}}>详情</Link>

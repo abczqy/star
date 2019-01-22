@@ -90,7 +90,7 @@ class ShelfPlease extends React.Component {
       fileListFinVour: [], // 用来存财务审核凭证的文件id
       fileListContract: [], // 用来存财务审核凭证的文件id
       platformVersionList: [], // 用来存储应用平台的文件id
-      platformIconList: [], // 用来存储应用平台的iconid
+      platformIconList: {}, // 用来存储应用平台的iconid
       platformIconUrl: [], // 用来展示的图片utl
       platformPCImgList: [], // 用来存储应用平台pc截图的id
       platformPCImgUrl: [], // 用来存储应用平台pc截图数据
@@ -349,7 +349,7 @@ class ShelfPlease extends React.Component {
     if (type === '1') {
       formDataPre.append('appName', this.state.appName || '')// 软件名称*
       formDataPre.append('appType', this.state.appTypeName || '')// 软件类型*
-      formDataPre.append('sw_icon', this.state.imgUrl.thumbUrl || '')// 软件图标*
+      formDataPre.append('sw_icon', this.state.imgUrl[0].thumbUrl || '')// 软件图标*
       // 查看详情
       formDataPre.append('appInfo', JSON.stringify(this.state.versions))
       // formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
@@ -583,6 +583,7 @@ class ShelfPlease extends React.Component {
    */
   uploadAppIcon = (thiz, callBack) => {
     if (thiz.state.appIcon) {
+      console.log(this.state.appIcon)
       getUpload('pic', this.state.appIcon, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
@@ -729,17 +730,33 @@ class ShelfPlease extends React.Component {
    * 提交数据
    */
   onSubmit = (thiz) => {
-    // appIcon上传
-    thiz.uploadAppIcon(thiz, () => {
-      // pcIcons上传结束
-      thiz.uploadPcPics(thiz, () => {
-        // PhonePics上传
-        this.uploadPhonePics(thiz, () => {
-          // 提交整个表单
-          thiz.getSubmit(thiz)
+    console.log(thiz)
+    const {uploadType} = this.state
+    if (uploadType === '1') {
+      // appIcon上传
+      thiz.uploadAppIcon(thiz, () => {
+        // pcIcons上传结束
+        thiz.uploadPcPics(thiz, () => {
+          // PhonePics上传
+          this.uploadPhonePics(thiz, () => {
+            // 提交整个表单
+            thiz.getSubmit(thiz)
+          })
         })
       })
-    })
+    } else {
+      // 上传应用图标
+      thiz.uploadPlatIcon(thiz)
+    }
+  }
+  // 上传应用图标
+  uploadPlatIcon = (thiz) => {
+    if (thiz.state.platformIconList) {
+      console.log(thiz.state.platformIconList)
+      getUpload('pic', thiz.state.platformIconList, (res) => {
+        console.log(res)
+      })
+    }
   }
   /** 平台名称 **/
   changePlatformName = (e) => {
@@ -1281,7 +1298,7 @@ class ShelfPlease extends React.Component {
       },
       beforeUpload: (file) => {
         this.setState(({platformIconList}) => ({
-          platformIconList: [...platformIconList, file]
+          platformIconList: file
         }), () => {
           // console.log('platformIconLIst', this.state.platformIconList)
         })

@@ -109,12 +109,12 @@ class Login extends Component {
                         }
                       } else {
                         /** 登录失败 */
-                        message.error('登录失败')
+                        message.error(response.data.msg)
                       }
                     })
                   } else {
                     /** 登录失败 */
-                    message.error('登录失败')
+                    message.error(response.data.msg)
                   }
                 })
               }
@@ -206,7 +206,7 @@ class Login extends Component {
       <Layout className='log-content'>
         <Content>
           <div>
-            <Row>
+            <Row stylw={{background: '#fff'}}>
               <Col span={14}>
                 <img src={require('../../../../../assets/images/login-home/log_1.jpg')} className='wid-100' />
               </Col>
