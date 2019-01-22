@@ -23,6 +23,7 @@ import { BlankBar, SearchBarMemberStu } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -125,6 +126,15 @@ class Student extends Component {
       }
     }]
     )
+  }
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: nextProps.AUTHORITY_NAME
+      }, () => {
+        this.search()
+      })
+    }
   }
 
   cancelUp=(e) => {
@@ -341,11 +351,19 @@ class Student extends Component {
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
-    this.getTableDatas()
+    if (this.props.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: this.props.AUTHORITY_NAME
+      }, () => {
+        this.search()
+      })
+    } else {
+      this.getTableDatas()
+    }
   }
 
   render () {
-    const { pagination, selectList } = this.state
+    const { pagination, selectList, AUTHORITY_NAME } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberStu
@@ -358,6 +376,8 @@ class Student extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
+          changeState={this.props.changeState}
+          AUTHORITY_NAME={AUTHORITY_NAME}
         />
         <BlankBar />
         <Table
@@ -376,6 +396,10 @@ class Student extends Component {
       </div>
     )
   }
+}
+Student.propTypes = {
+  changeState: PropTypes.func,
+  AUTHORITY_NAME: PropTypes.string
 }
 
 export default Student

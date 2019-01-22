@@ -38,7 +38,8 @@ class SearchBarMemberStu extends Component {
       // onSelect4Change,
       onSelect5Change,
       // onBtnBatchExport,
-      uploadProps
+      uploadProps,
+      AUTHORITY_NAME
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -63,11 +64,12 @@ class SearchBarMemberStu extends Component {
           </Input>
         </div>
         <div className='search-bar-item'>
-          <span className='select-label'>学校名称</span>
+          <span className='input-label'>学校名称</span>
           <Input
             className='select'
             placeholder='请输入'
             // showSearch
+            value={AUTHORITY_NAME}
             onChange={onSelect3Change} >
             {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
           </Input>
@@ -83,9 +85,10 @@ class SearchBarMemberStu extends Component {
         <div className='search-bar-buttons'>
           <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           <Button type='primary' className='search-bar-btn'>下载模板</Button>
-          <Upload {...uploadProps}>
-            <Button type='primary' className='search-bar-btn'>批量导入</Button>
+          <Upload {...uploadProps} className='search-bar-btn' style={{display: 'inline-block'}}>
+            <Button type='primary'>批量导入</Button>
           </Upload>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增学生</Button>
         </div>
       </div>
     )
@@ -101,7 +104,8 @@ SearchBarMemberStu.propTypes = {
   // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
-  uploadProps: PropsTypes.object
+  uploadProps: PropsTypes.object,
+  AUTHORITY_NAME: PropsTypes.string
 }
 
 export default SearchBarMemberStu

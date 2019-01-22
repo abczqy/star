@@ -42,8 +42,7 @@ class SearchBarMemberTeac extends Component {
       onSelect3Change,
       // onSelect4Change,
       // onBtnBatchExport,
-      uploadProps,
-      changeState
+      uploadProps
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -72,6 +71,7 @@ class SearchBarMemberTeac extends Component {
           <Input
             className='select'
             placeholder='请输入'
+            value={this.props.AUTHORITY_NAME}
             // showSearch
             onChange={onSelect3Change} >
             {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
@@ -85,7 +85,6 @@ class SearchBarMemberTeac extends Component {
           </Upload>
           <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增老师</Button>
           {/* <Icon type='rollback' style={{fontSize: 20, verticalAlign: 'middle'}} onClick={() => changeState(1)} /> */}
-          <Button htmlType='button' className='search-bar-btn' icon='rollback' onClick={() => changeState(1)}>返回</Button>
         </div>
         {/* <Row gutter={16}>
            <Col span={4}>
@@ -125,7 +124,7 @@ SearchBarMemberTeac.propTypes = {
   // onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
   uploadProps: PropsTypes.object,
-  changeState: PropsTypes.func
+  AUTHORITY_NAME: PropsTypes.string
 }
 
 export default SearchBarMemberTeac

@@ -85,6 +85,9 @@ class Teacher extends Component {
         dataIndex: 'AUTHORITY_NAME',
         key: 'AUTHORITY_NAME'
       }, {
+        title: '状态',
+        dataIndex: 'status'
+      }, {
         title: '允许登录',
         dataIndex: 'LOGIN_PERMISSION_STATUS',
         key: 'LOGIN_PERMISSION_STATUS',
@@ -350,11 +353,19 @@ class Teacher extends Component {
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
-    this.getTableDatas()
+    if (this.props.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: this.props.AUTHORITY_NAME
+      }, () => {
+        this.getTableDatas()
+      })
+    } else {
+      this.getTableDatas()
+    }
   }
 
   render () {
-    const { pagination, selectList } = this.state
+    const { pagination, selectList, AUTHORITY_NAME } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberTeac
@@ -366,7 +377,7 @@ class Teacher extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
-          changeState={this.props.changeState}
+          AUTHORITY_NAME={AUTHORITY_NAME}
         />
         <BlankBar />
         <Table
@@ -388,9 +399,16 @@ class Teacher extends Component {
       </div>
     )
   }
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      AUTHORITY_NAME: nextProps.AUTHORITY_NAME
+    }, () => {
+      this.search()
+    })
+  }
 }
 Teacher.propTypes = {
-  changeState: PropTypes.func
+  AUTHORITY_NAME: PropTypes.string
 }
 
 export default Teacher

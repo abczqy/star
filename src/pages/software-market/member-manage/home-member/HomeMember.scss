@@ -1,0 +1,23 @@
+.home-member{
+  .inner-change{
+    line-height: 26px;
+    height: 36px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+    span{
+      display: inline-block;
+      padding: 3px 8px;
+      color: #333;
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    span.active{
+      background: #00A4F7;
+      color: #fff;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+  }
+}
