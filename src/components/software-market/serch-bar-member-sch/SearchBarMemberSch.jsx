@@ -75,9 +75,10 @@ class SearchBarMemberSch extends Component {
         </div>
         <div className='search-bar-buttons'>
           <Button htmlType='button' type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
-          <Button htmlType='button' type='success' onClick={newSchool}>新增学校</Button>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} onClick={newSchool} icon='plus'>新增学校</Button>
           {/* <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button> */}
         </div>
+        <div style={{clear: 'both'}} />
       </div>
     )
   }

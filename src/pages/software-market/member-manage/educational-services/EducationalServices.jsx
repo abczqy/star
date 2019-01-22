@@ -25,7 +25,6 @@ import {
   // getEduClassSelectList
 } from 'services/software-manage'
 // import { BlankBar, SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
-import { BlankBar } from 'components/software-market'
 import {
 // addKey2TableData
 // getSelectList,
@@ -84,6 +83,14 @@ class EducationalServices extends Component {
       dataIndex: 'id',
       key: 'id',
       width: 200
+    }, {
+      title: '状态',
+      dataIndex: ''
+    }, {
+      title: '关联代理商',
+      dataIndex: ''
+    }, {
+      title: '允许登录'
     }, {
     //   title: '所属级别',
     //   dataIndex: 'edu_class',
@@ -395,7 +402,6 @@ class EducationalServices extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
         /> */}
-        <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}

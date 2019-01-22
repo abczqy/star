@@ -17,7 +17,7 @@ import {
   // initPaPwd,
   // delPaLoginId
 } from 'services/software-manage'
-import { BlankBar, SearchBarMemberPa } from 'components/software-market'
+import { SearchBarMemberPa } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
@@ -350,7 +350,6 @@ class Parent extends Component {
           onBtnBatchExport={this.onBatchLeadout}
           upload={this.upload}
         />
-        <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={this.state.dataSource}

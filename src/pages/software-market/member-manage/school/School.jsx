@@ -22,7 +22,7 @@ import {
   // getNameSelectList,
   toLogin
 } from 'services/software-manage'
-import { BlankBar, SearchBarMemberSch, NewSchool } from 'components/software-market'
+import { SearchBarMemberSch, NewSchool } from 'components/software-market'
 // import {
 //   addKey2TableData
 //   // getSelectList
@@ -413,7 +413,6 @@ class School extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
         />
-        <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={this.state.dataSource}

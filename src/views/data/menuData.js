@@ -113,7 +113,7 @@ export default [
     icon: ImgSoft,
     key: '7',
     to: '/software-market-home/software-manage/businessing'
-  }, */{
+  }, {
     title: '用户管理',
     icon: ImgMemb,
     key: '8',
@@ -136,11 +136,12 @@ export default [
         to: '/software-market-home/member-manage/tourist'
       }
     ]
-  }, {
-    title: '管理',
+  }, */{
+    title: '用户管理',
+    icon: ImgMemb,
     key: '12',
     to: '/software-market-home/member-manage/home'
-  }, {
+  }, /* {
     title: '实体管理',
     icon: ImgMemb,
     key: '11',
@@ -159,7 +160,7 @@ export default [
         to: '/software-market-home/member-manage/educational-services'
       }
     ]
-  }, /* {
+  }, {
     title: '系统设置',
     icon: ImgSoft,
     key: '9',

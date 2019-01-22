@@ -1,24 +1,27 @@
+/**
+ * 代理商
+ */
 import React from 'react'
 import {Input, Button, Table, Switch} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
-import { NewFree } from 'components/software-market'
-import './FreeRegister.scss'
+import { NewAgent } from 'components/software-market'
+import '../free-register/FreeRegister.scss'
 
 const { API_BASE_URL_V2 } = config
 
-class FreeRegister extends React.Component {
+class Agent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      searches: {},
+      visible: false,
+      data: [],
       pagination: {
         current: 1,
         pageSize: 10
       },
-      data: [],
       total: 0,
-      visible: false
+      searches: {}
     }
   }
   getTable = () => {
@@ -45,6 +48,11 @@ class FreeRegister extends React.Component {
       this.getTable()
     })
   }
+  changeVisible = (visible) => {
+    this.setState({visible})
+  }
+  /** 新增代理确认 */
+  onOk = () => {}
   /** 修改搜索条件 */
   changeSearch = (name, value) => {
     const searches = {...this.state.searches}
@@ -54,20 +62,24 @@ class FreeRegister extends React.Component {
   getColumns = () => {
     return [
       {
-        title: '账号',
-        dataIndex: 'account'
+        title: '代理商ID',
+        dataIndex: ''
       },
       {
-        title: '姓名',
-        dataIndex: 'name'
+        title: '代理商名称',
+        dataIndex: ''
       },
       {
-        title: '身份证号',
-        dataIndex: 'identify'
+        title: '状态',
+        dataIndex: ''
       },
       {
-        title: '手机号',
-        dataIndex: 'telephone'
+        title: '代理字段',
+        dataIndex: ''
+      },
+      {
+        title: '代理地区',
+        dataIndex: ''
       },
       {
         title: '允许登录',
@@ -83,6 +95,8 @@ class FreeRegister extends React.Component {
         dataIndex: 'operation',
         render: (text, record) => {
           return <div className='operation-items'>
+            <span>学校列表</span>
+            <span>编辑</span>
             <span>重置密码</span>
             <span>删除</span>
           </div>
@@ -91,42 +105,31 @@ class FreeRegister extends React.Component {
     ]
   }
   handleToLogin = (record) => {}
-  onOk = () => {
-    this.refs.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log(values)
-      }
-    })
-  }
-  changeVisible = (visible) => {
-    this.setState({
-      visible
-    })
-  }
-
   render () {
     const { data, total, pagination, visible } = this.state
     return (
       <div className='free-register'>
         <div className='search-bar-wrap'>
           <div className='search-bar-item'>
-            <span className='input-label'>
-              账号
+            <span className='input-label' style={{width: 80}}>
+              代理商名称
             </span>
-            <Input className='input' onChange={(e) => this.changeSearch('account', e.target.value)} />
+            <Input className='input' style={{width: 160}} onChange={(e) => this.changeSearch('name', e.target.value)} />
           </div>
           <div className='search-bar-item'>
             <span className='input-label'>
-              姓名
+              代理字段
             </span>
-            <Input className='input' onChange={(e) => this.changeSearch('name', e.target.value)} />
+            <Input className='input' onChange={(e) => this.changeSearch('field', e.target.value)} />
           </div>
           <div className='search-bar-buttons'>
             <Button htmlType='button' className='search-bar-btn' type='primary' onClick={this.getTable}>搜索</Button>
-            <Button htmlType='button' className='search-bar-btn' type='primary'
+            <Button htmlType='button'
+              className='search-bar-btn'
+              type='primary'
               style={{background: '#4eb652'}}
               icon='plus'
-              onClick={() => this.changeVisible(true)}>新增用户</Button>
+              onClick={() => this.changeVisible(true)}>新增代理商</Button>
           </div>
           <div style={{clear: 'both'}} />
         </div>
@@ -141,15 +144,14 @@ class FreeRegister extends React.Component {
             onShowSizeChange: this.onShowSizeChange
           }}
         />
-        <NewFree visible={visible}
-          onOk={this.onOk}
+        <NewAgent onOk={this.onOk}
           changeVisible={this.changeVisible}
-          ref='form' />
+          visible={visible} />
       </div>
     )
   }
 }
 
-FreeRegister.propTypes = {}
+Agent.propTypes = {}
 
-export default FreeRegister
+export default Agent

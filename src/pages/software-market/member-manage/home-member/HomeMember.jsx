@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs } from 'antd'
-import { School, Teacher, Student, Parent, EducationalServices, Manufacturer, FreeRegister } from 'pages/software-market'
+import { School, Teacher, Student, Parent, EducationalServices, Manufacturer, FreeRegister, Agent, Examine, Tourist } from 'pages/software-market'
 import './HomeMember.scss'
 
 const TabPane = Tabs.TabPane
@@ -71,10 +71,13 @@ class HomeMember extends React.Component {
             <Manufacturer />
           </TabPane>
           <TabPane tab='代理商' key='5'>
-            代理商
+            <Agent />
           </TabPane>
           <TabPane tab='审核用户' key='6'>
-            审核用户
+            <Examine />
+          </TabPane>
+          <TabPane tab='家长审核' key='7'>
+            <Tourist />
           </TabPane>
         </Tabs>
       </div>

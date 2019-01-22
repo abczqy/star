@@ -18,7 +18,7 @@ import {
   // delStuLoginId,
   stBatchLeadout
 } from 'services/software-manage'
-import { BlankBar, SearchBarMemberStu } from 'components/software-market'
+import { SearchBarMemberStu } from 'components/software-market'
 // import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
@@ -95,6 +95,9 @@ class Student extends Component {
       title: '家长',
       dataIndex: 'PARENT_NAME',
       key: 'PARENT_NAME'
+    }, {
+      title: '家长账号',
+      dataIndex: 'PARENT_LOGIN_NAME'
     }, {
       title: '允许登录',
       dataIndex: 'LOGIN_PERMISSION_STATUS',
@@ -379,7 +382,6 @@ class Student extends Component {
           changeState={this.props.changeState}
           AUTHORITY_NAME={AUTHORITY_NAME}
         />
-        <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={this.state.dataSource}

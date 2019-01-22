@@ -16,7 +16,10 @@ export {
   Student,
   Teacher,
   HomeMember,
-  FreeRegister
+  FreeRegister,
+  Agent,
+  Examine,
+  Tourist
 } from './member-manage/index'
 
 export {

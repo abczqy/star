@@ -86,6 +86,7 @@ class SearchBarMemberTeac extends Component {
           <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增老师</Button>
           {/* <Icon type='rollback' style={{fontSize: 20, verticalAlign: 'middle'}} onClick={() => changeState(1)} /> */}
         </div>
+        <div style={{clear: 'both'}} />
         {/* <Row gutter={16}>
            <Col span={4}>
             <span className='select-label'>允许登录</span>
