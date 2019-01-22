@@ -90,6 +90,7 @@ class SearchBarMemberStu extends Component {
           </Upload>
           <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增学生</Button>
         </div>
+        <div style={{clear: 'both'}} />
       </div>
     )
   }

@@ -3,7 +3,7 @@
 import React from 'react'
 import {Modal, Button, Form, Input, message} from 'antd'
 import PropTypes from 'prop-types'
-import {updatePhoneNum, SMSVerification, Verificationv2} from '../../services/topbar-mation/index'
+import {updateUser, SMSVerificationv2, Verificationv2} from '../../services/topbar-mation/index'
 import '../../views/Operateview.scss'
 class ChangePhoneNumber extends React.Component {
   static propTypes = {
@@ -61,11 +61,10 @@ class ChangePhoneNumber extends React.Component {
         return
       }
       if (!err) {
-        console.log('修改手机号', values)
         if (this.props.from !== '基本信息') {
-          updatePhoneNum({
-            phoneNum: values.maf_phone_number,
-            password: values.maf_pass
+          updateUser({
+            phoneNum: values.maf_phone_number
+            // password: values.maf_pass
           }, (response) => {
             if (response.data === true) {
               message.success('修改手机成功！')
@@ -148,7 +147,6 @@ class ChangePhoneNumber extends React.Component {
         }
       })
       // form.setFieldsValue({maf_phone_con: ''})
-      console.log(11111111111, phoneNum)
       // 请求接口获取手机验证码
       this.getPhoneCode(phoneNum)
     }
@@ -157,9 +155,9 @@ class ChangePhoneNumber extends React.Component {
   }
   // 获取短信验证码
   getPhoneCode=(phoneNum) => {
-    SMSVerification({'phone': phoneNum}, (response) => {
+    SMSVerificationv2({'phone': phoneNum}, (response) => {
       this.setState({
-        phoneCode: response.data && response.data.toString()
+        phoneCode: response.data && response.data.msg.toString()
       })
     })
   }

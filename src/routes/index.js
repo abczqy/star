@@ -7,12 +7,12 @@ import {
   Businessing,
   IterationVerify,
   WaitVerify,
-  EducationalServices,
-  Manufacturer,
-  Parent,
-  School,
-  Student,
-  Teacher,
+  // EducationalServices,
+  // Manufacturer,
+  // Parent,
+  // School,
+  // Student,
+  // Teacher,
   NewsListAdd,
   NewsListEdit,
   PublicInfoAdd,
@@ -61,7 +61,7 @@ import {
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
-import Tourist from 'pages/software-market/member-manage/tourist/Tourist'
+// import Tourist from 'pages/software-market/member-manage/tourist/Tourist'
 import Messages from 'pages/software-market/software-manage/messages/Messages'
 
 export default {
@@ -121,7 +121,7 @@ export default {
   }, {
     path: '/software-market-home/software-manage/wait-verify',
     component: Logged(WaitVerify)
-  }, {
+  }, /* {
     path: '/software-market-home/member-manage/educational-services',
     component: Logged(EducationalServices)
   }, {
@@ -142,7 +142,7 @@ export default {
   }, {
     path: '/software-market-home/member-manage/teacher',
     component: Logged(Teacher)
-  }, {
+  }, */{
     path: '/software-market-home/member-manage/home',
     component: Logged(HomeMember)
   }, {

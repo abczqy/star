@@ -1,0 +1,15 @@
+.new-agent-item{
+  line-height: 36px;
+  margin-bottom: 10px;
+  vertical-align: middle;
+  .title{
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  .input{
+    width: 320px;
+  }
+}

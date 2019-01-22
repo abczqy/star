@@ -66,7 +66,7 @@ class SoftwareMarket extends React.Component {
   }
 
   renderChildContent () {
-    return <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
+    return <Content style={{ background: '#fff', padding: 20, margin: 0, overflowY: 'auto' }}>
       {
         this.props.childRoutes.map((item, index, arr) => {
           return <Route key={index} path={item.path} component={item.component} />
@@ -98,7 +98,7 @@ class SoftwareMarket extends React.Component {
               </Sider>
               <Layout style={{ padding: '20px ' }}>
                 {
-                  this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
+                  this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0, overflowY: 'auto' }}>
                     <Businessing />
                   </Content>
                 }

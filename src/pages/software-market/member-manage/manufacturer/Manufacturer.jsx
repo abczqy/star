@@ -11,7 +11,7 @@
  */
 import React, { Component } from 'react'
 import { Table, Divider, Button, message } from 'antd'
-import { BlankBar, SearchBarMember } from 'components/software-market'
+import { SearchBarMember } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
 import {
@@ -474,7 +474,6 @@ class Manufacturer extends Component {
           onBtnSearchClick={this.search}
           // onBtnBatchExport={this.onBatchLeadout}
         />
-        <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}

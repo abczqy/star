@@ -12,7 +12,7 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
-import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
+import { SearchBarMemberTeac } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
@@ -379,7 +379,6 @@ class Teacher extends Component {
           uploadProps={this.uploadProps}
           AUTHORITY_NAME={AUTHORITY_NAME}
         />
-        <BlankBar />
         <Table
           columns={this.getClomus()}
           dataSource={this.state.dataSource}

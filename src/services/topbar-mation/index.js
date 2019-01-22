@@ -3,7 +3,7 @@
  */
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL, SERVICE_AUTHENTICATION} = config
 /**
  * 校验邮箱是否被占用
  */
@@ -294,4 +294,12 @@ export function userInfoAdd (roleId, params, sucFn) {
     .then(function (res) {
       sucFn(res)
     })
+}
+/**
+ * 修改人员信息
+ */
+export function updateUser (data, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/detailed', data).then((res) => {
+    sucFn(res)
+  })
 }

@@ -30,3 +30,5 @@ export { default as SearchBarMemberTeac } from './serch-bar-member-teac/SearchBa
 export { default as SearchBarMemberEduSer } from './serch-bar-member-edu-ser/SearchBarMemberEduSer'
 export { default as AppPurCombination } from './app-pur-combination/AppPurCombination'// app购买套餐卡片组件
 export { default as NewSchool } from './news/new-school/NewSchool'
+export { default as NewFree } from './news/new-free/NewFree'
+export { default as NewAgent } from './news/new-agent/NewAgent'

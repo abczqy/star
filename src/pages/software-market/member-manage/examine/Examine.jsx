@@ -1,24 +1,25 @@
+/**
+ * 审核用户
+ */
 import React from 'react'
-import {Input, Button, Table, Switch} from 'antd'
+import {Input, Button, Table} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
-import { NewFree } from 'components/software-market'
-import './FreeRegister.scss'
+import '../free-register/FreeRegister.scss'
 
 const { API_BASE_URL_V2 } = config
 
-class FreeRegister extends React.Component {
+class Examine extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      searches: {},
+      data: [],
       pagination: {
         current: 1,
         pageSize: 10
       },
-      data: [],
       total: 0,
-      visible: false
+      searches: {}
     }
   }
   getTable = () => {
@@ -45,6 +46,11 @@ class FreeRegister extends React.Component {
       this.getTable()
     })
   }
+  changeVisible = (visible) => {
+    this.setState({visible})
+  }
+  /** 新增代理确认 */
+  onOk = () => {}
   /** 修改搜索条件 */
   changeSearch = (name, value) => {
     const searches = {...this.state.searches}
@@ -58,54 +64,47 @@ class FreeRegister extends React.Component {
         dataIndex: 'account'
       },
       {
-        title: '姓名',
-        dataIndex: 'name'
+        title: '用户类型',
+        dataIndex: ''
       },
       {
-        title: '身份证号',
-        dataIndex: 'identify'
+        title: '身份证',
+        dataIndex: ''
       },
       {
-        title: '手机号',
-        dataIndex: 'telephone'
+        title: '联系方式',
+        dataIndex: ''
       },
       {
-        title: '允许登录',
-        dataIndex: 'login',
-        render: (text, record, index) => {
-          return (
-            <Switch checked={record.LOGIN_PERMISSION_STATUS === 1} onChange={() => this.handleToLogin(record)} />
-          )
-        }
+        title: '申请用户',
+        dataIndex: ''
       },
       {
         title: '操作',
         dataIndex: 'operation',
         render: (text, record) => {
           return <div className='operation-items'>
-            <span>重置密码</span>
-            <span>删除</span>
+            <span>详情</span>
+            <span>通过</span>
           </div>
         }
       }
     ]
   }
   handleToLogin = (record) => {}
-  onOk = () => {
-    this.refs.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log(values)
-      }
-    })
-  }
-  changeVisible = (visible) => {
-    this.setState({
-      visible
-    })
-  }
-
   render () {
-    const { data, total, pagination, visible } = this.state
+    const { data, total, pagination } = this.state
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+      },
+      onSelect: (record, selected, selectedRows) => {
+        console.log(record, selected, selectedRows)
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log(selected, selectedRows, changeRows)
+      }
+    }
     return (
       <div className='free-register'>
         <div className='search-bar-wrap'>
@@ -113,24 +112,26 @@ class FreeRegister extends React.Component {
             <span className='input-label'>
               账号
             </span>
-            <Input className='input' onChange={(e) => this.changeSearch('account', e.target.value)} />
+            <Input className='input' onChange={(e) => this.changeSearch('name', e.target.value)} />
           </div>
           <div className='search-bar-item'>
             <span className='input-label'>
-              姓名
+              用户类型
             </span>
-            <Input className='input' onChange={(e) => this.changeSearch('name', e.target.value)} />
+            <Input className='input' onChange={(e) => this.changeSearch('field', e.target.value)} />
+          </div>
+          <div className='search-bar-item'>
+            <span className='input-label'>
+              联系方式
+            </span>
+            <Input className='input' onChange={(e) => this.changeSearch('connect', e.target.value)} />
           </div>
           <div className='search-bar-buttons'>
             <Button htmlType='button' className='search-bar-btn' type='primary' onClick={this.getTable}>搜索</Button>
-            <Button htmlType='button' className='search-bar-btn' type='primary'
-              style={{background: '#4eb652'}}
-              icon='plus'
-              onClick={() => this.changeVisible(true)}>新增用户</Button>
           </div>
           <div style={{clear: 'both'}} />
         </div>
-        <Table rowKey={(text, record, index) => index}
+        <Table rowKey={(text, record, index) => index + (pagination.current - 1) * pagination.pageNum}
           dataSource={data}
           columns={this.getColumns()}
           pagination={{
@@ -140,16 +141,13 @@ class FreeRegister extends React.Component {
             total,
             onShowSizeChange: this.onShowSizeChange
           }}
+          rowSelection={rowSelection}
         />
-        <NewFree visible={visible}
-          onOk={this.onOk}
-          changeVisible={this.changeVisible}
-          ref='form' />
       </div>
     )
   }
 }
 
-FreeRegister.propTypes = {}
+Examine.propTypes = {}
 
-export default FreeRegister
+export default Examine
