@@ -206,7 +206,7 @@ class Login extends Component {
       <Layout className='log-content'>
         <Content>
           <div>
-            <Row stylw={{background: '#fff'}}>
+            <Row style={{background: '#fff'}}>
               <Col span={14}>
                 <img src={require('../../../../../assets/images/login-home/log_1.jpg')} className='wid-100' />
               </Col>

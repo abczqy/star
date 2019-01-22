@@ -63,7 +63,8 @@ class Businessing extends Component {
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
       keyword: '',
-      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
+      options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
+      tabsValue: 'rj'
     }
     // 表格的列信息
     this.columns = [{
@@ -103,15 +104,21 @@ class Businessing extends Component {
       )
     }]
     this.platColunms = [{
-      title: '应用名称'
+      title: '应用名称',
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
     }, {
-      title: '所属类型'
+      title: '所属类型',
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
     }, {
-      title: '版本'
+      title: '版本',
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
     }, {
-      title: '上线时间'
-    }, {
-      title: '地址'
+      title: '上线时间',
+      dataIndex: 'CREATE_TIME',
+      render: date => moment(date).format('YYYY-MM-DD')
     }, {
       title: '操作',
       dataIndex: 'options',
@@ -147,12 +154,26 @@ class Businessing extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = (thiz) => {
-    let params = {
-      auditStatus: '4', // 审核状态
-      keyword: this.state.keyword || '', // 应用名称,
-      pageNum: this.state.pagination.pageNum || 1,
-      pageSize: this.state.pagination.pageSize || 10,
-      typeId: this.state.typeId || 0
+    const {tabsValue} = this.state
+    let params
+    if (tabsValue === 'rj') {
+      params = {
+        auditStatus: '4', // 审核状态
+        keyword: this.state.keyword || '', // 应用名称,
+        pageNum: this.state.pagination.pageNum || 1,
+        pageSize: this.state.pagination.pageSize || 10,
+        typeId: this.state.typeId || 0,
+        platformType: 'rj'
+      }
+    } else {
+      params = {
+        auditStatus: '4', // 审核状态
+        keyword: this.state.keyword || '', // 应用名称,
+        pageNum: this.state.pagination.pageNum || 1,
+        pageSize: this.state.pagination.pageSize || 10,
+        typeId: this.state.typeId || 0,
+        platformType: 'pt'
+      }
     }
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
       .then(function (res) {
@@ -438,12 +459,17 @@ class Businessing extends Component {
     this.getTableDatas(this)
     this.getSelectOptions()
   }
-
+  // 改变tabs值
+  changeTabs = (value) => {
+    this.setState({
+      tabsValue: value
+    })
+  }
   render () {
     const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
     return (
-      <Tabs defaultActiveKey='soft'>
-        <TabPane key='soft' tab={<strong>软件应用</strong>}>
+      <Tabs defaultActiveKey='rj' onChange={this.changeTabs}>
+        <TabPane key='rj' tab={<strong>软件应用</strong>}>
           <div className='software-wrap'>
             <SearchBar
               onSeachChange={this.inputChange}
@@ -500,7 +526,7 @@ class Businessing extends Component {
             />
           </div>
         </TabPane>
-        <TabPane key='plat' tab={<strong>平台应用</strong>}>
+        <TabPane key='pt' tab={<strong>平台应用</strong>}>
           <div className='software-wrap'>
             <SearchBar
               onSeachChange={this.inputChange}
@@ -510,7 +536,18 @@ class Businessing extends Component {
               options={options}
             />
             <BlankBar />
-            <Table columns={this.platColunms} />
+            <Table
+              columns={this.platColunms}
+              dataSource={tableData.data}
+              pagination={{
+                ...pagination,
+                total: this.state.tableData.total,
+                onShowSizeChange: this.onShowSizeChange,
+                onChange: this.pageNumChange
+              }}
+              rowKey={(record, index) => {
+                return index
+              }} />
           </div>
         </TabPane>
       </Tabs>

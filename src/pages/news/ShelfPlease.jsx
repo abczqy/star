@@ -90,7 +90,7 @@ class ShelfPlease extends React.Component {
       fileListFinVour: [], // 用来存财务审核凭证的文件id
       fileListContract: [], // 用来存财务审核凭证的文件id
       platformVersionList: [], // 用来存储应用平台的文件id
-      platformIconList: {}, // 用来存储应用平台的iconid
+      platformIconList: [], // 用来存储应用平台的iconid
       platformIconUrl: [], // 用来展示的图片utl
       platformPCImgList: [], // 用来存储应用平台pc截图的id
       platformPCImgUrl: [], // 用来存储应用平台pc截图数据
@@ -131,9 +131,12 @@ class ShelfPlease extends React.Component {
         versionNum: '', // 版本号
         packageName: '', // 包名,
         rootPath: '', // 根路径
-        textPath: '', // 测试路径
+        testPath: '', // 测试路径
         size: '', // 包大小
-        type: '' // 包类型
+        type: '', // 包类型
+        storeLocation: '', // 上传的应用文件
+        appIcon: '', // 上传的图标
+        img: [] // 上传的img
       }
     }
   }
@@ -745,18 +748,110 @@ class ShelfPlease extends React.Component {
         })
       })
     } else {
-      // 上传应用图标
-      thiz.uploadPlatIcon(thiz)
+      // 上传应用包
+      thiz.uploadPlatVersion(thiz, () => {
+        thiz.uploadPlatIcon(thiz, () => {
+          thiz.uploadPlatPcimg(thiz, () => {
+            thiz.uploadPlatDate(thiz)
+          })
+        })
+      })
+    }
+  }
+  // 上传应用包
+  uploadPlatVersion = (thiz, callback) => {
+    if (thiz.state.platformVersionList[0]) {
+      getUpload('soft', this.state.platformPCImgList[0], (res) => {
+        if (res.data && res.data.code === 200) {
+          const {platform} = thiz.state
+          platform.storeLocation = res.data.data
+          thiz.setState({
+            ...platform
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          message.warn('上传失败！')
+          return ''
+        }
+      })
+    } else {
+      message.warn('请上传文件！')
+      return ''
     }
   }
   // 上传应用图标
-  uploadPlatIcon = (thiz) => {
-    if (thiz.state.platformIconList) {
-      console.log(thiz.state.platformIconList)
-      getUpload('pic', thiz.state.platformIconList, (res) => {
-        console.log(res)
+  uploadPlatIcon = (thiz, callback) => {
+    if (thiz.state.platformIconList[0]) {
+      getUpload('pic', thiz.state.platformIconList[0], (res) => {
+        if (res.data && res.data.code === 200) {
+          const {platform} = thiz.state
+          platform.appIcon = res.data.data
+          thiz.setState({
+            ...platform
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          message.warn('上传失败！')
+          return ''
+        }
       })
+    } else {
+      message.warn('请上传图片！')
+      return ''
     }
+  }
+  // 上传平台pc端的截图
+  uploadPlatPcimg = (thiz, callback) => {
+    if (thiz.state.platformPCImgList.length > 0) {
+      getMultiUpload('pic', thiz.state.platformPCImgList, (res) => {
+        if (res.data && res.data.code === 200) {
+          const {platform} = thiz.state
+          platform.img = res.data.data
+          thiz.setState({
+            ...platform
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          message.warn('上传失败！')
+          return ''
+        }
+      })
+    } else {
+      message.warn('请上传图片！')
+      return ''
+    }
+  }
+  // 上传相关资料
+  uploadPlatDate = (thiz) => {
+    const {platform} = this.state
+    let params = {
+      appIcon: platform.appIcon,
+      appName: platform.name,
+      appNotes: platform.description,
+      appPcPic: platform.img,
+      appTypeId: platform.typeId,
+      appVersion: platform.versionNum,
+      indexUrl: platform.rootPath,
+      installInfo: platform.install,
+      newFeatures: platform.special,
+      packageName: platform.packageName,
+      storeLocation: platform.storeLocation,
+      testUrl: platform.testPath
+    }
+    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/pt`, {...params})
+      .then(function (res) {
+        console.log(res)
+        if (res.data.code === 200) {
+          message.success(res.data.msg || '提交成功')
+          // 还要跳回上一页
+          thiz.props.history.goBack()
+        } else {
+          message.warning(res.data.msg || '提交失败')
+        }
+      })
   }
   /** 平台名称 **/
   changePlatformName = (e) => {
@@ -1298,7 +1393,7 @@ class ShelfPlease extends React.Component {
       },
       beforeUpload: (file) => {
         this.setState(({platformIconList}) => ({
-          platformIconList: file
+          platformIconList: [file]
         }), () => {
           // console.log('platformIconLIst', this.state.platformIconList)
         })
@@ -1397,10 +1492,10 @@ class ShelfPlease extends React.Component {
           <span style={{color: 'red'}}>*</span>
           测试路径:</Col>
         <Col span={20}>
-          <Input value={platform.textPath} onChange={(e) => {
+          <Input value={platform.testPath} onChange={(e) => {
             const {value} = e.target
             const {platform} = this.state
-            platform.textPath = value
+            platform.testPath = value
             this.setState({...platform})
           }} style={{ width: 880 }} />
         </Col>

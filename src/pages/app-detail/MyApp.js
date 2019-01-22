@@ -25,7 +25,8 @@ class MyApp extends Component {
       newNewsNum: {},
       detail: {
         visible: false
-      }
+      },
+      tabsType: 'rj'
     }
   }
   changeState () {
@@ -83,10 +84,57 @@ class MyApp extends Component {
       }
     })
   }
+  // 改变tabs的值
+  changeTypeOfTabs = (value) => {
+    this.setState({
+      tabsType: value
+    })
+  }
   render () {
-    const {detail} = this.state
+    const {detail, tabsType} = this.state
     return (
       <div style={{width: '80%', margin: 'auto', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff', paddingRight: '30px', minHeight: '900px'}}>
+        <Tabs defaultActiveKey='rj' onChange={this.changeTypeOfTabs}>
+          <Tabs.TabPane key='rj' tab={<strong>软件应用</strong>}>
+            <Tabs defaultActiveKey='class' onChange={() => this.changeState()}>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news1 || 0)}>运营中</Badge>} key='class' >
+                <MyAppOperationTable tabsType={tabsType} getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news2 || 0)}>审核中</Badge>} key='text' >
+                <MyAppExamineTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news3 || 0)}>迭代审核</Badge>} key='grade' >
+                <MyAppIterationTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news4 || 0)}>未通过审核</Badge>} key='reject' >
+                <Reject {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news5 || 0)}>应用下架</Badge>} key='remove' >
+                <Remove {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+            </Tabs>
+          </Tabs.TabPane>
+          <Tabs.TabPane key='pt' tab={<strong>平台应用</strong>}>
+            {/* 平台相关的列表 */}
+            <Tabs defaultActiveKey='running'>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news1 || 0)}>运营中</Badge>} key='running'>
+                <MyAppOperationTable tabsType={tabsType} getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news2 || 0)}>审核中</Badge>} key='waiting'>
+                <MyAppExamineTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news3 || 0)}>迭代审核</Badge>} key='cycle'>
+                <MyAppIterationTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news4 || 0)}>未通过审核</Badge>} key='reject'>
+                <Reject {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news5 || 0)}>应用下架</Badge>} key='remove'>
+                <Remove {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+              </Tabs.TabPane>
+            </Tabs>
+          </Tabs.TabPane>
+        </Tabs>
         {/* <Card>
           <Menu
             onClick={this.typeSwitching}
@@ -105,24 +153,6 @@ class MyApp extends Component {
           </Menu>
           <MyAppOperationTable dataSource={this.state.tableDatas} />
         </Card> */}
-        <Tabs defaultActiveKey='class' onChange={() => this.changeState()}>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news1 || 0)}>运营中</Badge>} key='class' >
-            <MyAppOperationTable getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas}
-              showDetail={this.showDetail} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news2 || 0)}>审核中</Badge>} key='text' >
-            <MyAppExamineTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news3 || 0)}>迭代审核</Badge>} key='grade' >
-            <MyAppIterationTable {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news4 || 0)}>未通过审核</Badge>} key='reject' >
-            <Reject {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news5 || 0)}>应用下架</Badge>} key='remove' >
-            <Remove {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
-          </Tabs.TabPane>
-        </Tabs>
         <div className='app-detail-wrap' ref='appDetailElem' />
         <AppDetailModal
           title={detail.APP_NAME}

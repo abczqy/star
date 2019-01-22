@@ -16,15 +16,11 @@ export function getAppListData (params, sucFn) {
  * 软件管理-下架
  */
 export function getAppListDatav2 (params, sucFn) {
-  console.log('params.sw_type' + params.sw_type)
+  console.log(params)
   return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET +
-  '/manage-app/list-by-audit-status' +
-  '?auditStatus=' + params.auditStatus +
-  '&downloadCount=' + params.downloadCount +
-  '&keyword=' + params.keyword +
-  '&pageNum=' + params.pageNum +
-  '&pageSize=' + params.pageSize +
-  '&typeId=' + params.typeId)
+  '/manage-app/list-by-audit-status', {
+    params: params
+  })
   // '?auditStatus=5&downloadCount=desc&pageNum=1&pageSize=10&typeId=101')
   // + {...params}
     .then(function (res) {
