@@ -20,6 +20,7 @@ import AllApplications from 'pages/edu-all-app/AllApplications'
 import TeacherHome from 'pages/after-logging-home/TeacherHome'
 import Please from 'pages/news/ShelfPlease'// 上架流程
 import Iteration from 'pages/news/IterationPlease'// 迭代申请
+import PlatIterationPlease from 'pages/news/platIterationPlease'
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
@@ -35,6 +36,7 @@ let LAllApplications = Logged(AllApplications)
 let LTeacherHome = Logged(TeacherHome)
 let LPlease = Logged(Please)
 let LIteration = Logged(Iteration)
+let PlatIteration = Logged(PlatIterationPlease)
 let LPersonnelManagement = Logged(PersonnelManagement)
 let LPersonalCenter = Logged(PersonalCenter)
 let LStatisticalAnalysis = Logged(StatisticalAnalysis)
@@ -329,6 +331,10 @@ class OperateManage extends React.Component {
             <Route path='/operate-manage-home/iteration' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <LIteration
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+            <Route path='/operate-manage-home/platiteration' render={() => {
+              return <PlatIteration
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
             }} />
             <Route path='/operate-manage-home/member' render={() => {
