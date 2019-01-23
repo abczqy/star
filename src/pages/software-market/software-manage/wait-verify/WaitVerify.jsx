@@ -51,7 +51,8 @@ class WaitVerify extends Component {
       downloadCount: 'desc', // 下载量排行
       keyword: '',
       showModal: false,
-      reason: ''
+      reason: '',
+      tabsValue: 'rj'
     }
   }
 
@@ -59,14 +60,28 @@ class WaitVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-    getAppListDatav2({
-      pageNum: this.state.pagination.pageNum,
-      pageSize: this.state.pagination.pageSize,
-      auditStatus: this.state.auditStatus,
-      typeId: this.state.typeId,
-      downloadCount: this.state.downloadCount,
-      keyword: this.state.keyword
-    }, (res) => {
+    const {tabsValue} = this.state
+    let params
+    if (tabsValue === 'rj') {
+      params = {
+        auditStatus: this.state.auditStatus, // 审核状态
+        keyword: this.state.keyword || '', // 应用名称,
+        pageNum: this.state.pagination.pageNum || 1,
+        pageSize: this.state.pagination.pageSize || 10,
+        typeId: this.state.typeId || 0,
+        platformType: 'rj'
+      }
+    } else {
+      params = {
+        auditStatus: this.state.auditStatus, // 审核状态
+        keyword: this.state.keyword2 || '', // 应用名称,
+        pageNum: this.state.pagination2.pageNum || 1,
+        pageSize: this.state.pagination2.pageSize || 10,
+        typeId: this.state.typeId2 || 0,
+        platformType: 'pt'
+      }
+    }
+    getAppListDatav2(params, (res) => {
       const data = res.data.data
       // let jsonStr = JSON.stringify(data)
       // console.log(jsonStr)
@@ -408,7 +423,14 @@ class WaitVerify extends Component {
     this.getTableDatas()
     this.getSelectOptions()
   }
-
+  // 改变tabs值
+  changeTabs = (value) => {
+    this.setState({
+      tabsValue: value
+    }, () => {
+      this.getTableDatas(this)
+    })
+  }
   render () {
     const { tableData, pagination, detModalCon, options } = this.state
     return (

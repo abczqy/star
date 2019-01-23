@@ -136,7 +136,9 @@ class ShelfPlease extends React.Component {
         type: '', // 包类型
         storeLocation: '', // 上传的应用文件
         appIcon: '', // 上传的图标
-        img: [] // 上传的img
+        img: [], // 上传的img
+        md5: ' ',
+        token: ''
       }
     }
   }
@@ -839,7 +841,9 @@ class ShelfPlease extends React.Component {
       newFeatures: platform.special,
       packageName: platform.packageName,
       storeLocation: platform.storeLocation,
-      testUrl: platform.testPath
+      testUrl: platform.testPath,
+      md5Code: platform.md5,
+      tokenAddress: platform.token
     }
     axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/pt`, {...params})
       .then(function (res) {
@@ -1522,6 +1526,32 @@ class ShelfPlease extends React.Component {
             placeholder='请输入包名'
             onChange={this.changePlatformPackageName}
           />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>md5:</Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入md5' onChange={(e) => {
+            const {value} = e.target
+            this.setState({
+              ...this.state.platform,
+              md5: value
+            })
+          }
+          } value={platform.md5code} style={{width: 880}} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>token:</Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入token' onChange={(e) => {
+            const {value} = e.target
+            this.setState({
+              ...this.state.platform,
+              token: value
+            })
+          }
+          } value={platform.token} style={{width: 880}} />
         </Col>
       </Row>
       <Row className='Wxd' type='flex' algin='middle'>
