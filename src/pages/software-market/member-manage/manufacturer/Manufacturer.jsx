@@ -11,7 +11,7 @@
  */
 import React, { Component } from 'react'
 import { Table, Divider, Button, message } from 'antd'
-import { SearchBarMember } from 'components/software-market'
+import { SearchBarMember, NewManufacturer } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
 import {
@@ -70,7 +70,8 @@ class Manufacturer extends Component {
       batchLeadParams: {
         faIdArrs: []
       },
-      selectList: {}
+      selectList: {},
+      newManuVisible: false
     }
   }
 
@@ -458,6 +459,19 @@ class Manufacturer extends Component {
     getSelectList(getNameSelectList, 'firm', 'faNameList', this)
     getSelectListWithNoParam(getContractSelectList, 'contractList', this)
   }
+  /** 新增厂商弹窗相关 */
+  newManuOk = () => {
+    this.refs.newManufacturer.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  changeVisible = (newManuVisible) => {
+    this.setState({
+      newManuVisible
+    })
+  }
 
   render () {
     const { pagination, tableData, delModalCon, faDetModalCon, selectList } = this.state
@@ -472,6 +486,7 @@ class Manufacturer extends Component {
           // onSelect3Change={this.onNumDayChange}
           // onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
+          newManufacturer={() => this.changeVisible(true)}
           // onBtnBatchExport={this.onBatchLeadout}
         />
         <Table
@@ -510,6 +525,10 @@ class Manufacturer extends Component {
             <Button key='back' type='primary' onClick={this.handleFaDetCancel} >关闭</Button>
           ]}
         />
+        <NewManufacturer visible={this.state.newManuVisible}
+          onOk={this.newManuOk}
+          changeVisible={this.changeVisible}
+          ref='newManufacturer' />
       </div>
     )
   }

@@ -18,7 +18,7 @@ import {
   // delStuLoginId,
   stBatchLeadout
 } from 'services/software-manage'
-import { SearchBarMemberStu } from 'components/software-market'
+import { SearchBarMemberStu, NewUser } from 'components/software-market'
 // import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
@@ -55,7 +55,8 @@ class Student extends Component {
       batchLeadParams: {
         idArrs: []
       },
-      selectList: {}
+      selectList: {},
+      newVisible: false
     }
     this.uploadProps = {
       action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
@@ -91,6 +92,9 @@ class Student extends Component {
       title: '学校',
       dataIndex: 'AUTHORITY_NAME',
       key: 'AUTHORITY_NAME'
+    }, {
+      title: '状态',
+      dataIndex: 'status'
     }, {
       title: '家长',
       dataIndex: 'PARENT_NAME',
@@ -364,7 +368,20 @@ class Student extends Component {
       this.getTableDatas()
     }
   }
-
+  /** 新增老师确认 */
+  onNewOk = () => {
+    this.refs.newUser.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  /** 新增老师弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+  }
   render () {
     const { pagination, selectList, AUTHORITY_NAME } = this.state
     return (
@@ -381,6 +398,7 @@ class Student extends Component {
           uploadProps={this.uploadProps}
           changeState={this.props.changeState}
           AUTHORITY_NAME={AUTHORITY_NAME}
+          changeVisible={this.changeVisible}
         />
         <Table
           columns={this.getColumns()}
@@ -394,6 +412,12 @@ class Student extends Component {
           // rowSelection={{
           //   onChange: this.rowSelectChange
           // }}
+        />
+        <NewUser onOk={this.onNewOk}
+          changeVisible={this.changeVisible}
+          ref='newUser'
+          visible={this.state.newVisible}
+          type={'学生'}
         />
       </div>
     )

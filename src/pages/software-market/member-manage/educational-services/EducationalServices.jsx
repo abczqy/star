@@ -24,7 +24,7 @@ import {
   // getEduUpperSelectList,
   // getEduClassSelectList
 } from 'services/software-manage'
-// import { BlankBar, SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
+import { SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
 import {
 // addKey2TableData
 // getSelectList,
@@ -79,7 +79,7 @@ class EducationalServices extends Component {
       key: 'authorityName',
       width: 200
     }, {
-      title: '账号',
+      title: '组织编号',
       dataIndex: 'id',
       key: 'id',
       width: 200
@@ -388,11 +388,10 @@ class EducationalServices extends Component {
   }
 
   render () {
-    // const { pagination, tableData, selectList } = this.state
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
     return (
       <div className='software-wrap'>
-        {/* <SearchBarMemberEduSer
+        <SearchBarMemberEduSer
           selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
           onSelect2Change={this.onInstChange}
@@ -401,7 +400,7 @@ class EducationalServices extends Component {
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
-        /> */}
+        />
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}

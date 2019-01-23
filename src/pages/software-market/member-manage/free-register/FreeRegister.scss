@@ -17,10 +17,6 @@
     display: inline-block;
     margin-bottom: 10px;
   }
-  .operation-items span{
-    color: #1E9FFF;
-    margin-right: 10px;
-  }
 }
 
 .input-label {
@@ -40,4 +36,10 @@
 .select {
   width: 65%
 }
-
+.free-register{
+  .operation-items span{
+    color: #1E9FFF;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}

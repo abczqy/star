@@ -1,11 +1,12 @@
 import React from 'react'
-import {Input, Button, Table, Switch} from 'antd'
+import {Input, Button, Table, Switch, Select} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
 import { NewFree } from 'components/software-market'
 import './FreeRegister.scss'
 
-const { API_BASE_URL_V2 } = config
+const { API_BASE_URL_V2, SERVICE_PORTAL } = config
+const Option = Select.Option
 
 class FreeRegister extends React.Component {
   constructor (props) {
@@ -21,10 +22,23 @@ class FreeRegister extends React.Component {
       visible: false
     }
   }
+  componentDidMount () {
+    this.getTable()
+  }
   getTable = () => {
-    axios.get(API_BASE_URL_V2 + '').then(res => {
+    const {pagination, searches} = this.state
+    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/user-list/role/8/${pagination.current}/${pagination.pageSize}`, searches).then(res => {
       const data = res.data.data
       console.log(data)
+      if (res.data.msg === '操作成功') {
+        this.setState({
+          data: data.content,
+          pagination: {
+            ...this.state.pagination,
+            total: data.totalElements
+          }
+        })
+      }
     })
   }
   handleChange = (pagination) => {
@@ -55,23 +69,27 @@ class FreeRegister extends React.Component {
     return [
       {
         title: '账号',
-        dataIndex: 'account'
+        dataIndex: 'LOGIN_NAME'
       },
       {
         title: '姓名',
-        dataIndex: 'name'
+        dataIndex: 'USER_NAME'
+      },
+      {
+        title: '性别',
+        dataIndex: 'GENDER'
       },
       {
         title: '身份证号',
-        dataIndex: 'identify'
+        dataIndex: 'CERTIFICATE_NUMBER'
       },
       {
         title: '手机号',
-        dataIndex: 'telephone'
+        dataIndex: 'PHONE_NUMBER'
       },
       {
         title: '允许登录',
-        dataIndex: 'login',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
         render: (text, record, index) => {
           return (
             <Switch checked={record.LOGIN_PERMISSION_STATUS === 1} onChange={() => this.handleToLogin(record)} />
@@ -127,6 +145,14 @@ class FreeRegister extends React.Component {
               style={{background: '#4eb652'}}
               icon='plus'
               onClick={() => this.changeVisible(true)}>新增用户</Button>
+          </div>
+          <div className='search-bar-item'>
+            <span className='select-label'>允许登录 </span>
+            <Select defaultValue='all' className='select' onChange={(value) => this.changeSearch('login', value)} >
+              <Option value='all'>全部</Option>
+              <Option value='allow'>允许</Option>
+              <Option value='refuse'>不允许</Option>
+            </Select>
           </div>
           <div style={{clear: 'both'}} />
         </div>

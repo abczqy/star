@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import webStorage from 'webStorage'
-import { Input, Row, Col, Button } from 'antd'
+import { Input, Row, Col, Button, message } from 'antd'
 import './BaseInfo.scss'
 import ChangeFirmName from '../../../message-notice/ChangeFirmName'
 import ChangeFirmDescribe from '../../../message-notice/ChangeFirmDescribe'
@@ -39,9 +39,11 @@ class BaseInfo extends Component {
     }
   }
   componentDidMount () {
+    this.getUserInfo()
+  }
+  getUserInfo = () => {
     let id = webStorage.getItem('STAR_V2_USERID') || 1
     axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`).then((res) => {
-      console.log(res)
       this.setState({
         userId: res.data.data.userId,
         userName: res.data.data.userName,
@@ -50,8 +52,7 @@ class BaseInfo extends Component {
         mailAddress: res.data.data.mailAddress,
         changePhoneVisible: false
       }, () => {
-        console.log(this.state.phoneNumber)
-        if (!this.state.phoneNumber) {
+        if (!this.state.phoneNumber && this.state.userType === 5) {
           this.setState({
             newInfoVisible: true
           })
@@ -161,6 +162,37 @@ class BaseInfo extends Component {
       }
     })
   }
+  /** 用户信息修改成功 */
+  onOk = (data) => {
+    message.success('新增信息添加成功')
+    this.setState({
+      newInfoVisible: false
+    }, () => {
+      this.getUserInfo()
+    })
+  }
+  getRoleType = () => {
+    if (this.state.userType) {
+      switch (this.state.userType) {
+        case 1:
+          return '学生'
+        case 2:
+          return '教师'
+        case 3:
+          return '学校'
+        case 5:
+          return '家长'
+        case 7:
+          return '教育机构'
+        case 8:
+          return '个人'
+        default:
+          return ''
+      }
+    } else {
+      return ''
+    }
+  }
 
   render () {
     let per = webStorage.getItem('STAR_WEB_ROLE_CODE')
@@ -227,7 +259,7 @@ class BaseInfo extends Component {
                   <span>用户类型:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-                  {this.state.userType}
+                  {this.getRoleType()}
                 </Col>
               </Row>
               {/* <Row className='base-info-content-top-row'>
@@ -344,7 +376,7 @@ class BaseInfo extends Component {
           hiddenModal={() => this.hiddenModal('changePhoneVisible')}
         /> : null}
         <NewUserInfo visible={this.state.newInfoVisible}
-          ref='userForm'
+          onOk={this.onOk}
         />
       </div>
     )

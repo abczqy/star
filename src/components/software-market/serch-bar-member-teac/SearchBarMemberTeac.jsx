@@ -67,7 +67,7 @@ class SearchBarMemberTeac extends Component {
           </Input>
         </div>
         <div className='search-bar-item'>
-          <span className='input-label'>所属机构</span>
+          <span className='input-label'>所属学校</span>
           <Input
             className='select'
             placeholder='请输入'
@@ -79,11 +79,11 @@ class SearchBarMemberTeac extends Component {
         </div>
         <div className='search-bar-buttons'>
           <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
-          <Button type='primary' className='search-bar-btn'><a href='/static/document/UserMessages.xls' target='_blank'>模板下载</a></Button>
+          <Button type='primary' className='search-bar-btn'><a href='/static/document/UserMessages.xls' download='老师用户模板.xls' target='_blank'>模板下载</a></Button>
           <Upload {...uploadProps} className='search-bar-btn' style={{display: 'inline-block'}}>
             <Button type='primary'>批量导入</Button>
           </Upload>
-          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增老师</Button>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus' onClick={() => this.props.changeVisible(true)}>新增老师</Button>
           {/* <Icon type='rollback' style={{fontSize: 20, verticalAlign: 'middle'}} onClick={() => changeState(1)} /> */}
         </div>
         <div style={{clear: 'both'}} />
@@ -125,7 +125,8 @@ SearchBarMemberTeac.propTypes = {
   // onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
   uploadProps: PropsTypes.object,
-  AUTHORITY_NAME: PropsTypes.string
+  AUTHORITY_NAME: PropsTypes.string,
+  changeVisible: PropsTypes.func
 }
 
 export default SearchBarMemberTeac

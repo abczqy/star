@@ -38,7 +38,8 @@ class SearchBarMember extends Component {
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
-      onSelect4Change
+      onSelect4Change,
+      newManufacturer
     } = this.props
     return (
       <div className='search-bar-wrap'>
@@ -76,9 +77,7 @@ class SearchBarMember extends Component {
               className='input'
               placeholder='请输入'
               // showSearch
-              onChange={onSelect2Change} >
-              {/* {selectList.faNameList && this.getOptions(selectList.faNameList)} */}
-            </Input>
+              onChange={onSelect2Change} />
           </div>
         }
         {
@@ -110,7 +109,9 @@ class SearchBarMember extends Component {
           {
             this.props.onBtnBatchExport && <Button type='primary' className='search-bar-btn' onClick={this.props.onBtnBatchExport}>批量导出</Button>
           }
+          <Button htmlType='button' onClick={newManufacturer} type='primary' style={{background: '#4eb652'}} icon='plus'>新增厂商</Button>
         </div>
+        <div style={{clear: 'both'}} />
       </div>
     )
   }
@@ -127,7 +128,8 @@ SearchBarMember.propTypes = {
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
   onSelect4Change: PropsTypes.func,
-  onBtnBatchExport: PropsTypes.func
+  onBtnBatchExport: PropsTypes.func,
+  newManufacturer: PropsTypes.func
 }
 
 export default SearchBarMember

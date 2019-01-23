@@ -32,3 +32,5 @@ export { default as AppPurCombination } from './app-pur-combination/AppPurCombin
 export { default as NewSchool } from './news/new-school/NewSchool'
 export { default as NewFree } from './news/new-free/NewFree'
 export { default as NewAgent } from './news/new-agent/NewAgent'
+export { default as NewManufacturer } from './news/new-manufacturer/NewManufacturer'
+export { default as NewUser } from './news/new-user/NewUser'

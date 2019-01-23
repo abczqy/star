@@ -415,6 +415,7 @@ class School extends Component {
         />
         <Table
           columns={this.getColumns()}
+          rowKey={(record, index) => index}
           dataSource={this.state.dataSource}
           pagination={{
             ...pagination,

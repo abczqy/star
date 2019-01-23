@@ -34,19 +34,19 @@ class SearchBarMemberEduSer extends Component {
 
   render () {
     const {
-      selectList,
+      // selectList,
       onBtnSearchClick,
       onSelect1Change,
       onSelect2Change,
-      onSelect3Change,
-      onSelect4Change,
+      // onSelect3Change,
+      // onSelect4Change,
       onSelect5Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
         <div className='search-bar-item'>
-          <span className='input-label'>账号</span>
+          <span className='input-label'>组织编号</span>
           <Input
             className='input'
             placeholder='请输入'
@@ -65,14 +65,14 @@ class SearchBarMemberEduSer extends Component {
             {/* {selectList.eduNameList && this.getOptions(selectList.eduNameList)} */}
           </Input>
         </div>
-        <div className='search-bar-item' style={{width: 270}}>
+        {/* <div className='search-bar-item' style={{width: 270}}>
           <span className='select-label'>上级机构名称</span>
           <Input
             className='select'
             placeholder='请输入'
             // showSearch
             onChange={onSelect3Change} >
-            {/* {selectList.eduUpperList && this.getOptions(selectList.eduUpperList)} */}
+             {selectList.eduUpperList && this.getOptions(selectList.eduUpperList)}
           </Input>
         </div>
         <div className='search-bar-item'>
@@ -84,7 +84,7 @@ class SearchBarMemberEduSer extends Component {
             onChange={onSelect4Change} >
             {selectList.eduClassList && this.getOptions(selectList.eduClassList)}
           </Select>
-        </div>
+        </div> */}
         <div className='search-bar-item'>
           <span className='select-label'>允许登录 </span>
           <Select defaultValue='all' className='select' onChange={onSelect5Change} >
@@ -104,12 +104,12 @@ class SearchBarMemberEduSer extends Component {
 }
 
 SearchBarMemberEduSer.propTypes = {
-  selectList: PropsTypes.object,
+  // selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
-  onSelect3Change: PropsTypes.func,
-  onSelect4Change: PropsTypes.func,
+  // onSelect3Change: PropsTypes.func,
+  // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }

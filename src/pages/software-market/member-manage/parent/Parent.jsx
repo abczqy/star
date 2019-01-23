@@ -83,6 +83,9 @@ class Parent extends Component {
       key: 'USER_ACCOUNT',
       width: 200
     }, {
+      title: '状态',
+      dataIndex: 'status'
+    }, {
       title: '角色',
       dataIndex: 'FAMILY_ROLE',
       key: 'FAMILY_ROLE'

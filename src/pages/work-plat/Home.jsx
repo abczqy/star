@@ -642,7 +642,7 @@ class Home extends Component {
                   imgStyle={{ ...imgStyle }}
                   label='人员管理'
                   icon={Member}
-                  // onClick={() => this.onManageClick('people')}
+                  onClick={() => this.onManageClick('people')}
                 />
               </Col>
           }

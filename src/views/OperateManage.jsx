@@ -197,10 +197,10 @@ class OperateManage extends React.Component {
         tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
       }, {
-      //   text: '人员管理',
-      //   tabKey: 'peopleMang',
-      //   src: '/operate-manage-home/member'
-      // }, {
+        text: '人员管理',
+        tabKey: 'peopleMang',
+        src: '/operate-manage-home/member'
+      }, {
       //   text: '个人中心',
       //   tabKey: 'peopleCenter',
       //   src: '/operate-manage-home/center'

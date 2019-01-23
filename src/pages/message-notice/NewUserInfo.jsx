@@ -80,12 +80,15 @@ class NewUserInfo extends React.Component {
     })
   }
   onOk = () => {
+    const thiz = this
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         updateUser(values, (res) => {
           const data = res.data.data
           if (res.data.code === 200) {
-            console.log(data)
+            if (data > 0) {
+              thiz.props.onOk(res.data)
+            }
           }
         })
       }

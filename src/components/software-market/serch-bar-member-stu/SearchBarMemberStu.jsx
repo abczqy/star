@@ -84,11 +84,11 @@ class SearchBarMemberStu extends Component {
         </div>
         <div className='search-bar-buttons'>
           <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
-          <Button type='primary' className='search-bar-btn'>下载模板</Button>
+          <Button type='primary' className='search-bar-btn'><a href='/static/document/student.xls' download='学生用户模板.xls' target='_blank'>下载模板</a></Button>
           <Upload {...uploadProps} className='search-bar-btn' style={{display: 'inline-block'}}>
             <Button type='primary'>批量导入</Button>
           </Upload>
-          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增学生</Button>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus' onClick={() => this.props.changeVisible(true)}>新增学生</Button>
         </div>
         <div style={{clear: 'both'}} />
       </div>
@@ -106,7 +106,8 @@ SearchBarMemberStu.propTypes = {
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
   uploadProps: PropsTypes.object,
-  AUTHORITY_NAME: PropsTypes.string
+  AUTHORITY_NAME: PropsTypes.string,
+  changeVisible: PropsTypes.func
 }
 
 export default SearchBarMemberStu

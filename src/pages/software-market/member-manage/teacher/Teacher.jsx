@@ -12,7 +12,7 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
-import { SearchBarMemberTeac } from 'components/software-market'
+import { SearchBarMemberTeac, NewUser } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
@@ -46,7 +46,8 @@ class Teacher extends Component {
       batchLeadParams: {
         idArrs: []
       },
-      selectList: {}
+      selectList: {},
+      newVisible: false
     }
 
     this.uploadProps = {
@@ -81,12 +82,15 @@ class Teacher extends Component {
         key: 'USER_ACCOUNT',
         width: 200
       }, {
-        title: '所属机构',
+        title: '所属学校',
         dataIndex: 'AUTHORITY_NAME',
         key: 'AUTHORITY_NAME'
       }, {
         title: '状态',
-        dataIndex: 'status'
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text, record) => {
+          return text === 0 ? '未激活' : '激活'
+        }
       }, {
         title: '允许登录',
         dataIndex: 'LOGIN_PERMISSION_STATUS',
@@ -363,7 +367,20 @@ class Teacher extends Component {
       this.getTableDatas()
     }
   }
-
+  /** 新增老师确认 */
+  onNewOk = () => {
+    this.refs.newUser.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  /** 新增老师弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+  }
   render () {
     const { pagination, selectList, AUTHORITY_NAME } = this.state
     return (
@@ -378,6 +395,7 @@ class Teacher extends Component {
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
           AUTHORITY_NAME={AUTHORITY_NAME}
+          changeVisible={this.changeVisible}
         />
         <Table
           columns={this.getClomus()}
@@ -394,6 +412,12 @@ class Teacher extends Component {
           rowKey={(record, index) => {
             return index
           }}
+        />
+        <NewUser onOk={this.onNewOk}
+          changeVisible={this.changeVisible}
+          ref='newUser'
+          visible={this.state.newVisible}
+          type={'老师'}
         />
       </div>
     )
