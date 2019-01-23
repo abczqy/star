@@ -139,9 +139,16 @@ class ShelfPlease extends React.Component {
         img: [], // 上传的img
         md5: ' ',
         token: ''
-      }
+      },
+      RandomId: '', // 随机的id
+      RandomToken: '' // 随机的token
     }
   }
+  componentWillMount () {
+    this.getRodom(1)
+    this.getRodom(2)
+  }
+
   hiddenModal () {
     this.setState({
       previewApp: false
@@ -1457,6 +1464,15 @@ class ShelfPlease extends React.Component {
           </Select>
         </Col>
       </Row>
+      {/* 后期接入后台接口 */}
+      <Row className='Wxd' type='flex' align='middle'>
+        <Col span={2} offset={1}>应用ID</Col>
+        <Col span={7}>
+          {this.state.RandomId}
+        </Col>
+        <Col span={2} offset={3}>TOKEN</Col>
+        <Col span={7}>{this.state.RandomToken}</Col>
+      </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>应用描述 : </span></Col>
         <Col span={20}>
@@ -1529,27 +1545,25 @@ class ShelfPlease extends React.Component {
         </Col>
       </Row>
       <Row className='Wxd' type='flex' algin='middle'>
-        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>md5:</Col>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>应用安装包md5校验码:</Col>
         <Col span={20}>
           <TextArea placeholder='请输入md5' onChange={(e) => {
             const {value} = e.target
-            this.setState({
-              ...this.state.platform,
-              md5: value
-            })
+            const {platform} = this.state
+            platform.md5 = value
+            this.setState({...platform})
           }
-          } value={platform.md5code} style={{width: 880}} />
+          } value={platform.md5} style={{width: 880}} />
         </Col>
       </Row>
       <Row className='Wxd' type='flex' algin='middle'>
-        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>token:</Col>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>单点登陆临时token接受地址:</Col>
         <Col span={20}>
           <TextArea placeholder='请输入token' onChange={(e) => {
             const {value} = e.target
-            this.setState({
-              ...this.state.platform,
-              token: value
-            })
+            const {platform} = this.state
+            platform.token = value
+            this.setState({...platform})
           }
           } value={platform.token} style={{width: 880}} />
         </Col>
@@ -1664,6 +1678,25 @@ class ShelfPlease extends React.Component {
         </Tabs>
       </div>
     )
+  }
+  // 生成随机的id和token
+  getRodom = (n) => {
+    let chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    let res = ''
+    let id = 0
+    for (let i = 0; i < 16; i++) {
+      id = Math.ceil(Math.random() * 35)
+      res += chars[id]
+    }
+    if (n === 1) {
+      this.setState({
+        RandomId: res
+      })
+    } else {
+      this.setState({
+        RandomToken: res
+      })
+    }
   }
 }
 
