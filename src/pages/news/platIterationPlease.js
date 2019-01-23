@@ -18,7 +18,8 @@ class PlatIterationPlease extends Component {
       newFeatrue: '',
       pcIcons: [],
       softList: [],
-      icon: []
+      icon: [],
+      showIcon: []
     }
   }
 
@@ -71,6 +72,13 @@ class PlatIterationPlease extends Component {
           icon: [file]
         })
         return false
+      },
+      onChange: ({fileList}) => {
+        fileList = fileList.slice(-1)
+        console.log(fileList)
+        this.setState({
+          showIcon: fileList
+        })
       }
     }
     return (
@@ -199,7 +207,7 @@ class PlatIterationPlease extends Component {
                   <span>应用图标：</span>
                 </Col>
                 <Col span={20}>
-                  <Upload {...uplaodIcon} fileList={this.state.icon}>
+                  <Upload {...uplaodIcon} fileList={this.state.showIcon} >
                     <Button>
                       <Icon type='upload' /> 上传文件
                     </Button>
