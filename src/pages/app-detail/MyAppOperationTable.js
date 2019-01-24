@@ -121,7 +121,7 @@ class MyAppTable extends Component {
         return (
           <div key={index}>
             <span style={{marginRight: '10px'}}>
-              <Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.APP_ID + '&' + record.APP_VERSION}}>迭代</Link>
+              <Link to={{pathname: '/operate-manage-home/platiteration', search: '?' + record.APP_ID + '&' + record.APP_VERSION}}>迭代</Link>
             </span>
             {/* <span style={{marginRight: '10px'}}>
               <Link to='/operate-manage-home/iteration'>日志下载</Link>
