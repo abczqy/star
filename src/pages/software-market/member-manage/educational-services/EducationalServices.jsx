@@ -78,7 +78,7 @@ class EducationalServices extends Component {
     }
     updateUser(id, params, (res) => {
       const data = res.data ? res.data : {}
-      if (data.code === 200) {
+      if (data.data > 0) {
         message.success(data.msg)
         thiz.getTableDatas()
       }
@@ -93,26 +93,25 @@ class EducationalServices extends Component {
       width: 200
     }, {
       title: '机构名称',
-      dataIndex: 'authorityName',
-      key: 'authorityName',
+      dataIndex: 'INSTITUTION_NAME',
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'loginName'
+      dataIndex: 'USER_NAME'
     }, {
       title: '组织编号',
-      dataIndex: 'id',
+      dataIndex: 'ID',
       width: 200
     }, {
       title: '状态',
-      dataIndex: 'isFirstLogin',
+      dataIndex: 'IS_FIRST_LOGIN',
       render: (text) => text === 1 ? '激活' : '未激活'
     }, {
       title: '关联代理商',
       dataIndex: ''
     }, {
       title: '允许登录',
-      dataIndex: 'loginPermissionStatus',
+      dataIndex: 'LOGIN_PERMISSION_STATUS',
       render: (text, record, index) => {
         return (
           <Switch checked={record.loginPermissionStatus === 1} onChange={() => this.handleToLogin(record)} />
