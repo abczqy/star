@@ -158,6 +158,7 @@ class LoginHome extends React.Component {
   }
   render () {
     let STAR_WEB_ROLE_CODE = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    console.log(STAR_WEB_ROLE_CODE)
     let roleCode = STAR_WEB_ROLE_CODE || ''
     return (
       <div className='xingyun'>

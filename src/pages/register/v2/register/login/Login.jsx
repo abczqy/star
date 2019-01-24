@@ -9,7 +9,8 @@ import {
   Input,
   Button,
   Row, Col,
-  message
+  message,
+  Modal
 } from 'antd'
 import webStorage from 'webStorage'
 import PropTypes from 'prop-types'
@@ -32,7 +33,14 @@ class Login extends Component {
       code: {},
       btnClick: false,
       codeValue: '',
-      codeMessage: ''
+      codeMessage: '',
+      showModal: false,
+      ruleCode: '',
+      isFirstLogin: '',
+      passModal: false,
+      pwd1: '',
+      pwd2: '',
+      studentInfo: {}
     }
   }
   componentWillMount () {
@@ -46,9 +54,19 @@ class Login extends Component {
     let arr = str.split('.')
     let buf = Buffer.Buffer.alloc(300)
     let len = buf.write(arr[1], 'base64')
-    console.log(len)
-    let string = buf.toString()
-    console.log(string)
+    let decryptedTicket = buf.toString('utf8').trim().substring(0, len)
+    let data = JSON.parse(decryptedTicket)
+    console.log(data)
+    let rule = data.userType
+    let isFirstLogin = data.isFirstLogin
+    this.setState({
+      ruleCode: rule
+    })
+    let result = {
+      rule: rule,
+      isFistLogin: isFirstLogin
+    }
+    return result
     // let string = buf.toString(str)
     // console.log(string)
   }
@@ -88,7 +106,6 @@ class Login extends Component {
                     let roleCode
                     if (data1.data.ticket) {
                       webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
-                      this.b64EncodeUnicode(data1.data.ticket)
                       const arr = data1.data.ticket.split('.')
                       if (arr.length > 1) {
                         userId = JSON.parse(window.atob(arr[1])).userId
@@ -101,23 +118,32 @@ class Login extends Component {
                       if (response.data.code === 200) {
                         webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
                         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
-                        message.success('登录成功')
-                        console.log(response.data.data)
-                        if (roleCode === 'operator') {
-                          this.props.history.push({
-                            pathname: '/software-market-home'
-                          })
+                        let isFristLogin = this.b64EncodeUnicode(data1.data.ticket)
+                        console.log(isFristLogin)
+                        if (isFristLogin.isFistLogin === 0 && isFristLogin.rule === 1) {
+                          // 请求详细数据
+                          axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/detailed/' + response.data.data.userId)
+                            .then((res) => {
+                              console.log(res.data.data)
+                              this.setState({
+                                studentInfo: res.data.data
+                              })
+                            })
+                          this.showTheModal()
+                        } else if (isFristLogin.isFistLogin === 0 && (isFristLogin.rule === 2 || isFristLogin.rule === 5)) {
+                          this.showPassModal()
                         } else {
-                          // 跳到首次登录
-                          // if (!response.data.data.LoginCounts || response.data.data.LoginCounts === 0) {
-                          //   this.props.history.push({
-                          //     pathname: '/first-login'
-                          //   })
-                          // } else {
-                          this.props.history.push({
-                            pathname: '/home/index'
-                          })
-                          // }
+                          message.success('登录成功')
+                          // let first = response.data.data
+                          if (roleCode === 'operator') {
+                            this.props.history.push({
+                              pathname: '/software-market-home'
+                            })
+                          } else {
+                            this.props.history.push({
+                              pathname: '/home/index'
+                            })
+                          }
                         }
                       } else {
                         /** 登录失败 */
@@ -186,7 +212,6 @@ class Login extends Component {
       }
     })
       .then((res) => {
-        console.log(res)
         if (res.data.code === 500) {
           message.warn(res.data.data)
         }
@@ -291,6 +316,54 @@ class Login extends Component {
             </Row>
           </div>
         </Content>
+        <Modal
+          title='确认信息'
+          visible={this.state.showModal}
+          onOk={this.onOk}
+          // onCancel={this.onCancle}
+          footer={[
+            <Button key='error' type='primary' style={{background: 'red', border: 'none'}} onClick={this.onError}>信息有误</Button>,
+            <Button key='makesure' type='primary' onClick={this.onOk}>确定</Button>
+          ]}
+        >
+          <div>
+            <Row className='rowStyle'>
+              <Col span={4}>学生姓名：</Col>
+              <Col span={8}>{this.state.studentInfo.userName || '无'}</Col>
+              <Col span={3}>性别：</Col>
+              <Col span={8}>{this.state.studentInfo.gender === '1' ? '女' : '男'}</Col>
+            </Row>
+            <Row className='rowStyle'>
+              <Col span={4}>出生日期：</Col>
+              <Col span={8}>无</Col>
+              <Col span={3}>学校：</Col>
+              <Col span={8}>无</Col>
+            </Row>
+            <Row className='rowStyle'>
+              <Col span={4}>身份证号：</Col>
+              <Col span={8}>{this.state.studentInfo.certificateNumber || '无'}</Col>
+              <Col span={3}>年级：</Col>
+              <Col span={8}>无</Col>
+            </Row>
+          </div>
+        </Modal>
+        <Modal
+          visible={this.state.passModal}
+          onOk={this.changePass}
+          footer={[
+            <Button type='primary' onClick={this.changePass}>确认</Button>
+          ]}
+        >
+          <div>
+            <Row className='rowStyle'><span style={{color: 'red'}}>*</span>请输入新密码:</Row>
+            <Row className='rowStyle'>
+              <Input onChange={this.changePwd1} key='pwd1' value={this.state.pwd1} type='password' placeholder='请输入新的6-16位登陆密码' />
+            </Row>
+            <Row className='rowStyle'>
+              <Input onChange={this.changePwd2} key='pwd2' value={this.state.pwd2} type='password' placeholder='请确认一遍您的密码' />
+            </Row>
+          </div>
+        </Modal>
         <Footer style={{background: '#fff'}} className='content'>
           <div className='div-foot-span'>
             <p>技术运营支持： 福建省星云大数据应用服务有限公司</p>
@@ -299,6 +372,114 @@ class Login extends Component {
         </Footer>
       </Layout>
     )
+  }
+  changePwd1 = (e) => {
+    const {value} = e.target
+    this.setState({
+      pwd1: value
+    })
+  }
+  changePwd2 = (e) => {
+    const {value} = e.target
+    this.setState({
+      pwd2: value
+    })
+  }
+  onOk = () => {
+    this.setState({
+      showModal: false
+    })
+    axios({
+      method: 'PATCH',
+      url: API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/info/correction',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: true
+    }).then((res) => {
+      console.log(res)
+      if (res.data && res.data.code !== 200) {
+        webStorage.clear()
+        this.props.history.goBack()
+      } else {
+        this.props.history.push({
+          pathname: '/home/index'
+        })
+      }
+    })
+  }
+  onError = () => {
+    this.setState({
+      showModal: false
+    })
+    this.props.history.push({
+      pathname: '/home/index'
+    })
+  }
+  onCancle = () => {
+    this.setState({
+      showModal: false
+    })
+  }
+  showTheModal = () => {
+    this.setState({
+      showModal: true
+    })
+  }
+  showPassModal = () => {
+    this.setState({
+      passModal: true
+    })
+  }
+  changePass = () => {
+    const {pwd1, pwd2} = this.state
+    if (pwd1 === '' || pwd2 === '') {
+      message.warn('请重置您的密码')
+      return
+    } else if (pwd1 !== pwd2) {
+      message.warn('两次输入的密码不正确！')
+      return
+    } else if (pwd1.length < 6 || pwd1.length > 12) {
+      message.warn('密码必须长于6位！')
+    }
+    // let userId = webStorage.getItem('STAR_V2_USERID')
+    axios({
+      method: 'put',
+      url: API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/password?password=' + pwd1
+    })
+      .then((res) => {
+        if (res.data && res.data.code === 200) {
+          axios({
+            method: 'PATCH',
+            url: API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/info/correction',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            data: true
+          }).then((res) => {
+            console.log(res)
+            if (res.data && res.data.code !== 200) {
+              webStorage.clear()
+            }
+          })
+          this.props.history.push({
+            pathname: '/home/index'
+          })
+        } else {
+          message.warn('修改失败！')
+        }
+      })
+    // this.props.history.push({
+    //   pathname: '/home/index'
+    // })
+    // this.setState({
+    //   passModal: false
+    // })
+  }
+  cancle = () => {
+    this.setState({
+      passModal: false
+    })
   }
 }
 

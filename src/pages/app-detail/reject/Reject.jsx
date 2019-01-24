@@ -151,18 +151,18 @@ class Reject extends Component {
         key: 'APP_TYPE_NAME'
       }, {
         title: '供应商',
-        dataIndex: 'version',
-        key: 'version',
+        dataIndex: 'COMPANY_NAME',
+        key: 'COMPANY_NAME',
         render: (text, record, index) => {
           return (
-            <span >{text && text ? text : 'baidu'}</span>)
+            <span >{text && text ? text : '无'}</span>)
         }}, {
-        title: '类型',
-        dataIndex: 'LX',
-        key: 'LX',
+        title: '平台',
+        dataIndex: 'RUNNING_PLATFORM',
+        key: 'RUNNING_PLATFORM',
         render: (text, record, index) => {
           return (
-            <span >{text && text ? text : 'win32'}</span>
+            <span >{text && text ? text : '无'}</span>
           )
         }}, {
         title: '当前版本',

@@ -148,12 +148,12 @@ class Remove extends Component {
         dataIndex: 'APP_TYPE_NAME',
         key: 'APP_TYPE_NAME'
       }, {
-        title: '类型',
-        dataIndex: 'LX',
-        key: 'LX',
+        title: '平台',
+        dataIndex: 'RUNNING_PLATFORM',
+        key: 'RUNNING_PLATFORM',
         render: (text, record, index) => {
           return (
-            <span >{text && text ? text : 'win32'}
+            <span >{text && text ? text : '无'}
             </span>
           )
         }
@@ -163,11 +163,11 @@ class Remove extends Component {
         key: 'DOWNLOAD_COUNT'
       }, {
         title: '供应商',
-        dataIndex: 'sw_path',
-        key: 'sw_path',
+        dataIndex: 'COMPANY_NAME',
+        key: 'COMPANY_NAME',
         render: (text, record, index) => {
           return (
-            <span >{text && text ? text : 'baidu'}</span>
+            <span >{text && text ? text : '无'}</span>
           )
         }
       }, {

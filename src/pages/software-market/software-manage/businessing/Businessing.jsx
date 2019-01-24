@@ -417,7 +417,7 @@ class Businessing extends Component {
     })
     const thiz = this
     const params = {
-      applyType: 0, // applyType 5为下架
+      applyType: 5, // applyType 5为下架
       userId: webStorage.getItem('STAR_V2_USERID')
     }
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
@@ -441,7 +441,7 @@ class Businessing extends Component {
     })
     const thiz = this
     const params = {
-      applyType: 0, // applyType 5为下架
+      applyType: 5, // applyType 5为下架
       userId: webStorage.getItem('STAR_V2_USERID')
     }
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
