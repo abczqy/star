@@ -749,6 +749,10 @@ class IterationVerify extends Component {
     })
   }
   handleOk = () => {
+    if (this.state.testResult !== true) {
+      message.warn('请测试')
+      return
+    }
     this.setState({
       platModal: false,
       showResultMadol: true
@@ -765,6 +769,7 @@ class IterationVerify extends Component {
     this.setState({
       showResultMadol: false
     })
+    this.handlePlatCancle()
   }
   handleCancle = () => {
     this.setState({

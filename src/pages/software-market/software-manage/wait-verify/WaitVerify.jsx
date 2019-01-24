@@ -646,6 +646,10 @@ class WaitVerify extends Component {
     })
   }
   handleOk = () => {
+    if (this.state.testResult !== true) {
+      message.warn('请测试')
+      return
+    }
     this.setState({
       platModal: false,
       showResultMadol: true
