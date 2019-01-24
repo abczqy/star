@@ -2,13 +2,13 @@
  * 代理商
  */
 import React from 'react'
-import {Input, Button, Table, Switch} from 'antd'
+import {Input, Button, Table, Switch, message} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
 import { NewAgent } from 'components/software-market'
 import '../free-register/FreeRegister.scss'
 
-const { API_BASE_URL_V2 } = config
+const { API_BASE_URL_V2, SERVICE_PORTAL } = config
 
 class Agent extends React.Component {
   constructor (props) {
@@ -25,9 +25,13 @@ class Agent extends React.Component {
     }
   }
   getTable = () => {
-    axios.get(API_BASE_URL_V2 + '').then(res => {
+    const {pagination} = this.state
+    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/user-list/role/6/${pagination.current}/${pagination.pageSize}`, {}).then(res => {
       const data = res.data.data
-      console.log(data)
+      this.setState({
+        data: data.content,
+        total: data.totalElements
+      })
     })
   }
   handleChange = (pagination) => {
@@ -52,7 +56,21 @@ class Agent extends React.Component {
     this.setState({visible})
   }
   /** 新增代理确认 */
-  onOk = () => {}
+  onOk = () => {
+    this.refs.newAgent.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        values.establishingTime = new Date(values.establishingTime)
+        axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/agent', values)
+          .then(res => {
+            if (res.data.code === 200) {
+              message.success('新增代理成功')
+              this.changeVisible(false)
+              this.getTable()
+            }
+          })
+      }
+    })
+  }
   /** 修改搜索条件 */
   changeSearch = (name, value) => {
     const searches = {...this.state.searches}
@@ -105,6 +123,9 @@ class Agent extends React.Component {
     ]
   }
   handleToLogin = (record) => {}
+  componentDidMount () {
+    this.getTable()
+  }
   render () {
     const { data, total, pagination, visible } = this.state
     return (
@@ -146,7 +167,8 @@ class Agent extends React.Component {
         />
         <NewAgent onOk={this.onOk}
           changeVisible={this.changeVisible}
-          visible={visible} />
+          visible={visible}
+          ref='newAgent' />
       </div>
     )
   }

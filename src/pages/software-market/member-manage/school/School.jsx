@@ -14,14 +14,8 @@ import { Table, message, Modal, Divider, Switch } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
 import {
-  // schGetData,
-  // maDelId,
-  maInitPwd,
-  // schBatchLeadout,
-  // getIdSelectList,
-  // getNameSelectList,
-  toLogin
-} from 'services/software-manage'
+  updateUser
+} from 'services/software-market'
 import { SearchBarMemberSch, NewSchool } from 'components/software-market'
 // import {
 //   addKey2TableData
@@ -197,14 +191,13 @@ class School extends Component {
   // 允许登录状态切换
   handleToLogin = (record) => {
     const thiz = this
+    const id = record && record.id
     const params = {
-      id: record && record.sh_id,
       to_login: record.to_login ? 0 : 1
     }
-    toLogin(params, (res) => {
+    updateUser(id, params, (res) => {
       const data = res.data ? res.data : {}
-      console.log(data)
-      if (data.SUCCESS) {
+      if (data.code === 200) {
         message.success(data.msg)
         thiz.getTableDatas()
       }
@@ -284,12 +277,12 @@ class School extends Component {
  */
   initPwd = (record) => {
     // 后台参数不确定
-    const params = {
-      sh_id: record.sh_id
-    }
-    maInitPwd(params, (res) => {
-      console.log(`res.data.result: ${res.data.result}`)
-    })
+    // const params = {
+    //   sh_id: record.sh_id
+    // }
+    // maInitPwd(params, (res) => {
+    //   console.log(`res.data.result: ${res.data.result}`)
+    // })
     // 最好有个确认的弹窗什么的
     // 后面再加上loading + 操作成功的提示
   }
@@ -383,7 +376,22 @@ class School extends Component {
   onOk = () => {
     this.refs.formNew.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log(values)
+        let schoolAddress = values.schoolAddress
+        values.institutionId = values.authorityName.key
+        values.authorityName = values.authorityName.label
+        values.schoolAddress = schoolAddress.province + schoolAddress.city + schoolAddress.region
+        axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/schools', values).then(res => {
+          if (res.data.data === 1) {
+            message.success('新增学校成功')
+            this.setState({
+              visible: false
+            }, () => {
+              this.getTableDatas()
+            })
+          } else {
+            message.error('新增学校失败')
+          }
+        })
       }
     })
   }
@@ -431,7 +439,8 @@ class School extends Component {
           onOk={this.onOk}
           centered
           onCancel={() => this.setState({visible: false})}
-          title='新增学校'>
+          title='新增学校'
+          width={600}>
           <NewSchool ref='formNew' />
         </Modal>
       </div>

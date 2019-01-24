@@ -23,7 +23,8 @@ import {
   getFactoryDetail,
   getIdSelectList,
   getNameSelectList,
-  getContractSelectList
+  getContractSelectList,
+  newManufacturer // 新增厂商接口
 } from 'services/software-manage'
 import {
   // addKey2TableData,
@@ -463,7 +464,19 @@ class Manufacturer extends Component {
   newManuOk = () => {
     this.refs.newManufacturer.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log(values)
+        let companyAddress = values.companyAddress
+        values.companyAddress = companyAddress.province + companyAddress.city + companyAddress.region
+        values.establishingTime = new Date(values.establishingTime)
+        newManufacturer(values, (res) => {
+          console.log(res.data.data)
+          if (res.data.code === 200) {
+            message.success('新增厂商成功')
+            this.changeVisible(false)
+            this.getTableDatas()
+          } else {
+            message.error('新增厂商失败')
+          }
+        })
       }
     })
   }

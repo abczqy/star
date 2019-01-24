@@ -1,7 +1,10 @@
 import React, {Fragment} from 'react'
-import { Form, Modal, Input, Select } from 'antd'
+import { Form, Modal, Input, Select, message } from 'antd'
 import PropTypes from 'prop-types'
+import {axios} from '../../../../utils'
+import Config from 'config'
 
+const { API_BASE_URL_V2, SERVICE_PORTAL } = Config
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -10,9 +13,45 @@ class NewUser extends React.Component {
     super(props)
     this.state = {}
   }
-
+  getRoleType = (type) => {
+    switch (type) {
+      case 1:
+        return '学生'
+      case 2:
+        return '教师'
+      case 3:
+        return '学校'
+      case 4:
+        return '厂家'
+      case 5:
+        return '家长'
+      case 6:
+        return '代理商'
+      case 7:
+        return '教育机构'
+      case 8:
+        return '个人'
+      default:
+        return ''
+    }
+  }
+  onOk = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        values.userType = this.props.type
+        axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/user-info/insert', values).then(res => {
+          if (res.data.code > 250) {
+            message.success(res.data.msg)
+            this.props.changeVisible(false)
+          } else {
+            message.error('添加失败')
+          }
+        })
+      }
+    })
+  }
   render () {
-    const { form, visible, changeVisible, onOk, type } = this.props
+    const { form, visible, changeVisible, type } = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: {
@@ -24,11 +63,11 @@ class NewUser extends React.Component {
         sm: { span: 14 }
       }
     }
-    let title = `新增${type}`
+    let title = `新增${this.getRoleType(type)}`
     return (
       <Modal visible={visible}
         onCancel={() => changeVisible(false)}
-        onOk={onOk}
+        onOk={this.onOk}
         centered
         destroyOnClose
         title={title}
@@ -47,7 +86,7 @@ class NewUser extends React.Component {
             </Select>)}
           </FormItem>
           <FormItem label='电话号码' {...formItemLayout}>
-            {getFieldDecorator('phoneNumber ', {
+            {getFieldDecorator('phoneNumber', {
               rules: [{required: true, message: '请输入电话号码'}]
             })(<Input />)}
           </FormItem>
@@ -70,21 +109,21 @@ class NewUser extends React.Component {
           <FormItem label='学校ID' {...formItemLayout}>
             {getFieldDecorator('organizationId')(<Input />)}
           </FormItem>
-          {this.props.type === '老师' && <Fragment>
+          {this.props.type === 2 && <Fragment>
             <FormItem label='职位' {...formItemLayout}>
-              {getFieldDecorator('InfoTeacherModel.position')(<Input />)}
+              {getFieldDecorator('infoTeacherModel.position')(<Input />)}
             </FormItem>
             <FormItem label='教龄' {...formItemLayout}>
-              {getFieldDecorator('InfoTeacherModel.schoolAge')(<Input />)}
+              {getFieldDecorator('infoTeacherModel.schoolAge')(<Input />)}
             </FormItem>
             <FormItem label='科目' {...formItemLayout}>
-              {getFieldDecorator('InfoTeacherModel.subject')(<Input />)}
+              {getFieldDecorator('infoTeacherModel.subject')(<Input />)}
             </FormItem>
             <FormItem label='备注' {...formItemLayout}>
-              {getFieldDecorator('InfoTeacherModel.remarks')(<Input />)}
+              {getFieldDecorator('infoTeacherModel.remarks')(<Input />)}
             </FormItem>
           </Fragment>}
-          {this.props.type === '学生' && <Fragment>
+          {this.props.type === 1 && <Fragment>
             <FormItem label='班号' {...formItemLayout}>
               {getFieldDecorator('infoStudentModel.classNumber')(<Input />)}
             </FormItem>
@@ -92,7 +131,22 @@ class NewUser extends React.Component {
               {getFieldDecorator('infoStudentModel.grade')(<Input />)}
             </FormItem>
             <FormItem label='备注' {...formItemLayout}>
-              {getFieldDecorator('InfoTeacherModel.remarks')(<Input />)}
+              {getFieldDecorator('infoStudentModel.remarks')(<Input />)}
+            </FormItem>
+          </Fragment>}
+          {this.props.type === 5 && <Fragment>
+            <FormItem label='家庭角色' {...formItemLayout}>
+              {getFieldDecorator('infoParentModel.familyRole')(<Select>
+                <Option value='1'>父亲</Option>
+                <Option value='2'>母亲</Option>
+                <Option value='3'>祖父母</Option>
+                <Option value='4'>外祖父母</Option>
+                <Option value='5'>亲属</Option>
+                <Option value='6'>其他</Option>
+              </Select>)}
+            </FormItem>
+            <FormItem label='备注' {...formItemLayout}>
+              {getFieldDecorator('infoParentModel.remarks')(<Input />)}
             </FormItem>
           </Fragment>}
         </Form>
@@ -105,8 +159,7 @@ NewUser.propTypes = {
   form: PropTypes.object,
   visible: PropTypes.bool,
   changeVisible: PropTypes.func,
-  onOk: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.number
 }
 
 export default Form.create()(NewUser)

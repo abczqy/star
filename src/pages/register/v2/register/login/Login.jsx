@@ -190,11 +190,11 @@ class Login extends Component {
   countDown () {
     start--
     if (start > 0) {
-      document.getElementById('btnCode').innerHTML = `验证码(${start})`
+      document.getElementById('btnCode').innerHTML = `等待刷新 (${start})`
       document.getElementById('btnCode').disabled = true
     } else {
       clearTimeout(count)
-      document.getElementById('btnCode').innerHTML = '获取验证码'
+      document.getElementById('btnCode').innerHTML = '刷新'
       document.getElementById('btnCode').disabled = false
       return ''
     }
@@ -243,7 +243,7 @@ class Login extends Component {
                       <img src={`data:image/jpeg;base64,${code.images}`} alt='二维码' />
                     </Col>
                     <Col span={5} offset={1}>
-                      <Button id='btnCode' type='primary' onClick={this.btnGetCdode}>获取验证码</Button>
+                      <Button id='btnCode' type='primary' onClick={this.btnGetCdode}>刷新</Button>
                     </Col>
                   </Row>
                   <Row>
@@ -278,7 +278,7 @@ class Login extends Component {
         </Content>
         <Footer style={{background: '#fff'}} className='content'>
           <div className='div-foot-span'>
-            <p>福建省教育厅主办 技术运营支持： 福建省星云大数据应用服务有限公司</p>
+            <p>技术运营支持： 福建省星云大数据应用服务有限公司</p>
             <p>Copyright©2016 www.fjedu.cn All rights reserved     闽ICP备17018531号-2</p>
           </div>
         </Footer>
