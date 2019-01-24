@@ -319,6 +319,7 @@ class Manufacturer extends Component {
     delFaId(params, (res) => {
       if (res.data.code === 200) {
         message.success('删除成功')
+        this.getTableDatas()
       } else {
         message.warn(res.data.msg || '删除失败')
       }

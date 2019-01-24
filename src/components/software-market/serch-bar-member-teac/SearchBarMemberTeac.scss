@@ -24,20 +24,16 @@
   width: 30%;
 }
 
-.input {
-    width: 70%
-  }
+.input.ant-input {
+  width: 70%
+}
 
 .select-label {
   display: inline-block;
   width: 35%;
 }
 
-.select {
+.select.ant-select {
   width: 65%
-}
-
-.reduce-right-padding {
-  
 }
 
