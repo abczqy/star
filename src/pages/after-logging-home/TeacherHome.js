@@ -7,7 +7,7 @@ import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import { getSoftMarketHot } from 'services/software-manage'
-import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection} from 'services/software-home'
+import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection, clickRecommend} from 'services/software-home'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 import { withRouter } from 'react-router'
@@ -299,6 +299,7 @@ class TeacherHome extends Component {
   }
   // 老师推荐
   handleTeacherappSource = (item, index) => {
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
@@ -320,8 +321,7 @@ class TeacherHome extends Component {
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='heart' />
+          {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.teacherRecommend(item)} />}
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
             onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
@@ -333,8 +333,23 @@ class TeacherHome extends Component {
   handleTeacherOpen = (item) => {
     window.open(item.sw_url)
   }
+  /** 老师推荐 */
+  teacherRecommend = (item) => {
+    clickRecommend({
+      appId: item.APP_ID
+    }, (res) => {
+      const data = res.data.data
+      if (data !== 1) {
+        message.error('操作失败')
+      } else {
+        this.getHotData()
+        this.getTeacherData()
+      }
+    })
+  }
   // 热门推荐
   handleHotRecomappSource = (item, index) => {
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
@@ -356,8 +371,7 @@ class TeacherHome extends Component {
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='heart' />
+          {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.teacherRecommend(item)} />}
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
             onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />

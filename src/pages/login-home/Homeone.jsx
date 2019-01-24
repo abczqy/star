@@ -92,8 +92,10 @@ class Home extends React.Component {
           item.apppath = item.APP_LINK
           item.appIcon = item.APP_ICON
         })
+        result = result.splice(0, 6)
         // console.log('工作台我的应用', result)
         // if (result.success) {
+        console.log(`工作台: ${result}`)
         this.setState({
           webAppData: result || []
         })
@@ -121,7 +123,7 @@ class Home extends React.Component {
       if (res.data.code === 200) {
         console.log('热门推荐', res.data.data)
         this.setState({
-          softMarketData: res.data.data.content || []
+          softMarketData: res.data.data || []
         })
       } else {
         // message.warning(res.data.msg || '出现异常')

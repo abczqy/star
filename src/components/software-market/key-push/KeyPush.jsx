@@ -182,10 +182,9 @@ class KeyPush extends Component {
     getSoftMarketList(params, res => {
       if (res.data.code === 200) {
         let b = []
-        console.log(res.data.data.data)
-        res.data.data.data.map((item, index) => {
-          if (item.isTopRecommend === 1) {
-            b.push(item.appIcon)
+        res.data.data.map((item, index) => {
+          if (item.IS_TOP_RECOMMEND === 1) {
+            b.push(item.APP_ICON)
           }
         })
         this.setState({

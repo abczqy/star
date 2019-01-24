@@ -86,7 +86,7 @@ export function getRecommendApp (params, sucFn) {
  * 门户首页-软件市场重点推荐
  */
 export function getSoftMarketList (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/edu-market/top-app/1/6')
+  return axios.get(API_BASE_URL_V2 + '/edu-market/top-app/detail-list/1/6')
     .then(function (res) {
       sucFn(res)
     })

@@ -194,7 +194,7 @@ class Platdata extends React.Component {
               <Col span={2} />
               <Col span={20}>
                 用户活跃度：<br />
-                <Progress percent={userInfo.activeProportion * 100} status='active' />
+                <Progress percent={(userInfo.activeProportion * 100).toFixed(2)} status='active' />
               </Col>
             </div>
           </div>

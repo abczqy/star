@@ -264,10 +264,10 @@ class SWMaker extends Component {
     let thiz = this
     getHot({}, function (res) {
       if (res.data.code === 200) {
-        const data = res.data.data.content
+        const data = res.data.data
         let s = []
         data.forEach((img) => {
-          s.push(img.appIcon)
+          s.push(img.APP_ICON)
         })
         thiz.setState({
           hotList: data,
