@@ -3,7 +3,7 @@
  */
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
-import { Button, Icon } from 'antd'
+import { Button, Icon, Modal } from 'antd'
 import ajaxUrl from 'config'
 // import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
@@ -20,7 +20,11 @@ class AllApplicationsDetail extends React.Component {
         platformAppDataa: [],
         shelfTimeSort: 'desc',
         downloadNum: 'desc',
-        appType: 'all'
+        appType: 'all',
+        link: '',
+        showModal: false,
+        clientWidth: 1000,
+        clientHeight: 1000
       }
   }
   static propTypes = {
@@ -36,9 +40,14 @@ class AllApplicationsDetail extends React.Component {
   componentDidMount () {
     // this.getAllAppData()
     // this.getPlatformAppData()
+    // 获取屏幕宽度
+    let width = document.body.clientWidth
+    let height = document.body.clientHeight
     this.setState({
       allAppListData: this.props.allAppListData,
-      platformAppDataa: this.props.platformAppDataa
+      platformAppDataa: this.props.platformAppDataa,
+      clientWidth: width,
+      clientHeight: height
     })
     // this.refs['test'].goTo(1)
   }
@@ -49,7 +58,14 @@ class AllApplicationsDetail extends React.Component {
       platformAppDataa: nextProps.platformAppDataa
     })
   }
-
+  // 获取应用的链接
+  getLinks = (record) => {
+    console.log(record)
+    this.setState({
+      link: record.APP_LINK,
+      showModal: true
+    })
+  }
   loadNextFunc = () => {
   }
   // 打开按钮页面跳转
@@ -128,7 +144,7 @@ class AllApplicationsDetail extends React.Component {
                                     className='open'
                                     type='primary'
                                   >
-                                    <a style={{ cursor: 'pointer' }} href={item.APP_LINK} target='_blank'>打开</a>
+                                    <a href='javascript:void(0)' style={{ cursor: 'pointer' }} onClick={() => { this.getLinks(item) }}>打开</a>
                                   </Button>
                                   : <Button
                                     style={{ height: '26px', lineHeight: '20px' }}
@@ -180,8 +196,33 @@ class AllApplicationsDetail extends React.Component {
             </LimitedInfiniteScroll>
           </div>
         </div>
+        <div ref='iframeLink' className='iframe-modal-wrap'>
+          <Modal
+            visible={this.state.showModal}
+            footer={null}
+            onOk={this.handleOk}
+            width={'100%'}
+            height={800}
+            title={<span />}
+            style={{position: 'absolution', top: '0'}}
+            onCancel={this.handleCancle}
+            getContainer={() => this.refs.iframeLink}
+          >
+            <iframe style={{width: `${this.state.clientWidth}px`, height: `${this.state.clientHeight}px`, border: 'none'}} src={this.state.link} />
+          </Modal>
+        </div>
       </div>
     )
+  }
+  handleOk = () => {
+    this.setState({
+      showModal: false
+    })
+  }
+  handleCancle = () => {
+    this.setState({
+      showModal: false
+    })
   }
 }
 export default AllApplicationsDetail

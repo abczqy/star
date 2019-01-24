@@ -167,7 +167,8 @@ class TeacherHome extends Component {
     })
   }
   // 处理收藏按钮
-  handleCollection = (id, isCollect, e) => {
+  handleCollection = (id, isCollect, item, e) => {
+    console.log(item)
     let node = e.currentTarget
     if (isCollect === '1') {
       homeCancelCollection({
@@ -359,7 +360,7 @@ class TeacherHome extends Component {
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
             type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={(e) => this.handleCollection(item.appId, item.IS_COLLECT, e)}
+            onClick={(e) => this.handleCollection(item.appId, item.IS_COLLECT, item, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>

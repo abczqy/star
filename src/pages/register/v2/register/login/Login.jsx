@@ -17,6 +17,7 @@ import './Login.scss'
 import {getUserInfoV2, loginNew} from 'services/portal'
 import {axios} from 'utils'
 import config from '../../../../../config'
+import Buffer from 'buffer'
 const FormItem = Form.Item
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_AUTHENTICATION = config.SERVICE_AUTHENTICATION
@@ -24,8 +25,6 @@ const {
   Footer, Content
 } = Layout
 
-let start = 120
-let count = 0
 class Login extends Component {
   constructor (props) {
     super(props)
@@ -40,9 +39,19 @@ class Login extends Component {
     this.getCode(false)
   }
   componentWillUnmount () {
-    clearTimeout(count)
   }
 
+  // base64解码
+  b64EncodeUnicode (str) {
+    let arr = str.split('.')
+    let buf = Buffer.Buffer.alloc(300)
+    let len = buf.write(arr[1], 'base64')
+    console.log(len)
+    let string = buf.toString()
+    console.log(string)
+    // let string = buf.toString(str)
+    // console.log(string)
+  }
   /** 登录 */
   handleSubmit = (e) => {
     e.preventDefault()
@@ -72,12 +81,14 @@ class Login extends Component {
                   'extraInfo': ''
                 }, (response) => {
                   let data1 = response.data
+                  console.log(data1)
                   if (data1.code === 200) {
                     /** ticket userId */
                     let userId
                     let roleCode
                     if (data1.data.ticket) {
                       webStorage.setItem('STAR_V2_TICKET', data1.data.ticket)
+                      this.b64EncodeUnicode(data1.data.ticket)
                       const arr = data1.data.ticket.split('.')
                       if (arr.length > 1) {
                         userId = JSON.parse(window.atob(arr[1])).userId
@@ -91,6 +102,7 @@ class Login extends Component {
                         webStorage.setItem('STAR_WEB_PERSON_INFO', response.data.data)
                         webStorage.setItem('STAR_WEB_IS_LOGGED', true)
                         message.success('登录成功')
+                        console.log(response.data.data)
                         if (roleCode === 'operator') {
                           this.props.history.push({
                             pathname: '/software-market-home'
@@ -138,7 +150,7 @@ class Login extends Component {
   /** 获取验证码 **/
   getCode = (isClick) => {
     if (isClick === true) {
-      count = setInterval(this.countDown, 1000)
+      this.countDown()
     }
     axios.get(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/authentication/generator', {})
       .then((res) => {
@@ -188,16 +200,19 @@ class Login extends Component {
       })
   }
   countDown () {
-    start--
-    if (start > 0) {
-      document.getElementById('btnCode').innerHTML = `等待刷新 (${start})`
-      document.getElementById('btnCode').disabled = true
-    } else {
-      clearTimeout(count)
-      document.getElementById('btnCode').innerHTML = '刷新'
-      document.getElementById('btnCode').disabled = false
-      return ''
-    }
+    let count = 60
+    const timer = setInterval(() => {
+      if (count > 0) {
+        document.getElementById('btnCode').innerHTML = `等待刷新 (${count})`
+        document.getElementById('btnCode').disabled = true
+      } else {
+        clearTimeout(timer)
+        document.getElementById('btnCode').innerHTML = '刷新'
+        document.getElementById('btnCode').disabled = false
+        return ''
+      }
+      count--
+    }, 1000)
   }
   render () {
     const { getFieldDecorator } = this.props.form
