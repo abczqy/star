@@ -1230,6 +1230,12 @@ class ShelfPlease extends React.Component {
     // 开发相关
     const aboutDev = <Row>
       {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />开发相关</p></Row> */}
+      <Row className='Wxd require-items' type='flex' align='middle'>
+        <Col span={2} offset={1}><span className='required-tag special'>* </span>应用 ID</Col>
+        <Col span={7}>{this.state.RandomId}</Col>
+        <Col span={2} offset={3}><span className='required-tag special'>* </span>应用 TOKEN</Col>
+        <Col span={7}>{this.state.RandomToken}</Col>
+      </Row>
       <Row className='Wxd'>
         <Col span={12}>
           <Col span={6}>
@@ -1452,6 +1458,13 @@ class ShelfPlease extends React.Component {
     }
     // 应用相关
     const aboutPlatform = <Row>
+      {/* TODO 后期接入后台接口 */}
+      <Row className='Wxd require-items' type='flex' align='middle'>
+        <Col span={2} offset={1}><span className='required-tag special'>* </span>应用 ID</Col>
+        <Col span={7}>{this.state.RandomId}</Col>
+        <Col span={2} offset={3}><span className='required-tag special'>* </span>应用 TOKEN</Col>
+        <Col span={7}>{this.state.RandomToken}</Col>
+      </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>应用名称 :</Col>
         <Col span={7}><Input placeholder='请输入应用名称' style={{ width: 280 }} onChange={this.changePlatformName} value={platform.name} /></Col>
@@ -1463,15 +1476,6 @@ class ShelfPlease extends React.Component {
             })}
           </Select>
         </Col>
-      </Row>
-      {/* 后期接入后台接口 */}
-      <Row className='Wxd' type='flex' align='middle'>
-        <Col span={2} offset={1}>应用ID</Col>
-        <Col span={7}>
-          {this.state.RandomId}
-        </Col>
-        <Col span={2} offset={3}>TOKEN</Col>
-        <Col span={7}>{this.state.RandomToken}</Col>
       </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>应用描述 : </span></Col>
