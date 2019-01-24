@@ -97,14 +97,14 @@ class Remove extends Component {
         this.setState({
           tableData: {
             data: this.getSwPath(dataList),
-            total: data.total
+            total: data.totalCount
           }
         })
       } else {
         data.data && this.setState({
           platTableData: {
             data: this.getSwPath(dataList),
-            total: data.total
+            total: data.totalCount
           }
         })
       }

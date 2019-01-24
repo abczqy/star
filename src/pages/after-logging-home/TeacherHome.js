@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
-import { getSoftMarketList } from 'services/portalnew'
-import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection} from 'services/software-home'
+import { getSoftMarketHot } from 'services/software-manage'
+import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection, clickRecommend} from 'services/software-home'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 import { withRouter } from 'react-router'
@@ -124,9 +124,9 @@ class TeacherHome extends Component {
   }
   // 获取热门推荐数据
   getHotData = () => {
-    getSoftMarketList({}, (response) => {
+    getSoftMarketHot({}, (response) => {
       if (response.data.code === 200) {
-        let result = response.data.data.content || []
+        let result = response.data.data || []
         this.setState({
           hotData: result || []
         })
@@ -167,8 +167,7 @@ class TeacherHome extends Component {
     })
   }
   // 处理收藏按钮
-  handleCollection = (id, isCollect, item, e) => {
-    console.log(item)
+  handleCollection = (id, isCollect, e) => {
     let node = e.currentTarget
     if (isCollect === '1') {
       homeCancelCollection({
@@ -300,6 +299,7 @@ class TeacherHome extends Component {
   }
   // 老师推荐
   handleTeacherappSource = (item, index) => {
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
@@ -321,8 +321,7 @@ class TeacherHome extends Component {
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='heart' />
+          {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.teacherRecommend(item)} />}
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
             onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
@@ -334,33 +333,47 @@ class TeacherHome extends Component {
   handleTeacherOpen = (item) => {
     window.open(item.sw_url)
   }
+  /** 老师推荐 */
+  teacherRecommend = (item) => {
+    clickRecommend({
+      appId: item.APP_ID
+    }, (res) => {
+      const data = res.data.data
+      if (data !== 1) {
+        message.error('操作失败')
+      } else {
+        this.getHotData()
+        this.getTeacherData()
+      }
+    })
+  }
   // 热门推荐
   handleHotRecomappSource = (item, index) => {
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
           <dt className='dl-dt'>
-            {item.appIcon
-              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.appIcon} />
+            {item.APP_ICON
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
               : <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
-            <span className='dd-title'>{item.appName || '软件名称'}</span>
-            <p className='dd-p'>{item.appNotes || '软件描述'}</p>
+            <span className='dd-title'>{item.APP_NAME || '软件名称'}</span>
+            <p className='dd-p'>{item.APP_NOTES || '软件描述'}</p>
           </dd>
         </dl>
         <p style={{float: 'right'}}>
-          {item.appSource === 'pt' && item.IS_OPEN === '1'
+          {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
             ? <Button className='openUpButton' type='primary'>
-              <a href={item.appLink} target='_blank'>打开</a>
+              <a href={item.APP_LINK} target='_blank'>打开</a>
             </Button>
             : <Button className='openButton' type='primary'>
-              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.appId}}>详情</Link>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='heart' />
+          {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.teacherRecommend(item)} />}
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={(e) => this.handleCollection(item.appId, item.IS_COLLECT, item, e)}
+            onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>

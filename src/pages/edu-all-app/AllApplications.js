@@ -13,9 +13,9 @@ import allApp from '../../assets/images/all-app/u2835.jpg'
 import {Logged} from 'components/common/hoc/Logged'
 import { Route } from 'react-router'
 import AllApplicationsDetail from 'pages/edu-all-app/AllApplicationsDetail'
-import {getAppType, allAppList} from 'services/all-app/'
-import {homeCollection, homeCancelCollection} from 'services/software-home/'
-import {getPortalBannerImg} from 'services/portalnew/'
+import {getAppType, allAppList} from 'services/all-app'
+import {homeCollection, homeCancelCollection, clickRecommend} from 'services/software-home'
+import {getPortalBannerImg} from 'services/portalnew'
 import './AllApplications.css'
 const Search = Input.Search
 const { Sider, Content } = Layout
@@ -235,6 +235,19 @@ export default class AllApplications extends React.Component {
       }
     }).catch((e) => { console.log(e) })
   }
+  /** 教师推荐应用 */
+  teacherRecommend = (item) => {
+    clickRecommend({
+      appId: item.APP_ID
+    }, (res) => {
+      const data = res.data.data
+      if (data !== 1) {
+        message.error('操作失败')
+      } else {
+        this.getAppListRj()
+      }
+    })
+  }
 
   render () {
     var settings = {
@@ -305,7 +318,8 @@ export default class AllApplications extends React.Component {
                   handleDownloadNum={this.handleDownloadNum}
                   handleShelfTime={this.handleShelfTime}
                   onClickLeft={this.onClickLeft}
-                  onClickRight={this.onClickRight} />
+                  onClickRight={this.onClickRight}
+                  teacherRecommend={this.teacherRecommend} />
               }} />
               <div style={{display: 'block', width: 1020, marginLeft: '6%'}}>
                 <Pagination

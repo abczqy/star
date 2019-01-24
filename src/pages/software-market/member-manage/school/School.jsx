@@ -67,35 +67,36 @@ class School extends Component {
     return ([
       {
         title: '学校名称',
-        dataIndex: 'schoolName',
-        key: 'schoolName',
+        dataIndex: 'SCHOOL_NAME',
         width: 200
       }, {
         title: '账号',
-        dataIndex: 'sh_id',
-        key: 'sh_id',
+        dataIndex: 'LOGIN_NAME',
         width: 200
       }, {
         title: '所属教育机构',
-        dataIndex: 'authorityName'
+        dataIndex: 'AUTHORITY_NAME'
       }, {
         title: '状态',
-        dataIndex: 'status'
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text) => {
+          return text === 0 ? '未激活' : '激活'
+        }
       }, {
         title: '代理商',
         dataIndex: 'daili'
       }, {
         title: '联系方式',
-        dataIndex: 'telephone'
+        dataIndex: 'TELEPHONE'
       }, {
         title: '地址',
-        dataIndex: 'schoolAddress'
+        dataIndex: 'SCHOOL_ADDRESS'
       }, {
         title: '允许登录',
-        dataIndex: 'to_login',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
         render: (text, record, index) => {
           return (
-            <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
+            <Switch checked={record.LOGIN_PERMISSION_STATUS === 1} onChange={() => this.handleToLogin(record)} />
           )
         }
       }, {
@@ -191,9 +192,10 @@ class School extends Component {
   // 允许登录状态切换
   handleToLogin = (record) => {
     const thiz = this
-    const id = record && record.id
+    const id = record && record.USER_ID
     const params = {
-      to_login: record.to_login ? 0 : 1
+      isLogin: record.LOGIN_PERMISSION_STATUS ? 0 : 1,
+      userId: id
     }
     updateUser(id, params, (res) => {
       const data = res.data ? res.data : {}

@@ -9,21 +9,22 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, message } from 'antd'
+import {Table, message, Divider, Switch} from 'antd'
 // import { Table, Switch, Divider, message } from 'antd'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
   eduGetData,
   eduBatchLeadout,
   maDelId,
   maInitPwd,
-  toLogin
+  newEdu
   // getIdSelectList,
   // getNameSelectList,
   // getEduUpperSelectList,
   // getEduClassSelectList
 } from 'services/software-manage'
+import { updateUser } from 'services/software-market'
 import { SearchBarMemberEduSer, NewEdu } from 'components/software-market' // 目前只有查询的接口，先注释掉
 import {
 // addKey2TableData
@@ -67,6 +68,22 @@ class EducationalServices extends Component {
       newEduVisible: false
     }
   }
+  // 允许登录状态切换
+  handleToLogin = (record) => {
+    const thiz = this
+    const id = record && record.userId
+    const params = {
+      isLogin: record.loginPermissionStatus ? 0 : 1,
+      userId: id
+    }
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.code === 200) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
+    })
+  }
 
   getColumns = () => {
     return ([{
@@ -80,18 +97,27 @@ class EducationalServices extends Component {
       key: 'authorityName',
       width: 200
     }, {
+      title: '账号',
+      dataIndex: 'loginName'
+    }, {
       title: '组织编号',
       dataIndex: 'id',
-      key: 'id',
       width: 200
     }, {
       title: '状态',
-      dataIndex: ''
+      dataIndex: 'isFirstLogin',
+      render: (text) => text === 1 ? '激活' : '未激活'
     }, {
       title: '关联代理商',
       dataIndex: ''
     }, {
-      title: '允许登录'
+      title: '允许登录',
+      dataIndex: 'loginPermissionStatus',
+      render: (text, record, index) => {
+        return (
+          <Switch checked={record.loginPermissionStatus === 1} onChange={() => this.handleToLogin(record)} />
+        )
+      }
     }, {
     //   title: '所属级别',
     //   dataIndex: 'edu_class',
@@ -118,11 +144,11 @@ class EducationalServices extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.id }}>学校</Link>
-            {/* <Divider type='vertical' />
+            <a href='javascript:void(0)'>学校</a>
+            <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a> */}
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
           </span>
         )
       }
@@ -147,23 +173,6 @@ class EducationalServices extends Component {
       edu_upper: eduUpper || '',
       to_login: loginType || ''
     }
-  }
-
-  // 允许登录状态切换
-  handleToLogin = (record) => {
-    const thiz = this
-    const params = {
-      id: record && record.edu_id,
-      to_login: record.to_login ? 0 : 1
-    }
-    toLogin(params, (res) => {
-      const data = res.data ? res.data : {}
-      // console.log(data)
-      if (data.SUCCESS) {
-        message.success(data.msg)
-        thiz.getTableDatas()
-      }
-    })
   }
 
   /**
@@ -395,7 +404,20 @@ class EducationalServices extends Component {
   onOk = () => {
     this.refs.newEdu.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        values.province = values.region.province
+        values.city = values.region.city
+        values.district = values.region.region
+        delete (values.region)
         console.log(values)
+        newEdu(values, (res) => {
+          if (res.data.code === 200) {
+            this.changeVisible(false)
+            message.success('新增机构成功')
+            this.getTableDatas()
+          } else {
+            message.error('新增机构失败')
+          }
+        })
       }
     })
   }

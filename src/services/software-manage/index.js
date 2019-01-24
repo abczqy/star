@@ -1085,3 +1085,12 @@ export function newManufacturer (params, sucFn) {
       sucFn(res)
     })
 }
+
+/** 新增教育机构
+  */
+export function newEdu (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/authoritys', params)
+    .then(res => {
+      sucFn(res)
+    })
+}

@@ -40,7 +40,8 @@ class HomeCarousel extends Component {
       dots: true,
       infinite: true,
       slidesToScroll: 1,
-      slidesToShow: 1
+      slidesToShow: 1,
+      arrows: false
     }
     return (
       <div className='home-carousel'>
