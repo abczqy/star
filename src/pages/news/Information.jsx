@@ -106,7 +106,10 @@ class Information extends React.Component {
     }
     information(values, 1, (response) => {
       if (response.data.code === 200) {
+<<<<<<< HEAD
         console.log(response)
+=======
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         this.setState({
           infoDatas: response.data.data
         }, () => console.log(this.state.infoDatas))

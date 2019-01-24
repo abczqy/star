@@ -71,6 +71,54 @@ class MyAppIterationTable extends Component {
         )
       }
     }]
+<<<<<<< HEAD
+=======
+    this.platColumns = [
+      {
+        title: '应用名称',
+        dataIndex: 'APP_NAME'
+      }, {
+        title: '所属类型',
+        dataIndex: 'APP_TYPE_NAME'
+        // width: 150
+      }, {
+        title: '当前版本',
+        dataIndex: 'CURRENT_VERSION'
+        // width: 150
+      }, {
+        title: '迭代版本',
+        dataIndex: 'APP_VERSION'
+        // width: 150
+      }, {
+        title: '测试链接',
+        dataIndex: 'TEST_URL',
+        key: 'TEST_URL'
+        // width: 150
+      }, {
+        title: '地址',
+        dataIndex: 'APP_LINK'
+      }, {
+        title: '变更时间',
+        dataIndex: 'UPDATE_TIME',
+        render: date => date ? moment(date).format('YYYY-MM-DD') : null
+        // width: 150
+      }, {
+        title: '操作',
+        dataIndex: 'sw_update_time',
+        // width: 150
+        render: (text, record, index) => {
+          return (
+            <div key={index}>
+              {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
+              <span style={{marginRight: '10px', color: '#1890ff', cursor: 'pointer'}} onClick={() => this.props.showDetail(record)}>
+              查看详情
+              </span>
+            </div>
+          )
+        }
+      }
+    ]
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
   componentDidMount () {
     this.props.form.validateFields()
@@ -79,11 +127,32 @@ class MyAppIterationTable extends Component {
   }
   // 我的应用-迭代审核
   getMyAppInOperationData = () => {
+<<<<<<< HEAD
     let params = {
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize,
       typeId: this.state.sw_type,
       auditStatus: 2
+=======
+    const {tabsType} = this.state
+    let params
+    if (tabsType === 'rj') {
+      params = {
+        pageNum: this.state.pageNum,
+        pageSize: this.state.pageSize,
+        typeId: this.state.sw_type,
+        auditStatus: 2,
+        platformType: 'rj'
+      }
+    } else {
+      params = {
+        pageNum: this.state.pageNum,
+        pageSize: this.state.pageSize,
+        typeId: this.state.sw_type,
+        auditStatus: 2,
+        platformType: 'pt'
+      }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     if (this.state.sw_name !== '') {
       params.keyword = this.state.sw_name
@@ -158,6 +227,10 @@ class MyAppIterationTable extends Component {
   }
   render () {
     const { getFieldDecorator } = this.props.form
+<<<<<<< HEAD
+=======
+    const {tabsType} = this.props
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     const formItemLayout = {
       labelCol: {
         span: 6
@@ -201,6 +274,7 @@ class MyAppIterationTable extends Component {
           </Row>
         </Form>
         <div className='marketAnalysis-table'>
+<<<<<<< HEAD
           {/* <Table
           className='data-table'
           rowKey='index'
@@ -212,6 +286,11 @@ class MyAppIterationTable extends Component {
           <CustomPagingTable
             dataSource={this.state.myAppInOperationData}
             columns={this.columns}
+=======
+          <CustomPagingTable
+            dataSource={this.state.myAppInOperationData}
+            columns={tabsType === 'rj' ? this.columns : this.platColumns}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             pageVisible
             //   loading={this.state.loading}
             total={this.state.total}
@@ -231,7 +310,12 @@ class MyAppIterationTable extends Component {
 MyAppIterationTable.propTypes = {
   dataSource: PropTypes.array,
   form: PropTypes.object,
+<<<<<<< HEAD
   showDetail: PropTypes.func
+=======
+  showDetail: PropTypes.func,
+  tabsType: PropTypes.string
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default Form.create()(MyAppIterationTable)

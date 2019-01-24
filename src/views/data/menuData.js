@@ -113,7 +113,11 @@ export default [
     icon: ImgSoft,
     key: '7',
     to: '/software-market-home/software-manage/businessing'
+<<<<<<< HEAD
   }, */{
+=======
+  }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     title: '用户管理',
     icon: ImgMemb,
     key: '8',
@@ -136,7 +140,16 @@ export default [
         to: '/software-market-home/member-manage/tourist'
       }
     ]
+<<<<<<< HEAD
   }, {
+=======
+  }, */{
+    title: '用户管理',
+    icon: ImgMemb,
+    key: '12',
+    to: '/software-market-home/member-manage/home'
+  }, /* {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     title: '实体管理',
     icon: ImgMemb,
     key: '11',
@@ -155,7 +168,11 @@ export default [
         to: '/software-market-home/member-manage/educational-services'
       }
     ]
+<<<<<<< HEAD
   }, /* {
+=======
+  }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     title: '系统设置',
     icon: ImgSoft,
     key: '9',

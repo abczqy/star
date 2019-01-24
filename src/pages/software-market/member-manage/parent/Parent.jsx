@@ -17,7 +17,11 @@ import {
   // initPaPwd,
   // delPaLoginId
 } from 'services/software-manage'
+<<<<<<< HEAD
 import { BlankBar, SearchBarMemberPa } from 'components/software-market'
+=======
+import { SearchBarMemberPa } from 'components/software-market'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
@@ -83,6 +87,12 @@ class Parent extends Component {
       key: 'USER_ACCOUNT',
       width: 200
     }, {
+<<<<<<< HEAD
+=======
+      title: '状态',
+      dataIndex: 'status'
+    }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       title: '角色',
       dataIndex: 'FAMILY_ROLE',
       key: 'FAMILY_ROLE'
@@ -350,7 +360,10 @@ class Parent extends Component {
           onBtnBatchExport={this.onBatchLeadout}
           upload={this.upload}
         />
+<<<<<<< HEAD
         <BlankBar />
+=======
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         <Table
           columns={this.getColumns()}
           dataSource={this.state.dataSource}

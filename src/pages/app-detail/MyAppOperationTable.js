@@ -92,6 +92,7 @@ class MyAppTable extends Component {
         )
       }
     }]
+<<<<<<< HEAD
   }
   // 我的应用-运营中
   getMyAppInOperationData = (thiz) => {
@@ -101,6 +102,72 @@ class MyAppTable extends Component {
       pageNum: this.state.pageNum || 1,
       pageSize: this.state.pageSize || 15,
       typeId: this.state.typeId || 0
+=======
+    this.platColumns = [{
+      title: '应用名称',
+      dataIndex: 'APP_NAME'
+    }, {
+      title: '所属类型',
+      dataIndex: 'APP_TYPE_NAME',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.typeId - b.typeId
+      // width: 150
+    }, {
+      title: '版本',
+      dataIndex: 'APP_VERSION'
+      // width: 150
+    }, {
+      title: '地址',
+      dataIndex: 'APP_LINK'
+    }, {
+      title: '上线时间',
+      dataIndex: 'CREATE_TIME',
+      render: date => moment(date).format('YYYY-MM-DD')
+      // width: 150
+    }, {
+      title: '操作',
+      dataIndex: 'clickCount',
+      // width: 150
+      render: (text, record, index) => {
+        return (
+          <div key={index}>
+            <span style={{marginRight: '10px'}}>
+              <Link to={{pathname: '/operate-manage-home/iteration', search: '?' + record.APP_ID + '&' + record.APP_VERSION}}>迭代</Link>
+            </span>
+            {/* <span style={{marginRight: '10px'}}>
+              <Link to='/operate-manage-home/iteration'>日志下载</Link>
+            </span> */}
+            <span style={{marginRight: '10px', color: '#1890ff', cursor: 'pointer'}} onClick={() => this.props.showDetail(record)}>
+              查看详情
+            </span>
+          </div>
+        )
+      }
+    }]
+  }
+  // 我的应用-运营中
+  getMyAppInOperationData = (thiz) => {
+    const {tabsType} = this.props
+    let params
+    if (tabsType === 'rj') {
+      params = {
+        auditStatus: '4', // 审核状态
+        keyword: this.state.keyword || '', // 应用名称,
+        pageNum: this.state.pageNum || 1,
+        pageSize: this.state.pageSize || 15,
+        typeId: this.state.typeId || 0,
+        platformType: 'rj'
+      }
+    } else {
+      params = {
+        auditStatus: '4', // 审核状态
+        keyword: this.state.keyword || '', // 应用名称,
+        pageNum: this.state.pageNum || 1,
+        pageSize: this.state.pageSize || 15,
+        typeId: this.state.typeId || 0,
+        platformType: 'pt'
+      }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
       .then(function (res) {
@@ -197,6 +264,10 @@ class MyAppTable extends Component {
   }
   render () {
     const { getFieldDecorator } = this.props.form
+<<<<<<< HEAD
+=======
+    const {tabsType} = this.props
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     const formItemLayout = {
       labelCol: {
         span: 6
@@ -248,6 +319,7 @@ class MyAppTable extends Component {
           </Row>
         </Form>
         <div className='marketAnalysis-table'>
+<<<<<<< HEAD
           {/* <Table
           className='data-table'
           rowKey='index'
@@ -259,6 +331,11 @@ class MyAppTable extends Component {
           <CustomPagingTable
             dataSource={this.state.myAppInOperationData}
             columns={this.columns}
+=======
+          <CustomPagingTable
+            dataSource={this.state.myAppInOperationData}
+            columns={tabsType === 'rj' ? this.columns : this.platColumns}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             pageVisible
             //   loading={this.state.loading}
             total={this.state.total}
@@ -302,7 +379,12 @@ MyAppTable.propTypes = {
   dataSource: PropTypes.array,
   form: PropTypes.object,
   getNewNewsNum: PropTypes.func,
+<<<<<<< HEAD
   showDetail: PropTypes.func
+=======
+  showDetail: PropTypes.func,
+  tabsType: PropTypes.string
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default Form.create()(MyAppTable)

@@ -24,8 +24,12 @@ import {
   // getEduUpperSelectList,
   // getEduClassSelectList
 } from 'services/software-manage'
+<<<<<<< HEAD
 // import { BlankBar, SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
 import { BlankBar } from 'components/software-market'
+=======
+import { SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import {
 // addKey2TableData
 // getSelectList,
@@ -80,11 +84,26 @@ class EducationalServices extends Component {
       key: 'authorityName',
       width: 200
     }, {
+<<<<<<< HEAD
       title: '账号',
+=======
+      title: '组织编号',
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       dataIndex: 'id',
       key: 'id',
       width: 200
     }, {
+<<<<<<< HEAD
+=======
+      title: '状态',
+      dataIndex: ''
+    }, {
+      title: '关联代理商',
+      dataIndex: ''
+    }, {
+      title: '允许登录'
+    }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     //   title: '所属级别',
     //   dataIndex: 'edu_class',
     //   key: 'edu_class'
@@ -381,11 +400,18 @@ class EducationalServices extends Component {
   }
 
   render () {
+<<<<<<< HEAD
     // const { pagination, tableData, selectList } = this.state
     const { pagination, tableData } = this.state
     return (
       <div className='software-wrap'>
         {/* <SearchBarMemberEduSer
+=======
+    const { pagination, tableData, selectList } = this.state
+    return (
+      <div className='software-wrap'>
+        <SearchBarMemberEduSer
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
           onSelect2Change={this.onInstChange}
@@ -394,8 +420,12 @@ class EducationalServices extends Component {
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
+<<<<<<< HEAD
         /> */}
         <BlankBar />
+=======
+        />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}

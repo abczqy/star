@@ -4,7 +4,11 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import { Select, Button, Row, Col, Input } from 'antd'
+=======
+import { Select, Button, Input } from 'antd'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import PropsTypes from 'prop-types'
 import './SearchBarMemberEduSer.scss'
 
@@ -34,17 +38,27 @@ class SearchBarMemberEduSer extends Component {
 
   render () {
     const {
+<<<<<<< HEAD
       selectList,
       onBtnSearchClick,
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
       onSelect4Change,
+=======
+      // selectList,
+      onBtnSearchClick,
+      onSelect1Change,
+      onSelect2Change,
+      // onSelect3Change,
+      // onSelect4Change,
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       onSelect5Change,
       onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
+<<<<<<< HEAD
         <Row gutter={16}>
           <Col span={3}>
             <span className='input-label'>账号</span>
@@ -101,18 +115,82 @@ class SearchBarMemberEduSer extends Component {
             <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
           </Col>
         </Row>
+=======
+        <div className='search-bar-item'>
+          <span className='input-label'>组织编号</span>
+          <Input
+            className='input'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect1Change} >
+            {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+          </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='input-label'>机构名称</span>
+          <Input
+            className='input'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect2Change} >
+            {/* {selectList.eduNameList && this.getOptions(selectList.eduNameList)} */}
+          </Input>
+        </div>
+        {/* <div className='search-bar-item' style={{width: 270}}>
+          <span className='select-label'>上级机构名称</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect3Change} >
+             {selectList.eduUpperList && this.getOptions(selectList.eduUpperList)}
+          </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='select-label-2'>所属级别 </span>
+          <Select
+            className='select-2'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect4Change} >
+            {selectList.eduClassList && this.getOptions(selectList.eduClassList)}
+          </Select>
+        </div> */}
+        <div className='search-bar-item'>
+          <span className='select-label'>允许登录 </span>
+          <Select defaultValue='all' className='select' onChange={onSelect5Change} >
+            <Option value='all'>全部</Option>
+            <Option value='allow'>允许</Option>
+            <Option value='refuse'>不允许</Option>
+          </Select>
+        </div>
+        <div className='search-bar-buttons'>
+          <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
+          <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
+        </div>
+        <div style={{clear: 'both'}} />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       </div>
     )
   }
 }
 
 SearchBarMemberEduSer.propTypes = {
+<<<<<<< HEAD
   selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
   onSelect4Change: PropsTypes.func,
+=======
+  // selectList: PropsTypes.object,
+  onBtnSearchClick: PropsTypes.func,
+  onSelect1Change: PropsTypes.func,
+  onSelect2Change: PropsTypes.func,
+  // onSelect3Change: PropsTypes.func,
+  // onSelect4Change: PropsTypes.func,
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
 }

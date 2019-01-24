@@ -3,7 +3,11 @@
  */
 import {axios} from '../../utils'
 import config from '../../config/index'
+<<<<<<< HEAD
 const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL} = config
+=======
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL, SERVICE_AUTHENTICATION} = config
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 /**
  * 校验邮箱是否被占用
  */
@@ -34,6 +38,18 @@ export function registerParent (params, sucFn) {
     })
 }
 /**
+<<<<<<< HEAD
+=======
+ * 用户自注册
+ */
+export function registerFree (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/parentsOperation/free', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
  * 注册用户协议
  */
 export function getRegisterAgreement (params, sucFn) {
@@ -286,3 +302,14 @@ export function userInfoAdd (roleId, params, sucFn) {
       sucFn(res)
     })
 }
+<<<<<<< HEAD
+=======
+/**
+ * 修改人员信息
+ */
+export function updateUser (data, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/detailed', data).then((res) => {
+    sucFn(res)
+  })
+}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83

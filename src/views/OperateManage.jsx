@@ -20,6 +20,10 @@ import AllApplications from 'pages/edu-all-app/AllApplications'
 import TeacherHome from 'pages/after-logging-home/TeacherHome'
 import Please from 'pages/news/ShelfPlease'// 上架流程
 import Iteration from 'pages/news/IterationPlease'// 迭代申请
+<<<<<<< HEAD
+=======
+import PlatIterationPlease from 'pages/news/platIterationPlease'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import PersonnelManagement from 'pages/personnel-management/PersonnelManagement'
 import PersonalCenter from 'pages/personal-center/PersonalCenter'
 import StatisticalAnalysis from 'pages/statistical-analysis/StatisticalAnalysis'
@@ -35,6 +39,10 @@ let LAllApplications = Logged(AllApplications)
 let LTeacherHome = Logged(TeacherHome)
 let LPlease = Logged(Please)
 let LIteration = Logged(Iteration)
+<<<<<<< HEAD
+=======
+let PlatIteration = Logged(PlatIterationPlease)
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 let LPersonnelManagement = Logged(PersonnelManagement)
 let LPersonalCenter = Logged(PersonalCenter)
 let LStatisticalAnalysis = Logged(StatisticalAnalysis)
@@ -197,10 +205,17 @@ class OperateManage extends React.Component {
         tabKey: 'allApp',
         src: '/operate-manage-home/all-app/all-app'
       }, {
+<<<<<<< HEAD
       //   text: '人员管理',
       //   tabKey: 'peopleMang',
       //   src: '/operate-manage-home/member'
       // }, {
+=======
+        text: '人员管理',
+        tabKey: 'peopleMang',
+        src: '/operate-manage-home/member'
+      }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       //   text: '个人中心',
       //   tabKey: 'peopleCenter',
       //   src: '/operate-manage-home/center'
@@ -331,6 +346,13 @@ class OperateManage extends React.Component {
               return <LIteration
                 changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
             }} />
+<<<<<<< HEAD
+=======
+            <Route path='/operate-manage-home/platiteration' render={() => {
+              return <PlatIteration
+                changeActiveTab={(activeTab) => { this.changeActiveTab(activeTab) }} />
+            }} />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             <Route path='/operate-manage-home/member' render={() => {
               // eslint-disable-next-line react/jsx-no-undef
               return <LPersonnelManagement

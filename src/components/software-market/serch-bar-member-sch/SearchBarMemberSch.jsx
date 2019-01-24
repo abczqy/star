@@ -4,7 +4,11 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import { Select, Button, Row, Col, Input } from 'antd'
+=======
+import { Select, Button, Input } from 'antd'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import PropsTypes from 'prop-types'
 import './SearchBarMemberSch.scss'
 
@@ -32,6 +36,7 @@ class SearchBarMemberSch extends Component {
     const {
       // selectList,
       onBtnSearchClick,
+<<<<<<< HEAD
       // onSelect1Change,
       onSelect2Change,
       // onSelect3Change,
@@ -80,6 +85,55 @@ class SearchBarMemberSch extends Component {
             <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button>
           </Col>
         </Row>
+=======
+      onSelect1Change,
+      onSelect2Change,
+      newSchool,
+      onSelect3Change,
+      onSelect4Change
+      // onBtnBatchExport
+    } = this.props
+    return (
+      <div className='search-bar-wrap'>
+        <div className='search-bar-item'>
+          <span className='input-label'>账号</span>
+          <Input
+            className='input'
+            placeholder='请输入'
+            onChange={onSelect1Change} />
+        </div>
+        <div className='search-bar-item'>
+          <span className='input-label'>学校名称</span>
+          <Input
+            className='input'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect2Change} >
+            {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
+          </Input>
+        </div>
+        <div className='search-bar-item' style={{width: 270}}>
+          <span className='select-label'>所属教育机构</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            onChange={onSelect3Change} />
+        </div>
+        <div className='search-bar-item'>
+          <span className='select-label'>允许登录</span>
+          <Select defaultValue='all' className='select' onChange={onSelect4Change} >
+            <Option value='all'>全部</Option>
+            <Option value='allow'>允许</Option>
+            <Option value='refuse'>不允许</Option>
+          </Select>
+        </div>
+        <div className='search-bar-buttons'>
+          <Button htmlType='button' type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} onClick={newSchool} icon='plus'>新增学校</Button>
+          {/* <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button> */}
+        </div>
+        <div style={{clear: 'both'}} />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       </div>
     )
   }
@@ -88,11 +142,20 @@ class SearchBarMemberSch extends Component {
 SearchBarMemberSch.propTypes = {
   // selectList: PropsTypes.object,
   onBtnSearchClick: PropsTypes.func,
+<<<<<<< HEAD
   // onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
   // onSelect3Change: PropsTypes.func,
   // onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func
+=======
+  onSelect1Change: PropsTypes.func,
+  onSelect2Change: PropsTypes.func,
+  newSchool: PropsTypes.func,
+  onSelect3Change: PropsTypes.func,
+  onSelect4Change: PropsTypes.func
+  // onBtnBatchExport: PropsTypes.func
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default SearchBarMemberSch

@@ -12,10 +12,18 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
+<<<<<<< HEAD
 import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+=======
+import { SearchBarMemberTeac, NewUser } from 'components/software-market'
+import 'pages/software-market/SoftwareMarket.scss'
+import config from '../../../../config/index'
+import {axios} from '../../../../utils'
+import PropTypes from 'prop-types'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -45,7 +53,12 @@ class Teacher extends Component {
       batchLeadParams: {
         idArrs: []
       },
+<<<<<<< HEAD
       selectList: {}
+=======
+      selectList: {},
+      newVisible: false
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
 
     this.uploadProps = {
@@ -80,10 +93,23 @@ class Teacher extends Component {
         key: 'USER_ACCOUNT',
         width: 200
       }, {
+<<<<<<< HEAD
         title: '所属机构',
         dataIndex: 'AUTHORITY_NAME',
         key: 'AUTHORITY_NAME'
       }, {
+=======
+        title: '所属学校',
+        dataIndex: 'AUTHORITY_NAME',
+        key: 'AUTHORITY_NAME'
+      }, {
+        title: '状态',
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text, record) => {
+          return text === 0 ? '未激活' : '激活'
+        }
+      }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         title: '允许登录',
         dataIndex: 'LOGIN_PERMISSION_STATUS',
         key: 'LOGIN_PERMISSION_STATUS',
@@ -349,11 +375,40 @@ class Teacher extends Component {
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
+<<<<<<< HEAD
     this.getTableDatas()
   }
 
   render () {
     const { pagination, selectList } = this.state
+=======
+    if (this.props.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: this.props.AUTHORITY_NAME
+      }, () => {
+        this.getTableDatas()
+      })
+    } else {
+      this.getTableDatas()
+    }
+  }
+  /** 新增老师确认 */
+  onNewOk = () => {
+    this.refs.newUser.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  /** 新增老师弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+  }
+  render () {
+    const { pagination, selectList, AUTHORITY_NAME } = this.state
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     return (
       <div className='software-wrap'>
         <SearchBarMemberTeac
@@ -365,8 +420,14 @@ class Teacher extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
+<<<<<<< HEAD
         />
         <BlankBar />
+=======
+          AUTHORITY_NAME={AUTHORITY_NAME}
+          changeVisible={this.changeVisible}
+        />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         <Table
           columns={this.getClomus()}
           dataSource={this.state.dataSource}
@@ -383,9 +444,31 @@ class Teacher extends Component {
             return index
           }}
         />
+<<<<<<< HEAD
       </div>
     )
   }
+=======
+        <NewUser onOk={this.onNewOk}
+          changeVisible={this.changeVisible}
+          ref='newUser'
+          visible={this.state.newVisible}
+          type={'老师'}
+        />
+      </div>
+    )
+  }
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      AUTHORITY_NAME: nextProps.AUTHORITY_NAME
+    }, () => {
+      this.search()
+    })
+  }
+}
+Teacher.propTypes = {
+  AUTHORITY_NAME: PropTypes.string
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default Teacher

@@ -16,6 +16,7 @@ export function getAppListData (params, sucFn) {
  * 软件管理-下架
  */
 export function getAppListDatav2 (params, sucFn) {
+<<<<<<< HEAD
   console.log('params.sw_type' + params.sw_type)
   return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET +
   '/manage-app/list-by-audit-status' +
@@ -25,6 +26,13 @@ export function getAppListDatav2 (params, sucFn) {
   '&pageNum=' + params.pageNum +
   '&pageSize=' + params.pageSize +
   '&typeId=' + params.typeId)
+=======
+  console.log(params)
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET +
+  '/manage-app/list-by-audit-status', {
+    params: params
+  })
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   // '?auditStatus=5&downloadCount=desc&pageNum=1&pageSize=10&typeId=101')
   // + {...params}
     .then(function (res) {

@@ -212,13 +212,19 @@ class MainBander extends React.Component {
       speed: 500,
       arrows: true,
       autoplay: true,
+<<<<<<< HEAD
       slidesToShow: 1,
       slidesToScroll: 1
+=======
+      slidesToScroll: 1,
+      slidesToShow: 1
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
 
     return (
       <div className='main-bander-container'>
         <div className='custom-slider'>
+<<<<<<< HEAD
           <Slider {...settings} ref='slider'>
             {
               this.state.bannerImg.map((item, index, arr) => {
@@ -231,6 +237,18 @@ class MainBander extends React.Component {
               })
             }
           </Slider>
+=======
+          {this.state.bannerImg.length && <Slider {...settings} ref='slider'>
+            {
+              this.state.bannerImg.map((item, index, arr) => {
+                return item.picUrl ? <div key={index} style={{height: '228px', width: '100%'}} >
+                  <img src={Config.IMG_BASE_URL_V2 + item.picUrl || ''} style={{height: '100%', width: '100%'}} /></div>
+                  : <div key={index} style={{height: '228px', width: '100%'}} >
+                    <img src={imgBanner} style={{height: '100%', width: '100%'}} /></div>
+              })
+            }
+          </Slider>}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         </div>
       </div>
     )

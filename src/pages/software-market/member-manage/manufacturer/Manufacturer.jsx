@@ -11,7 +11,11 @@
  */
 import React, { Component } from 'react'
 import { Table, Divider, Button, message } from 'antd'
+<<<<<<< HEAD
 import { BlankBar, SearchBarMember } from 'components/software-market'
+=======
+import { SearchBarMember, NewManufacturer } from 'components/software-market'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
 import {
@@ -70,7 +74,12 @@ class Manufacturer extends Component {
       batchLeadParams: {
         faIdArrs: []
       },
+<<<<<<< HEAD
       selectList: {}
+=======
+      selectList: {},
+      newManuVisible: false
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
 
@@ -458,6 +467,22 @@ class Manufacturer extends Component {
     getSelectList(getNameSelectList, 'firm', 'faNameList', this)
     getSelectListWithNoParam(getContractSelectList, 'contractList', this)
   }
+<<<<<<< HEAD
+=======
+  /** 新增厂商弹窗相关 */
+  newManuOk = () => {
+    this.refs.newManufacturer.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  changeVisible = (newManuVisible) => {
+    this.setState({
+      newManuVisible
+    })
+  }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
   render () {
     const { pagination, tableData, delModalCon, faDetModalCon, selectList } = this.state
@@ -472,9 +497,15 @@ class Manufacturer extends Component {
           // onSelect3Change={this.onNumDayChange}
           // onSelect4Change={this.onToLogin}
           onBtnSearchClick={this.search}
+<<<<<<< HEAD
           // onBtnBatchExport={this.onBatchLeadout}
         />
         <BlankBar />
+=======
+          newManufacturer={() => this.changeVisible(true)}
+          // onBtnBatchExport={this.onBatchLeadout}
+        />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}
@@ -511,6 +542,13 @@ class Manufacturer extends Component {
             <Button key='back' type='primary' onClick={this.handleFaDetCancel} >关闭</Button>
           ]}
         />
+<<<<<<< HEAD
+=======
+        <NewManufacturer visible={this.state.newManuVisible}
+          onOk={this.newManuOk}
+          changeVisible={this.changeVisible}
+          ref='newManufacturer' />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       </div>
     )
   }

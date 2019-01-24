@@ -3,7 +3,11 @@
  * 1- 内容自主添加
  */
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import { Table, Button } from 'antd'
+=======
+import { Table, Button, Tabs } from 'antd'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -20,7 +24,18 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
+<<<<<<< HEAD
 
+=======
+// 平台应用分页器
+const pagination2 = {
+  pageNum: 1,
+  pageSize: 10,
+  showQuickJumper: true,
+  showSizeChanger: true
+}
+const TabPane = Tabs.TabPane
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 class Reject extends Component {
   constructor (props) {
     super(props)
@@ -30,6 +45,10 @@ class Reject extends Component {
         total: 0
       },
       pagination,
+<<<<<<< HEAD
+=======
+      pagination2,
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       searchValue: '',
       detModalCon: {
         visible: false,
@@ -45,7 +64,17 @@ class Reject extends Component {
       auditStatus: 3, // 软件状态3未通过审核
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
+<<<<<<< HEAD
       keyword: ''
+=======
+      keyword: '',
+      platTableData: {
+        data: [],
+        total: 0
+      },
+      keyword2: '',
+      tabsValue: 'rj'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
   dateToString = (date) => {
@@ -57,6 +86,7 @@ class Reject extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
+<<<<<<< HEAD
     getAppListDatav2({
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
@@ -75,6 +105,48 @@ class Reject extends Component {
           total: data.total
         }
       })
+=======
+    const {tabsValue} = this.state
+    let params
+    if (tabsValue === 'rj') {
+      params = {
+        auditStatus: this.state.auditStatus, // 审核状态
+        keyword: this.state.keyword || '', // 应用名称,
+        pageNum: this.state.pagination.pageNum || 1,
+        pageSize: this.state.pagination.pageSize || 10,
+        typeId: this.state.typeId || 0,
+        platformType: 'rj'
+      }
+    } else {
+      params = {
+        auditStatus: this.state.auditStatus, // 审核状态
+        keyword: this.state.keyword2 || '', // 应用名称,
+        pageNum: this.state.pagination2.pageNum || 1,
+        pageSize: this.state.pagination2.pageSize || 10,
+        typeId: this.state.typeId2 || 0,
+        platformType: 'pt'
+      }
+    }
+    getAppListDatav2(params, (res) => {
+      const data = res.data.data
+      let dataList = res.data.data.data
+      if (tabsValue === 'rj') {
+        data.data &&
+        this.setState({
+          tableData: {
+            data: this.getSwPath(dataList),
+            total: data.total
+          }
+        })
+      } else {
+        data.data && this.setState({
+          platTableData: {
+            data: this.getSwPath(dataList),
+            total: data.total
+          }
+        })
+      }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     })
   }
 
@@ -187,6 +259,38 @@ class Reject extends Component {
     //   }
     // }
   }
+<<<<<<< HEAD
+=======
+  getPlatColumns = () => {
+    return [{
+      title: '应用名称',
+      dataIndex: 'APP_NAME',
+      key: 'APP_NAME'
+    }, {
+      title: '所属类型',
+      dataIndex: 'APP_TYPE_NAME',
+      key: 'APP_TYPE_NAME'
+    }, {
+      title: '当前版本',
+      dataIndex: 'APP_VERSION',
+      key: 'APP_VERSION'
+    }, {
+      title: '提交时间',
+      dataIndex: 'CREATE_TIME',
+      key: 'CREATE_TIME',
+      render: (text, record, index) => {
+        return (
+          <span >{this.dateToString(text)}</span>
+        )
+      }
+    }, {
+      title: '链接地址',
+      dataIndex: 'APP_LINK',
+      key: 'APP_LINK'
+    }
+    ]
+  }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
   // 显示‘详情’弹窗
   showDetModal = (record) => {
@@ -259,6 +363,7 @@ class Reject extends Component {
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
+<<<<<<< HEAD
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -268,12 +373,37 @@ class Reject extends Component {
     }, () => {
       this.getTableDatas()
     })
+=======
+    const {tabsValue} = this.state
+    if (tabsValue === 'rj') {
+      this.setState({
+        pagination: {
+          ...this.state.pagination,
+          pageNum: current,
+          pageSize: size
+        }
+      }, () => {
+        this.getTableDatas(this)
+      })
+    } else {
+      this.setState({
+        pagination2: {
+          ...this.state.pagination2,
+          pageNum: current,
+          pageSize: size
+        }
+      }, () => {
+        this.getTableDatas(this)
+      })
+    }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
+<<<<<<< HEAD
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -282,16 +412,52 @@ class Reject extends Component {
     }, () => {
       this.getTableDatas()
     })
+=======
+    const {tabsValue} = this.state
+    if (tabsValue === 'rj') {
+      this.setState({
+        pagination: {
+          ...this.state.pagination,
+          pageNum: page
+        }
+      }, () => {
+        this.getTableDatas(this)
+      })
+    } else {
+      this.setState({
+        pagination2: {
+          ...this.state.pagination2,
+          pageNum: page
+        }
+      }, () => {
+        this.getTableDatas(this)
+      })
+    }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 搜索输入框变化的回调
    */
   inputChange = (e) => {
+<<<<<<< HEAD
     let value = e.target.value
     this.setState({
       keyword: value
     })
+=======
+    const {tabsValue} = this.state
+    let value = e.target.value
+    if (tabsValue === 'rj') {
+      this.setState({
+        keyword: value
+      })
+    } else {
+      this.setState({
+        keyword2: value
+      })
+    }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
@@ -300,13 +466,37 @@ class Reject extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
+<<<<<<< HEAD
     this.getTableDatas()
+=======
+    const {tabsValue} = this.state
+    if (tabsValue === 'rj') {
+      this.setState({
+        pagination: {
+          ...this.state.pagination,
+          pageNum: 1
+        }
+      }, () => {
+        this.getTableDatas(this)
+      })
+    } else {
+      this.setState({
+        pagination2: {
+          ...this.state.pagination2,
+          pageNum: 1
+        }
+      }, () => {
+        this.getTableDatas(this)
+      })
+    }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   componentDidMount () {
     this.getTableDatas()
     this.getSelectOptions()
   }
+<<<<<<< HEAD
 
   render () {
     const { tableData, pagination, detModalCon, options } = this.state
@@ -348,6 +538,84 @@ class Reject extends Component {
           ]}
         />
       </div>
+=======
+  // 改变tabs值
+  changeTabs = (value) => {
+    this.setState({
+      tabsValue: value
+    }, () => {
+      this.getTableDatas(this)
+    })
+  }
+  render () {
+    const { tableData, pagination, detModalCon, options } = this.state
+    return (
+      <Tabs defaultActiveKey='rj' onChange={this.changeTabs}>
+        <TabPane key='rj' tab={<strong>软件应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+            />
+            <BlankBar />
+            <Table
+              columns={this.getColumns()}
+              dataSource={tableData.data}
+              pagination={{
+                ...pagination,
+                total: this.state.tableData.total,
+                onShowSizeChange: this.onShowSizeChange,
+                onChange: this.pageNumChange
+              }}
+              rowKey={(record, index) => {
+                return index
+              }}
+            />
+            <div ref='IterDetailElem' className='Iter-detail-wrap' />
+            <IterationDetailModal
+              title={detModalCon.swName}
+              getContainer={() => this.refs.IterDetailElem}
+              visible={detModalCon.visible}
+              onCancel={this.handleAppDetCancel}
+              resData={detModalCon.resData}
+              getOnShelfTime={this.getOnShelfTime}
+              footer={[
+                <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
+                <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
+                <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
+              ]}
+            />
+          </div>
+        </TabPane>
+        <TabPane key='pt' tab={<strong>平台应用</strong>}>
+          <div className='software-wrap'>
+            <SearchBar
+              onSeachChange={this.inputChange}
+              onSearch={this.getSearchData}
+              onBtnClick={this.getSearchData}
+              onSelectChange={this.onSelect}
+              options={options}
+            />
+            <BlankBar />
+            <Table
+              columns={this.getPlatColumns()}
+              dataSource={this.state.platTableData.data}
+              pagination={{
+                ...pagination2,
+                total: this.state.platTableData.total,
+                onShowSizeChange: this.onShowSizeChange,
+                onChange: this.pageNumChange
+              }}
+              rowKey={(record, index) => {
+                return index
+              }} />
+          </div>
+        </TabPane>
+      </Tabs>
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     )
   }
 }

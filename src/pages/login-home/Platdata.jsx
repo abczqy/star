@@ -10,7 +10,14 @@ import './Platdata.scss'
 import imgTeacher from '../../assets/images/login-home/u888.png'
 import imgStudent from '../../assets/images/login-home/u892.png'
 import imgParent from '../../assets/images/login-home/u896.png'
+<<<<<<< HEAD
 
+=======
+import {axios} from '../../utils'
+import ajaxUrl from 'config'
+
+const { API_BASE_URL_V2 } = ajaxUrl
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 const { Meta } = Card
 
 class Platdata extends React.Component {
@@ -18,7 +25,18 @@ class Platdata extends React.Component {
     super(props)
     this.state = {
       optionUserActivity: {},
+<<<<<<< HEAD
       optionUserUtilization: {}
+=======
+      optionUserUtilization: {},
+      userInfo: {
+        teacher: 0,
+        student: 0,
+        parent: 0,
+        activeProportion: 0,
+        userCount: 0
+      }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
 
@@ -90,7 +108,32 @@ class Platdata extends React.Component {
     }
   }
 
+<<<<<<< HEAD
   componentDidMount () {
+=======
+  getData = () => {
+    axios.get(API_BASE_URL_V2 + '/portal/user-list/number').then(res => {
+      const data = res.data.data
+      if (data) {
+        let userInfo = {}
+        data.roleCount.forEach((item) => {
+          if (item.ROLE_ID === 1) {
+            userInfo.student = item.COUNT || 0
+          } else if (item.ROLE_ID === 2) {
+            userInfo.teacher = item.COUNT || 0
+          } else if (item.ROLE_ID === 5) {
+            userInfo.parent = item.COUNT || 0
+          }
+        })
+        userInfo.activeProportion = data.activeProportion || 0
+        userInfo.userCount = data.userCount || 0
+        this.setState({userInfo})
+      }
+    })
+  }
+  componentDidMount () {
+    this.getData()
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     this.setState({
       optionUserActivity: this.getOption(80, '#4ECB73', '用户活跃度'),
       optionUserUtilization: this.getOption(100, '#3AA0FF', '用户使用率')
@@ -98,6 +141,10 @@ class Platdata extends React.Component {
   }
 
   render () {
+<<<<<<< HEAD
+=======
+    const { userInfo } = this.state
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     return (
       <div className='platdata-container'>
         <Row>
@@ -109,7 +156,11 @@ class Platdata extends React.Component {
                   fontSize: '22px',
                   color: '#3AA0FF'
                 }
+<<<<<<< HEAD
               }>14131912</span>
+=======
+              }>{userInfo.userCount}</span>
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           </Col>
         </Row>
         <Row>
@@ -121,7 +172,11 @@ class Platdata extends React.Component {
             >
               <Meta
                 title='老师'
+<<<<<<< HEAD
                 description='565758'
+=======
+                description={userInfo.teacher}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               />
             </Card>
           </Col>
@@ -133,7 +188,11 @@ class Platdata extends React.Component {
             >
               <Meta
                 title='学生'
+<<<<<<< HEAD
                 description='4577949'
+=======
+                description={userInfo.student}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               />
             </Card>
           </Col>
@@ -145,7 +204,11 @@ class Platdata extends React.Component {
             >
               <Meta
                 title='家长'
+<<<<<<< HEAD
                 description='8975185'
+=======
+                description={userInfo.parent}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               />
             </Card>
           </Col>
@@ -162,7 +225,11 @@ class Platdata extends React.Component {
               <Col span={2} />
               <Col span={20}>
                 用户活跃度：<br />
+<<<<<<< HEAD
                 <Progress percent={80} status='active' />
+=======
+                <Progress percent={userInfo.activeProportion * 100} status='active' />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               </Col>
             </div>
           </div>

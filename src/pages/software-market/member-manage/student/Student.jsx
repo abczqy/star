@@ -18,11 +18,19 @@ import {
   // delStuLoginId,
   stBatchLeadout
 } from 'services/software-manage'
+<<<<<<< HEAD
 import { BlankBar, SearchBarMemberStu } from 'components/software-market'
+=======
+import { SearchBarMemberStu, NewUser } from 'components/software-market'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 // import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+<<<<<<< HEAD
+=======
+import PropTypes from 'prop-types'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -54,7 +62,12 @@ class Student extends Component {
       batchLeadParams: {
         idArrs: []
       },
+<<<<<<< HEAD
       selectList: {}
+=======
+      selectList: {},
+      newVisible: false
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     this.uploadProps = {
       action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
@@ -91,10 +104,22 @@ class Student extends Component {
       dataIndex: 'AUTHORITY_NAME',
       key: 'AUTHORITY_NAME'
     }, {
+<<<<<<< HEAD
+=======
+      title: '状态',
+      dataIndex: 'status'
+    }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       title: '家长',
       dataIndex: 'PARENT_NAME',
       key: 'PARENT_NAME'
     }, {
+<<<<<<< HEAD
+=======
+      title: '家长账号',
+      dataIndex: 'PARENT_LOGIN_NAME'
+    }, {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       title: '允许登录',
       dataIndex: 'LOGIN_PERMISSION_STATUS',
       key: 'LOGIN_PERMISSION_STATUS',
@@ -126,6 +151,18 @@ class Student extends Component {
     }]
     )
   }
+<<<<<<< HEAD
+=======
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: nextProps.AUTHORITY_NAME
+      }, () => {
+        this.search()
+      })
+    }
+  }
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
   cancelUp=(e) => {
     message.error('您打消了删除这一条消息的这个决定。')
@@ -341,11 +378,40 @@ class Student extends Component {
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
+<<<<<<< HEAD
     this.getTableDatas()
   }
 
   render () {
     const { pagination, selectList } = this.state
+=======
+    if (this.props.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: this.props.AUTHORITY_NAME
+      }, () => {
+        this.search()
+      })
+    } else {
+      this.getTableDatas()
+    }
+  }
+  /** 新增老师确认 */
+  onNewOk = () => {
+    this.refs.newUser.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  /** 新增老师弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+  }
+  render () {
+    const { pagination, selectList, AUTHORITY_NAME } = this.state
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     return (
       <div className='software-wrap'>
         <SearchBarMemberStu
@@ -358,8 +424,15 @@ class Student extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
+<<<<<<< HEAD
         />
         <BlankBar />
+=======
+          changeState={this.props.changeState}
+          AUTHORITY_NAME={AUTHORITY_NAME}
+          changeVisible={this.changeVisible}
+        />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         <Table
           columns={this.getColumns()}
           dataSource={this.state.dataSource}
@@ -373,9 +446,25 @@ class Student extends Component {
           //   onChange: this.rowSelectChange
           // }}
         />
+<<<<<<< HEAD
+=======
+        <NewUser onOk={this.onNewOk}
+          changeVisible={this.changeVisible}
+          ref='newUser'
+          visible={this.state.newVisible}
+          type={'学生'}
+        />
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       </div>
     )
   }
 }
+<<<<<<< HEAD
+=======
+Student.propTypes = {
+  changeState: PropTypes.func,
+  AUTHORITY_NAME: PropTypes.string
+}
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
 export default Student

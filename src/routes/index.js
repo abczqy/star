@@ -7,18 +7,32 @@ import {
   Businessing,
   IterationVerify,
   WaitVerify,
+<<<<<<< HEAD
   EducationalServices,
   Manufacturer,
   Parent,
   School,
   Student,
   Teacher,
+=======
+  // EducationalServices,
+  // Manufacturer,
+  // Parent,
+  // School,
+  // Student,
+  // Teacher,
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   NewsListAdd,
   NewsListEdit,
   PublicInfoAdd,
   PublicInfoEdit,
   PublicInfoVerifyDetail,
+<<<<<<< HEAD
   Analysis // v2 - 运营分析
+=======
+  Analysis, // v2 - 运营分析
+  HomeMember
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 } from 'pages/software-market'
 import {
   Reject,
@@ -60,7 +74,11 @@ import {
 import {Logged} from 'components/common/hoc/Logged'
 import AppCount from 'pages/software-market/business-count/AppCount'
 import UserCount from 'pages/software-market/business-count/UserCount'
+<<<<<<< HEAD
 import Tourist from 'pages/software-market/member-manage/tourist/Tourist'
+=======
+// import Tourist from 'pages/software-market/member-manage/tourist/Tourist'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import Messages from 'pages/software-market/software-manage/messages/Messages'
 
 export default {
@@ -120,7 +138,11 @@ export default {
   }, {
     path: '/software-market-home/software-manage/wait-verify',
     component: Logged(WaitVerify)
+<<<<<<< HEAD
   }, {
+=======
+  }, /* {
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     path: '/software-market-home/member-manage/educational-services',
     component: Logged(EducationalServices)
   }, {
@@ -141,6 +163,12 @@ export default {
   }, {
     path: '/software-market-home/member-manage/teacher',
     component: Logged(Teacher)
+<<<<<<< HEAD
+=======
+  }, */{
+    path: '/software-market-home/member-manage/home',
+    component: Logged(HomeMember)
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }, {
     path: '/software-market-home/platform-manage/news-list',
     component: Logged(NewsListManage)

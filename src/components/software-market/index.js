@@ -29,3 +29,11 @@ export { default as SearchBarMemberSch } from './serch-bar-member-sch/SearchBarM
 export { default as SearchBarMemberTeac } from './serch-bar-member-teac/SearchBarMemberTeac'
 export { default as SearchBarMemberEduSer } from './serch-bar-member-edu-ser/SearchBarMemberEduSer'
 export { default as AppPurCombination } from './app-pur-combination/AppPurCombination'// app购买套餐卡片组件
+<<<<<<< HEAD
+=======
+export { default as NewSchool } from './news/new-school/NewSchool'
+export { default as NewFree } from './news/new-free/NewFree'
+export { default as NewAgent } from './news/new-agent/NewAgent'
+export { default as NewManufacturer } from './news/new-manufacturer/NewManufacturer'
+export { default as NewUser } from './news/new-user/NewUser'
+>>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
