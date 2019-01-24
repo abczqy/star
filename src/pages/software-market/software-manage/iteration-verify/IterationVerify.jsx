@@ -73,7 +73,8 @@ class IterationVerify extends Component {
         data: [],
         total: 0
       },
-      tabsValue: 'rj'
+      tabsValue: 'rj',
+      ipValue: ''
     }
   }
 
@@ -759,6 +760,10 @@ class IterationVerify extends Component {
     })
   }
   handleTestResult = () => {
+    if (this.state.ipValue === '') {
+      message.warn('请输入ip')
+      return
+    }
     this.setState({
       platModal: false,
       showResultMadol: true,
@@ -783,5 +788,4 @@ class IterationVerify extends Component {
     })
   }
 }
-
 export default IterationVerify
