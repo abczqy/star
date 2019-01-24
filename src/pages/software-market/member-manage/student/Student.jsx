@@ -381,6 +381,9 @@ class Student extends Component {
     this.setState({
       newVisible: visible
     })
+    if (visible === false) {
+      this.getTableDatas()
+    }
   }
   render () {
     const { pagination, selectList, AUTHORITY_NAME } = this.state
@@ -413,11 +416,10 @@ class Student extends Component {
           //   onChange: this.rowSelectChange
           // }}
         />
-        <NewUser onOk={this.onNewOk}
+        <NewUser
           changeVisible={this.changeVisible}
-          ref='newUser'
           visible={this.state.newVisible}
-          type={'学生'}
+          type={1}
         />
       </div>
     )

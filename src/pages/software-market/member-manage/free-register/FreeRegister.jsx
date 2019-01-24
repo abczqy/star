@@ -2,7 +2,6 @@ import React from 'react'
 import {Input, Button, Table, Switch, Select} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
-import { NewFree } from 'components/software-market'
 import './FreeRegister.scss'
 
 const { API_BASE_URL_V2, SERVICE_PORTAL } = config
@@ -18,8 +17,7 @@ class FreeRegister extends React.Component {
         pageSize: 10
       },
       data: [],
-      total: 0,
-      visible: false
+      total: 0
     }
   }
   componentDidMount () {
@@ -109,21 +107,9 @@ class FreeRegister extends React.Component {
     ]
   }
   handleToLogin = (record) => {}
-  onOk = () => {
-    this.refs.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log(values)
-      }
-    })
-  }
-  changeVisible = (visible) => {
-    this.setState({
-      visible
-    })
-  }
 
   render () {
-    const { data, total, pagination, visible } = this.state
+    const { data, total, pagination } = this.state
     return (
       <div className='free-register'>
         <div className='search-bar-wrap'>
@@ -167,10 +153,6 @@ class FreeRegister extends React.Component {
             onShowSizeChange: this.onShowSizeChange
           }}
         />
-        <NewFree visible={visible}
-          onOk={this.onOk}
-          changeVisible={this.changeVisible}
-          ref='form' />
       </div>
     )
   }

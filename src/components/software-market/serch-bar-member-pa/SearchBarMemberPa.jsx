@@ -73,7 +73,7 @@ class SearchBarMemberPa extends Component {
           <Upload {...uploadProps} style={{display: 'inline-block'}} className='search-bar-btn'>
             <Button type='primary'>批量导入</Button>
           </Upload>
-          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus'>新增家长</Button>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus' onClick={() => this.props.changeVisible(true)}>新增家长</Button>
         </div>
         <div style={{clear: 'both'}} />
       </div>
@@ -90,7 +90,8 @@ SearchBarMemberPa.propTypes = {
   // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
-  uploadProps: PropsTypes.object
+  uploadProps: PropsTypes.object,
+  changeVisible: PropsTypes.func
 }
 
 export default SearchBarMemberPa

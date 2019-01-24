@@ -1,46 +1,123 @@
 import React from 'react'
-import { Modal, Select, Input } from 'antd'
+import { Modal, Input, Form, DatePicker } from 'antd'
 import PropTypes from 'prop-types'
 import './NewAgent.scss'
 
-const Option = Select.Option
+const FormItem = Form.Item
 
 class NewAgent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       name: ''
+      // province: '',
+      // city: '',
+      // region: ''
     }
   }
-  onOk = () => {
-    console.log(this.state.name)
-    this.props.onOk(this.state.name)
-  }
+  // changeProvince = (name, value) => {
+  //   if (name === 'province') {
+  //     this.setState({
+  //       [name]: value,
+  //       city: '',
+  //       region: ''
+  //     })
+  //   } else if (name === 'city') {
+  //     this.setState({
+  //       city: value,
+  //       region: ''
+  //     })
+  //   } else {
+  //     this.setState({
+  //       region: value
+  //     })
+  //   }
+  // }
   render () {
-    const { visible, changeVisible } = this.props
+    const { visible, changeVisible, form, onOk } = this.props
+    const { getFieldDecorator } = form
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 14 }
+      }
+    }
     return (
       <Modal visible={visible}
-        onOk={this.onOk}
+        onOk={onOk}
         onCancel={() => changeVisible(false)}
         destroyOnClose
         centered
-        title='新增代理商'>
-        <div className='new-agent-item'>
-          <span className='title'>代理商名称</span>
-          <Input className='input' onChange={(value) => this.setState({name: value})} />
+        title='新增代理商'
+        width={650}>
+        {/* <div className='new-agent-item'>
+          <span className='label'>代理商名称</span>
+          <Input className='input' onChange={(e) => this.setState({name: e.target.value})} />
         </div>
         <div className='new-agent-item'>
-          <span className='title'>所属区域</span>
-          <Select style={{width: 100, marginRight: 10}} defaultValue={'1'}>
-            <Option value='1'>四川省</Option>
-          </Select>
-          <Select style={{width: 100, marginRight: 10}} defaultValue={'1'}>
-            <Option value='1'>成都市</Option>
-          </Select>
-          <Select style={{width: 100}} defaultValue={'1'}>
-            <Option value='1'>青羊区</Option>
-          </Select>
-        </div>
+          <span className='label'>所属区域</span>
+          <RegionSelect ref='address' width={440} />
+        </div> */}
+        <Form>
+          <FormItem label='代理商名称' {...formItemLayout}>
+            {getFieldDecorator('agentName', {
+              rules: [{required: true, message: '请填写代理商名称'}],
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='学段' {...formItemLayout}>
+            {getFieldDecorator('grade', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='代理区域' {...formItemLayout}>
+            {getFieldDecorator('agentArea', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='地址' {...formItemLayout}>
+            {getFieldDecorator('agentAddress')(<Input />)}
+          </FormItem>
+          <FormItem label='税号' {...formItemLayout}>
+            {getFieldDecorator('agentTaxNum', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='法人' {...formItemLayout}>
+            {getFieldDecorator('juridicalPerson', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='代理网址' {...formItemLayout}>
+            {getFieldDecorator('agentWebsite', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='注册ID' {...formItemLayout}>
+            {getFieldDecorator('companyRegistationId', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='联系邮箱' {...formItemLayout}>
+            {getFieldDecorator('agentRegistationId', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+          <FormItem label='创立时间' {...formItemLayout}>
+            {getFieldDecorator('establishingTime', {
+              initialValue: ''
+            })(<DatePicker />)}
+          </FormItem>
+          <FormItem label='代理简介' {...formItemLayout}>
+            {getFieldDecorator('agentIntroduction', {
+              initialValue: ''
+            })(<Input />)}
+          </FormItem>
+        </Form>
       </Modal>
     )
   }
@@ -49,7 +126,8 @@ class NewAgent extends React.Component {
 NewAgent.propTypes = {
   visible: PropTypes.bool,
   onOk: PropTypes.func,
-  changeVisible: PropTypes.func
+  changeVisible: PropTypes.func,
+  form: PropTypes.object
 }
 
-export default NewAgent
+export default Form.create()(NewAgent)

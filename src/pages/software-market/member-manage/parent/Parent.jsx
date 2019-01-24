@@ -17,7 +17,7 @@ import {
   // initPaPwd,
   // delPaLoginId
 } from 'services/software-manage'
-import { SearchBarMemberPa } from 'components/software-market'
+import { SearchBarMemberPa, NewUser } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
@@ -49,7 +49,8 @@ class Parent extends Component {
       selectList: {},
       dataSource: [],
       total: 0,
-      toLogin: 'all'
+      toLogin: 'all',
+      newVisible: false
     }
     // 与后台沟通，此处导入暂时不做
     this.uploadProps = {
@@ -337,7 +338,15 @@ class Parent extends Component {
   componentDidMount () {
     this.getTableDatas()
   }
-
+  /** 新增家长弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+    if (visible === false) {
+      this.getTableDatas()
+    }
+  }
   render () {
     const { pagination, selectList } = this.state
     return (
@@ -352,6 +361,7 @@ class Parent extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           upload={this.upload}
+          changeVisible={this.changeVisible}
         />
         <Table
           columns={this.getColumns()}
@@ -365,6 +375,11 @@ class Parent extends Component {
           // rowSelection={{
           //   onChange: this.rowSelectChange
           // }}
+        />
+        <NewUser
+          changeVisible={this.changeVisible}
+          visible={this.state.newVisible}
+          type={5}
         />
       </div>
     )

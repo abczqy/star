@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL, API_BASE_URL_V2} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 // +++++++++++++++++++++++++软件市场/个人中心接口+++++++++++++++++++++++++
 
@@ -131,6 +131,14 @@ export function softwareDownloadConst (params, sucFn) {
 export function getAllAppCode (params, sucFn) {
   return axios.get(API_BASE_URL_V2 + '/edu-market/count/company-app', {params})
     .then(function (res) {
+      sucFn(res)
+    })
+}
+/** 修改用户信息
+  */
+export function updateUser (id, params, sucFn) {
+  return axios.put(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-info/updateUserInfo?userId=${params.userId}`, params)
+    .then(res => {
       sucFn(res)
     })
 }

@@ -367,19 +367,14 @@ class Teacher extends Component {
       this.getTableDatas()
     }
   }
-  /** 新增老师确认 */
-  onNewOk = () => {
-    this.refs.newUser.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log(values)
-      }
-    })
-  }
   /** 新增老师弹窗状态修改 */
   changeVisible = (visible) => {
     this.setState({
       newVisible: visible
     })
+    if (visible === false) {
+      this.getTableDatas()
+    }
   }
   render () {
     const { pagination, selectList, AUTHORITY_NAME } = this.state
@@ -413,11 +408,10 @@ class Teacher extends Component {
             return index
           }}
         />
-        <NewUser onOk={this.onNewOk}
+        <NewUser
           changeVisible={this.changeVisible}
-          ref='newUser'
           visible={this.state.newVisible}
-          type={'老师'}
+          type={2}
         />
       </div>
     )

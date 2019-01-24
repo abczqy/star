@@ -24,7 +24,7 @@ import {
   // getEduUpperSelectList,
   // getEduClassSelectList
 } from 'services/software-manage'
-import { SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
+import { SearchBarMemberEduSer, NewEdu } from 'components/software-market' // 目前只有查询的接口，先注释掉
 import {
 // addKey2TableData
 // getSelectList,
@@ -63,7 +63,8 @@ class EducationalServices extends Component {
         idArrs: []
       },
       selectList: {},
-      edu_id: ''
+      edu_id: '',
+      newEduVisible: false
     }
   }
 
@@ -386,6 +387,18 @@ class EducationalServices extends Component {
     // getSelectListWithNoParam(getEduClassSelectList, 'eduClassList', this)
     // this.getChange()
   }
+  changeVisible = (newEduVisible) => {
+    this.setState({
+      newEduVisible
+    })
+  }
+  onOk = () => {
+    this.refs.newEdu.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
 
   render () {
     const { pagination, tableData, selectList } = this.state
@@ -400,6 +413,7 @@ class EducationalServices extends Component {
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
+          changeVisible={this.changeVisible}
         />
         <Table
           columns={this.getColumns()}
@@ -414,6 +428,7 @@ class EducationalServices extends Component {
           //   onChange: this.rowSelectChange
           // }}
         />
+        <NewEdu ref='newEdu' onOk={this.onOk} visible={this.state.newEduVisible} changeVisible={this.changeVisible} />
       </div>
     )
   }

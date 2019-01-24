@@ -96,6 +96,7 @@ class SearchBarMemberEduSer extends Component {
         <div className='search-bar-buttons'>
           <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导出</Button>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} onClick={() => this.props.changeVisible(true)} icon='plus'>新增机构</Button>
         </div>
         <div style={{clear: 'both'}} />
       </div>
@@ -111,7 +112,8 @@ SearchBarMemberEduSer.propTypes = {
   // onSelect3Change: PropsTypes.func,
   // onSelect4Change: PropsTypes.func,
   onSelect5Change: PropsTypes.func,
-  onBtnBatchExport: PropsTypes.func
+  onBtnBatchExport: PropsTypes.func,
+  changeVisible: PropsTypes.func
 }
 
 export default SearchBarMemberEduSer
