@@ -139,6 +139,7 @@ class Reject extends Component {
  */
   getColumns = () => {
     const {tabsType} = this.props
+    console.log(tabsType)
     if (tabsType === 'rj') {
       return [{
         title: '应用名称',

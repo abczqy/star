@@ -9,6 +9,7 @@ import MyAppIterationTable from './MyAppIterationTable'
 import Reject from './reject/Reject'
 import Remove from './remove/Remove'
 import { AppDetailModal } from 'pages/software-market'
+import PlatDetailModal from '../software-market/software-manage/common-pages/plat-detail-modal/PlatDetailModal'
 import { bussDetailv2 } from 'services/software-manage'
 // import './MarketAnalysis.scss'
 
@@ -26,7 +27,10 @@ class MyApp extends Component {
       detail: {
         visible: false
       },
-      tabsType: 'rj'
+      tabsType: 'rj',
+      platDetail: {
+        visible: false
+      }
     }
   }
   changeState () {
@@ -53,7 +57,6 @@ class MyApp extends Component {
    * */
   showDetail = (record) => {
     const thiz = this
-    console.log(record)
     // 获取对应的后台数据
     const params = {
       appId: record.APP_ID,
@@ -73,6 +76,25 @@ class MyApp extends Component {
       })
     })
   }
+  showPlatDetail = (record) => {
+    const _this = this
+    const params = {
+      appId: record.APP_ID,
+      appVersion: record.APP_VERSION
+    }
+    bussDetailv2(params, (res) => {
+      let data = res.data ? res.data : {}
+      _this.setState({
+        platDetail: {
+          ..._this.state.platDetail,
+          APP_NAME: record.APP_NAME,
+          resData: data,
+          APP_ID: record.APP_ID,
+          visible: true
+        }
+      })
+    })
+  }
   /**
    * 取消详情
    * */
@@ -84,6 +106,14 @@ class MyApp extends Component {
       }
     })
   }
+  handlePlatCancel = () => {
+    this.setState({
+      platDetail: {
+        ...this.state.platDetail,
+        visible: false
+      }
+    })
+  }
   // 改变tabs的值
   changeTypeOfTabs = (value) => {
     this.setState({
@@ -91,7 +121,7 @@ class MyApp extends Component {
     })
   }
   render () {
-    const {detail, tabsType} = this.state
+    const {detail, tabsType, platDetail} = this.state
     return (
       <div style={{width: '80%', margin: 'auto', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff', paddingRight: '30px', minHeight: '900px'}}>
         <Tabs defaultActiveKey='rj' onChange={this.changeTypeOfTabs}>
@@ -107,10 +137,10 @@ class MyApp extends Component {
                 <MyAppIterationTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news4 || 0)}>未通过审核</Badge>} key='reject' >
-                <Reject {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <Reject {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news5 || 0)}>应用下架</Badge>} key='remove' >
-                <Remove {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <Remove {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
               </Tabs.TabPane>
             </Tabs>
           </Tabs.TabPane>
@@ -118,19 +148,19 @@ class MyApp extends Component {
             {/* 平台相关的列表 */}
             <Tabs defaultActiveKey='running'>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news1 || 0)}>运营中</Badge>} key='running'>
-                <MyAppOperationTable tabsType={tabsType} getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <MyAppOperationTable tabsType={tabsType} getNewNewsNum={this.getNewNewsNum} {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showPlatDetail} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news2 || 0)}>审核中</Badge>} key='waiting'>
-                <MyAppExamineTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <MyAppExamineTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showPlatDetail} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news3 || 0)}>迭代审核</Badge>} key='cycle'>
-                <MyAppIterationTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <MyAppIterationTable {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showPlatDetail} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news4 || 0)}>未通过审核</Badge>} key='reject'>
-                <Reject {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <Reject {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showPlatDetail} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Badge style={{top: '-18px', right: '-30px'}} count={this.state.newNewsNum && (this.state.newNewsNum.news5 || 0)}>应用下架</Badge>} key='remove'>
-                <Remove {...this.props} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showDetail} />
+                <Remove {...this.props} tabsType={tabsType} state={this.state.changeState} dataSource={this.state.tableDatas} showDetail={this.showPlatDetail} />
               </Tabs.TabPane>
             </Tabs>
           </Tabs.TabPane>
@@ -164,6 +194,18 @@ class MyApp extends Component {
             <Button key='back' type='primary' onClick={this.handleAppDetCancel}>关闭</Button>
           ]}
         />
+        <div className='app-detail-wrap' ref='platDetailElem'>
+          <PlatDetailModal
+            title={platDetail.APP_NAME}
+            getContainer={() => this.refs.platDetailElem}
+            visible={platDetail.visible}
+            resData={platDetail.resData}
+            onCancel={this.handlePlatCancel}
+            footer={[
+              <Button key='back' type='primary' onClick={this.handlePlatCancel}>关闭</Button>
+            ]}
+          />
+        </div>
       </div>
     )
   }

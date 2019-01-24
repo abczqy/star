@@ -646,12 +646,20 @@ class WaitVerify extends Component {
     })
   }
   handleOk = () => {
+    if (this.state.testResult !== true) {
+      message.warn('请测试')
+      return
+    }
     this.setState({
       platModal: false,
       showResultMadol: true
     })
   }
   handleTestResult = () => {
+    if (this.state.ipValue === '') {
+      message.warn('请输入ip')
+      return
+    }
     this.setState({
       platModal: false,
       showResultMadol: true,

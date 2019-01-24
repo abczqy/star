@@ -9,9 +9,10 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Button, message, Modal, Input, Tabs } from 'antd'
+import {Table, Button, message, Modal, Input, Tabs, Row, Col} from 'antd'
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
+import PlatDetailModal from '../common-pages/plat-detail-modal/PlatDetailModal'
 import 'pages/software-market/SoftwareMarket.scss'
 import { getAppListDatav2, bussDetailv2, iterVerifyv2, getApptype, waitVeriRejectv2 } from 'services/software-manage'
 import webStorage from 'webStorage'
@@ -50,6 +51,11 @@ class IterationVerify extends Component {
         APP_NAME: '',
         resData: {}
       },
+      platDetailModalCon: {
+        visible: false,
+        APP_NAME: '',
+        resDate: []
+      },
       sw_type: '', // 软件类型
       sw_name: '',
       sw_time: '', // 期望上架时间
@@ -67,7 +73,8 @@ class IterationVerify extends Component {
         data: [],
         total: 0
       },
-      tabsValue: 'rj'
+      tabsValue: 'rj',
+      ipValue: ''
     }
   }
 
@@ -281,7 +288,7 @@ class IterationVerify extends Component {
       dataIndex: 'options',
       render: (text, record, index) => (
         <span>
-          <a>审核</a>
+          <a href='javascript:void(0)' onClick={() => { this.showPlatDetailModal(record) }}>审核</a>
         </span>
       )
     }]
@@ -316,7 +323,39 @@ class IterationVerify extends Component {
       })
     })
   }
-
+  showPlatDetailModal = (record) => {
+    const _this = this
+    console.log(record)
+    const params = {
+      appId: record.APP_ID,
+      appVersion: record.APP_VERSION
+    }
+    console.log(params)
+    bussDetailv2(params, (res) => {
+      const resData = res.data ? res.data : {}
+      console.log(resData)
+      _this.setState({
+        platDetailModalCon: {
+          ..._this.state.platDetailModalCon,
+          visible: true,
+          APP_NAME: record.APP_NAME,
+          CURRENT_VERSION: record.CURRENT_VERSION,
+          APP_VERSION: record.APP_VERSION,
+          resData: resData,
+          APP_ID: record.APP_ID
+        },
+        record: record
+      })
+    })
+  }
+  handlePlatCancle = () => {
+    this.setState({
+      platDetailModalCon: {
+        ...this.state.platDetailModalCon,
+        visible: false
+      }
+    })
+  }
   // 关闭‘详情’弹窗
   handleAppDetCancel = () => {
     this.setState({
@@ -554,7 +593,7 @@ class IterationVerify extends Component {
     })
   }
   render () {
-    const { tableData, pagination, detModalCon, options } = this.state
+    const { tableData, pagination, detModalCon, options, platDetailModalCon } = this.state
     return (
       <Tabs defaultActiveKey='rj' onChange={this.changeTabs}>
         <TabPane key='rj' tab={<strong>软件应用</strong>}>
@@ -626,11 +665,127 @@ class IterationVerify extends Component {
               rowKey={(record, index) => {
                 return index
               }} />
+            <div className='Iter-detail-wrap' ref='platDetailElem'>
+              <PlatDetailModal
+                title={platDetailModalCon.APP_NAME}
+                getContainer={() => this.refs.platDetailElem}
+                visible={platDetailModalCon.visible}
+                onCancel={this.handlePlatCancle}
+                resData={platDetailModalCon.resData}
+                footer={[
+                  <Button key='agree' type='primary' onClick={() => this.showplatModals(this.state.record)}>测试</Button>,
+                  <Button key='back' onClick={this.handlePlatCancle}>关闭</Button>
+                ]}
+              />
+            </div>
           </div>
+          <Modal
+            visible={this.state.platModal}
+            onCancel={this.handleCancle}
+            onOk={this.handleOk}
+            title='请输入ip地址'
+          >
+            <Row>
+              <Col span={8}><Input onChange={this.handleGetValue} value={this.state.ipValue} placeholder='请填写ip地址' /></Col>
+              <Col span={6}>
+                <span className='spanStype'>{this.state.record ? this.state.record.TEST_URL : ''}</span>
+              </Col>
+              <Col span={6}>
+                <Button type='primary' onClick={this.handleTestResult}>测试</Button>
+              </Col>
+            </Row>
+          </Modal>
+          <Modal
+            visible={this.state.showResultMadol}
+            onOk={this.handleResultOk}
+            onCancel={this.handleResultCancle}
+            title='测试结果'
+          >
+            {
+              this.state.testResult === true ? <span>{this.state.ipValue}{this.state.record.INDEX_URL}测试通过</span> : <span>测试失败</span>
+            }
+          </Modal>
         </TabPane>
       </Tabs>
     )
   }
+  handleGetValue = (e) => {
+    const {value} = e.target
+    this.setState({
+      ipValue: value
+    })
+  }
+  handleResultOk = () => {
+    const {testResult} = this.state
+    if (testResult === true) {
+      let paramsList = []
+      const params = {
+        'appId': this.state.record.APP_ID,
+        'appVersion': this.state.record.APP_VERSION,
+        'appLink': this.state.ipValue + this.state.record.INDEX_URL
+      }
+      console.log(this.state.record)
+      paramsList.push(params)
+      const params1 = {
+        userId: webStorage.getItem('STAR_V2_USERID')
+      }
+      console.log(params)
+      console.log(params1)
+      iterVerifyv2(paramsList, params1, (res) => {
+        const data = res.data
+        if (data.code === 200) {
+          message.success('审核成功')
+        } else {
+          message.warn('审核失败')
+        }
+        this.setState({
+          ipValue: ''
+        })
+        this.getTableDatas()
+      })
+    }
+    this.handlePlatCancle()
+    this.setState({
+      showResultMadol: false
+    })
+  }
+  handleOk = () => {
+    if (this.state.testResult !== true) {
+      message.warn('请测试')
+      return
+    }
+    this.setState({
+      platModal: false,
+      showResultMadol: true
+    })
+  }
+  handleTestResult = () => {
+    if (this.state.ipValue === '') {
+      message.warn('请输入ip')
+      return
+    }
+    this.setState({
+      platModal: false,
+      showResultMadol: true,
+      testResult: true
+    })
+  }
+  handleResultCancle = () => {
+    this.setState({
+      showResultMadol: false
+    })
+    this.handlePlatCancle()
+  }
+  handleCancle = () => {
+    this.setState({
+      platModal: false
+    })
+  }
+  showplatModals = (record) => {
+    this.setState({
+      platModal: true,
+      record: record
+    })
+  }
 }
-
 export default IterationVerify
