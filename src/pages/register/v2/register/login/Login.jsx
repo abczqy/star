@@ -109,20 +109,12 @@ class Login extends Component {
                         }
                       } else {
                         /** 登录失败 */
-<<<<<<< HEAD
-                        message.error('登录失败')
-=======
                         message.error(response.data.msg)
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                       }
                     })
                   } else {
                     /** 登录失败 */
-<<<<<<< HEAD
-                    message.error('登录失败')
-=======
                     message.error(response.data.msg)
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                   }
                 })
               }
@@ -214,11 +206,7 @@ class Login extends Component {
       <Layout className='log-content'>
         <Content>
           <div>
-<<<<<<< HEAD
-            <Row>
-=======
             <Row style={{background: '#fff'}}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               <Col span={14}>
                 <img src={require('../../../../../assets/images/login-home/log_1.jpg')} className='wid-100' />
               </Col>
@@ -288,11 +276,7 @@ class Login extends Component {
             </Row>
           </div>
         </Content>
-<<<<<<< HEAD
-        <Footer className='content'>
-=======
         <Footer style={{background: '#fff'}} className='content'>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           <div className='div-foot-span'>
             <p>福建省教育厅主办 技术运营支持： 福建省星云大数据应用服务有限公司</p>
             <p>Copyright©2016 www.fjedu.cn All rights reserved     闽ICP备17018531号-2</p>
