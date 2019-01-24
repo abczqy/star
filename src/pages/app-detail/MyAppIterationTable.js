@@ -71,8 +71,6 @@ class MyAppIterationTable extends Component {
         )
       }
     }]
-<<<<<<< HEAD
-=======
     this.platColumns = [
       {
         title: '应用名称',
@@ -118,7 +116,6 @@ class MyAppIterationTable extends Component {
         }
       }
     ]
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
   componentDidMount () {
     this.props.form.validateFields()
@@ -127,13 +124,6 @@ class MyAppIterationTable extends Component {
   }
   // 我的应用-迭代审核
   getMyAppInOperationData = () => {
-<<<<<<< HEAD
-    let params = {
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
-      typeId: this.state.sw_type,
-      auditStatus: 2
-=======
     const {tabsType} = this.state
     let params
     if (tabsType === 'rj') {
@@ -152,7 +142,6 @@ class MyAppIterationTable extends Component {
         auditStatus: 2,
         platformType: 'pt'
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     if (this.state.sw_name !== '') {
       params.keyword = this.state.sw_name
@@ -227,10 +216,7 @@ class MyAppIterationTable extends Component {
   }
   render () {
     const { getFieldDecorator } = this.props.form
-<<<<<<< HEAD
-=======
     const {tabsType} = this.props
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     const formItemLayout = {
       labelCol: {
         span: 6
@@ -274,23 +260,9 @@ class MyAppIterationTable extends Component {
           </Row>
         </Form>
         <div className='marketAnalysis-table'>
-<<<<<<< HEAD
-          {/* <Table
-          className='data-table'
-          rowKey='index'
-          columns={this.columns}
-          dataSource={this.props.dataSource}
-          pagination={false}
-        /> */}
-
-          <CustomPagingTable
-            dataSource={this.state.myAppInOperationData}
-            columns={this.columns}
-=======
           <CustomPagingTable
             dataSource={this.state.myAppInOperationData}
             columns={tabsType === 'rj' ? this.columns : this.platColumns}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             pageVisible
             //   loading={this.state.loading}
             total={this.state.total}
@@ -310,12 +282,8 @@ class MyAppIterationTable extends Component {
 MyAppIterationTable.propTypes = {
   dataSource: PropTypes.array,
   form: PropTypes.object,
-<<<<<<< HEAD
-  showDetail: PropTypes.func
-=======
   showDetail: PropTypes.func,
   tabsType: PropTypes.string
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default Form.create()(MyAppIterationTable)

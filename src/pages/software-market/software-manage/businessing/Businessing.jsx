@@ -11,11 +11,7 @@
  */
 import React, { Component } from 'react'
 import moment from 'moment'
-<<<<<<< HEAD
-import { Table, Divider, Button, message, Modal } from 'antd'
-=======
 import { Table, Divider, Button, message, Modal, Tabs } from 'antd'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { axios } from 'utils'
 import config from '../../../../config'
 import { BlankBar, SearchBar } from 'components/software-market'
@@ -23,24 +19,15 @@ import {
   // AppStandOffModal,
   AppDetailModal
 } from 'pages/software-market'
-<<<<<<< HEAD
-import 'pages/software-market/SoftwareMarket.scss'
-import BusiRenewWin from './BusiRenewWin'
-=======
 import PlatDetailModal from '../common-pages/plat-detail-modal/PlatDetailModal'
 import 'pages/software-market/SoftwareMarket.scss'
 import BusiRenewWin from './BusiRenewWin'
 import webStorage from 'webStorage'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { bussDetailv2, undercarriagev2, stick, getApptype, getRenewDetail } from 'services/software-manage'
 
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
 const SERVICE_EDU_MARKET = config.SERVICE_EDU_MARKET
-<<<<<<< HEAD
-
-=======
 const TabPane = Tabs.TabPane
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 /**
    * 表格分页器设置-默认值
    */
@@ -50,9 +37,6 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
-<<<<<<< HEAD
-
-=======
 // 平台应用分页器
 const pagination2 = {
   pageNum: 1,
@@ -60,7 +44,6 @@ const pagination2 = {
   showQuickJumper: true,
   showSizeChanger: true
 }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 class Businessing extends Component {
   constructor (props) {
     super(props)
@@ -69,16 +52,12 @@ class Businessing extends Component {
         data: [],
         total: 0
       },
-<<<<<<< HEAD
-      pagination,
-=======
       platTableData: {
         data: [],
         total: 0
       },
       pagination,
       pagination2,
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       searchValue: '', // 应用名称
       type: '', // 类型
       appOffModalCon: {
@@ -86,28 +65,17 @@ class Businessing extends Component {
         swName: '',
         swId: ''
       },
-<<<<<<< HEAD
-=======
       platOffModalCon: {
         visible: false,
         APPName: '',
         APPId: ''
       },
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       busiRenewWinVisible: false, // 续费弹窗
       busiRenewRecord: null, // 当前选择行的值
       appDetailModalCon: {
         visible: false,
         APP_NAME: ''
       },
-<<<<<<< HEAD
-      veriCode: '', // 验证码
-      auditStatus: 4, // 软件状态4上架
-      typeId: '', // 暂时101，后期接口改完可以空
-      downloadCount: 'desc', // 下载量排行
-      keyword: '',
-      options: ['全部', '教育类', '教辅类'] // 应用类型下拉框options数组
-=======
       platDetailModalCon: {
         visible: false,
         APP_NAME: ''
@@ -121,7 +89,6 @@ class Businessing extends Component {
       keyword2: '',
       options: ['全部', '教育类', '教辅类'], // 应用类型下拉框options数组
       tabsValue: 'rj'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     // 表格的列信息
     this.columns = [{
@@ -160,10 +127,6 @@ class Businessing extends Component {
         </span>
       )
     }]
-<<<<<<< HEAD
-  }
-
-=======
     this.platColunms = [{
       title: '应用名称',
       dataIndex: 'APP_NAME',
@@ -202,7 +165,6 @@ class Businessing extends Component {
     }
     ]
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   /**
    * 请求表格参数
    * @returns {{pageNum: number, pageSize: number, sw_type: string, sw_name: string}}
@@ -224,14 +186,6 @@ class Businessing extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = (thiz) => {
-<<<<<<< HEAD
-    let params = {
-      auditStatus: '4', // 审核状态
-      keyword: this.state.keyword || '', // 应用名称,
-      pageNum: this.state.pagination.pageNum || 1,
-      pageSize: this.state.pagination.pageSize || 10,
-      typeId: this.state.typeId || 0
-=======
     const {tabsValue} = this.state
     let params
     if (tabsValue === 'rj') {
@@ -252,22 +206,12 @@ class Businessing extends Component {
         typeId: this.state.typeId2 || 0,
         platformType: 'pt'
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
       .then(function (res) {
         if (res.data.code === 200) {
           const data = res.data
           console.log(`data:`, data)
-<<<<<<< HEAD
-          data.data &&
-          thiz.setState({
-            tableData: {
-              data: data.data.data.slice(),
-              total: data.data.totalCount
-            }
-          })
-=======
           if (tabsValue === 'rj') {
             data.data &&
             thiz.setState({
@@ -284,7 +228,6 @@ class Businessing extends Component {
               }
             })
           }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         } else {
           message.warning(res.data.msg || '请求出错')
         }
@@ -339,9 +282,6 @@ class Businessing extends Component {
       })
     })
   }
-<<<<<<< HEAD
-
-=======
   // 平台应用详情
   showPlatDetailModal = (record) => {
     const thiz = this
@@ -363,7 +303,6 @@ class Businessing extends Component {
       })
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   // 关闭‘详情’弹窗
   handleAppDetCancel = () => {
     this.setState({
@@ -373,8 +312,6 @@ class Businessing extends Component {
       }
     })
   }
-<<<<<<< HEAD
-=======
   handlePlatClose = () => {
     this.setState({
       platDetailModalCon: {
@@ -383,7 +320,6 @@ class Businessing extends Component {
       }
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   // 显示下架弹窗
   showAppOffStandModal = (record) => {
     // 把记录的值映射到state上
@@ -396,8 +332,6 @@ class Businessing extends Component {
       }
     })
   }
-<<<<<<< HEAD
-=======
   // 显示平台应用弹窗
   showPlatModal = (record) => {
     this.setState({
@@ -409,7 +343,6 @@ class Businessing extends Component {
       }
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
   // 关闭弹窗
   closeModal = () => {
@@ -420,9 +353,6 @@ class Businessing extends Component {
       }
     })
   }
-<<<<<<< HEAD
-
-=======
   // 关闭平台弹窗
   closePlatModal = () => {
     this.setState({
@@ -432,15 +362,10 @@ class Businessing extends Component {
       }
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   // 弹窗取消
   handleCancel = () => {
     this.closeModal()
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   // 置顶操作
   handleStick (record) {
     const thiz = this
@@ -492,13 +417,8 @@ class Businessing extends Component {
     })
     const thiz = this
     const params = {
-<<<<<<< HEAD
-      applyType: 5, // applyType 5为下架
-      userId: 1
-=======
       applyType: 0, // applyType 5为下架
       userId: webStorage.getItem('STAR_V2_USERID')
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     const params1 = appIdList // 传应用ID格式后台需要[1,2]这种，这里传[i]
     undercarriagev2(params, params1, (res) => {
@@ -508,9 +428,6 @@ class Businessing extends Component {
       thiz.getTableDatas(thiz)
     })
   }
-<<<<<<< HEAD
-
-=======
   // 下架平台应用
   handleRemovePlat = () => {
     // 下架申请
@@ -535,17 +452,10 @@ class Businessing extends Component {
       thiz.getTableDatas(thiz)
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   /**
    * 当select的值变化时回调
    */
   onSelect = (val) => {
-<<<<<<< HEAD
-    // 需要以val为参数向后台请求表格数据并刷新
-    this.setState({
-      typeId: val
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       // 需要以val为参数向后台请求表格数据并刷新
@@ -557,24 +467,12 @@ class Businessing extends Component {
         typeId2: val
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: current,
-        pageSize: size
-      }
-    }, () => {
-      this.getTableDatas(this)
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -597,23 +495,12 @@ class Businessing extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      }
-    }, () => {
-      this.getTableDatas(this)
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -634,7 +521,6 @@ class Businessing extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
@@ -643,16 +529,6 @@ class Businessing extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-<<<<<<< HEAD
-    this.getTableDatas(this)
-  }
-
-  inputChange = (e) => {
-    let value = e.target.value
-    this.setState({
-      keyword: value
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -687,7 +563,6 @@ class Businessing extends Component {
         keyword2: value
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   // 应用类型下拉框数据获取
@@ -745,35 +620,6 @@ class Businessing extends Component {
     this.getTableDatas(this)
     this.getSelectOptions()
   }
-<<<<<<< HEAD
-
-  render () {
-    const { tableData, pagination, appOffModalCon, appDetailModalCon, options } = this.state
-    return (
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-        />
-        <BlankBar />
-        <Table
-          columns={this.columns}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        {/* {appOffModalCon.visible ? <AppStandOffModal
-=======
   // 改变tabs值
   changeTabs = (value) => {
     this.setState({
@@ -810,7 +656,6 @@ class Businessing extends Component {
               }}
             />
             {/* {appOffModalCon.visible ? <AppStandOffModal
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           visible={appOffModalCon.visible}
           getVeriCode={this.getVeriCode}
           getVeriStatus={this.getVeriStatus}
@@ -822,29 +667,6 @@ class Businessing extends Component {
           ]}
           swName={appOffModalCon.swName}
         /> : null} */}
-<<<<<<< HEAD
-        <Modal
-          title='确认框'
-          visible={appOffModalCon.visible}
-          onOk={this.handleRemove}
-          onCancel={this.handleCancel}
-        >
-          <span>您是否确认下架软件，此操作不可逆转！</span>
-        </Modal>
-        <BusiRenewWin record={this.state.busiRenewRecord || {}} visible={this.state.busiRenewWinVisible} handleClose={() => { this.handleCloseBusiRenewWin() }} />
-        <div ref='appDetailElem' className='app-detail-wrap' />
-        <AppDetailModal
-          title={appDetailModalCon.APP_NAME}
-          getContainer={() => this.refs.appDetailElem}
-          visible={appDetailModalCon.visible}
-          onCancel={this.handleAppDetCancel}
-          resData={appDetailModalCon.resData}
-          footer={[
-            <Button key='back' type='primary' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-      </div>
-=======
             {/* 软件下架 */}
             <Modal
               title='确认框'
@@ -914,7 +736,6 @@ class Businessing extends Component {
           </div>
         </TabPane>
       </Tabs>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     )
   }
 }

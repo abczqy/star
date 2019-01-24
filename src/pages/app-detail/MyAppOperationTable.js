@@ -92,17 +92,6 @@ class MyAppTable extends Component {
         )
       }
     }]
-<<<<<<< HEAD
-  }
-  // 我的应用-运营中
-  getMyAppInOperationData = (thiz) => {
-    let params = {
-      auditStatus: '4', // 审核状态
-      keyword: this.state.keyword || '', // 应用名称,
-      pageNum: this.state.pageNum || 1,
-      pageSize: this.state.pageSize || 15,
-      typeId: this.state.typeId || 0
-=======
     this.platColumns = [{
       title: '应用名称',
       dataIndex: 'APP_NAME'
@@ -167,7 +156,6 @@ class MyAppTable extends Component {
         typeId: this.state.typeId || 0,
         platformType: 'pt'
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
     axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/manage-app/list-by-audit-status', {params: params})
       .then(function (res) {
@@ -264,10 +252,7 @@ class MyAppTable extends Component {
   }
   render () {
     const { getFieldDecorator } = this.props.form
-<<<<<<< HEAD
-=======
     const {tabsType} = this.props
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     const formItemLayout = {
       labelCol: {
         span: 6
@@ -319,23 +304,9 @@ class MyAppTable extends Component {
           </Row>
         </Form>
         <div className='marketAnalysis-table'>
-<<<<<<< HEAD
-          {/* <Table
-          className='data-table'
-          rowKey='index'
-          columns={this.columns}
-          dataSource={this.props.dataSource}
-          pagination={false}
-        /> */}
-
-          <CustomPagingTable
-            dataSource={this.state.myAppInOperationData}
-            columns={this.columns}
-=======
           <CustomPagingTable
             dataSource={this.state.myAppInOperationData}
             columns={tabsType === 'rj' ? this.columns : this.platColumns}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             pageVisible
             //   loading={this.state.loading}
             total={this.state.total}
@@ -379,12 +350,8 @@ MyAppTable.propTypes = {
   dataSource: PropTypes.array,
   form: PropTypes.object,
   getNewNewsNum: PropTypes.func,
-<<<<<<< HEAD
-  showDetail: PropTypes.func
-=======
   showDetail: PropTypes.func,
   tabsType: PropTypes.string
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default Form.create()(MyAppTable)

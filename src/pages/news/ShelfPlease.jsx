@@ -89,11 +89,6 @@ class ShelfPlease extends React.Component {
       fileListFive: [], // 用来存软件版权的文件id
       fileListFinVour: [], // 用来存财务审核凭证的文件id
       fileListContract: [], // 用来存财务审核凭证的文件id
-<<<<<<< HEAD
-      relationNumBlur: false,
-      idNumBlur: false,
-      formDataPre1: '', // 预览数据
-=======
       platformVersionList: [], // 用来存储应用平台的文件id
       platformIconList: [], // 用来存储应用平台的iconid
       platformIconUrl: [], // 用来展示的图片utl
@@ -104,7 +99,6 @@ class ShelfPlease extends React.Component {
       idNumBlur: false,
       formDataPre1: '', // 预览数据
       formDataPre2: '', // 平台预览数据
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       appName: '', // 软件名称 -- v2
       appType: '', // 软件类型
       appTypeName: '', // 软件类型名称
@@ -129,17 +123,6 @@ class ShelfPlease extends React.Component {
       imgUrl: '',
       platform: {
         name: '', // 应用名称
-<<<<<<< HEAD
-        typeId: '', // 类型
-        typeName: '', // 类型名称
-        description: '', // 应用描述
-        special: '', // 新版特性
-        urlAddress: '', // 链接地址
-        urlTest: '' // 链接测试结果
-      }
-    }
-  }
-=======
         typeId: '101', // 类型
         typeName: '教学类', // 类型名称
         description: '', // 应用描述
@@ -166,7 +149,6 @@ class ShelfPlease extends React.Component {
     this.getRodom(2)
   }
 
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   hiddenModal () {
     this.setState({
       previewApp: false
@@ -371,36 +353,6 @@ class ShelfPlease extends React.Component {
 
   // 预览表单
   handlePreview () {
-<<<<<<< HEAD
-    const thiz = this
-    console.log(this.state)
-    let formDataPre = new FormData()
-    formDataPre.append('appName', this.state.appName || '')// 软件名称*
-    formDataPre.append('appType', this.state.appTypeName || '')// 软件类型*
-    formDataPre.append('sw_icon', this.state.imgUrl.thumbUrl || '')// 软件图标*
-    // 查看详情
-    formDataPre.append('appInfo', JSON.stringify(this.state.versions))
-    // formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
-    // formDataPre.append('detailSize', this.state.fileListDetailSize || [])// 软件大小*
-    // formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
-    // formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
-    formDataPre.append('detailAuth', this.state.rights || [])// 权限详情*
-    this.state.fileListPhone.forEach((file) => { // 手机展示
-      formDataPre.append('phonePhoto', file)
-    })
-    formDataPre.append('appDesc', this.state.appDesc || '')// 应用介绍*
-    formDataPre.append('feature', this.state.feature || '')// 新版特性*
-
-    // this.getPicUrl(function (state) {
-    //   // console.log(' 图片； ', thiz.state.fileListIconUrl)
-    //   thiz.setState({
-    //     formDataPre1: formDataPre,
-    //     previewApp: true
-    //   })
-    // })
-    thiz.setState({
-      formDataPre1: formDataPre,
-=======
     // 上架的类型 1 软件 2 平台
     const type = this.state.uploadType
     const thiz = this
@@ -429,7 +381,6 @@ class ShelfPlease extends React.Component {
     thiz.setState({
       formDataPre1: formDataPre,
       formDataPre2: platformPre,
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       previewApp: true
     })
     // this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
@@ -585,11 +536,7 @@ class ShelfPlease extends React.Component {
           <span style={{color: 'red'}}>* </span>
           软件版本：
         </Col>
-<<<<<<< HEAD
-        <Col span={3}>
-=======
         <Col span={4}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           <Select
             style={{ width: 150 }}
             placeholder='请选择安装包版本'
@@ -615,11 +562,7 @@ class ShelfPlease extends React.Component {
             <div className='extend'>支持扩展名：.exe..</div>
           </Upload>
         </Col>
-<<<<<<< HEAD
-        <Col span={2} style={{width: '6%', lineHeight: '32px'}}>
-=======
         <Col span={1} style={{width: '6%', lineHeight: '32px'}}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           {this.state.versions[index].versionSize}
         </Col>
         <Col span={4}>
@@ -629,11 +572,7 @@ class ShelfPlease extends React.Component {
             value={this.state.versions[index].appVersion}
             onChange={(e) => this.onVerNumChange(e, index)} />
         </Col>
-<<<<<<< HEAD
-        <Col span={4}>
-=======
         <Col span={5}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           <span style={{color: 'red'}}>* </span>包名 :
           <Input
             style={{ width: 160 }}
@@ -656,10 +595,7 @@ class ShelfPlease extends React.Component {
    */
   uploadAppIcon = (thiz, callBack) => {
     if (thiz.state.appIcon) {
-<<<<<<< HEAD
-=======
       console.log(this.state.appIcon)
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       getUpload('pic', this.state.appIcon, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
@@ -806,19 +742,6 @@ class ShelfPlease extends React.Component {
    * 提交数据
    */
   onSubmit = (thiz) => {
-<<<<<<< HEAD
-    // appIcon上传
-    thiz.uploadAppIcon(thiz, () => {
-      // pcIcons上传结束
-      thiz.uploadPcPics(thiz, () => {
-        // PhonePics上传
-        this.uploadPhonePics(thiz, () => {
-          // 提交整个表单
-          thiz.getSubmit(thiz)
-        })
-      })
-    })
-=======
     console.log(thiz)
     const {uploadType} = this.state
     if (uploadType === '1') {
@@ -940,7 +863,6 @@ class ShelfPlease extends React.Component {
           message.warning(res.data.msg || '提交失败')
         }
       })
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
   /** 平台名称 **/
   changePlatformName = (e) => {
@@ -969,15 +891,6 @@ class ShelfPlease extends React.Component {
       ...platform
     })
   }
-<<<<<<< HEAD
-  /** 链接地址 */
-  changePlatformUrl = (e) => {
-    const {value} = e.target
-    const {platform} = this.state
-    platform.urlAddress = value
-    this.setState({
-      ...platform
-=======
   /** 安装说明 */
   changePlatformInstall = (e) => {
     const {value} = e.target
@@ -1007,7 +920,6 @@ class ShelfPlease extends React.Component {
       ...platform
     }, () => {
       // console.log(platform)
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     })
   }
   /** 平台应用类型选择 **/
@@ -1019,8 +931,6 @@ class ShelfPlease extends React.Component {
       ...platform
     })
   }
-<<<<<<< HEAD
-=======
   /** 切换上架的种类 1 软件 2 平台 **/
   changeTabs = (value) => {
     this.setState({
@@ -1029,7 +939,6 @@ class ShelfPlease extends React.Component {
       console.log(this.state.uploadType)
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   render () {
     const {platform} = this.state
     // 需要改
@@ -1075,11 +984,7 @@ class ShelfPlease extends React.Component {
       },
       onChange: ({fileList}) => {
         this.setState({
-<<<<<<< HEAD
-          imgUrl: fileList[0]
-=======
           imgUrl: fileList.slice(-1)
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         })
       },
       fileListIconUrl: this.state.fileListIconUrl,
@@ -1279,11 +1184,7 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='top'>
         <Col span={2} offset={1}>软件图标 :</Col>
         <Col span={9} id='iconDiv'>
-<<<<<<< HEAD
-          <Upload {...appIconProps}>
-=======
           <Upload {...appIconProps} fileList={this.state.imgUrl}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             <Button>
               <Icon type='upload' /> 上传文件
             </Button>
@@ -1460,8 +1361,6 @@ class ShelfPlease extends React.Component {
       </Row>
       <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
     </Row>
-<<<<<<< HEAD
-=======
     // 应用版本上传
     const propsPlatformVersion = {
       onRemove: (file) => {
@@ -1551,7 +1450,6 @@ class ShelfPlease extends React.Component {
       platformPCImgList: this.state.platformPCImgList,
       accept: '.png,.jpeg,.jpg'
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     // 应用相关
     const aboutPlatform = <Row>
       <Row className='Wxd' type='flex' align='middle'>
@@ -1566,8 +1464,6 @@ class ShelfPlease extends React.Component {
           </Select>
         </Col>
       </Row>
-<<<<<<< HEAD
-=======
       {/* 后期接入后台接口 */}
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}>应用ID</Col>
@@ -1577,7 +1473,6 @@ class ShelfPlease extends React.Component {
         <Col span={2} offset={3}>TOKEN</Col>
         <Col span={7}>{this.state.RandomToken}</Col>
       </Row>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{display: 'inline-block', height: '50px'}}><span style={{color: 'red'}}>* </span>应用描述 : </span></Col>
         <Col span={20}>
@@ -1590,18 +1485,6 @@ class ShelfPlease extends React.Component {
           <TextArea placeholder='请输入新版特性' style={{ width: 880 }} onChange={this.changePlatfromSpecial} value={platform.special} />
         </Col>
       </Row>
-<<<<<<< HEAD
-      <Row className='Wxd' type='felx' algin='middle'>
-        <Col span={3} offset={1}><span style={{color: 'red'}}>*</span>平台应用链接地址：</Col>
-        <Col span={7}>
-          <Input placeholder='请输入链接' onChange={this.changePlatformUrl} value={platform.urlAddress} />
-        </Col>
-        <Col span={4} offset={1}>
-          <Button type='primary'>测试链接</Button>
-        </Col>
-        <Col span={4}>
-          <span>{platform.urlTest}</span>
-=======
       <Row className='Wxd' type='flex' algin='middle'>
         <Col span={2} offset={1}>
           <span style={{color: 'red'}}>*</span>
@@ -1716,7 +1599,6 @@ class ShelfPlease extends React.Component {
             </Button>
             <span className='extend'>支持扩展名: .png, .jpg ...</span>
           </Upload>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         </Col>
       </Row>
     </Row>
@@ -1757,13 +1639,8 @@ class ShelfPlease extends React.Component {
     return (
       <div className='tab-wrapper'>
         <div style={{margin: '20px'}}><strong>上架申请</strong></div>
-<<<<<<< HEAD
-        <Tabs tabBarStyle={{border: 'none', background: '#fff'}} defaultActiveKey='01'>
-          <TabPane key='01' tab={<strong>软件应用</strong>}>
-=======
         <Tabs onChange={this.changeTabs} tabBarStyle={{border: 'none', background: '#fff'}} defaultActiveKey='1'>
           <TabPane key='1' tab={<strong>软件应用</strong>}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             <Card className='main-card' style={{margin: '0 auto', width: '100%', minHeight: '540px', border: 'none'}}>
               <div >
                 {/* 修改厂商合同编号 */}
@@ -1771,11 +1648,6 @@ class ShelfPlease extends React.Component {
                   visible={this.state.previewApp}
                   hiddenModal={this.hiddenModal.bind(this, 'previewApp')}
                   dataPre={this.state.formDataPre1}
-<<<<<<< HEAD
-                  dataPc={this.state.fileListPCURL}
-                  dataPhone={this.state.fileListPhoneUrl}
-                  dataIcon={this.state.fileListIconUrl}
-=======
                   dataPlatPre={this.state.formDataPre2}
                   dataPc={this.state.fileListPCURL}
                   dataPhone={this.state.fileListPhoneUrl}
@@ -1783,7 +1655,6 @@ class ShelfPlease extends React.Component {
                   dataPlatIcon={this.state.platformIconUrl}
                   dataUploadType={this.state.uploadType}
                   dataPlatPCUrl={this.state.platformPCImgUrl}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                 /> : null}
                 <div>
                   <Tabs defaultActiveKey='软件相关' tabBarExtraContent={extraBtn} >
@@ -1793,11 +1664,7 @@ class ShelfPlease extends React.Component {
               </div>
             </Card>
           </TabPane>
-<<<<<<< HEAD
-          <TabPane key='02' tab={<strong>平台应用</strong>}>
-=======
           <TabPane key='2' tab={<strong>平台应用</strong>}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             <div>
               <Tabs defaultActiveKey='应用相关' tabBarExtraContent={extraBtn}>
                 {
@@ -1812,8 +1679,6 @@ class ShelfPlease extends React.Component {
       </div>
     )
   }
-<<<<<<< HEAD
-=======
   // 生成随机的id和token
   getRodom = (n) => {
     let chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -1833,7 +1698,6 @@ class ShelfPlease extends React.Component {
       })
     }
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default withRouter(ShelfPlease)

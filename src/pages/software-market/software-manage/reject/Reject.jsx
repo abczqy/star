@@ -3,11 +3,7 @@
  * 1- 内容自主添加
  */
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { Table, Button } from 'antd'
-=======
 import { Table, Button, Tabs } from 'antd'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -24,9 +20,6 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
-<<<<<<< HEAD
-
-=======
 // 平台应用分页器
 const pagination2 = {
   pageNum: 1,
@@ -35,7 +28,6 @@ const pagination2 = {
   showSizeChanger: true
 }
 const TabPane = Tabs.TabPane
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 class Reject extends Component {
   constructor (props) {
     super(props)
@@ -45,10 +37,7 @@ class Reject extends Component {
         total: 0
       },
       pagination,
-<<<<<<< HEAD
-=======
       pagination2,
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       searchValue: '',
       detModalCon: {
         visible: false,
@@ -64,9 +53,6 @@ class Reject extends Component {
       auditStatus: 3, // 软件状态3未通过审核
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
-<<<<<<< HEAD
-      keyword: ''
-=======
       keyword: '',
       platTableData: {
         data: [],
@@ -74,7 +60,6 @@ class Reject extends Component {
       },
       keyword2: '',
       tabsValue: 'rj'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
   dateToString = (date) => {
@@ -86,26 +71,6 @@ class Reject extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-<<<<<<< HEAD
-    getAppListDatav2({
-      pageNum: this.state.pagination.pageNum,
-      pageSize: this.state.pagination.pageSize,
-      auditStatus: this.state.auditStatus,
-      typeId: this.state.typeId,
-      downloadCount: this.state.downloadCount,
-      keyword: this.state.keyword
-    }, (res) => {
-      const data = res.data.data
-      // let jsonStr = JSON.stringify(data)
-      // console.log(jsonStr)
-      let dataList = res.data.data.data
-      this.setState({
-        tableData: {
-          data: this.getSwPath(dataList),
-          total: data.total
-        }
-      })
-=======
     const {tabsValue} = this.state
     let params
     if (tabsValue === 'rj') {
@@ -146,7 +111,6 @@ class Reject extends Component {
           }
         })
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     })
   }
 
@@ -259,8 +223,6 @@ class Reject extends Component {
     //   }
     // }
   }
-<<<<<<< HEAD
-=======
   getPlatColumns = () => {
     return [{
       title: '应用名称',
@@ -290,7 +252,6 @@ class Reject extends Component {
     }
     ]
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
   // 显示‘详情’弹窗
   showDetModal = (record) => {
@@ -363,17 +324,6 @@ class Reject extends Component {
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: current,
-        pageSize: size
-      }
-    }, () => {
-      this.getTableDatas()
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -396,23 +346,12 @@ class Reject extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      }
-    }, () => {
-      this.getTableDatas()
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -433,19 +372,12 @@ class Reject extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 搜索输入框变化的回调
    */
   inputChange = (e) => {
-<<<<<<< HEAD
-    let value = e.target.value
-    this.setState({
-      keyword: value
-    })
-=======
     const {tabsValue} = this.state
     let value = e.target.value
     if (tabsValue === 'rj') {
@@ -457,7 +389,6 @@ class Reject extends Component {
         keyword2: value
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
@@ -466,9 +397,6 @@ class Reject extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-<<<<<<< HEAD
-    this.getTableDatas()
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -489,56 +417,12 @@ class Reject extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   componentDidMount () {
     this.getTableDatas()
     this.getSelectOptions()
   }
-<<<<<<< HEAD
-
-  render () {
-    const { tableData, pagination, detModalCon, options } = this.state
-    return (
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-        />
-        <BlankBar />
-        <Table
-          columns={this.getColumns()}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        <div ref='IterDetailElem' className='Iter-detail-wrap' />
-        <IterationDetailModal
-          title={detModalCon.swName}
-          getContainer={() => this.refs.IterDetailElem}
-          visible={detModalCon.visible}
-          onCancel={this.handleAppDetCancel}
-          resData={detModalCon.resData}
-          getOnShelfTime={this.getOnShelfTime}
-          footer={[
-            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
-            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-      </div>
-=======
   // 改变tabs值
   changeTabs = (value) => {
     this.setState({
@@ -615,7 +499,6 @@ class Reject extends Component {
           </div>
         </TabPane>
       </Tabs>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     )
   }
 }

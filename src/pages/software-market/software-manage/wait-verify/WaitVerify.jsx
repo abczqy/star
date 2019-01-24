@@ -9,11 +9,7 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { Table, Button, message, Modal, Input } from 'antd'
-=======
 import { Table, Button, message, Modal, Input, Tabs, Row, Col } from 'antd'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { BlankBar, SearchBar } from 'components/software-market'
 import { WaitDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -29,9 +25,6 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
-<<<<<<< HEAD
-
-=======
 // 平台应用分页器
 const pagination2 = {
   pageNum: 1,
@@ -40,7 +33,6 @@ const pagination2 = {
   showSizeChanger: true
 }
 const TabPane = Tabs.TabPane
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 const {TextArea} = Input
 class WaitVerify extends Component {
   constructor (props) {
@@ -51,10 +43,7 @@ class WaitVerify extends Component {
         total: 0
       },
       pagination,
-<<<<<<< HEAD
-=======
       pagination2,
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       detModalCon: {
         visible: false,
         swName: '',
@@ -69,10 +58,6 @@ class WaitVerify extends Component {
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
       keyword: '',
-<<<<<<< HEAD
-      showModal: false,
-      reason: ''
-=======
       keyword2: '',
       showModal: false,
       platModal: false,
@@ -86,7 +71,6 @@ class WaitVerify extends Component {
       ipValue: '',
       testResult: '',
       showResultMadol: false
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
 
@@ -94,26 +78,6 @@ class WaitVerify extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-<<<<<<< HEAD
-    getAppListDatav2({
-      pageNum: this.state.pagination.pageNum,
-      pageSize: this.state.pagination.pageSize,
-      auditStatus: this.state.auditStatus,
-      typeId: this.state.typeId,
-      downloadCount: this.state.downloadCount,
-      keyword: this.state.keyword
-    }, (res) => {
-      const data = res.data.data
-      // let jsonStr = JSON.stringify(data)
-      // console.log(jsonStr)
-      let dataList = res.data.data.data
-      this.setState({
-        tableData: {
-          data: this.getSwPath(dataList),
-          total: data.total
-        }
-      })
-=======
     const {tabsValue} = this.state
     let params
     if (tabsValue === 'rj') {
@@ -154,7 +118,6 @@ class WaitVerify extends Component {
           }
         })
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     })
   }
   dateToString = (date) => {
@@ -263,8 +226,6 @@ class WaitVerify extends Component {
     }]
   }
 
-<<<<<<< HEAD
-=======
   getPlatColumns = () => {
     return [{
       title: '应用名称',
@@ -300,7 +261,6 @@ class WaitVerify extends Component {
       )
     }]
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   // 显示‘详情’弹窗
   showDetModal = (record) => {
     // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
@@ -343,12 +303,6 @@ class WaitVerify extends Component {
   // 同意详情弹窗
   handleDetAgree = (state) => {
     const thiz = this
-<<<<<<< HEAD
-    // let jsonStr = JSON.stringify(this.state.detModalCon)
-    // console.log('12222' + jsonStr)
-    // console.log('detModalCon' + this.state.detModalCon)
-=======
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     let paramsList = []
     const params = {
       'appId': this.state.detModalCon.APP_ID,
@@ -359,11 +313,6 @@ class WaitVerify extends Component {
       userID: 123,
       rejectReason: '1'
     }
-<<<<<<< HEAD
-    // let jsonStr1 = JSON.stringify(paramsList)
-    // console.log('111111111' + jsonStr1)
-=======
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     if (state === 'agree') {
       // console.log('111111111同意')
       waitVeriAgreev2(paramsList, params1, (res) => {
@@ -378,19 +327,6 @@ class WaitVerify extends Component {
       })
     } else {
       this.showModals()
-<<<<<<< HEAD
-      // waitVeriRejectv2(paramsList, params1, (res) => {
-      //   const data = res.data
-      //   if (data.code === 200) {
-      //     message.success('驳回成功')
-      //   } else {
-      //     message.success('驳回失败')
-      //   }
-      //   thiz.handleAppDetCancel()
-      //   thiz.getTableDatas()
-      // })
-=======
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
 
@@ -409,17 +345,6 @@ class WaitVerify extends Component {
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: current,
-        pageSize: size
-      }
-    }, () => {
-      this.getTableDatas()
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -442,23 +367,12 @@ class WaitVerify extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      }
-    }, () => {
-      this.getTableDatas()
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -479,19 +393,12 @@ class WaitVerify extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 搜索输入框变化的回调
    */
   inputChange = (e) => {
-<<<<<<< HEAD
-    let value = e.target.value
-    this.setState({
-      keyword: value
-    })
-=======
     const {tabsValue} = this.state
     let value = e.target.value
     if (tabsValue === 'rj') {
@@ -503,7 +410,6 @@ class WaitVerify extends Component {
         keyword2: value
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
@@ -512,9 +418,6 @@ class WaitVerify extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-<<<<<<< HEAD
-    this.getTableDatas()
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -535,7 +438,6 @@ class WaitVerify extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   // 显示审核不通过输入原因的弹窗
@@ -596,58 +498,6 @@ class WaitVerify extends Component {
     this.getTableDatas()
     this.getSelectOptions()
   }
-<<<<<<< HEAD
-
-  render () {
-    const { tableData, pagination, detModalCon, options } = this.state
-    return (
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-        />
-        <BlankBar />
-        <Table
-          columns={this.getColumns()}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        <div ref='waitDetailElem' className='wait-detail-wrap' />
-        <WaitDetailModal
-          title={detModalCon.APP_NAME}
-          getContainer={() => this.refs.waitDetailElem}
-          visible={detModalCon.visible}
-          resData={detModalCon.resData}
-          onCancel={this.handleAppDetCancel}
-          footer={[
-            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
-            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-        <Modal
-          visible={this.state.showModal}
-          onCancel={this.cancle}
-          onOk={this.onOk}
-          title='请输入审核不通过的原因'
-        >
-          <TextArea row={4} onChange={this.inputReason} />
-        </Modal>
-      </div>
-    )
-  }
-=======
   // 改变tabs值
   changeTabs = (value) => {
     this.setState({
@@ -824,7 +674,6 @@ class WaitVerify extends Component {
       record: record
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 }
 
 export default WaitVerify

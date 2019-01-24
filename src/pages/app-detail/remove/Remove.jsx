@@ -25,12 +25,8 @@ const pagination = {
 
 class Remove extends Component {
   static propTypes = {
-<<<<<<< HEAD
-    showDetail: PropTypes.func
-=======
     showDetail: PropTypes.func,
     tabsType: PropTypes.string
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
   constructor (props) {
     super(props)
@@ -63,21 +59,13 @@ class Remove extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-<<<<<<< HEAD
-    getAppListDatav2({
-=======
     const {tabsType} = this.props
     let params = {
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       pageNum: this.state.pagination.pageNum,
       pageSize: this.state.pagination.pageSize,
       auditStatus: this.state.auditStatus,
       typeId: this.state.typeId,
       downloadCount: this.state.downloadCount,
-<<<<<<< HEAD
-      keyword: this.state.keyword
-    }, (res) => {
-=======
       keyword: this.state.keyword,
       platformType: 'rj'
     }
@@ -87,7 +75,6 @@ class Remove extends Component {
       params.platformType = 'pt'
     }
     getAppListDatav2(params, (res) => {
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       // console.log('获取运营中的应用列表数据' + this.state.sw_type)
       const data = res.data.data
       // let jsonStr = JSON.stringify(data)
@@ -96,11 +83,7 @@ class Remove extends Component {
       this.setState({
         tableData: {
           data: this.getSwPath(dataList),
-<<<<<<< HEAD
-          total: data.total
-=======
           total: data.totalCount
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         }
       })
     })
@@ -154,68 +137,6 @@ class Remove extends Component {
  * 这些函数都是测试阶段的，后面正式的函数 放在组件class内部
  */
   getColumns = () => {
-<<<<<<< HEAD
-    return [{
-      title: '应用名称',
-      dataIndex: 'APP_NAME',
-      key: 'APP_NAME'
-    }, {
-      title: '所属类型',
-      dataIndex: 'APP_TYPE_NAME',
-      key: 'APP_TYPE_NAME'
-    }, {
-      title: '类型',
-      dataIndex: 'LX',
-      key: 'LX',
-      render: (text, record, index) => {
-        return (
-          <span >{text && text ? text : 'win32'}
-          </span>
-        )
-      }
-    }, {
-      title: '下载次数',
-      dataIndex: 'DOWNLOAD_COUNT',
-      key: 'DOWNLOAD_COUNT'
-    }, {
-      title: '供应商',
-      dataIndex: 'sw_path',
-      key: 'sw_path',
-      render: (text, record, index) => {
-        return (
-          <span >{text && text ? text : 'baidu'}</span>
-        )
-      }
-    }, {
-      title: '当前版本',
-      dataIndex: 'APP_VERSION',
-      key: 'APP_VERSION'
-    }, {
-      title: '提交时间',
-      dataIndex: 'CREATE_TIME',
-      key: 'CREATE_TIME',
-      render: (text, record, index) => {
-        return (
-          <span >{moment(text).format('YYYY-MM-DD')}</span>
-        )
-      }
-    },
-    {
-      title: '操作',
-      dataIndex: 'options',
-      key: 'options',
-      render: (text, record, index) => {
-        return (
-          <div key={index}>
-            {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
-            <span style={{marginRight: '10px', color: '#1890ff', cursor: 'pointer'}} onClick={() => this.props.showDetail(record)}>
-              查看详情
-            </span>
-          </div>
-        )
-      }
-    }]
-=======
     const {tabsType} = this.props
     if (tabsType === 'rj') {
       return [{
@@ -316,7 +237,6 @@ class Remove extends Component {
         }
       }]
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
   dateToString = (date) => {
     var dateee = new Date(date).toJSON()
@@ -449,10 +369,7 @@ class Remove extends Component {
 
   render () {
     const { tableData, pagination, detModalCon, options, data } = this.state
-<<<<<<< HEAD
-=======
     console.log(tableData)
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     return (
       <div className='software-wrap'>
         <SearchBar

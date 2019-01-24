@@ -3,11 +3,7 @@
  * 1- 内容自主添加
  */
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { Table, Button } from 'antd'
-=======
 import { Table, Button, Tabs } from 'antd'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import { BlankBar, SearchBar } from 'components/software-market'
 import { IterationDetailModal } from 'pages/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
@@ -24,8 +20,6 @@ const pagination = {
   showQuickJumper: true,
   showSizeChanger: true
 }
-<<<<<<< HEAD
-=======
 // 平台应用分页器
 const pagination2 = {
   pageNum: 1,
@@ -34,7 +28,6 @@ const pagination2 = {
   showSizeChanger: true
 }
 const TabPane = Tabs.TabPane
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
 class Remove extends Component {
   constructor (props) {
@@ -45,10 +38,7 @@ class Remove extends Component {
         total: 0
       },
       pagination,
-<<<<<<< HEAD
-=======
       pagination2,
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       searchValue: '',
       detModalCon: {
         visible: false,
@@ -64,9 +54,6 @@ class Remove extends Component {
       auditStatus: 5, // 软件状态5下架
       typeId: '', // 暂时101，后期接口改完可以空
       downloadCount: 'desc', // 下载量排行
-<<<<<<< HEAD
-      keyword: ''
-=======
       keyword: '',
       keyword2: '',
       tabsValue: 'rj',
@@ -74,7 +61,6 @@ class Remove extends Component {
         data: [],
         total: 0
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
 
@@ -82,27 +68,6 @@ class Remove extends Component {
    * 获取运营中的应用列表数据
    */
   getTableDatas = () => {
-<<<<<<< HEAD
-    getAppListDatav2({
-      pageNum: this.state.pagination.pageNum,
-      pageSize: this.state.pagination.pageSize,
-      auditStatus: this.state.auditStatus,
-      typeId: this.state.typeId,
-      downloadCount: this.state.downloadCount,
-      keyword: this.state.keyword
-    }, (res) => {
-      // console.log('获取运营中的应用列表数据' + this.state.sw_type)
-      const data = res.data.data
-      // let jsonStr = JSON.stringify(data)
-      // console.log(jsonStr)
-      let dataList = res.data.data.data
-      this.setState({
-        tableData: {
-          data: this.getSwPath(dataList),
-          total: data.total
-        }
-      })
-=======
     const {tabsValue} = this.state
     let params
     if (tabsValue === 'rj') {
@@ -143,7 +108,6 @@ class Remove extends Component {
           }
         })
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     })
   }
 
@@ -240,23 +204,6 @@ class Remove extends Component {
           <span >{this.dateToString(text)}</span>
         )
       }
-<<<<<<< HEAD
-    // },
-    //  {
-    //   title: '操作',
-    //   dataIndex: 'options',
-    //   key: 'options',
-    //   render: (text, record, index) => {
-    //     const roleCode = webStorage.getItem('STAR_WEB_ROLE_CODE')
-    //     return (
-    //       <span>
-    //         <a href='javascript:void(0)' onClick={(e) => this.showDetModal(record)}>{roleCode === 'operator' ? '撤销' : '详情'}</a>
-    //       </span>
-    //     )
-    //   }
-    }]
-  }
-=======
     }]
   }
   getPlatColumns = () => {
@@ -288,7 +235,6 @@ class Remove extends Component {
     }
     ]
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   dateToString = (date) => {
     var dateee = new Date(date).toJSON()
     var dateString = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
@@ -369,17 +315,6 @@ class Remove extends Component {
    * pageSize 变化时回调
    */
   onShowSizeChange = (current, size) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: current,
-        pageSize: size
-      }
-    }, () => {
-      this.getTableDatas()
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -402,23 +337,12 @@ class Remove extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 页码变化时回调
    */
   pageNumChange = (page, pageSize) => {
-<<<<<<< HEAD
-    this.setState({
-      pagination: {
-        ...this.state.pagination,
-        pageNum: page
-      }
-    }, () => {
-      this.getTableDatas()
-    })
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -439,19 +363,12 @@ class Remove extends Component {
         this.getTableDatas(this)
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
    * 搜索输入框变化的回调
    */
   inputChange = (e) => {
-<<<<<<< HEAD
-    let value = e.target.value
-    this.setState({
-      keyword: value
-    })
-=======
     const {tabsValue} = this.state
     let value = e.target.value
     if (tabsValue === 'rj') {
@@ -463,7 +380,6 @@ class Remove extends Component {
         keyword2: value
       })
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   }
 
   /**
@@ -472,11 +388,6 @@ class Remove extends Component {
    * 搜索框按下回车/搜索时回调
    */
   getSearchData = () => {
-<<<<<<< HEAD
-    this.getTableDatas()
-  }
-
-=======
     const {tabsValue} = this.state
     if (tabsValue === 'rj') {
       this.setState({
@@ -506,7 +417,6 @@ class Remove extends Component {
       this.getTableDatas(this)
     })
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
   componentDidMount () {
     this.getTableDatas()
     this.getSelectOptions()
@@ -515,46 +425,6 @@ class Remove extends Component {
   render () {
     const { tableData, pagination, detModalCon, options, data } = this.state
     return (
-<<<<<<< HEAD
-      <div className='software-wrap'>
-        <SearchBar
-          onSeachChange={this.inputChange}
-          onSearch={this.getSearchData}
-          onBtnClick={this.getSearchData}
-          onSelectChange={this.onSelect}
-          options={options}
-          data={data}
-        />
-        <BlankBar />
-        <Table
-          columns={this.getColumns()}
-          dataSource={tableData.data}
-          pagination={{
-            ...pagination,
-            total: this.state.tableData.total,
-            onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
-          }}
-          rowKey={(record, index) => {
-            return index
-          }}
-        />
-        <div ref='IterDetailElem' className='Iter-detail-wrap' />
-        <IterationDetailModal
-          title={detModalCon.swName}
-          getContainer={() => this.refs.IterDetailElem}
-          visible={detModalCon.visible}
-          onCancel={this.handleAppDetCancel}
-          resData={detModalCon.resData}
-          getOnShelfTime={this.getOnShelfTime}
-          footer={[
-            <Button key='agree' type='primary' onClick={() => this.handleDetAgree('agree')}>同意</Button>,
-            <Button key='reject' className='warn-btn' onClick={() => this.handleDetAgree('reject')}>驳回</Button>,
-            <Button key='back' onClick={this.handleAppDetCancel}>关闭</Button>
-          ]}
-        />
-      </div>
-=======
       <Tabs defaultActiveKey='rj' onChange={this.changeTabs}>
         <TabPane key='rj' tab={<strong>软件应用</strong>}>
           <div className='software-wrap'>
@@ -622,7 +492,6 @@ class Remove extends Component {
           </div>
         </TabPane>
       </Tabs>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     )
   }
 }

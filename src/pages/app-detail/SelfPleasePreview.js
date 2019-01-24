@@ -14,13 +14,6 @@ import PropTypes from 'prop-types'
 class SelfPleasePreview extends React.Component {
   constructor (props) {
     super(props)
-<<<<<<< HEAD
-    this.state = {
-      appDetailData: props.dataPre || '',
-      obj: {
-        display: 'none'
-      },
-=======
     console.log(props)
     this.state = {
       appDetailData: props.dataPre || '',
@@ -31,7 +24,6 @@ class SelfPleasePreview extends React.Component {
       dataPlatPre: props.dataPlatPre,
       platicon: props.dataPlatIcon,
       platPC: props.dataPlatPCUrl,
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       pictype: 'computer',
       icon: props.dataIcon || [],
       pcPhoto: props.dataPc || [],
@@ -47,15 +39,11 @@ class SelfPleasePreview extends React.Component {
     dataIcon: PropTypes.array,
     dataPhone: PropTypes.array,
     visible: PropTypes.bool,
-<<<<<<< HEAD
-    hiddenModal: PropTypes.func
-=======
     hiddenModal: PropTypes.func,
     dataUploadType: PropTypes.object,
     dataPlatPre: PropTypes.object,
     dataPlatIcon: PropTypes.array,
     dataPlatPCUrl: PropTypes.array
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     // icon1: PropTypes.any
   }
 
@@ -128,38 +116,13 @@ class SelfPleasePreview extends React.Component {
     // console.log('render this.props.dataIcon.icon = ', this.props.dataIcon)
     // console.log('render this.props.dataIcon.icon.length= ', this.props.dataIcon.length)
     // console.log('this.state.icon[0] render= ', this.state.icon.shift())
-<<<<<<< HEAD
-    let thiz = this.state.appDetailData
-    let appInfo = JSON.parse(thiz.get('appInfo'))
-    let rname = thiz.get('appName')
-    let rType = thiz.get('appType')
-    // let detailType = thiz.get('detailType').split(',')
-    // let detailSize = thiz.get('detailSize').split(',')
-    // let detailVersionNum = thiz.get('detailVersionNum')
-    // let detailPackName = thiz.get('detailPickName')
-    let detailAuth = thiz.get('detailAuth').split(',')
-    let rDescribe = thiz.get('appDesc')
-    let rFeatures = thiz.get('feature')
-    let icon = thiz.get('sw_icon')
-=======
     const { type, platicon, platPC } = this.state
     let thiz, appInfo, rname, rType, detailAuth, rDescribe, rFeatures, icon
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     // 处理传过来的app信息
     let detailType = []
     let detailPackName = []
     let detailVersionNum = []
     let detailSize = []
-<<<<<<< HEAD
-    for (let i = 0; i < appInfo.length; i++) {
-      detailType.push(appInfo[i].appVersion)
-      detailPackName.push(appInfo[i].packageName)
-      detailVersionNum.push(appInfo[i].versioInfo)
-      detailSize.push(appInfo[i].versionSize)
-    }
-    // const {pcPhoto} = this.state
-    // console.log(this.props.dataPc)
-=======
     let platDate
     if (type === '1') {
       thiz = this.state.appDetailData
@@ -179,7 +142,6 @@ class SelfPleasePreview extends React.Component {
     } else {
       platDate = this.state.dataPlatPre
     }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     return (
       <Modal
         title='上架预览'
@@ -190,30 +152,18 @@ class SelfPleasePreview extends React.Component {
       >
         <div className='app-preview'>
           <div className='app-preview-header'>
-<<<<<<< HEAD
-            <img src={icon} />
-            <div className='app-preview-header-right'>
-              <h2 className='header-title'>{rname}</h2>
-              <p className='header-classification'>分类：{rType || '无'}</p>
-=======
             {
               type === '1' ? <img src={icon} /> : <img src={platicon[0] ? platicon[0].thumbUrl : ''} />
             }
             <div className='app-preview-header-right'>
               <h2 className='header-title'>{ type === '1' ? rname : platDate.name}</h2>
               <p className='header-classification'>分类：{type === '1' ? rType : platDate.typeName}</p>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               <div className='header-see-detail'>
                 <span onClick={this.handleSeeDetail} style={{cursor: 'pointer', zIndex: '100'}}>查看详情</span><Icon style={{marginLeft: '8px'}} type='caret-down' />
               </div>
             </div>
             <div className={this.state.addClassName} ref='see-detail-item' style={this.state.obj}>
-<<<<<<< HEAD
-              {detailType && detailType.map((item, index) => {
-              // eslint-disable-next-line no-unused-expressions
-=======
               {type === '1' && detailType && detailType.map((item, index) => {
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                 return <div className='see-detail-item-top' key={index}>
                   <div style={{float: 'left', marginRight: '15%'}}>
                     <span style={{fontWeight: 500, color: '#474747', fontSize: 14}}>
@@ -245,57 +195,6 @@ class SelfPleasePreview extends React.Component {
                   </div>
                 </div>
               })}
-<<<<<<< HEAD
-              <div className='see-detail-item-jurisdiction'>
-                <span className='jurisdiction-title'>权限详情:</span>
-                <ul className='jurisdiction-list'>
-                  {detailAuth && detailAuth.map((item, index) => {
-                  // eslint-disable-next-line no-unused-expressions
-                    return <li className='jurisdiction-list-detail' key={index} >{this.state.authItem[item] || '无'}</li>
-                  })}
-                </ul>
-              </div>
-            </div>
-            <div className='app-preview-exhibition'>
-              <div className='exhibition-title'>
-                <h3>软件展示</h3>
-                <div onClick={() => this.handleSwitchCarousel('computer')}>pc展示</div>
-                <div onClick={() => this.handleSwitchCarousel('phone')}>手机展示</div>
-              </div>
-              <div className='exhibition-outside'>
-                <div className='exhibition-insideb'>
-                  <Icon onClick={this.handleLeftClick} className='exhibition-inside-left' type='left' />
-                  <div style={{width: '82%', marginLeft: '13%'}}>
-                    <Carousel ref='exhibition-inside-carousel'>
-                      {this.state.pictype === 'computer' && this.state.pcPhoto && this.state.pcPhoto.map((item, index, arr) => {
-                        return (
-                          <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                            <img style={{width: '100%', height: '100%'}} src={item.thumbUrl} />
-                          </div>
-                        )
-                      })}
-                      {this.state.pictype === 'phone' && this.state.phonePhoto && this.state.phonePhoto.map((item, index, arr) => {
-                        // console.log(item)
-                        return (
-                          <div key={index} style={{width: '27%', height: 448, backgroundColor: '#ccc', marginRight: '5%', float: 'left'}}>
-                            <img style={{width: '100%', height: '100%'}} src={item.thumbUrl} />
-                          </div>
-                        )
-                      })}
-                    </Carousel>
-                  </div>
-                  <Icon onClick={this.handleRightClick} className='exhibition-inside-right' type='right' />
-                </div>
-              </div>
-            </div>
-            <div className='app-preview-introduceaa'>
-              <h3>应用介绍</h3>
-              <p>{rDescribe || '无'}</p>
-            </div>
-            <div className='app-preview-characteristic'>
-              <h3>新版特性</h3>
-              <p>{rFeatures || '无'}</p>
-=======
               {
                 type === '2' ? <div className='see-detail-item-top'>
                   <div style={{float: 'left', marginRight: '15%'}}>
@@ -434,7 +333,6 @@ class SelfPleasePreview extends React.Component {
                   <p>{platDate.install || '无'}</p>
                 </div> : null
               }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             </div>
           </div>
         </div>

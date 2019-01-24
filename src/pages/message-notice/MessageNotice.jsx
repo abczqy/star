@@ -26,10 +26,6 @@ class MessageNotice extends React.Component {
   }
 
   handleTabChange (link, id, ready) {
-<<<<<<< HEAD
-    console.log(ready)
-=======
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     if (ready === 0) {
       getMessageCount({}, (response) => {
         if (response.data.code === 200) {
@@ -64,16 +60,6 @@ class MessageNotice extends React.Component {
   }
   getPageList =() => {
     getAllMessageList({
-<<<<<<< HEAD
-      page: this.state.pageNum,
-      pageSize: 5
-    }, (response) => {
-      console.log(response)
-      if (response.data.code === 200) {
-        this.setState({
-          listData: response.data.data,
-          total: response.data.total
-=======
       pageNum: this.state.pageNum,
       pageSize: 5
     }, (response) => {
@@ -82,7 +68,6 @@ class MessageNotice extends React.Component {
         this.setState({
           listData: response.data.data,
           total: response.data.data.total
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         })
       } else {
         message.warn(response.data.msg)

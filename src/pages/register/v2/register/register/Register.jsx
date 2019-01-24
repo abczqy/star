@@ -1,11 +1,7 @@
 /**
  * 用户注册
  */
-<<<<<<< HEAD
-import React, { Component } from 'react'
-=======
 import React, { Component, Fragment } from 'react'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import {
   Select,
   Form,
@@ -17,11 +13,7 @@ import {
 import './Register.scss'
 import PropTypes from 'prop-types'
 import {setCookie, getCookie} from 'utils/cookie'
-<<<<<<< HEAD
-import {SMSVerificationv2, registerParent} from 'services/topbar-mation'
-=======
 import {SMSVerificationv2, registerParent, registerFree} from 'services/topbar-mation'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import {axios} from '../../../../../utils'
 import config from '../../../../../config'
 const API_BASE_URL_V2 = config.API_BASE_URL_V2
@@ -45,12 +37,8 @@ class Register extends Component {
       codeValue: '',
       codeMessage: '',
       getImgCode: true,
-<<<<<<< HEAD
-      imgText: ''
-=======
       imgText: '',
       isParent: false
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
   componentDidMount () {
@@ -70,23 +58,6 @@ class Register extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const param = this.props.form.getFieldsValue()
-<<<<<<< HEAD
-        registerParent(param, (response) => {
-          if (response.data.code === 200) {
-            message.success('注册成功')
-            this.props.history.push({
-              pathname: '/login'
-            })
-          } else {
-            message.error(response.data.msg)
-          }
-        })
-        /** 注册成功
-        message.success('注册成功')
-        this.props.history.push({
-          pathname: '/operate-manage-home/work-plat/login'
-        }) */
-=======
         const { isParent } = this.state
         if (isParent) {
           registerParent(param, (response) => {
@@ -116,7 +87,6 @@ class Register extends Component {
             }
           })
         }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       }
     })
   }
@@ -421,11 +391,7 @@ class Register extends Component {
     return (
       <div className='reg-bg'>
         <div className='reg-content'>
-<<<<<<< HEAD
-          <span className='title'>家长注册</span>
-=======
           <span className='title'>用户注册</span>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           <Form onSubmit={this.handleSubmit}>
             <FormItem
               {...formItemLayout}
@@ -473,11 +439,7 @@ class Register extends Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-<<<<<<< HEAD
-              label='家长姓名'
-=======
               label='姓名'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             >
               {getFieldDecorator('parentName')(
                 <Input placeholder='请输入姓名' className='input-size' />
@@ -530,11 +492,7 @@ class Register extends Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-<<<<<<< HEAD
-              label='家长身份证号'
-=======
               label='身份证号'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
               className='err-css-in'
               hasFeedback
             >
@@ -546,68 +504,6 @@ class Register extends Component {
                 <Input placeholder='请输入家长身份证号' className='input-size' />
               )}
             </FormItem>
-<<<<<<< HEAD
-            <FormItem
-              {...formItemLayout}
-              label='与学生关系'
-              className='err-css-in'
-              hasFeedback
-            >
-              {getFieldDecorator('relationship', {
-                rules: [{ required: true, message: '请选择与学生关系' }]
-              })(
-                <Select className='input-size' placeholder='请选择与学生关系'>
-                  <Option value='1'>父亲</Option>
-                  <Option value='2'>母亲</Option>
-                  <Option value='3'>祖父母</Option>
-                  <Option value='4'>外祖父母</Option>
-                  <Option value='5'>亲属</Option>
-                  <Option value='6'>其他</Option>
-                </Select>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label='学生账号'
-              className='err-css-in'
-              hasFeedback
-            >
-              {getFieldDecorator('studentAccount', {
-                rules: [{ required: true, message: '请输入学生账号' }]
-              })(
-                <Input placeholder='请输入学生账号' className='input-size' />
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label='主家长电话'
-              className='err-css-small-in'
-              hasFeedback
-            >
-              {getFieldDecorator('mainParentPhone', {
-                rules: [ {
-                  validator: this.validatePhone
-                }, {
-                  required: true, message: '请输入主家长电话'
-                }]
-              })(
-                <Input placeholder='请输入主家长电话' className='input-size-small' />
-              )}
-              <Button className='get-btn' onClick={this.getCode}>{this.state.captchaBtnText}</Button>
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label='主家长邀请码'
-              className='err-css-in'
-              hasFeedback
-            >
-              {getFieldDecorator('mainParentPhoneValid', {
-                rules: [{ required: true, message: '请输入主家长邀请码' }]
-              })(
-                <Input placeholder='请输入主家长邀请码' className='input-size' />
-              )}
-            </FormItem>
-=======
             <div className='ant-row ant-form-item err-css-in'>
               <div className='form-change ant-col-xs-24 ant-col-sm-5'>
                 <Checkbox onChange={(e) => this.setState({isParent: e.target.checked})} style={{paddingRight: 0}}>家长注册</Checkbox>
@@ -675,7 +571,6 @@ class Register extends Component {
                 )}
               </FormItem>
             </Fragment> : null}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             <FormItem className='ml21'>
               {getFieldDecorator('Checkbox', {
                 rules: [{validator: this.validateCheck}]

@@ -3,11 +3,7 @@
  */
 import React, { Component } from 'react'
 import webStorage from 'webStorage'
-<<<<<<< HEAD
-import { Input, Row, Col } from 'antd'
-=======
 import { Input, Row, Col, Button, message } from 'antd'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 import './BaseInfo.scss'
 import ChangeFirmName from '../../../message-notice/ChangeFirmName'
 import ChangeFirmDescribe from '../../../message-notice/ChangeFirmDescribe'
@@ -17,10 +13,7 @@ import LookFirmLicense from '../../../message-notice/LookFirmLicense'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
 import ChangePhoneNumber from '../../../message-notice/ChangePhoneNumber'
-<<<<<<< HEAD
-=======
 import NewUserInfo from '../../../message-notice/NewUserInfo.jsx'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 const {API_BASE_URL_V2, SERVICE_AUTHENTICATION} = config
 const { TextArea } = Input
 
@@ -40,15 +33,6 @@ class BaseInfo extends Component {
       userName: '',
       phoneNumber: '',
       mailAddress: '',
-<<<<<<< HEAD
-      userType: ''
-    }
-  }
-  componentDidMount () {
-    let id = webStorage.getItem('STAR_V2_USERID') || 1
-    axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`).then((res) => {
-      console.log(res)
-=======
       userType: '',
       userInfo: {},
       newInfoVisible: false
@@ -60,7 +44,6 @@ class BaseInfo extends Component {
   getUserInfo = () => {
     let id = webStorage.getItem('STAR_V2_USERID') || 1
     axios.get(`${API_BASE_URL_V2}${SERVICE_AUTHENTICATION}/users/${id}`).then((res) => {
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       this.setState({
         userId: res.data.data.userId,
         userName: res.data.data.userName,
@@ -68,15 +51,12 @@ class BaseInfo extends Component {
         phoneNumber: res.data.data.phoneNumber,
         mailAddress: res.data.data.mailAddress,
         changePhoneVisible: false
-<<<<<<< HEAD
-=======
       }, () => {
         if (!this.state.phoneNumber && this.state.userType === 5) {
           this.setState({
             newInfoVisible: true
           })
         }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       })
     })
   }
@@ -85,10 +65,6 @@ class BaseInfo extends Component {
     let str = '' + this.state.phoneNumber
     if (str !== '') {
       let strName = str.substr(0, 4) + '***' + str.substr(7, 4)
-<<<<<<< HEAD
-      console.log(strName)
-=======
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       return strName
     }
   }
@@ -173,8 +149,6 @@ class BaseInfo extends Component {
       changePhoneVisible: true
     })
   }
-<<<<<<< HEAD
-=======
   /** 修改用户信息 */
   newUserInfo = () => {
     this.refs.userForm.validateFieldsAndScroll((err, values) => {
@@ -219,7 +193,6 @@ class BaseInfo extends Component {
       return ''
     }
   }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
   render () {
     let per = webStorage.getItem('STAR_WEB_ROLE_CODE')
@@ -286,11 +259,7 @@ class BaseInfo extends Component {
                   <span>用户类型:</span>
                 </Col>
                 <Col span={12} className='base-info-content-top-info'>
-<<<<<<< HEAD
-                  {this.state.userType}
-=======
                   {this.getRoleType()}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                 </Col>
               </Row>
               {/* <Row className='base-info-content-top-row'>
@@ -337,13 +306,8 @@ class BaseInfo extends Component {
                   }
                 </Col>
                 <Col className='base-info-content-change'>
-<<<<<<< HEAD
-                  {/* <Button className='base-info-content-btn' onClick={this.changephone}>修改</Button> */}
-                  {/* <Button className='base-info-content-btn'>修改</Button> */}
-=======
                   <Button className='base-info-content-btn' onClick={this.changephone}>修改</Button>
                   <Button className='base-info-content-btn'>修改</Button>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                 </Col>
               </Row>
               <Row className='base-info-content-top-row'>
@@ -363,11 +327,7 @@ class BaseInfo extends Component {
                   }
                 </Col>
                 <Col className='base-info-content-change'>
-<<<<<<< HEAD
-                  {/* <Button className='base-info-content-btn' onClick={() => this.changeState('changeMail')}>{this.state.changeMail ? '保存' : '修改'}</Button> */}
-=======
                   <Button className='base-info-content-btn' onClick={() => this.changeState('changeMail')}>{this.state.changeMail ? '保存' : '修改'}</Button>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                   {/* <Button className='base-info-content-btn'>修改</Button> */}
                 </Col>
               </Row>
@@ -415,12 +375,9 @@ class BaseInfo extends Component {
           visible={this.state.changePhoneVisible}
           hiddenModal={() => this.hiddenModal('changePhoneVisible')}
         /> : null}
-<<<<<<< HEAD
-=======
         <NewUserInfo visible={this.state.newInfoVisible}
           onOk={this.onOk}
         />
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       </div>
     )
   }

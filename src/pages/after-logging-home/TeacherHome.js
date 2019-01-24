@@ -167,21 +167,14 @@ class TeacherHome extends Component {
     })
   }
   // 处理收藏按钮
-<<<<<<< HEAD
-  handleCollection = (id, isCollect) => {
-=======
   handleCollection = (id, isCollect, e) => {
     let node = e.currentTarget
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     if (isCollect === '1') {
       homeCancelCollection({
         appId: id + ''
       }, (res) => {
         if (res.data.code === 200) {
-<<<<<<< HEAD
-=======
           node.style.background = 'rgba(255, 109, 74, 1)'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           message.success('取消收藏成功')
           // 学生 老师 家长才显示教师推荐
           if (webStorage.getItem('STAR_WEB_ROLE_CODE') === 'parents' || webStorage.getItem('STAR_WEB_ROLE_CODE') === 'students') {
@@ -197,10 +190,7 @@ class TeacherHome extends Component {
         appId: id
       }, (res) => {
         if (res.data.code === 200) {
-<<<<<<< HEAD
-=======
           node.style.background = 'red'
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
           message.success('收藏成功')
           // console.log('收藏按钮：', res.data.msg)
           // 学生 老师 家长才显示教师推荐
@@ -333,11 +323,7 @@ class TeacherHome extends Component {
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
             type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-<<<<<<< HEAD
-            onClick={() => this.handleCollection(item.APP_ID, item.IS_COLLECT)}
-=======
             onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
@@ -358,16 +344,6 @@ class TeacherHome extends Component {
               : <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
-<<<<<<< HEAD
-            <span className='dd-title'>{item.APP_NAME || '软件名称'}</span>
-            <p className='dd-p'>{item.APP_NOTES || '软件描述'}</p>
-          </dd>
-        </dl>
-        <p style={{float: 'right'}}>
-          {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
-            ? <Button className='openUpButton' type='primary'>
-              <a href={item.APP_LINK} target='_blank'>打开</a>
-=======
             <span className='dd-title'>{item.appName || '软件名称'}</span>
             <p className='dd-p'>{item.appNotes || '软件描述'}</p>
           </dd>
@@ -376,7 +352,6 @@ class TeacherHome extends Component {
           {item.appSource === 'pt' && item.IS_OPEN === '1'
             ? <Button className='openUpButton' type='primary'>
               <a href={item.appLink} target='_blank'>打开</a>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             </Button>
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.appId}}>详情</Link>
@@ -384,11 +359,7 @@ class TeacherHome extends Component {
           <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
             type='heart' />
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-<<<<<<< HEAD
-            onClick={() => this.handleCollection(item.appId, item.IS_COLLECT)}
-=======
             onClick={(e) => this.handleCollection(item.appId, item.IS_COLLECT, e)}
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>

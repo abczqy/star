@@ -66,11 +66,7 @@ class SoftwareMarket extends React.Component {
   }
 
   renderChildContent () {
-<<<<<<< HEAD
-    return <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
-=======
     return <Content style={{ background: '#fff', padding: 20, margin: 0, overflowY: 'auto' }}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       {
         this.props.childRoutes.map((item, index, arr) => {
           return <Route key={index} path={item.path} component={item.component} />
@@ -86,11 +82,7 @@ class SoftwareMarket extends React.Component {
           <Layout>
             <Header style={{ padding: '15px 2%', background: 'white', height: '65px' }}>
               <div className='logo' style={{ float: 'left', cursor: 'pointer' }} onClick={() => { this.handleLogoClick() }} />
-<<<<<<< HEAD
-              <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} /></div>
-=======
               <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16, cursor: 'pointer' }} onClick={this.signOut} /></div>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
             </Header>
             <Layout className='sider-bar'>
               <Sider width={200}>
@@ -106,11 +98,7 @@ class SoftwareMarket extends React.Component {
               </Sider>
               <Layout style={{ padding: '20px ' }}>
                 {
-<<<<<<< HEAD
-                  this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
-=======
                   this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0, overflowY: 'auto' }}>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
                     <Businessing />
                   </Content>
                 }

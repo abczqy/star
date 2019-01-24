@@ -1,12 +1,8 @@
 import React from 'react'
 import PagingTable from 'components/common/PagingTable'
-<<<<<<< HEAD
-import {Button} from 'antd'
-=======
 import {Button, Modal, Select, Input} from 'antd'
 
 const Option = Select.Option
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 
 class Messages extends React.Component {
   constructor (props) {
@@ -19,9 +15,6 @@ class Messages extends React.Component {
         pageSize: 10,
         pageNum: 1
       },
-<<<<<<< HEAD
-      loading: false
-=======
       loading: false,
       visible: false,
       message: {
@@ -29,7 +22,6 @@ class Messages extends React.Component {
         user: '1',
         content: ''
       }
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
     }
   }
   getColumns = () => {
@@ -39,14 +31,6 @@ class Messages extends React.Component {
       {title: '信息内容', dataIndex: 'content'}
     ]
   }
-<<<<<<< HEAD
-  render () {
-    const { tableData, loading } = this.state
-    return (
-      <div className='tourist-wrapper'>
-        <div>
-          <Button>新增消息</Button>
-=======
   onOk = () => {
     this.setState({
       visible: false,
@@ -63,7 +47,6 @@ class Messages extends React.Component {
       <div className='tourist-wrapper'>
         <div>
           <Button htmlType='button' onClick={() => this.setState({visible: true})}>新增消息</Button>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
         </div>
         <PagingTable
           dataSource={tableData}
@@ -71,8 +54,6 @@ class Messages extends React.Component {
           columns={this.getColumns()}
           loading={loading}
         />
-<<<<<<< HEAD
-=======
         <Modal visible={visible} centered width={500} onCancel={() => this.setState({visible: false})} onOk={this.onOk}>
           <div>
             发送对象：
@@ -91,7 +72,6 @@ class Messages extends React.Component {
             <Input type='textarea' rows={4} onChange={(value) => this.setState({message: {...this.state.message, content: value}})} />
           </div>
         </Modal>
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
       </div>
     )
   }

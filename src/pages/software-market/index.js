@@ -14,16 +14,12 @@ export {
   Parent,
   School,
   Student,
-<<<<<<< HEAD
-  Teacher
-=======
   Teacher,
   HomeMember,
   FreeRegister,
   Agent,
   Examine,
   Tourist
->>>>>>> 2a7271f38e3feab7a955ff6c69b8ef830aae7e83
 } from './member-manage/index'
 
 export {
