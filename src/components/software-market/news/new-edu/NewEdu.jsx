@@ -35,7 +35,7 @@ class NewEdu extends React.Component {
       >
         <Form>
           <FormItem {...formItemLayout} label='机构名称'>
-            {getFieldDecorator('institutionName', {
+            {getFieldDecorator('authorityName', {
               rules: [{required: true, message: '请输入机构名称'}]
             })(<Input />)}
           </FormItem>

@@ -4,7 +4,8 @@ import { Collapse, Table, Checkbox, Button, message } from 'antd'
 import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './SWMaker.scss'
-import {getSoftwareDetail, getSoftMarketList, getApptype, getSoftMarketHot} from 'services/software-manage'
+import {getSoftMarketList as getHot} from 'services/portalnew'
+import {getSoftwareDetail, getSoftMarketList, getApptype} from 'services/software-manage'
 // import ajaxUrl from 'config'
 import {axios} from '../../../utils'
 import config from '../../../config/index'
@@ -45,32 +46,25 @@ class SWMaker extends Component {
     // 表格的列信息
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'appName',
+      dataIndex: 'APP_NAME',
       key: 'appName'
     }, {
       title: '所属类型',
-      dataIndex: 'appTypes',
-      key: 'appTypes',
-      render: (text) => text[0].appTypeName
+      dataIndex: 'APP_TYPE_NAME'
     }, {
       title: '供应商',
-      dataIndex: 'companyInfo',
-      key: 'companyInfo',
-      render: (text) => text.companyName
+      dataIndex: 'COMPANY_NAME'
     }, {
       title: '图片',
-      dataIndex: 'appIcon',
+      dataIndex: 'APP_ICON',
       key: 'appIcon',
       render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={IMG_BASE_URL_V2 + text} /> : '无'
     }, {
       title: '选择',
-      dataIndex: 'SW_MARKET_SHOW',
-      key: 'SW_MARKET_SHOW',
+      dataIndex: 'IS_TOP_RECOMMEND',
       render: (text, record, index) => {
         return (
-          <Checkbox onClick={() => { this.checkClick(record) }} checked={this.state.hotList && this.state.hotList.find((hot) => {
-            return hot.APP_ID === record.appId
-          })}
+          <Checkbox onClick={() => { this.checkClick(record) }} checked={text === 1}
           />
         )
       }
@@ -98,14 +92,14 @@ class SWMaker extends Component {
    */
   checkClick = (record) => {
     let param = {
-      appId: record.appId
+      appId: record.APP_ID
     }
     console.log(record)
     if (this.state.hotList.length >= 6) {
-      if (record.isHotRecommend === 0) {
+      if (record.IS_TOP_RECOMMEND !== 1) {
         message.warning('已达推送上限')
       } else {
-        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/sub-one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('取消推送成功')
             this.getMarketHot()
@@ -116,8 +110,8 @@ class SWMaker extends Component {
         })
       }
     } else {
-      if (record.isHotRecommend === 0) {
-        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/one', param).then((res) => {
+      if (record.IS_TOP_RECOMMEND !== 1) {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('推送成功')
             this.getMarketHot()
@@ -127,7 +121,7 @@ class SWMaker extends Component {
           }
         })
       } else {
-        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
+        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/sub-one', param).then((res) => {
           if (res.data.code === 200) {
             message.success('取消推送成功')
             this.getMarketHot()
@@ -205,7 +199,7 @@ class SWMaker extends Component {
      // 指定回调中setState()的执行环境 bind(this)效果也一样 但是这里会有报错
      const thiz = this
      // 获取对应的后台数据
-     getSoftwareDetail(record.appId, (res) => {
+     getSoftwareDetail(record.APP_ID, (res) => {
        const resData = res.data ? res.data : {}
        // 通过state将数据res传给子组件
        thiz.setState({
@@ -268,12 +262,12 @@ class SWMaker extends Component {
    */
   getMarketHot () {
     let thiz = this
-    getSoftMarketHot({}, function (res) {
+    getHot({}, function (res) {
       if (res.data.code === 200) {
-        const data = res.data.data
+        const data = res.data.data.content
         let s = []
         data.forEach((img) => {
-          s.push(img.APP_ICON)
+          s.push(img.appIcon)
         })
         thiz.setState({
           hotList: data,

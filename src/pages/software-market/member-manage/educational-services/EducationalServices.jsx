@@ -9,16 +9,17 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, message } from 'antd'
+import { Table, message, Divider } from 'antd'
 // import { Table, Switch, Divider, message } from 'antd'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
   eduGetData,
   eduBatchLeadout,
   maDelId,
   maInitPwd,
-  toLogin
+  toLogin,
+  newEdu
   // getIdSelectList,
   // getNameSelectList,
   // getEduUpperSelectList,
@@ -118,11 +119,11 @@ class EducationalServices extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.id }}>学校</Link>
-            {/* <Divider type='vertical' />
+            <a href='javascript:void(0)'>学校</a>
+            <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a> */}
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
           </span>
         )
       }
@@ -395,7 +396,20 @@ class EducationalServices extends Component {
   onOk = () => {
     this.refs.newEdu.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        values.province = values.region.province
+        values.city = values.region.city
+        values.district = values.region.region
+        delete (values.region)
         console.log(values)
+        newEdu(values, (res) => {
+          if (res.data.code === 200) {
+            this.changeVisible(false)
+            message.success('新增机构成功')
+            this.getTableDatas()
+          } else {
+            message.error('新增机构失败')
+          }
+        })
       }
     })
   }

@@ -44,9 +44,9 @@ class HomeWebApp extends React.Component {
       return
     }
     if (item.appSource && item.appSource === 'pt') {
-      window.open(item.apppath)
+      window.open(item.appLink)
     } else {
-      this.props.history.push('/operate-manage-home/all-app-detail-third?'+item.APP_ID)
+      this.props.history.push('/operate-manage-home/all-app-detail-third?'+item.appId)
     }
   }
 
@@ -61,12 +61,12 @@ class HomeWebApp extends React.Component {
               <Col span={8} key={index} onClick={() => { this.handleAppClick(item) }}>
                 <div style={{width: '100%', textAlign: 'center'}}>
                   {
-                    item.APP_ICON && item.APP_ICON
-                      ? <img className='app-img' src={Config.IMG_BASE_URL_V2 + item.APP_ICON} style={{cursor: 'pointer', width: 56, height: 56}} />
+                    item.appIcon && item.appIcon
+                      ? <img className='app-img' src={Config.IMG_BASE_URL_V2 + item.appIcon} style={{cursor: 'pointer', width: 56, height: 56}} />
                       : <img className='app-img' style={{backgroundColor: '#1890ff', cursor: 'pointer'}} src={imgApp} />
                     // <img className='app-img' src={imgApp} />
                   }
-                  <div className='title'>{item.APP_NAME || ''}
+                  <div className='title'>{item.appName || ''}
                   </div>
                 </div>
               </Col>

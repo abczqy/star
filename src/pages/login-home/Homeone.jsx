@@ -18,8 +18,7 @@ import HomeNewsAndInfo from './HomeNewsAndInfo'
 import Platdata from './Platdata'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { hotRecommend } from 'services/software-home'
-import { getMessageCaro, getPortalBannerImg, getRecommendApp, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portalnew'
+import { getMessageCaro, getPortalBannerImg, getRecommendApp, getNewsNoticeList, getPublicNoticeList, getAllAppCount, getSoftMarketList } from 'services/portalnew'
 import imgBanner from '../../assets/images/login-home/u686.jpg'
 import imgAd1 from '../../assets/images/login-home/u700.png'
 import imgAd2 from '../../assets/images/login-home/u703.png'
@@ -115,14 +114,14 @@ class Home extends React.Component {
         // message.warning(response.data.msg || '出现异常')
       }
     }) */
-    hotRecommend({
+    getSoftMarketList({
       pageNum: '1',
       pageSize: 6
     }, (res) => {
       if (res.data.code === 200) {
         console.log('热门推荐', res.data.data)
         this.setState({
-          softMarketData: res.data.data || []
+          softMarketData: res.data.data.content || []
         })
       } else {
         // message.warning(res.data.msg || '出现异常')
