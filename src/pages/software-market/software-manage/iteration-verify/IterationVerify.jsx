@@ -74,7 +74,10 @@ class IterationVerify extends Component {
         total: 0
       },
       tabsValue: 'rj',
-      ipValue: ''
+      ipValue: '',
+      showResultMadol: false,
+      platModal: false,
+      testResult: ''
     }
   }
 
@@ -722,7 +725,8 @@ class IterationVerify extends Component {
       const params = {
         'appId': this.state.record.APP_ID,
         'appVersion': this.state.record.APP_VERSION,
-        'appLink': this.state.ipValue + this.state.record.INDEX_URL
+        'appLink': this.state.ipValue + this.state.record.INDEX_URL,
+        'currentVersion': this.state.return.CURRENT_VERSION
       }
       console.log(this.state.record)
       paramsList.push(params)

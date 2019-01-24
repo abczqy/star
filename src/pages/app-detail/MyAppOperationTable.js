@@ -54,8 +54,7 @@ class MyAppTable extends Component {
     }, {
       title: '所属类型',
       dataIndex: 'APP_TYPE_NAME',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.typeId - b.typeId
+      defaultSortOrder: 'descend'
       // width: 150
     }, {
       title: '下载次数',
@@ -98,8 +97,7 @@ class MyAppTable extends Component {
     }, {
       title: '所属类型',
       dataIndex: 'APP_TYPE_NAME',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.typeId - b.typeId
+      defaultSortOrder: 'descend'
       // width: 150
     }, {
       title: '版本',
