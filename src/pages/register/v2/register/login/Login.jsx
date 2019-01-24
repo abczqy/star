@@ -190,11 +190,11 @@ class Login extends Component {
   countDown () {
     start--
     if (start > 0) {
-      document.getElementById('btnCode').innerHTML = `验证码(${start})`
+      document.getElementById('btnCode').innerHTML = `等待刷新 (${start})`
       document.getElementById('btnCode').disabled = true
     } else {
       clearTimeout(count)
-      document.getElementById('btnCode').innerHTML = '获取验证码'
+      document.getElementById('btnCode').innerHTML = '刷新'
       document.getElementById('btnCode').disabled = false
       return ''
     }
@@ -243,7 +243,7 @@ class Login extends Component {
                       <img src={`data:image/jpeg;base64,${code.images}`} alt='二维码' />
                     </Col>
                     <Col span={5} offset={1}>
-                      <Button id='btnCode' type='primary' onClick={this.btnGetCdode}>获取验证码</Button>
+                      <Button id='btnCode' type='primary' onClick={this.btnGetCdode}>刷新</Button>
                     </Col>
                   </Row>
                   <Row>
