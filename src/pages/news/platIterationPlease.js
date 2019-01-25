@@ -168,7 +168,8 @@ class PlatIterationPlease extends Component {
   uploadPCImg = (thiz, callBack) => {
     if (thiz.state.pcIcons.length > 0) {
       getMultiUpload('pic', thiz.state.pcIcons, (res) => {
-        if (res.date && res.data.code === 200) {
+        console.log(res.data.code === 200)
+        if (res.data && res.data.code === 200) {
           thiz.setState({
             imgId: res.data.data
           })
