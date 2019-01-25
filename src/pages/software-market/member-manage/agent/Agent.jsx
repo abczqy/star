@@ -2,7 +2,7 @@
  * 代理商
  */
 import React from 'react'
-import {Button, Table, Switch, message} from 'antd'
+import {Button, Table, Switch, message, Modal} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
 import { NewAgent } from 'components/software-market'
@@ -86,11 +86,12 @@ class Agent extends React.Component {
       },
       {
         title: '代理商名称',
-        dataIndex: ''
+        dataIndex: 'AGENT_NAME'
       },
       {
         title: '状态',
-        dataIndex: 'IS_FIRST_LOGIN'
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text) => text === 1 ? '激活' : '未激活'
       },
       {
         title: '账号',
@@ -118,14 +119,49 @@ class Agent extends React.Component {
         dataIndex: 'operation',
         render: (text, record) => {
           return <div className='operation-items'>
-            <span>学校列表</span>
-            <span>编辑</span>
-            <span>重置密码</span>
-            <span>删除</span>
+            {/* <span>学校列表</span>
+            <span>编辑</span> */}
+            <span onClick={() => this.resetPass(record)} >重置密码</span>
+            <span onClick={() => this.delete(record)} >删除</span>
           </div>
         }
       }
     ]
+  }
+  resetPass = (record) => {
+    const thiz = this
+    const id = record && record.USER_ID
+    const params = {
+      userId: id,
+      isReset: 1
+    }
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTable()
+      }
+    })
+  }
+  delete = (record) => {
+    Modal.confirm({
+      content: '确认删除代理商？',
+      onOk: () => {
+        const thiz = this
+        const id = record && record.USER_ID
+        const params = {
+          userId: id,
+          isDelete: 0
+        }
+        updateUser(id, params, (res) => {
+          const data = res.data ? res.data : {}
+          if (data.data > 0) {
+            message.success(data.msg)
+            thiz.getTable()
+          }
+        })
+      }
+    })
   }
   handleToLogin = (record) => {
     const thiz = this
