@@ -181,21 +181,24 @@ class KeyPush extends Component {
     }
     getSoftMarketList(params, res => {
       if (res.data.code === 200) {
-        let b = []
-        res.data.data.map((item, index) => {
-          if (item.IS_TOP_RECOMMEND === 1) {
-            b.push(item.APP_ICON)
-          }
-        })
+        // let b = []
+        // res.data.data.map((item, index) => {
+        //   if (item.IS_TOP_RECOMMEND === 1) {
+        //     b.push(item.APP_ICON)
+        //   }
+        // })
+        // this.setState({
+        //   tableData: {
+        //     data: []
+        //   }
+        // }, () => {
+        //   this.setState({
+        //     tableData: res.data.data,
+        //     imgList: b
+        //   })
+        // })
         this.setState({
-          tableData: {
-            data: []
-          }
-        }, () => {
-          this.setState({
-            tableData: res.data.data,
-            imgList: b
-          })
+          tableData: res.data.data
         })
       }
     })

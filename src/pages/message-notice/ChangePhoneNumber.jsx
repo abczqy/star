@@ -20,7 +20,9 @@ class ChangePhoneNumber extends React.Component {
       type: 'text',
       Countdown: true,
       countTime: 60,
-      phoneCode: '' // 短信验证码
+      phoneCode: '', // 短信验证码
+      phone_con_icon: true,
+      nextgetCode: false
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -56,7 +58,8 @@ class ChangePhoneNumber extends React.Component {
   saveOrSubmit =() => {
     let thiz = this
     thiz.props.form.validateFields((err, values) => {
-      if (values.maf_con_code !== undefined && (values.maf_con_code !== thiz.state.phoneCode)) {
+      console.log(values)
+      if ((values.maf_con_code !== undefined) && (values.maf_con_code !== thiz.state.phoneCode)) {
         message.error('短信验证码不正确！')
         return
       }
@@ -74,7 +77,7 @@ class ChangePhoneNumber extends React.Component {
             }
           })
         } else {
-          console.log(phoneNum)
+          console.log(values.maf_phone_number)
           Verificationv2({
             'phone': values.maf_phone_number,
             'valid': values.maf_con_code
@@ -132,7 +135,8 @@ class ChangePhoneNumber extends React.Component {
         })
       }
     })
-    if (this.state.phoneNum && this.state.phone_con_icon) {
+    console.log(this.state.phone_con_icon)
+    if (phoneNum && this.state.phone_con_icon) {
       this.Countdown()
       this.setState({
         nextgetCode: !this.state.nextgetCode
@@ -157,7 +161,7 @@ class ChangePhoneNumber extends React.Component {
   getPhoneCode=(phoneNum) => {
     SMSVerificationv2({'phone': phoneNum}, (response) => {
       this.setState({
-        phoneCode: response.data && response.data.msg.toString()
+        phoneCode: response.data.msg
       })
     })
   }

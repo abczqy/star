@@ -200,14 +200,14 @@ class SWMaker extends Component {
      const thiz = this
      // 获取对应的后台数据
      getSoftwareDetail(record.APP_ID, (res) => {
-       const resData = res.data ? res.data : {}
+       // const resData = res.data ? res.data : {}
        // 通过state将数据res传给子组件
        thiz.setState({
          appDetailModalCon: {
            ...thiz.state.detModalCon,
            visible: true,
            swName: record.sw_name,
-           resData: resData,
+           resData: res,
            sw_id: record.sw_id
          }
        })
