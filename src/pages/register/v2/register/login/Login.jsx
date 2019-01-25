@@ -331,20 +331,20 @@ class Login extends Component {
               <Col span={4}>学生姓名：</Col>
               <Col span={8}>{this.state.studentInfo.userName || '无'}</Col>
               <Col span={3}>性别：</Col>
-              <Col span={8}>{this.state.studentInfo.gender === '1' ? '女' : '男'}</Col>
-            </Row>
-            <Row className='rowStyle'>
-              <Col span={4}>出生日期：</Col>
-              <Col span={8}>无</Col>
-              <Col span={3}>学校：</Col>
-              <Col span={8}>无</Col>
+              <Col span={8}>{this.state.studentInfo.gender === '1' ? '男' : '女'}</Col>
             </Row>
             <Row className='rowStyle'>
               <Col span={4}>身份证号：</Col>
               <Col span={8}>{this.state.studentInfo.certificateNumber || '无'}</Col>
-              <Col span={3}>年级：</Col>
+              {/* <Col span={4}>出生日期：</Col> */}
+              {/* <Col span={8}>无</Col> */}
+              <Col span={3}>学校：</Col>
               <Col span={8}>无</Col>
             </Row>
+            {/* <Row className='rowStyle'> */}
+            {/* <Col span={3}>年级：</Col> */}
+            {/* <Col span={8}>无</Col> */}
+            {/* </Row> */}
           </div>
         </Modal>
         <Modal
