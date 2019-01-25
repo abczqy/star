@@ -28,6 +28,22 @@ const {IMG_BASE_URL_V2} = config
 // }]
 
 class BannerBox extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      fileList: [],
+      imgUrl: [
+        {
+          uid: this.props.id,
+          name: this.props.url,
+          status: 'done',
+          url: IMG_BASE_URL_V2 + this.props.url,
+          thumbUrl: IMG_BASE_URL_V2 + this.props.url
+        }
+      ]
+    }
+  }
+
   cancelUp=(e) => {
     message.warn('您打消了删除这一条banner的这个决定。')
   }
@@ -43,7 +59,25 @@ class BannerBox extends Component {
     const aaa = {
       action: '333333333',
       listType: 'picture',
-      defaultFileList: [...fileList]
+      defaultFileList: [...fileList],
+      onRemove: (file) => {
+        this.setState({
+          fileList: []
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState({
+          fileList: [file]
+        })
+        // 手动上传
+        return false
+      },
+      onChange: ({fileList}) => {
+        let file = fileList.slice(-1)
+        this.setState({
+          file: file
+        })
+      }
     }
     return (
       <div className='box-wrap'>
@@ -55,7 +89,7 @@ class BannerBox extends Component {
               </span>
             </Col>
             <Col span={19}>
-              <Upload {...aaa} disabled>
+              <Upload {...aaa} fileList={this.state.imgUrl}>
                 <Button>
                   <Icon type='upload' /> 上传图片
                 </Button>

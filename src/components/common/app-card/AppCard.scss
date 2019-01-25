@@ -30,7 +30,8 @@
     background: $assistOrange;
   }
   .share-icon {
-    background: $assistGreen;
+    background: rgb(250, 211, 55);
+    color: #fff;
   }
   .btn-wrap {
     display: inline-block;
@@ -77,6 +78,18 @@
   .btn-icon-wrap {
     display: inline-block;
     padding: 0 1px 1px 4px;
+    border-radius: $btnRadius;
+    text-align: center;
+    margin-top: -4px;
+    cursor: pointer;
+    .mini-icon {
+      width: $iconSize * 1.6;
+      height: $iconSize * 1.6;
+    }
+  }
+  .btn-icon-wrap2 {
+    display: inline-block;
+    padding: 0px 3px;
     border-radius: $btnRadius;
     text-align: center;
     margin-top: -4px;

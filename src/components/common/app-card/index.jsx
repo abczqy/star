@@ -6,14 +6,14 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col } from 'antd'
+import { Row, Col, Icon } from 'antd'
 import AppIcon from '../app-icon'
 import './AppCard.scss'
 import '../../../assets/index.scss'
 // import AppMore from '../../../assets/images/work-plat/app-more.png'
 // import DownLoad from '../../../assets/images/work-plat/down-load.png'
 import Share from '../../../assets/images/work-plat/share.png'
-import Celect from '../../../assets/images/work-plat/celect.png'
+// import Celect from '../../../assets/images/work-plat/celect.png'
 
 class AppCard extends Component {
   /**
@@ -80,12 +80,13 @@ class AppCard extends Component {
           </Col>
           <Col span={3} >
             <span
-              className='btn-icon-wrap share-icon'
+              className='btn-icon-wrap2 share-icon'
             >
-              <img
-                className='mini-icon'
-                src={Celect}
-              />
+              {/* <img */}
+              {/* className='mini-icon' */}
+              {/* src={Celect} */}
+              {/* /> */}
+              <Icon type='star' style={{backgroundColor: 'rgb(250, 211, 55)'}} />
             </span>
           </Col>
           <Col span={3} >
