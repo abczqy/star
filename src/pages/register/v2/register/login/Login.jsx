@@ -357,7 +357,7 @@ class Login extends Component {
           <div>
             <Row className='rowStyle'><span style={{color: 'red'}}>*</span>请输入新密码:</Row>
             <Row className='rowStyle'>
-              <Input onChange={this.changePwd1} key='pwd1' value={this.state.pwd1} type='password' placeholder='请输入新的6-16位登陆密码' />
+              <Input onChange={this.changePwd1} key='pwd1' value={this.state.pwd1} type='password' placeholder='请输入新的6-16位登录密码' />
             </Row>
             <Row className='rowStyle'>
               <Input onChange={this.changePwd2} key='pwd2' value={this.state.pwd2} type='password' placeholder='请确认一遍您的密码' />
@@ -418,7 +418,7 @@ class Login extends Component {
     webStorage.removeItem('STAR_WEB_PERSON_INFO')
     webStorage.removeItem('STAR_WEB_ROLE_CODE')
     this.props.history.push({
-      pathname: '/home/index'
+      pathname: '/login'
     })
   }
   onCancle = () => {
