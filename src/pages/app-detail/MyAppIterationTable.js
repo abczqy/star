@@ -124,8 +124,9 @@ class MyAppIterationTable extends Component {
   }
   // 我的应用-迭代审核
   getMyAppInOperationData = () => {
-    const {tabsType} = this.state
+    const {tabsType} = this.props
     let params
+    console.log(tabsType)
     if (tabsType === 'rj') {
       params = {
         pageNum: this.state.pageNum,
