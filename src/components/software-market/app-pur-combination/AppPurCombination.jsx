@@ -11,12 +11,13 @@ class AppPurCombination extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      type: 1
     }
   }
 
   render () {
     return (
-      <Radio.Group className='combination-container' defaultValue='a' buttonStyle='solid'>
+      <Radio.Group className='combination-container' defaultValue='a' buttonStyle='solid' onChange={(e) => { this.setState({type: e.target.value}) }}>
         <Radio.Button value='a'><Card hoverable className='cbnt-item'
           style={{ width: '100%', height: 'auto' }}
           cover={<img alt='example' src={imgPur1} />}
