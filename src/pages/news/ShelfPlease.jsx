@@ -914,7 +914,7 @@ class ShelfPlease extends React.Component {
   }
   // 上传相关资料
   uploadPlatDate = (thiz) => {
-    const {platform} = this.state
+    const {platform, appIds} = this.state
     let params = {
       appIcon: platform.appIcon,
       appName: platform.name,
@@ -929,7 +929,8 @@ class ShelfPlease extends React.Component {
       storeLocation: platform.storeLocation,
       testUrl: platform.testPath,
       md5Code: platform.md5,
-      tokenAddress: platform.token
+      tokenAddress: platform.token,
+      auditVoucher: appIds.auditVoucher
     }
     axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/pt`, {...params})
       .then(function (res) {
