@@ -141,7 +141,8 @@ class ShelfPlease extends React.Component {
         token: ''
       },
       RandomId: '', // 随机的id
-      RandomToken: '' // 随机的token
+      RandomToken: '', // 随机的token
+      appIds: {}
     }
   }
   componentWillMount () {
@@ -361,7 +362,7 @@ class ShelfPlease extends React.Component {
     if (type === '1') {
       formDataPre.append('appName', this.state.appName || '')// 软件名称*
       formDataPre.append('appType', this.state.appTypeName || '')// 软件类型*
-      formDataPre.append('sw_icon', this.state.imgUrl[0].thumbUrl || '')// 软件图标*
+      formDataPre.append('sw_icon', this.state.imgUrl[0] ? this.state.imgUrl[0].thumbUrl : '')// 软件图标*
       // 查看详情
       formDataPre.append('appInfo', JSON.stringify(this.state.versions))
       // formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
@@ -600,8 +601,10 @@ class ShelfPlease extends React.Component {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           // appIcon上传完之后 我们就用它来存后台返回的id
+          const {appIds} = this.state
+          appIds.iconId = res.data.data
           thiz.setState({
-            appIcon: res.data.data
+            ...appIds
           }, function () {
             callBack && callBack(thiz)
           })
@@ -623,8 +626,10 @@ class ShelfPlease extends React.Component {
       getMultiUpload('pic', this.state.pcPics, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.pcId = res.data.data.slice()
           thiz.setState({
-            pcPics: res.data.data.slice()
+            ...appIds
           }, function () {
             callBack && callBack(thiz)
           })
@@ -646,8 +651,10 @@ class ShelfPlease extends React.Component {
       getMultiUpload('pic', this.state.phonePics, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.phoneId = res.data.data.slice()
           thiz.setState({
-            phonePics: res.data.data.slice()
+            ...appIds
           }, function () {
             callBack && callBack(thiz)
           })
@@ -693,11 +700,12 @@ class ShelfPlease extends React.Component {
       appDesc,
       appType,
       feature,
-      appIcon,
-      pcPics,
-      phonePics,
       rights,
-      versions
+      versions,
+      authName,
+      idNum,
+      relationNum,
+      appIds
     } = this.state
 
     // let result = {}
@@ -705,14 +713,22 @@ class ShelfPlease extends React.Component {
     // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // appInfo 部分
     let result = {
-      appIcon: appIcon, // 软件图标
+      appIcon: appIds.iconId, // 软件图标
       appName: appName, // app名称
       appNotes: appDesc, // app描述
-      appPcPic: pcPics, // app的pc端截图
-      appPhonePic: phonePics, // app的手机端截图
+      appPcPic: appIds.pcId, // app的pc端截图
+      appPhonePic: appIds.phoneId, // app的手机端截图
       appTypeId: appType, // app的类型
       authDetail: rights, // 权限详情
-      newFeatures: feature // app的新版特性
+      newFeatures: feature, // app的新版特性
+      developerName: authName, // 开发者姓名
+      developerIdNumber: idNum, // 开发者身份证号
+      developerPhone: relationNum, // 开发者练联系电话
+      mainContact: relationNum, // 主联系人电话
+      developerIdPic: appIds.developerIdPic, // 身份证图片
+      chargeMode: 1,
+      appCopyright: appIds.appCopyright, // 软件凭证
+      auditVoucher: appIds.auditVoucher // 财务凭证
     }
 
     // result.pc部分 -- 这里需要一个函数从state.version中生成
@@ -752,7 +768,14 @@ class ShelfPlease extends React.Component {
           // PhonePics上传
           this.uploadPhonePics(thiz, () => {
             // 提交整个表单
-            thiz.getSubmit(thiz)
+            thiz.upploadDeveloperIdPic(thiz, () => {
+              thiz.uploadAppCopyright(thiz, () => {
+                thiz.uploadAuditVoucher(thiz, () => {
+                  console.log(thiz.getParams())
+                  thiz.getSubmit(thiz)
+                })
+              })
+            })
           })
         })
       })
@@ -780,13 +803,11 @@ class ShelfPlease extends React.Component {
             callback && callback(thiz)
           })
         } else {
-          message.warn('上传失败！')
-          return ''
+          callback && callback(thiz)
         }
       })
     } else {
-      message.warn('请上传文件！')
-      return ''
+      callback && callback(thiz)
     }
   }
   // 上传应用图标
@@ -802,13 +823,11 @@ class ShelfPlease extends React.Component {
             callback && callback(thiz)
           })
         } else {
-          message.warn('上传失败！')
-          return ''
+          callback && callback(thiz)
         }
       })
     } else {
-      message.warn('请上传图片！')
-      return ''
+      callback && callback(thiz)
     }
   }
   // 上传平台pc端的截图
@@ -824,13 +843,73 @@ class ShelfPlease extends React.Component {
             callback && callback(thiz)
           })
         } else {
-          message.warn('上传失败！')
-          return ''
+          callback && callback(thiz)
         }
       })
     } else {
-      message.warn('请上传图片！')
-      return ''
+      callback && callback(thiz)
+    }
+  }
+  // 上传身份证图片
+  upploadDeveloperIdPic = (thiz, callback) => {
+    if (thiz.state.fileListFour[0]) {
+      getUpload('pic', thiz.state.fileListFour[0], (res) => {
+        console.log(res)
+        if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.developerIdPic = res.data.data
+          thiz.setState({
+            ...appIds
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传软件凭证
+  uploadAppCopyright = (thiz, callback) => {
+    if (thiz.state.fileListFive.length) {
+      getMultiUpload('pic', thiz.state.fileListFive, (res) => {
+        console.log(res)
+        if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.appCopyright = res.data.data.slice()
+          thiz.setState({
+            ...appIds
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传财务凭证
+  uploadAuditVoucher = (thiz, callback) => {
+    if (thiz.state.fileListFinVour.length > 0) {
+      getMultiUpload('pic', thiz.state.fileListFinVour, (res) => {
+        if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.auditVoucher = res.data.data.slice()
+          thiz.setState({
+            ...appIds
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
     }
   }
   // 上传相关资料
