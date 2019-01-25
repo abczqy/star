@@ -2,10 +2,11 @@
  * 代理商
  */
 import React from 'react'
-import {Input, Button, Table, Switch, message} from 'antd'
+import {Button, Table, Switch, message} from 'antd'
 import {axios} from '../../../../utils'
 import config from '../../../../config/index'
 import { NewAgent } from 'components/software-market'
+import { updateUser } from 'services/software-market'
 import '../free-register/FreeRegister.scss'
 
 const { API_BASE_URL_V2, SERVICE_PORTAL } = config
@@ -26,11 +27,11 @@ class Agent extends React.Component {
   }
   getTable = () => {
     const {pagination} = this.state
-    axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/user-list/role/6/${pagination.current}/${pagination.pageSize}`, {}).then(res => {
+    axios.get(API_BASE_URL_V2 + SERVICE_PORTAL + `/agent/all-user-info/${pagination.current}/${pagination.pageSize}`, {}).then(res => {
       const data = res.data.data
       this.setState({
-        data: data.content,
-        total: data.totalElements
+        data: data.data,
+        total: data.totalCount
       })
     })
   }
@@ -81,7 +82,7 @@ class Agent extends React.Component {
     return [
       {
         title: '代理商ID',
-        dataIndex: ''
+        dataIndex: 'ID'
       },
       {
         title: '代理商名称',
@@ -89,22 +90,26 @@ class Agent extends React.Component {
       },
       {
         title: '状态',
-        dataIndex: ''
+        dataIndex: 'IS_FIRST_LOGIN'
       },
       {
-        title: '代理字段',
-        dataIndex: ''
+        title: '账号',
+        dataIndex: 'LOGIN_NAME'
+      },
+      {
+        title: '代理学段',
+        dataIndex: 'GRADE'
       },
       {
         title: '代理地区',
-        dataIndex: ''
+        dataIndex: 'AGENT_AREA'
       },
       {
         title: '允许登录',
-        dataIndex: 'login',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
         render: (text, record, index) => {
           return (
-            <Switch checked={record.LOGIN_PERMISSION_STATUS === 1} onChange={() => this.handleToLogin(record)} />
+            <Switch checked={text === 1} onChange={() => this.handleToLogin(record)} />
           )
         }
       },
@@ -122,7 +127,21 @@ class Agent extends React.Component {
       }
     ]
   }
-  handleToLogin = (record) => {}
+  handleToLogin = (record) => {
+    const thiz = this
+    const id = record && record.USER_ID
+    const params = {
+      userId: id,
+      isLogin: record.LOGIN_PERMISSION_STATUS ? 0 : 1
+    }
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTable()
+      }
+    })
+  }
   componentDidMount () {
     this.getTable()
   }
@@ -131,7 +150,7 @@ class Agent extends React.Component {
     return (
       <div className='free-register'>
         <div className='search-bar-wrap'>
-          <div className='search-bar-item'>
+          {/* <div className='search-bar-item'>
             <span className='input-label' style={{width: 80}}>
               代理商名称
             </span>
@@ -139,12 +158,12 @@ class Agent extends React.Component {
           </div>
           <div className='search-bar-item'>
             <span className='input-label'>
-              代理字段
+              代理学段
             </span>
             <Input className='input' onChange={(e) => this.changeSearch('field', e.target.value)} />
-          </div>
+          </div> */}
           <div className='search-bar-buttons'>
-            <Button htmlType='button' className='search-bar-btn' type='primary' onClick={this.getTable}>搜索</Button>
+            {/* <Button htmlType='button' className='search-bar-btn' type='primary' onClick={this.getTable}>搜索</Button> */}
             <Button htmlType='button'
               className='search-bar-btn'
               type='primary'

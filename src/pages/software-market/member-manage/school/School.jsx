@@ -13,9 +13,7 @@ import React, { Component } from 'react'
 import { Table, message, Modal, Divider, Switch } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
-import {
-  updateUser
-} from 'services/software-market'
+import {updateUser} from 'services/software-market'
 import { SearchBarMemberSch, NewSchool } from 'components/software-market'
 // import {
 //   addKey2TableData
@@ -416,12 +414,12 @@ class School extends Component {
         <SearchBarMemberSch
           selectList={{ ...selectList }}
           newSchool={this.newSchool}
-          onSelect1Change={this.onIdChange}
-          onSelect2Change={this.onSchNameChange}
-          onSelect3Change={this.onBelongChange}
-          onSelect4Change={this.onToLogin}
-          onBtnSearchClick={this.search}
-          onBtnBatchExport={this.onBatchLeadout}
+          // onSelect1Change={this.onIdChange}
+          // onSelect2Change={this.onSchNameChange}
+          // onSelect3Change={this.onBelongChange}
+          // onSelect4Change={this.onToLogin}
+          // onBtnSearchClick={this.search}
+          // onBtnBatchExport={this.onBatchLeadout}
         />
         <Table
           columns={this.getColumns()}

@@ -54,7 +54,7 @@ class HomeWebApp extends React.Component {
     // console.log('render=====', this.state.data)
 
     return (
-      <Row type='flex' justify='start' style={{height: '100%'}}>
+      <Row type='flex' justify='start' style={{height: '100%'}} className='home-one-card'>
         {
           this.state.data && this.state.data.map((item, index) => {
             return (

@@ -94,7 +94,8 @@ class Student extends Component {
       key: 'AUTHORITY_NAME'
     }, {
       title: '状态',
-      dataIndex: 'status'
+      dataIndex: 'IS_FIRST_LOGIN',
+      render: (text) => text === 1 ? '激活' : '未激活'
     }, {
       title: '家长',
       dataIndex: 'PARENT_NAME',

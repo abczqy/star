@@ -28,7 +28,7 @@ export function homeSearch (params, sucFn) {
 }
 // 首页老师推荐
 export function teacherRecommend (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/portal/teacher-recommend-app', {params: params})
+  return axios.get(API_BASE_URL_V2 + '/portal/teacher-recommend-app/list', {params: params})
     .then(function (res) {
       sucFn(res)
     })

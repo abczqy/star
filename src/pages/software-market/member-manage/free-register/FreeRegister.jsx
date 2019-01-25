@@ -27,7 +27,6 @@ class FreeRegister extends React.Component {
     const {pagination, searches} = this.state
     axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + `/user-list/role/8/${pagination.current}/${pagination.pageSize}`, searches).then(res => {
       const data = res.data.data
-      console.log(data)
       if (res.data.msg === '操作成功') {
         this.setState({
           data: data.content,
@@ -117,13 +116,13 @@ class FreeRegister extends React.Component {
             <span className='input-label'>
               账号
             </span>
-            <Input className='input' onChange={(e) => this.changeSearch('account', e.target.value)} />
+            <Input className='input' onChange={(e) => this.changeSearch('name', e.target.value)} />
           </div>
           <div className='search-bar-item'>
             <span className='input-label'>
               姓名
             </span>
-            <Input className='input' onChange={(e) => this.changeSearch('name', e.target.value)} />
+            <Input className='input' onChange={(e) => this.changeSearch('userName', e.target.value)} />
           </div>
           <div className='search-bar-buttons'>
             <Button htmlType='button' className='search-bar-btn' type='primary' onClick={this.getTable}>搜索</Button>
@@ -134,10 +133,10 @@ class FreeRegister extends React.Component {
           </div>
           <div className='search-bar-item'>
             <span className='select-label'>允许登录 </span>
-            <Select defaultValue='all' className='select' onChange={(value) => this.changeSearch('login', value)} >
-              <Option value='all'>全部</Option>
-              <Option value='allow'>允许</Option>
-              <Option value='refuse'>不允许</Option>
+            <Select defaultValue={null} className='select' onChange={(value) => this.changeSearch('login', value)} >
+              <Option value={null}>全部</Option>
+              <Option value={1}>允许</Option>
+              <Option value={0}>不允许</Option>
             </Select>
           </div>
           <div style={{clear: 'both'}} />

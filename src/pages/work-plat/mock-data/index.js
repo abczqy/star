@@ -7,7 +7,7 @@
 
 export default {
   // work-plat -> Home -> 待办列表数据
-  waitToDoData: [{
+  waitToDoData: [/* {
     message: '教育部部署2018年重点高校招收农村和贫困地区学生工作'
   }, {
     message: '2018年春季福建高校党政负责干部会议召开'
@@ -19,7 +19,7 @@ export default {
     message: '2018年春季福建高校党政负责干部会议召开'
   }, {
     message: '中国高校外语科学发展联盟在上外成立'
-  }],
+  } */],
   sysRecommend: [{
     label: '查教育'
   }, {
@@ -123,7 +123,7 @@ export default {
     title: '福建教师(教学类)',
     percent: 39
   }],
-  waitToDoVnd: [{
+  waitToDoVnd: [/* {
     title: '审核通过', // 厂商 - 待办列表
     content: '您的软件【超级教师】已审核通过',
     date: '2018-03-29 12：31',
@@ -138,5 +138,5 @@ export default {
     content: '您的软件【超级教师】已审核通过',
     date: '2018-03-29 12：31',
     type: 'info'
-  }]
+  } */]
 }

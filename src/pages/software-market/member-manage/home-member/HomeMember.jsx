@@ -16,7 +16,7 @@ class HomeMember extends React.Component {
   changeState = (type, record = {}) => {
     const thiz = this
     this.setState({
-      searchSchool: record.schoolName || ''
+      searchSchool: record.SCHOOL_NAME || record.schoolName || ''
     }, () => {
       console.log(this.state.searchSchool)
       thiz.setState({

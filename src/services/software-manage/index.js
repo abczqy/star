@@ -968,7 +968,7 @@ export function getSoftMarketList (params, sucFn) {
  * 软件市场热门应用查询
  */
 export function getSoftMarketHot (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/detail-list/1/10', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/detail-list/1/8', {params: params})
     .then(function (res) {
       sucFn(res)
     })

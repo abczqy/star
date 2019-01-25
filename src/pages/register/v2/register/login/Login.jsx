@@ -412,6 +412,11 @@ class Login extends Component {
     this.setState({
       showModal: false
     })
+    webStorage.removeItem('STAR_V2_TICKET')
+    webStorage.removeItem('STAR_V2_USERID')
+    webStorage.removeItem('STAR_WEB_IS_LOGGED')
+    webStorage.removeItem('STAR_WEB_PERSON_INFO')
+    webStorage.removeItem('STAR_WEB_ROLE_CODE')
     this.props.history.push({
       pathname: '/home/index'
     })

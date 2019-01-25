@@ -10,7 +10,8 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, Divider, Button, message } from 'antd'
+import {Table, Divider, Button, message, Switch} from 'antd'
+import {updateUser} from 'services/software-market'
 import { SearchBarMember, NewManufacturer } from 'components/software-market'
 import { DelLoginIdModal, FaDetailsModal } from '../common-pages'
 import MemRenewWin from './MemRenewWin'
@@ -21,16 +22,12 @@ import {
   initFaPwd,
   getFaDetails,
   getFactoryDetail,
-  getIdSelectList,
-  getNameSelectList,
-  getContractSelectList,
+  // getIdSelectList,
+  // getNameSelectList,
+  // getContractSelectList,
   newManufacturer // 新增厂商接口
 } from 'services/software-manage'
-import {
-  // addKey2TableData,
-  getSelectList,
-  getSelectListWithNoParam
-} from 'utils/utils-sw-manage'
+// import {addKey2TableData, getSelectList, getSelectListWithNoParam} from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 
 /**
@@ -89,29 +86,51 @@ class Manufacturer extends Component {
   //     text: '' // 用来赋空翻页后的search框--需要这样吗
   //   }
   // }
-
+  // 允许登录状态切换
+  handleToLogin = (record) => {
+    const thiz = this
+    const id = record && record.USER_ID
+    const params = {
+      isLogin: record.LOGIN_PERMISSION_STATUS ? 0 : 1,
+      userId: id
+    }
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.code === 200) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
+    })
+  }
   getColumns () {
     return [
       {
         title: '序号',
-        dataIndex: 'index',
-        key: 'index',
-        width: 100
+        dataIndex: 'index'
       }, {
         title: '厂商名称',
-        dataIndex: 'COMPANY_NAME',
-        key: 'COMPANY_NAME',
-        width: 500
+        dataIndex: 'COMPANY_NAME'
+      }, {
+        title: '账号',
+        dataIndex: 'LOGIN_NAME'
+      }, {
+        title: '状态',
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text) => text === 1 ? '激活' : '未激活'
       }, {
         title: '在运营软件数',
-        dataIndex: 'APP_COUNT',
-        key: 'APP_COUNT',
-        width: 400
+        dataIndex: 'APP_COUNT'
+      }, {
+        title: '允许登录',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
+        render: (text, record) => {
+          return (
+            <Switch checked={text === 1} onChange={() => this.handleToLogin(record)} />
+          )
+        }
       }, {
         title: '操作',
         dataIndex: 'options',
-        key: 'options',
-        width: 400,
         render: (text, record, index) => {
           return (
             <span>
@@ -260,8 +279,6 @@ class Manufacturer extends Component {
         ...this.state.reqParam,
         faName: value
       }
-    }, () => {
-      this.getTableDatas()
     })
   }
 
@@ -457,9 +474,9 @@ class Manufacturer extends Component {
     // 请求厂商列表数据
     this.getTableDatas()
     // 请求下拉框的数据
-    getSelectList(getIdSelectList, 'firm', 'idList', this)
-    getSelectList(getNameSelectList, 'firm', 'faNameList', this)
-    getSelectListWithNoParam(getContractSelectList, 'contractList', this)
+    // getSelectList(getIdSelectList, 'firm', 'idList', this)
+    // getSelectList(getNameSelectList, 'firm', 'faNameList', this)
+    // getSelectListWithNoParam(getContractSelectList, 'contractList', this)
   }
   /** 新增厂商弹窗相关 */
   newManuOk = () => {

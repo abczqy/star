@@ -52,7 +52,7 @@ class NewSchool extends React.Component {
               rules: [{required: true, message: '请选择所属教育局'}]
             })(<Select labelInValue>
               {authorities.length && authorities.map((authority, index) => {
-                return <Option value={authority.id}>{authority.authorityName}</Option>
+                return <Option value={authority.ID}>{authority.INSTITUTION_NAME}</Option>
               })}
             </Select>)}
           </FormItem>

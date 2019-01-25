@@ -16,13 +16,7 @@ import ajaxUrl from 'config'
 import {
   eduGetData,
   eduBatchLeadout,
-  maDelId,
-  maInitPwd,
   newEdu
-  // getIdSelectList,
-  // getNameSelectList,
-  // getEduUpperSelectList,
-  // getEduClassSelectList
 } from 'services/software-manage'
 import { updateUser } from 'services/software-market'
 import { SearchBarMemberEduSer, NewEdu } from 'components/software-market' // 目前只有查询的接口，先注释掉
@@ -71,9 +65,9 @@ class EducationalServices extends Component {
   // 允许登录状态切换
   handleToLogin = (record) => {
     const thiz = this
-    const id = record && record.userId
+    const id = record && record.USER_ID
     const params = {
-      isLogin: record.loginPermissionStatus ? 0 : 1,
+      isLogin: record.LOGIN_PERMISSION_STATUS ? 0 : 1,
       userId: id
     }
     updateUser(id, params, (res) => {
@@ -97,7 +91,7 @@ class EducationalServices extends Component {
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'USER_NAME'
+      dataIndex: 'LOGIN_NAME'
     }, {
       title: '组织编号',
       dataIndex: 'ID',
@@ -114,7 +108,7 @@ class EducationalServices extends Component {
       dataIndex: 'LOGIN_PERMISSION_STATUS',
       render: (text, record, index) => {
         return (
-          <Switch checked={record.loginPermissionStatus === 1} onChange={() => this.handleToLogin(record)} />
+          <Switch checked={text === 1} onChange={() => this.handleToLogin(record)} />
         )
       }
     }, {
@@ -277,28 +271,38 @@ class EducationalServices extends Component {
    * 删除学生账号
    */
   delLoginId = (record) => {
+    const id = record && record.USER_ID
+    const thiz = this
     const params = {
-      eduId: record.eduId
+      userId: id,
+      isDelete: 0
     }
-    maInitPwd(params, (res) => {
-      // console.log(`res.data.result: ${res.data.result}`)
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
     })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
   }
 
   /**
    * 初始化厂商密码
    */
   initPwd = (record) => {
+    const id = record && record.USER_ID
+    const thiz = this
     const params = {
-      eduId: record.eduId
+      userId: id,
+      isReset: 1
     }
-    maDelId(params, (res) => {
-      // console.log(`res.data.result: ${res.data.result}`)
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
     })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
   }
 
   /**

@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Input } from 'antd'
+import { Select, Button } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberSch.scss'
 
@@ -31,17 +31,17 @@ class SearchBarMemberSch extends Component {
   render () {
     const {
       // selectList,
-      onBtnSearchClick,
-      onSelect1Change,
-      onSelect2Change,
-      newSchool,
-      onSelect3Change,
-      onSelect4Change
+      // onBtnSearchClick,
+      // onSelect1Change,
+      // onSelect2Change,
+      newSchool
+      // onSelect3Change,
+      // onSelect4Change
       // onBtnBatchExport
     } = this.props
     return (
       <div className='search-bar-wrap'>
-        <div className='search-bar-item'>
+        {/* <div className='search-bar-item'>
           <span className='input-label'>账号</span>
           <Input
             className='input'
@@ -55,7 +55,7 @@ class SearchBarMemberSch extends Component {
             placeholder='请输入'
             // showSearch
             onChange={onSelect2Change} >
-            {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
+            {selectList.schNameList && this.getOptions(selectList.schNameList)}
           </Input>
         </div>
         <div className='search-bar-item' style={{width: 270}}>
@@ -72,9 +72,9 @@ class SearchBarMemberSch extends Component {
             <Option value='allow'>允许</Option>
             <Option value='refuse'>不允许</Option>
           </Select>
-        </div>
+        </div> */}
         <div className='search-bar-buttons'>
-          <Button htmlType='button' type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
+          {/* <Button htmlType='button' type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button> */}
           <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} onClick={newSchool} icon='plus'>新增学校</Button>
           {/* <Button type='primary' className='search-bar-btn' onClick={onBtnBatchExport}>批量导入</Button> */}
         </div>
@@ -86,12 +86,12 @@ class SearchBarMemberSch extends Component {
 
 SearchBarMemberSch.propTypes = {
   // selectList: PropsTypes.object,
-  onBtnSearchClick: PropsTypes.func,
-  onSelect1Change: PropsTypes.func,
-  onSelect2Change: PropsTypes.func,
-  newSchool: PropsTypes.func,
-  onSelect3Change: PropsTypes.func,
-  onSelect4Change: PropsTypes.func
+  // onBtnSearchClick: PropsTypes.func,
+  // onSelect1Change: PropsTypes.func,
+  // onSelect2Change: PropsTypes.func,
+  newSchool: PropsTypes.func
+  // onSelect3Change: PropsTypes.func,
+  // onSelect4Change: PropsTypes.func
   // onBtnBatchExport: PropsTypes.func
 }
 

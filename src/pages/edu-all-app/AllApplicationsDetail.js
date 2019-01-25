@@ -76,7 +76,7 @@ class AllApplicationsDetail extends React.Component {
   }
   render () {
     let total = this.state.allAppListData.length // 暂时没有实现滚动加载
-    const role = webStorage.getItem('STAR_WEB_ROLE_CODE')
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     const items = this.state.allAppListData && this.state.allAppListData instanceof Array && this.state.allAppListData.map((item, index) => {
       return (
         <div key={index} className='software-application'>
@@ -107,6 +107,7 @@ class AllApplicationsDetail extends React.Component {
               详情
               </Button>
             </Link>
+            {console.log(role.userType)}
             {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.props.teacherRecommend(item)} />}
             <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
               onClick={() => this.props.handleCollection(item.APP_ID, item.IS_COLLECTION)}

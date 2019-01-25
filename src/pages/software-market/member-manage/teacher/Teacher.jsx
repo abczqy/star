@@ -39,7 +39,7 @@ class Teacher extends Component {
       reqParam: {
         thId: '',
         thName: '',
-        toLogin: '',
+        toLogin: 'all',
         shName: ''
       },
       pagination,
@@ -164,6 +164,9 @@ class Teacher extends Component {
       // 后台要求，回传数据的时候字段为小写
       param.organization_name = this.state.AUTHORITY_NAME
     }
+    if (this.state.reqParam.toLogin !== 'all') {
+      param.login = this.state.reqParam.toLogin === '1' ? 1 : 0
+    }
     axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
       if (res.data.code === 200) {
         this.setState({
@@ -249,8 +252,6 @@ class Teacher extends Component {
         ...this.state.reqParam,
         toLogin: loginAllow
       }
-    }, () => {
-      console.log('111111', this.state.reqParam)
     })
   }
 

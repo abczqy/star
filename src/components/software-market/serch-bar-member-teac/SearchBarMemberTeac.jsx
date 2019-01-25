@@ -40,7 +40,7 @@ class SearchBarMemberTeac extends Component {
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
-      // onSelect4Change,
+      onSelect4Change,
       // onBtnBatchExport,
       uploadProps
     } = this.props
@@ -76,6 +76,14 @@ class SearchBarMemberTeac extends Component {
             onChange={onSelect3Change} >
             {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
           </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='select-label'>允许登录</span>
+          <Select defaultValue='all' className='select' onChange={onSelect4Change} >
+            <Option value='all'>全部</Option>
+            <Option value='allow'>允许</Option>
+            <Option value='refuse'>不允许</Option>
+          </Select>
         </div>
         <div className='search-bar-buttons'>
           <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
@@ -122,7 +130,7 @@ SearchBarMemberTeac.propTypes = {
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
-  // onSelect4Change: PropsTypes.func,
+  onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
   uploadProps: PropsTypes.object,
   AUTHORITY_NAME: PropsTypes.string,
