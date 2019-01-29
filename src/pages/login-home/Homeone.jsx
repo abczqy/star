@@ -254,7 +254,6 @@ class Home extends React.Component {
             <div className='message-container'>
               <Carousel vertical autoplay autoplaySpeed='20'>
                 {this.state.messageCaro && this.state.messageCaro.map((item, index) => {
-                  console.log(item.message.content)
                   return <div key={index}>
                     <span className='messageleft' />
                     <div className='messageright'>{item.message.content}</div>
@@ -370,10 +369,10 @@ class Home extends React.Component {
               </Carousel> */}
               <Slider {...settings}>
                 {
-                  (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
+                  this.state.bannerBottomImg.length > 0 ? this.state.bannerBottomImg.map((item, index, arr) => {
                     return item.picUrl ? <img key={index} src={(Config.IMG_BASE_URL_V2 + item.picUrl) || ''} style={{height: '530px', width: '100%'}} />
                       : <img key={index} src={imgBanner} style={{height: '530px', width: '100%'}} />
-                  })
+                  }) : <img key={'noImage'} src={imgBanner} style={{height: '530px', width: '100%'}} />
                 }
               </Slider>
             </div>

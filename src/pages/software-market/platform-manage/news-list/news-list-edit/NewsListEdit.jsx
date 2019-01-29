@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon, Button, Col, Row, Input, Upload, message } from 'antd'
+import {Card, Icon, Button, Col, Row, Input, Upload, message, Modal} from 'antd'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Editor from 'wangeditor'
@@ -137,7 +137,21 @@ class NewsListEdit extends Component {
            }))
          }
        },
-       fileList: this.state.fileList
+       fileList: this.state.fileList,
+       accept: 'image/*',
+       onPreview: (file) => {
+         const reader = new FileReader()
+         reader.onload = (e) => {
+           let data = e.target.result
+           Modal.info({
+             content: <img src={data} style={{ width: 800, height: 'auto' }} />,
+             width: 940,
+             icon: ' ',
+             okText: '确认'
+           })
+         }
+         reader.readAsDataURL(file)
+       }
      }
      return (
        <div className='news-list-wrap' >

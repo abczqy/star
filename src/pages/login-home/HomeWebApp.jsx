@@ -3,7 +3,7 @@
  *
  */
 import React from 'react'
-import { Row, Col, message } from 'antd'
+import {Row, Col, message} from 'antd'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Config from 'config'

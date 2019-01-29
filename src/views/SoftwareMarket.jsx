@@ -30,6 +30,16 @@ class SoftwareMarket extends React.Component {
    * 后期：加入redux做状态管理
    */
   renderContent = ({ item, key, keyPath }) => {
+    if (key === this.state.subMenuKey) {
+      this.setState({
+        subMenuKey: '0'
+      }, () => {
+        this.setState({
+          subMenuKey: key
+        })
+      })
+      return
+    }
     this.setState({
       subMenuKey: key
     })

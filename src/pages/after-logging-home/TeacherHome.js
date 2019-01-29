@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
+import {Button, Icon, Tabs, Rate, message, Row, Col, Input, Modal} from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
 import { getSoftMarketHot } from 'services/software-manage'
@@ -365,8 +365,9 @@ class TeacherHome extends Component {
         </dl>
         <p style={{float: 'right'}}>
           {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
-            ? <Button className='openUpButton' type='primary'>
-              <a href={item.APP_LINK} target='_blank'>打开</a>
+            ? <Button className='openUpButton' type='primary' onClick={() => this.showModal(item.APP_LINK)}>
+              {/* <a href={item.APP_LINK} target='_blank'>打开</a> */}
+              打开
             </Button>
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
@@ -379,6 +380,15 @@ class TeacherHome extends Component {
         </p>
       </div>
     )
+  }
+  /** 打开平台类应用 */
+  showModal = (url) => {
+    this.setState({
+      clientWidth: document.body.clientWidth,
+      clientHeight: document.body.clientHeight,
+      showModal: true,
+      link: url
+    })
   }
   // handleHotOpen = (item) => {
   //   window.open(item.sw_url)
@@ -453,6 +463,22 @@ class TeacherHome extends Component {
               </TabPane>
             </Tabs>
           </div>
+        </div>
+        <div ref='iframeLink' className='iframe-modal-wrap'>
+          <Modal
+            visible={this.state.showModal}
+            footer={null}
+            onOk={this.handleOk}
+            width={'100%'}
+            height={800}
+            title={<span />}
+            style={{position: 'absolution', top: '0'}}
+            onCancel={() => this.setState({showModal: false})}
+            getContainer={() => this.refs.iframeLink}
+            destroyOnClose
+          >
+            <iframe style={{width: `${this.state.clientWidth}px`, height: `${this.state.clientHeight}px`, border: 'none'}} src={this.state.link} />
+          </Modal>
         </div>
       </div>
     )

@@ -231,7 +231,6 @@ class BannerMaker extends Component {
     }
     getSchoolInfoList(parmas, (res) => {
       let data = res.data
-      console.log(data)
       this.setState({
         dataList: data.list,
         total: data.total
