@@ -124,11 +124,11 @@ class NewUser extends React.Component {
             </FormItem>
           </Fragment>}
           {this.props.type === 1 && <Fragment>
-            <FormItem label='班号' {...formItemLayout}>
-              {getFieldDecorator('infoStudentModel.classNumber')(<Input />)}
-            </FormItem>
             <FormItem label='年级' {...formItemLayout}>
               {getFieldDecorator('infoStudentModel.grade')(<Input />)}
+            </FormItem>
+            <FormItem label='班号' {...formItemLayout}>
+              {getFieldDecorator('infoStudentModel.classNumber')(<Input />)}
             </FormItem>
             <FormItem label='备注' {...formItemLayout}>
               {getFieldDecorator('infoStudentModel.remarks')(<Input />)}
