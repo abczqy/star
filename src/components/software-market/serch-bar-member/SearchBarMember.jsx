@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col, Input } from 'antd'
+import { Select, Button, Input } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMember.scss'
 
@@ -38,71 +38,80 @@ class SearchBarMember extends Component {
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
-      onSelect4Change
+      onSelect4Change,
+      newManufacturer
     } = this.props
     return (
       <div className='search-bar-wrap'>
-        <Row gutter={16}>
+        {
+          this.props.inputText1 &&
+          <div className='search-bar-item'>
+            <span className='input-label'>{inputText1}</span>
+            <Input
+              className='input'
+              placeholder='请输入'
+              // showSearch
+              onChange={onSelect1Change} >
+              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+            </Input>
+          </div>
+        }
+        {
+          this.props.inputText1 &&
+          <div className='search-bar-item'>
+            <span className='input-label'>{inputText1}</span>
+            <Input
+              className='input'
+              placeholder='请输入'
+              // showSearch
+              onChange={onSelect1Change} >
+              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+            </Input>
+          </div>
+        }
+        {
+          this.props.inputText2 &&
+          <div className='search-bar-item'>
+            <span className='input-label'>{inputText2}</span>
+            <Input
+              className='input'
+              placeholder='请输入'
+              // showSearch
+              onChange={onSelect2Change} />
+          </div>
+        }
+        {
+          this.props.inputText3 &&
+          <div className='search-bar-item'>
+            <span className='select-label'>{this.props.inputText3.inputText3}</span>
+            <Select
+              className='input'
+              placeholder='请输入'
+              showSearch
+              onChange={onSelect3Change} >
+              {selectList.contractList && this.getOptions(selectList.contractList)}
+            </Select>
+          </div>
+        }
+        {
+          this.props.inputText4 &&
+          <div className='search-bar-item'>
+            <span className='select-label'>{this.props.inputText4}</span>
+            <Select defaultValue='all' className='select' onChange={onSelect4Change} >
+              <Option value='all'>全部</Option>
+              <Option value='allow'>允许</Option>
+              <Option value='refuse'>不允许</Option>
+            </Select>
+          </div>
+        }
+        <div className='search-bar-buttons'>
+          <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           {
-            this.props.inputText1 &&
-            <Col span={3}>
-              <span className='input-label'>{inputText1}</span>
-              <Input
-                className='input'
-                placeholder='请输入'
-                // showSearch
-                onChange={onSelect1Change} >
-                {/* {selectList.idList && this.getOptions(selectList.idList)} */}
-              </Input>
-            </Col>
+            this.props.onBtnBatchExport && <Button type='primary' className='search-bar-btn' onClick={this.props.onBtnBatchExport}>批量导出</Button>
           }
-          {
-            this.props.inputText2 &&
-            <Col span={5}>
-              <span className='input-label'>{inputText2}</span>
-              <Input
-                className='input'
-                placeholder='请输入'
-                // showSearch
-                onChange={onSelect2Change} >
-                {/* {selectList.faNameList && this.getOptions(selectList.faNameList)} */}
-              </Input>
-            </Col>
-          }
-          {
-            this.props.inputText3 &&
-            <Col span={5}>
-              <span className='select-label'>{this.props.inputText3.inputText3}</span>
-              <Select
-                className='input'
-                placeholder='请输入'
-                showSearch
-                onChange={onSelect3Change} >
-                {selectList.contractList && this.getOptions(selectList.contractList)}
-              </Select>
-            </Col>
-          }
-          {
-            this.props.inputText4 &&
-            <Col span={4}>
-              <span className='select-label'>{this.props.inputText4}</span>
-              <Select defaultValue='all' className='select' onChange={onSelect4Change} >
-                <Option value='all'>全部</Option>
-                <Option value='allow'>允许</Option>
-                <Option value='refuse'>不允许</Option>
-              </Select>
-            </Col>
-          }
-          <Col span={5}>
-            <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
-          </Col>
-          {
-            this.props.onBtnBatchExport &&
-            <Col span={2}>
-              <Button type='primary' className='search-bar-btn' onClick={this.props.onBtnBatchExport}>批量导出</Button>
-            </Col>
-          }
-        </Row>
+          <Button htmlType='button' onClick={newManufacturer} type='primary' style={{background: '#4eb652'}} icon='plus'>新增厂商</Button>
+        </div>
+        <div style={{clear: 'both'}} />
       </div>
     )
   }
@@ -119,7 +128,8 @@ SearchBarMember.propTypes = {
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
   onSelect4Change: PropsTypes.func,
-  onBtnBatchExport: PropsTypes.func
+  onBtnBatchExport: PropsTypes.func,
+  newManufacturer: PropsTypes.func
 }
 
 export default SearchBarMember

@@ -3,11 +3,11 @@
  */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Tabs, Rate, message, Row, Col, Input } from 'antd'
+import {Button, Icon, Tabs, Rate, message, Row, Col, Input, Modal} from 'antd'
 import webStorage from 'webStorage'
 import ajaxUrl from 'config'
-import { getSoftMarketList } from 'services/portalnew'
-import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection} from 'services/software-home'
+import { getSoftMarketHot } from 'services/software-manage'
+import {newAppRankingList, manufacturerSignInRankingList, teacherRecommend, homeCollection, homeCancelCollection, clickRecommend} from 'services/software-home'
 import HomeCarousel from './HomeCarousel'
 import './TeacherHome.scss'
 import { withRouter } from 'react-router'
@@ -124,9 +124,9 @@ class TeacherHome extends Component {
   }
   // 获取热门推荐数据
   getHotData = () => {
-    getSoftMarketList({}, (response) => {
+    getSoftMarketHot({}, (response) => {
       if (response.data.code === 200) {
-        let result = response.data.data.content || []
+        let result = response.data.data || []
         this.setState({
           hotData: result || []
         })
@@ -299,6 +299,7 @@ class TeacherHome extends Component {
   }
   // 老师推荐
   handleTeacherappSource = (item, index) => {
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
@@ -320,8 +321,7 @@ class TeacherHome extends Component {
             : <Button className='openButton' type='primary'>
               <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='heart' />
+          {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.teacherRecommend(item)} />}
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
             onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
@@ -333,14 +333,29 @@ class TeacherHome extends Component {
   handleTeacherOpen = (item) => {
     window.open(item.sw_url)
   }
+  /** 老师推荐 */
+  teacherRecommend = (item) => {
+    clickRecommend({
+      appId: item.APP_ID
+    }, (res) => {
+      const data = res.data.data
+      if (data !== 1) {
+        message.error('操作失败')
+      } else {
+        this.getHotData()
+        this.getTeacherData()
+      }
+    })
+  }
   // 热门推荐
   handleHotRecomappSource = (item, index) => {
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     return (
       <div key={index} className='list'>
         <dl className='list-item'>
           <dt className='dl-dt'>
-            {item.appIcon
-              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.appIcon} />
+            {item.APP_ICON
+              ? <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={ajaxUrl.IMG_BASE_URL_V2 + item.APP_ICON} />
               : <img style={{width: '100%', height: '100%', backgroundColor: '#fff'}} src={imgApp} /> }
           </dt>
           <dd className='dl-dd'>
@@ -350,21 +365,30 @@ class TeacherHome extends Component {
         </dl>
         <p style={{float: 'right'}}>
           {item.APP_SOURCE === 'pt' && item.IS_OPEN === '1'
-            ? <Button className='openUpButton' type='primary'>
-              <a href={item.APP_LINK} target='_blank'>打开</a>
+            ? <Button className='openUpButton' type='primary' onClick={() => this.showModal(item.APP_LINK)}>
+              {/* <a href={item.APP_LINK} target='_blank'>打开</a> */}
+              打开
             </Button>
             : <Button className='openButton' type='primary'>
-              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.appId}}>详情</Link>
+              <Link to={{pathname: '/operate-manage-home/all-app-detail-third', search: item.APP_ID}}>详情</Link>
             </Button>}
-          <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}}
-            type='heart' />
+          {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.teacherRecommend(item)} />}
           <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
-            onClick={(e) => this.handleCollection(item.appId, item.IS_COLLECT, e)}
+            onClick={(e) => this.handleCollection(item.APP_ID, item.IS_COLLECT, e)}
             type='star' theme={item.IS_COLLECT === '1' ? 'filled' : ''} />
           <Icon style={{backgroundColor: 'rgba(78, 203, 115, 1)'}} type='share-alt' />
         </p>
       </div>
     )
+  }
+  /** 打开平台类应用 */
+  showModal = (url) => {
+    this.setState({
+      clientWidth: document.body.clientWidth,
+      clientHeight: document.body.clientHeight,
+      showModal: true,
+      link: url
+    })
   }
   // handleHotOpen = (item) => {
   //   window.open(item.sw_url)
@@ -439,6 +463,22 @@ class TeacherHome extends Component {
               </TabPane>
             </Tabs>
           </div>
+        </div>
+        <div ref='iframeLink' className='iframe-modal-wrap'>
+          <Modal
+            visible={this.state.showModal}
+            footer={null}
+            onOk={this.handleOk}
+            width={'100%'}
+            height={800}
+            title={<span />}
+            style={{position: 'absolution', top: '0'}}
+            onCancel={() => this.setState({showModal: false})}
+            getContainer={() => this.refs.iframeLink}
+            destroyOnClose
+          >
+            <iframe style={{width: `${this.state.clientWidth}px`, height: `${this.state.clientHeight}px`, border: 'none'}} src={this.state.link} />
+          </Modal>
         </div>
       </div>
     )

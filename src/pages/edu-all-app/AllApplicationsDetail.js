@@ -3,7 +3,7 @@
  */
 // eslint-disable-next-line react/jsx-no-bind
 import React from 'react'
-import { Button, Icon } from 'antd'
+import { Button, Icon, Modal } from 'antd'
 import ajaxUrl from 'config'
 // import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import './AllApplicationsDetail.css'
 import LimitedInfiniteScroll from 'react-limited-infinite-scroll'
 import imgApp from '../../assets/images/work-plat/app-more.png'
+import webStorage from 'webStorage'
 class AllApplicationsDetail extends React.Component {
   constructor (props) {
     super(props)
@@ -20,7 +21,11 @@ class AllApplicationsDetail extends React.Component {
         platformAppDataa: [],
         shelfTimeSort: 'desc',
         downloadNum: 'desc',
-        appType: 'all'
+        appType: 'all',
+        link: '',
+        showModal: false,
+        clientWidth: 1000,
+        clientHeight: 1000
       }
   }
   static propTypes = {
@@ -31,14 +36,20 @@ class AllApplicationsDetail extends React.Component {
     allAppListData: PropTypes.array,
     platformAppDataa: PropTypes.array,
     onClickLeft: PropTypes.func,
-    onClickRight: PropTypes.func
+    onClickRight: PropTypes.func,
+    teacherRecommend: PropTypes.func
   }
   componentDidMount () {
     // this.getAllAppData()
     // this.getPlatformAppData()
+    // 获取屏幕宽度
+    let width = document.body.clientWidth
+    let height = document.body.clientHeight
     this.setState({
       allAppListData: this.props.allAppListData,
-      platformAppDataa: this.props.platformAppDataa
+      platformAppDataa: this.props.platformAppDataa,
+      clientWidth: width,
+      clientHeight: height
     })
     // this.refs['test'].goTo(1)
   }
@@ -49,7 +60,14 @@ class AllApplicationsDetail extends React.Component {
       platformAppDataa: nextProps.platformAppDataa
     })
   }
-
+  // 获取应用的链接
+  getLinks = (record) => {
+    console.log(record)
+    this.setState({
+      link: record.APP_LINK,
+      showModal: true
+    })
+  }
   loadNextFunc = () => {
   }
   // 打开按钮页面跳转
@@ -58,6 +76,7 @@ class AllApplicationsDetail extends React.Component {
   }
   render () {
     let total = this.state.allAppListData.length // 暂时没有实现滚动加载
+    const role = webStorage.getItem('STAR_WEB_PERSON_INFO')
     const items = this.state.allAppListData && this.state.allAppListData instanceof Array && this.state.allAppListData.map((item, index) => {
       return (
         <div key={index} className='software-application'>
@@ -88,7 +107,8 @@ class AllApplicationsDetail extends React.Component {
               详情
               </Button>
             </Link>
-            <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' />
+            {console.log(role.userType)}
+            {role.userType === 2 && <Icon style={{backgroundColor: 'rgb(255, 187, 69)'}} type='heart' theme={item.IS_RECOMMEND === '1' ? 'filled' : ''} onClick={() => this.props.teacherRecommend(item)} />}
             <Icon style={{backgroundColor: 'rgba(255, 109, 74, 1)'}}
               onClick={() => this.props.handleCollection(item.APP_ID, item.IS_COLLECTION)}
               type='star' theme={item.IS_COLLECTION === '1' ? 'filled' : ''} />
@@ -128,7 +148,7 @@ class AllApplicationsDetail extends React.Component {
                                     className='open'
                                     type='primary'
                                   >
-                                    <a style={{ cursor: 'pointer' }} href={item.APP_LINK} target='_blank'>打开</a>
+                                    <a href='javascript:void(0)' style={{ cursor: 'pointer' }} onClick={() => { this.getLinks(item) }}>打开</a>
                                   </Button>
                                   : <Button
                                     style={{ height: '26px', lineHeight: '20px' }}
@@ -180,8 +200,33 @@ class AllApplicationsDetail extends React.Component {
             </LimitedInfiniteScroll>
           </div>
         </div>
+        <div ref='iframeLink' className='iframe-modal-wrap'>
+          <Modal
+            visible={this.state.showModal}
+            footer={null}
+            onOk={this.handleOk}
+            width={'100%'}
+            height={800}
+            title={<span />}
+            style={{position: 'absolution', top: '0'}}
+            onCancel={this.handleCancle}
+            getContainer={() => this.refs.iframeLink}
+          >
+            <iframe style={{width: `${this.state.clientWidth}px`, height: `${this.state.clientHeight}px`, border: 'none'}} src={this.state.link} />
+          </Modal>
+        </div>
       </div>
     )
+  }
+  handleOk = () => {
+    this.setState({
+      showModal: false
+    })
+  }
+  handleCancle = () => {
+    this.setState({
+      showModal: false
+    })
   }
 }
 export default AllApplicationsDetail

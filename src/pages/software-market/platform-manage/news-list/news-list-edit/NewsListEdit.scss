@@ -54,3 +54,9 @@
     }
   }
 }
+.ant-modal-mask{
+  z-index: 1000000; 
+}
+.ant-modal-wrap{
+  z-index: 1000001;
+}

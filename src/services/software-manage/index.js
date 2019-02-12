@@ -16,15 +16,11 @@ export function getAppListData (params, sucFn) {
  * 软件管理-下架
  */
 export function getAppListDatav2 (params, sucFn) {
-  console.log('params.sw_type' + params.sw_type)
+  console.log(params)
   return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET +
-  '/manage-app/list-by-audit-status' +
-  '?auditStatus=' + params.auditStatus +
-  '&downloadCount=' + params.downloadCount +
-  '&keyword=' + params.keyword +
-  '&pageNum=' + params.pageNum +
-  '&pageSize=' + params.pageSize +
-  '&typeId=' + params.typeId)
+    '/manage-app/list-by-audit-status', {
+    params: params
+  })
   // '?auditStatus=5&downloadCount=desc&pageNum=1&pageSize=10&typeId=101')
   // + {...params}
     .then(function (res) {
@@ -86,8 +82,8 @@ export function undercarriage (params, sucFn) {
 // 'http://192.168.1.31:10101/edu-market/app-on-shelf-apply?applyType=0&userId=1'
 export function undercarriagev2 (params, params1, sucFn) {
   return axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-on-shelf-apply' +
-  '?applyType=' + params.applyType +
-  '&userId=' + params.userId, params1)
+    '?applyType=' + params.applyType +
+    '&userId=' + params.userId, params1)
     .then(function (res) {
       sucFn(res)
     })
@@ -666,7 +662,7 @@ export function thBatchLeadout (params, sucFn) {
  * 会员管理-教育机构-查询
  */
 export function eduGetData (params, sucFn) {
-  axios.get(API_BASE_URL_V2 + '/portal/authoritys', {...params})
+  axios.get(API_BASE_URL_V2 + '/portal/authoritys/user', {...params})
     .then((res) => {
       sucFn(res)
     })
@@ -752,7 +748,7 @@ export function waitVeriAgreev2 (paramsList, params1, sucFn) {
  */
 export function waitVeriRejectv2 (paramsList, params1, sucFn) {
   return axios.put(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/app-version/reject' + '?rejectReason=' +
-  params1.rejectReason, paramsList)
+    params1.rejectReason, paramsList)
     .then(function (res) {
       sucFn(res)
     })
@@ -889,6 +885,7 @@ export function getGatewayBannerList (params, type, sucFn) {
  * 用appId获取app数据接口
  */
 export function appId (params, sucFn) {
+  console.log(params)
   return axios.post(API_BASE_URL + '/AppStore/query', params)
     .then(function (res) {
       sucFn(res)
@@ -971,7 +968,7 @@ export function getSoftMarketList (params, sucFn) {
  * 软件市场热门应用查询
  */
 export function getSoftMarketHot (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/detail-list/1/10', {params: params})
+  return axios.get(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/detail-list/1/8', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -1076,6 +1073,24 @@ export function getSchoolBannerList (params, sucFn) {
 export function deleteSchoolBannerList (params, sucFn) {
   return axios.post(API_BASE_URL + '/deleteSchoolBannerList', params)
     .then(function (res) {
+      sucFn(res)
+    })
+}
+
+/** 新增厂商机构
+ */
+export function newManufacturer (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/company', params)
+    .then(res => {
+      sucFn(res)
+    })
+}
+
+/** 新增教育机构
+  */
+export function newEdu (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/authoritys', params)
+    .then(res => {
       sucFn(res)
     })
 }

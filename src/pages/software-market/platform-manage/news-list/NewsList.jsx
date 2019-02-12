@@ -46,7 +46,9 @@ class NewsList extends Component {
       rowKeys: [],
       batchLeadParams: {
         idArrs: ''
-      }
+      },
+      visible: false,
+      showImg: ''
     }
   }
 
@@ -93,7 +95,7 @@ class NewsList extends Component {
         key: 'picUrl',
         width: '10%',
         render: (text, record, index) =>
-          text ? <img className='img-table-box' src={IMG_BASE_URL_V2 + text} /> : '无'
+          text ? <img className='img-table-box' src={IMG_BASE_URL_V2 + text} style={{cursor: 'pointer'}} onClick={() => this.showImg(text)} /> : '无'
       }, {
         title: '操作',
         dataIndex: 'options',
@@ -311,6 +313,16 @@ class NewsList extends Component {
       this.getTableDatas()
     })
   }
+  /** 查看图片大图 */
+  showImg = (text) => {
+    const url = IMG_BASE_URL_V2 + text
+    Modal.info({
+      content: <img src={url} style={{ width: 800, height: 'auto' }} />,
+      width: 940,
+      icon: ' ',
+      okText: '确认'
+    })
+  }
 
   componentDidMount () {
     this.getTableDatas()
@@ -334,7 +346,8 @@ class NewsList extends Component {
             ...pagination,
             total: this.state.tableData.total,
             onShowSizeChange: this.onShowSizeChange,
-            onChange: this.pageNumChange
+            onChange: this.pageNumChange,
+            showTotal: () => `总共有  ${tableData.total} 条数据`
           }}
           rowSelection={{
             selectedRowKeys: this.state.rowKeys,

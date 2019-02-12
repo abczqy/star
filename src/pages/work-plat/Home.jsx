@@ -382,7 +382,7 @@ class Home extends Component {
     let d = data.slice() || []
     // 长度在5个以上时 需要截取前6个
     d.length > 2 && d.splice(3)
-    return d.map((v, i) => (
+    return d.length > 0 ? d.map((v, i) => (
       <Row className='wait-to-do-vend'>
         <Col span={2}>
           <span
@@ -416,7 +416,7 @@ class Home extends Component {
           查看
         </Col>
       </Row>
-    ))
+    )) : <div style={{textAlign: 'center'}}>暂无数据</div>
   }
 
   /**
@@ -462,14 +462,14 @@ class Home extends Component {
     data = data || []
     // 长度在5个以上时 需要截取前6个
     data.length > 5 && data.splice(6)
-    return data.map((v, i) => {
+    return data.length > 0 ? data.map((v, i) => {
       return (
         <WaitToDoItem
           key={i}
           message={v.message}
         />
       )
-    })
+    }) : <div style={{textAlign: 'center'}}>暂无数据</div>
   }
 
   /**
@@ -642,7 +642,7 @@ class Home extends Component {
                   imgStyle={{ ...imgStyle }}
                   label='人员管理'
                   icon={Member}
-                  // onClick={() => this.onManageClick('people')}
+                  onClick={() => this.onManageClick('people')}
                 />
               </Col>
           }
@@ -853,7 +853,7 @@ class Home extends Component {
           <Col span={16}>
             <Card
               bordered={false}
-              title={<span>待办事项<span className='tip-red'>{'(23)'}</span></span>}
+              title={<span>待办事项<span className='tip-red'>{'(0)'}</span></span>}
               headStyle={{...headStyle}}
               bodyStyle={{...bodyStyle, height: '230px'}}
               extra={<Extra />}

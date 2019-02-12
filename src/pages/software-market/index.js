@@ -14,7 +14,12 @@ export {
   Parent,
   School,
   Student,
-  Teacher
+  Teacher,
+  HomeMember,
+  FreeRegister,
+  Agent,
+  Examine,
+  Tourist
 } from './member-manage/index'
 
 export {

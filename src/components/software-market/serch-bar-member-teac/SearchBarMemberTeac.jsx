@@ -4,7 +4,7 @@
  * 利用判断渲染 -- 将两个组件合二为一
  */
 import React, { Component } from 'react'
-import { Select, Button, Row, Col, Input, Upload } from 'antd'
+import { Select, Button, Input, Upload } from 'antd'
 import PropsTypes from 'prop-types'
 import './SearchBarMemberTeac.scss'
 
@@ -40,63 +40,85 @@ class SearchBarMemberTeac extends Component {
       onSelect1Change,
       onSelect2Change,
       onSelect3Change,
-      // onSelect4Change,
+      onSelect4Change,
       // onBtnBatchExport,
       uploadProps
     } = this.props
     return (
       <div className='search-bar-wrap'>
-        <Row gutter={16}>
-          <Col span={5}>
-            <span className='input-label'>账号</span>
-            <Input
-              className='select'
-              placeholder='请输入'
-              // showSearch
-              onChange={onSelect1Change} >
-              {/* {selectList.idList && this.getOptions(selectList.idList)} */}
-            </Input>
-          </Col>
-          <Col span={5}>
-            <span className='input-label'>教师姓名</span>
-            <Input
-              className='select'
-              placeholder='请输入'
-              // showSearch
-              onChange={onSelect2Change} >
-              {/* {selectList.tchNameList && this.getOptions(selectList.tchNameList)} */}
-            </Input>
-          </Col>
-          <Col span={5}>
-            <span className='input-label'>所属机构</span>
-            <Input
-              className='select'
-              placeholder='请输入'
-              // showSearch
-              onChange={onSelect3Change} >
-              {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
-            </Input>
-          </Col>
-          {/* <Col span={4}>
+        <div className='search-bar-item'>
+          <span className='input-label'>账号</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect1Change} >
+            {/* {selectList.idList && this.getOptions(selectList.idList)} */}
+          </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='input-label'>教师姓名</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            // showSearch
+            onChange={onSelect2Change} >
+            {/* {selectList.tchNameList && this.getOptions(selectList.tchNameList)} */}
+          </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='input-label'>所属学校</span>
+          <Input
+            className='select'
+            placeholder='请输入'
+            value={this.props.AUTHORITY_NAME}
+            // showSearch
+            onChange={onSelect3Change} >
+            {/* {selectList.schNameList && this.getOptions(selectList.schNameList)} */}
+          </Input>
+        </div>
+        <div className='search-bar-item'>
+          <span className='select-label'>允许登录</span>
+          <Select defaultValue='all' className='select' onChange={onSelect4Change} >
+            <Option value='all'>全部</Option>
+            <Option value='allow'>允许</Option>
+            <Option value='refuse'>不允许</Option>
+          </Select>
+        </div>
+        <div className='search-bar-buttons'>
+          <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
+          <Button type='primary' className='search-bar-btn'><a href='/static/document/UserMessages.xls' download='老师用户模板.xls' target='_blank'>模板下载</a></Button>
+          <Upload {...uploadProps} className='search-bar-btn' style={{display: 'inline-block'}}>
+            <Button type='primary'>批量导入</Button>
+          </Upload>
+          <Button htmlType='button' className='search-bar-btn' type='primary' style={{background: '#4eb652'}} icon='plus' onClick={() => this.props.changeVisible(true)}>新增老师</Button>
+          {/* <Icon type='rollback' style={{fontSize: 20, verticalAlign: 'middle'}} onClick={() => changeState(1)} /> */}
+        </div>
+        <div style={{clear: 'both'}} />
+        {/* <Row gutter={16}>
+           <Col span={4}>
             <span className='select-label'>允许登录</span>
             <Select defaultValue='all' className='select' onChange={onSelect4Change} >
               <Option value='all'>全部</Option>
               <Option value='allow'>允许</Option>
               <Option value='refuse'>不允许</Option>
             </Select>
-          </Col> */}
-          <Col span={4}>
+          </Col>
+          <Col span={2}>
             <Button type='primary' className='search-bar-btn' onClick={onBtnSearchClick}>搜索</Button>
           </Col>
           <Col span={2}>
             <Button type='primary' className='search-bar-btn'><a href='/static/document/UserMessages.xls' target='_blank'>模板下载</a></Button>
           </Col>
-          <Upload {...uploadProps}>
-            <Col span={2}>
+          <Col span={2}>
+            <Upload {...uploadProps}>
               <Button type='primary' className='search-bar-btn'>批量导入</Button>
-            </Col>
-          </Upload>
-        </Row>
+            </Upload>
+          </Col>
+          <Col span={2}>
+            <Button htmlType='button' type='primary' style={{background: '#4eb652'}} icon='plus'>新增老师</Button>
+          </Col>
+        </Row> */}
       </div>
     )
   }
@@ -108,9 +130,11 @@ SearchBarMemberTeac.propTypes = {
   onSelect1Change: PropsTypes.func,
   onSelect2Change: PropsTypes.func,
   onSelect3Change: PropsTypes.func,
-  // onSelect4Change: PropsTypes.func,
+  onSelect4Change: PropsTypes.func,
   onBtnBatchExport: PropsTypes.func,
-  uploadProps: PropsTypes.object
+  uploadProps: PropsTypes.object,
+  AUTHORITY_NAME: PropsTypes.string,
+  changeVisible: PropsTypes.func
 }
 
 export default SearchBarMemberTeac

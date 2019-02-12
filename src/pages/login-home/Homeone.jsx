@@ -18,8 +18,7 @@ import HomeNewsAndInfo from './HomeNewsAndInfo'
 import Platdata from './Platdata'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { hotRecommend } from 'services/software-home'
-import { getMessageCaro, getPortalBannerImg, getRecommendApp, getNewsNoticeList, getPublicNoticeList, getAllAppCount } from 'services/portalnew'
+import { getMessageCaro, getPortalBannerImg, getRecommendApp, getNewsNoticeList, getPublicNoticeList, getAllAppCount, getSoftMarketList } from 'services/portalnew'
 import imgBanner from '../../assets/images/login-home/u686.jpg'
 import imgAd1 from '../../assets/images/login-home/u700.png'
 import imgAd2 from '../../assets/images/login-home/u703.png'
@@ -93,8 +92,10 @@ class Home extends React.Component {
           item.apppath = item.APP_LINK
           item.appIcon = item.APP_ICON
         })
+        result = result.splice(0, 6)
         // console.log('工作台我的应用', result)
         // if (result.success) {
+        console.log(`工作台: ${result}`)
         this.setState({
           webAppData: result || []
         })
@@ -115,7 +116,7 @@ class Home extends React.Component {
         // message.warning(response.data.msg || '出现异常')
       }
     }) */
-    hotRecommend({
+    getSoftMarketList({
       pageNum: '1',
       pageSize: 6
     }, (res) => {
@@ -253,7 +254,6 @@ class Home extends React.Component {
             <div className='message-container'>
               <Carousel vertical autoplay autoplaySpeed='20'>
                 {this.state.messageCaro && this.state.messageCaro.map((item, index) => {
-                  console.log(item.message.content)
                   return <div key={index}>
                     <span className='messageleft' />
                     <div className='messageright'>{item.message.content}</div>
@@ -369,10 +369,10 @@ class Home extends React.Component {
               </Carousel> */}
               <Slider {...settings}>
                 {
-                  (this.state.bannerBottomImg instanceof Array) && this.state.bannerBottomImg.map((item, index, arr) => {
+                  this.state.bannerBottomImg.length > 0 ? this.state.bannerBottomImg.map((item, index, arr) => {
                     return item.picUrl ? <img key={index} src={(Config.IMG_BASE_URL_V2 + item.picUrl) || ''} style={{height: '530px', width: '100%'}} />
                       : <img key={index} src={imgBanner} style={{height: '530px', width: '100%'}} />
-                  })
+                  }) : <img key={'noImage'} src={imgBanner} style={{height: '530px', width: '100%'}} />
                 }
               </Slider>
             </div>

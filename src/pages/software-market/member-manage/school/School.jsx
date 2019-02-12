@@ -10,19 +10,11 @@
  */
 import React, { Component } from 'react'
 // import { Table, Switch, Divider, message } from 'antd'
-import { Table, message } from 'antd'
+import { Table, message, Modal, Divider, Switch } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
-import {
-  // schGetData,
-  // maDelId,
-  maInitPwd,
-  // schBatchLeadout,
-  // getIdSelectList,
-  // getNameSelectList,
-  toLogin
-} from 'services/software-manage'
-import { BlankBar, SearchBarMemberSch } from 'components/software-market'
+import {updateUser} from 'services/software-market'
+import { SearchBarMemberSch, NewSchool } from 'components/software-market'
 // import {
 //   addKey2TableData
 //   // getSelectList
@@ -30,6 +22,7 @@ import { BlankBar, SearchBarMemberSch } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -63,7 +56,8 @@ class School extends Component {
         idArrs: []
       },
       dataSource: [],
-      selectList: {}
+      selectList: {},
+      visible: false
     }
   }
 
@@ -71,27 +65,38 @@ class School extends Component {
     return ([
       {
         title: '学校名称',
-        dataIndex: 'schoolName',
-        key: 'schoolName',
+        dataIndex: 'SCHOOL_NAME',
         width: 200
-      // }, {
-      //   title: '账号',
-      //   dataIndex: 'sh_id',
-      //   key: 'sh_id',
-      //   width: 200
-      // }, {
-      //   title: '所属教育机构',
-      //   dataIndex: 'edu_name',
-      //   key: 'edu_name'
-      // }, {
-      //   title: '允许登录',
-      //   dataIndex: 'to_login',
-      //   key: 'to_login',
-      //   render: (text, record, index) => {
-      //     return (
-      //       <Switch checked={record.to_login === 1} onChange={() => this.handleToLogin(record)} />
-      //     )
-      //   }
+      }, {
+        title: '账号',
+        dataIndex: 'LOGIN_NAME',
+        width: 200
+      }, {
+        title: '所属教育机构',
+        dataIndex: 'AUTHORITY_NAME'
+      }, {
+        title: '状态',
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text) => {
+          return text === 0 ? '未激活' : '激活'
+        }
+      }, {
+        title: '代理商',
+        dataIndex: 'daili'
+      }, {
+        title: '联系方式',
+        dataIndex: 'TELEPHONE'
+      }, {
+        title: '地址',
+        dataIndex: 'SCHOOL_ADDRESS'
+      }, {
+        title: '允许登录',
+        dataIndex: 'LOGIN_PERMISSION_STATUS',
+        render: (text, record, index) => {
+          return (
+            <Switch checked={record.LOGIN_PERMISSION_STATUS === 1} onChange={() => this.handleToLogin(record)} />
+          )
+        }
       }, {
         title: '操作',
         dataIndex: 'options',
@@ -104,31 +109,37 @@ class School extends Component {
               <Divider type='vertical' />
               <Link to={{pathname: '/software-market-home/member-manage/student', search: record.sh_id}}>学生</Link>
               <Divider type='vertical' /> */}
-              <a href='javascript:void(0)'>详情</a>
+              <a href='javascript:void(0)' onClick={() => this.props.changeState(2, record)}>老师</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)' onClick={() => this.props.changeState(4, record)}>学生</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)'>重置密码</a>
+              <Divider type='vertical' />
+              <a href='javascript:void(0)'>删除</a>
             </span>
           )
         }
       }])
   }
 
-  // getParams = () => {
-  //   let a = window.location.href.split('?')
-  //   const {
-  //     shId,
-  //     shName,
-  //     eduServices,
-  //     loginType
-  //   } = this.state.reqParam
-  //   return {
-  //     pageSize: this.state.pagination.pageSize,
-  //     pageNum: this.state.pagination.pageNum,
-  //     sh_id: shId || '',
-  //     shName: shName || '',
-  //     eduServices: eduServices || '',
-  //     loginType: loginType || '',
-  //     id: a[1] || ''
-  //   }
-  // }
+  getParams = () => {
+    let a = window.location.href.split('?')
+    const {
+      shId,
+      shName,
+      eduServices,
+      loginType
+    } = this.state.reqParam
+    return {
+      pageSize: this.state.pagination.pageSize,
+      pageNum: this.state.pagination.pageNum,
+      sh_id: shId || '',
+      shName: shName || '',
+      eduServices: eduServices || '',
+      loginType: loginType || '',
+      id: a[1] || ''
+    }
+  }
 
   /**
    * 获取运营中的应用列表数据
@@ -179,14 +190,14 @@ class School extends Component {
   // 允许登录状态切换
   handleToLogin = (record) => {
     const thiz = this
+    const id = record && record.USER_ID
     const params = {
-      id: record && record.sh_id,
-      to_login: record.to_login ? 0 : 1
+      isLogin: record.LOGIN_PERMISSION_STATUS ? 0 : 1,
+      userId: id
     }
-    toLogin(params, (res) => {
+    updateUser(id, params, (res) => {
       const data = res.data ? res.data : {}
-      console.log(data)
-      if (data.SUCCESS) {
+      if (data.code === 200) {
         message.success(data.msg)
         thiz.getTableDatas()
       }
@@ -266,12 +277,12 @@ class School extends Component {
  */
   initPwd = (record) => {
     // 后台参数不确定
-    const params = {
-      sh_id: record.sh_id
-    }
-    maInitPwd(params, (res) => {
-      console.log(`res.data.result: ${res.data.result}`)
-    })
+    // const params = {
+    //   sh_id: record.sh_id
+    // }
+    // maInitPwd(params, (res) => {
+    //   console.log(`res.data.result: ${res.data.result}`)
+    // })
     // 最好有个确认的弹窗什么的
     // 后面再加上loading + 操作成功的提示
   }
@@ -353,7 +364,37 @@ class School extends Component {
       this.getTableDatas()
     })
   }
-
+  /**
+   * 新增学校
+   */
+  newSchool = () => {
+    this.setState({
+      visible: true
+    })
+  }
+  /** 确认新增学校 */
+  onOk = () => {
+    this.refs.formNew.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        let schoolAddress = values.schoolAddress
+        values.institutionId = values.authorityName.key
+        values.authorityName = values.authorityName.label
+        values.schoolAddress = schoolAddress.province + schoolAddress.city + schoolAddress.region
+        axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/schools', values).then(res => {
+          if (res.data.data === 1) {
+            message.success('新增学校成功')
+            this.setState({
+              visible: false
+            }, () => {
+              this.getTableDatas()
+            })
+          } else {
+            message.error('新增学校失败')
+          }
+        })
+      }
+    })
+  }
   /**
    *获取一系列参数
    */
@@ -367,21 +408,22 @@ class School extends Component {
   }
 
   render () {
-    const { pagination, selectList } = this.state
+    const { pagination, selectList, visible } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberSch
           selectList={{ ...selectList }}
-          onSelect1Change={this.onIdChange}
-          onSelect2Change={this.onSchNameChange}
-          onSelect3Change={this.onBelongChange}
-          onSelect4Change={this.onToLogin}
-          onBtnSearchClick={this.search}
-          onBtnBatchExport={this.onBatchLeadout}
+          newSchool={this.newSchool}
+          // onSelect1Change={this.onIdChange}
+          // onSelect2Change={this.onSchNameChange}
+          // onSelect3Change={this.onBelongChange}
+          // onSelect4Change={this.onToLogin}
+          // onBtnSearchClick={this.search}
+          // onBtnBatchExport={this.onBatchLeadout}
         />
-        <BlankBar />
         <Table
           columns={this.getColumns()}
+          rowKey={(record, index) => index}
           dataSource={this.state.dataSource}
           pagination={{
             ...pagination,
@@ -393,9 +435,20 @@ class School extends Component {
           //   onChange: this.rowSelectChange
           // }}
         />
+        <Modal visible={visible}
+          onOk={this.onOk}
+          centered
+          onCancel={() => this.setState({visible: false})}
+          title='新增学校'
+          width={600}>
+          <NewSchool ref='formNew' />
+        </Modal>
       </div>
     )
   }
+}
+School.propTypes = {
+  changeState: PropTypes.func
 }
 
 export default School

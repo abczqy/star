@@ -12,10 +12,11 @@ import React, { Component } from 'react'
 import { Table, Switch, Divider, message, Popconfirm } from 'antd'
 // import { Link } from 'react-router-dom'
 // import ajaxUrl from 'config'
-import { BlankBar, SearchBarMemberTeac } from 'components/software-market'
+import { SearchBarMemberTeac, NewUser } from 'components/software-market'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -38,14 +39,15 @@ class Teacher extends Component {
       reqParam: {
         thId: '',
         thName: '',
-        toLogin: '',
+        toLogin: 'all',
         shName: ''
       },
       pagination,
       batchLeadParams: {
         idArrs: []
       },
-      selectList: {}
+      selectList: {},
+      newVisible: false
     }
 
     this.uploadProps = {
@@ -80,9 +82,15 @@ class Teacher extends Component {
         key: 'USER_ACCOUNT',
         width: 200
       }, {
-        title: '所属机构',
+        title: '所属学校',
         dataIndex: 'AUTHORITY_NAME',
         key: 'AUTHORITY_NAME'
+      }, {
+        title: '状态',
+        dataIndex: 'IS_FIRST_LOGIN',
+        render: (text, record) => {
+          return text === 0 ? '未激活' : '激活'
+        }
       }, {
         title: '允许登录',
         dataIndex: 'LOGIN_PERMISSION_STATUS',
@@ -155,6 +163,9 @@ class Teacher extends Component {
     if (this.state.AUTHORITY_NAME !== '') {
       // 后台要求，回传数据的时候字段为小写
       param.organization_name = this.state.AUTHORITY_NAME
+    }
+    if (this.state.reqParam.toLogin !== 'all') {
+      param.login = this.state.reqParam.toLogin === '1' ? 1 : 0
     }
     axios.post(`${API_BASE_URL_V2}${SERVICE_PORTAL}/user-list/role/2/${this.state.pagination.pageNum}/${this.state.pagination.pageSize}`, param).then((res) => {
       if (res.data.code === 200) {
@@ -241,8 +252,6 @@ class Teacher extends Component {
         ...this.state.reqParam,
         toLogin: loginAllow
       }
-    }, () => {
-      console.log('111111', this.state.reqParam)
     })
   }
 
@@ -349,11 +358,27 @@ class Teacher extends Component {
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
-    this.getTableDatas()
+    if (this.props.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: this.props.AUTHORITY_NAME
+      }, () => {
+        this.getTableDatas()
+      })
+    } else {
+      this.getTableDatas()
+    }
   }
-
+  /** 新增老师弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+    if (visible === false) {
+      this.getTableDatas()
+    }
+  }
   render () {
-    const { pagination, selectList } = this.state
+    const { pagination, selectList, AUTHORITY_NAME } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberTeac
@@ -365,8 +390,9 @@ class Teacher extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
+          AUTHORITY_NAME={AUTHORITY_NAME}
+          changeVisible={this.changeVisible}
         />
-        <BlankBar />
         <Table
           columns={this.getClomus()}
           dataSource={this.state.dataSource}
@@ -383,9 +409,24 @@ class Teacher extends Component {
             return index
           }}
         />
+        <NewUser
+          changeVisible={this.changeVisible}
+          visible={this.state.newVisible}
+          type={2}
+        />
       </div>
     )
   }
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      AUTHORITY_NAME: nextProps.AUTHORITY_NAME
+    }, () => {
+      this.search()
+    })
+  }
+}
+Teacher.propTypes = {
+  AUTHORITY_NAME: PropTypes.string
 }
 
 export default Teacher

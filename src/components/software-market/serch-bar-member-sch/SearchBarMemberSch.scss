@@ -1,25 +1,38 @@
 .search-bar-wrap {
-  width: '100%';
-  height: '100%'
+  width: 100%;
+  height: 100%;
+  .search-bar-item{
+    float: left;
+    width: 240px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+  }
+  .search-bar-buttons{
+    float: right;
+    width: fit-content;
+    width: -moz-fit-content;
+  }
+  .search-bar-btn{
+    margin-right: 15px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
 }
 
 .input-label {
-  width: 25%
+  display: inline-block;
+  width: 30%;
 }
 
-.input {
-    width: 75%
-  }
+.input.ant-input {
+  width: 70%
+}
 
 .select-label {
-  width: 35%
+  display: inline-block;
+  width: 35%;
 }
 
-.select {
+.select.ant-select {
   width: 65%
 }
-
-.reduce-right-padding {
-  
-}
-

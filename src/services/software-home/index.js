@@ -1,6 +1,6 @@
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL, API_BASE_URL_V2} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 // 厂商登录首页排行榜
 export function manufacturerSignInRankingList (params, sucFn) {
@@ -28,7 +28,7 @@ export function homeSearch (params, sucFn) {
 }
 // 首页老师推荐
 export function teacherRecommend (params, sucFn) {
-  return axios.get(API_BASE_URL_V2 + '/portal/teacher-recommend-app', {params: params})
+  return axios.get(API_BASE_URL_V2 + '/portal/teacher-recommend-app/list', {params: params})
     .then(function (res) {
       sucFn(res)
     })
@@ -58,6 +58,13 @@ export function homeCollection (params, sucFn) {
 export function homeCancelCollection (params, sucFn) {
   return axios.delete(API_BASE_URL_V2 + '/edu-market/app-collect/' + params.appId)
     .then(function (res) {
+      sucFn(res)
+    })
+}
+/** 老师推荐点击 */
+export function clickRecommend (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/teacher-recommend-app/commend?appId=' + params.appId)
+    .then(res => {
       sucFn(res)
     })
 }

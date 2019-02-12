@@ -3,7 +3,7 @@
  */
 import {axios} from '../../utils'
 import config from '../../config/index'
-const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL} = config
+const {API_BASE_URL, API_BASE_URL_V2, SERVICE_PORTAL, SERVICE_AUTHENTICATION} = config
 /**
  * 校验邮箱是否被占用
  */
@@ -29,6 +29,15 @@ export function register (params, sucFn) {
  */
 export function registerParent (params, sucFn) {
   return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/parentsOperation', {...params})
+    .then(function (res) {
+      sucFn(res)
+    })
+}
+/**
+ * 用户自注册
+ */
+export function registerFree (params, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/parentsOperation/free', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -109,7 +118,7 @@ export function getMessageListDetail (params, sucFn) {
  * 账号设置-密码修改
  */
 export function updateUserPassword (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/account-security', params)
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/account-security/user', params)
     .then(function (res) {
       sucFn(res)
     })
@@ -208,7 +217,7 @@ export function Verificationv2 (params, sucFn) {
  * 忘记密码-修改密码
  */
 export function updataPasswordv2 (params, sucFn) {
-  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/account-security/', {...params})
+  return axios.post(API_BASE_URL_V2 + SERVICE_PORTAL + '/account-security/user', {...params})
     .then(function (res) {
       sucFn(res)
     })
@@ -285,4 +294,12 @@ export function userInfoAdd (roleId, params, sucFn) {
     .then(function (res) {
       sucFn(res)
     })
+}
+/**
+ * 修改人员信息
+ */
+export function updateUser (data, sucFn) {
+  return axios.post(API_BASE_URL_V2 + SERVICE_AUTHENTICATION + '/users/detailed', data).then((res) => {
+    sucFn(res)
+  })
 }

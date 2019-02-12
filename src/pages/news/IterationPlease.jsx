@@ -618,9 +618,6 @@ zHs=() => {
             </Row>
             <Row className='Wxd'>
               <Row className='Wxds'>
-                {/* {this.state.renderEdition.map((item, index) => {
-                  return item
-                })} */}
                 { this.getEditionRender() }
               </Row>
               <Row className='Wxd'>

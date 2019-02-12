@@ -89,9 +89,16 @@ class ShelfPlease extends React.Component {
       fileListFive: [], // 用来存软件版权的文件id
       fileListFinVour: [], // 用来存财务审核凭证的文件id
       fileListContract: [], // 用来存财务审核凭证的文件id
+      platformVersionList: [], // 用来存储应用平台的文件id
+      platformIconList: [], // 用来存储应用平台的iconid
+      platformIconUrl: [], // 用来展示的图片utl
+      platformPCImgList: [], // 用来存储应用平台pc截图的id
+      platformPCImgUrl: [], // 用来存储应用平台pc截图数据
+      uploadType: '1', // 上架的类型 1 软件应用 2 平台应用
       relationNumBlur: false,
       idNumBlur: false,
       formDataPre1: '', // 预览数据
+      formDataPre2: '', // 平台预览数据
       appName: '', // 软件名称 -- v2
       appType: '', // 软件类型
       appTypeName: '', // 软件类型名称
@@ -116,15 +123,33 @@ class ShelfPlease extends React.Component {
       imgUrl: '',
       platform: {
         name: '', // 应用名称
-        typeId: '', // 类型
-        typeName: '', // 类型名称
+        typeId: '101', // 类型
+        typeName: '教学类', // 类型名称
         description: '', // 应用描述
         special: '', // 新版特性
-        urlAddress: '', // 链接地址
-        urlTest: '' // 链接测试结果
-      }
+        install: '', // 安装说明
+        versionNum: '', // 版本号
+        packageName: '', // 包名,
+        rootPath: '', // 根路径
+        testPath: '', // 测试路径
+        size: '', // 包大小
+        type: '', // 包类型
+        storeLocation: '', // 上传的应用文件
+        appIcon: '', // 上传的图标
+        img: [], // 上传的img
+        md5: ' ',
+        token: ''
+      },
+      RandomId: '', // 随机的id
+      RandomToken: '', // 随机的token
+      appIds: {}
     }
   }
+  componentWillMount () {
+    this.getRodom(1)
+    this.getRodom(2)
+  }
+
   hiddenModal () {
     this.setState({
       previewApp: false
@@ -329,34 +354,34 @@ class ShelfPlease extends React.Component {
 
   // 预览表单
   handlePreview () {
+    // 上架的类型 1 软件 2 平台
+    const type = this.state.uploadType
     const thiz = this
-    console.log(this.state)
     let formDataPre = new FormData()
-    formDataPre.append('appName', this.state.appName || '')// 软件名称*
-    formDataPre.append('appType', this.state.appTypeName || '')// 软件类型*
-    formDataPre.append('sw_icon', this.state.imgUrl.thumbUrl || '')// 软件图标*
-    // 查看详情
-    formDataPre.append('appInfo', JSON.stringify(this.state.versions))
-    // formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
-    // formDataPre.append('detailSize', this.state.fileListDetailSize || [])// 软件大小*
-    // formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
-    // formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
-    formDataPre.append('detailAuth', this.state.rights || [])// 权限详情*
-    this.state.fileListPhone.forEach((file) => { // 手机展示
-      formDataPre.append('phonePhoto', file)
-    })
-    formDataPre.append('appDesc', this.state.appDesc || '')// 应用介绍*
-    formDataPre.append('feature', this.state.feature || '')// 新版特性*
-
-    // this.getPicUrl(function (state) {
-    //   // console.log(' 图片； ', thiz.state.fileListIconUrl)
-    //   thiz.setState({
-    //     formDataPre1: formDataPre,
-    //     previewApp: true
-    //   })
-    // })
+    let platformPre = new FormData()
+    if (type === '1') {
+      formDataPre.append('appName', this.state.appName || '')// 软件名称*
+      formDataPre.append('appType', this.state.appTypeName || '')// 软件类型*
+      formDataPre.append('sw_icon', this.state.imgUrl[0] ? this.state.imgUrl[0].thumbUrl : '')// 软件图标*
+      // 查看详情
+      formDataPre.append('appInfo', JSON.stringify(this.state.versions))
+      // formDataPre.append('detailType', this.state.fileListDetailType || [])// 版本分类*
+      // formDataPre.append('detailSize', this.state.fileListDetailSize || [])// 软件大小*
+      // formDataPre.append('detailVersionNum', this.state.fileListDetailVersionNum || [])// 版本号*
+      // formDataPre.append('detailPackName', this.state.fileListDetailPackName || [])// 包名*
+      formDataPre.append('detailAuth', this.state.rights || [])// 权限详情*
+      this.state.fileListPhone.forEach((file) => { // 手机展示
+        formDataPre.append('phonePhoto', file)
+      })
+      formDataPre.append('appDesc', this.state.appDesc || '')// 应用介绍*
+      formDataPre.append('feature', this.state.feature || '')// 新版特性*
+    } else {
+      const {platform} = this.state
+      platformPre = platform
+    }
     thiz.setState({
       formDataPre1: formDataPre,
+      formDataPre2: platformPre,
       previewApp: true
     })
     // this.props.history.push({pathname: '/operate-manage-home/all-app-selfplsprv', state: {data: formDataPre}})
@@ -571,12 +596,15 @@ class ShelfPlease extends React.Component {
    */
   uploadAppIcon = (thiz, callBack) => {
     if (thiz.state.appIcon) {
+      console.log(this.state.appIcon)
       getUpload('pic', this.state.appIcon, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
           // appIcon上传完之后 我们就用它来存后台返回的id
+          const {appIds} = this.state
+          appIds.iconId = res.data.data
           thiz.setState({
-            appIcon: res.data.data
+            ...appIds
           }, function () {
             callBack && callBack(thiz)
           })
@@ -598,8 +626,10 @@ class ShelfPlease extends React.Component {
       getMultiUpload('pic', this.state.pcPics, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.pcId = res.data.data.slice()
           thiz.setState({
-            pcPics: res.data.data.slice()
+            ...appIds
           }, function () {
             callBack && callBack(thiz)
           })
@@ -621,8 +651,10 @@ class ShelfPlease extends React.Component {
       getMultiUpload('pic', this.state.phonePics, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.phoneId = res.data.data.slice()
           thiz.setState({
-            phonePics: res.data.data.slice()
+            ...appIds
           }, function () {
             callBack && callBack(thiz)
           })
@@ -668,11 +700,12 @@ class ShelfPlease extends React.Component {
       appDesc,
       appType,
       feature,
-      appIcon,
-      pcPics,
-      phonePics,
       rights,
-      versions
+      versions,
+      authName,
+      idNum,
+      relationNum,
+      appIds
     } = this.state
 
     // let result = {}
@@ -680,14 +713,22 @@ class ShelfPlease extends React.Component {
     // result.userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
     // appInfo 部分
     let result = {
-      appIcon: appIcon, // 软件图标
+      appIcon: appIds.iconId, // 软件图标
       appName: appName, // app名称
       appNotes: appDesc, // app描述
-      appPcPic: pcPics, // app的pc端截图
-      appPhonePic: phonePics, // app的手机端截图
+      appPcPic: appIds.pcId, // app的pc端截图
+      appPhonePic: appIds.phoneId, // app的手机端截图
       appTypeId: appType, // app的类型
       authDetail: rights, // 权限详情
-      newFeatures: feature // app的新版特性
+      newFeatures: feature, // app的新版特性
+      developerName: authName, // 开发者姓名
+      developerIdNumber: idNum, // 开发者身份证号
+      developerPhone: relationNum, // 开发者练联系电话
+      mainContact: relationNum, // 主联系人电话
+      developerIdPic: appIds.developerIdPic, // 身份证图片
+      chargeMode: 1,
+      appCopyright: appIds.appCopyright, // 软件凭证
+      auditVoucher: appIds.auditVoucher // 财务凭证
     }
 
     // result.pc部分 -- 这里需要一个函数从state.version中生成
@@ -717,17 +758,191 @@ class ShelfPlease extends React.Component {
    * 提交数据
    */
   onSubmit = (thiz) => {
-    // appIcon上传
-    thiz.uploadAppIcon(thiz, () => {
-      // pcIcons上传结束
-      thiz.uploadPcPics(thiz, () => {
-        // PhonePics上传
-        this.uploadPhonePics(thiz, () => {
-          // 提交整个表单
-          thiz.getSubmit(thiz)
+    console.log(thiz)
+    const {uploadType} = this.state
+    if (uploadType === '1') {
+      // appIcon上传
+      thiz.uploadAppIcon(thiz, () => {
+        // pcIcons上传结束
+        thiz.uploadPcPics(thiz, () => {
+          // PhonePics上传
+          this.uploadPhonePics(thiz, () => {
+            // 提交整个表单
+            thiz.upploadDeveloperIdPic(thiz, () => {
+              thiz.uploadAppCopyright(thiz, () => {
+                thiz.uploadAuditVoucher(thiz, () => {
+                  console.log(thiz.getParams())
+                  thiz.getSubmit(thiz)
+                })
+              })
+            })
+          })
         })
       })
-    })
+    } else {
+      // 上传应用包
+      thiz.uploadPlatVersion(thiz, () => {
+        thiz.uploadPlatIcon(thiz, () => {
+          thiz.uploadPlatPcimg(thiz, () => {
+            thiz.uploadPlatDate(thiz)
+          })
+        })
+      })
+    }
+  }
+  // 上传应用包
+  uploadPlatVersion = (thiz, callback) => {
+    if (thiz.state.platformVersionList[0]) {
+      getUpload('soft', this.state.platformPCImgList[0], (res) => {
+        if (res.data && res.data.code === 200) {
+          const {platform} = thiz.state
+          platform.storeLocation = res.data.data
+          thiz.setState({
+            ...platform
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传应用图标
+  uploadPlatIcon = (thiz, callback) => {
+    if (thiz.state.platformIconList[0]) {
+      getUpload('pic', thiz.state.platformIconList[0], (res) => {
+        if (res.data && res.data.code === 200) {
+          const {platform} = thiz.state
+          platform.appIcon = res.data.data
+          thiz.setState({
+            ...platform
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传平台pc端的截图
+  uploadPlatPcimg = (thiz, callback) => {
+    if (thiz.state.platformPCImgList.length > 0) {
+      getMultiUpload('pic', thiz.state.platformPCImgList, (res) => {
+        if (res.data && res.data.code === 200) {
+          const {platform} = thiz.state
+          platform.img = res.data.data
+          thiz.setState({
+            ...platform
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传身份证图片
+  upploadDeveloperIdPic = (thiz, callback) => {
+    if (thiz.state.fileListFour[0]) {
+      getUpload('pic', thiz.state.fileListFour[0], (res) => {
+        console.log(res)
+        if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.developerIdPic = res.data.data
+          thiz.setState({
+            ...appIds
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传软件凭证
+  uploadAppCopyright = (thiz, callback) => {
+    if (thiz.state.fileListFive.length) {
+      getMultiUpload('pic', thiz.state.fileListFive, (res) => {
+        console.log(res)
+        if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.appCopyright = res.data.data.slice()
+          thiz.setState({
+            ...appIds
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传财务凭证
+  uploadAuditVoucher = (thiz, callback) => {
+    if (thiz.state.fileListFinVour.length > 0) {
+      getMultiUpload('pic', thiz.state.fileListFinVour, (res) => {
+        if (res.data && res.data.code === 200) {
+          const {appIds} = this.state
+          appIds.auditVoucher = res.data.data.slice()
+          thiz.setState({
+            ...appIds
+          }, () => {
+            callback && callback(thiz)
+          })
+        } else {
+          callback && callback(thiz)
+        }
+      })
+    } else {
+      callback && callback(thiz)
+    }
+  }
+  // 上传相关资料
+  uploadPlatDate = (thiz) => {
+    const {platform, appIds} = this.state
+    let params = {
+      appIcon: platform.appIcon,
+      appName: platform.name,
+      appNotes: platform.description,
+      appPcPic: platform.img,
+      appTypeId: platform.typeId,
+      appVersion: platform.versionNum,
+      indexUrl: platform.rootPath,
+      installInfo: platform.install,
+      newFeatures: platform.special,
+      packageName: platform.packageName,
+      storeLocation: platform.storeLocation,
+      testUrl: platform.testPath,
+      md5Code: platform.md5,
+      tokenAddress: platform.token,
+      auditVoucher: appIds.auditVoucher
+    }
+    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/pt`, {...params})
+      .then(function (res) {
+        console.log(res)
+        if (res.data.code === 200) {
+          message.success(res.data.msg || '提交成功')
+          // 还要跳回上一页
+          thiz.props.history.goBack()
+        } else {
+          message.warning(res.data.msg || '提交失败')
+        }
+      })
   }
   /** 平台名称 **/
   changePlatformName = (e) => {
@@ -756,13 +971,35 @@ class ShelfPlease extends React.Component {
       ...platform
     })
   }
-  /** 链接地址 */
-  changePlatformUrl = (e) => {
+  /** 安装说明 */
+  changePlatformInstall = (e) => {
     const {value} = e.target
     const {platform} = this.state
-    platform.urlAddress = value
+    platform.install = value
     this.setState({
       ...platform
+    })
+  }
+  /** 版本号 **/
+  changePlatformVersionnNum = (e) => {
+    const {value} = e.target
+    const {platform} = this.state
+    platform.versionNum = value
+    this.setState({
+      ...platform
+    }, () => {
+      // console.log(platform)
+    })
+  }
+  /** 包名 **/
+  changePlatformPackageName = (e) => {
+    const {value} = e.target
+    const {platform} = this.state
+    platform.packageName = value
+    this.setState({
+      ...platform
+    }, () => {
+      // console.log(platform)
     })
   }
   /** 平台应用类型选择 **/
@@ -772,6 +1009,14 @@ class ShelfPlease extends React.Component {
     platform.typeId = value.key
     this.setState({
       ...platform
+    })
+  }
+  /** 切换上架的种类 1 软件 2 平台 **/
+  changeTabs = (value) => {
+    this.setState({
+      uploadType: value
+    }, () => {
+      console.log(this.state.uploadType)
     })
   }
   render () {
@@ -819,7 +1064,7 @@ class ShelfPlease extends React.Component {
       },
       onChange: ({fileList}) => {
         this.setState({
-          imgUrl: fileList[0]
+          imgUrl: fileList.slice(-1)
         })
       },
       fileListIconUrl: this.state.fileListIconUrl,
@@ -1019,7 +1264,7 @@ class ShelfPlease extends React.Component {
       <Row className='Wxd' type='flex' align='top'>
         <Col span={2} offset={1}>软件图标 :</Col>
         <Col span={9} id='iconDiv'>
-          <Upload {...appIconProps}>
+          <Upload {...appIconProps} fileList={this.state.imgUrl}>
             <Button>
               <Icon type='upload' /> 上传文件
             </Button>
@@ -1065,6 +1310,12 @@ class ShelfPlease extends React.Component {
     // 开发相关
     const aboutDev = <Row>
       {/* <Row><p styke={{fontSize: '14px'}}><img src={this.state.imgTitle} />开发相关</p></Row> */}
+      <Row className='Wxd require-items' type='flex' align='middle'>
+        <Col span={2} offset={1}><span className='required-tag special'>* </span>应用 ID</Col>
+        <Col span={7}>{this.state.RandomId}</Col>
+        <Col span={2} offset={3}><span className='required-tag special'>* </span>应用 TOKEN</Col>
+        <Col span={7}>{this.state.RandomToken}</Col>
+      </Row>
       <Row className='Wxd'>
         <Col span={12}>
           <Col span={6}>
@@ -1196,8 +1447,104 @@ class ShelfPlease extends React.Component {
       </Row>
       <div style={{borderBottom: '2px dotted #ddd', height: '2px', width: '1200px', marginLeft: '2%', marginBottom: '3%', marginTop: '4%'}} />
     </Row>
+    // 应用版本上传
+    const propsPlatformVersion = {
+      onRemove: (file) => {
+        this.setState(({platformVersionList}) => {
+          const index = platformVersionList.indexOf(file)
+          const newPileList = platformVersionList.slice()
+          newPileList.splice(index, 1)
+          return {
+            platformVersionList: newPileList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        console.log(file)
+        const {platform} = this.state
+        platform.size = (file.size / 1024 / 1024).toFixed(2) + 'MB'
+        platform.type = file.type
+        this.setState(({platformVersionList}) => ({
+          platformVersionList: [file],
+          ...platform
+        }), () => {
+          // console.log('this state.platformVersionList', this.state.platformVersionList)
+        })
+        return false
+      },
+      platformVersionList: this.state.platformVersionList,
+      accept: '.zip, .jar'
+    }
+    // 应用图标上传
+    const propsPlatformIcon = {
+      listType: 'picture',
+      onRemove: (file) => {
+        this.setState(({platformIconList}) => {
+          const newList = platformIconList.slice()
+          const index = platformIconList.indexOf(file)
+          newList.splice(index, 1)
+          return {
+            platformIconList: newList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({platformIconList}) => ({
+          platformIconList: [file]
+        }), () => {
+          // console.log('platformIconLIst', this.state.platformIconList)
+        })
+        return false
+      },
+      onChange: ({fileList}) => {
+        fileList = fileList.slice(-1)
+        this.setState({
+          platformIconUrl: fileList
+        })
+      },
+      platformIconList: this.state.platformIconList,
+      platformIconUrl: this.state.platformIconUrl,
+      accept: '.png,.jpeg,.jpg'
+    }
+    // 应用平台pc端截图
+    const propsPlatformPCImg = {
+      listType: 'picture',
+      onRemove: (file) => {
+        this.setState(({platformPCImgList}) => {
+          const index = platformPCImgList.indexOf(file)
+          const newList = platformPCImgList.slice()
+          newList.splice(index, 1)
+          return {
+            platformPCImgList: newList
+          }
+        })
+      },
+      beforeUpload: (file) => {
+        this.setState(({platformPCImgList}) => ({
+          platformPCImgList: [...platformPCImgList, file]
+        }), () => {
+          // console.log('platformPCImgList', this.state.platformPCImgList)
+        })
+        return false
+      },
+      onChange: ({fileList}) => {
+        console.log(fileList)
+        this.setState({
+          platformPCImgUrl: fileList
+        })
+      },
+      platformPCImgList: this.state.platformPCImgList,
+      accept: '.png,.jpeg,.jpg'
+    }
     // 应用相关
     const aboutPlatform = <Row>
+      {/* TODO 后期接入后台接口 */}
+      <Row className='Wxd require-items' type='flex' align='middle'>
+        <Col span={2} offset={1}><span className='required-tag special'>* </span>应用 ID</Col>
+        <Col span={7}>{this.state.RandomId}</Col>
+        <Col span={2} offset={3}><span className='required-tag special'>* </span>应用 TOKEN</Col>
+        <Col span={7}>{this.state.RandomToken}</Col>
+      </Row>
       <Row className='Wxd' type='flex' align='middle'>
         <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>应用名称 :</Col>
         <Col span={7}><Input placeholder='请输入应用名称' style={{ width: 280 }} onChange={this.changePlatformName} value={platform.name} /></Col>
@@ -1222,16 +1569,120 @@ class ShelfPlease extends React.Component {
           <TextArea placeholder='请输入新版特性' style={{ width: 880 }} onChange={this.changePlatfromSpecial} value={platform.special} />
         </Col>
       </Row>
-      <Row className='Wxd' type='felx' algin='middle'>
-        <Col span={3} offset={1}><span style={{color: 'red'}}>*</span>平台应用链接地址：</Col>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}>
+          <span style={{color: 'red'}}>*</span>
+          安装说明:
+        </Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入安装说明' onChange={this.changePlatformInstall} value={platform.install} style={{width: 880}} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}>
+          <span style={{color: 'red'}}>*</span>
+          根路径:</Col>
+        <Col span={20}>
+          <Input value={platform.rootPath} onChange={(e) => {
+            const {value} = e.target
+            const {platform} = this.state
+            platform.rootPath = value
+            this.setState({...platform})
+          }} style={{ width: 880 }} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}>
+          <span style={{color: 'red'}}>*</span>
+          测试路径:</Col>
+        <Col span={20}>
+          <Input value={platform.testPath} onChange={(e) => {
+            const {value} = e.target
+            const {platform} = this.state
+            platform.testPath = value
+            this.setState({...platform})
+          }} style={{ width: 880 }} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>应用版本：</Col>
+        <Col span={5}>
+          <Upload fileList={this.state.platformVersionList} {...propsPlatformVersion}>
+            <Button>
+              <Icon type='upload' />上传文件
+            </Button>
+            <div className='extend'>支持扩展名：.zip ...</div>
+          </Upload>
+        </Col>
+        <Col span={5}>
+          <span style={{color: 'red'}}>*</span>
+          版本号：
+          <Input style={{ width: 160 }} placeholder='请输入版本号' onChange={this.changePlatformVersionnNum} />
+        </Col>
+        <Col span={5}>
+          <span style={{color: 'red'}}>* </span>包名 :
+          <Input
+            style={{ width: 160 }}
+            placeholder='请输入包名'
+            onChange={this.changePlatformPackageName}
+          />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>应用安装包md5校验码:</Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入md5' onChange={(e) => {
+            const {value} = e.target
+            const {platform} = this.state
+            platform.md5 = value
+            this.setState({...platform})
+          }
+          } value={platform.md5} style={{width: 880}} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>单点登陆临时token接受地址:</Col>
+        <Col span={20}>
+          <TextArea placeholder='请输入token' onChange={(e) => {
+            const {value} = e.target
+            const {platform} = this.state
+            platform.token = value
+            this.setState({...platform})
+          }
+          } value={platform.token} style={{width: 880}} />
+        </Col>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>*</span>应用图标:</Col>
+        <Col span={6}>
+          <Upload {...propsPlatformIcon} fileList={this.state.platformIconUrl} >
+            <Button>
+              <Icon type='upload' />上传文件
+            </Button>
+            <span className='extend'>支持扩展名:.png .jpg ... </span>
+          </Upload>
+        </Col>
+        <Col span={3}><span style={{color: 'red'}}>* </span>期望上架时间 :</Col>
         <Col span={7}>
-          <Input placeholder='请输入链接' onChange={this.changePlatformUrl} value={platform.urlAddress} />
+          <DatePicker
+            style={{width: '260px'}}
+            showTime
+            format='YYYY-MM-DD HH:mm:ss'
+            placeholder='Select Time'
+            onChange={this.onShelfDateChange}
+            onOk={this.onOk}
+          />
         </Col>
-        <Col span={4} offset={1}>
-          <Button type='primary'>测试链接</Button>
-        </Col>
-        <Col span={4}>
-          <span>{platform.urlTest}</span>
+      </Row>
+      <Row className='Wxd' type='flex' algin='middle'>
+        <Col span={2} offset={1}>界面截图:</Col>
+        <Col span={6}>
+          <Upload {...propsPlatformPCImg} fileList={this.state.platformPCImgUrl} >
+            <Button>
+              <Icon type='upload' />上传文件
+            </Button>
+            <span className='extend'>支持扩展名: .png, .jpg ...</span>
+          </Upload>
         </Col>
       </Row>
     </Row>
@@ -1272,8 +1723,8 @@ class ShelfPlease extends React.Component {
     return (
       <div className='tab-wrapper'>
         <div style={{margin: '20px'}}><strong>上架申请</strong></div>
-        <Tabs tabBarStyle={{border: 'none', background: '#fff'}} defaultActiveKey='01'>
-          <TabPane key='01' tab={<strong>软件应用</strong>}>
+        <Tabs onChange={this.changeTabs} tabBarStyle={{border: 'none', background: '#fff'}} defaultActiveKey='1'>
+          <TabPane key='1' tab={<strong>软件应用</strong>}>
             <Card className='main-card' style={{margin: '0 auto', width: '100%', minHeight: '540px', border: 'none'}}>
               <div >
                 {/* 修改厂商合同编号 */}
@@ -1281,9 +1732,13 @@ class ShelfPlease extends React.Component {
                   visible={this.state.previewApp}
                   hiddenModal={this.hiddenModal.bind(this, 'previewApp')}
                   dataPre={this.state.formDataPre1}
+                  dataPlatPre={this.state.formDataPre2}
                   dataPc={this.state.fileListPCURL}
                   dataPhone={this.state.fileListPhoneUrl}
                   dataIcon={this.state.fileListIconUrl}
+                  dataPlatIcon={this.state.platformIconUrl}
+                  dataUploadType={this.state.uploadType}
+                  dataPlatPCUrl={this.state.platformPCImgUrl}
                 /> : null}
                 <div>
                   <Tabs defaultActiveKey='软件相关' tabBarExtraContent={extraBtn} >
@@ -1293,7 +1748,7 @@ class ShelfPlease extends React.Component {
               </div>
             </Card>
           </TabPane>
-          <TabPane key='02' tab={<strong>平台应用</strong>}>
+          <TabPane key='2' tab={<strong>平台应用</strong>}>
             <div>
               <Tabs defaultActiveKey='应用相关' tabBarExtraContent={extraBtn}>
                 {
@@ -1307,6 +1762,25 @@ class ShelfPlease extends React.Component {
         </Tabs>
       </div>
     )
+  }
+  // 生成随机的id和token
+  getRodom = (n) => {
+    let chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    let res = ''
+    let id = 0
+    for (let i = 0; i < 16; i++) {
+      id = Math.ceil(Math.random() * 35)
+      res += chars[id]
+    }
+    if (n === 1) {
+      this.setState({
+        RandomId: res
+      })
+    } else {
+      this.setState({
+        RandomToken: res
+      })
+    }
   }
 }
 

@@ -47,7 +47,7 @@ class Tourist extends Component {
   getColumns = () => {
     return [
       {title: '账号', dataIndex: 'LOGIN_NAME'},
-      {title: '家长姓名', dataIndex: 'USER_NAME'},
+      {title: '家长姓名', dataIndex: 'PARENT_NAME'},
       {title: '电话', dataIndex: 'PHONE_NUMBER'},
       {title: '家长身份证号', dataIndex: 'CERTIFICATE_NUMBER'},
       {title: '与学生关系', dataIndex: 'RELATION'},

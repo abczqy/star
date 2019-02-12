@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropsTypes from 'prop-types'
 import { Collapse, Table, Checkbox, Button, message } from 'antd'
-import { HomepageManageBar, SearchBar, BlankBar, SWBox } from 'components/software-market'
+import { HomepageManageBar, SearchBar, BlankBar } from 'components/software-market'
 import { AppDetailModal } from 'pages/software-market'
 import './KeyPush.scss'
 import {getSoftwareDetail, getSoftMarketList, getApptype} from 'services/software-manage'
@@ -45,36 +45,28 @@ class KeyPush extends Component {
     // 表格的列信息
     this.columns = [{
       title: '应用名称',
-      dataIndex: 'appName',
-      key: 'appName'
+      dataIndex: 'APP_NAME'
     }, {
       title: '所属类型',
-      dataIndex: 'appTypes',
-      key: 'appTypes',
-      render: (text) => text[0].appTypeName
+      dataIndex: 'APP_TYPE_NAME'
     }, {
       title: '供应商',
-      dataIndex: 'companyInfo',
-      key: 'companyInfo',
-      render: (text) => text.companyName
+      dataIndex: 'COMPANY_NAME'
     }, {
       title: '图片',
-      dataIndex: 'appIcon',
-      key: 'appIcon',
+      dataIndex: 'APP_ICON',
       render: (text) => text ? <img style={{width: '50px', height: '40px'}} src={IMG_BASE_URL_V2 + text} /> : '无'
     }, {
       title: '选择',
       dataIndex: 'sw_key_push',
-      key: 'sw_key_push',
       render: (text, record, index) => {
         return (
-          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.isTopRecommend === 1} />
+          <Checkbox onClick={() => { this.checkClick(record) }} checked={record.IS_HOT_RECOMMEND === 1} />
         )
       }
     }, {
       title: '操作',
       dataIndex: 'options',
-      key: 'options',
       render: (text, record, index) => (
         <span>
           <a href='javascript:void(0)' onClick={() => this.showAppDetailModal(record)}>详情</a>
@@ -95,41 +87,27 @@ class KeyPush extends Component {
    */
   checkClick = (record) => {
     let param = {
-      appId: record.appId
+      appId: record.APP_ID
     }
-    if (this.state.imgList.length >= 4) {
-      if (record.isTopRecommend === 0) {
-        message.warning('已达推送上限')
-      } else {
-        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/sub-one', param).then((res) => {
-          if (res.data.code === 200) {
-            message.success('取消推送成功')
-            this.getList()
-          } else {
-            message.warn(res.data.msg)
-          }
-        })
-      }
+    console.log(record.IS_HOT_RECOMMEND)
+    if (record.IS_HOT_RECOMMEND === 1) {
+      axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/sub-one', param).then((res) => {
+        if (res.data.code === 200) {
+          message.success('取消推送成功')
+          this.getList()
+        } else {
+          message.warn(res.data.msg)
+        }
+      })
     } else {
-      if (record.isTopRecommend === 0) {
-        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/one', param).then((res) => {
-          if (res.data.code === 200) {
-            message.success('推送成功')
-            this.getList()
-          } else {
-            message.warn(res.data.msg)
-          }
-        })
-      } else {
-        axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/top-app/sub-one', param).then((res) => {
-          if (res.data.code === 200) {
-            message.success('取消推送成功')
-            this.getList()
-          } else {
-            message.warn(res.data.msg)
-          }
-        })
-      }
+      axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + '/hot-app/one', param).then((res) => {
+        if (res.data.code === 200) {
+          message.success('推送成功')
+          this.getList()
+        } else {
+          message.warn(res.data.msg)
+        }
+      })
     }
   }
   /**
@@ -203,21 +181,24 @@ class KeyPush extends Component {
     }
     getSoftMarketList(params, res => {
       if (res.data.code === 200) {
-        let b = []
-        res.data.data.data.map((item, index) => {
-          if (item.isTopRecommend === 1) {
-            b.push(item.appIcon)
-          }
-        })
+        // let b = []
+        // res.data.data.map((item, index) => {
+        //   if (item.IS_TOP_RECOMMEND === 1) {
+        //     b.push(item.APP_ICON)
+        //   }
+        // })
+        // this.setState({
+        //   tableData: {
+        //     data: []
+        //   }
+        // }, () => {
+        //   this.setState({
+        //     tableData: res.data.data,
+        //     imgList: b
+        //   })
+        // })
         this.setState({
-          tableData: {
-            data: []
-          }
-        }, () => {
-          this.setState({
-            tableData: res.data.data,
-            imgList: b
-          })
+          tableData: res.data.data
         })
       }
     })
@@ -280,7 +261,7 @@ class KeyPush extends Component {
               onSelectChange={this.onSelect}
               options={options} />
             <BlankBar />
-            <SWBox list={this.state.imgList} boxList={this.state.boxList} />
+            {/* <SWBox list={this.state.imgList} boxList={this.state.boxList} /> */}
             <BlankBar />
             <Table
               columns={this.columns}

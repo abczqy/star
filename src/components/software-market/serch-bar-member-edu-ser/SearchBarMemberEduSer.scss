@@ -1,34 +1,39 @@
 .search-bar-wrap {
-  width: '100%';
-  height: '100%';
-  .input-label {
-    width: 25%
+  width: 100%;
+  height: 100%;
+  .search-bar-item{
+    float: left;
+    width: 240px;
+    margin-right: 15px;
+    margin-bottom: 10px;
   }
-  
-  .input {
-      width: 75%
-    }
-  
-  .select-label {
-    width: 35%
+  .search-bar-buttons{
+    float: right;
+    width: fit-content;
+    width: -moz-fit-content;
   }
-  
-  .select {
-    width: 65%
-  }
-  
-  .input-label-1 {
-    width: 40%;
-  }
-  .input-1 {
-    width: 60%;
-  }
-  .input-label-2 {
-    width: 45%;
-  }
-  .select-2 {
-    width: 55%;
+  .search-bar-btn{
+    margin-right: 15px;
+    display: inline-block;
+    margin-bottom: 10px;
   }
 }
 
+.input-label {
+  display: inline-block;
+  width: 30%;
+}
+
+.input.ant-input {
+  width: 70%
+}
+
+.select-label {
+  display: inline-block;
+  width: 35%;
+}
+
+.select.ant-select {
+  width: 65%
+}
 

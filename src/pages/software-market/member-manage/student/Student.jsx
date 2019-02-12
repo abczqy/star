@@ -18,11 +18,12 @@ import {
   // delStuLoginId,
   stBatchLeadout
 } from 'services/software-manage'
-import { BlankBar, SearchBarMemberStu } from 'components/software-market'
+import { SearchBarMemberStu, NewUser } from 'components/software-market'
 // import { addKey2TableData } from 'utils/utils-sw-manage'
 import 'pages/software-market/SoftwareMarket.scss'
 import config from '../../../../config/index'
 import {axios} from '../../../../utils'
+import PropTypes from 'prop-types'
 const {API_BASE_URL_V2, SERVICE_PORTAL} = config
 
 /**
@@ -54,7 +55,8 @@ class Student extends Component {
       batchLeadParams: {
         idArrs: []
       },
-      selectList: {}
+      selectList: {},
+      newVisible: false
     }
     this.uploadProps = {
       action: `${API_BASE_URL_V2}${SERVICE_PORTAL}/file-upload/upload-user-info`,
@@ -91,9 +93,16 @@ class Student extends Component {
       dataIndex: 'AUTHORITY_NAME',
       key: 'AUTHORITY_NAME'
     }, {
+      title: '状态',
+      dataIndex: 'IS_FIRST_LOGIN',
+      render: (text) => text === 1 ? '激活' : '未激活'
+    }, {
       title: '家长',
       dataIndex: 'PARENT_NAME',
       key: 'PARENT_NAME'
+    }, {
+      title: '家长账号',
+      dataIndex: 'PARENT_LOGIN_NAME'
     }, {
       title: '允许登录',
       dataIndex: 'LOGIN_PERMISSION_STATUS',
@@ -125,6 +134,15 @@ class Student extends Component {
       }
     }]
     )
+  }
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: nextProps.AUTHORITY_NAME
+      }, () => {
+        this.search()
+      })
+    }
   }
 
   cancelUp=(e) => {
@@ -341,11 +359,35 @@ class Student extends Component {
    */
   // 获取账号--考虑：该一步到位了-- 直接用redux管理状态 - 虽然用传入子组件函数的方法也可以获取到子组件中的值
   componentDidMount () {
-    this.getTableDatas()
+    if (this.props.AUTHORITY_NAME) {
+      this.setState({
+        AUTHORITY_NAME: this.props.AUTHORITY_NAME
+      }, () => {
+        this.search()
+      })
+    } else {
+      this.getTableDatas()
+    }
   }
-
+  /** 新增老师确认 */
+  onNewOk = () => {
+    this.refs.newUser.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+  }
+  /** 新增老师弹窗状态修改 */
+  changeVisible = (visible) => {
+    this.setState({
+      newVisible: visible
+    })
+    if (visible === false) {
+      this.getTableDatas()
+    }
+  }
   render () {
-    const { pagination, selectList } = this.state
+    const { pagination, selectList, AUTHORITY_NAME } = this.state
     return (
       <div className='software-wrap'>
         <SearchBarMemberStu
@@ -358,8 +400,10 @@ class Student extends Component {
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
           uploadProps={this.uploadProps}
+          changeState={this.props.changeState}
+          AUTHORITY_NAME={AUTHORITY_NAME}
+          changeVisible={this.changeVisible}
         />
-        <BlankBar />
         <Table
           columns={this.getColumns()}
           dataSource={this.state.dataSource}
@@ -373,9 +417,18 @@ class Student extends Component {
           //   onChange: this.rowSelectChange
           // }}
         />
+        <NewUser
+          changeVisible={this.changeVisible}
+          visible={this.state.newVisible}
+          type={1}
+        />
       </div>
     )
   }
+}
+Student.propTypes = {
+  changeState: PropTypes.func,
+  AUTHORITY_NAME: PropTypes.string
 }
 
 export default Student

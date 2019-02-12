@@ -26,7 +26,7 @@ class VoucherRelate extends Component {
             </Col>
             <Col span={6}>
               {
-                resData.sw_copyright && <img alt='软著凭证图片' style={{width: 81, height: 55}} src={resData && ajaxUrl.IMG_BASE_URL + resData.sw_copyright} />
+                resData.APP_COPYRIGHT && <img alt='软著凭证图片' style={{width: 81, height: 55}} src={resData && ajaxUrl.IMG_BASE_URL + resData.APP_COPYRIGHT} />
               }
             </Col>
             <Col span={2} offset={8}>
@@ -34,7 +34,7 @@ class VoucherRelate extends Component {
             </Col>
             <Col span={6}>
               {
-                resData.fin_audit && <img alt='财务凭证图片' style={{width: 81, height: 55}} src={resData && ajaxUrl.IMG_BASE_URL + resData.fin_audit} />
+                resData.AUDIT_VOUCHER && <img alt='财务凭证图片' style={{width: 81, height: 55}} src={resData && ajaxUrl.IMG_BASE_URL + resData.AUDIT_VOUCHER} />
               }
             </Col>
           </Row>

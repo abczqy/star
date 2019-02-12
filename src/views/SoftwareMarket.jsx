@@ -30,6 +30,16 @@ class SoftwareMarket extends React.Component {
    * 后期：加入redux做状态管理
    */
   renderContent = ({ item, key, keyPath }) => {
+    if (key === this.state.subMenuKey) {
+      this.setState({
+        subMenuKey: '0'
+      }, () => {
+        this.setState({
+          subMenuKey: key
+        })
+      })
+      return
+    }
     this.setState({
       subMenuKey: key
     })
@@ -66,7 +76,7 @@ class SoftwareMarket extends React.Component {
   }
 
   renderChildContent () {
-    return <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
+    return <Content style={{ background: '#fff', padding: 20, margin: 0, overflowY: 'auto' }}>
       {
         this.props.childRoutes.map((item, index, arr) => {
           return <Route key={index} path={item.path} component={item.component} />
@@ -82,7 +92,7 @@ class SoftwareMarket extends React.Component {
           <Layout>
             <Header style={{ padding: '15px 2%', background: 'white', height: '65px' }}>
               <div className='logo' style={{ float: 'left', cursor: 'pointer' }} onClick={() => { this.handleLogoClick() }} />
-              <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16 }} onClick={this.signOut} /></div>
+              <div style={{ float: 'right', height: '35px', lineHeight: '35px', marginRight: '10%' }}><Icon type='poweroff' style={{ fontSize: 16, cursor: 'pointer' }} onClick={this.signOut} /></div>
             </Header>
             <Layout className='sider-bar'>
               <Sider width={200}>
@@ -98,7 +108,7 @@ class SoftwareMarket extends React.Component {
               </Sider>
               <Layout style={{ padding: '20px ' }}>
                 {
-                  this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0 }}>
+                  this.state.subMenuKey !== '0' ? this.renderChildContent() : <Content style={{ background: '#fff', padding: 20, margin: 0, overflowY: 'auto' }}>
                     <Businessing />
                   </Content>
                 }

@@ -9,23 +9,17 @@
  * -- 还缺少--search的get数据接口
  */
 import React, { Component } from 'react'
-import { Table, message } from 'antd'
+import {Table, message, Divider, Switch} from 'antd'
 // import { Table, Switch, Divider, message } from 'antd'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import ajaxUrl from 'config'
 import {
   eduGetData,
   eduBatchLeadout,
-  maDelId,
-  maInitPwd,
-  toLogin
-  // getIdSelectList,
-  // getNameSelectList,
-  // getEduUpperSelectList,
-  // getEduClassSelectList
+  newEdu
 } from 'services/software-manage'
-// import { BlankBar, SearchBarMemberEduSer } from 'components/software-market' // 目前只有查询的接口，先注释掉
-import { BlankBar } from 'components/software-market'
+import { updateUser } from 'services/software-market'
+import { SearchBarMemberEduSer, NewEdu } from 'components/software-market' // 目前只有查询的接口，先注释掉
 import {
 // addKey2TableData
 // getSelectList,
@@ -64,8 +58,25 @@ class EducationalServices extends Component {
         idArrs: []
       },
       selectList: {},
-      edu_id: ''
+      edu_id: '',
+      newEduVisible: false
     }
+  }
+  // 允许登录状态切换
+  handleToLogin = (record) => {
+    const thiz = this
+    const id = record && record.USER_ID
+    const params = {
+      isLogin: record.LOGIN_PERMISSION_STATUS ? 0 : 1,
+      userId: id
+    }
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
+    })
   }
 
   getColumns = () => {
@@ -76,14 +87,30 @@ class EducationalServices extends Component {
       width: 200
     }, {
       title: '机构名称',
-      dataIndex: 'authorityName',
-      key: 'authorityName',
+      dataIndex: 'INSTITUTION_NAME',
       width: 200
     }, {
       title: '账号',
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: 'LOGIN_NAME'
+    }, {
+      title: '组织编号',
+      dataIndex: 'ID',
       width: 200
+    }, {
+      title: '状态',
+      dataIndex: 'IS_FIRST_LOGIN',
+      render: (text) => text === 1 ? '激活' : '未激活'
+    }, {
+      title: '关联代理商',
+      dataIndex: ''
+    }, {
+      title: '允许登录',
+      dataIndex: 'LOGIN_PERMISSION_STATUS',
+      render: (text, record, index) => {
+        return (
+          <Switch checked={text === 1} onChange={() => this.handleToLogin(record)} />
+        )
+      }
     }, {
     //   title: '所属级别',
     //   dataIndex: 'edu_class',
@@ -110,11 +137,11 @@ class EducationalServices extends Component {
       render: (text, record, index) => {
         return (
           <span>
-            <Link to={{ pathname: '/software-market-home/member-manage/school', search: record.id }}>学校</Link>
-            {/* <Divider type='vertical' />
+            <a href='javascript:void(0)'>学校</a>
+            <Divider type='vertical' />
             <a href='javascript:void(0)' onClick={(e) => this.initPwd(record)}>重置密码</a>
             <Divider type='vertical' />
-            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a> */}
+            <a href='javascript:void(0)' onClick={(e) => this.delLoginId(record)}>删除</a>
           </span>
         )
       }
@@ -139,23 +166,6 @@ class EducationalServices extends Component {
       edu_upper: eduUpper || '',
       to_login: loginType || ''
     }
-  }
-
-  // 允许登录状态切换
-  handleToLogin = (record) => {
-    const thiz = this
-    const params = {
-      id: record && record.edu_id,
-      to_login: record.to_login ? 0 : 1
-    }
-    toLogin(params, (res) => {
-      const data = res.data ? res.data : {}
-      // console.log(data)
-      if (data.SUCCESS) {
-        message.success(data.msg)
-        thiz.getTableDatas()
-      }
-    })
   }
 
   /**
@@ -261,28 +271,38 @@ class EducationalServices extends Component {
    * 删除学生账号
    */
   delLoginId = (record) => {
+    const id = record && record.USER_ID
+    const thiz = this
     const params = {
-      eduId: record.eduId
+      userId: id,
+      isDelete: 0
     }
-    maInitPwd(params, (res) => {
-      // console.log(`res.data.result: ${res.data.result}`)
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
     })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
   }
 
   /**
    * 初始化厂商密码
    */
   initPwd = (record) => {
+    const id = record && record.USER_ID
+    const thiz = this
     const params = {
-      eduId: record.eduId
+      userId: id,
+      isReset: 1
     }
-    maDelId(params, (res) => {
-      // console.log(`res.data.result: ${res.data.result}`)
+    updateUser(id, params, (res) => {
+      const data = res.data ? res.data : {}
+      if (data.data > 0) {
+        message.success(data.msg)
+        thiz.getTableDatas()
+      }
     })
-    // 最好有个确认的弹窗什么的
-    // 后面再加上loading + 操作成功的提示
   }
 
   /**
@@ -379,13 +399,37 @@ class EducationalServices extends Component {
     // getSelectListWithNoParam(getEduClassSelectList, 'eduClassList', this)
     // this.getChange()
   }
+  changeVisible = (newEduVisible) => {
+    this.setState({
+      newEduVisible
+    })
+  }
+  onOk = () => {
+    this.refs.newEdu.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        values.province = values.region.province
+        values.city = values.region.city
+        values.district = values.region.region
+        delete (values.region)
+        console.log(values)
+        newEdu(values, (res) => {
+          if (res.data.code === 200) {
+            this.changeVisible(false)
+            message.success('新增机构成功')
+            this.getTableDatas()
+          } else {
+            message.error('新增机构失败')
+          }
+        })
+      }
+    })
+  }
 
   render () {
-    // const { pagination, tableData, selectList } = this.state
-    const { pagination, tableData } = this.state
+    const { pagination, tableData, selectList } = this.state
     return (
       <div className='software-wrap'>
-        {/* <SearchBarMemberEduSer
+        <SearchBarMemberEduSer
           selectList={{ ...selectList }}
           onSelect1Change={this.onIdChange}
           onSelect2Change={this.onInstChange}
@@ -394,8 +438,8 @@ class EducationalServices extends Component {
           onSelect5Change={this.onToLogin}
           onBtnSearchClick={this.search}
           onBtnBatchExport={this.onBatchLeadout}
-        /> */}
-        <BlankBar />
+          changeVisible={this.changeVisible}
+        />
         <Table
           columns={this.getColumns()}
           dataSource={tableData.data}
@@ -409,6 +453,7 @@ class EducationalServices extends Component {
           //   onChange: this.rowSelectChange
           // }}
         />
+        <NewEdu ref='newEdu' onOk={this.onOk} visible={this.state.newEduVisible} changeVisible={this.changeVisible} />
       </div>
     )
   }

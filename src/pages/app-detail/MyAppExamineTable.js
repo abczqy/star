@@ -66,6 +66,44 @@ class MyAppExamineTable extends Component {
         )
       }
     }]
+    this.platColunms = [
+      {
+        title: '应用名称',
+        dataIndex: 'APP_NAME',
+        key: 'APP_NAME'
+      }, {
+        title: '所属类型',
+        dataIndex: 'APP_TYPE_NAME',
+        key: 'APP_TYPE_NAME'
+        // width: 150
+      }, {
+        title: '测试链接',
+        dataIndex: 'TEST_URL',
+        key: 'TEST_URL'
+        // width: 150
+      }, {
+        title: '提交时间',
+        dataIndex: 'CREATE_TIME',
+        key: 'CREATE_TIME',
+        render: date => date ? moment(date).format('YYYY-MM-DD') : null
+        // width: 150
+      }, {
+        title: '操作',
+        dataIndex: 'clickCount',
+        key: 'clickCount',
+        // width: 150
+        render: (text, record, index) => {
+          return (
+            <div key={index}>
+              {/* <span style={{marginRight: '10px'}}><Popconfirm placement='top' title='确定要撤销吗？' onConfirm={() => this.confirm(record)} okText='Yes' cancelText='No'><Button style={{color: '#1890ff', border: 0}}>撤销</Button></Popconfirm></span> */}
+              <span style={{marginRight: '10px', color: '#1890ff', cursor: 'pointer'}} onClick={() => this.props.showDetail(record)}>
+              查看详情
+              </span>
+            </div>
+          )
+        }
+      }
+    ]
   }
   componentDidMount () {
     this.props.form.validateFields()
@@ -74,11 +112,23 @@ class MyAppExamineTable extends Component {
   }
   // 我的应用-审核中
   getMyAppInOperationData = () => {
-    let params = {
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
-      typeId: this.state.sw_type,
-      auditStatus: 1
+    const {tabsType} = this.props
+    let params
+    if (tabsType === 'rj') {
+      params = {
+        pageNum: this.state.pageNum,
+        pageSize: this.state.pageSize,
+        typeId: this.state.sw_type,
+        auditStatus: 1
+      }
+    } else {
+      params = {
+        pageNum: this.state.pageNum,
+        pageSize: this.state.pageSize,
+        typeId: this.state.sw_type,
+        auditStatus: 1,
+        platformType: 'pt'
+      }
     }
     if (this.state.sw_name !== '') {
       params.keyword = this.state.sw_name
@@ -153,6 +203,7 @@ class MyAppExamineTable extends Component {
   }
   render () {
     const { getFieldDecorator } = this.props.form
+    const {tabsType} = this.props
     const formItemLayout = {
       labelCol: {
         span: 6
@@ -196,17 +247,9 @@ class MyAppExamineTable extends Component {
           </Row>
         </Form>
         <div className='marketAnalysis-table'>
-          {/* <Table
-          className='data-table'
-          rowKey='index'
-          columns={this.columns}
-          dataSource={this.props.dataSource}
-          pagination={false}
-        /> */}
-
           <CustomPagingTable
             dataSource={this.state.myAppInOperationData}
-            columns={this.columns}
+            columns={tabsType === 'rj' ? this.columns : this.platColunms}
             pageVisible
             //   loading={this.state.loading}
             total={this.state.total}
@@ -227,7 +270,8 @@ class MyAppExamineTable extends Component {
 MyAppExamineTable.propTypes = {
   dataSource: PropTypes.array,
   form: PropTypes.object,
-  showDetail: PropTypes.func
+  showDetail: PropTypes.func,
+  tabsType: PropTypes.string
 }
 
 export default Form.create()(MyAppExamineTable)
