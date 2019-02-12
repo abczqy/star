@@ -224,6 +224,7 @@ class PlatIterationPlease extends Component {
     if (softId !== '') {
       params.storeLocation = softId
     }
+    params.appPcPic = params.appPcPic.join(',')
     const url = API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/app-version/apply/${platId}`
     axios.post(url, {...params})
       .then((res) => {

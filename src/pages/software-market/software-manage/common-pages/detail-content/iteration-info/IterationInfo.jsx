@@ -51,7 +51,7 @@ class IterationInfo extends Component {
             <Col span={9}>
               <span>{data.RUNNING_PLATFORM ? data.RUNNING_PLATFORM : 'Windows32'}:</span>
               <span><Icon type='paper-clip' /></span>
-              <span>{swPath && swPath[0] ? swPath[0][1].substr(swPath[0][1].lastIndexOf('/') + 1) : 'PC端.dmg'}</span>
+              <span>{swPath && swPath[0] ? swPath[0][1].substr(swPath[0][1].lastIndexOf('/') + 1) : ''}</span>
               <a href={swPath && swPath[0] && ajaxUrl.IMG_BASE_URL + swPath[0][1]}><Icon type='download' /></a>
             </Col>
             <Col span={2} offset={6}>
@@ -80,7 +80,7 @@ class IterationInfo extends Component {
               <span>迭代描述:</span>
             </Col>
             <Col span={19}>
-              <span>{resData.sw_desc0 ? resData.sw_desc0 : '描述描述描述描述描述描述描述描述描述'}</span>
+              <span>{resData.sw_desc0 ? resData.sw_desc0 : ''}</span>
             </Col>
           </Row>
           <BlankBar height='20px' />

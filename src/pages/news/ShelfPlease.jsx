@@ -190,8 +190,6 @@ class ShelfPlease extends React.Component {
     a[index] = value
     this.setState({
       fileListDetailType: a
-    }, () => {
-      console.log('用来存软件版本类型', this.state.fileListDetailType)
     })
   }
   // 用来存软件版本包大小
@@ -200,8 +198,6 @@ class ShelfPlease extends React.Component {
     a[index] = e.target.value
     this.setState({
       fileListDetailSize: a
-    }, () => {
-      console.log('软件版本包大小', this.state.fileListDetailSize)
     })
     this.renderEdition()
   }
@@ -211,8 +207,6 @@ class ShelfPlease extends React.Component {
     a[index] = e.target.value
     this.setState({
       fileListDetailVersionNum: a
-    }, () => {
-      console.log('用来存软件版本版本号', this.state.fileListDetailVersionNum)
     })
     this.renderEdition()
   }
@@ -222,8 +216,6 @@ class ShelfPlease extends React.Component {
     a[index] = e.target.value
     this.setState({
       fileListDetailPackName: a
-    }, () => {
-      console.log('用来存软件版本包名', this.state.fileListDetailPackName)
     })
     this.renderEdition()
   }
@@ -231,8 +223,6 @@ class ShelfPlease extends React.Component {
   onRightChange = (checkedValues, index) => {
     this.setState({
       rights: checkedValues
-    }, () => {
-      console.log('用来存软件版本权限详情', this.state.rights)
     })
   }
 
@@ -405,7 +395,6 @@ class ShelfPlease extends React.Component {
    */
   onVerPackName = (e, index) => {
     let arr = this.state.versions.slice()
-    // console.log(arr)
     arr[index].packageName = e.target.value
     this.setState({
       versions: arr
@@ -596,7 +585,6 @@ class ShelfPlease extends React.Component {
    */
   uploadAppIcon = (thiz, callBack) => {
     if (thiz.state.appIcon) {
-      console.log(this.state.appIcon)
       getUpload('pic', this.state.appIcon, (res) => {
         // 设置对应的文件id
         if (res.data && res.data.code === 200) {
@@ -694,7 +682,7 @@ class ShelfPlease extends React.Component {
   /**
    * params组织 - 获取迭代接口需要的params
    */
-  getParams = (thiz) => {
+  getParams = () => {
     const {
       appName,
       appDesc,
@@ -730,7 +718,6 @@ class ShelfPlease extends React.Component {
       appCopyright: appIds.appCopyright, // 软件凭证
       auditVoucher: appIds.auditVoucher // 财务凭证
     }
-
     // result.pc部分 -- 这里需要一个函数从state.version中生成
     result.pc = this.versions2Params(versions)
 
@@ -743,7 +730,29 @@ class ShelfPlease extends React.Component {
   getSubmit = (thiz) => {
     // const appId = thiz.state.appId
     // const userId = webStorage.getItem('STAR_WEB_PERSON_INFO').userId
-    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app`, {...thiz.getParams()})
+    let result = this.getParams()
+    let required = ['appIcon', 'appName', 'appNotes', 'appTypeId', 'authDetail', 'newFeatures', 'developerName', 'developerIdNumber',
+      'developerPhone', 'mainContact', 'developerIdPic', 'pc']
+    let ok = true
+    required.forEach(name => {
+      if (!result[name]) {
+        ok = false
+      }
+      if (name === 'pc') {
+        result.pc.forEach(item => {
+          Object.keys(item).forEach(name => {
+            if (!item[name]) {
+              ok = false
+            }
+          })
+        })
+      }
+    })
+    if (!ok) {
+      message.warn('请将所有必填项目填写完整')
+      return false
+    }
+    axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app`, result)
       .then(function (res) {
         if (res.data.code === 200) {
           message.success(res.data.msg || '提交成功')
@@ -758,7 +767,6 @@ class ShelfPlease extends React.Component {
    * 提交数据
    */
   onSubmit = (thiz) => {
-    console.log(thiz)
     const {uploadType} = this.state
     if (uploadType === '1') {
       // appIcon上传
@@ -771,7 +779,6 @@ class ShelfPlease extends React.Component {
             thiz.upploadDeveloperIdPic(thiz, () => {
               thiz.uploadAppCopyright(thiz, () => {
                 thiz.uploadAuditVoucher(thiz, () => {
-                  console.log(thiz.getParams())
                   thiz.getSubmit(thiz)
                 })
               })
@@ -793,7 +800,7 @@ class ShelfPlease extends React.Component {
   // 上传应用包
   uploadPlatVersion = (thiz, callback) => {
     if (thiz.state.platformVersionList[0]) {
-      getUpload('soft', this.state.platformPCImgList[0], (res) => {
+      getUpload('soft', this.state.platformVersionList[0], (res) => {
         if (res.data && res.data.code === 200) {
           const {platform} = thiz.state
           platform.storeLocation = res.data.data
@@ -854,7 +861,6 @@ class ShelfPlease extends React.Component {
   upploadDeveloperIdPic = (thiz, callback) => {
     if (thiz.state.fileListFour[0]) {
       getUpload('pic', thiz.state.fileListFour[0], (res) => {
-        console.log(res)
         if (res.data && res.data.code === 200) {
           const {appIds} = this.state
           appIds.developerIdPic = res.data.data
@@ -875,7 +881,6 @@ class ShelfPlease extends React.Component {
   uploadAppCopyright = (thiz, callback) => {
     if (thiz.state.fileListFive.length) {
       getMultiUpload('pic', thiz.state.fileListFive, (res) => {
-        console.log(res)
         if (res.data && res.data.code === 200) {
           const {appIds} = this.state
           appIds.appCopyright = res.data.data.slice()
@@ -932,9 +937,18 @@ class ShelfPlease extends React.Component {
       tokenAddress: platform.token,
       auditVoucher: appIds.auditVoucher
     }
+    let ok = true
+    Object.keys(params).forEach((name) => {
+      if (name !== 'appPcPic' && name !== 'auditVoucher' && !params[name]) {
+        ok = false
+      }
+    })
+    if (!ok) {
+      message.warn('请将所有必填项目填写完整')
+      return false
+    }
     axios.post(API_BASE_URL_V2 + SERVICE_EDU_MARKET + `/manage-app/pt`, {...params})
       .then(function (res) {
-        console.log(res)
         if (res.data.code === 200) {
           message.success(res.data.msg || '提交成功')
           // 还要跳回上一页
@@ -1015,8 +1029,6 @@ class ShelfPlease extends React.Component {
   changeTabs = (value) => {
     this.setState({
       uploadType: value
-    }, () => {
-      console.log(this.state.uploadType)
     })
   }
   render () {
@@ -1262,7 +1274,7 @@ class ShelfPlease extends React.Component {
         </Col>
       </Row>
       <Row className='Wxd' type='flex' align='top'>
-        <Col span={2} offset={1}>软件图标 :</Col>
+        <Col span={2} offset={1}><span style={{color: 'red'}}>* </span>软件图标 :</Col>
         <Col span={9} id='iconDiv'>
           <Upload {...appIconProps} fileList={this.state.imgUrl}>
             <Button>
@@ -1522,13 +1534,10 @@ class ShelfPlease extends React.Component {
       beforeUpload: (file) => {
         this.setState(({platformPCImgList}) => ({
           platformPCImgList: [...platformPCImgList, file]
-        }), () => {
-          // console.log('platformPCImgList', this.state.platformPCImgList)
-        })
+        }))
         return false
       },
       onChange: ({fileList}) => {
-        console.log(fileList)
         this.setState({
           platformPCImgUrl: fileList
         })

@@ -23,6 +23,7 @@ class AppDetailModal extends Component {
         footer={footer}
         title={title}
         onCancel={onCancel}
+        centered
       >
         <SWRelate resData={resData} isBusiDeta />
         <BlankBar />

@@ -16,7 +16,7 @@ class Relate extends Component {
         img = [info.APP_PC_PIC]
       }
     }
-    console.log(data)
+    console.log(info)
     return (
       <div className='relate-content'>
         <Row>
@@ -54,7 +54,7 @@ class Relate extends Component {
             安装说明：
           </Col>
           <Col span={20}>
-            <span>{info && info.UPDATE_TIME ? info.UPDATE_TIME : '安装说明'}</span>
+            <span>{info && info.INSTALL_INFO ? info.INSTALL_INFO : '安装说明'}</span>
           </Col>
         </Row>
         <BlankBar height='20px' />
@@ -63,7 +63,7 @@ class Relate extends Component {
             版本：
           </Col>
           <Col span={9}>
-            <span>{info && info.INSTALL_INFO ? info.INSTALL_INFO : '安装说明'}</span>
+            <span>{info && info.APP_VERSION ? info.APP_VERSION : '安装说明'}</span>
           </Col>
           <Col span={2} offset={6}>
             测试路径:

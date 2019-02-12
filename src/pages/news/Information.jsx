@@ -3,8 +3,8 @@
 /**
  * 游客的信息公开
  */
-import React from 'react'
-import {Row, Col, Card, Pagination, Cascader, message} from 'antd'
+import React, {Fragment} from 'react'
+import {Row, Col, Card, Pagination, message, Popover, Tabs, Select, Button} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
@@ -17,6 +17,11 @@ import {processStr} from 'utils'
 // import ajaxUrl from 'config'
 import { withRouter } from 'react-router'
 import {information} from 'services/software-manage'
+import img1 from '../../assets/images/u7229.png'
+import address from '../../../static/document/address'
+
+const TabPane = Tabs.TabPane
+const Option = Select.Option
 
 class Information extends React.Component {
   constructor (props) {
@@ -29,23 +34,18 @@ class Information extends React.Component {
       imgP: people,
       pageNum: 1,
       pageSize: 5,
-      selete: false, // 选择地区
+      selete: {
+        province: '',
+        city: '',
+        region: ''
+      }, // 选择地区
       dataP: false, // 公告和分享的list
       imgG: '', // 公告图片
-      options: [
-        {
-          value: '省',
-          label: '省级'
-        }, {
-          value: '市',
-          label: '市级'
-        }, {
-          value: '区',
-          label: '区级'}
-      ],
       infoData: [],
       height: '',
-      infoDatas: []
+      infoDatas: [],
+      visible: false,
+      addressInfo: '北京市'
     }
   }
 
@@ -65,9 +65,9 @@ class Information extends React.Component {
         this.getHeight()
       })
     }
+    this.changeProvince('province', Object.keys(address)[0])
   }
   componentWillReceiveProps (nextProps) {
-    console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
         this.setState({
@@ -138,13 +138,31 @@ class Information extends React.Component {
     })
   }
   // 下拉分级改变
-  onChangeF =(value) => {
-    console.log(value)
-    this.setState({
-      selete: String(value)
-    }, () => {
-      this.getList()
-    })
+  changeProvince = (name, value) => {
+    if (name === 'province') {
+      this.setState({
+        selete: {
+          province: value,
+          city: '',
+          region: ''
+        }
+      })
+    } else if (name === 'city') {
+      this.setState({
+        selete: {
+          ...this.state.selete,
+          city: value,
+          region: ''
+        }
+      })
+    } else {
+      this.setState({
+        selete: {
+          ...this.state.selete,
+          region: value
+        }
+      })
+    }
   }
   // a连接的页面跳转方法呦
   handleTabChange (e) {
@@ -184,9 +202,18 @@ class Information extends React.Component {
       window.location.reload()
     }
   }
+  /** 修改地址确认 */
+  changeAddress = () => {
+    const selete = this.state.selete
+    this.setState({
+      visible: false,
+      addressInfo: [selete.province, selete.city, selete.region].join('')
+    })
+  }
   render () {
     // const topImg = '/image/infot.png'
     // const bottomImg = '/image/infob.png'
+    const { selete, visible, addressInfo } = this.state
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container'>
@@ -194,7 +221,42 @@ class Information extends React.Component {
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <Col span={18}>
                 <span className='information-fabu'>
-                  发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />
+                  发布机构 :
+                  <Popover placement='bottomLeft' trigger='click' visible={visible} content={(
+                    <Fragment>
+                      <Tabs type={'card'} defaultActiveKey={'1'} tabPosition={'left'}>
+                        <TabPane key='1' tab='省级'>
+                          <Select value={selete.province} style={{width: 150}} onChange={(value) => this.changeProvince('province', value)}>
+                            {Object.keys(address).map((province) => {
+                              return <Option value={province} key={province}>{province}</Option>
+                            })}
+                          </Select>
+                        </TabPane>
+                        <TabPane key='2' tab='市级'>
+                          <Select style={{width: 150}} value={selete.city} onChange={(value) => this.changeProvince('city', value)}>
+                            {selete.province && Object.keys(address[selete.province]).map((city) => {
+                              return <Option value={city} key={city}>{city}</Option>
+                            })}
+                          </Select>
+                        </TabPane>
+                        <TabPane key='3' tab='区级'>
+                          <Select style={{width: 150}} value={selete.region} onChange={(value) => this.changeProvince('region', value)}>
+                            {selete.city && address[selete.province][selete.city].map((region) => {
+                              return <Option value={region} key={region}>{region}</Option>
+                            })}
+                          </Select>
+                        </TabPane>
+                      </Tabs>
+                      <div style={{textAlign: 'right'}}>
+                        <Button htmlType='button' type='primary' onClick={this.changeAddress}>确认</Button>
+                      </div>
+                    </Fragment>
+                  )}>
+                    <div onClick={() => this.setState({visible: true})} style={{display: 'inline-block'}}>
+                      <img style={{width: 20, verticalAlign: 'middle', margin: '0 10px'}} src={img1} alt='' />
+                      <span style={{color: '#1890ff', verticalAlign: 'middle'}}>{addressInfo}</span>
+                    </div>
+                  </Popover>
                 </span>
               </Col>
               <Col span={6} style={{marginTop: '8px'}}>
