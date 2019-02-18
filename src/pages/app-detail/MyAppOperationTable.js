@@ -161,7 +161,8 @@ class MyAppTable extends Component {
           const data = res.data
           data.data.data &&
         thiz.setState({
-          myAppInOperationData: data.data.data.slice()
+          myAppInOperationData: data.data.data.slice(),
+          total: data.data.totalCount
         })
         } else {
           message.warning(res.data.msg || '请求出错')

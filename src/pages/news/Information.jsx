@@ -4,7 +4,7 @@
  * 游客的信息公开
  */
 import React from 'react'
-import {Row, Col, Card, Pagination, Cascader, message} from 'antd'
+import {Row, Col, Card, Pagination, message, Icon} from 'antd'
 import img from '../../assets/images/WeChat.png'
 import hand from '../../assets/images/hand.png'
 import people from '../../assets/images/u1632.png'
@@ -17,6 +17,7 @@ import {processStr} from 'utils'
 // import ajaxUrl from 'config'
 import { withRouter } from 'react-router'
 import {information} from 'services/software-manage'
+import InformationAddress from '../../components/home/information-address/InformationAddress'
 
 class Information extends React.Component {
   constructor (props) {
@@ -32,20 +33,15 @@ class Information extends React.Component {
       selete: false, // 选择地区
       dataP: false, // 公告和分享的list
       imgG: '', // 公告图片
-      options: [
-        {
-          value: '省',
-          label: '省级'
-        }, {
-          value: '市',
-          label: '市级'
-        }, {
-          value: '区',
-          label: '区级'}
-      ],
+      grade: {
+        province: '福建省',
+        city: '福州市',
+        region: '鼓楼区'
+      },
       infoData: [],
       height: '',
-      infoDatas: []
+      infoDatas: [],
+      visible: false
     }
   }
 
@@ -65,9 +61,9 @@ class Information extends React.Component {
         this.getHeight()
       })
     }
+    this.sureAddress()
   }
   componentWillReceiveProps (nextProps) {
-    console.log('判断用户登录')
     if (nextProps !== this.props) {
       if (webStorage.getItem('STAR_WEB_ROLE_CODE') === null) {
         this.setState({
@@ -94,21 +90,6 @@ class Information extends React.Component {
         this.setState({
           infoData: response.data.data
         })
-      } else {
-        message.warn(response.data.msg)
-      }
-    })
-
-    let values = {
-      pageNum: 1,
-      pageSize: 100,
-      type: 0
-    }
-    information(values, 1, (response) => {
-      if (response.data.code === 200) {
-        this.setState({
-          infoDatas: response.data.data
-        }, () => console.log(this.state.infoDatas))
       } else {
         message.warn(response.data.msg)
       }
@@ -184,9 +165,42 @@ class Information extends React.Component {
       window.location.reload()
     }
   }
+  // 地址改变
+  changeGrade = (name, value) => {
+    if (name === 'province') {
+      this.setState({
+        grade: {
+          province: value
+        }
+      })
+    } else if (name === 'city') {
+      this.setState({
+        grade: {
+          province: this.state.grade.province,
+          city: value
+        }
+      })
+    } else {
+      this.setState({
+        grade: {
+          ...this.state.grade,
+          [name]: value
+        }
+      })
+    }
+  }
+  // 确认地址
+  sureAddress = () => {
+    const { grade } = this.state
+    this.setState({
+      addressEnd: [grade.province, grade.city, grade.region].join('/'),
+      visible: false
+    })
+  }
   render () {
     // const topImg = '/image/infot.png'
     // const bottomImg = '/image/infob.png'
+    const { grade, addressEnd, visible } = this.state
     return (
       <div className='news-list-container' style={{minHeight: this.state.viewHeight}}>
         <div id='right-container'>
@@ -194,7 +208,10 @@ class Information extends React.Component {
             <li style={{listStyle: 'none', width: '100%', paddingTop: '20px', paddingLeft: '30px', backgroundColor: '#fff'}}>
               <Col span={18}>
                 <span className='information-fabu'>
-                  发布机构 : <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} />
+                  发布机构 : {/* <Cascader placeholder='请选择' options={this.state.options} onChange={(value) => { this.onChangeF(value) }} /> */}
+                  <InformationAddress visible={visible} grade={grade} sureAddress={this.sureAddress} changeGrade={this.changeGrade}>
+                    <span onClick={() => this.setState({visible: true})} className='information-fabu-address' style={{color: '#1890ff'}}><Icon type='user-delete' /> {addressEnd || ''}</span>
+                  </InformationAddress>
                 </span>
               </Col>
               <Col span={6} style={{marginTop: '8px'}}>
